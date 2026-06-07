@@ -2099,13 +2099,14 @@ function renderChain(chainId) {
     const borderStyle = seg.border ? 'border-color:rgba(246,70,93,0.3);' : '';
     const chokeLabel = seg.choke ? ' 🔒' : '';
     h += `<div class="segment-card" style="${borderStyle}">`;
-    h += `<div class="seg-title">${seg.name} — ${seg.costRatio.includes('%') || seg.costRatio.includes('$') || seg.costRatio.includes('设计') || seg.costRatio.includes('制造') || seg.costRatio.includes('产业') ? 'CCL成本占比' : ''}${seg.costRatio.includes('%') || seg.costRatio === '—' ? seg.costRatio : ''}${seg.choke ? ' 🔒' : ''}</div>`;
+    const crLabel = seg.costRatio !== '—' ? ` — ${seg.costRatio}` : '';
+    h += `<div class="seg-title">${seg.name}${crLabel}${seg.choke ? ' 🔒' : ''}</div>`;
     // Simplified title for semi
     if (d.id === 'semi') {
       h += `<div class="seg-title" style="font-size:16px;">${seg.name}${chokeLabel}</div>`;
     }
     h += `<div class="seg-meta">`;
-    if (seg.costRatio) h += `<span>${seg.name.includes('设备')||seg.name.includes('制造')||seg.name.includes('封装')||seg.name.includes('EDA')?'市场/投资占比':'CCL成本占比'}: <strong style="color:var(--accent);">${seg.costRatio}</strong></span>`;
+    if (seg.costRatio) { const ratioTag = d.id === 'pcb' ? 'CCL成本占比' : seg.name.includes('设备')||seg.name.includes('制造')||seg.name.includes('封装')||seg.name.includes('EDA') ? '市场/投资占比' : '成本占比'; h += `<span>${ratioTag}: <strong style="color:var(--accent);">${seg.costRatio}</strong></span>`; }
     h += `<span>壁垒等级: <span class="tag ${seg.barrier==='extreme'?'tg-extreme':seg.barrier==='high'?'tg-high':'tg-mid'}">${seg.barrier==='extreme'?'极高':seg.barrier==='high'?'高':'中'}</span></span>`;
     if (seg.choke) h += `<span style="color:var(--accent);">🔒 物理卡口卡口环节</span>`;
     h += `</div>`;
