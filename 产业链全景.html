@@ -91,6 +91,24 @@
   .freshness-dot { width: 8px; height: 8px; border-radius: 50%; }
   .freshness-dot.fresh { background: var(--green); box-shadow: 0 0 6px rgba(14,203,129,0.5); }
   .freshness-dot.stale { background: var(--barrier-high); }
+  /* 右侧浮动变更面板 */
+  .changelog-panel { position: fixed; right: 0; top: 80px; width: 280px; max-height: 70vh; background: var(--card); border: 1px solid var(--border); border-right: none; border-radius: 12px 0 0 12px; box-shadow: -4px 4px 24px rgba(0,0,0,0.4); z-index: 200; overflow-y: auto; transition: transform 0.3s ease; }
+  .changelog-panel.collapsed { transform: translateX(260px); }
+  .changelog-header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--card); border-radius: 12px 0 0 0; }
+  .changelog-header h3 { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .changelog-header .count-badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+  .changelog-close { background: none; border: 1px solid var(--border); color: var(--muted); cursor: pointer; font-size: 14px; padding: 2px 8px; border-radius: 4px; }
+  .changelog-close:hover { color: var(--text); border-color: var(--red); }
+  .changelog-list { padding: 8px 0; }
+  .changelog-item { padding: 10px 16px; border-bottom: 1px solid rgba(42,45,58,0.5); font-size: 12px; line-height: 1.6; cursor: pointer; transition: background 0.15s; }
+  .changelog-item:hover { background: var(--card2); }
+  .changelog-item .cl-date { font-size: 10px; color: var(--muted); }
+  .changelog-item .cl-sector { font-size: 10px; color: var(--blue); margin-bottom: 2px; }
+  .changelog-item .cl-desc { font-weight: 500; }
+  .changelog-item .cl-change { font-size: 11px; margin-top: 2px; }
+  .cl-toggle { position: fixed; right: 6px; top: 80px; z-index: 199; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px; cursor: pointer; font-size: 14px; transition: transform 0.3s ease; }
+  .cl-toggle.hidden { transform: translateX(300px); }
+  .cl-toggle .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; animation: chokeGlow 2s ease-in-out infinite; margin-right: 4px; }
   .badge-b { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; margin-left: 4px; }
   .badge-ex { background: rgba(246,70,93,0.15); color: var(--barrier-extreme); }
   .badge-hi { background: rgba(249,115,22,0.15); color: var(--barrier-high); }
@@ -182,6 +200,20 @@
     <p class="subtitle">从宏观到微观，用物理约束当筛子，挖出产业链"河道收窄处"的寡头瓶颈</p>
   </div>
   <div class="container" id="chain-content"></div>
+</div>
+
+<!-- ===== 变更面板 ===== -->
+<button class="cl-toggle hidden" id="cl-toggle" onclick="toggleChangelog()" title="查看数据变更">
+  <span class="pulse"></span>📋 <span id="cl-count">0</span> 项变更
+</button>
+<div class="changelog-panel collapsed" id="changelog-panel">
+  <div class="changelog-header">
+    <h3>📋 数据变更 <span class="count-badge" id="cl-badge">0</span></h3>
+    <button class="changelog-close" onclick="toggleChangelog()">✕</button>
+  </div>
+  <div class="changelog-list" id="changelog-list">
+    <div style="padding:16px;color:var(--muted);font-size:12px;text-align:center;">暂无变更记录</div>
+  </div>
 </div>
 
 <script>
@@ -845,10 +877,69 @@ function renderChain(chainId) {
 }
 
 // Init
+// ================================================================
+// CHANGELOG SYSTEM
+// ================================================================
+const CHANGELOG = [
+  { date:'2026-06-07', sector:'semi', desc:'国产设备自给率', old:'~22-35%', new:'~35%', pct:'+10pct' },
+  { date:'2026-06-07', sector:'semi', desc:'中微公司Q1净利', old:'仅描述技术', new:'9.3亿+197%', pct:'+197%' },
+  { date:'2026-06-07', sector:'semi', desc:'北方华创Q1营收', old:'2025营收467亿', new:'Q1 103亿+25.8%', pct:'+25.8%' },
+  { date:'2026-06-07', sector:'semi', desc:'华大九天2026E净利', old:'仅描述地位', new:'~2.5亿+310%', pct:'+310%' },
+  { date:'2026-06-07', sector:'semi', desc:'南大光电14nm ArF', old:'28nm验证', new:'14nm浸没式验证完成', pct:'新突破' },
+  { date:'2026-06-07', sector:'pcb', desc:'全球PCB产值(2026E)', old:'2025E $849亿', new:'2026E $958亿', pct:'+12.5%' },
+  { date:'2026-06-07', sector:'semi', desc:'全球半导体销售额', old:'2024 $6276亿', new:'2025 $7917亿', pct:'+25.6%' },
+];
+
+function toggleChangelog() {
+  const panel = document.getElementById('changelog-panel');
+  const toggle = document.getElementById('cl-toggle');
+  panel.classList.toggle('collapsed');
+  toggle.classList.toggle('hidden');
+}
+
+function renderChangelog() {
+  const now = new Date();
+  const recentChanges = CHANGELOG.filter(c => {
+    const d = new Date(c.date);
+    return (now - d) / (1000 * 60 * 60 * 24) <= 7;
+  });
+
+  const list = document.getElementById('changelog-list');
+  const count = document.getElementById('cl-count');
+  const badge = document.getElementById('cl-badge');
+  const toggle = document.getElementById('cl-toggle');
+
+  count.textContent = recentChanges.length;
+  badge.textContent = recentChanges.length;
+
+  if (recentChanges.length === 0) {
+    list.innerHTML = '<div style="padding:16px;color:var(--muted);font-size:12px;text-align:center;">近7天无变更</div>';
+    toggle.classList.add('hidden');
+    document.getElementById('changelog-panel').classList.add('collapsed');
+    return;
+  }
+
+  toggle.classList.remove('hidden');
+  document.getElementById('changelog-panel').classList.remove('collapsed');
+
+  list.innerHTML = recentChanges.map(c => {
+    const dir = c.pct.startsWith('+') ? 'up' : 'down';
+    const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector;
+    const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : 'var(--muted)';
+    return `<div class="changelog-item" onclick="switchChain('${c.sector}')">
+      <div class="cl-date">${c.date}</div>
+      <div class="cl-sector" style="color:${sectorColor};">${sectorName}</div>
+      <div class="cl-desc">${c.desc}</div>
+      <div class="cl-change">${c.old} → <strong>${c.new}</strong> <span class="change-badge ${dir}">${c.pct}</span></div>
+    </div>`;
+  }).join('');
+}
+
 function init() {
   const hash = window.location.hash.replace('#', '');
   const startChain = CHAINS[hash] ? hash : 'pcb';
   switchChain(startChain);
+  renderChangelog();
 }
 window.addEventListener('DOMContentLoaded', init);
 window.addEventListener('hashchange', () => {
