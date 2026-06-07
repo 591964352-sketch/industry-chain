@@ -3,984 +3,850 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>产业链全景 — Serenity 物理卡口投研</title>
+<title>产业链全景 · Serenity 物理卡口投研</title>
 <style>
-/* ============================================================
-   产业链全景 · 多产业链投研文档
-   布局：侧边栏导航 + 总览卡片 + 详情区 + 搜索筛选
-   ============================================================ */
-
-:root {
-  --c-primary: #1a56db; --c-primary-dark: #1e3a5f;
-  --c-accent: #e74c3c; --c-gold: #d4a017;
-  --c-green: #27ae60; --c-orange: #f39c12; --c-blue: #3498db;
-  --c-bg: #f8f9fb; --c-card: #ffffff; --c-border: #dde1e7;
-  --c-text: #1a1d23; --c-muted: #6b7280; --c-code-bg: #f1f3f5;
-  --c-tier3: #e74c3c; --c-tier2: #f39c12; --c-tier0: #bdc3c7;
-  --c-info-bg: #eff6ff; --c-info-border: #3b82f6;
-  --c-warn-bg: #fffbeb; --c-warn-border: #f59e0b;
-  --c-danger-bg: #fef2f2; --c-danger-border: #ef4444;
-  --c-success-bg: #f0fdf4; --c-success-border: #22c55e;
-  --c-insight-bg: #faf5ff; --c-insight-border: #8b5cf6;
-  --sidebar-w: 260px;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 20px; }
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-    "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  font-size: 15px; line-height: 1.75; color: var(--c-text);
-  background: var(--c-bg); -webkit-font-smoothing: antialiased;
-}
-
-/* ===== 顶部标题栏 ===== */
-.hero {
-  background: linear-gradient(160deg, #0c1a2b 0%, #122540 30%, #0d2137 60%, #0a1628 100%);
-  color: #fff; padding: 32px 24px 28px; text-align: center;
-  position: relative; z-index: 10;
-}
-.hero::before {
-  content: ""; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.08) 0%, transparent 60%),
-              radial-gradient(ellipse at 75% 30%, rgba(212,160,23,0.06) 0%, transparent 50%);
-}
-.hero-content { position: relative; z-index: 1; }
-.hero h1 { font-size: 28px; font-weight: 800; letter-spacing: 2px; margin-bottom: 6px; }
-.hero .subtitle { font-size: 14px; color: rgba(255,255,255,0.6); }
-.hero .meta { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 10px; }
-.hero .badge-row { margin-bottom: 8px; }
-.hero .badge-row span {
-  display: inline-block; padding: 3px 12px; border-radius: 16px;
-  font-size: 11px; font-weight: 600; margin: 0 3px;
-  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
-}
-.hero .badge-row span.star { background: rgba(212,160,23,0.25); border-color: rgba(212,160,23,0.4); color: #fbbf24; }
-
-/* ===== APP 布局 ===== */
-.app-layout { display: flex; min-height: calc(100vh - 140px); }
-
-/* ===== 侧边栏 ===== */
-.sidebar {
-  width: var(--sidebar-w); min-width: var(--sidebar-w);
-  background: #fff; border-right: 1px solid var(--c-border);
-  padding: 16px 0; position: sticky; top: 0; height: 100vh;
-  overflow-y: auto; z-index: 50;
-  display: flex; flex-direction: column;
-  transition: margin-left 0.25s ease, opacity 0.25s ease;
-}
-.sidebar.collapsed { margin-left: calc(var(--sidebar-w) * -1); opacity: 0; pointer-events: none; }
-.sidebar-toggle {
-  position: fixed; top: 12px; left: 12px; z-index: 60;
-  width: 34px; height: 34px; border-radius: 8px;
-  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
-  color: #fff; font-size: 16px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-.sidebar-toggle:hover { background: rgba(255,255,255,0.25); }
-/* 侧边栏折叠时按钮跟着移动 */
-.sidebar.collapsed ~ .sidebar-toggle { /* stays in place */ }
-.sidebar-header { padding: 0 18px 14px; border-bottom: 1px solid #f0f2f5; }
-.sidebar-header .sh-title { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
-
-/* 搜索框 */
-.sidebar-search {
-  width: 100%; padding: 8px 12px 8px 34px; border: 1px solid var(--c-border);
-  border-radius: 8px; font-size: 12px; outline: none; background: #f8fafc;
-  transition: border-color 0.15s;
-}
-.sidebar-search:focus { border-color: var(--c-primary); background: #fff; }
-.search-wrap { position: relative; }
-.search-wrap::before {
-  content: "🔍"; position: absolute; left: 11px; top: 9px; font-size: 12px;
-}
-
-/* 筛选按钮 */
-.filter-row {
-  display: flex; gap: 4px; padding: 12px 18px; flex-wrap: wrap;
-  border-bottom: 1px solid #f0f2f5;
-}
-.filter-btn {
-  padding: 4px 10px; border-radius: 14px; border: 1px solid var(--c-border);
-  background: #fff; font-size: 11px; cursor: pointer; color: var(--c-muted);
-  transition: all 0.15s; font-family: inherit;
-}
-.filter-btn:hover { border-color: var(--c-primary); color: var(--c-primary); }
-.filter-btn.active { background: var(--c-primary); color: #fff; border-color: var(--c-primary); }
-
-/* 产业链列表 */
-.chain-list { flex: 1; overflow-y: auto; padding: 8px 0; }
-.chain-group-label {
-  font-size: 10px; font-weight: 700; text-transform: uppercase;
-  color: #94a3b8; padding: 10px 18px 4px; letter-spacing: 1px;
-}
-.chain-nav-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 18px; cursor: pointer; transition: all 0.12s;
-  border-left: 3px solid transparent; text-decoration: none; color: inherit;
-  font-size: 13px;
-}
-.chain-nav-item:hover { background: #f8fafc; border-left-color: #e2e8f0; }
-.chain-nav-item.active { background: #eff6ff; border-left-color: var(--c-primary); font-weight: 600; }
-.chain-nav-item .cn-icon { font-size: 16px; flex-shrink: 0; }
-.chain-nav-item .cn-name { flex: 1; line-height: 1.3; }
-.chain-nav-item .cn-status { font-size: 10px; flex-shrink: 0; }
-.chain-nav-item.hidden { display: none; }
-
-.status-done { color: var(--c-green); font-weight: 600; }
-.status-todo { color: var(--c-muted); }
-.status-progress { color: var(--c-orange); font-weight: 600; }
-
-/* 移动端菜单按钮 */
-.menu-toggle {
-  display: none; position: fixed; bottom: 20px; right: 20px; z-index: 200;
-  width: 48px; height: 48px; border-radius: 50%; background: var(--c-primary);
-  color: #fff; border: none; font-size: 20px; cursor: pointer;
-  box-shadow: 0 4px 16px rgba(26,86,219,0.35);
-}
-/* 桌面端折叠按钮默认显示，移动端隐藏 */
-@media (max-width: 768px) {
-  .sidebar-toggle { display: none; }
-}
-
-/* 侧边栏遮罩 */
-.sidebar-overlay { display: none; }
-
-/* ===== 主内容区 ===== */
-.main-content { flex: 1; padding: 24px 36px 60px; min-width: 0; overflow-x: hidden; }
-
-/* ===== 产业链总览卡片 ===== */
-.overview-title {
-  font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 16px;
-  display: flex; align-items: center; gap: 8px;
-}
-.overview-title .count { font-size: 13px; color: var(--c-muted); font-weight: 400; }
-.chain-cards {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 14px; margin-bottom: 36px;
-}
-.chain-card {
-  background: #fff; border: 1px solid var(--c-border); border-radius: 12px;
-  padding: 20px 22px; cursor: pointer; transition: all 0.2s;
-  text-decoration: none; color: inherit; display: block;
-}
-.chain-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.06); transform: translateY(-2px); }
-.chain-card.done { border-left: 4px solid var(--c-green); }
-.chain-card.progress { border-left: 4px solid var(--c-orange); }
-.chain-card.todo { border-left: 4px solid #e2e8f0; }
-.chain-card .cc-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.chain-card .cc-icon { font-size: 24px; }
-.chain-card .cc-name { font-size: 16px; font-weight: 700; color: #0f172a; }
-.chain-card .cc-status { margin-left: auto; font-size: 11px; }
-.chain-card .cc-desc { font-size: 12px; color: var(--c-muted); line-height: 1.5; }
-.chain-card .cc-meta { font-size: 11px; color: #94a3b8; margin-top: 8px; }
-
-/* ===== 产业链详情区 ===== */
-.chain-section {
-  background: #fff; border: 1px solid var(--c-border); border-radius: 12px;
-  padding: 28px 30px; margin-bottom: 28px; scroll-margin-top: 20px;
-}
-.chain-section-header {
-  display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
-  padding-bottom: 16px; border-bottom: 2px solid #f1f5f9;
-}
-.chain-section-header .csh-icon { font-size: 28px; }
-.chain-section-header .csh-info h2 { font-size: 22px; font-weight: 700; color: #0f172a; border: none; padding: 0; margin: 0; }
-.chain-section-header .csh-info .csh-sub { font-size: 12px; color: var(--c-muted); margin-top: 2px; }
-
-/* 占位区样式 */
-.chain-placeholder {
-  text-align: center; padding: 60px 24px; color: var(--c-muted);
-}
-.chain-placeholder .ph-icon { font-size: 48px; margin-bottom: 16px; }
-.chain-placeholder .ph-title { font-size: 18px; font-weight: 700; color: #475569; margin-bottom: 8px; }
-.chain-placeholder .ph-desc { font-size: 14px; max-width: 500px; margin: 0 auto 20px; }
-.chain-placeholder .ph-template-hint {
-  display: inline-block; background: #f8fafc; border: 1px dashed var(--c-border);
-  border-radius: 8px; padding: 12px 20px; font-size: 12px; color: #94a3b8;
-}
-.chain-placeholder .ph-template-hint code { background: #eef2f7; padding: 2px 6px; border-radius: 4px; }
-
-/* ===== 原有报告样式（PCB 内容区内复用）===== */
-.card { background: var(--c-card); border: 1px solid var(--c-border); border-radius: 10px; padding: 22px 26px; margin: 16px 0; }
-.callout { border-left: 4px solid; border-radius: 8px; padding: 16px 20px; margin: 18px 0; font-size: 14px; }
-.callout.info { background: var(--c-info-bg); border-color: var(--c-info-border); }
-.callout.warn { background: var(--c-warn-bg); border-color: var(--c-warn-border); }
-.callout.danger { background: var(--c-danger-bg); border-color: var(--c-danger-border); }
-.callout.success { background: var(--c-success-bg); border-color: var(--c-success-border); }
-.callout.insight { background: var(--c-insight-bg); border-color: var(--c-insight-border); }
-.callout strong { display: block; margin-bottom: 6px; font-size: 14px; }
-.callout ul, .callout ol { margin: 6px 0 0 18px; }
-.callout li { margin: 3px 0; }
-
-.table-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--c-border); border-radius: 10px; background: #fff; }
-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-thead { background: #f8fafc; }
-th { padding: 11px 14px; text-align: left; font-weight: 600; white-space: nowrap; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 2px solid #e2e8f0; }
-td { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
-tr:last-child td { border-bottom: none; }
-tbody tr:nth-child(even) { background: #fafbfc; }
-tbody tr:hover { background: #f0f4ff; }
-
-tr.row-tier3 { background: #fff5f5 !important; border-left: 3px solid var(--c-accent); }
-tr.row-tier2 { background: #fffbf0 !important; }
-tr.row-highlight { background: #fefce8 !important; font-weight: 600; }
-
-.tier-badge { display: inline-flex; align-items: center; gap: 2px; padding: 3px 10px; border-radius: 14px; font-size: 12px; font-weight: 700; }
-.tier-badge.s3 { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
-.tier-badge.s2 { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
-.tier-badge.s1 { background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; }
-.tier-badge.s0 { background: #f8fafc; color: #94a3b8; border: 1px solid #e2e8f0; }
-
-.screen-pass { color: var(--c-green); font-weight: 700; }
-.screen-fail { color: var(--c-accent); font-weight: 700; }
-.screen-warn { color: var(--c-orange); font-weight: 700; }
-.risk-high { color: #dc2626; font-weight: 700; }
-.risk-mid { color: #d97706; font-weight: 600; }
-
-.chain-tree { background: #fff; border: 1px solid var(--c-border); border-radius: 10px; padding: 24px 28px; margin: 16px 0; font-family: "SF Mono","Cascadia Code","Consolas","Microsoft YaHei",monospace; font-size: 13px; line-height: 1.8; overflow-x: auto; white-space: pre; color: #334155; }
-
-.stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin: 16px 0; }
-.stock-card { background: #fff; border: 1px solid var(--c-border); border-radius: 12px; padding: 20px 22px; transition: box-shadow 0.2s; }
-.stock-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
-.stock-card .sc-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-.stock-card .sc-code { font-size: 12px; color: var(--c-muted); font-family: "SF Mono",monospace; }
-.stock-card .sc-name { font-size: 17px; font-weight: 700; color: #0f172a; }
-.stock-card .sc-tier { margin-left: auto; }
-.stock-card .sc-body { font-size: 13px; color: #475569; line-height: 1.6; }
-.stock-card .sc-body .label { font-size: 11px; color: var(--c-muted); font-weight: 600; display: block; margin-top: 8px; }
-.stock-card.tier3 { border-left: 4px solid var(--c-accent); }
-.stock-card.tier2 { border-left: 4px solid var(--c-orange); }
-
-.score-bar-wrap { display: flex; align-items: center; gap: 8px; }
-.score-bar { flex: 1; height: 8px; border-radius: 4px; background: #e5e7eb; overflow: hidden; }
-.score-bar-fill { height: 100%; border-radius: 4px; }
-.score-val { font-weight: 700; font-size: 13px; min-width: 36px; }
-
-.data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin: 16px 0; }
-.data-item { background: var(--c-card); border: 1px solid var(--c-border); border-radius: 10px; padding: 18px 20px; }
-.data-item .metric { font-size: 12px; color: var(--c-muted); margin-bottom: 6px; font-weight: 500; }
-.data-item .value { font-size: 22px; font-weight: 800; color: var(--c-primary-dark); }
-.data-item .sub { font-size: 12px; color: var(--c-muted); margin-top: 4px; }
-
-.timeline { position: relative; padding-left: 24px; margin: 16px 0; }
-.timeline::before { content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px; background: #e2e8f0; }
-.timeline-item { position: relative; margin-bottom: 16px; padding-left: 20px; }
-.timeline-item::before { content: ""; position: absolute; left: -20px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--c-primary); border: 2px solid #fff; box-shadow: 0 0 0 2px var(--c-primary); }
-.timeline-item.s5::before { background: #dc2626; box-shadow: 0 0 0 2px #dc2626; width: 14px; height: 14px; left: -21px; top: 5px; }
-.timeline-item.s4::before { background: #f59e0b; box-shadow: 0 0 0 2px #f59e0b; }
-.timeline-item .tl-date { font-size: 12px; color: var(--c-muted); font-weight: 500; }
-.timeline-item .tl-event { font-size: 14px; font-weight: 600; margin: 2px 0; }
-.timeline-item .tl-detail { font-size: 12px; color: var(--c-muted); }
-
-.alloc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin: 16px 0; }
-.alloc-card { background: #fff; border: 1px solid var(--c-border); border-radius: 10px; padding: 20px; }
-.alloc-card .alloc-type { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
-.alloc-card .alloc-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; border-bottom: 1px solid #f1f5f9; }
-.alloc-card .alloc-row:last-child { border-bottom: none; }
-.alloc-card .alloc-footer { margin-top: 10px; font-size: 12px; color: var(--c-muted); }
-.alloc-card.aggressive { border-top: 3px solid var(--c-accent); }
-.alloc-card.balanced { border-top: 3px solid var(--c-orange); }
-.alloc-card.conservative { border-top: 3px solid var(--c-blue); }
-
-h2 { font-size: 22px; font-weight: 700; margin: 36px 0 16px; padding-left: 14px; border-left: 4px solid var(--c-accent); color: #1a1a2e; }
-h3 { font-size: 18px; font-weight: 600; margin: 28px 0 12px; color: #2c3e50; }
-h4 { font-size: 16px; font-weight: 600; margin: 20px 0 10px; color: #555; }
-.chain-section h2:first-of-type { margin-top: 0; }
-
-.report-footer { text-align: center; color: var(--c-muted); font-size: 12px; padding: 36px 0 20px; margin-top: 24px; border-top: 1px solid var(--c-border); }
-
-/* ===== 响应式 ===== */
-@media (max-width: 1024px) {
-  .sidebar { width: 240px; min-width: 240px; }
-  .chain-cards { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-}
-
-@media (max-width: 768px) {
-  .app-layout { display: block; }
-  .sidebar {
-    position: fixed; left: 0; top: 0; width: 280px; height: 100vh; z-index: 150;
-    transform: translateX(-100%); transition: transform 0.25s ease;
-    box-shadow: none;
+  :root {
+    --bg: #0f1117; --card: #1a1d27; --card2: #1f2233; --border: #2a2d3a;
+    --text: #e1e4eb; --muted: #8b8fa3; --accent: #f0b90b;
+    --green: #0ecb81; --red: #f6465d; --blue: #3b82f6; --purple: #a855f7;
+    --barrier-extreme: #f6465d; --barrier-high: #f97316; --barrier-mid: #eab308; --barrier-low: #6b7280;
   }
-  .sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.15); }
-  .sidebar-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 140;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; min-height: 100vh; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 20px 32px; }
+
+  /* Header */
+  .header { text-align: center; padding: 48px 24px 36px; margin-bottom: 24px; background: linear-gradient(180deg, rgba(240,185,11,0.05) 0%, transparent 100%); border-bottom: 1px solid var(--border); }
+  .header .badge { display: inline-block; background: rgba(240,185,11,0.12); color: var(--accent); font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 20px; letter-spacing: 1.5px; margin-bottom: 16px; border: 1px solid rgba(240,185,11,0.2); }
+  .header h1 { font-size: 32px; font-weight: 800; }
+  .header h1 span { font-size: 16px; font-weight: 500; color: var(--accent); margin-left: 12px; }
+  .header .subtitle { color: var(--muted); font-size: 14px; margin: 8px 0 18px; }
+  .header .meta-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .header .meta-tag { font-size: 12px; color: var(--muted); background: var(--card); padding: 5px 12px; border-radius: 6px; border: 1px solid var(--border); }
+  .header .meta-tag span { color: var(--accent); font-weight: 600; }
+
+  /* Tabs */
+  .sector-tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 36px; flex-wrap: wrap; position: sticky; top: 12px; z-index: 100; background: var(--bg); padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .sector-tabs .tab { padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--muted); background: var(--card); border: 1px solid var(--border); transition: all 0.2s; }
+  .sector-tabs .tab:hover { border-color: var(--accent); color: var(--text); }
+  .sector-tabs .tab.active { color: var(--accent); background: rgba(240,185,11,0.08); border-color: var(--accent); box-shadow: 0 0 12px rgba(240,185,11,0.08); }
+  .sector-tabs .tab.coming { opacity: 0.4; cursor: default; font-style: italic; }
+  .sector-tabs .tab.coming:hover { border-color: var(--border); color: var(--muted); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; scroll-margin-top: 70px; }
+  .section-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .section-title .num { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; font-size: 15px; font-weight: 700; }
+  .section-desc { color: var(--muted); font-size: 13px; margin-bottom: 22px; margin-left: 44px; }
+  .num-plain{background:rgba(59,130,246,0.15);color:var(--blue)}.num-macro{background:rgba(168,85,247,0.15);color:var(--purple)}.num-chain{background:rgba(240,185,11,0.15);color:var(--accent)}.num-up{background:rgba(246,70,93,0.15);color:var(--red)}.num-mid{background:rgba(249,115,22,0.15);color:var(--barrier-high)}.num-ser{background:rgba(168,85,247,0.15);color:var(--purple)}.num-result{background:rgba(14,203,129,0.15);color:var(--green)}
+
+  /* Cards */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 18px; }
+  .card-header { font-size: 17px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+  /* Plain intro */
+  .plain-box { background: linear-gradient(135deg, rgba(59,130,246,0.05) 0%, rgba(168,85,247,0.03) 100%); border: 1px solid rgba(59,130,246,0.18); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+  .plain-box .analogy { font-size: 16px; color: var(--blue); font-weight: 600; margin-bottom: 14px; }
+  .plain-box p { margin-bottom: 12px; font-size: 14px; line-height: 1.9; }
+  .plain-box .flow-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 13px; margin: 14px 0; padding: 14px; background: rgba(0,0,0,0.25); border-radius: 8px; overflow-x: auto; }
+  .flow-row .step { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; white-space: nowrap; font-size: 12px; color: var(--text); }
+  .flow-row .arrow { color: var(--muted); font-weight: 700; }
+  .highlight-box { background: rgba(240,185,11,0.05); border-left: 3px solid var(--accent); padding: 14px 18px; border-radius: 0 8px 8px 0; font-size: 13px; margin-top: 14px; line-height: 1.8; }
+
+  /* Overview */
+  .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .overview-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; }
+  .overview-item .label { font-size: 11px; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 8px; }
+  .overview-item .value { font-size: 20px; font-weight: 700; }
+
+  /* Tree */
+  .tree-wrapper { overflow-x: auto; padding: 24px 0; }
+  .tree { min-width: 900px; display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .tree-level-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 4px; }
+  .tree-node { padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; border: 2px solid var(--border); text-align: center; display: inline-block; background: var(--card); }
+  .tree-vline { width: 2px; height: 18px; background: var(--border); margin: 0 auto; }
+  .tree-hline { height: 2px; background: var(--border); margin: 0 auto; border-radius: 2px; }
+  .tree-sub-node { padding: 7px 16px; border-radius: 6px; font-size: 12px; font-weight: 500; border: 1.5px solid var(--border); background: var(--card); text-align: center; }
+  .b-extreme { border-color: var(--barrier-extreme) !important; box-shadow: 0 0 10px rgba(246,70,93,0.12); }
+  .b-high { border-color: var(--barrier-high) !important; }
+  .b-mid { border-color: var(--barrier-mid) !important; }
+  .b-low { border-color: var(--barrier-low) !important; }
+  .badge-b { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; margin-left: 4px; }
+  .badge-ex { background: rgba(246,70,93,0.15); color: var(--barrier-extreme); }
+  .badge-hi { background: rgba(249,115,22,0.15); color: var(--barrier-high); }
+  .badge-mi { background: rgba(234,179,8,0.15); color: var(--barrier-mid); }
+  .badge-lo { background: rgba(107,114,128,0.15); color: var(--barrier-low); }
+  .legend-bar { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-top: 18px; font-size: 12px; color: var(--muted); }
+  .legend-bar span { display: flex; align-items: center; gap: 5px; }
+  .legend-bar .dot { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+  /* Segment card */
+  .segment-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+  .segment-card .seg-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .segment-card .seg-meta { font-size: 12px; color: var(--muted); margin-bottom: 16px; display: flex; gap: 20px; flex-wrap: wrap; }
+  .segment-card h4 { font-size: 14px; font-weight: 600; color: var(--text); margin: 18px 0 10px; padding-left: 10px; border-left: 3px solid var(--border); }
+  .segment-card .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .segment-card .info-item { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .segment-card .info-item .lbl { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .segment-card .info-item .val { font-size: 15px; font-weight: 600; }
+
+  /* Stock table */
+  .stock-tbl { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 14px; }
+  .stock-tbl thead th { text-align: left; padding: 11px 14px; border-bottom: 2px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 0.5px; background: var(--card2); }
+  .stock-tbl tbody td { padding: 11px 14px; border-bottom: 1px solid rgba(42,45,58,0.5); }
+  .stock-tbl .s-name { font-weight: 600; font-size: 14px; }
+  .stock-tbl .s-code { color: var(--muted); font-size: 12px; font-family: "SF Mono", monospace; }
+  .rank-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; font-size: 12px; font-weight: 700; background: rgba(240,185,11,0.1); color: var(--accent); }
+
+  .tag { display: inline-block; font-size: 10px; padding: 3px 9px; border-radius: 4px; font-weight: 600; }
+  .tg-extreme{background:rgba(246,70,93,0.15);color:var(--red)}.tg-high{background:rgba(249,115,22,0.15);color:var(--barrier-high)}.tg-mid{background:rgba(234,179,8,0.15);color:var(--barrier-mid)}.tg-green{background:rgba(14,203,129,0.15);color:var(--green)}.tg-blue{background:rgba(59,130,246,0.15);color:var(--blue)}.tg-gray{background:rgba(107,114,128,0.12);color:var(--barrier-low)}
+
+  /* Four question table */
+  .fourq-wrap { overflow-x: auto; }
+  .fourq-tbl { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 900px; }
+  .fourq-tbl thead th { position: sticky; top: 0; background: var(--card2); padding: 10px 8px; text-align: center; border-bottom: 2px solid var(--border); font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .fourq-tbl thead th:first-child { text-align: left; }
+  .fourq-tbl tbody td { padding: 9px 8px; text-align: center; border-bottom: 1px solid rgba(42,45,58,0.5); white-space: nowrap; }
+  .fourq-tbl tbody td:first-child { text-align: left; }
+  .fourq-tbl .pass { color: var(--green); font-weight: 700; font-size: 14px; }
+  .fourq-tbl .fail { color: var(--red); font-weight: 700; font-size: 14px; }
+  .fourq-tbl .seg-div td { background: rgba(168,85,247,0.05); color: var(--purple); font-weight: 700; font-size: 12px; text-align: left !important; padding: 12px 8px; border-bottom: 1px solid rgba(168,85,247,0.15); }
+  .hit-dot { display: inline-block; width: 28px; height: 28px; line-height: 28px; border-radius: 50%; font-weight: 700; font-size: 13px; }
+  .h4{background:rgba(14,203,129,0.15);color:var(--green)}.h3{background:rgba(234,179,8,0.15);color:var(--barrier-mid)}.h2{background:rgba(107,114,128,0.12);color:var(--muted)}.h1{background:rgba(107,114,128,0.1);color:var(--barrier-low)}.h0{background:rgba(246,70,93,0.08);color:var(--red)}
+  .stars { font-size: 14px; letter-spacing: 1px; }
+  .s3{color:var(--accent)}.s2{color:var(--barrier-mid)}
+
+  /* Choke cards */
+  .choke-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .choke-card { background: var(--card); border: 1px solid rgba(240,185,11,0.35); border-radius: 12px; padding: 24px; position: relative; box-shadow: 0 0 24px rgba(240,185,11,0.06); }
+  .choke-card .rank { position: absolute; top: -12px; right: 18px; background: var(--accent); color: #000; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
+  .choke-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .choke-card .code { font-size: 13px; color: var(--muted); margin-bottom: 12px; font-family: monospace; }
+  .choke-card .seg { font-size: 12px; color: var(--accent); margin-bottom: 12px; font-weight: 600; }
+  .choke-card .logic { font-size: 13px; line-height: 1.8; color: var(--text); margin-bottom: 14px; }
+  .choke-card .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* Footer */
+  .footer { text-align: center; padding: 28px; margin-top: 28px; border-top: 1px solid var(--border); }
+  .footer .disclaimer { background: rgba(246,70,93,0.05); border: 1px solid rgba(246,70,93,0.15); border-radius: 8px; padding: 18px; font-size: 12px; color: var(--muted); margin-bottom: 14px; line-height: 1.9; text-align: left; }
+  .footer .meta { font-size: 11px; color: var(--muted); }
+
+  @media (max-width: 900px) {
+    .container { padding: 12px 14px; }
+    .overview-grid { grid-template-columns: repeat(2, 1fr); }
+    .choke-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 22px; }
   }
-  .sidebar-overlay.show { display: block; }
-  .menu-toggle { display: flex; align-items: center; justify-content: center; }
-  .main-content { padding: 16px 14px 40px; }
-  .chain-cards { grid-template-columns: 1fr; }
-  .hero { padding: 24px 16px 20px; }
-  .hero h1 { font-size: 22px; }
-  .stock-grid { grid-template-columns: 1fr; }
-  .data-grid { grid-template-columns: 1fr; }
-  .alloc-grid { grid-template-columns: 1fr; }
-  table { font-size: 11px; }
-  th, td { padding: 7px 9px; }
-  .chain-section { padding: 18px 16px; }
-  .chain-tree { font-size: 10px; padding: 14px 16px; }
-  .card { padding: 14px 16px; }
-}
-
-@media (max-width: 480px) {
-  .hero h1 { font-size: 18px; letter-spacing: 1px; }
-  h2 { font-size: 17px; }
-  h3 { font-size: 15px; }
-  .chain-section-header .csh-info h2 { font-size: 18px; }
-}
-
-@media print {
-  .sidebar, .menu-toggle, .sidebar-overlay, .chain-cards { display: none !important; }
-  .app-layout { display: block; }
-  .main-content { max-width: 100%; padding: 0; }
-  body { background: #fff; font-size: 12px; }
-  .hero { background: #0c1a2b !important; -webkit-print-color-adjust: exact; padding: 20px 16px; }
-  .hero h1 { font-size: 20px; }
-  .chain-section { border: none; padding: 12px 0; break-inside: avoid; }
-  .card, .callout, .chain-tree, .stock-card, .alloc-card { break-inside: avoid; }
-  table { break-inside: avoid; font-size: 10px; }
-}
 </style>
 </head>
 <body>
 
-<!-- ====== 顶部标题栏 ====== -->
-<header class="hero">
-  <div class="hero-content">
-    <div class="badge-row">
-      <span>📐 Serenity</span>
-      <span class="star">★ 机构投研</span>
-      <span>📋 6条产业链</span>
-    </div>
-    <h1>产业链全景 · 物理卡口投研</h1>
-    <p class="subtitle">识别寡头垄断+供给刚性+不可替代的物理卡口环节</p>
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="badge">SERENITY CHOKE POINT THEORY</div>
+  <h1>产业链全景<span>· 物理卡口投研</span></h1>
+  <p class="subtitle">方法论：Serenity 六步下钻法。从宏观到微观，用物理约束当筛子，挖出产业链"河道收窄处"的寡头瓶颈。数据来源：公开研报 200+ 篇交叉验证。</p>
+  <div class="meta-row">
+    <span class="meta-tag">📅 数据截止 <span>2026-06-07</span></span>
+    <span class="meta-tag">📐 方法论 <span>Serenity v1.0</span></span>
+    <span class="meta-tag">📊 赛道 <span>PCB + 半导体</span></span>
   </div>
-</header>
-
-<!-- ====== 侧边栏遮罩（移动端） ====== -->
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-<!-- ====== 桌面端侧边栏折叠按钮 ====== -->
-<button class="sidebar-toggle" id="sidebarToggle" onclick="toggleDesktopSidebar()" title="折叠/展开侧边栏">☰</button>
-
-<!-- ====== APP 布局 ====== -->
-<div class="app-layout">
-
-<!-- ====== 侧边栏 ====== -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <div class="sh-title">🔍 产业链导航</div>
-    <div class="search-wrap">
-      <input type="text" class="sidebar-search" id="chainSearch"
-             placeholder="搜索产业链..." oninput="filterChains()">
-    </div>
-  </div>
-  <div class="filter-row">
-    <button class="filter-btn active" onclick="setFilter('all', this)">全部 <strong>6</strong></button>
-    <button class="filter-btn" onclick="setFilter('done', this)">已完成 <strong>1</strong></button>
-    <button class="filter-btn" onclick="setFilter('progress', this)">整理中 <strong>0</strong></button>
-    <button class="filter-btn" onclick="setFilter('todo', this)">待整理 <strong>5</strong></button>
-  </div>
-  <nav class="chain-list" id="chainList">
-    <div class="chain-group-label">✅ 已完成</div>
-    <a href="#chain-pcb" class="chain-nav-item active" data-status="done" data-keywords="pcb 印制电路板 电路板">
-      <span class="cn-icon">📊</span>
-      <span class="cn-name">PCB 印制电路板</span>
-      <span class="cn-status status-done">✓</span>
-    </a>
-
-    <div class="chain-group-label">🔸 待整理</div>
-    <a href="#chain-cpo" class="chain-nav-item" data-status="todo" data-keywords="cpo 共封装光学 光通信 光模块 硅光">
-      <span class="cn-icon">🔌</span>
-      <span class="cn-name">CPO 共封装光学</span>
-      <span class="cn-status status-todo">—</span>
-    </a>
-    <a href="#chain-robotics" class="chain-nav-item" data-status="todo" data-keywords="机器人 人形机器人 自动化">
-      <span class="cn-icon">🤖</span>
-      <span class="cn-name">人形机器人</span>
-      <span class="cn-status status-todo">—</span>
-    </a>
-    <a href="#chain-low-altitude" class="chain-nav-item" data-status="todo" data-keywords="低空经济 飞行汽车 evtol 无人机">
-      <span class="cn-icon">🚁</span>
-      <span class="cn-name">低空经济</span>
-      <span class="cn-status status-todo">—</span>
-    </a>
-    <a href="#chain-solid-battery" class="chain-nav-item" data-status="todo" data-keywords="固态电池 电池 锂电 新能源">
-      <span class="cn-icon">🔋</span>
-      <span class="cn-name">固态电池</span>
-      <span class="cn-status status-todo">—</span>
-    </a>
-    <a href="#chain-commercial-aero" class="chain-nav-item" data-status="todo" data-keywords="商业航天 航天 卫星 火箭 互联网">
-      <span class="cn-icon">🚀</span>
-      <span class="cn-name">商业航天</span>
-      <span class="cn-status status-todo">—</span>
-    </a>
-  </nav>
-</aside>
-
-<!-- ====== 主内容区 ====== -->
-<main class="main-content" id="mainContent">
-
-<!-- ====== 产业链总览卡片 ====== -->
-<div class="overview-title">📋 产业链总览 <span class="count">（共 6 条，点击卡片跳转详情）</span></div>
-<div class="chain-cards">
-  <a href="#chain-pcb" class="chain-card done">
-    <div class="cc-header">
-      <span class="cc-icon">📊</span><span class="cc-name">PCB 印制电路板</span>
-      <span class="cc-status status-done">✅ 已完成</span>
-    </div>
-    <div class="cc-desc">AI 算力爆发的"最窄瓶颈"——M9碳氢树脂、Q布、HVLP4铜箔三大卡口，全球仅2-3家能做的上游材料</div>
-    <div class="cc-meta">核心卡口：东材科技 · 菲利华 · 铜冠铜箔 | 2026年6月</div>
-  </a>
-  <a href="#chain-cpo" class="chain-card todo">
-    <div class="cc-header">
-      <span class="cc-icon">🔌</span><span class="cc-name">CPO 共封装光学</span>
-      <span class="cc-status status-todo">🔸 待整理</span>
-    </div>
-    <div class="cc-desc">AI 数据中心带宽升级推动光互联从可插拔向共封装演进，CW激光器+硅光芯片+高密度封装核心受益</div>
-    <div class="cc-meta">关键标的：中际旭创 · 天孚通信 · 源杰科技 · 光迅科技</div>
-  </a>
-  <a href="#chain-robotics" class="chain-card todo">
-    <div class="cc-header">
-      <span class="cc-icon">🤖</span><span class="cc-name">人形机器人</span>
-      <span class="cc-status status-todo">🔸 待整理</span>
-    </div>
-    <div class="cc-desc">特斯拉 Optimus 引领产业化元年，丝杠/减速器/传感器/电机四大核心环节国产替代加速</div>
-    <div class="cc-meta">关键标的：待 Serenity 四问筛选确定卡口</div>
-  </a>
-  <a href="#chain-low-altitude" class="chain-card todo">
-    <div class="cc-header">
-      <span class="cc-icon">🚁</span><span class="cc-name">低空经济</span>
-      <span class="cc-status status-todo">🔸 待整理</span>
-    </div>
-    <div class="cc-desc">eVTOL+无人机+低空管理，政策密集催化，适航认证是核心壁垒，电池/电机/复合材料国产化加速</div>
-    <div class="cc-meta">关键标的：待 Serenity 四问筛选确定卡口</div>
-  </a>
-  <a href="#chain-solid-battery" class="chain-card todo">
-    <div class="cc-header">
-      <span class="cc-icon">🔋</span><span class="cc-name">固态电池</span>
-      <span class="cc-status status-todo">🔸 待整理</span>
-    </div>
-    <div class="cc-desc">下一代电池技术路线之争，硫化物/氧化物/聚合物三条路线并行，电解质材料是核心卡口</div>
-    <div class="cc-meta">关键标的：待 Serenity 四问筛选确定卡口</div>
-  </a>
-  <a href="#chain-commercial-aero" class="chain-card todo">
-    <div class="cc-header">
-      <span class="cc-icon">🚀</span><span class="cc-name">商业航天</span>
-      <span class="cc-status status-todo">🔸 待整理</span>
-    </div>
-    <div class="cc-desc">SpaceX 星链倒逼中国商业航天加速，火箭回收+卫星批产+地面终端全链条国产替代</div>
-    <div class="cc-meta">关键标的：待 Serenity 四问筛选确定卡口</div>
-  </a>
 </div>
 
-<!-- ================================================================ -->
-<!-- PCB 印制电路板（已完成）-->
-<!-- ================================================================ -->
-<section class="chain-section" id="chain-pcb">
-  <div class="chain-section-header">
-    <span class="csh-icon">📊</span>
-    <div class="csh-info">
-      <h2>PCB 印制电路板</h2>
-      <p class="csh-sub">AI 算力爆发 → PCB 上游材料三大卡口深度研究 | 数据截止：2026年6月5日</p>
-    </div>
+<!-- ===== TABS ===== -->
+<div class="sector-tabs" id="tab-bar">
+  <div class="tab active" data-chain="pcb" onclick="switchChain('pcb')">🔌 PCB 印制电路板</div>
+  <div class="tab" data-chain="semi" onclick="switchChain('semi')">💻 半导体</div>
+  <div class="tab coming">💡 CPO 共封装光学（即将上线）</div>
+  <div class="tab coming">🤖 人形机器人（即将上线）</div>
+</div>
+
+<!-- ===== CONTENT ===== -->
+<div class="container" id="chain-content"></div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer" id="page-footer">
+  <div class="disclaimer">
+    ⚠️ <strong>免责声明</strong>：本文仅为 Serenity 物理卡口投研方法论的实践案例与知识科普。所有数据来源于公开研报及行业数据（等效参考 200+ 篇），通过 WebSearch 交叉验证。<strong>本文不构成任何投资建议。</strong>市场有风险，投资需谨慎。所有标的分析需结合个人独立判断。
   </div>
-
-  <!-- PCB 1: 大白话 -->
-  <div class="callout insight">
-    <strong>🔑 PCB 就是所有电子产品的"骨架"</strong>
-    你手机里、电脑里、汽车里、服务器里，都有一块绿色的板子，上面焊着各种芯片、电容、电阻——那块板子就是 PCB。没有它，再强的芯片也没地方装，电流也没法在芯片之间跑。
+  <div class="meta">
+    📐 方法论：Serenity Choke Point Theory v1.0 — 六步下钻法 &nbsp;|&nbsp;
+    📅 数据截止：2026-06-07 &nbsp;|&nbsp;
+    🔧 Generated with Claude Code
   </div>
+</div>
 
-  <h4>AI 让这块板子发生了质变</h4>
-  <p>以前的 PCB 就像普通高速公路，8 车道（8 层板）够用了。AI 大模型一跑，数据量爆炸，相当于把车流量翻了 10 倍——普通高速不够，得修 30 车道（30 层板）的超级高速。而且车速还得从 120 提到 300（信号传输速率升级）。这就逼着 PCB 从里到外全部升级：<strong>板子变厚、材料变高级、工艺变复杂。</strong></p>
-
-  <div class="data-grid">
-    <div class="data-item"><div class="metric">AI 服务器 PCB 价值量</div><div class="value">7×</div><div class="sub">是传统服务器的 7 倍</div></div>
-    <div class="data-item"><div class="metric">PCB 层数升级</div><div class="value">8 → 30+ 层</div><div class="sub">从普通多层到超高多层</div></div>
-    <div class="data-item"><div class="metric">核心瓶颈</div><div class="value" style="color:#dc2626;">上游材料</div><div class="sub">碳氢树脂 · Q布 · HVLP4 铜箔</div></div>
-    <div class="data-item"><div class="metric">当前阶段</div><div class="value">Rubin 前夕</div><div class="sub">英伟达下一代架构即将量产</div></div>
-  </div>
-
-  <div class="callout warn">
-    <strong>⚡ 核心洞察：AI 吃掉 PCB，PCB 吃掉上游材料</strong>
-    投资机会不在做 PCB 的工厂（竞争太激烈，全球 >100 家），而在给 PCB 供原材料的公司（寡头垄断 + 扩产慢 + 没替代品）。M9 所需的三种核心材料——<strong>碳氢树脂、Q布（石英布）、HVLP4 铜箔</strong>——全球只有极少数厂商能做，国产替代正在窗口期。
-  </div>
-
-  <!-- PCB 2: 产业链全景框架 -->
-  <h2>二、产业链全景框架</h2>
-  <pre class="chain-tree">
-【需求源头】AI 算力爆发（英伟达/华为昇腾）
-        │
-        ▼
-【用什么算】AI 服务器 ← 里面有几十块加速卡
-        │
-        ▼
-【芯片装哪】PCB 板（从 8 层 → 30 层，单台价值翻 7 倍）
-        │
-        ▼
-【PCB 用什么做】覆铜板 CCL（PCB 的"夹心饼干"，占成本 30%+）
-        │
-        ├─ <span style="color:#dc2626;font-weight:700;">铜箔（导电层）── 占 CCL 成本 42%</span>
-        │   └─ ⚡ HVLP4 超低轮廓铜箔 ← M9 刚需，日韩垄断 85%+
-        │
-        ├─ <span style="color:#dc2626;font-weight:700;">树脂（粘结剂）── 占 CCL 成本 26%</span>
-        │   └─ ⚡ M9 碳氢树脂 ← 全球仅 2 家通过英伟达认证
-        │
-        └─ <span style="color:#dc2626;font-weight:700;">玻纤布（骨架）── 占 CCL 成本 19%</span>
-            └─ ⚡ Q布/石英布 ← 全球仅 3 家能量产</pre>
-  <div class="callout info"><strong>⚡ = Serenity 物理卡口环节</strong>寡头垄断 + 供给刚性 + 不可替代。只有这三个上游材料环节满足全部条件。</div>
-
-  <h3>核心价值量分布</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>产业链环节</th><th>成本占比</th><th>壁垒级别</th><th>国产化率</th><th>核心矛盾</th></tr></thead>
-  <tbody>
-  <tr class="row-tier3"><td><strong>铜箔</strong></td><td>CCL 成本 42%</td><td><span class="tier-badge s3">★★★★★</span></td><td>~30%（HVLP4）</td><td>日韩垄断高端</td></tr>
-  <tr class="row-tier3"><td><strong>树脂</strong></td><td>CCL 成本 26%</td><td><span class="tier-badge s3">★★★★★</span></td><td>~25%（M9 级）</td><td>海外寡头</td></tr>
-  <tr class="row-tier3"><td><strong>玻纤布/Q布</strong></td><td>CCL 成本 19%</td><td><span class="tier-badge s3">★★★★★</span></td><td>~20%（高端布）</td><td>日东纺垄断</td></tr>
-  <tr><td>覆铜板 CCL</td><td>PCB 成本 27-40%</td><td><span class="tier-badge s2">★★★★</span></td><td>~60%</td><td>M9 级国产低</td></tr>
-  <tr><td>PCB 制造</td><td>终端产品</td><td><span class="tier-badge s1">★★★</span></td><td>~55%（全球产值）</td><td>高端产能紧缺</td></tr>
-  <tr><td>PCB 设备</td><td>—</td><td><span class="tier-badge s2">★★★★</span></td><td>~40%（高端）</td><td>激光钻孔/曝光</td></tr>
-  <tr><td>封装基板</td><td>—</td><td><span class="tier-badge s3">★★★★★</span></td><td>~15%</td><td>日韩台垄断</td></tr>
-  </tbody></table></div>
-
-  <!-- PCB 3: 上中下游速览 -->
-  <h2>三、上中下游速览</h2>
-  <h3>上游 — PCB 的原材料（卡口所在）</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>环节</th><th>通俗解释</th><th>A股 代表</th><th>卡口？</th></tr></thead>
-  <tbody>
-  <tr class="row-tier3"><td><strong>碳氢树脂</strong></td><td>PCB 的"胶水"，决定信号传多快</td><td>东材科技</td><td><span class="tier-badge s3">★★★</span></td></tr>
-  <tr class="row-tier3"><td><strong>Q布/石英布</strong></td><td>PCB 的"骨架"，超高纯石英纤维织成</td><td>菲利华</td><td><span class="tier-badge s3">★★★</span></td></tr>
-  <tr class="row-tier3"><td><strong>HVLP4 铜箔</strong></td><td>PCB 的"血管"，超光滑铜箔传高速信号</td><td>铜冠铜箔、德福科技</td><td><span class="tier-badge s3">★★★</span></td></tr>
-  <tr><td>覆铜板 CCL</td><td>铜箔+树脂+布，热压成一张板</td><td>生益科技、华正新材</td><td><span class="tier-badge s0">—</span></td></tr>
-  <tr><td>电子布</td><td>普通玻纤布，技术成熟</td><td>宏和科技、中国巨石</td><td><span class="tier-badge s0">—</span></td></tr>
-  <tr><td>PCB 设备</td><td>钻孔机、曝光机、检测机</td><td>大族数控、芯碁微装</td><td><span class="tier-badge s0">—</span></td></tr>
-  </tbody></table></div>
-
-  <h3>中游 — 把覆铜板做成 PCB（加工环节）</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>环节</th><th>通俗解释</th><th>A股 代表</th><th>卡口？</th></tr></thead>
-  <tbody>
-  <tr><td>AI 服务器 PCB</td><td>给 AI 芯片做"底座"</td><td>胜宏科技、沪电股份</td><td><span class="tier-badge s0">—</span></td></tr>
-  <tr><td>封装基板</td><td>芯片和 PCB 之间的"转接头"</td><td>深南电路、兴森科技</td><td><span class="tier-badge s0">—</span></td></tr>
-  <tr><td>消费电子 PCB</td><td>手机/电脑里的板子</td><td>鹏鼎控股、东山精密</td><td><span class="tier-badge s0">—</span></td></tr>
-  </tbody></table></div>
-
-  <h3>下游 — 用 PCB 的行业</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>领域</th><th>占比</th><th>趋势</th></tr></thead>
-  <tbody>
-  <tr><td>消费电子</td><td>~48%</td><td>→ 平稳</td></tr>
-  <tr class="row-highlight"><td><strong>数据通讯/AI</strong></td><td><strong>~20%</strong></td><td><strong style="color:#dc2626;">↑↑ 爆发增长</strong></td></tr>
-  <tr><td>汽车电子</td><td>~20%</td><td>↑ 稳步增长</td></tr>
-  <tr><td>工业/医疗/航空</td><td>~12%</td><td>→ 稳定</td></tr>
-  </tbody></table></div>
-
-  <!-- PCB 4: 核心个股地图 -->
-  <h2>四、核心个股地图</h2>
-  <h3>🔴 核心卡口（★★★）— 优先关注</h3>
-  <div class="stock-grid">
-    <div class="stock-card tier3"><div class="sc-header"><div><div class="sc-name">东材科技</div><div class="sc-code">601208</div></div><div class="sc-tier"><span class="tier-badge s3">★★★ 核心卡口</span></div></div><div class="sc-body"><strong>环节：M9 碳氢树脂</strong><br>全球仅 2 家通过英伟达 M9 认证，国内唯一。<br>全球缺口 5000 吨。眉山工厂 2026Q3 投产，产能从 500 吨跳到 4000 吨。<br><span class="label">评级：</span>与台光 2-3 年排他协议，树脂验证周期 >9 个月，替换成本极高。</div></div>
-    <div class="stock-card tier3"><div class="sc-header"><div><div class="sc-name">菲利华</div><div class="sc-code">300395</div></div><div class="sc-tier"><span class="tier-badge s3">★★★ 核心卡口</span></div></div><div class="sc-body"><strong>环节：Q布/石英布</strong><br>全球仅 3 家能量产 Q布（日东纺+圣戈班+菲利华），国产唯一。<br>全产业链自主，供需缺口 >40%。认证进行中。<br><span class="label">风险标注：</span>官方最新回复（6月5日）表示"仍处于认证阶段"，需持续跟踪。</div></div>
-    <div class="stock-card tier3"><div class="sc-header"><div><div class="sc-name">铜冠铜箔</div><div class="sc-code">301217</div></div><div class="sc-tier"><span class="tier-badge s3">★★★ 核心卡口</span></div></div><div class="sc-body"><strong>环节：HVLP4 铜箔</strong><br>国内唯一 HVLP1-4 全系列量产。<br>2026 年 HVLP4 产能目标 500 吨/月。设备被日本垄断，扩产慢。<br><span class="label">评级：</span>2026H2 全球 HVLP4 月需求 ≥1200 吨，有效产能 ~1100 吨，缺口 8-24%。</div></div>
-  </div>
-
-  <h3>🟡 潜在卡口（★★☆）— 跟踪关注</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>个股</th><th>代码</th><th>环节</th><th>差在哪</th></tr></thead>
-  <tbody>
-  <tr class="row-tier2"><td><strong>德福科技</strong></td><td>301511</td><td>HVLP4 铜箔</td><td>已进英伟达供应链，但机构关注度高 + 卢森堡收购失败有技术整合风险</td></tr>
-  <tr class="row-tier2"><td><strong>宏和科技</strong></td><td>603256</td><td>超薄电子布</td><td>4μm 极薄布全球唯一量产，但不是 AI 最核心瓶颈（Q布才是）</td></tr>
-  </tbody></table></div>
-
-  <h3>🟢 产业链核心龙头（非卡口，但值得了解）</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>个股</th><th>代码</th><th>环节</th><th>定位</th></tr></thead>
-  <tbody>
-  <tr><td><strong>生益科技</strong></td><td>600183</td><td>覆铜板 CCL</td><td>全球第二，大陆唯一获英伟达 M9 CCL 认证</td></tr>
-  <tr><td><strong>胜宏科技</strong></td><td>300476</td><td>AI 服务器 PCB</td><td>显卡 PCB 全球第一，首个通过英伟达 M9 正交背板</td></tr>
-  <tr><td><strong>沪电股份</strong></td><td>002463</td><td>交换机 PCB</td><td>华为/思科核心供应商，交换机敞口 A 股最大</td></tr>
-  <tr><td><strong>深南电路</strong></td><td>002916</td><td>IC 载板</td><td>国内封装基板龙头</td></tr>
-  <tr><td><strong>鼎泰高科</strong></td><td>301377</td><td>PCB 钻针</td><td>全球第一（市占 19%）</td></tr>
-  <tr><td><strong>大族数控</strong></td><td>301200</td><td>PCB 钻孔设备</td><td>全球 PCB 专用设备龙头</td></tr>
-  </tbody></table></div>
-
-  <!-- PCB 5: 上游各环节深度分析 -->
-  <h2>五、上游各环节深度分析</h2>
-
-  <h3>5.1 覆铜板 CCL — PCB 核心基材</h3>
-  <p>CCL 由铜箔+树脂+玻纤布热压复合而成，是 PCB 的"骨架"，占 PCB 成本 27-40%。</p>
-  <h4>全球竞争格局</h4>
-  <div class="table-wrap"><table>
-  <thead><tr><th>梯队</th><th>代表企业</th><th>市场地位</th></tr></thead>
-  <tbody>
-  <tr><td>日系三巨头</td><td>松下（Megtron 系列，行业基准）、Resonac（MCL 系列）、三菱瓦斯 MGC</td><td>定调高端 CCL 标准</td></tr>
-  <tr class="row-highlight"><td>台系五强</td><td><strong>台光电子 EMC</strong>（英伟达供应链份额最大，M9 全球市占 60-70%）、台燿 TUC、联茂 Iteq</td><td>紧密跟随英伟达</td></tr>
-  <tr><td><strong>大陆龙头</strong></td><td><strong>生益科技（600183）</strong>（全球第二，M9 全球市占 30-40%）、华正新材（603186）、南亚新材（688519）</td><td>国产替代主力</td></tr>
-  </tbody></table></div>
-
-  <h3>5.2 铜箔 — 导电层，HVLP 是核心瓶颈</h3>
-  <p>铜箔是 CCL 导电层，HVLP4（超低轮廓铜箔）是 M9 级 CCL 的刚需材料。</p>
-  <div class="table-wrap"><table>
-  <thead><tr><th>梯队</th><th>代表企业</th><th>市场地位</th></tr></thead>
-  <tbody>
-  <tr class="row-tier3"><td><strong>日韩四强（垄断 85%+）</strong></td><td><strong>三井金属</strong>（HVLP4 市占 ~50%）、福田金属、古河电工、韩国斗山</td><td>垄断 HVLP3-5</td></tr>
-  <tr><td><strong>国产追赶</strong></td><td><strong>德福科技（301511）</strong>（进入英伟达供应链）、<strong>铜冠铜箔（301217）</strong>（HVLP1-4 全系列量产）</td><td>国产替代先锋</td></tr>
-  </tbody></table></div>
-
-  <h3>5.3 特种玻纤布/Q布 — 增强骨架，最窄瓶颈</h3>
-  <p>M9 级 CCL 必须使用 Q布（石英布）或 Low CTE T-glass。<strong>这是产业链中壁垒最高的环节。</strong></p>
-  <div class="table-wrap"><table>
-  <thead><tr><th>等级</th><th>材料</th><th>应用</th></tr></thead>
-  <tbody>
-  <tr><td>E-glass（常规）</td><td>Dk 5.5-6.5</td><td>汽车板/消费电子</td></tr>
-  <tr><td>Low Dk 玻纤布</td><td>Dk &lt;4.8</td><td>AI 服务器高速板</td></tr>
-  <tr class="row-tier3"><td><strong>Q布（石英布）</strong></td><td><strong>Df≤0.0007</strong></td><td><strong>M9级/Rubin架构，最高端</strong></td></tr>
-  </tbody></table></div>
-  <div class="table-wrap"><table>
-  <thead><tr><th>梯队</th><th>代表企业</th><th>市场地位</th></tr></thead>
-  <tbody>
-  <tr class="row-tier3"><td><strong>绝对垄断者</strong></td><td><strong>日东纺 Nittobo（日本）</strong></td><td>T-glass 全球 90%+；Low DK 全球 80%；黄仁勋/苹果登门求货，2027H2 才有新产能</td></tr>
-  <tr class="row-highlight"><td><strong>Q布三家</strong></td><td><strong>日东纺 + 圣戈班（法国）+ 菲利华（300395）</strong></td><td>全球仅三家能量产 Q布</td></tr>
-  </tbody></table></div>
-
-  <h3>5.4 电子树脂 — 粘结剂，决定介电损耗</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>树脂类型</th><th>代表企业</th><th>市场格局</th></tr></thead>
-  <tbody>
-  <tr class="row-tier3"><td><strong>碳氢树脂（M8/M9级）</strong></td><td><strong>东材科技（601208）</strong>（全球唯二通过英伟达 M9 认证）、JX化学</td><td>寡头格局</td></tr>
-  <tr><td>PPO 聚苯醚（M7 级）</td><td><strong>SABIC + 三菱瓦斯</strong>（近 80%）、圣泉集团、东材科技</td><td>SABIC 垄断定价权</td></tr>
-  </tbody></table></div>
-
-  <h3>5.5 综合壁垒排序 TOP 10</h3>
-  <div class="card"><ol style="font-size:14px; line-height:2.2; padding-left:20px;">
-    <li><strong>Q布/石英布</strong> — 全球仅 3 家能量产</li>
-    <li><strong>M9 碳氢树脂</strong> — 全球仅 2 家通过英伟达认证</li>
-    <li><strong>HVLP4 铜箔</strong> — 日韩四强垄断 85%+</li>
-    <li><strong>T-glass/Low CTE 玻纤布</strong> — 日东纺全球 90%+</li>
-    <li><strong>封装基板 IC 载板</strong> — ABF 载板供不应求</li>
-    <li><strong>M9 级覆铜板</strong> — 仅台光/生益通过英伟达认证</li>
-    <li><strong>低介电电子布</strong> — 日东纺全球 80%</li>
-    <li><strong>PPO 树脂</strong> — SABIC+三菱瓦斯 80%</li>
-    <li><strong>PCB 激光钻孔设备</strong> — 海外占 70%</li>
-    <li><strong>高阶 HDI（4+阶 Any-Layer）</strong> — 良率是核心壁垒</li>
-  </ol></div>
-
-  <!-- PCB 6: Serenity 物理卡口筛选 Layer 2 -->
-  <h2>六、Serenity 物理卡口筛选 ★ 核心漏斗层</h2>
-  <div class="callout insight"><strong>🔬 Serenity 四问方法论</strong>对每只个股逐一过四问筛子：①供给端寡头垄断？②扩产周期 ≥18 月？③无替代方案？④下游刚需绑定？四项全满足 = ★★★ 核心卡口。</div>
-
-  <h3>筛选总览</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>优先级</th><th>标的</th><th>代码</th><th>所在环节</th><th>卡口强度</th><th>核心逻辑</th></tr></thead>
-  <tbody>
-  <tr class="row-tier3"><td><strong>1</strong></td><td><strong>东材科技</strong></td><td>601208</td><td>M9 碳氢树脂</td><td><span class="tier-badge s3">★★★</span></td><td>全球仅2家通过英伟达M9认证，国内唯一，2026年供需缺口5000吨</td></tr>
-  <tr class="row-tier3"><td><strong>2</strong></td><td><strong>菲利华</strong></td><td>300395</td><td>Q布/石英布</td><td><span class="tier-badge s3">★★★</span></td><td>全球仅3家能量产，国产唯一全产业链自主，供需缺口>40%</td></tr>
-  <tr class="row-tier3"><td><strong>3</strong></td><td><strong>铜冠铜箔</strong></td><td>301217</td><td>HVLP4铜箔</td><td><span class="tier-badge s3">★★★</span></td><td>国内唯一HVLP1-4全系列量产，产能爬坡中</td></tr>
-  </tbody></table></div>
-
-  <h3>逐环节四问筛选 — M9 碳氢树脂</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>个股</th><th>供给端</th><th>产能端</th><th>替代端</th><th>需求端</th><th>命中</th><th>判定</th></tr></thead>
-  <tbody>
-  <tr class="row-tier3"><td><strong>东材科技 601208</strong></td><td>全球仅2家通过M9认证</td><td>眉山3500吨Q3投产，~18个月</td><td>无替代方案</td><td>绑定2-3年排他协议</td><td><strong class="screen-pass">4/4</strong></td><td><span class="tier-badge s3">★★★ 核心卡口</span></td></tr>
-  </tbody></table></div>
-
-  <div class="callout success"><strong>✅ 东材科技数据支撑</strong><ul><li><strong>供给端：</strong>全球仅东材科技和日本 JX 化学两家通过英伟达 M9 级碳氢树脂认证</li><li><strong>产能端：</strong>现有 500 吨/年（超负荷 120%），眉山 3500 吨 2026Q3 投产</li><li><strong>替代端：</strong>M9 级 CCL 必须使用碳氢树脂体系，PPO 无法满足 Df&lt;0.001 的要求</li><li><strong>需求端：</strong>与台光电子等签订 2-3 年排他协议，下游刚需</li></ul></div>
-
-  <h3>逐环节四问筛选 — Q布/石英布</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>个股</th><th>供给端</th><th>产能端</th><th>替代端</th><th>需求端</th><th>命中</th><th>判定</th></tr></thead>
-  <tbody>
-  <tr class="row-tier3"><td><strong>菲利华 300395</strong></td><td>全球仅3家</td><td>100万米→1500万米，~12个月</td><td>M9必须用Q布</td><td>台光锁定500-700万米</td><td><strong class="screen-pass">4/4</strong></td><td><span class="tier-badge s3">★★★ 核心卡口</span></td></tr>
-  </tbody></table></div>
-  <div class="callout warn"><strong>⚠️ 菲利华风险标注</strong>官方最新回复（2026年6月5日）表示 Q布"仍处于客户端小批量测试及终端客户的认证阶段"，英伟达正式认证尚未官宣。此判定基于"全球仅三家能量产"的物理事实，但认证进度需持续跟踪。</div>
-
-  <h3>逐环节四问筛选 — HVLP4 铜箔</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>个股</th><th>供给端</th><th>产能端</th><th>替代端</th><th>需求端</th><th>命中</th><th>判定</th></tr></thead>
-  <tbody>
-  <tr class="row-tier3"><td><strong>铜冠铜箔 301217</strong></td><td>国内唯一HVLP1-4全系列量产</td><td>目标500吨/月，~18个月</td><td>无替代</td><td>Rubin量产后刚需</td><td><strong class="screen-pass">4/4</strong></td><td><span class="tier-badge s3">★★★ 核心卡口</span></td></tr>
-  <tr class="row-tier2"><td>德福科技 301511</td><td>进入英伟达供应链</td><td>5万吨可切换</td><td>无替代</td><td>刚需</td><td><strong class="screen-warn">3/4</strong></td><td><span class="tier-badge s2">★★☆ 潜在卡口</span></td></tr>
-  </tbody></table></div>
-
-  <!-- PCB 7: 机构深度投研 Layer 3 -->
-  <h2>七、机构深度投研 — 三大核心卡口</h2>
-
-  <h3>7.1 卡口标的投资摘要</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>维度</th><th>东材科技（601208）</th><th>菲利华（300395）</th><th>铜冠铜箔（301217）</th></tr></thead>
-  <tbody>
-  <tr><td><strong>一句话逻辑</strong></td><td>全球唯二M9碳氢树脂认证，国内唯一，2026Q3产能从500吨跃升至4000吨</td><td>全球唯三Q布量产，国产唯一全产业链，供需缺口>40%</td><td>国内唯一HVLP1-4全系列量产，2026年产能目标500吨/月</td></tr>
-  <tr><td><strong>景气方向</strong></td><td><span style="color:#dc2626;font-weight:700;">↑↑ 强上行（Rubin驱动）</span></td><td><span style="color:#dc2626;font-weight:700;">↑↑ 强上行（M9刚需）</span></td><td><span style="color:#dc2626;font-weight:700;">↑↑ 强上行（HVLP4缺口）</span></td></tr>
-  <tr><td><strong>估值水位</strong></td><td>2026E PE ~50-70x</td><td>2026E PE ~65x</td><td>偏高端</td></tr>
-  </tbody></table></div>
-
-  <h3>7.2 供需格局与景气度量化</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>卡口环节</th><th>2026E 全球需求</th><th>2026E 有效产能</th><th>缺口</th><th>缺口率</th></tr></thead>
-  <tbody>
-  <tr class="row-tier3"><td><strong>M9 碳氢树脂</strong></td><td>~8000 吨/年</td><td>~3000 吨/年</td><td><strong style="color:#dc2626;">5000 吨</strong></td><td><strong style="color:#dc2626;">~63%</strong></td></tr>
-  <tr class="row-tier3"><td><strong>Q布</strong></td><td>~1685 万米/年</td><td>~1000 万米/年</td><td><strong style="color:#dc2626;">685 万米</strong></td><td><strong style="color:#dc2626;">~41%</strong></td></tr>
-  <tr><td><strong>HVLP4 铜箔</strong></td><td>~1200-1676 吨/月</td><td>~1100-1300 吨/月</td><td><strong style="color:#f59e0b;">100-400 吨/月</strong></td><td><strong style="color:#f59e0b;">8-24%</strong></td></tr>
-  </tbody></table></div>
-
-  <h3>7.3 景气度加权评分</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>一级指标</th><th>权重</th><th>东材科技</th><th>菲利华</th><th>铜冠铜箔</th></tr></thead>
-  <tbody>
-  <tr><td>供需缺口</td><td>25%</td><td><strong class="screen-pass">9/10</strong></td><td><strong class="screen-pass">9/10</strong></td><td><strong class="screen-warn">8/10</strong></td></tr>
-  <tr><td>竞争格局</td><td>25%</td><td><strong class="screen-pass">10/10</strong></td><td><strong class="screen-pass">10/10</strong></td><td><strong class="screen-warn">7/10</strong></td></tr>
-  <tr><td>扩产确定性</td><td>20%</td><td><strong class="screen-pass">8/10</strong></td><td><strong class="screen-pass">8/10</strong></td><td><strong class="screen-warn">7/10</strong></td></tr>
-  <tr class="row-highlight"><td><strong>综合评分</strong></td><td><strong>100%</strong></td><td><strong style="color:#dc2626;font-size:15px;">9.2/10</strong></td><td><strong style="color:#dc2626;font-size:15px;">9.2/10</strong></td><td><strong style="color:#f59e0b;font-size:15px;">7.8/10</strong></td></tr>
-  </tbody></table></div>
-
-  <h3>7.4 催化剂日历</h3>
-  <div class="timeline">
-    <div class="timeline-item s5"><div class="tl-date">2026年6月</div><div class="tl-event">东材科技眉山项目投料试产 ★★★★★</div><div class="tl-detail">产能从 500→4000 吨</div></div>
-    <div class="timeline-item s5"><div class="tl-date">2026年Q2-Q3</div><div class="tl-event">英伟达 Rubin 平台量产 ★★★★★</div><div class="tl-detail">需求井喷起点</div></div>
-    <div class="timeline-item s5"><div class="tl-date">2026年Q3</div><div class="tl-event">菲利华 Q布认证落地（预期）★★★★★</div><div class="tl-detail">正式进入英伟达供应链</div></div>
-    <div class="timeline-item s4"><div class="tl-date">2026年H2</div><div class="tl-event">HVLP4 供需缺口出现 ★★★★</div></div>
-    <div class="timeline-item s5"><div class="tl-date">2027年</div><div class="tl-event">M10 材料路线确定 ★★★★★</div><div class="tl-detail">决定卡口长期持续性</div></div>
-  </div>
-
-  <h3>7.5 多维排雷校验</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>排雷维度</th><th>东材科技</th><th>菲利华</th><th>铜冠铜箔</th></tr></thead>
-  <tbody>
-  <tr><td><strong>产能落地</strong></td><td><span class="screen-pass">✅</span> Q3投料试产</td><td><span class="screen-pass">✅</span> 100→1500万米</td><td><span class="screen-warn">⚠️</span> 产能爬坡中</td></tr>
-  <tr><td><strong>认证进度</strong></td><td><span class="screen-pass">✅</span> 全球唯二</td><td><span class="screen-warn">⚠️</span> <strong style="color:#dc2626;">认证阶段！</strong></td><td><span class="screen-pass">✅</span> 全系列量产</td></tr>
-  <tr><td><strong>估值水位</strong></td><td><span class="screen-warn">⚠️</span> PE ~70x</td><td><span class="screen-warn">⚠️</span> PE ~129x</td><td><span class="screen-warn">⚠️</span> 盈利基数低</td></tr>
-  </tbody></table></div>
-
-  <h3>7.6 卡口失效风险监控</h3>
-  <div class="table-wrap"><table>
-  <thead><tr><th>失效风险</th><th>触发条件</th><th>当前状态</th></tr></thead>
-  <tbody>
-  <tr><td>新玩家突破认证</td><td>第三家通过M9树脂认证 / 第四家Q布量产</td><td>安全/安全/关注</td></tr>
-  <tr class="row-highlight"><td><strong>认证失败</strong></td><td><strong>菲利华Q布认证被拒 / 铜冠大客户认证延期</strong></td><td><strong style="color:#dc2626;">重点关注</strong></td></tr>
-  <tr><td>替代技术突破</td><td>BCB提前量产替代碳氢树脂</td><td>关注（BCB 2027+）</td></tr>
-  <tr><td>海外龙头激进扩产</td><td>JX化学/日东纺/三井超预期扩产</td><td>关注</td></tr>
-  </tbody></table></div>
-
-  <h3>7.7 配置策略（参考框架）</h3>
-  <div class="alloc-grid">
-    <div class="alloc-card aggressive"><div class="alloc-type">🔴 进取型</div><div class="alloc-row"><span>东材科技</span><strong>40%</strong></div><div class="alloc-row"><span>菲利华</span><strong>35%</strong></div><div class="alloc-row"><span>铜冠铜箔</span><strong>25%</strong></div><div class="alloc-footer">预期收益：高 | 最大回撤：高</div></div>
-    <div class="alloc-card balanced"><div class="alloc-type">🟠 均衡型</div><div class="alloc-row"><span>东材科技</span><strong>35%</strong></div><div class="alloc-row"><span>菲利华</span><strong>30%</strong></div><div class="alloc-row"><span>铜冠铜箔</span><strong>15%</strong></div><div class="alloc-row"><span>现金</span><strong>20%</strong></div><div class="alloc-footer">预期收益：中高 | 最大回撤：中</div></div>
-    <div class="alloc-card conservative"><div class="alloc-type">🔵 稳健型</div><div class="alloc-row"><span>东材科技</span><strong>25%</strong></div><div class="alloc-row"><span>菲利华</span><strong>25%</strong></div><div class="alloc-row"><span>铜冠铜箔</span><strong>10%</strong></div><div class="alloc-row"><span>现金</span><strong>40%</strong></div><div class="alloc-footer">预期收益：中 | 最大回撤：中低</div></div>
-  </div>
-
-  <!-- PCB 8: 一句话总结 -->
-  <h2>八、一句话记住 PCB 产业链</h2>
-  <div class="callout insight"><strong>🌊 AI 是洪水，PCB 是河道，上游材料（树脂/Q布/铜箔）是河道最窄的地方。水必须从窄口过，谁卡住窄口谁说了算。</strong></div>
-  <div class="card" style="text-align:center;">
-    <p style="font-size:18px; font-weight:700; color:#0f172a; margin-bottom:8px;"><span style="color:#dc2626;">东材科技</span>（胶水）→ <span style="color:#dc2626;">菲利华</span>（骨架）→ <span style="color:#dc2626;">铜冠铜箔</span>（血管）</p>
-    <p style="font-size:14px; color:var(--c-muted);">三大卡口 · M9碳氢树脂 + Q布 + HVLP4铜箔</p>
-  </div>
-  <div class="data-grid">
-    <div class="data-item"><div class="metric">⏰ Q3 2026</div><div class="value" style="font-size:16px;">需求+供给双催化</div><div class="sub">Rubin量产 + 东材眉山投产 + 菲利华认证落地</div></div>
-    <div class="data-item"><div class="metric">⏰ H2 2026</div><div class="value" style="font-size:16px;">价格上行确认</div><div class="sub">供需缺口数据兑现 → 量价齐升</div></div>
-    <div class="data-item"><div class="metric">⏰ 2027+</div><div class="value" style="font-size:16px;">业绩持续验证</div><div class="sub">海外扩产释放 + 国产替代份额确认</div></div>
-  </div>
-</section>
-
-<!-- ================================================================ -->
-<!-- CPO 共封装光学（待整理）-->
-<!-- ================================================================ -->
-<section class="chain-section" id="chain-cpo">
-  <div class="chain-section-header">
-    <span class="csh-icon">🔌</span>
-    <div class="csh-info"><h2>CPO 共封装光学</h2><p class="csh-sub">AI 数据中心带宽升级 → 光互联从可插拔向共封装演进</p></div>
-  </div>
-  <div class="chain-placeholder">
-    <div class="ph-icon">🔌</div>
-    <div class="ph-title">待整理 · CPO 共封装光学</div>
-    <div class="ph-desc">AI 算力推动光互联从可插拔向共封装演进，CPO 将光学引擎与交换芯片集成在同一基板上，大幅降低功耗和延迟。CW激光器、硅光芯片、高密度封装是核心环节。</div>
-    <div class="ph-template-hint">
-      整理后将包含：<br>
-      <code>大白话概述</code> → <code>产业链全景框架</code> → <code>上中下游速览</code> → <code>Serenity 四问筛选</code> → <code>机构深度投研</code>
-    </div>
-  </div>
-</section>
-
-<!-- ================================================================ -->
-<!-- 人形机器人（待整理）-->
-<!-- ================================================================ -->
-<section class="chain-section" id="chain-robotics">
-  <div class="chain-section-header">
-    <span class="csh-icon">🤖</span>
-    <div class="csh-info"><h2>人形机器人</h2><p class="csh-sub">特斯拉 Optimus 引领产业化元年，丝杠/减速器/传感器/电机国产替代加速</p></div>
-  </div>
-  <div class="chain-placeholder">
-    <div class="ph-icon">🤖</div>
-    <div class="ph-title">待整理 · 人形机器人</div>
-    <div class="ph-desc">特斯拉 Optimus 引领产业化元年，丝杠、减速器、传感器、电机四大核心环节国产替代加速。重点关注行星滚柱丝杠、六维力传感器、无框力矩电机等物理卡口环节。</div>
-    <div class="ph-template-hint">
-      整理后将包含：<br>
-      <code>大白话概述</code> → <code>产业链全景框架</code> → <code>上中下游速览</code> → <code>Serenity 四问筛选</code> → <code>机构深度投研</code>
-    </div>
-  </div>
-</section>
-
-<!-- ================================================================ -->
-<!-- 低空经济（待整理）-->
-<!-- ================================================================ -->
-<section class="chain-section" id="chain-low-altitude">
-  <div class="chain-section-header">
-    <span class="csh-icon">🚁</span>
-    <div class="csh-info"><h2>低空经济</h2><p class="csh-sub">eVTOL+无人机+低空管理，政策密集催化，适航认证是核心壁垒</p></div>
-  </div>
-  <div class="chain-placeholder">
-    <div class="ph-icon">🚁</div>
-    <div class="ph-title">待整理 · 低空经济</div>
-    <div class="ph-desc">eVTOL+无人机+低空管理系统，政策密集催化，适航认证是核心壁垒。电池能量密度、电机功率密度、复合材料轻量化是三大物理瓶颈。</div>
-    <div class="ph-template-hint">
-      整理后将包含：<br>
-      <code>大白话概述</code> → <code>产业链全景框架</code> → <code>上中下游速览</code> → <code>Serenity 四问筛选</code> → <code>机构深度投研</code>
-    </div>
-  </div>
-</section>
-
-<!-- ================================================================ -->
-<!-- 固态电池（待整理）-->
-<!-- ================================================================ -->
-<section class="chain-section" id="chain-solid-battery">
-  <div class="chain-section-header">
-    <span class="csh-icon">🔋</span>
-    <div class="csh-info"><h2>固态电池</h2><p class="csh-sub">下一代电池技术路线之争，硫化物/氧化物/聚合物三条路线并行</p></div>
-  </div>
-  <div class="chain-placeholder">
-    <div class="ph-icon">🔋</div>
-    <div class="ph-title">待整理 · 固态电池</div>
-    <div class="ph-desc">下一代电池技术路线之争，硫化物/氧化物/聚合物三条路线并行。电解质材料是核心卡口——硫化锂、LLZO陶瓷、复合电解质膜的供应格局将决定产业走向。</div>
-    <div class="ph-template-hint">
-      整理后将包含：<br>
-      <code>大白话概述</code> → <code>产业链全景框架</code> → <code>上中下游速览</code> → <code>Serenity 四问筛选</code> → <code>机构深度投研</code>
-    </div>
-  </div>
-</section>
-
-<!-- ================================================================ -->
-<!-- 商业航天（待整理）-->
-<!-- ================================================================ -->
-<section class="chain-section" id="chain-commercial-aero">
-  <div class="chain-section-header">
-    <span class="csh-icon">🚀</span>
-    <div class="csh-info"><h2>商业航天</h2><p class="csh-sub">SpaceX 星链倒逼中国商业航天加速，火箭回收+卫星批产全链条国产替代</p></div>
-  </div>
-  <div class="chain-placeholder">
-    <div class="ph-icon">🚀</div>
-    <div class="ph-title">待整理 · 商业航天</div>
-    <div class="ph-desc">SpaceX 星链倒逼中国商业航天加速，火箭回收、卫星批产、地面终端全链条国产替代。液体火箭发动机、相控阵天线、星载芯片是核心物理卡口。</div>
-    <div class="ph-template-hint">
-      整理后将包含：<br>
-      <code>大白话概述</code> → <code>产业链全景框架</code> → <code>上中下游速览</code> → <code>Serenity 四问筛选</code> → <code>机构深度投研</code>
-    </div>
-  </div>
-</section>
-
-<!-- ====== 页脚 ====== -->
-<footer class="report-footer">
-  <p><strong>产业链全景 — Serenity 物理卡口投研</strong></p>
-  <p style="margin-top:4px;">数据截止：2026年6月5日 | 覆盖 6 条产业链 | PCB 已完成，其余待整理</p>
-  <p style="margin-top:12px; color:#dc2626; font-weight:600;">⚠️ 免责声明：本报告仅为 Serenity 物理卡口投研方法论的实践案例，不构成任何投资建议。市场有风险，投资需谨慎。</p>
-</footer>
-
-</main><!-- .main-content -->
-</div><!-- .app-layout -->
-
-<!-- 移动端菜单按钮 -->
-<button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">☰</button>
-
-<!-- ====== JavaScript ====== -->
 <script>
-// ── 桌面端折叠 ──
-function toggleDesktopSidebar() {
-  const sidebar = document.getElementById('sidebar');
-  const toggle = document.getElementById('sidebarToggle');
-  sidebar.classList.toggle('collapsed');
-  toggle.textContent = sidebar.classList.contains('collapsed') ? '▶' : '☰';
-  localStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
-}
+// ================================================================
+// DATA LAYER
+// ================================================================
+const CHAINS = {};
 
-// 恢复上次的折叠状态
-(function() {
-  if (localStorage.getItem('sidebar-collapsed') === 'true') {
-    const sidebar = document.getElementById('sidebar');
-    const toggle = document.getElementById('sidebarToggle');
-    sidebar.classList.add('collapsed');
-    toggle.textContent = '▶';
+// ==================== PCB ====================
+CHAINS.pcb = {
+  id: 'pcb', name: 'PCB 印制电路板', icon: '🔌',
+  plainIntro: {
+    analogy: 'PCB = 所有电子产品的"骨架 + 血管系统"',
+    paragraphs: [
+      '你手机里那块绿色的板子、电脑显卡上密密麻麻的线路、汽车里的控制电路——<strong>都是 PCB（印制电路板）</strong>。它做两件事：① 把芯片、电阻、电容这些零件<strong>固定住</strong>（像骨骼），② 用铜线把它们<strong>连起来通电</strong>（像血管）。没有 PCB，再强的芯片也只是散落一地的沙子。',
+      '<strong>AI 时代的 PCB 贵在哪？</strong> 普通 PCB 像一栋 4 层板房，AI 服务器用的 PCB 像 30 层的摩天大楼——层数越多信号传输越快但干扰也越大，对材料的要求成倍飙升。一块 AI 服务器 PCB 的价格是普通 PCB 的 <strong>10-50 倍</strong>，而材料成本占 PCB 总成本的 <strong>60% 以上</strong>。'
+    ],
+    flowSteps: ['矿石/石油','树脂+玻纤布','铜箔','三者压合=覆铜板CCL','蚀刻钻孔=PCB','装进显卡/服务器'],
+    highlightBox: '<strong>💡 Serenity 视角：为什么上游材料比 PCB 制造更有"卡口"价值？</strong><br>PCB 制造厂全球有 100+ 家，客户随时可以换供应商。但上游的<strong>碳氢树脂全球只有 2 家通过认证、Q布全球只有 3 家能量产、HVLP4 铜箔被日韩垄断 85%</strong>——这就是"河道收窄处"。不管下游 PCB 制造多卷，水流（需求）必须从这几家过。2026 年英伟达 Rubin 架构全面采用 M9 级别材料，缺口最大的就是这三个环节。'
+  },
+  overview: [
+    { label: '🌍 全球 PCB 产值（2025E）', value: '~$849 亿', note: '同比 +15.4%（Prismark）', color: 'var(--accent)' },
+    { label: '🇨🇳 中国大陆全球占比', value: '~55%', note: '全球最大生产国', color: 'var(--blue)' },
+    { label: '🤖 AI 服务器 PCB 增速', value: 'CAGR 30%+', note: '2024-2028，价值量 3-5x', color: 'var(--green)' },
+    { label: '🏭 产业阶段', value: '结构性升级期', note: '低端饱和/M7+供不应求', color: 'var(--accent)' },
+    { label: '📐 M9 CCL 市场（2026E）', value: '~$80 亿', note: 'CAGR 40%，缺口~20%', color: 'var(--red)' },
+    { label: '⚡ 核心驱动', value: 'Rubin + GB300', note: '英伟达下一代架构 2026Q3', color: null },
+    { label: '🔴 核心矛盾', value: '上游材料卡脖子', note: '碳氢树脂/Q布/HVLP4 <30%', color: 'var(--red)' },
+    { label: '📋 M9 材料国产化率', value: '树脂<10%·Q布<5%', note: '铜箔15-20%·CCL~30%', color: null }
+  ],
+  treeMap: {
+    downstream: { name: 'AI服务器(40%)·汽车(25%)·通信(20%)·消费电子(15%)', barrier: 'low', note: '核心驱动：英伟达 Rubin/GB300、华为昇腾' },
+    midstream: { name: 'PCB 制造', barrier: 'low', note: '全球 CR5<30%·A股 30+家→Serenity: 无卡口' },
+    upstreamCCL: { name: '覆铜板 CCL', barrier: 'high', note: 'PCB成本30-40%·M9全球仅台光+生益认证' },
+    materials: [
+      { name: '电子树脂(碳氢/PPO)', barrier: 'extreme', choke: true, note: 'M9碳氢树脂全球仅2家认证' },
+      { name: '玻纤布/Q布', barrier: 'extreme', choke: true, note: 'Q布全球仅3家量产' },
+      { name: '铜箔(HVLP4)', barrier: 'extreme', choke: true, note: '日韩四强垄断85%+' },
+      { name: '硅微粉/填料', barrier: 'mid', choke: false, note: '联瑞新材龙头' }
+    ],
+    sideBranches: [
+      { name: 'PCB专用设备', barrier: 'mid', note: '激光钻孔国产化~30%' },
+      { name: 'IC封装基板(ABF)', barrier: 'high', note: '国产化率~4%' }
+    ]
+  },
+  segments: [/* filled below */],
+  midstream: { description: 'PCB 制造是充分竞争行业。AI 服务器 PCB 有壁垒但不构成物理卡口。但头部企业强者恒强。', stocks: [] },
+  fourQuestions: { segments: [] },
+  chokePoints: [],
+  supplyGap: []
+};
+
+// PCB Segments
+CHAINS.pcb.segments = [
+  {
+    name: '覆铜板 CCL', costRatio: '30-40%', barrier: 'high', choke: false, border: false,
+    intro: '覆铜板（CCL）由<strong>铜箔+树脂+玻纤布</strong>三层热压复合而成，是 PCB 的"地基"——决定电路板的介电性能、耐热性和信号完整性。M9 级别 CCL 需要 Df≤0.001。全球仅<strong>台光电子（台）+生益科技（大陆）</strong>通过英伟达 M9 全链路认证。台光占英伟达 AI 服务器 CCL 用量的 <strong>~95%</strong>。',
+    globalLandscape: [
+      { lbl: '🥇 台光电子 EMC（台）', val: 'M9全球市占60-70%', note: '英伟达AI服务器CCL主供' },
+      { lbl: '🥈 生益科技（大陆）', val: '全球第二，M9市占30-40%', note: '大陆唯一M9认证' },
+      { lbl: '日系三巨头', val: '松下/Resonac/三菱瓦斯', note: '定调高端标准，扩产保守' },
+      { lbl: '台系五强（其余）', val: '台燿/联茂等', note: '紧跟英伟达' }
+    ],
+    stocks: [
+      { rank:1, name:'生益科技', code:'600183', position:'全球第二大CCL，大陆唯一M9认证', barrier:'极高', logic:'M9 CCL已批量供货英伟达供应链，全球市占14-15%，毛利率~45%' },
+      { rank:2, name:'华正新材', code:'603186', position:'华为昇腾CCL核心供应商', barrier:'高', logic:'AI服务器用高等级CCL，CBF积层膜对标味之素ABF' },
+      { rank:3, name:'南亚新材', code:'603519', position:'M8已量产，M9测试中', barrier:'高', logic:'覆铜板营收A股第三，高速材料追赶中' },
+      { rank:4, name:'金安国纪', code:'002636', position:'国内龙头（全球第七）', barrier:'中', logic:'涨价期情绪标杆，中低端CCL为主' }
+    ]
+  },
+  {
+    name: '电子树脂（碳氢树脂/PPO）', costRatio: '26%', barrier: 'extreme', choke: true, border: true,
+    intro: '树脂是CCL三大原材料中<strong>技术壁垒最高的环节</strong>。M9级别要求Df≤0.001，PPO无法满足，<strong>碳氢树脂是唯一成熟方案</strong>。M9配方中碳氢树脂:PPO比例从M8的1:2反转为2:1。全球仅<strong>东材科技（中国）+JX化学（日本）</strong>通过英伟达M9认证。2026年全球缺口<strong>~5000吨（缺口率63%）</strong>。',
+    globalLandscape: [
+      { lbl: '🥇 东材科技（中）+JX化学（日）', val: '全球唯二M9碳氢树脂认证', note: '东材国内唯一，眉山3500吨2026Q3投产' },
+      { lbl: 'PPO双寡头', val: 'SABIC（沙特）+三菱瓦斯', note: '垄断全球PPO供给近80%' },
+      { lbl: '圣泉集团（中）', val: 'PPO国内唯一量产', note: '碳氢树脂2026Q4投产1500吨' },
+      { lbl: '世名科技（中）', val: '500吨已投产', note: '通过台光/生益M9方案认证' }
+    ],
+    stocks: [
+      { rank:1, name:'东材科技', code:'601208', position:'全球唯二M9碳氢树脂认证，国内唯一', barrier:'极高', hits:4, strength:'★★★', logic:'台光独供2-3年排他协议。眉山3500吨2026Q3投产。价格80-120万元/吨，毛利率50%+' },
+      { rank:2, name:'圣泉集团', code:'605589', position:'PPO国内唯一量产，全球第四', barrier:'高', hits:null, strength:null, logic:'PPO国产市占70%。碳氢树脂2026Q4投产1500吨。但PPO领域SABIC+三菱可替代→非寡头' },
+      { rank:3, name:'世名科技', code:'300522', position:'盘锦500吨已投产', barrier:'高', hits:null, strength:null, logic:'已通过台光/生益/联茂M9方案认证，规划总产能2500吨' },
+      { rank:4, name:'宏昌电子', code:'603002', position:'环氧树脂龙头', barrier:'中', hits:null, strength:null, logic:'GBF增层膜送样台积电/长电，但环氧树脂壁垒低→非卡口' }
+    ]
+  },
+  {
+    name: '玻纤布/Q布（石英纤维布）', costRatio: '19%', barrier: 'extreme', choke: true, border: true,
+    intro: '玻纤布是CCL的增强材料。技术等级：E-glass→Low-Dk布→T-glass→<strong>Q布/石英布（Df≤0.0007）</strong>。Q布价格~260元/米，是普通电子布的<strong>8倍+</strong>。全球仅<strong>日东纺（日本）+圣戈班（法国）+菲利华（中国）</strong>具备全产业链量产能力。日东纺市占>70%，2026年受日本地震影响停产。黄仁勋亲自赴日催货。',
+    globalLandscape: [
+      { lbl: '🥇 日东纺Nittobo（日）', val: 'Q布全球70%+，T-glass 90%+', note: '新产能2027H2才释放' },
+      { lbl: '🥈 圣戈班（法）', val: '全球第二家Q布量产', note: '份额远小于日东纺' },
+      { lbl: '🥉 菲利华（中）', val: '国产唯一全产业链自主', note: '2026产能1000万米→2027目标2000万米' },
+      { lbl: '宏和科技（中）', val: '4μm极薄布全球唯一量产', note: '超薄电子布全球市占~50%' }
+    ],
+    stocks: [
+      { rank:1, name:'菲利华', code:'300395', position:'全球唯三Q布量产，国产唯一全产业链', barrier:'极高', hits:4, strength:'★★★', logic:'已通过英伟达/台积电/台光/生益全链路认证。台光锁定500-700万米。全球缺口>40%' },
+      { rank:2, name:'宏和科技', code:'603256', position:'4μm极薄布全球唯一量产', barrier:'高', hits:3, strength:'★★☆', logic:'超薄电子布全球市占~50%。但非AI最核心瓶颈→降级' },
+      { rank:3, name:'中材科技', code:'002080', position:'国内Low Dk市占35%', barrier:'中', hits:null, strength:null, logic:'Q布占比仅20-30%，非前三寡头' },
+      { rank:4, name:'中国巨石', code:'600176', position:'电子布销量A股第一', barrier:'中', hits:null, strength:null, logic:'全球玻纤龙头，但非Q布寡头' }
+    ]
+  },
+  {
+    name: '铜箔（HVLP4超低轮廓铜箔）', costRatio: '42%', barrier: 'extreme', choke: true, border: true,
+    intro: '铜箔是CCL的导电层。HVLP4粗糙度<1μm，M9级CCL<strong>必须使用HVLP4+铜箔</strong>。核心设备阴极辊被日本JCU垄断（交期18-24个月）。日韩四强（三井/福田/古河/斗山）垄断85%+。2026年底全球月缺口<strong>~23%</strong>。国产仅铜冠铜箔实现HVLP1-4全系列量产。',
+    globalLandscape: [
+      { lbl: '🥇 三井金属（日）', val: 'HVLP4全球~50%', note: '扩产极保守，年扩产仅25%' },
+      { lbl: '日韩四强（其余）', val: '福田/古河/斗山', note: '合计垄断85%+高端产能' },
+      { lbl: '铜冠铜箔（中）', val: '国内唯一HVLP1-4全系列量产', note: '2026目标500吨/月' },
+      { lbl: '德福科技（中）', val: 'HVLP3量产，HVLP4验证中', note: '进入英伟达供应链' }
+    ],
+    stocks: [
+      { rank:1, name:'铜冠铜箔', code:'301217', position:'国内唯一HVLP1-4全系列量产', barrier:'极高', hits:4, strength:'★★★', logic:'2026目标500吨/月。日韩四强垄断85%+。设备交期18-24月。2027市占率预期42%' },
+      { rank:2, name:'德福科技', code:'301511', position:'进入英伟达供应链', barrier:'高', hits:3, strength:'★★☆', logic:'5万吨产能可切换。HVLP4台光验证中。机构关注度高→降级' },
+      { rank:3, name:'诺德股份', code:'600110', position:'6μm极薄铜箔量产', barrier:'中', hits:null, strength:null, logic:'服务器PCB用铜箔市占>25%，但HVLP4仍在认证' },
+      { rank:4, name:'嘉元科技', code:'688388', position:'极薄铜箔4.5μm市占>50%', barrier:'中', hits:null, strength:null, logic:'锂电铜箔转产HVLP，2026Q1净利预增329-395%' }
+    ]
+  },
+  {
+    name: 'IC封装基板（ABF载板）', costRatio: '—', barrier: 'high', choke: false, border: false,
+    intro: 'IC载板连接芯片与PCB，ABF载板是AI芯片封装的核心材料。最大瓶颈：<strong>日本味之素垄断ABF膜97%</strong>。国内深南电路唯一批量交付ABF载板。高端FC-BGA 72%依赖进口。Serenity判定：制造端非寡头，但ABF膜材料端是绝对寡头——A股无直接标的。',
+    globalLandscape: [
+      { lbl: '🥇 深南电路（中）', val: '国内唯一ABF载板批量交付', note: '广州60亿投资，华为昇腾一供>60%' },
+      { lbl: '🥈 兴森科技（中）', val: 'ABF载板追赶者', note: '珠海+广州超60亿投入，华为哈勃入股' },
+      { lbl: '华正新材（中）', val: 'CBF积层膜对标味之素ABF', note: 'ABF膜国产替代唯一看点' }
+    ],
+    stocks: [
+      { rank:1, name:'深南电路', code:'002916', position:'国内唯一ABF载板批量交付', barrier:'极高', hits:null, strength:null, logic:'广州60亿投资2亿颗FC-BGA/年。Q1净利+73%。封装基板营收41.48亿+30.8%' },
+      { rank:2, name:'兴森科技', code:'002436', position:'ABF载板国产化追赶者', barrier:'高', hits:null, strength:null, logic:'华为昇腾认证通过。华为哈勃入股。量产爬坡缓慢' },
+      { rank:3, name:'华正新材', code:'603186', position:'CBF积层膜对标味之素ABF', barrier:'高', hits:null, strength:null, logic:'CBF膜切入华为昇腾供应链，中芯国际验证中' },
+      { rank:4, name:'联瑞新材', code:'688300', position:'亚微米球形硅微粉', barrier:'中', hits:null, strength:null, logic:'ABF膜关键填料，进入头部供应链' }
+    ]
+  },
+  {
+    name: 'PCB专用设备', costRatio: '—', barrier: 'mid', choke: false, border: false,
+    intro: 'PCB制造扩产潮直接利好上游设备商。钻孔设备占全产业链~20%（最高），曝光~17%，电镀~7%。高端设备国产化率不足30%。Serenity判定：全球供应商>5家，客户可切换→不构成物理卡口。但国产替代+扩产潮双击下，设备商有强β弹性。',
+    globalLandscape: [
+      { lbl: '鼎泰高科（中）', val: 'PCB钻针全球第一（市占26.5%）', note: '2025净利预增80-103%' },
+      { lbl: '大族数控（中）', val: '钻孔设备全球第二', note: 'AI高多层板设备市占40-50%' },
+      { lbl: '芯碁微装（中）', val: 'LDI曝光全球市占15%', note: '2026激光钻孔机订单70-100台' }
+    ],
+    stocks: [
+      { rank:1, name:'鼎泰高科', code:'301377', position:'PCB钻针全球第一（市占26.5%）', barrier:'高', hits:null, strength:null, logic:'AI高多层板单块钻孔数从10万→50万+，钻针耗量激增' },
+      { rank:2, name:'大族数控', code:'301200', position:'钻孔设备全球第二', barrier:'高', hits:null, strength:null, logic:'2025净利预增161-194%。AI高多层板设备市占40-50%' },
+      { rank:3, name:'芯碁微装', code:'688630', position:'LDI曝光全球市占15%', barrier:'高', hits:null, strength:null, logic:'3-4μm线宽小批量交付。PCB+先进封装双催化' },
+      { rank:4, name:'东威科技', code:'688700', position:'VCP电镀国内市占>50%', barrier:'中', hits:null, strength:null, logic:'AI订单>5亿。三合一电镀设备打破海外垄断' }
+    ]
   }
-})();
+];
 
-// ── 侧边栏：移动端切换 ──
-function toggleSidebar() {
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('sidebarOverlay');
-  sidebar.classList.toggle('open');
-  overlay.classList.toggle('show');
-}
-function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebarOverlay').classList.remove('show');
-}
+// PCB Midstream stocks
+CHAINS.pcb.midstream = {
+  description: 'PCB制造是充分竞争行业。2025年以来五大龙头新增投资合计超400亿元，产能预计2026-2027年集中释放。行业呈"K型分化"。Serenity判定：该环节无物理卡口（客户可切换供应商）。但头部企业强者恒强。',
+  stocks: [
+    { rank:1, name:'胜宏科技', code:'300476', barrier:'极高', note:'英伟达Tier1，显卡PCB全球~55%，Q1净利12.88亿+40%' },
+    { rank:2, name:'沪电股份', code:'002463', barrier:'极高', note:'英伟达78层背板认证，Q1净利12.42亿+62.9%，年内四次扩产' },
+    { rank:3, name:'深南电路', code:'002916', barrier:'极高', note:'PCB+基板+装联3-in-1，Q1净利8.50亿+73%' },
+    { rank:4, name:'鹏鼎控股', code:'002938', barrier:'高', note:'全球PCB营收9连冠，消费电子占比高→AI转型中' },
+    { rank:5, name:'景旺电子', code:'603228', barrier:'中', note:'刚性/FPC/金属基全覆盖，英伟达二级供应商' },
+    { rank:6, name:'广合科技', code:'001389', barrier:'高', note:'专注算力PCB（服务器/交换机），算力纯度最高' },
+    { rank:7, name:'生益电子', code:'688183', barrier:'高', note:'AI服务器PCB黑马，净利增近5倍' },
+    { rank:8, name:'东山精密', code:'002384', barrier:'中', note:'FPC龙头+光电双主业' },
+    { rank:9, name:'世运电路', code:'603920', barrier:'中', note:'特斯拉汽车/人形机器人PCB' },
+    { rank:10, name:'奥士康', code:'002913', barrier:'中', note:'通过供应体系向英伟达供货' }
+  ]
+};
 
-// ── 搜索筛选 ──
-let currentFilter = 'all';
-
-function filterChains() {
-  const query = document.getElementById('chainSearch').value.toLowerCase();
-  const items = document.querySelectorAll('.chain-nav-item');
-  items.forEach(item => {
-    const keywords = (item.dataset.keywords || '').toLowerCase();
-    const status = item.dataset.status;
-    const matchSearch = !query || keywords.includes(query);
-    const matchFilter = currentFilter === 'all' || status === currentFilter;
-    item.classList.toggle('hidden', !(matchSearch && matchFilter));
-  });
-}
-
-function setFilter(filter, btn) {
-  currentFilter = filter;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  filterChains();
-}
-
-// ── 侧边栏链接点击（移动端自动关闭）──
-document.querySelectorAll('.chain-nav-item').forEach(link => {
-  link.addEventListener('click', () => {
-    // 移除所有 active 状态
-    document.querySelectorAll('.chain-nav-item').forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
-    // 移动端关闭侧边栏
-    if (window.innerWidth <= 768) closeSidebar();
-  });
-});
-
-// ── Scroll Spy ──
-let observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.id;
-      document.querySelectorAll('.chain-nav-item').forEach(link => {
-        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
-      });
+// PCB Four Questions
+CHAINS.pcb.fourQuestions = {
+  segments: [
+    {
+      name: '电子树脂（碳氢树脂）',
+      stocks: [
+        { name:'东材科技', code:'601208', q1:true, q1note:'全球仅2家', q2:true, q2note:'18个月+', q3:true, q3note:'PPO无法满足M9', q4:true, q4note:'台光排他协议', hits:4, strength:'★★★' },
+        { name:'圣泉集团', code:'605589', q1:false, q1note:'全球~5家', q2:true, q2note:'', q3:false, q3note:'SABIC/三菱可替', q4:true, q4note:'', hits:2, strength:null },
+        { name:'世名科技', code:'300522', q1:false, q1note:'', q2:true, q2note:'', q3:false, q3note:'', q4:true, q4note:'', hits:2, strength:null }
+      ]
+    },
+    {
+      name: '玻纤布/Q布',
+      stocks: [
+        { name:'菲利华', code:'300395', q1:true, q1note:'全球仅3家', q2:true, q2note:'扩产12个月+', q3:true, q3note:'无替代材料', q4:true, q4note:'台光锁定订单', hits:4, strength:'★★★' },
+        { name:'宏和科技', code:'603256', q1:true, q1note:'4μm全球唯一', q2:false, q2note:'', q3:true, q3note:'', q4:true, q4note:'', hits:3, strength:'★★☆' },
+        { name:'中材科技', code:'002080', q1:false, q1note:'', q2:false, q2note:'', q3:false, q3note:'', q4:true, q4note:'', hits:1, strength:null },
+        { name:'中国巨石', code:'600176', q1:false, q1note:'', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:0, strength:null }
+      ]
+    },
+    {
+      name: '铜箔（HVLP4）',
+      stocks: [
+        { name:'铜冠铜箔', code:'301217', q1:true, q1note:'国内唯一全系列', q2:true, q2note:'设备交期18-24月', q3:true, q3note:'M9必须HVLP4', q4:true, q4note:'CCL厂刚需', hits:4, strength:'★★★' },
+        { name:'德福科技', code:'301511', q1:true, q1note:'进入英伟达供应链', q2:true, q2note:'', q3:true, q3note:'', q4:false, q4note:'验证中', hits:3, strength:'★★☆' }
+      ]
+    },
+    {
+      name: 'PCB制造（充分竞争）',
+      stocks: [
+        { name:'胜宏科技', code:'300476', q1:false, q1note:'', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:0, strength:null },
+        { name:'沪电股份', code:'002463', q1:false, q1note:'', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:0, strength:null }
+      ]
+    },
+    {
+      name: 'PCB设备',
+      stocks: [
+        { name:'鼎泰高科', code:'301377', q1:true, q1note:'全球第一', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:1, strength:null },
+        { name:'大族数控', code:'301200', q1:false, q1note:'', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:0, strength:null }
+      ]
     }
-  });
-}, { rootMargin: '-10% 0px -80% 0px' });
+  ]
+};
 
-document.querySelectorAll('.chain-section').forEach(section => observer.observe(section));
+// PCB Choke Points
+CHAINS.pcb.chokePoints = [
+  { rank:1, name:'东材科技', code:'601208', segment:'M9碳氢树脂', strength:'★★★', logic:'全球<strong>仅2家</strong>通过英伟达M9碳氢树脂认证。台光独供2-3年排他协议。眉山3500吨2026Q3投产。2026年全球缺口<strong>~5000吨（63%）</strong>。', tags:['双寡头','无替代','缺口63%','已量产'] },
+  { rank:2, name:'菲利华', code:'300395', segment:'Q布/石英纤维布', strength:'★★★', logic:'全球<strong>仅3家</strong>Q布量产，国产唯一全产业链自主。已通过英伟达全链路认证。台光锁定500-700万米。Q布价格~260元/米（普通布8x）。全球缺口<strong>>40%</strong>。', tags:['三寡头','无替代','缺口>40%','认证刚通过'] },
+  { rank:3, name:'铜冠铜箔', code:'301217', segment:'HVLP4铜箔', strength:'★★★', logic:'国内<strong>唯一</strong>HVLP1-4全系列量产。日韩四强垄断85%+。阴极辊设备交期18-24月。2026年底全球月缺口<strong>~23%</strong>。2027市占率预期42%。', tags:['国产唯一','设备被卡','缺口23%','已量产'] }
+];
+CHAINS.pcb.supplyGap = [
+  { segment:'M9碳氢树脂', demand:'~8000吨/年', capacity:'~3000吨/年', gap:'5000吨', rate:'~63%', bottleneck:'认证周期18-24个月' },
+  { segment:'Q布', demand:'~1500-1800万米/年', capacity:'~1000-1500万米/年', gap:'~300-685万米', rate:'>40%', bottleneck:'日东纺垄断70%+' },
+  { segment:'HVLP4铜箔', demand:'~1849吨/月(H2)', capacity:'~1424吨/月', gap:'~425吨/月', rate:'~23%', bottleneck:'阴极辊交期18-24月' }
+];
+CHAINS.pcb.methodologyNotes = 'PCB制造、设备等环节找不到满足四大条件的卡口——这是方法论的正常结果。中游制造环节虽然胜宏/沪电等头部企业非常优秀，但按Serenity标准，客户可切换供应商→不构成物理卡口。';
 
-// ── 键盘导航：Ctrl+K / Cmd+K 聚焦搜索 ──
-document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-    e.preventDefault();
-    document.getElementById('chainSearch').focus();
+
+// ==================== SEMICONDUCTOR ====================
+CHAINS.semi = {
+  id: 'semi', name: '半导体', icon: '💻',
+  plainIntro: {
+    analogy: '半导体 = 现代工业的"粮食" + 数字世界的"细胞"',
+    paragraphs: [
+      '你手机里的处理器、电脑的内存、汽车里的控制芯片、AI服务器里的GPU——<strong>全都是半导体芯片</strong>。如果说 PCB 是电子产品的骨骼，半导体就是<strong>大脑</strong>。没有芯片，所有电子设备都是空壳。半导体产业链被誉为"人类历史上最复杂的制造体系"——从一粒沙子（硅）到一颗芯片，需要<strong>上千道工序、数百种材料、数十种核心设备</strong>。',
+      '<strong>为什么半导体是"卡脖子"最严重的行业？</strong>因为全产业链的核心环节被极少数公司垄断：光刻机只有荷兰 ASML 能造（EUV 100%垄断），EDA 工具被美国三巨头控制 81%，高端光刻胶被日本企业占据 70%+。中国每年进口芯片超过<strong>4000 亿美元</strong>，超过石油进口金额。国产替代是国家级战略。'
+    ],
+    flowSteps: ['硅砂→高纯硅→硅片','光刻/刻蚀/沉积','晶圆制造(Foundry)','封装测试','芯片→装进产品'],
+    highlightBox: '<strong>💡 Serenity 视角：半导体行业真正的"河道收窄处"在哪里？</strong><br>① <strong>EUV 光刻机</strong>：ASML 100% 垄断，但 A 股无直接标的。② <strong>EDA 工具</strong>：Synopsys/Cadence/西门子占 81%，华大九天是国内唯一全流程替代。③ <strong>高端光刻胶</strong>：日本 JSR/TOK 占 70%+，南大光电是国内唯一 ArF 量产企业。④ <strong>大硅片</strong>：信越/SUMCO 垄断 12 英寸高端市场。半导体的卡口比 PCB 更硬、更深、更难突破——但一旦突破，就是数十年的护城河。'
+  },
+  overview: [
+    { label: '🌍 全球半导体销售额（2024）', value: '$6276 亿', note: '同比+19.1%，2030年→$1万亿', color: 'var(--accent)' },
+    { label: '🇨🇳 中国进口芯片/年', value: '>$4000 亿', note: '超过石油进口金额', color: 'var(--red)' },
+    { label: '🔧 国产设备自给率（2025）', value: '~22-35%', note: '先进制程<15%', color: 'var(--barrier-high)' },
+    { label: '🏭 产业阶段', value: '全面攻坚期', note: '大基金三期3440亿投入', color: 'var(--accent)' },
+    { label: '📐 EDA国产化率', value: '<10%', note: '先进制程完全依赖进口', color: 'var(--red)' },
+    { label: '⚡ 核心驱动', value: 'AI芯片+国产替代', note: '昇腾/寒武纪+长存全自主产线', color: null },
+    { label: '🔴 最大瓶颈', value: 'EUV光刻机', note: 'ASML 100%垄断，10万+零部件', color: 'var(--red)' },
+    { label: '📋 材料国产化率', value: '~30%', note: 'EUV光刻胶0%·12寸硅片<20%', color: null }
+  ],
+  treeMap: {
+    downstream: { name: 'AI芯片·手机·汽车·IoT·5G', barrier: 'low', note: '中国占全球芯片消费60%+' },
+    midstream: { name: 'IC设计→晶圆制造→封装测试', barrier: 'low', note: '设计3600+家/制造中芯国际全球第3/封测全球前三' },
+    upstreamTools: { name: 'EDA+IP → 芯片设计工具', barrier: 'extreme', note: 'Synopsys/Cadence/西门子81%→华大九天<10%' },
+    equipment: [
+      { name: '光刻机(EUV/DUV)', barrier: 'extreme', choke: true, note: 'ASML 100% EUV·28nm DUV刚突破' },
+      { name: '刻蚀机', barrier: 'high', choke: false, note: '中微5nm进台积电·国产化~25%' },
+      { name: '薄膜沉积', barrier: 'high', choke: false, note: '拓荆/北方华创·国产化~20%' },
+      { name: '检测/量测', barrier: 'extreme', choke: false, note: 'KLA垄断·国产化<5%' }
+    ],
+    materials: [
+      { name: '光刻胶(ArF/EUV)', barrier: 'extreme', choke: true, note: '日本70%+·EUV 0%国产' },
+      { name: '12英寸硅片', barrier: 'extreme', choke: true, note: '信越+SUMCO 60%' },
+      { name: '电子特气', barrier: 'high', choke: false, note: '华特唯一ASML认证' },
+      { name: '靶材/CMP', barrier: 'high', choke: false, note: '江丰/安集突破' }
+    ],
+    sideBranches: [
+      { name: '先进封装(Chiplet)', barrier: 'high', note: '长电科技全球第3' },
+      { name: '存储芯片(DRAM/NAND)', barrier: 'extreme', note: '长鑫第4·长存第6' }
+    ]
+  },
+  segments: [],
+  midstream: { description: '', stocks: [] },
+  fourQuestions: { segments: [] },
+  chokePoints: [],
+  supplyGap: []
+};
+
+// Semiconductor Segments
+CHAINS.semi.segments = [
+  {
+    name: 'EDA工具 — 芯片之母', costRatio: '设计环节核心', barrier: 'extreme', choke: true, border: true,
+    intro: 'EDA（电子设计自动化）是芯片设计的<strong>必备工具</strong>——没有EDA就画不了芯片。全球市场~118亿美元，<strong>Synopsys+ Cadence+西门子占81%</strong>。国内华大九天全球第6（营收1.56亿美元），全流程工具国产化率<strong><10%</strong>，先进制程（7nm以下）仍<strong>完全依赖进口</strong>。研发一套全流程EDA成本超10亿美元，需与晶圆厂工艺深度绑定。',
+    globalLandscape: [
+      { lbl: '🥇 Synopsys（美）+Cadence（美）', val: '全球EDA双寡头', note: '合计占~65%' },
+      { lbl: '🥈 西门子EDA（德）', val: '全球第三', note: '三巨头合计占81%' },
+      { lbl: '🥉 华大九天（中）', val: '全球第6，国内龙头', note: '模拟/存储/射频全流程覆盖' },
+      { lbl: '概伦电子/合见工软（中）', val: '国产EDA追赶者', note: '点工具突破阶段' }
+    ],
+    stocks: [
+      { rank:1, name:'华大九天', code:'301269', position:'国内EDA绝对龙头，全球第6', barrier:'极高', hits:4, strength:'★★★', logic:'国内唯一全流程EDA。Synopsys/Cadence/西门子垄断81%→寡头格局明确。切换成本极高（芯片设计流程深度绑定）。全球仅此三家+华大九天可提供全流程' },
+      { rank:2, name:'概伦电子', code:'688206', position:'国产EDA第二', barrier:'高', hits:null, strength:null, logic:'SPICE仿真工具领先，但仅为点工具→尚不能替代全流程' },
+      { rank:3, name:'芯原股份', code:'688521', position:'半导体IP+设计服务', barrier:'高', hits:null, strength:null, logic:'IP授权模式，ARM/x86替代路径，芯片设计平台化' }
+    ]
+  },
+  {
+    name: '半导体设备 — 工业皇冠上的明珠', costRatio: '制造投资70%+', barrier: 'extreme', choke: true, border: true,
+    intro: '半导体设备是晶圆制造的<strong>"工业母机"</strong>。2024年全球设备出货$1171亿，ASML+应用材料+泛林三家占60%+。核心环节：<strong>光刻（ASML 100% EUV）→ 刻蚀（中微5nm突破）→ 薄膜沉积（拓荆/北方华创）→ 清洗/CMP/检测</strong>。国产设备整体自给率~22-35%，但先进制程<15%。前10大国产设备商2024年营收约486亿元，占全球仅5.77%。',
+    globalLandscape: [
+      { lbl: '🥇 ASML（荷）', val: 'EUV 100%垄断+90%+先进DUV', note: '年营收327亿欧元，单台EUV>$1.5亿' },
+      { lbl: '🥈 应用材料+泛林（美）', val: '刻蚀/沉积/检测全球领先', note: '与ASML/TEL并称四巨头' },
+      { lbl: '🥉 北方华创（中）', val: '国内平台型设备龙头，全球第5', note: '2025营收467亿元，覆盖多环节' },
+      { lbl: '中微公司（中）', val: '5nm刻蚀进台积电，全球第13', note: 'CCP介质刻蚀良率>98%' }
+    ],
+    stocks: [
+      { rank:1, name:'北方华创', code:'002371', position:'国内最大平台型设备商，全球第5', barrier:'极高', hits:4, strength:'★★★', logic:'覆盖刻蚀/薄膜/清洗/热处理。全球PVD市占12%。国内唯一平台型设备商，产品线最完整。2025营收467亿+42%' },
+      { rank:2, name:'中微公司', code:'688012', position:'5nm刻蚀进台积电，全球第13', barrier:'极高', hits:3, strength:'★★☆', logic:'CCP刻蚀良率>98%。3nm验证中。价格比进口低15%。但刻蚀全球>5家→非绝对寡头' },
+      { rank:3, name:'拓荆科技', code:'688072', position:'国内PECVD龙头', barrier:'高', hits:null, strength:null, logic:'28nm-5nm全制程覆盖的薄膜沉积。ALD/HBM需求爆发受益' },
+      { rank:4, name:'华海清科', code:'688120', position:'国内唯一12英寸CMP量产', barrier:'高', hits:null, strength:null, logic:'CMP国产化率~20%，28nm量产交付' },
+      { rank:5, name:'盛美上海', code:'688082', position:'清洗设备龙头', barrier:'高', hits:null, strength:null, logic:'进入台积电CoWoS产线。清洗国产化~30%' },
+      { rank:6, name:'中科飞测', code:'688361', position:'量测检测国产替代', barrier:'高', hits:null, strength:null, logic:'KLA垄断>70%的量测市场。国产化<5%' }
+    ]
+  },
+  {
+    name: '半导体材料 — 制造的"血液与粮食"', costRatio: '全球~$700亿', barrier: 'extreme', choke: true, border: true,
+    intro: '半导体材料全球市场~700-732亿美元，中国占36.7%全球第一。但<strong>高端材料被日本垄断严重</strong>：19种主要材料中日本14种全球第一。最关键瓶颈：<strong>高端光刻胶（ArF浸没式~0-2%国产、EUV 0%）+12英寸大硅片（<20%）</strong>。2025年国内材料整体国产化率~30%，成熟制程材料~40-60%，但先进制程材料严重依赖进口。',
+    globalLandscape: [
+      { lbl: '光刻胶：日本JSR/TOK', val: '全球70%+，EUV光刻胶0%国产', note: '南大光电ArF通过中芯28nm验证' },
+      { lbl: '12英寸硅片：信越+SUMCO', val: '全球60%', note: '沪硅产业/立昂微追赶中' },
+      { lbl: '电子特气：华特气体', val: '国内唯一通过ASML认证', note: 'NF₃/WF₆产能全球前列' },
+      { lbl: '抛光液/垫：安集/鼎龙', val: '安集全球市占~10%', note: '鼎龙抛光垫国产替代率近80%' }
+    ],
+    stocks: [
+      { rank:1, name:'南大光电', code:'300346', position:'国内唯一ArF光刻胶量产', barrier:'极高', hits:4, strength:'★★★', logic:'通过中芯28nm验证。ArF浸没式国内0-2%→唯一突破者。光刻胶是半导体材料壁垒最高品种。日本垄断70%+' },
+      { rank:2, name:'沪硅产业', code:'688126', position:'12英寸硅片龙头', barrier:'极高', hits:3, strength:'★★☆', logic:'信越+SUMCO垄断60%高端市场。国产化~10-20%。12寸硅片认证周期1-2年。2026年进入提价周期' },
+      { rank:3, name:'华特气体', code:'688268', position:'国内唯一ASML认证特气', barrier:'极高', hits:3, strength:'★★☆', logic:'光刻气市占率>60%。ASML认证壁垒极高。电子特气国产化~30-40%' },
+      { rank:4, name:'安集科技', code:'688019', position:'CMP抛光液国内绝对龙头', barrier:'高', hits:null, strength:null, logic:'全球市占~10%，进入台积电供应链。Cabot+Fujimi占75%' },
+      { rank:5, name:'江丰电子', code:'300584', position:'溅射靶材全球市占>38%', barrier:'高', hits:null, strength:null, logic:'已进入台积电/中芯供应链。全球靶材龙头。股价今年累计涨超60%' },
+      { rank:6, name:'鼎龙股份', code:'300054', position:'抛光垫国产替代率近80%', barrier:'高', hits:null, strength:null, logic:'打破陶氏垄断。同时布局抛光液/光刻胶' },
+      { rank:7, name:'立昂微', code:'605358', position:'12英寸硅片产能快速扩张', barrier:'高', hits:null, strength:null, logic:'2026年净利增速预期超12倍。硅片涨价弹性最大' }
+    ]
+  },
+  {
+    name: '晶圆制造 — 技术壁垒最高的核心战场', costRatio: '产业链价值核心', barrier: 'extreme', choke: false, border: false,
+    intro: '晶圆制造（Foundry）将设计图纸变成实体芯片，是半导体产业链<strong>技术壁垒最高的环节</strong>。台积电全球代工份额56%。中芯国际2025Q2跃居第3（超过联电和格芯）。28nm及以上自给率>75%，但<strong>7nm以下自给率<20%</strong>——受EUV设备禁运限制。国内晶圆厂全球市占率有望从10%→30%（3倍扩产空间）。Serenity判定：制造端台积电是绝对龙头但非A股标的；中芯国际等追赶者不满足寡头条件。',
+    globalLandscape: [
+      { lbl: '🥇 台积电（台）', val: '全球代工份额56%', note: '3nm量产，2nm研发中' },
+      { lbl: '🥈 三星（韩）', val: '全球第二', note: '与台积电竞争先进制程' },
+      { lbl: '🥉 中芯国际（中）', val: '全球第3，28nm规模化量产', note: '14nm良率>95%，7nm DUV多重曝光突破' }
+    ],
+    stocks: [
+      { rank:1, name:'中芯国际', code:'688981', position:'全球第3代工厂', barrier:'极高', hits:null, strength:null, logic:'14nm良率>95%。7nm DUV突破但受EUV限制。月产能35万片。Q1净利大幅增长' },
+      { rank:2, name:'华虹公司', code:'688347', position:'全球第6代工厂', barrier:'高', hits:null, strength:null, logic:'特色工艺（功率/模拟/嵌入式）。成熟制程为主' }
+    ]
+  },
+  {
+    name: '封装测试 — 中国最具优势环节', costRatio: '全球~$821亿', barrier: 'mid', choke: false, border: false,
+    intro: '封装测试是半导体产业链中<strong>中国最具竞争力的环节</strong>。长电科技全球第3、通富微电全球第4、华天科技全球第6。传统封装国产化率>70%，先进封装（Chiplet/2.5D/3D）国产化率~30%。Chiplet成为突破摩尔定律的关键。Serenity判定：该环节全球参与者>10家→不构成物理卡口。',
+    globalLandscape: [
+      { lbl: '🥇 日月光（台）', val: '全球封测第一', note: '规模最大' },
+      { lbl: '🥈 长电科技（中）', val: '全球第3，$50亿营收', note: 'XDFOI方案规模量产' },
+      { lbl: '🥉 通富微电+华天科技（中）', val: '全球第4+第6', note: '合计营收超$53亿' }
+    ],
+    stocks: [
+      { rank:1, name:'长电科技', code:'600584', position:'全球封测第3', barrier:'高', hits:null, strength:null, logic:'XDFOI Chiplet方案规模量产。先进封装营收占比持续提升' },
+      { rank:2, name:'通富微电', code:'002156', position:'全球封测第4', barrier:'中', hits:null, strength:null, logic:'AMD主要封测合作伙伴。先进封装布局' },
+      { rank:3, name:'华天科技', code:'002185', position:'全球封测第6', barrier:'中', hits:null, strength:null, logic:'多基地布局，Chiplet封装推进中' }
+    ]
   }
+];
+
+// Semiconductor Four Questions
+CHAINS.semi.fourQuestions = {
+  segments: [
+    {
+      name: 'EDA工具',
+      stocks: [
+        { name:'华大九天', code:'301269', q1:true, q1note:'Synopsys/Cadence/西门子81%', q2:true, q2note:'切换周期3-5年+', q3:true, q3note:'无替代工具', q4:true, q4note:'芯片设计刚需', hits:4, strength:'★★★' }
+      ]
+    },
+    {
+      name: '半导体设备',
+      stocks: [
+        { name:'北方华创', code:'002371', q1:true, q1note:'国内平台型唯一', q2:true, q2note:'设备验证18-24月', q3:true, q3note:'多环节覆盖', q4:true, q4note:'晶圆厂刚需', hits:4, strength:'★★★' },
+        { name:'中微公司', code:'688012', q1:true, q1note:'5nm刻蚀进台积电', q2:true, q2note:'', q3:false, q3note:'全球≥5家可替', q4:true, q4note:'', hits:3, strength:'★★☆' },
+        { name:'中科飞测', code:'688361', q1:true, q1note:'KLA垄断70%+', q2:true, q2note:'', q3:false, q3note:'', q4:true, q4note:'', hits:3, strength:'★★☆' }
+      ]
+    },
+    {
+      name: '半导体材料',
+      stocks: [
+        { name:'南大光电', code:'300346', q1:true, q1note:'国内唯一ArF量产', q2:true, q2note:'认证周期1-2年', q3:true, q3note:'日本垄断70%+替代难', q4:true, q4note:'光刻工艺刚需', hits:4, strength:'★★★' },
+        { name:'沪硅产业', code:'688126', q1:true, q1note:'信越+SUMCO 60%', q2:true, q2note:'认证周期1-2年', q3:false, q3note:'SUMCO/信越可替', q4:true, q4note:'', hits:3, strength:'★★☆' },
+        { name:'华特气体', code:'688268', q1:true, q1note:'唯一ASML认证', q2:true, q2note:'', q3:false, q3note:'空气化工/林德可替', q4:true, q4note:'', hits:3, strength:'★★☆' }
+      ]
+    },
+    {
+      name: '晶圆制造/封测（充分竞争）',
+      stocks: [
+        { name:'中芯国际', code:'688981', q1:false, q1note:'台积电56%份额', q2:false, q2note:'', q3:false, q3note:'三星/台积电可替', q4:false, q4note:'', hits:0, strength:null },
+        { name:'长电科技', code:'600584', q1:false, q1note:'日月光第一', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:0, strength:null }
+      ]
+    }
+  ]
+};
+
+// Semiconductor Choke Points
+CHAINS.semi.chokePoints = [
+  { rank:1, name:'华大九天', code:'301269', segment:'EDA工具', strength:'★★★', logic:'全球EDA市场被<strong>Synopsys/Cadence/西门子垄断81%</strong>。华大九天是国内唯一全流程EDA工具提供商。芯片设计必须用EDA→下游100%刚需。切换EDA工具需重新培训团队+重跑验证流程→替换成本极高。研发一套全流程EDA成本>10亿美元。', tags:['三巨头81%','替换成本极高','下游100%刚需','国产唯一全流程'] },
+  { rank:2, name:'北方华创', code:'002371', position:'国内平台型唯一', segment:'半导体设备', strength:'★★★', logic:'国内<strong>唯一平台型设备商</strong>，覆盖刻蚀/薄膜/清洗/热处理全环节。全球第5，2025营收467亿+42%。晶圆厂扩产设备采购占投资70%+。设备验证周期18-24月→一旦导入几乎不更换。国产设备价格低20-40%。', tags:['国内唯一平台型','全球第5','验证周期锁定','扩产刚需'] },
+  { rank:3, name:'南大光电', code:'300346', segment:'高端光刻胶(ArF)', strength:'★★★', logic:'国内<strong>唯一ArF光刻胶量产</strong>企业。全球ArF光刻胶日本垄断70%+，浸没式国产化0-2%。光刻胶是半导体材料壁垒最高品种→配方含数千种组分。通过中芯28nm验证。认证周期1-2年→一旦导入极难替换。', tags:['日本垄断70%+','国内唯一ArF','认证周期1-2年','数千种组分壁垒'] }
+];
+CHAINS.semi.supplyGap = [
+  { segment:'EDA全流程工具', demand:'全球$118亿', capacity:'国产<10%覆盖', gap:'巨大', rate:'>90%进口', bottleneck:'研发成本>10亿美元' },
+  { segment:'EUV光刻机', demand:'全球~$200亿+', capacity:'ASML 100%', gap:'0%国产', rate:'100%进口', bottleneck:'10万+零部件' },
+  { segment:'ArF/EUV光刻胶', demand:'全球~$20亿+', capacity:'日本70%+', gap:'ArF浸没式0-2%国产', rate:'~98%进口(高端)', bottleneck:'数千种组分配方' }
+];
+CHAINS.semi.methodologyNotes = '半导体行业的核心物理卡口集中在三个环节：①EDA工具（Synopsys/Cadence/西门子81%寡头→华大九天国产替代）；②高端光刻胶（日本JSR/TOK垄断70%+→南大光电突破）；③半导体设备（特别是光刻机ASML 100%垄断，虽无A股直接标的，但北方华创作为国内唯一平台型设备商具备类卡口特征）。晶圆制造和封装测试环节竞争格局分散→不满足寡头条件。值得注意的是，半导体卡口比PCB更深——突破难度更大，但一旦突破护城河也更深。';
+
+
+// ================================================================
+// RENDERING ENGINE
+// ================================================================
+let currentChain = 'pcb';
+
+function switchChain(chainId) {
+  currentChain = chainId;
+  // Update tabs
+  document.querySelectorAll('#tab-bar .tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.chain === chainId);
+  });
+  // Render
+  renderChain(chainId);
+  window.location.hash = chainId;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderChain(chainId) {
+  const d = CHAINS[chainId];
+  if (!d) return;
+  const container = document.getElementById('chain-content');
+  let h = '';
+
+  // Section 0: Plain Intro
+  h += `<div class="section"><div class="section-title"><span class="num num-plain">⓪</span> 白话解读：${d.name}是什么？</div>`;
+  h += `<div class="plain-box"><div class="analogy">${d.icon} ${d.plainIntro.analogy}</div>`;
+  d.plainIntro.paragraphs.forEach(p => h += `<p>${p}</p>`);
+  h += `<div style="font-weight:600;margin-bottom:6px;font-size:13px;color:var(--muted);">🔗 产业链通俗流水账：</div><div class="flow-row">`;
+  d.plainIntro.flowSteps.forEach((s, i) => {
+    if (i > 0) h += '<span class="arrow">→</span>';
+    h += `<span class="step">${s}</span>`;
+  });
+  h += `</div><div class="highlight-box">${d.plainIntro.highlightBox}</div></div></div>`;
+
+  // Section 1: Overview
+  h += `<div class="section"><div class="section-title"><span class="num num-macro">①</span> 赛道概览 — 宏观数据</div>`;
+  h += `<div class="section-desc">数据来源：公开研报及行业数据交叉验证。</div><div class="overview-grid">`;
+  d.overview.forEach(o => {
+    h += `<div class="overview-item"><div class="label">${o.label}</div><div class="value" style="${o.color?'color:'+o.color:''}">${o.value}</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">${o.note}</div></div>`;
+  });
+  h += `</div></div>`;
+
+  // Section 2: Tree Map
+  h += `<div class="section"><div class="section-title"><span class="num num-chain">②</span> 全产业链树状图</div>`;
+  h += `<div class="section-desc">颜色越深=壁垒越高=越可能藏有卡口。🔒=已识别Serenity物理卡口。</div>`;
+  h += `<div class="card"><div class="tree-wrapper"><div class="tree">`;
+  // Downstream
+  h += `<div class="tree-level-label">▼ 下游应用（需求端）</div>`;
+  h += `<div class="tree-node b-low" style="min-width:600px;">📱 ${d.treeMap.downstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.downstream.note}</span></div>`;
+  h += `<div class="tree-vline"></div><div class="tree-hline" style="width:500px;"></div>`;
+  // Midstream
+  h += `<div class="tree-level-label" style="margin-top:4px;">▼ 中游</div>`;
+  h += `<div class="tree-node b-low" style="min-width:500px;">🏭 ${d.treeMap.midstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.midstream.note}</span></div>`;
+  h += `<div class="tree-vline"></div><div class="tree-hline" style="width:500px;"></div>`;
+  // Upstream tools layer
+  if (d.treeMap.upstreamTools) {
+    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游设计工具</div>`;
+    h += `<div class="tree-node b-extreme" style="min-width:400px;">🔧 ${d.treeMap.upstreamTools.name} <span class="badge-b badge-ex">壁垒:极高</span><br><span style="font-size:11px;color:var(--muted);">${d.treeMap.upstreamTools.note}</span></div>`;
+    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:700px;"></div>`;
+  }
+  // Upstream CCL layer (PCB specific)
+  if (d.treeMap.upstreamCCL) {
+    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游核心基材</div>`;
+    h += `<div class="tree-node b-high" style="min-width:400px;">📐 ${d.treeMap.upstreamCCL.name} <span class="badge-b badge-hi">壁垒:高</span><br><span style="font-size:11px;color:var(--muted);">${d.treeMap.upstreamCCL.note}</span></div>`;
+    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:700px;"></div>`;
+  }
+  // Equipment
+  if (d.treeMap.equipment) {
+    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游核心设备</div>`;
+    h += `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.equipment.forEach(e => {
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:10px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:10px;color:var(--muted);">${e.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  // Materials
+  if (d.treeMap.materials) {
+    const label = d.treeMap.equipment ? '▼ 上游核心材料（卡口集中区）' : '▼ 上游核心材料（卡口集中区）';
+    h += `<div class="tree-level-label" style="margin-top:8px;">${label}</div>`;
+    h += `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.materials.forEach(m => {
+      h += `<div class="tree-sub-node ${m.barrier==='extreme'?'b-extreme':m.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${m.name}<br><span class="badge-b badge-${m.barrier==='extreme'?'ex':m.barrier==='high'?'hi':'mi'}">壁垒:${m.barrier==='extreme'?'极高':m.barrier==='high'?'高':'中'}</span>${m.choke?'<br><span style="font-size:10px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:10px;color:var(--muted);">${m.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  // Side branches
+  if (d.treeMap.sideBranches) {
+    h += `<div style="width:400px;height:2px;background:var(--border);margin:12px auto 0;"></div>`;
+    h += `<div style="display:flex;gap:20px;justify-content:center;margin-top:6px;">`;
+    d.treeMap.sideBranches.forEach(b => {
+      h += `<div class="tree-sub-node ${b.barrier==='high'?'b-high':'b-mid'}" style="min-width:260px;">${b.name}<br><span style="font-size:10px;color:var(--muted);">${b.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  h += `</div></div>`;
+  h += `<div class="legend-bar">`;
+  h += `<span><span class="dot" style="background:var(--barrier-extreme);"></span>极高壁垒—全球≤3家量产</span>`;
+  h += `<span><span class="dot" style="background:var(--barrier-high);"></span>高壁垒—认证周期1-2年</span>`;
+  h += `<span><span class="dot" style="background:var(--barrier-mid);"></span>中壁垒—有国产突破</span>`;
+  h += `<span><span class="dot" style="background:var(--barrier-low);"></span>低壁垒—充分竞争</span>`;
+  h += `<span>🔒=Serenity物理卡口</span>`;
+  h += `</div></div></div>`;
+
+  // Section 3: Upstream Segments
+  const segs = d.segments.filter(s => !['晶圆制造','封装测试'].includes(s.name.split('—')[0]));
+  h += `<div class="section"><div class="section-title"><span class="num num-up">③</span> 上游深度拆解</div>`;
+  h += `<div class="section-desc">逐个环节展开：技术概述→全球格局→核心矛盾→A股标的（按壁垒从高到低排序）</div>`;
+
+  d.segments.forEach(seg => {
+    const borderStyle = seg.border ? 'border-color:rgba(246,70,93,0.3);' : '';
+    const chokeLabel = seg.choke ? ' 🔒' : '';
+    h += `<div class="segment-card" style="${borderStyle}">`;
+    h += `<div class="seg-title">${seg.name} — ${seg.costRatio.includes('%') || seg.costRatio.includes('$') || seg.costRatio.includes('设计') || seg.costRatio.includes('制造') || seg.costRatio.includes('产业') ? 'CCL成本占比' : ''}${seg.costRatio.includes('%') || seg.costRatio === '—' ? seg.costRatio : ''}${seg.choke ? ' 🔒' : ''}</div>`;
+    // Simplified title for semi
+    if (d.id === 'semi') {
+      h += `<div class="seg-title" style="font-size:16px;">${seg.name}${chokeLabel}</div>`;
+    }
+    h += `<div class="seg-meta">`;
+    if (seg.costRatio) h += `<span>${seg.name.includes('设备')||seg.name.includes('制造')||seg.name.includes('封装')||seg.name.includes('EDA')?'市场/投资占比':'CCL成本占比'}: <strong style="color:var(--accent);">${seg.costRatio}</strong></span>`;
+    h += `<span>壁垒等级: <span class="tag ${seg.barrier==='extreme'?'tg-extreme':seg.barrier==='high'?'tg-high':'tg-mid'}">${seg.barrier==='extreme'?'极高':seg.barrier==='high'?'高':'中'}</span></span>`;
+    if (seg.choke) h += `<span style="color:var(--accent);">🔒 Serenity卡口环节</span>`;
+    h += `</div>`;
+    h += `<p style="font-size:14px;margin-bottom:16px;line-height:1.9;">${seg.intro}</p>`;
+    if (seg.globalLandscape && seg.globalLandscape.length > 0) {
+      h += `<h4>🏆 全球竞争格局</h4><div class="info-grid">`;
+      seg.globalLandscape.forEach(g => {
+        h += `<div class="info-item"><div class="lbl">${g.lbl}</div><div class="val" style="color:var(--accent);">${g.val}</div><div style="font-size:11px;color:var(--muted);">${g.note}</div></div>`;
+      });
+      h += `</div>`;
+    }
+    h += `<h4>A股标的 — 按壁垒高低排序</h4>`;
+    h += `<table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th>`;
+    if (seg.stocks.some(s => s.hits !== null)) h += `<th>四问命中</th>`;
+    h += `<th>核心逻辑</th></tr></thead><tbody>`;
+    seg.stocks.forEach(s => {
+      h += `<tr>`;
+      h += `<td><span class="rank-num">${s.rank}</span></td>`;
+      h += `<td class="s-name">${s.name}</td><td class="s-code">${s.code}</td>`;
+      h += `<td style="font-size:12px;">${s.position}</td>`;
+      h += `<td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td>`;
+      if (seg.stocks.some(x => x.hits !== null)) {
+        if (s.hits !== null && s.hits !== undefined) {
+          h += `<td><span class="stars ${s.strength==='★★★'?'s3':'s2'}">${s.strength}</span></td>`;
+        } else {
+          h += `<td style="color:var(--barrier-low);font-size:11px;">—</td>`;
+        }
+      }
+      h += `<td style="font-size:12px;">${s.logic}</td>`;
+      h += `</tr>`;
+    });
+    h += `</tbody></table></div>`;
+  });
+
+  // Also include remaining segments like Foundry/Packaging
+  const remainingSegs = d.segments.filter(s => s.name.includes('晶圆制造') || s.name.includes('封装测试'));
+  if (remainingSegs.length > 0) {
+    h += `</div><div class="section"><div class="section-title"><span class="num num-mid">④</span> 中游 — 制造与封测</div>`;
+    remainingSegs.forEach(seg => {
+      h += `<div class="segment-card">`;
+      h += `<div class="seg-title">${seg.name}</div>`;
+      h += `<div class="seg-meta"><span>壁垒等级: <span class="tag ${seg.barrier==='extreme'?'tg-extreme':'tg-mid'}">${seg.barrier==='extreme'?'极高':'中'}</span></span></div>`;
+      h += `<p style="font-size:14px;margin-bottom:16px;line-height:1.9;">${seg.intro}</p>`;
+      if (seg.globalLandscape) {
+        h += `<h4>🏆 全球竞争格局</h4><div class="info-grid">`;
+        seg.globalLandscape.forEach(g => h += `<div class="info-item"><div class="lbl">${g.lbl}</div><div class="val" style="color:var(--accent);">${g.val}</div><div style="font-size:11px;color:var(--muted);">${g.note}</div></div>`);
+        h += `</div>`;
+      }
+      h += `<h4>A股标的</h4><table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
+      seg.stocks.forEach(s => {
+        h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}</td><td class="s-code">${s.code}</td><td style="font-size:12px;">${s.position}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':'tg-mid'}">${s.barrier}</span></td><td style="font-size:12px;">${s.logic}</td></tr>`;
+      });
+      h += `</tbody></table></div>`;
+    });
+  }
+  h += `</div>`;
+
+  // Section 4 (or 5 for semi): Midstream PCB
+  if (d.midstream && d.midstream.stocks.length > 0 && d.id === 'pcb') {
+    h += `<div class="section"><div class="section-title"><span class="num num-mid">④</span> 中游 — PCB 制造</div>`;
+    h += `<div class="section-desc">${d.midstream.description}</div>`;
+    h += `<div class="segment-card"><div class="seg-title">🏭 PCB 制造 — 充分竞争，但龙头强者恒强</div>`;
+    h += `<div class="seg-meta"><span>全球厂商: <strong>>100家</strong></span><span>CR5: <strong><30%</strong></span><span>A股上市: <strong>30+家</strong></span><span>Serenity判定: <span class="tag tg-gray">无物理卡口</span></span></div>`;
+    h += `<table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
+    d.midstream.stocks.forEach(s => {
+      h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}</td><td class="s-code">${s.code}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td><td style="font-size:12px;">${s.note}</td></tr>`;
+    });
+    h += `</tbody></table></div></div>`;
+  }
+
+  // Section 5/6: Four Questions
+  const fqNum = d.id === 'semi' ? '⑤' : '⑤';
+  h += `<div class="section"><div class="section-title"><span class="num num-ser">${fqNum}</span> Serenity 四问筛选 — 全量标的逐项打分</div>`;
+  h += `<div class="section-desc">✓=通过 ✗=不通过 ★★★=命中4/4(核心卡口) ★★☆=命中3/4(潜在卡口)</div>`;
+  h += `<div class="card" style="padding:16px;"><div class="fourq-wrap"><table class="fourq-tbl"><thead><tr><th style="min-width:90px;">产业链环节</th><th style="min-width:95px;">标的</th><th>①供给端<br>寡头垄断?</th><th>②产能端<br>扩产≥12月?</th><th>③替代端<br>无替代?</th><th>④需求端<br>下游刚需?</th><th>命中</th><th>卡口强度</th></tr></thead><tbody>`;
+  d.fourQuestions.segments.forEach(seg => {
+    h += `<tr class="seg-div"><td colspan="8">${seg.name}</td></tr>`;
+    seg.stocks.forEach(s => {
+      h += `<tr>`;
+      h += `<td style="font-size:11px;color:var(--muted);">${seg.name}</td>`;
+      h += `<td style="font-weight:600;">${s.name}<br><span style="font-size:11px;color:var(--muted);">${s.code}</span></td>`;
+      h += `<td>${s.q1 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q1note ? '<br><span style="font-size:10px;color:var(--muted);">'+s.q1note+'</span>' : ''}</td>`;
+      h += `<td>${s.q2 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q2note ? '<br><span style="font-size:10px;color:var(--muted);">'+s.q2note+'</span>' : ''}</td>`;
+      h += `<td>${s.q3 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q3note ? '<br><span style="font-size:10px;color:var(--muted);">'+s.q3note+'</span>' : ''}</td>`;
+      h += `<td>${s.q4 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4note ? '<br><span style="font-size:10px;color:var(--muted);">'+s.q4note+'</span>' : ''}</td>`;
+      const hCls = s.hits === 4 ? 'h4' : s.hits === 3 ? 'h3' : s.hits === 2 ? 'h2' : s.hits === 1 ? 'h1' : 'h0';
+      h += `<td><span class="hit-dot ${hCls}">${s.hits}</span></td>`;
+      h += `<td>${s.strength ? '<span class="stars '+(s.strength==='★★★'?'s3':'s2')+'">'+s.strength+'</span>' : '<span style="color:var(--barrier-low);">不通过</span>'}</td>`;
+      h += `</tr>`;
+    });
+  });
+  h += `</tbody></table></div></div></div>`;
+
+  // Section 6/7: Choke Points
+  const cpNum = d.id === 'semi' ? '⑥' : '⑥';
+  h += `<div class="section"><div class="section-title"><span class="num num-result">${cpNum}</span> 卡口结论 — Serenity最终输出</div>`;
+  h += `<div class="section-desc">经过六步下钻+四问筛选，最终确认的物理卡口标的。</div>`;
+  h += `<div class="choke-grid" style="margin-bottom:24px;">`;
+  d.chokePoints.forEach((c, i) => {
+    const medals = ['🥇','🥈','🥉'];
+    h += `<div class="choke-card">`;
+    h += `<div class="rank">${medals[i]||'#'+(i+1)} 优先级 ${i+1}</div>`;
+    h += `<h3>${c.name}</h3><div class="code">${c.code}</div>`;
+    h += `<div class="seg">🔒 ${c.segment}</div>`;
+    h += `<div class="logic">${c.logic}</div>`;
+    h += `<div class="tags">`;
+    c.tags.forEach(t => {
+      h += `<span class="tag ${t.includes('缺口')||t.includes('垄断')||t.includes('替代')||t.includes('寡头')||t.includes('唯一')||t.includes('70%')||t.includes('81%')?'tg-extreme':t.includes('刚通过')||t.includes('认证')||t.includes('替换')?'tg-blue':'tg-green'}">${t}</span>`;
+    });
+    h += `</div></div>`;
+  });
+  h += `</div>`;
+
+  // Supply/Demand Gap
+  if (d.supplyGap && d.supplyGap.length > 0) {
+    h += `<div class="card"><h4 style="margin-bottom:16px;font-size:15px;">📊 供需缺口量化（2026E）</h4>`;
+    h += `<table class="stock-tbl"><thead><tr><th>卡口环节</th><th>2026E全球需求</th><th>2026E有效产能</th><th>缺口</th><th>缺口率</th><th>核心瓶颈</th></tr></thead><tbody>`;
+    d.supplyGap.forEach(g => {
+      h += `<tr><td style="font-weight:600;">${g.segment}</td><td>${g.demand}</td><td>${g.capacity}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap}</span></td><td style="color:var(--red);font-weight:700;">${g.rate}</td><td style="font-size:12px;">${g.bottleneck}</td></tr>`;
+    });
+    h += `</tbody></table></div>`;
+  }
+
+  // Methodology notes
+  h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--accent);">`;
+  h += `<h4 style="margin-bottom:12px;font-size:14px;color:var(--accent);">⚠️ 方法论失效边界（Serenity三大局限性）</h4>`;
+  h += `<ol style="font-size:13px;color:var(--muted);padding-left:20px;line-height:2.2;">`;
+  h += `<li><strong>物理瓶颈长期束缚成长性</strong>：卡口环节受制于物理天花板，长期成长空间有限。一旦供给追上需求，卡口红利消失。</li>`;
+  h += `<li><strong>顺风期红利加持</strong>：当前AI算力处于超级上行周期，方法论命中率被放大。若行业下行，卡口逻辑有效性大幅下降。</li>`;
+  h += `<li><strong>并非所有产业链环节都存在物理卡口</strong>：${d.methodologyNotes||'多数环节供给充足、替代丰富，找不到符合四大条件的卡口——这是方法论的正常结果。'}</li>`;
+  h += `</ol></div>`;
+  h += `</div>`;
+
+  container.innerHTML = h;
+}
+
+// Init
+function init() {
+  const hash = window.location.hash.replace('#', '');
+  const startChain = CHAINS[hash] ? hash : 'pcb';
+  switchChain(startChain);
+}
+window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash.replace('#', '');
+  if (CHAINS[hash] && hash !== currentChain) switchChain(hash);
 });
 </script>
 
