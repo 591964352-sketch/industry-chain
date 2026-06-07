@@ -2091,7 +2091,6 @@ function renderChain(chainId) {
   h += `</div></div></div>`;
 
   // Section 3: Upstream Segments
-  const segs = d.segments.filter(s => !['晶圆制造','封装测试'].includes(s.name.split('—')[0]));
   h += `<div class="section"><div class="section-title"><span class="num num-up">③</span> 上游深度拆解</div>`;
   h += `<div class="section-desc">逐个环节展开：技术概述→全球格局→核心矛盾→A股标的（按壁垒从高到低排序）</div>`;
 
@@ -2100,15 +2099,15 @@ function renderChain(chainId) {
     const chokeLabel = seg.choke ? ' 🔒' : '';
     h += `<div class="segment-card" style="${borderStyle}">`;
     const crLabel = seg.costRatio !== '—' ? ` — ${seg.costRatio}` : '';
-    h += `<div class="seg-title">${seg.name}${crLabel}${seg.choke ? ' 🔒' : ''}</div>`;
-    // Simplified title for semi
     if (d.id === 'semi') {
       h += `<div class="seg-title" style="font-size:16px;">${seg.name}${chokeLabel}</div>`;
+    } else {
+      h += `<div class="seg-title">${seg.name}${crLabel}${seg.choke ? ' 🔒' : ''}</div>`;
     }
     h += `<div class="seg-meta">`;
     if (seg.costRatio) { const ratioTag = d.id === 'pcb' ? 'CCL成本占比' : seg.name.includes('设备')||seg.name.includes('制造')||seg.name.includes('封装')||seg.name.includes('EDA') ? '市场/投资占比' : '成本占比'; h += `<span>${ratioTag}: <strong style="color:var(--accent);">${seg.costRatio}</strong></span>`; }
     h += `<span>壁垒等级: <span class="tag ${seg.barrier==='extreme'?'tg-extreme':seg.barrier==='high'?'tg-high':'tg-mid'}">${seg.barrier==='extreme'?'极高':seg.barrier==='high'?'高':'中'}</span></span>`;
-    if (seg.choke) h += `<span style="color:var(--accent);">🔒 物理卡口卡口环节</span>`;
+    if (seg.choke) h += `<span style="color:var(--accent);">🔒 物理卡口环节</span>`;
     h += `</div>`;
     h += `<p style="font-size:14px;margin-bottom:16px;line-height:1.9;">${seg.intro}</p>`;
     if (seg.globalLandscape && seg.globalLandscape.length > 0) {
@@ -2170,8 +2169,13 @@ function renderChain(chainId) {
     const midTitle = d.id === 'pcb' ? '中游 — PCB 制造' : d.id === 'ai-server' ? '中游 — AI服务器整机' : d.id === 'autonomous-driving' ? '中游 — Tier1/整车集成' : '中游环节';
     h += `<div class="section"><div class="section-title"><span class="num num-mid">${midNum}</span> ${midTitle}</div>`;
     h += `<div class="section-desc">${d.midstream.description}</div>`;
-    h += `<div class="segment-card"><div class="seg-title">🏭 PCB 制造 — 充分竞争，但龙头强者恒强</div>`;
-    h += `<div class="seg-meta"><span>全球厂商: <strong>>100家</strong></span><span>CR5: <strong><30%</strong></span><span>A股上市: <strong>30+家</strong></span><span>卡口判定: <span class="tag tg-gray">无物理卡口</span></span></div>`;
+    const midSegTitle = d.id === 'pcb' ? '🏭 PCB 制造 — 充分竞争，但龙头强者恒强' : d.id === 'ai-server' ? '🏭 AI服务器整机制造 — ODM/OEM充分竞争' : d.id === 'autonomous-driving' ? '🚗 Tier1/整车集成 — 格局分散' : d.id === 'cpo' ? '📡 光模块制造 — 龙头强势但非寡头' : '🏭 ' + d.name + '中游 — 充分竞争';
+    h += `<div class="segment-card"><div class="seg-title">${midSegTitle}</div>`;
+    if (d.id === 'pcb') {
+      h += `<div class="seg-meta"><span>全球厂商: <strong>>100家</strong></span><span>CR5: <strong><30%</strong></span><span>A股上市: <strong>30+家</strong></span><span>卡口判定: <span class="tag tg-gray">无物理卡口</span></span></div>`;
+    } else {
+      h += `<div class="seg-meta"><span>卡口判定: <span class="tag tg-gray">不构成物理卡口</span></span></div>`;
+    }
     h += `<table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
     d.midstream.stocks.forEach(s => {
       h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}</td><td class="s-code">${s.code}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td><td style="font-size:12px;">${s.note}</td></tr>`;
@@ -2180,7 +2184,7 @@ function renderChain(chainId) {
   }
 
   // Section 5/6: Four Questions
-  const fqNum = d.id === 'semi' ? '⑤' : '⑤';
+  const fqNum = '⑤';
   h += `<div class="section"><div class="section-title"><span class="num num-ser">${fqNum}</span> 物理卡口 四问筛选 — 全量标的逐项打分</div>`;
   h += `<div class="section-desc">✓=通过 ✗=不通过 ★★★=命中4/4(核心卡口) ★★☆=命中3/4(潜在卡口)</div>`;
   h += `<div class="card" style="padding:16px;"><div class="fourq-wrap"><table class="fourq-tbl"><thead><tr><th style="min-width:90px;">产业链环节</th><th style="min-width:95px;">标的</th><th>①供给端<br>寡头垄断?</th><th>②产能端<br>扩产≥12月?</th><th>③替代端<br>无替代?</th><th>④需求端<br>下游刚需?</th><th>命中</th><th>卡口强度</th></tr></thead><tbody>`;
@@ -2203,7 +2207,7 @@ function renderChain(chainId) {
   h += `</tbody></table></div></div></div>`;
 
   // Section 6/7: Choke Points
-  const cpNum = d.id === 'semi' ? '⑥' : '⑥';
+  const cpNum = '⑥';
   h += `<div class="section"><div class="section-title"><span class="num num-result">${cpNum}</span> 卡口结论 — 物理卡口最终输出</div>`;
   h += `<div class="section-desc">经过六步下钻+四问筛选，最终确认的物理卡口标的。</div>`;
   h += `<div class="choke-grid" style="margin-bottom:24px;">`;
