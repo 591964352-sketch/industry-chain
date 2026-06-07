@@ -188,7 +188,7 @@ CHAINS.pcb = {
     highlightBox: '<strong>💡 物理卡口 视角：为什么上游材料比 PCB 制造更有"卡口"价值？</strong><br>PCB 制造厂全球有 100+ 家，客户随时可以换供应商。但上游的<strong>碳氢树脂全球只有 2 家通过认证、Q布全球只有 3 家能量产、HVLP4 铜箔被日韩垄断 85%</strong>——这就是"河道收窄处"。不管下游 PCB 制造多卷，水流（需求）必须从这几家过。2026 年英伟达 Rubin 架构全面采用 M9 级别材料，缺口最大的就是这三个环节。'
   },
   overview: [
-    { label: '🌍 全球 PCB 产值（2025E）', value: '~$849 亿', note: '同比 +15.4%（Prismark）', color: 'var(--accent)' },
+    { label: '🌍 全球 PCB 产值（2026E）', value: '~$958 亿', note: '2025实际$852亿，+12.5%（Prismark 2026.6）', color: 'var(--accent)' },
     { label: '🇨🇳 中国大陆全球占比', value: '~55%', note: '全球最大生产国', color: 'var(--blue)' },
     { label: '🤖 AI 服务器 PCB 增速', value: 'CAGR 30%+', note: '2024-2028，价值量 3-5x', color: 'var(--green)' },
     { label: '🏭 产业阶段', value: '结构性升级期', note: '低端饱和/M7+供不应求', color: 'var(--accent)' },
@@ -405,11 +405,11 @@ CHAINS.semi = {
     highlightBox: '<strong>💡 物理卡口 视角：半导体行业真正的"河道收窄处"在哪里？</strong><br>① <strong>EUV 光刻机</strong>：ASML 100% 垄断，但 A 股无直接标的。② <strong>EDA 工具</strong>：Synopsys/Cadence/西门子占 81%，华大九天是国内唯一全流程替代。③ <strong>高端光刻胶</strong>：日本 JSR/TOK 占 70%+，南大光电是国内唯一 ArF 量产企业。④ <strong>大硅片</strong>：信越/SUMCO 垄断 12 英寸高端市场。半导体的卡口比 PCB 更硬、更深、更难突破——但一旦突破，就是数十年的护城河。'
   },
   overview: [
-    { label: '🌍 全球半导体销售额（2024）', value: '$6276 亿', note: '同比+19.1%，2030年→$1万亿', color: 'var(--accent)' },
+    { label: '🌍 全球半导体销售额（2025）', value: '$7,917 亿', note: 'SIA: +25.6%，2026E→$1万亿', color: 'var(--accent)' },
     { label: '🇨🇳 中国进口芯片/年', value: '>$4000 亿', note: '超过石油进口金额', color: 'var(--red)' },
-    { label: '🔧 国产设备自给率（2025）', value: '~22-35%', note: '先进制程<15%', color: 'var(--barrier-high)' },
+    { label: '🔧 国产设备自给率（2026）', value: '~35%', note: '2022年16%→2026突破35%，先进<15%', color: 'var(--barrier-high)' },
     { label: '🏭 产业阶段', value: '全面攻坚期', note: '大基金三期3440亿投入', color: 'var(--accent)' },
-    { label: '📐 EDA国产化率', value: '<10%', note: '先进制程完全依赖进口', color: 'var(--red)' },
+    { label: '📐 EDA国产化率（2026）', value: '<15%', note: '5nm以下<5%，华大九天全球第6', color: 'var(--red)' },
     { label: '⚡ 核心驱动', value: 'AI芯片+国产替代', note: '昇腾/寒武纪+长存全自主产线', color: null },
     { label: '🔴 最大瓶颈', value: 'EUV光刻机', note: 'ASML 100%垄断，10万+零部件', color: 'var(--red)' },
     { label: '📋 材料国产化率', value: '~30%', note: 'EUV光刻胶0%·12寸硅片<20%', color: null }
@@ -454,14 +454,14 @@ CHAINS.semi.segments = [
       { lbl: '概伦电子/合见工软（中）', val: '国产EDA追赶者', note: '点工具突破阶段' }
     ],
     stocks: [
-      { rank:1, name:'华大九天', code:'301269', position:'国内EDA绝对龙头，全球第6', barrier:'极高', hits:4, strength:'★★★', logic:'国内唯一全流程EDA。Synopsys/Cadence/西门子垄断81%→寡头格局明确。切换成本极高（芯片设计流程深度绑定）。全球仅此三家+华大九天可提供全流程' },
+      { rank:1, name:'华大九天', code:'301269', position:'国内EDA绝对龙头，全球第6', barrier:'极高', hits:4, strength:'★★★', logic:'国内唯一全流程EDA+全品类存储EDA设计平台。2026Q1营收2.57亿+9.65%。在手订单8.45亿。5年研发投入36亿。2026E净利~2.5亿+310%。Synopsys/Cadence/西门子垄断81%→寡头格局明确' },
       { rank:2, name:'概伦电子', code:'688206', position:'国产EDA第二', barrier:'高', hits:null, strength:null, logic:'SPICE仿真工具领先，但仅为点工具→尚不能替代全流程' },
       { rank:3, name:'芯原股份', code:'688521', position:'半导体IP+设计服务', barrier:'高', hits:null, strength:null, logic:'IP授权模式，ARM/x86替代路径，芯片设计平台化' }
     ]
   },
   {
     name: '半导体设备 — 工业皇冠上的明珠', costRatio: '制造投资70%+', barrier: 'extreme', choke: true, border: true,
-    intro: '半导体设备是晶圆制造的<strong>"工业母机"</strong>。2024年全球设备出货$1171亿，ASML+应用材料+泛林三家占60%+。核心环节：<strong>光刻（ASML 100% EUV）→ 刻蚀（中微5nm突破）→ 薄膜沉积（拓荆/北方华创）→ 清洗/CMP/检测</strong>。国产设备整体自给率~22-35%，但先进制程<15%。前10大国产设备商2024年营收约486亿元，占全球仅5.77%。',
+    intro: '半导体设备是晶圆制造的<strong>"工业母机"</strong>。2026年全球设备出货预计$1240亿（+18.2%），ASML+应用材料+泛林三家占60%+。核心环节：<strong>光刻（ASML 100% EUV）→ 刻蚀（中微5nm突破）→ 薄膜沉积（拓荆/北方华创）→ 清洗/CMP/检测</strong>。国产设备整体自给率2026年突破<strong>35%</strong>（2022年仅16%），但先进制程<15%。北方华创Q1营收103亿首破百亿，在手订单超650亿排至2027Q3。',
     globalLandscape: [
       { lbl: '🥇 ASML（荷）', val: 'EUV 100%垄断+90%+先进DUV', note: '年营收327亿欧元，单台EUV>$1.5亿' },
       { lbl: '🥈 应用材料+泛林（美）', val: '刻蚀/沉积/检测全球领先', note: '与ASML/TEL并称四巨头' },
@@ -469,8 +469,8 @@ CHAINS.semi.segments = [
       { lbl: '中微公司（中）', val: '5nm刻蚀进台积电，全球第13', note: 'CCP介质刻蚀良率>98%' }
     ],
     stocks: [
-      { rank:1, name:'北方华创', code:'002371', position:'国内最大平台型设备商，全球第5', barrier:'极高', hits:4, strength:'★★★', logic:'覆盖刻蚀/薄膜/清洗/热处理。全球PVD市占12%。国内唯一平台型设备商，产品线最完整。2025营收467亿+42%' },
-      { rank:2, name:'中微公司', code:'688012', position:'5nm刻蚀进台积电，全球第13', barrier:'极高', hits:3, strength:'★★☆', logic:'CCP刻蚀良率>98%。3nm验证中。价格比进口低15%。但刻蚀全球>5家→非绝对寡头' },
+      { rank:1, name:'北方华创', code:'002371', position:'国内最大平台型设备商，全球第5', barrier:'极高', hits:4, strength:'★★★', logic:'覆盖刻蚀/薄膜/清洗/热处理。全球PVD市占12%。国内唯一平台型设备商。2026Q1营收103亿+25.8%，在手订单>650亿排至2027Q3' },
+      { rank:2, name:'中微公司', code:'688012', position:'5nm刻蚀进台积电，全球第13', barrier:'极高', hits:3, strength:'★★☆', logic:'2026Q1营收29亿+34%，净利9.3亿+197%（创历史新高）。薄膜沉积收入+224%。在手订单>280亿排至2027Q1。但刻蚀全球>5家→非绝对寡头' },
       { rank:3, name:'拓荆科技', code:'688072', position:'国内PECVD龙头', barrier:'高', hits:null, strength:null, logic:'28nm-5nm全制程覆盖的薄膜沉积。ALD/HBM需求爆发受益' },
       { rank:4, name:'华海清科', code:'688120', position:'国内唯一12英寸CMP量产', barrier:'高', hits:null, strength:null, logic:'CMP国产化率~20%，28nm量产交付' },
       { rank:5, name:'盛美上海', code:'688082', position:'清洗设备龙头', barrier:'高', hits:null, strength:null, logic:'进入台积电CoWoS产线。清洗国产化~30%' },
@@ -487,7 +487,7 @@ CHAINS.semi.segments = [
       { lbl: '抛光液/垫：安集/鼎龙', val: '安集全球市占~10%', note: '鼎龙抛光垫国产替代率近80%' }
     ],
     stocks: [
-      { rank:1, name:'南大光电', code:'300346', position:'国内唯一ArF光刻胶量产', barrier:'极高', hits:4, strength:'★★★', logic:'通过中芯28nm验证。ArF浸没式国内0-2%→唯一突破者。光刻胶是半导体材料壁垒最高品种。日本垄断70%+' },
+      { rank:1, name:'南大光电', code:'300346', position:'国内唯一ArF光刻胶量产', barrier:'极高', hits:4, strength:'★★★', logic:'2026Q1营收4.82亿+19.4%，净利1.07亿+22.2%。通过中芯28nm验证，14nm浸没式ArF已完成客户验证。光刻胶是半导体材料壁垒最高品种。日本垄断70%+' },
       { rank:2, name:'沪硅产业', code:'688126', position:'12英寸硅片龙头', barrier:'极高', hits:3, strength:'★★☆', logic:'信越+SUMCO垄断60%高端市场。国产化~10-20%。12寸硅片认证周期1-2年。2026年进入提价周期' },
       { rank:3, name:'华特气体', code:'688268', position:'国内唯一ASML认证特气', barrier:'极高', hits:3, strength:'★★☆', logic:'光刻气市占率>60%。ASML认证壁垒极高。电子特气国产化~30-40%' },
       { rank:4, name:'安集科技', code:'688019', position:'CMP抛光液国内绝对龙头', barrier:'高', hits:null, strength:null, logic:'全球市占~10%，进入台积电供应链。Cabot+Fujimi占75%' },
