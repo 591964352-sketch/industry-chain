@@ -208,12 +208,12 @@ CHAINS.pcb = {
     materials: [
       { name: '电子树脂(碳氢/PPO)', barrier: 'extreme', choke: true, note: 'M9碳氢树脂全球仅2家认证' },
       { name: '玻纤布/Q布', barrier: 'extreme', choke: true, note: 'Q布全球仅3家量产' },
-      { name: '铜箔(HVLP4)', barrier: 'extreme', choke: true, note: '日韩四强垄断85%+' },
+      { name: '铜箔 / HVLP4（超低轮廓铜箔）', barrier: 'extreme', choke: true, note: '日韩四强垄断85%+' },
       { name: '硅微粉/填料', barrier: 'mid', choke: false, note: '联瑞新材龙头' }
     ],
     sideBranches: [
       { name: 'PCB专用设备', barrier: 'mid', note: '激光钻孔国产化~30%' },
-      { name: 'IC封装基板(ABF)', barrier: 'high', note: '国产化率~4%' }
+      { name: 'IC封装基板 / ABF（味之素增层膜）载板', barrier: 'high', note: '国产化率~4%' }
     ]
   },
   segments: [/* filled below */],
@@ -423,20 +423,20 @@ CHAINS.semi = {
     midstream: { name: 'IC设计→晶圆制造→封装测试', barrier: 'low', note: '设计3600+家/制造中芯国际全球第3/封测全球前三' },
     upstreamTools: { name: 'EDA+IP → 芯片设计工具', barrier: 'extreme', note: 'Synopsys/Cadence/西门子81%→华大九天<10%' },
     equipment: [
-      { name: '光刻机(EUV/DUV)', barrier: 'extreme', choke: true, note: 'ASML 100% EUV·28nm DUV刚突破' },
+      { name: '光刻机 / EUV（极紫外）/ DUV（深紫外）', barrier: 'extreme', choke: true, note: 'ASML 100% EUV·28nm DUV刚突破' },
       { name: '刻蚀机', barrier: 'high', choke: false, note: '中微5nm进台积电·国产化~25%' },
       { name: '薄膜沉积', barrier: 'high', choke: false, note: '拓荆/北方华创·国产化~20%' },
-      { name: '检测/量测', barrier: 'extreme', choke: false, note: 'KLA垄断·国产化<5%' }
+      { name: '检测 / 量测（KLA垄断）', barrier: 'extreme', choke: false, note: 'KLA垄断·国产化<5%' }
     ],
     materials: [
-      { name: '光刻胶(ArF/EUV)', barrier: 'extreme', choke: true, note: '日本70%+·EUV 0%国产' },
+      { name: '光刻胶 / ArF（氟化氩）/ EUV（极紫外）', barrier: 'extreme', choke: true, note: '日本70%+·EUV 0%国产' },
       { name: '12英寸硅片', barrier: 'extreme', choke: true, note: '信越+SUMCO 60%' },
       { name: '电子特气', barrier: 'high', choke: false, note: '华特唯一ASML认证' },
-      { name: '靶材/CMP', barrier: 'high', choke: false, note: '江丰/安集突破' }
+      { name: '靶材 / CMP（化学机械抛光）', barrier: 'high', choke: false, note: '江丰/安集突破' }
     ],
     sideBranches: [
       { name: '先进封装(Chiplet)', barrier: 'high', note: '长电科技全球第3' },
-      { name: '存储芯片(DRAM/NAND)', barrier: 'extreme', note: '长鑫第4·长存第6' }
+      { name: '存储芯片 / DRAM / NAND', barrier: 'extreme', note: '长鑫第4·长存第6' }
     ]
   },
   segments: [],
