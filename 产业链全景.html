@@ -60,17 +60,26 @@
   .overview-item .value { font-size: 20px; font-weight: 700; }
 
   /* Tree */
-  .tree-wrapper { overflow-x: auto; padding: 24px 0; }
-  .tree { min-width: 900px; display: flex; flex-direction: column; align-items: center; gap: 0; }
-  .tree-level-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 4px; }
-  .tree-node { padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; border: 2px solid var(--border); text-align: center; display: inline-block; background: var(--card); }
-  .tree-vline { width: 2px; height: 18px; background: var(--border); margin: 0 auto; }
+  .tree-wrapper { overflow-x: auto; padding: 30px 0; }
+  .tree { min-width: 950px; display: flex; flex-direction: column; align-items: center; gap: 0; position: relative; }
+  .tree-level-label { font-size: 11px; color: var(--muted); letter-spacing: 1.5px; margin: 8px 0 4px; text-transform: uppercase; }
+  .tree-node { padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 14px; border: 2px solid var(--border); text-align: center; display: inline-block; background: linear-gradient(135deg, rgba(26,29,39,0.9) 0%, rgba(31,34,51,0.9) 100%); backdrop-filter: blur(10px); transition: all 0.3s; }
+  .tree-node:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  .tree-vline { width: 2px; height: 20px; background: linear-gradient(180deg, var(--border) 0%, rgba(42,45,58,0.3) 100%); margin: 0 auto; }
+  .tree-vline-dash { width: 2px; height: 16px; margin: 0 auto; background: repeating-linear-gradient(180deg, var(--border) 0px, var(--border) 4px, transparent 4px, transparent 8px); }
   .tree-hline { height: 2px; background: var(--border); margin: 0 auto; border-radius: 2px; }
-  .tree-sub-node { padding: 7px 16px; border-radius: 6px; font-size: 12px; font-weight: 500; border: 1.5px solid var(--border); background: var(--card); text-align: center; }
-  .b-extreme { border-color: var(--barrier-extreme) !important; box-shadow: 0 0 10px rgba(246,70,93,0.12); }
+  .tree-sub-node { padding: 9px 18px; border-radius: 8px; font-size: 12px; font-weight: 500; border: 1.5px solid var(--border); background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%); text-align: center; transition: all 0.2s; }
+  .tree-sub-node:hover { transform: translateY(-1px); box-shadow: 0 3px 12px rgba(0,0,0,0.2); }
+  .b-extreme { border-color: var(--barrier-extreme) !important; box-shadow: 0 0 16px rgba(246,70,93,0.18); }
+  .b-extreme:hover { box-shadow: 0 0 24px rgba(246,70,93,0.28); }
   .b-high { border-color: var(--barrier-high) !important; }
   .b-mid { border-color: var(--barrier-mid) !important; }
   .b-low { border-color: var(--barrier-low) !important; }
+  .b-choke { border-color: var(--accent) !important; box-shadow: 0 0 20px rgba(240,185,11,0.25); animation: chokeGlow 2.5s ease-in-out infinite; }
+  @keyframes chokeGlow {
+    0%, 100% { box-shadow: 0 0 16px rgba(240,185,11,0.18); }
+    50% { box-shadow: 0 0 28px rgba(240,185,11,0.35); }
+  }
   .badge-b { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; margin-left: 4px; }
   .badge-ex { background: rgba(246,70,93,0.15); color: var(--barrier-extreme); }
   .badge-hi { background: rgba(249,115,22,0.15); color: var(--barrier-high); }
@@ -613,7 +622,7 @@ function renderChain(chainId) {
 
   // Section 2: Tree Map
   h += `<div class="section"><div class="section-title"><span class="num num-chain">②</span> 全产业链树状图</div>`;
-  h += `<div class="section-desc">颜色越深=壁垒越高=越可能藏有卡口。🔒=已识别物理卡口物理卡口。</div>`;
+  h += `<div class="section-desc">颜色越深=壁垒越高=越可能藏有卡口。🔒=已识别物理卡口。</div>`;
   h += `<div class="card"><div class="tree-wrapper"><div class="tree">`;
   // Downstream
   h += `<div class="tree-level-label">▼ 下游应用（需求端）</div>`;
@@ -669,7 +678,7 @@ function renderChain(chainId) {
   h += `<span><span class="dot" style="background:var(--barrier-high);"></span>高壁垒—认证周期1-2年</span>`;
   h += `<span><span class="dot" style="background:var(--barrier-mid);"></span>中壁垒—有国产突破</span>`;
   h += `<span><span class="dot" style="background:var(--barrier-low);"></span>低壁垒—充分竞争</span>`;
-  h += `<span>🔒=物理卡口物理卡口</span>`;
+  h += `<span>🔒=物理卡口</span>`;
   h += `</div></div></div>`;
 
   // Section 3: Upstream Segments
