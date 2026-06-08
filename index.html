@@ -202,7 +202,7 @@
 <div class="main-area">
   <div class="header">
     <h1>产业链全景<span>· 物理卡口投研</span></h1>
-    <p class="subtitle">从宏观到微观，用物理约束当筛子，挖出产业链"河道收窄处"的寡头瓶颈</p>
+    <p class="subtitle">从宏观到微观，用物理约束当筛子，挖出产业链"河道收窄处"的寡头瓶颈 · <span style="color:var(--accent);font-weight:600;">数据截止：2026-06-08</span></p>
   </div>
   <div class="container" id="chain-content"></div>
 </div>
@@ -247,7 +247,7 @@ CHAINS.pcb = {
     { label: '📐 M9 CCL 市场（2026E）', value: '~$80 亿', note: 'CAGR 40%，缺口~20%', color: 'var(--red)' },
     { label: '⚡ 核心驱动', value: 'Rubin + GB300', note: '英伟达下一代架构 2026Q3', color: null },
     { label: '🔴 核心矛盾', value: '上游材料卡脖子', note: '碳氢树脂/Q布/HVLP4 <30%', color: 'var(--red)' },
-    { label: '📋 M9 材料国产化率', value: '树脂<10%·Q布<5%', note: '铜箔15-20%·CCL~30%', color: null }
+    { label: '📋 M9 材料国产化率', value: '<mark class="updated">树脂<10%·Q布~80%</mark>', note: '铜箔15-20%·CCL~30%', color: null }
   ],
   treeMap: {
     downstream: { name: 'AI服务器(40%)·汽车(25%)·通信(20%)·消费电子(15%)', barrier: 'low', note: '核心驱动：英伟达 Rubin/GB300、华为昇腾' },
@@ -283,7 +283,7 @@ CHAINS.pcb.segments = [
       { lbl: '台系五强（其余）', val: '台燿/联茂等', note: '紧跟英伟达' }
     ],
     stocks: [
-      { rank:1, name:'生益科技', code:'600183', position:'全球第二大CCL，大陆唯一M9认证', barrier:'极高', logic:'M9 CCL已批量供货英伟达供应链，全球市占14-15%，毛利率~45%' },
+      { rank:1, name:'生益科技', code:'600183', position:'全球第二大CCL，大陆唯一M9认证', barrier:'极高', logic:'<mark class="updated">2026Q1营收81.41亿+45%，净利11.58亿+105%</mark>。M9 CCL已批量供货英伟达供应链，全球市占14-15%，Q1毛利率28.10%' },
       { rank:2, name:'华正新材', code:'603186', position:'华为昇腾CCL核心供应商', barrier:'高', logic:'AI服务器用高等级CCL，CBF积层膜对标味之素ABF' },
       { rank:3, name:'南亚新材', code:'603519', position:'M8已量产，M9测试中', barrier:'高', logic:'覆铜板营收A股第三，高速材料追赶中' },
       { rank:4, name:'金安国纪', code:'002636', position:'国内龙头（全球第七）', barrier:'中', logic:'涨价期情绪标杆，中低端CCL为主' }
@@ -293,13 +293,13 @@ CHAINS.pcb.segments = [
     name: '电子树脂（碳氢树脂/PPO）', costRatio: '26%', barrier: 'extreme', choke: true, border: true,
     intro: '树脂是CCL三大原材料中<strong>技术壁垒最高的环节</strong>。M9级别要求Df≤0.001，PPO无法满足，<strong>碳氢树脂是唯一成熟方案</strong>。M9配方中碳氢树脂:PPO比例从M8的1:2反转为2:1。全球仅<strong>东材科技（中国）+JX化学（日本）</strong>通过英伟达M9认证。2026年全球缺口<strong>~5000吨（缺口率63%）</strong>。',
     globalLandscape: [
-      { lbl: '🥇 东材科技（中）+JX化学（日）', val: '全球唯二M9碳氢树脂认证', note: '东材国内唯一，眉山3500吨2026Q3投产' },
+      { lbl: '🥇 东材科技（中）+JX化学（日）', val: '全球唯二M9碳氢树脂认证', note: '东材国内唯一，眉山3500吨2026.6.30投料试产，M10验证中' },
       { lbl: 'PPO双寡头', val: 'SABIC（沙特）+三菱瓦斯', note: '垄断全球PPO供给近80%' },
       { lbl: '圣泉集团（中）', val: 'PPO国内唯一量产', note: '碳氢树脂2026Q4投产1500吨' },
       { lbl: '世名科技（中）', val: '500吨已投产', note: '通过台光/生益M9方案认证' }
     ],
     stocks: [
-      { rank:1, name:'东材科技', code:'601208', position:'全球唯二M9碳氢树脂认证，国内唯一', barrier:'极高', hits:4, strength:'★★★', logic:'台光独供2-3年排他协议。眉山3500吨2026Q3投产。价格80-120万元/吨，毛利率50%+' },
+      { rank:1, name:'东材科技', code:'601208', position:'全球唯二M9碳氢树脂认证，国内唯一', barrier:'极高', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1归母净利1.87亿+103%，高速电子树脂营收2.58亿+131%</mark>。台光独供2-3年排他协议。眉山3500吨<mark class="updated">2026年6月30日投料试产（提前至Q2末）</mark>。价格80-120万元/吨，毛利率50%+' },
       { rank:2, name:'圣泉集团', code:'605589', position:'PPO国内唯一量产，全球第四', barrier:'高', hits:null, strength:null, logic:'PPO国产市占70%。碳氢树脂2026Q4投产1500吨。但PPO领域SABIC+三菱可替代→非寡头' },
       { rank:3, name:'世名科技', code:'300522', position:'盘锦500吨已投产', barrier:'高', hits:null, strength:null, logic:'已通过台光/生益/联茂M9方案认证，规划总产能2500吨' },
       { rank:4, name:'宏昌电子', code:'603002', position:'环氧树脂龙头', barrier:'中', hits:null, strength:null, logic:'GBF增层膜送样台积电/长电，但环氧树脂壁垒低→非卡口' }
@@ -307,15 +307,15 @@ CHAINS.pcb.segments = [
   },
   {
     name: '玻纤布/Q布（石英纤维布）', costRatio: '19%', barrier: 'extreme', choke: true, border: true,
-    intro: '玻纤布是CCL的增强材料。技术等级：E-glass→Low-Dk布→T-glass→<strong>Q布/石英布（Df≤0.0007）</strong>。Q布价格~260元/米，是普通电子布的<strong>8倍+</strong>。全球仅<strong>日东纺（日本）+圣戈班（法国）+菲利华（中国）</strong>具备全产业链量产能力。日东纺市占>70%，2026年受日本地震影响停产。黄仁勋亲自赴日催货。',
+    intro: '玻纤布是CCL的增强材料。技术等级：E-glass→Low-Dk布→T-glass→<strong>Q布/石英布（Df≤0.0007）</strong>。Q布价格~260-300元/米，是普通电子布的<strong>8倍+</strong>。<strong><mark class="updated">菲利华Q布全球市占约80%，已超越日东纺成为绝对龙头</mark></strong>。日东纺2026年受日本地震影响停产，黄仁勋亲自赴日催货。2026年菲利华产能扩至1000-1200万米/年，毛利率55-65%。',
     globalLandscape: [
-      { lbl: '🥇 日东纺Nittobo（日）', val: 'Q布全球70%+，T-glass 90%+', note: '新产能2027H2才释放' },
-      { lbl: '🥈 圣戈班（法）', val: '全球第二家Q布量产', note: '份额远小于日东纺' },
-      { lbl: '🥉 菲利华（中）', val: '国产唯一全产业链自主', note: '2026产能1000万米→2027目标2000万米' },
+      { lbl: '🥇 菲利华（中）', val: '<mark class="updated">Q布全球市占~80%，绝对龙头</mark>', note: '国内唯一全产业链自主，2026产能1000-1200万米' },
+      { lbl: '🥈 日东纺Nittobo（日）', val: 'Q布原全球龙头，地震受损', note: '份额被菲利华快速取代' },
+      { lbl: '🥉 圣戈班（法）', val: '全球第三家Q布量产', note: '份额远小于菲利华' },
       { lbl: '宏和科技（中）', val: '4μm极薄布全球唯一量产', note: '超薄电子布全球市占~50%' }
     ],
     stocks: [
-      { rank:1, name:'菲利华', code:'300395', position:'全球唯三Q布量产，国产唯一全产业链', barrier:'极高', hits:4, strength:'★★★', logic:'已通过英伟达/台积电/台光/生益全链路认证。台光锁定500-700万米。全球缺口>40%' },
+      { rank:1, name:'菲利华', code:'300395', position:'<mark class="updated">Q布全球市占~80%，绝对龙头</mark>'+'国产唯一全产业链', barrier:'极高', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1营收6.22亿+53%，净利1.44亿+37%</mark>。已通过英伟达/台积电/台光/生益全链路认证。台光锁定500-700万米。全球缺口>40%。毛利率55-65%。2027目标2000万米/年' },
       { rank:2, name:'宏和科技', code:'603256', position:'4μm极薄布全球唯一量产', barrier:'高', hits:3, strength:'★★☆', logic:'超薄电子布全球市占~50%。但非AI最核心瓶颈→降级' },
       { rank:3, name:'中材科技', code:'002080', position:'国内Low Dk市占35%', barrier:'中', hits:null, strength:null, logic:'Q布占比仅20-30%，非前三寡头' },
       { rank:4, name:'中国巨石', code:'600176', position:'电子布销量A股第一', barrier:'中', hits:null, strength:null, logic:'全球玻纤龙头，但非Q布寡头' }
@@ -331,7 +331,7 @@ CHAINS.pcb.segments = [
       { lbl: '德福科技（中）', val: 'HVLP3量产，HVLP4验证中', note: '进入英伟达供应链' }
     ],
     stocks: [
-      { rank:1, name:'铜冠铜箔', code:'301217', position:'国内唯一HVLP1-4全系列量产', barrier:'极高', hits:4, strength:'★★★', logic:'2026目标500吨/月。日韩四强垄断85%+。设备交期18-24月。2027市占率预期42%' },
+      { rank:1, name:'铜冠铜箔', code:'301217', position:'国内唯一HVLP1-4全系列量产', barrier:'极高', hits:4, strength:'★★★', logic:'<mark class="updated">锁定10台三船MSP-8000表面处理机（全球70%），产能确定性最强</mark>。2026目标500吨/月。日韩四强垄断85%+。设备交期18-24月。2027市占率预期42%。已实现HVLP4规模化量产' },
       { rank:2, name:'德福科技', code:'301511', position:'进入英伟达供应链', barrier:'高', hits:3, strength:'★★☆', logic:'5万吨产能可切换。HVLP4台光验证中。机构关注度高→降级' },
       { rank:3, name:'诺德股份', code:'600110', position:'6μm极薄铜箔量产', barrier:'中', hits:null, strength:null, logic:'服务器PCB用铜箔市占>25%，但HVLP4仍在认证' },
       { rank:4, name:'嘉元科技', code:'688388', position:'极薄铜箔4.5μm市占>50%', barrier:'中', hits:null, strength:null, logic:'锂电铜箔转产HVLP，2026Q1净利预增329-395%' }
@@ -432,9 +432,9 @@ CHAINS.pcb.fourQuestions = {
 
 // PCB Choke Points
 CHAINS.pcb.chokePoints = [
-  { rank:1, name:'东材科技', code:'601208', segment:'M9碳氢树脂', strength:'★★★', logic:'全球<strong>仅2家</strong>通过英伟达M9碳氢树脂认证。台光独供2-3年排他协议。眉山3500吨2026Q3投产。2026年全球缺口<strong>~5000吨（63%）</strong>。', tags:['双寡头','无替代','缺口63%','已量产'] },
-  { rank:2, name:'菲利华', code:'300395', segment:'Q布/石英纤维布', strength:'★★★', logic:'全球<strong>仅3家</strong>Q布量产，国产唯一全产业链自主。已通过英伟达全链路认证。台光锁定500-700万米。Q布价格~260元/米（普通布8x）。全球缺口<strong>>40%</strong>。', tags:['三寡头','无替代','缺口>40%','认证刚通过'] },
-  { rank:3, name:'铜冠铜箔', code:'301217', segment:'HVLP4铜箔', strength:'★★★', logic:'国内<strong>唯一</strong>HVLP1-4全系列量产。日韩四强垄断85%+。阴极辊设备交期18-24月。2026年底全球月缺口<strong>~23%</strong>。2027市占率预期42%。', tags:['国产唯一','设备被卡','缺口23%','已量产'] }
+  { rank:1, name:'东材科技', code:'601208', segment:'M9碳氢树脂', strength:'★★★', logic:'全球<strong>仅2家</strong>通过英伟达M9碳氢树脂认证。台光独供2-3年排他协议。眉山3500吨<strong>2026年6月30日投料试产（提前至Q2末）</strong>。Q1净利1.87亿+103%，高速树脂+131%。2026年全球缺口<strong>~5000吨（63%）</strong>。M10树脂已进入客户验证。', tags:['双寡头','无替代','缺口63%','Q1净利+103%'] },
+  { rank:2, name:'菲利华', code:'300395', segment:'Q布/石英纤维布', strength:'★★★', logic:'<strong><mark class="updated">Q布全球市占约80%，绝对龙头</mark></strong>。国内唯一全产业链自主。已通过英伟达全链路认证。台光锁定500-700万米。Q布价格~260-300元/米（普通布8x）。全球缺口<strong>>40%</strong>。Q1营收6.22亿+53%。', tags:['全球80%龙头','无替代','缺口>40%','毛利55-65%'] },
+  { rank:3, name:'铜冠铜箔', code:'301217', segment:'HVLP4铜箔', strength:'★★★', logic:'国内<strong>唯一</strong>HVLP1-4全系列量产。<strong><mark class="updated">锁定10台三船MSP-8000设备（全球70%），未来3年产能确定性最强</mark></strong>。日韩四强垄断85%+。阴极辊设备交期18-24月。2026年底全球月缺口<strong>~23%</strong>。2027市占率预期42%。', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'] }
 ];
 CHAINS.pcb.supplyGap = [
   { segment:'M9碳氢树脂', demand:'~8000吨/年', capacity:'~3000吨/年', gap:'5000吨', rate:'~63%', bottleneck:'认证周期18-24个月' },
@@ -457,7 +457,9 @@ CHAINS.semi = {
     highlightBox: '<strong>💡 物理卡口 视角：半导体行业真正的"河道收窄处"在哪里？</strong><br>① <strong>EUV 光刻机</strong>：ASML 100% 垄断，但 A 股无直接标的。② <strong>EDA 工具</strong>：Synopsys/Cadence/西门子占 81%，华大九天是国内唯一全流程替代。③ <strong>高端光刻胶</strong>：日本 JSR/TOK 占 70%+，南大光电是国内唯一 ArF 量产企业。④ <strong>大硅片</strong>：信越/SUMCO 垄断 12 英寸高端市场。半导体的卡口比 PCB 更硬、更深、更难突破——但一旦突破，就是数十年的护城河。'
   },
   overview: [
-    { label: '🌍 全球半导体销售额（2025）', value: '$7,917 亿', note: 'SIA: +25.6%，2026E→$1万亿', color: 'var(--accent)' },
+    { label: '🌍 全球半导体销售额（2026E）', value: '<mark class="updated">$15,112 亿</mark>', note: 'WSTS 2026.6春季预测，+89.9% YoY', color: 'var(--accent)' },
+    { label: '📊 2025实际销售额', value: '$7,917 亿', note: 'SIA: +25.6% YoY', color: null },
+    { label: '📈 2026年4月单月', value: '$1,105 亿', note: 'SIA: 环比+11%，同比+93.9%', color: 'var(--green)' },
     { label: '🇨🇳 中国进口芯片/年', value: '>$4000 亿', note: '超过石油进口金额', color: 'var(--red)' },
     { label: '🔧 国产设备自给率（2026）', value: '~35%', note: '2022年16%→2026突破35%，先进<15%', color: 'var(--barrier-high)' },
     { label: '🏭 产业阶段', value: '全面攻坚期', note: '大基金三期3440亿投入', color: 'var(--accent)' },
@@ -506,7 +508,7 @@ CHAINS.semi.segments = [
       { lbl: '概伦电子/合见工软（中）', val: '国产EDA追赶者', note: '点工具突破阶段' }
     ],
     stocks: [
-      { rank:1, name:'华大九天', code:'301269', position:'国内EDA绝对龙头，全球第6', barrier:'极高', hits:4, strength:'★★★', logic:'国内唯一全流程EDA+全品类存储EDA设计平台。2026Q1营收2.57亿+9.65%。在手订单8.45亿。5年研发投入36亿。2026E净利~2.5亿+310%。Synopsys/Cadence/西门子垄断81%→寡头格局明确' },
+      { rank:1, name:'华大九天', code:'301269', position:'国内EDA绝对龙头，全球第6', barrier:'极高', hits:4, strength:'★★★', logic:'国内唯一全流程EDA+全品类存储EDA设计平台。2026Q1营收2.57亿+9.65%，研发费用率64.84%→净利<mark class="updated">-0.73亿（由盈转亏）</mark>。境外营收+127.5%。3DIC设计验证全流程国内唯一。Synopsys/Cadence/西门子垄断81%→寡头格局明确。短期亏损是战略性研发投入的结果' },
       { rank:2, name:'概伦电子', code:'688206', position:'国产EDA第二', barrier:'高', hits:null, strength:null, logic:'SPICE仿真工具领先，但仅为点工具→尚不能替代全流程' },
       { rank:3, name:'芯原股份', code:'688521', position:'半导体IP+设计服务', barrier:'高', hits:null, strength:null, logic:'IP授权模式，ARM/x86替代路径，芯片设计平台化' }
     ]
@@ -521,7 +523,7 @@ CHAINS.semi.segments = [
       { lbl: '中微公司（中）', val: '5nm刻蚀进台积电，全球第13', note: 'CCP介质刻蚀良率>98%' }
     ],
     stocks: [
-      { rank:1, name:'北方华创', code:'002371', position:'国内最大平台型设备商，全球第5', barrier:'极高', hits:4, strength:'★★★', logic:'覆盖刻蚀/薄膜/清洗/热处理。全球PVD市占12%。国内唯一平台型设备商。2026Q1营收103亿+25.8%，在手订单>650亿排至2027Q3' },
+      { rank:1, name:'北方华创', code:'002371', position:'国内最大平台型设备商，全球第5', barrier:'极高', hits:4, strength:'★★★', logic:'覆盖刻蚀/薄膜/清洗/热处理。全球PVD市占12%。国内唯一平台型设备商。2026Q1营收103亿+25.8%，<mark class="updated">净利16.35亿+3.42%</mark>，在手订单>650亿排至2027Q3' },
       { rank:2, name:'中微公司', code:'688012', position:'5nm刻蚀进台积电，全球第13', barrier:'极高', hits:3, strength:'★★☆', logic:'2026Q1营收29亿+34%，净利9.3亿+197%（创历史新高）。薄膜沉积收入+224%。在手订单>280亿排至2027Q1。但刻蚀全球>5家→非绝对寡头' },
       { rank:3, name:'拓荆科技', code:'688072', position:'国内PECVD龙头', barrier:'高', hits:null, strength:null, logic:'28nm-5nm全制程覆盖的薄膜沉积。ALD/HBM需求爆发受益' },
       { rank:4, name:'华海清科', code:'688120', position:'国内唯一12英寸CMP量产', barrier:'高', hits:null, strength:null, logic:'CMP国产化率~20%，28nm量产交付' },
@@ -533,13 +535,13 @@ CHAINS.semi.segments = [
     name: '半导体材料 — 制造的"血液与粮食"', costRatio: '全球~$700亿', barrier: 'extreme', choke: true, border: true,
     intro: '半导体材料全球市场~700-732亿美元，中国占36.7%全球第一。但<strong>高端材料被日本垄断严重</strong>：19种主要材料中日本14种全球第一。最关键瓶颈：<strong>高端光刻胶（ArF浸没式~0-2%国产、EUV 0%）+12英寸大硅片（<20%）</strong>。2025年国内材料整体国产化率~30%，成熟制程材料~40-60%，但先进制程材料严重依赖进口。',
     globalLandscape: [
-      { lbl: '光刻胶：日本JSR/TOK', val: '全球70%+，EUV光刻胶0%国产', note: '南大光电ArF通过中芯28nm验证' },
+      { lbl: '光刻胶：日本JSR/TOK', val: '全球70%+，EUV光刻胶0%国产', note: '南大光电累计6款ArF通过验证，收入破2000万' },
       { lbl: '12英寸硅片：信越+SUMCO', val: '全球60%', note: '沪硅产业/立昂微追赶中' },
       { lbl: '电子特气：华特气体', val: '国内唯一通过ASML认证', note: 'NF₃/WF₆产能全球前列' },
       { lbl: '抛光液/垫：安集/鼎龙', val: '安集全球市占~10%', note: '鼎龙抛光垫国产替代率近80%' }
     ],
     stocks: [
-      { rank:1, name:'南大光电', code:'300346', position:'国内唯一ArF光刻胶量产', barrier:'极高', hits:4, strength:'★★★', logic:'2026Q1营收4.82亿+19.4%，净利1.07亿+22.2%。通过中芯28nm验证，14nm浸没式ArF已完成客户验证。光刻胶是半导体材料壁垒最高品种。日本垄断70%+' },
+      { rank:1, name:'南大光电', code:'300346', position:'国内唯一ArF光刻胶量产', barrier:'极高', hits:4, strength:'★★★', logic:'2026Q1营收<mark class="updated">6.62亿+5.45%</mark>，净利<mark class="updated">1.24亿+29.97%</mark>。通过中芯28nm验证，累计6款ArF光刻胶通过验证，光刻胶收入突破2000万。光刻胶是半导体材料壁垒最高品种。日本垄断70%+' },
       { rank:2, name:'沪硅产业', code:'688126', position:'12英寸硅片龙头', barrier:'极高', hits:3, strength:'★★☆', logic:'信越+SUMCO垄断60%高端市场。国产化~10-20%。12寸硅片认证周期1-2年。2026年进入提价周期' },
       { rank:3, name:'华特气体', code:'688268', position:'国内唯一ASML认证特气', barrier:'极高', hits:3, strength:'★★☆', logic:'光刻气市占率>60%。ASML认证壁垒极高。电子特气国产化~30-40%' },
       { rank:4, name:'安集科技', code:'688019', position:'CMP抛光液国内绝对龙头', barrier:'高', hits:null, strength:null, logic:'全球市占~10%，进入台积电供应链。Cabot+Fujimi占75%' },
@@ -614,7 +616,7 @@ CHAINS.semi.fourQuestions = {
 
 // Semiconductor Choke Points
 CHAINS.semi.chokePoints = [
-  { rank:1, name:'华大九天', code:'301269', segment:'EDA工具', strength:'★★★', logic:'全球EDA市场被<strong>Synopsys/Cadence/西门子垄断81%</strong>。华大九天是国内唯一全流程EDA工具提供商。芯片设计必须用EDA→下游100%刚需。切换EDA工具需重新培训团队+重跑验证流程→替换成本极高。研发一套全流程EDA成本>10亿美元。', tags:['三巨头81%','替换成本极高','下游100%刚需','国产唯一全流程'] },
+  { rank:1, name:'华大九天', code:'301269', segment:'EDA工具', strength:'★★★', logic:'全球EDA市场被<strong>Synopsys/Cadence/西门子垄断81%</strong>。华大九天是国内唯一全流程EDA工具提供商。芯片设计必须用EDA→下游100%刚需。切换EDA工具需重新培训团队+重跑验证流程→替换成本极高。研发一套全流程EDA成本>10亿美元。Q1营收2.57亿+9.65%，研发费用率64.84%→短期亏损是战略投入。', tags:['三巨头81%','替换成本极高','下游100%刚需','国产唯一全流程'] },
   { rank:2, name:'北方华创', code:'002371', position:'国内平台型唯一', segment:'半导体设备', strength:'★★★', logic:'国内<strong>唯一平台型设备商</strong>，覆盖刻蚀/薄膜/清洗/热处理全环节。全球第5，2025营收467亿+42%。晶圆厂扩产设备采购占投资70%+。设备验证周期18-24月→一旦导入几乎不更换。国产设备价格低20-40%。', tags:['国内唯一平台型','全球第5','验证周期锁定','扩产刚需'] },
   { rank:3, name:'南大光电', code:'300346', segment:'高端光刻胶(ArF)', strength:'★★★', logic:'国内<strong>唯一ArF光刻胶量产</strong>企业。全球ArF光刻胶日本垄断70%+，浸没式国产化0-2%。光刻胶是半导体材料壁垒最高品种→配方含数千种组分。通过中芯28nm验证。认证周期1-2年→一旦导入极难替换。', tags:['日本垄断70%+','国内唯一ArF','认证周期1-2年','数千种组分壁垒'] }
 ];
@@ -2254,6 +2256,15 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-08', sector:'semi', desc:'全球半导体销售额2026E', old:'~$1万亿', new:'$1.51万亿(WSTS 2026.6)', pct:'+51%' },
+  { date:'2026-06-08', sector:'semi', desc:'华大九天Q1业绩', old:'预计2026E净利~2.5亿', new:'Q1实际亏损-0.73亿', pct:'📉由盈转亏' },
+  { date:'2026-06-08', sector:'semi', desc:'南大光电Q1数据', old:'营收4.82亿/净利1.07亿', new:'营收6.62亿/净利1.24亿', pct:'修正' },
+  { date:'2026-06-08', sector:'pcb', desc:'菲利华Q布全球市占', old:'全球唯三/国产唯一', new:'全球80%绝对龙头', pct:'定性飞跃' },
+  { date:'2026-06-08', sector:'pcb', desc:'东材科技眉山投产', old:'2026Q3投产', new:'2026.6.30投料试产', pct:'提前至Q2' },
+  { date:'2026-06-08', sector:'pcb', desc:'东材科技Q1业绩', old:'无Q1数据', new:'净利1.87亿+103%', pct:'+103%' },
+  { date:'2026-06-08', sector:'pcb', desc:'生益科技Q1业绩', old:'仅描述地位', new:'营收81亿+45%/净利11.6亿+105%', pct:'+105%' },
+  { date:'2026-06-08', sector:'pcb', desc:'铜冠铜箔设备锁定', old:'仅描述设备交期', new:'锁定10台三船设备(全球70%)', pct:'定性飞跃' },
+  { date:'2026-06-08', sector:'semi', desc:'北方华创Q1净利', old:'仅描述营收', new:'净利16.35亿+3.42%', pct:'+3.42%' },
   { date:'2026-06-07', sector:'semi', desc:'国产设备自给率', old:'~22-35%', new:'~35%', pct:'+10pct' },
   { date:'2026-06-07', sector:'semi', desc:'中微公司Q1净利', old:'仅描述技术', new:'9.3亿+197%', pct:'+197%' },
   { date:'2026-06-07', sector:'semi', desc:'北方华创Q1营收', old:'2025营收467亿', new:'Q1 103亿+25.8%', pct:'+25.8%' },
