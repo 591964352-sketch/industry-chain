@@ -547,6 +547,7 @@ CHAINS.pcb.fourQuestions = {
 // PCB Choke Points
 CHAINS.pcb.chokePoints = [
   { rank:1, name:'东材科技', code:'601208', segment:'M9碳氢树脂', strength:'★★★', logic:'全球<strong>仅2家</strong>通过英伟达M9碳氢树脂认证。台光独供2-3年排他协议。眉山3500吨<strong>2026年6月30日投料试产（提前至Q2末）</strong>。Q1净利1.87亿+103%，高速树脂+131%。2026年全球缺口<strong>~5000吨（63%）</strong>。M10树脂已进入客户验证。', tags:['双寡头','无替代','缺口63%','Q1净利+103%'],
+    valuation: { pe:'约50倍', pePercentile:82, grossMargin:'50%+', fromHigh:'距前高-15%', note:'🆪 PE处历史82%分位（AI估值初版），卡口逻辑已被市场充分定价，谨防高位接盘；周一cron会用真实数据覆盖' },
     verification: {
       items: [
         { type:'供给寡头', claim:'全球仅东材+JX化学2家通过英伟达M9认证', howToCheck:'搜圣泉(605589)、世名(300522)、SABIC最新公告与投资者问答，看有无第三家宣布M9认证', falsifySignal:'出现第三家通过认证 → 卡口降级', status:'pending' },
@@ -557,8 +558,10 @@ CHAINS.pcb.chokePoints = [
       note: '这是初始版本验证清单 — 实际状态需手动核查后切换'
     }
   },
-  { rank:2, name:'菲利华', code:'300395', segment:'Q布/石英纤维布', strength:'★★★', logic:'<strong><mark class="updated">Q布全球市占约80%，绝对龙头</mark></strong>。国内唯一全产业链自主。已通过英伟达全链路认证。台光锁定500-700万米。Q布价格~260-300元/米（普通布8x）。全球缺口<strong>>40%</strong>。Q1营收6.22亿+53%。', tags:['全球80%龙头','无替代','缺口>40%','毛利55-65%'] },
-  { rank:3, name:'铜冠铜箔', code:'301217', segment:'HVLP4铜箔', strength:'★★★', logic:'国内<strong>唯一</strong>HVLP1-4全系列量产。<strong><mark class="updated">锁定10台三船MSP-8000设备（全球70%），未来3年产能确定性最强</mark></strong>。日韩四强垄断85%+。阴极辊设备交期18-24月。2026年底全球月缺口<strong>~23%</strong>。2027市占率预期42%。', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'] }
+  { rank:2, name:'菲利华', code:'300395', segment:'Q布/石英纤维布', strength:'★★★', logic:'<strong><mark class="updated">Q布全球市占约80%，绝对龙头</mark></strong>。国内唯一全产业链自主。已通过英伟达全链路认证。台光锁定500-700万米。Q布价格~260-300元/米（普通布8x）。全球缺口<strong>>40%</strong>。Q1营收6.22亿+53%。', tags:['全球80%龙头','无替代','缺口>40%','毛利55-65%'],
+    valuation: { pe:'约35倍', pePercentile:45, grossMargin:'55%+', fromHigh:'距前高-30%', note:'🆪 PE处历史中位（AI估值初版），Q布全球80%市占+全系列认证落地，估值与基本面匹配；周一cron会用真实数据覆盖' } },
+  { rank:3, name:'铜冠铜箔', code:'301217', segment:'HVLP4铜箔', strength:'★★★', logic:'国内<strong>唯一</strong>HVLP1-4全系列量产。<strong><mark class="updated">锁定10台三船MSP-8000设备（全球70%），未来3年产能确定性最强</mark></strong>。日韩四强垄断85%+。阴极辊设备交期18-24月。2026年底全球月缺口<strong>~23%</strong>。2027市占率预期42%。', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'],
+    valuation: { pe:'约22倍', pePercentile:18, grossMargin:'18%+', fromHigh:'距前高-55%', note:'🆪 PE处历史18%分位（AI估值初版），HVLP4爬坡存在不确定性，但估值已充分反映悲观预期；周一cron会用真实数据覆盖' } }
 ];
 CHAINS.pcb.supplyGap = [
   { segment:'M9碳氢树脂', demand:'~8000吨/年', capacity:'~3000吨/年', gap:'5000吨', rate:'~63%', bottleneck:'认证周期18-24个月' },
@@ -2667,6 +2670,24 @@ function renderChain(chainId) {
     h += `<div class="code">${c.code}</div>`;
     h += `<div class="seg">🔒 ${c.segment}</div>`;
     h += `<div class="logic">${c.logic}</div>`;
+    // ★ 升级二：估值/择时状态条（可选字段，没填 valuation 就不渲染）
+    if (c.valuation && typeof c.valuation.pePercentile === 'number') {
+      const p = c.valuation.pePercentile;
+      const cls = p >= 80 ? 'tg-extreme' : p >= 30 ? 'tg-high' : 'tg-green';
+      const band = p >= 80 ? '估值高位' : p >= 30 ? '估值合理' : '估值低位';
+      const parts = [];
+      if (c.valuation.pe)          parts.push(`PE ${c.valuation.pe}`);
+      parts.push(`分位 ${p}%`);
+      if (c.valuation.grossMargin) parts.push(`毛利率 ${c.valuation.grossMargin}`);
+      if (c.valuation.fromHigh)    parts.push(c.valuation.fromHigh);
+      h += `<div class="valuation" style="font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">`;
+      h += `<span>${parts.join(' · ')}</span>`;
+      h += `<span class="tag ${cls}" style="font-size:10px;">${band} ${p}%分位</span>`;
+      h += `</div>`;
+      if (c.valuation.note) {
+        h += `<div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:14px;padding-left:10px;border-left:2px solid var(--card2);">📝 ${c.valuation.note}</div>`;
+      }
+    }
     h += `<div class="tags">`;
     c.tags.forEach(t => {
       h += `<span class="tag ${t.includes('缺口')||t.includes('垄断')||t.includes('替代')||t.includes('寡头')||t.includes('唯一')||t.includes('70%')||t.includes('81%')?'tg-extreme':t.includes('刚通过')||t.includes('认证')||t.includes('替换')?'tg-blue':'tg-green'}">${t}</span>`;
@@ -2723,6 +2744,7 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-12', sector:'system', desc:'🆪 估值/择时条上线（AI初版）', old:'—', new:'每张卡口卡新增PE分位三色条（红≥80/橙30-80/绿<30），pcb 3张全填示例；周一cron会用真实数据覆盖', pct:'NEW' },
   { date:'2026-06-11', sector:'system', desc:'🆕 卡口验证面板上线', old:'—', new:'每张卡口卡新增 4 维证据清单 + 整体状态徽章 + 本地持久化', pct:'NEW' },
   { date:'2026-06-08', sector:'semi', desc:'全球半导体销售额2026E', old:'~$1万亿', new:'$1.51万亿(WSTS 2026.6)', pct:'+51%' },
   { date:'2026-06-08', sector:'semi', desc:'华大九天Q1业绩', old:'预计2026E净利~2.5亿', new:'Q1实际亏损-0.73亿', pct:'📉由盈转亏' },

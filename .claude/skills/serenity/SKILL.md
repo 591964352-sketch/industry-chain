@@ -174,6 +174,18 @@ CHAINS.<id> = {
       logic: '<150字卡口逻辑>',
       tags: ['标签1', '标签2', '标签3', '标签4'],
 
+      // 估值/择时（可选 — 缺 pePercentile 就不渲染估值条）
+      // 颜色按分位自动：≥80 红（tg-extreme）/ 30-80 橙（tg-high） / <30 绿（tg-green）
+      // 复用现有 .tag + .tg-* 调色板，零 CSS 增量
+      // pePercentile 是唯一必填字段（用 typeof === 'number' 守卫），其他缺则不显示
+      valuation: {
+        pe: '<TTM PE，如 "约50倍" / "32x">',          // 可选
+        pePercentile: 85,                              // 必填（0-100 数字）
+        fromHigh: '距前高-15%',                         // 可选
+        grossMargin: '50%+',                            // 可选（毛利率 = 定价权印证）
+        note: 'PE处历史85%分位，卡口逻辑已被充分定价'   // 可选
+      },
+
       // 卡口验证清单（可选 — 缺则不渲染折叠区，整体状态徽章也不显示）
       // 整体状态从 items[].status 推导：全 confirmed → verified；有 broken → falsified；其余 → pending
       // 用户在网页上点击单项状态徽章可循环切换 pending → confirmed → broken，
