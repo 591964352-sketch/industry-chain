@@ -172,7 +172,24 @@ CHAINS.<id> = {
       segment: '卡口环节名',
       strength: '★★★',
       logic: '<150字卡口逻辑>',
-      tags: ['标签1', '标签2', '标签3', '标签4']
+      tags: ['标签1', '标签2', '标签3', '标签4'],
+
+      // 卡口验证清单（可选 — 缺则不渲染折叠区，整体状态徽章也不显示）
+      // 整体状态从 items[].status 推导：全 confirmed → verified；有 broken → falsified；其余 → pending
+      // 用户在网页上点击单项状态徽章可循环切换 pending → confirmed → broken，
+      // 状态自动存 localStorage(key: `verify_${chainId}_${code}`)，刷新不丢。
+      verification: {
+        items: [
+          {
+            type: '供给寡头',         // 验证维度名（中文，建议 4 项：供给寡头/产能缺口/财报印证/交叉信源）
+            claim: '<论断一句>',
+            howToCheck: '<具体核查路径，写明查哪个公告/季报/研报>',
+            falsifySignal: '<什么信号一出现，卡口判断就站不住>',
+            status: 'pending'         // 初始状态：'pending'|'confirmed'|'broken'（运行时被 localStorage 覆盖）
+          }
+        ],
+        note: '<验证总结备注（可选）>'
+      }
     },
     // ... 2-3 个核心卡口
   ],

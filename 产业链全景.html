@@ -262,7 +262,7 @@
 <div class="main-area">
   <div class="header">
     <h1>产业链全景<span>· 物理卡口投研</span></h1>
-    <p class="subtitle">从宏观到微观，用物理约束当筛子，挖出产业链"河道收窄处"的寡头瓶颈 · <span style="color:var(--accent);font-weight:600;">数据截止：2026-06-08</span></p>
+    <p class="subtitle">从宏观到微观，用物理约束当筛子，挖出产业链"河道收窄处"的寡头瓶颈 · <span style="color:var(--accent);font-weight:600;">数据截止：2026-06-11</span></p>
   </div>
   <div class="container" id="chain-content"></div>
 </div>
@@ -286,6 +286,60 @@
 // DATA LAYER
 // ================================================================
 const CHAINS = {};
+
+// ==================== 本地持久化助手（升级一：卡口验证状态用） ====================
+const LS = {
+  get(key, def) {
+    try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : def; }
+    catch(e) { console.warn('LS.get parse fail', key, e); return def; }
+  },
+  set(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); }
+    catch(e) { console.warn('LS.set fail', key, e); }
+  }
+};
+const LS_KEYS = {
+  verify: (chainId, code) => `verify_${chainId}_${code}`
+};
+
+// 验证状态推导
+function loadVerifyStatus(chainId, code, type) {
+  return LS.get(LS_KEYS.verify(chainId, code), {})[type] || 'pending';
+}
+function collectVerifyStatuses(chainId, code, items) {
+  const map = LS.get(LS_KEYS.verify(chainId, code), {});
+  return items.map(it => map[it.type] || it.status || 'pending');
+}
+function computeOverallStatus(statuses) {
+  if (!statuses || !statuses.length) return 'pending';
+  if (statuses.some(s => s === 'broken')) return 'falsified';
+  if (statuses.every(s => s === 'confirmed')) return 'verified';
+  return 'pending';
+}
+function cycleVerifyStatus(chainId, code, type, el) {
+  const key = LS_KEYS.verify(chainId, code);
+  const map = LS.get(key, {});
+  const cur = map[type] || 'pending';
+  const next = cur === 'pending' ? 'confirmed' : cur === 'confirmed' ? 'broken' : 'pending';
+  map[type] = next;
+  LS.set(key, map);
+  // 局部更新这一格 tag（不重渲染整个赛道，避免 <details> 关闭、滚动位置丢失）
+  const cls = next==='confirmed'?'tg-green':next==='broken'?'tg-extreme':'tg-gray';
+  const txt = next==='confirmed'?'✅ 已通过':next==='broken'?'❌ 已证伪':'⏳ 待验证';
+  el.className = 'tag ' + cls;
+  el.textContent = txt;
+  // 顶部整体徽章联动
+  const card = el.closest('.choke-card');
+  const badge = card && card.querySelector('.verify-overall');
+  if (badge) {
+    const all = Object.values(map);
+    const ov = computeOverallStatus(all.length ? all : ['pending']);
+    const ocls = ov==='verified'?'tg-green':ov==='falsified'?'tg-extreme':'tg-gray';
+    const otxt = ov==='verified'?'✅ 已验证':ov==='falsified'?'❌ 已证伪':'⏳ 待验证';
+    badge.className = 'tag verify-overall ' + ocls;
+    badge.textContent = otxt;
+  }
+}
 
 // ==================== PCB ====================
 CHAINS.pcb = {
@@ -492,7 +546,17 @@ CHAINS.pcb.fourQuestions = {
 
 // PCB Choke Points
 CHAINS.pcb.chokePoints = [
-  { rank:1, name:'东材科技', code:'601208', segment:'M9碳氢树脂', strength:'★★★', logic:'全球<strong>仅2家</strong>通过英伟达M9碳氢树脂认证。台光独供2-3年排他协议。眉山3500吨<strong>2026年6月30日投料试产（提前至Q2末）</strong>。Q1净利1.87亿+103%，高速树脂+131%。2026年全球缺口<strong>~5000吨（63%）</strong>。M10树脂已进入客户验证。', tags:['双寡头','无替代','缺口63%','Q1净利+103%'] },
+  { rank:1, name:'东材科技', code:'601208', segment:'M9碳氢树脂', strength:'★★★', logic:'全球<strong>仅2家</strong>通过英伟达M9碳氢树脂认证。台光独供2-3年排他协议。眉山3500吨<strong>2026年6月30日投料试产（提前至Q2末）</strong>。Q1净利1.87亿+103%，高速树脂+131%。2026年全球缺口<strong>~5000吨（63%）</strong>。M10树脂已进入客户验证。', tags:['双寡头','无替代','缺口63%','Q1净利+103%'],
+    verification: {
+      items: [
+        { type:'供给寡头', claim:'全球仅东材+JX化学2家通过英伟达M9认证', howToCheck:'搜圣泉(605589)、世名(300522)、SABIC最新公告与投资者问答，看有无第三家宣布M9认证', falsifySignal:'出现第三家通过认证 → 卡口降级', status:'pending' },
+        { type:'产能缺口', claim:'2026全球缺口5000吨/缺口率63%', howToCheck:'查东材眉山3500吨项目投产公告(已承诺2026.6.30投料试产)，交叉验证英伟达Rubin实际用量', falsifySignal:'缺口率快速收窄 / 项目延期或大幅扩产 → 缺口逻辑塌', status:'pending' },
+        { type:'财报印证', claim:'高速电子树脂营收+131%、毛利率50%+', howToCheck:'查东材最新季报：相关业务营收增速、毛利率是否高且稳。毛利率是定价权最难造假的证据', falsifySignal:'毛利率平庸或营收不增 → 卡口大概率为假', status:'pending' },
+        { type:'交叉信源', claim:'至少两个独立来源印证', howToCheck:'一篇券商深度研报 + 公司年报/公告同时印证。只有单一来源(尤其只有自媒体)则存疑', falsifySignal:'只找得到单一来源 → 存疑', status:'pending' }
+      ],
+      note: '这是初始版本验证清单 — 实际状态需手动核查后切换'
+    }
+  },
   { rank:2, name:'菲利华', code:'300395', segment:'Q布/石英纤维布', strength:'★★★', logic:'<strong><mark class="updated">Q布全球市占约80%，绝对龙头</mark></strong>。国内唯一全产业链自主。已通过英伟达全链路认证。台光锁定500-700万米。Q布价格~260-300元/米（普通布8x）。全球缺口<strong>>40%</strong>。Q1营收6.22亿+53%。', tags:['全球80%龙头','无替代','缺口>40%','毛利55-65%'] },
   { rank:3, name:'铜冠铜箔', code:'301217', segment:'HVLP4铜箔', strength:'★★★', logic:'国内<strong>唯一</strong>HVLP1-4全系列量产。<strong><mark class="updated">锁定10台三船MSP-8000设备（全球70%），未来3年产能确定性最强</mark></strong>。日韩四强垄断85%+。阴极辊设备交期18-24月。2026年底全球月缺口<strong>~23%</strong>。2027市占率预期42%。', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'] }
 ];
@@ -2591,14 +2655,43 @@ function renderChain(chainId) {
     const medals = ['🥇','🥈','🥉'];
     h += `<div class="choke-card">`;
     h += `<div class="rank">${medals[i]||'#'+(i+1)} 优先级 ${i+1}</div>`;
-    h += `<h3>${c.name}</h3><div class="code">${c.code}</div>`;
+    h += `<h3>${c.name}</h3>`;
+    // ★ 升级一：整体验证状态徽章（可选字段，没填 verification 就不渲染）
+    if (c.verification && c.verification.items && c.verification.items.length) {
+      const all = collectVerifyStatuses(chainId, c.code, c.verification.items);
+      const ov = computeOverallStatus(all);
+      const ocls = ov==='verified'?'tg-green':ov==='falsified'?'tg-extreme':'tg-gray';
+      const otxt = ov==='verified'?'✅ 已验证':ov==='falsified'?'❌ 已证伪':'⏳ 待验证';
+      h += `<span class="tag verify-overall ${ocls}" style="font-size:10px;margin-left:6px;vertical-align:middle;">${otxt}</span>`;
+    }
+    h += `<div class="code">${c.code}</div>`;
     h += `<div class="seg">🔒 ${c.segment}</div>`;
     h += `<div class="logic">${c.logic}</div>`;
     h += `<div class="tags">`;
     c.tags.forEach(t => {
       h += `<span class="tag ${t.includes('缺口')||t.includes('垄断')||t.includes('替代')||t.includes('寡头')||t.includes('唯一')||t.includes('70%')||t.includes('81%')?'tg-extreme':t.includes('刚通过')||t.includes('认证')||t.includes('替换')?'tg-blue':'tg-green'}">${t}</span>`;
     });
-    h += `</div></div>`;
+    h += `</div>`;
+    // ★ 升级一：底部可折叠验证清单（可选字段，没填 verification 就不渲染）
+    if (c.verification && c.verification.items && c.verification.items.length) {
+      h += `<details style="margin-top:14px;"><summary style="cursor:pointer;font-size:12px;color:var(--muted);font-weight:600;padding:6px 0;">🔍 卡口验证 (${c.verification.items.length} 项 — 点击展开)</summary>`;
+      h += `<div class="tbl-scroll"><table class="stock-tbl" style="margin-top:10px;font-size:11px;"><thead><tr>`;
+      h += `<th>维度</th><th>论断</th><th>怎么查</th><th>证伪信号</th><th style="width:80px;">状态</th></tr></thead><tbody>`;
+      c.verification.items.forEach(it => {
+        const cur = loadVerifyStatus(chainId, c.code, it.type) || it.status || 'pending';
+        const cls = cur==='confirmed'?'tg-green':cur==='broken'?'tg-extreme':'tg-gray';
+        const txt = cur==='confirmed'?'✅ 已通过':cur==='broken'?'❌ 已证伪':'⏳ 待验证';
+        h += `<tr><td style="font-weight:600;">${it.type}</td><td>${it.claim}</td><td>${it.howToCheck}</td>`;
+        h += `<td>${it.falsifySignal}</td>`;
+        h += `<td><span class="tag ${cls}" style="cursor:pointer;" onclick="cycleVerifyStatus('${chainId}','${c.code}','${it.type}',this)">${txt}</span></td></tr>`;
+      });
+      h += `</tbody></table></div>`;
+      if (c.verification.note) {
+        h += `<div style="margin-top:8px;padding:8px 12px;background:var(--card2);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:11px;color:var(--muted);">📝 ${c.verification.note}</div>`;
+      }
+      h += `</details>`;
+    }
+    h += `</div>`;
   });
   h += `</div>`;
 
@@ -2630,6 +2723,7 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-11', sector:'system', desc:'🆕 卡口验证面板上线', old:'—', new:'每张卡口卡新增 4 维证据清单 + 整体状态徽章 + 本地持久化', pct:'NEW' },
   { date:'2026-06-08', sector:'semi', desc:'全球半导体销售额2026E', old:'~$1万亿', new:'$1.51万亿(WSTS 2026.6)', pct:'+51%' },
   { date:'2026-06-08', sector:'semi', desc:'华大九天Q1业绩', old:'预计2026E净利~2.5亿', new:'Q1实际亏损-0.73亿', pct:'📉由盈转亏' },
   { date:'2026-06-08', sector:'semi', desc:'南大光电Q1数据', old:'营收4.82亿/净利1.07亿', new:'营收6.62亿/净利1.24亿', pct:'修正' },
@@ -2693,8 +2787,8 @@ function renderChangelog() {
 
   list.innerHTML = recentChanges.map(c => {
     const dir = c.pct.startsWith('+') ? 'up' : 'down';
-    const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'power-semi' ? '功率半导/SiC' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'ai-full-chain' ? 'AI全产业链' : c.sector;
-    const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'power-semi' ? '#f6465d' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'ai-full-chain' ? 'var(--accent)' : 'var(--muted)';
+    const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'power-semi' ? '功率半导/SiC' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'ai-full-chain' ? 'AI全产业链' : c.sector === 'system' ? '系统升级' : c.sector;
+    const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'power-semi' ? '#f6465d' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'ai-full-chain' ? 'var(--accent)' : c.sector === 'system' ? '#3b82f6' : 'var(--muted)';
     return `<div class="changelog-item" onclick="switchChain('${c.sector}')">
       <div class="cl-date">${c.date}</div>
       <div class="cl-sector" style="color:${sectorColor};">${sectorName}</div>
