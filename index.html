@@ -165,6 +165,11 @@
   .choke-card .logic { font-size: 13px; line-height: 1.8; color: var(--text); margin-bottom: 14px; }
   .choke-card .tags { display: flex; gap: 6px; flex-wrap: wrap; }
 
+  /* 升级六：mobile 适配辅助 class（决策卡片网格 + 周期进度条 + 交易日志表格） */
+  .decision-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .cycle-stage { flex: 1; padding: 10px 6px; border-radius: 6px; text-align: center; font-size: 12px; transition: all 0.2s; }
+  .trade-table { font-size: 12px; }
+
   /* Footer */
   .footer { text-align: center; padding: 28px; margin-top: 28px; border-top: 1px solid var(--border); }
   .footer .disclaimer { background: rgba(246,70,93,0.05); border: 1px solid rgba(246,70,93,0.15); border-radius: 8px; padding: 18px; font-size: 12px; color: var(--muted); margin-bottom: 14px; line-height: 1.9; text-align: left; }
@@ -232,6 +237,13 @@
     .info-grid { grid-template-columns: 1fr; }
     .changelog-panel { display: none !important; }
     .cl-toggle { display: none !important; }
+    /* 升级六：mobile 适配（5 项升级加的 inline grid/flex 在 480px 下覆盖） */
+    .decision-grid { grid-template-columns: 1fr; gap: 14px; }   /* 决策卡片 2列→1列 */
+    .cycle-stage { padding: 8px 4px; font-size: 11px; }        /* 周期进度条更紧凑 */
+    .choke-card { padding: 14px; }                              /* choke-card 再省 2px */
+    .choke-card h3 { font-size: 16px; }                         /* h3 降到 16px 腾空间 */
+    .trade-table { font-size: 10px; }                           /* 交易日志 9 列表更紧 */
+    .trade-table th, .trade-table td { padding: 6px 4px; }      /* 9 列表格 padding 收紧 */
   }
 </style>
 </head>
@@ -2548,7 +2560,7 @@ function renderChain(chainId) {
         else if (s.key === 'peak')     { bg = 'rgba(246,70,93,0.4)';   fg = '#fff'; }
         else if (s.key === 'decline')  { bg = 'rgba(246,70,93,0.85)';  fg = '#fff'; }
       }
-      h += `<div style="flex:1;padding:10px 6px;background:${bg};color:${fg};border-radius:6px;text-align:center;font-size:12px;font-weight:${isCurrent?700:500};transition:all 0.2s;">${s.label}</div>`;
+      h += `<div class="cycle-stage" style="background:${bg};color:${fg};font-weight:${isCurrent?700:500};">${s.label}</div>`;
     });
     h += `</div>`;
     if (cp.reason) {
@@ -3010,7 +3022,7 @@ function renderCards() {
     h += `<div class="card" style="padding:40px;text-align:center;color:var(--muted);">`;
     h += `📭 还没有决策卡片。在「pcb / semi」等赛道的卡口结论 section 任意一张 choke-card 上点 <strong>「📌 加入决策卡片」</strong>，或上方「+ 新建」手填一张。</div>`;
   } else {
-    h += `<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;">`;
+    h += `<div class="decision-grid">`;
     cards.forEach(card => { h += renderCardItem(card); });
     h += `</div>`;
   }
@@ -3205,7 +3217,7 @@ function renderTrades() {
       h += `🔍 当前筛选下没有交易记录。</div>`;
     }
   } else {
-    h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;"><thead><tr>`;
+    h += `<div class="tbl-scroll"><table class="stock-tbl trade-table" style="font-size:12px;"><thead><tr>`;
     h += `<th>日期</th><th>标的</th><th>方向</th><th style="text-align:right;">价格</th><th style="text-align:right;">数量</th><th style="text-align:right;">金额</th><th>守纪律</th><th>备注</th><th style="width:60px;">操作</th>`;
     h += `</tr></thead><tbody>`;
     display.forEach(t => {
