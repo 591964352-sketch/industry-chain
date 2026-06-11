@@ -333,3 +333,20 @@ HTML 框架
 ### Cron 续期
 
 cron 任务 7 天后自动过期。如需长期运行，每次更新完成后自动重建 cron。
+
+## 决策卡片库（升级四，localStorage 业务层）
+
+**不在 CHAINS 数据里**，是 localStorage 业务层（key: `myCards`）。详见 [index.html] 的 `loadCards / saveCards / addToDecisionCard / renderCards` 等业务函数。
+
+数据结构（每张决策卡）：
+- **自动从 choke-card 带入**（一键建卡时）：`chain / chainName / code / name / segment / strength / logic / tags / valuation / verification`
+- **用户必填**：`whyWatch / grade / buyLogic / sellConditions / trackSignals / chokeBreakSignal`
+- **系统自动维护**：`id / status / createdAt / updatedAt / reviews[]`
+- **status 枚举**：`'watching'` 观察中 / `'holding'` 持仓中 / `'closed'` 已结案
+- **完成度计算**：4 阶段（关注理由 / 卡口强度 / 估值判断 / 买卖逻辑对），已填即算"完成"，显示 `X/4` 进度
+
+路由：
+- 侧栏入口 `data-chain="cards"`，点击后 `window.location.hash = 'cards'`
+- `route()` 函数分发：`#cards` → `renderCards()`；其他 → `switchChain(...)`
+- 升级五预留 `LS_KEYS.trades = 'myTrades'` 和 hash 路由 `#trades` 的 guard，不需要再动路由代码
+

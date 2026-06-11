@@ -255,6 +255,8 @@
     <span class="nav-item" data-chain="commercial-aero" onclick="switchChain('commercial-aero')">🚀 商业航天</span>
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 整合视图</span>
     <span class="nav-item" data-chain="ai-full-chain" onclick="switchChain('ai-full-chain')">🧠 AI 全产业链</span>
+    <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 我的决策</span>
+    <span class="nav-item" data-chain="cards" onclick="window.location.hash='cards'">📋 决策卡片库</span>
   </div>
 </nav>
 
@@ -299,7 +301,9 @@ const LS = {
   }
 };
 const LS_KEYS = {
-  verify: (chainId, code) => `verify_${chainId}_${code}`
+  verify: (chainId, code) => `verify_${chainId}_${code}`,
+  cards: 'myCards',
+  trades: 'myTrades'
 };
 
 // 验证状态推导
@@ -340,6 +344,91 @@ function cycleVerifyStatus(chainId, code, type, el) {
     badge.textContent = otxt;
   }
 }
+
+// ==================== 决策卡片业务函数（升级四） ====================
+function loadCards() { return LS.get(LS_KEYS.cards, []); }
+function saveCards(arr) { LS.set(LS_KEYS.cards, arr); }
+
+function addToDecisionCard(chainId, code) {
+  const all = loadCards();
+  if (all.some(c => c.chain === chainId && c.code === code)) {
+    alert('已存在该标的的决策卡片（按 code 去重）');
+    return;
+  }
+  const src = ((CHAINS[chainId] || {}).chokePoints) || [];
+  const c = src.find(x => x.code === code);
+  if (!c) { alert('找不到该卡口标的'); return; }
+  const now = new Date().toISOString().slice(0, 10);
+  all.push({
+    id: `${chainId}_${code}_${Date.now()}`,
+    chain: chainId,
+    chainName: ((CHAINS[chainId] || {}).name) || chainId,
+    code: c.code, name: c.name,
+    segment: c.segment || '',
+    strength: c.strength || null,
+    logic: c.logic || '',
+    tags: c.tags || [],
+    valuation: c.valuation || null,
+    verification: c.verification || null,
+    whyWatch: '', grade: c.strength || '',
+    pePercentile: (c.valuation && typeof c.valuation.pePercentile === 'number') ? c.valuation.pePercentile : null,
+    grossMargin: (c.valuation && c.valuation.grossMargin) || '',
+    valuationNote: '',
+    buyLogic: '', sellConditions: '', trackSignals: [],
+    chokeBreakSignal: '',
+    reviews: [],
+    status: 'watching',
+    createdAt: now, updatedAt: now
+  });
+  saveCards(all);
+  window.location.hash = 'cards';
+}
+
+function removeCard(id) {
+  if (!confirm('确定要删除这张决策卡片吗？此操作不可恢复。')) return;
+  saveCards(loadCards().filter(c => c.id !== id));
+  renderCards();
+}
+
+function updateCard(id, patch) {
+  const all = loadCards();
+  const idx = all.findIndex(c => c.id === id);
+  if (idx < 0) return;
+  all[idx] = { ...all[idx], ...patch, updatedAt: new Date().toISOString().slice(0, 10) };
+  saveCards(all);
+}
+
+// 占位示例卡（仅用于演示 UI，whyWatch/buyLogic/sellConditions 均为占位文字）
+const DEMO_CARD = {
+  id: 'demo_pcb_601208',
+  chain: 'pcb', chainName: 'PCB 印制电路板',
+  code: '601208', name: '东材科技（示例）',
+  segment: 'M9碳氢树脂',
+  strength: '★★★',
+  logic: '全球<strong>仅2家</strong>通过英伟达M9碳氢树脂认证...',
+  tags: ['双寡头','无替代','缺口63%','Q1净利+103%'],
+  valuation: { pe:'约50倍', pePercentile:82, grossMargin:'50%+', fromHigh:'距前高-15%' },
+  verification: null,
+  whyWatch: '📌 这是占位示例，仅为展示 UI 长啥样，请删除后自己新建',
+  grade: '★★★',
+  pePercentile: 82, grossMargin: '50%+',
+  valuationNote: '（占位）PE 82% 分位高估',
+  buyLogic: '（占位）英伟达 Rubin 量产 + 眉山 3500 吨 6.30 投料',
+  sellConditions: '（占位）PE 跌至 30x 或 M9 缺口收窄到 20% 以下',
+  trackSignals: ['英伟达季报资本开支', 'M9 月度缺口率', '东材季报毛利率'],
+  chokeBreakSignal: '（占位）出现第 3 家通过 M9 认证',
+  reviews: [{ date:'2026-06-12', content:'（占位）UI 演示用，请删除后新建' }],
+  status: 'watching',
+  createdAt: '2026-06-12', updatedAt: '2026-06-12'
+};
+
+// 第一次访问时塞入示例卡（仅当 localStorage 完全没有 myCards key 时）
+(function initDemoCard() {
+  const cur = LS.get(LS_KEYS.cards, null);
+  if (cur === null) {
+    LS.set(LS_KEYS.cards, [DEMO_CARD]);
+  }
+})();
 
 // ==================== PCB ====================
 CHAINS.pcb = {
@@ -2375,6 +2464,11 @@ CHAINS['ai-full-chain'] = {
 let currentChain = 'pcb';
 
 function switchChain(chainId) {
+  // ★ 升级四：决策卡片库 / 交易日志走独立路由，不进 renderChain
+  if (chainId === 'cards' || chainId === 'trades') {
+    if (chainId === 'cards') renderCards();
+    return;
+  }
   currentChain = chainId;
   // Update sidebar nav
   document.querySelectorAll('#nav-list .nav-item').forEach(n => {
@@ -2747,6 +2841,10 @@ function renderChain(chainId) {
       h += `<span class="tag ${t.includes('缺口')||t.includes('垄断')||t.includes('替代')||t.includes('寡头')||t.includes('唯一')||t.includes('70%')||t.includes('81%')?'tg-extreme':t.includes('刚通过')||t.includes('认证')||t.includes('替换')?'tg-blue':'tg-green'}">${t}</span>`;
     });
     h += `</div>`;
+    // ★ 升级四：从卡口结论一键建卡
+    h += `<div style="margin-top:14px;">`;
+    h += `<button onclick="addToDecisionCard('${chainId}','${c.code}')" style="padding:6px 14px;background:var(--card2);border:1px solid var(--accent);border-radius:6px;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;">📌 加入决策卡片</button>`;
+    h += `</div>`;
     // ★ 升级一：底部可折叠验证清单（可选字段，没填 verification 就不渲染）
     if (c.verification && c.verification.items && c.verification.items.length) {
       h += `<details style="margin-top:14px;"><summary style="cursor:pointer;font-size:12px;color:var(--muted);font-weight:600;padding:6px 0;">🔍 卡口验证 (${c.verification.items.length} 项 — 点击展开)</summary>`;
@@ -2798,6 +2896,7 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-12', sector:'system', desc:'🆕 决策卡片库上线', old:'—', new:'新增 #cards 路由 + 侧栏「我的决策」入口 + 一键建卡按钮 + 4阶段完成度展示 + localStorage 持久化', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆪 周期位置卡片上线（AI初版）', old:'—', new:'「① 赛道概览」section 末尾追加独立 .card，4 阶段进度条（复苏/繁荣/顶部/下行），pcb 填示例；周一cron会用真实数据覆盖', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆪 估值/择时条上线（AI初版）', old:'—', new:'每张卡口卡新增PE分位三色条（红≥80/橙30-80/绿<30），pcb 3张全填示例；周一cron会用真实数据覆盖', pct:'NEW' },
   { date:'2026-06-11', sector:'system', desc:'🆕 卡口验证面板上线', old:'—', new:'每张卡口卡新增 4 维证据清单 + 整体状态徽章 + 本地持久化', pct:'NEW' },
@@ -2875,16 +2974,145 @@ function renderChangelog() {
   }).join('');
 }
 
+// ==================== 决策卡片库渲染（升级四） ====================
+function renderCards() {
+  currentChain = 'cards';
+  document.querySelectorAll('#nav-list .nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.chain === 'cards');
+  });
+  const cards = loadCards();
+  let h = '';
+  h += `<div class="section"><div class="section-title"><span class="num num-result">📋</span> 我的决策卡片库</div>`;
+  h += `<div class="section-desc">把研究结论接上你的决策记录。所有数据存 localStorage（key: myCards），刷新不丢。</div>`;
+  // 行内展开表单
+  h += `<div class="card" style="padding:20px;margin-bottom:18px;">`;
+  h += `<div class="card-header" style="font-size:15px;"><button onclick="toggleNewCardForm()" style="padding:6px 14px;background:var(--accent);color:#0f1117;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">+ 新建决策卡片</button>`;
+  h += `<span style="font-size:12px;color:var(--muted);font-weight:500;margin-left:12px;">或从卡口结论的 choke-card 直接点「📌 加入决策卡片」</span></div>`;
+  h += `<div id="new-card-form" style="display:none;margin-top:14px;padding:14px;background:var(--card2);border-radius:6px;">`;
+  h += formField('whyWatch', '为什么关注它（一句话）', '');
+  h += formField('grade', '卡口强度', '★★★ / ★★☆ / 不通过');
+  h += formField('pePercentile', 'PE 历史分位（0-100）', '数字');
+  h += formField('grossMargin', '毛利率', '如 50%+');
+  h += formField('valuationNote', '估值一句话判断', '');
+  h += formField('buyLogic', '买入逻辑（什么情况下我错了）', '');
+  h += `<div style="margin-bottom:10px;padding:8px 12px;background:rgba(249,115,22,0.15);border-left:3px solid var(--barrier-high);border-radius:0 4px 4px 0;font-size:11px;color:var(--barrier-high);font-weight:600;">⚠️ 买入即写死，盘中不许改</div>`;
+  h += formField('sellConditions', '卖出条件', '触发什么信号就撤');
+  h += formField('chokeBreakSignal', '卡口什么情况下松动→我就撤', '');
+  h += formField('trackSignals', '要跟踪的信号（逗号分隔）', '信号1, 信号2, 信号3');
+  h += `<button onclick="saveNewCard()" style="padding:8px 20px;background:var(--green);color:#0f1117;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;">💾 保存卡片</button>`;
+  h += `<button onclick="toggleNewCardForm()" style="padding:8px 14px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:6px;font-size:12px;cursor:pointer;margin-left:8px;">取消</button>`;
+  h += `</div></div>`;
+  // 卡片网格
+  if (!cards.length) {
+    h += `<div class="card" style="padding:40px;text-align:center;color:var(--muted);">`;
+    h += `📭 还没有决策卡片。在「pcb / semi」等赛道的卡口结论 section 任意一张 choke-card 上点 <strong>「📌 加入决策卡片」</strong>，或上方「+ 新建」手填一张。</div>`;
+  } else {
+    h += `<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;">`;
+    cards.forEach(card => { h += renderCardItem(card); });
+    h += `</div>`;
+  }
+  h += `</div>`;
+  document.getElementById('chain-content').innerHTML = h;
+  window.scrollTo(0, 0);
+}
+
+function formField(name, label, placeholder) {
+  return `<div style="margin-bottom:10px;"><label style="display:block;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">${label}</label>`
+       + `<input name="${name}" placeholder="${placeholder || ''}" style="width:100%;padding:8px 10px;background:var(--card);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:13px;font-family:inherit;" />`
+       + `</div>`;
+}
+
+function toggleNewCardForm() {
+  const el = document.getElementById('new-card-form');
+  if (el) el.style.display = (el.style.display === 'none' ? 'block' : 'none');
+}
+
+function saveNewCard() {
+  const form = document.getElementById('new-card-form');
+  if (!form) return;
+  const get = n => (form.querySelector(`[name="${n}"]`) || {}).value || '';
+  const id = `manual_${Date.now()}`;
+  const now = new Date().toISOString().slice(0, 10);
+  const card = {
+    id, code: '—', name: '手填卡片', chain: 'manual', chainName: '手填',
+    segment: '', strength: null, logic: '', tags: [],
+    valuation: null, verification: null,
+    whyWatch: get('whyWatch'),
+    grade: get('grade'),
+    pePercentile: parseFloat(get('pePercentile')) || null,
+    grossMargin: get('grossMargin'),
+    valuationNote: get('valuationNote'),
+    buyLogic: get('buyLogic'),
+    sellConditions: get('sellConditions'),
+    trackSignals: get('trackSignals').split(',').map(s => s.trim()).filter(Boolean),
+    chokeBreakSignal: get('chokeBreakSignal'),
+    reviews: [], status: 'watching',
+    createdAt: now, updatedAt: now
+  };
+  const all = loadCards();
+  all.push(card);
+  saveCards(all);
+  renderCards();
+}
+
+function renderCardItem(card) {
+  const stages = [
+    !!card.whyWatch,
+    !!card.grade,
+    card.pePercentile != null || !!card.valuationNote,
+    !!card.buyLogic && !!card.sellConditions
+  ];
+  const done = stages.filter(Boolean).length;
+  const statusCls = card.status === 'holding' ? 'tg-blue' : card.status === 'closed' ? 'tg-gray' : 'tg-high';
+  const statusTxt = card.status === 'holding' ? '🟢 持仓中' : card.status === 'closed' ? '⚫ 已结案' : '🟡 观察中';
+  let h = `<div class="choke-card" style="border-color:var(--border);">`;
+  h += `<div class="rank" style="background:var(--card2);color:var(--muted);">${done}/4</div>`;
+  h += `<h3 style="font-size:18px;">${card.name} <span style="font-size:12px;color:var(--muted);font-weight:400;">${card.code}</span></h3>`;
+  h += `<div class="code">${card.chainName || card.chain} · ${card.segment || '—'}</div>`;
+  h += `<div class="seg" style="color:var(--muted);">阶段完成度: ${done}/4</div>`;
+  h += `<div style="margin-top:8px;"><span class="tag ${statusCls}" style="font-size:10px;">${statusTxt}</span>`;
+  if (card.strength) h += `<span class="tag tg-extreme" style="font-size:10px;margin-left:4px;">卡口 ${card.strength}</span>`;
+  h += `</div>`;
+  if (card.whyWatch) h += `<div class="logic" style="margin-top:10px;font-size:12px;"><strong>关注理由：</strong>${card.whyWatch}</div>`;
+  if (card.buyLogic) h += `<div class="logic" style="font-size:12px;"><strong>买入逻辑：</strong>${card.buyLogic}</div>`;
+  if (card.sellConditions) h += `<div class="logic" style="font-size:12px;color:var(--barrier-high);"><strong>卖出条件：</strong>${card.sellConditions}</div>`;
+  if (card.trackSignals && card.trackSignals.length) {
+    h += `<div style="font-size:11px;color:var(--muted);margin-top:6px;">🔍 跟踪：${card.trackSignals.join(' / ')}</div>`;
+  }
+  h += `<div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;">`;
+  h += `<button onclick="removeCard('${card.id}')" style="padding:4px 10px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:4px;font-size:11px;cursor:pointer;">🗑️ 删除</button>`;
+  h += `<button onclick="toggleCardStatus('${card.id}')" style="padding:4px 10px;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:4px;font-size:11px;cursor:pointer;">🔄 切换状态</button>`;
+  h += `</div>`;
+  h += `</div>`;
+  return h;
+}
+
+function toggleCardStatus(id) {
+  const all = loadCards();
+  const idx = all.findIndex(c => c.id === id);
+  if (idx < 0) return;
+  const cycle = { watching: 'holding', holding: 'closed', closed: 'watching' };
+  all[idx].status = cycle[all[idx].status] || 'watching';
+  all[idx].updatedAt = new Date().toISOString().slice(0, 10);
+  saveCards(all);
+  renderCards();
+}
+
+// ==================== 路由分发（升级四） ====================
+function route() {
+  const hash = (window.location.hash || '').replace('#', '') || 'pcb';
+  if (hash === 'cards') return renderCards();
+  return switchChain(CHAINS[hash] ? hash : 'pcb');
+}
+
 function init() {
-  const hash = window.location.hash.replace('#', '');
-  const startChain = CHAINS[hash] ? hash : 'pcb';
-  switchChain(startChain);
+  route();
   renderChangelog();
 }
 window.addEventListener('DOMContentLoaded', init);
 window.addEventListener('hashchange', () => {
-  const hash = window.location.hash.replace('#', '');
-  if (CHAINS[hash] && hash !== currentChain) switchChain(hash);
+  const hash = (window.location.hash || '').replace('#', '');
+  if (hash !== currentChain) route();
 });
 </script>
 
