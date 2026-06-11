@@ -70,6 +70,21 @@ CHAINS.<id> = {
   name: '<中文名>',      // 如 'CPO 共封装光学'
   icon: '<emoji>',       // Tab 图标
 
+  // 周期位置（可选 — 缺 stage 就不渲染底部"周期位置"卡片）
+  // 4 阶段：recovery(复苏) / boom(繁荣) / peak(顶部) / decline(下行)
+  // 颜色规则：复苏=var(--green) / 繁荣=var(--barrier-high) / 顶部=rgba(246,70,93,0.4) / 下行=rgba(246,70,93,0.85)
+  // 0 CSS 增量：复用现有 .card 容器 + inline 进度条
+  cyclePosition: {
+    stage: 'boom',                                      // 必填（4 选 1）
+    label: '繁荣中后期',                                  // 中文标签
+    reason: 'AI 算力超级上行周期，需求强劲但估值已高',     // 当前阶段理由
+    watchSignals: [                                      // 关注哪些信号判断周期是否转向
+      '英伟达资本开支指引',
+      '上游集中扩产公告',
+      'M9 材料缺口率变化'
+    ]
+  },
+
   // ⓪ 白话解读
   plainIntro: {
     analogy: '<一句话比喻>',

@@ -344,6 +344,7 @@ function cycleVerifyStatus(chainId, code, type, el) {
 // ==================== PCB ====================
 CHAINS.pcb = {
   id: 'pcb', name: 'PCB 印制电路板', icon: '🔌',
+  cyclePosition: { stage:'boom', label:'繁荣中后期', reason:'🆪 AI 算力超级上行周期，需求强劲但估值已高，2027 年上游集中扩产可能形成供给拐点（AI初版，周一cron覆盖）', watchSignals:['英伟达资本开支指引（季度财报披露）','上游集中扩产公告（M9 树脂/HVLP 铜箔新产能落地）','M9 材料缺口率变化（缺口收窄 = 见顶信号）'] },
   plainIntro: {
     analogy: 'PCB = 所有电子产品的"骨架 + 血管系统"',
     paragraphs: [
@@ -559,9 +560,27 @@ CHAINS.pcb.chokePoints = [
     }
   },
   { rank:2, name:'菲利华', code:'300395', segment:'Q布/石英纤维布', strength:'★★★', logic:'<strong><mark class="updated">Q布全球市占约80%，绝对龙头</mark></strong>。国内唯一全产业链自主。已通过英伟达全链路认证。台光锁定500-700万米。Q布价格~260-300元/米（普通布8x）。全球缺口<strong>>40%</strong>。Q1营收6.22亿+53%。', tags:['全球80%龙头','无替代','缺口>40%','毛利55-65%'],
-    valuation: { pe:'约35倍', pePercentile:45, grossMargin:'55%+', fromHigh:'距前高-30%', note:'🆪 PE处历史中位（AI估值初版），Q布全球80%市占+全系列认证落地，估值与基本面匹配；周一cron会用真实数据覆盖' } },
+    valuation: { pe:'约35倍', pePercentile:45, grossMargin:'55%+', fromHigh:'距前高-30%', note:'🆪 PE处历史中位（AI估值初版），Q布全球80%市占+全系列认证落地，估值与基本面匹配；周一cron会用真实数据覆盖' },
+    verification: {
+      items: [
+        { type:'供给寡头', claim:'Q布全球市占~80%，绝对龙头', howToCheck:'搜菲利华/圣戈班/迈图(海外)的Q布产能公告与投资者问答，看菲利华市占率是否仍维持80%左右', falsifySignal:'市占率快速下滑 / 海外新进入者宣布Q布量产 → 卡口降级', status:'pending' },
+        { type:'产能缺口', claim:'全球缺口>40%、价格~普通布8x', howToCheck:'查菲利华Q布年度出货量、英伟达AI服务器Q布需求测算、台光锁单公告，交叉验证供需差', falsifySignal:'缺口快速收窄 / Q布价格回落至普通布3-4x以内 → 定价权逻辑塌', status:'pending' },
+        { type:'财报印证', claim:'Q1营收6.22亿+53%、毛利55-65%', howToCheck:'查菲利华最新季报：分产品营收增速、Q布毛利率是否稳定在55%+。毛利率是定价权最难造假的证据', falsifySignal:'毛利率跌到40%以下 / 营收不增 → 卡口大概率为假', status:'pending' },
+        { type:'交叉信源', claim:'至少两个独立来源印证全球80%市占', howToCheck:'一篇券商深度研报 + 公司年报/调研纪要 + 行业第三方数据（Prismark/CPCA）同时印证', falsifySignal:'只找得到单一来源(尤其只有自媒体) → 存疑', status:'pending' }
+      ],
+      note: '这是初始版本验证清单 — 实际状态需手动核查后切换'
+    } },
   { rank:3, name:'铜冠铜箔', code:'301217', segment:'HVLP4铜箔', strength:'★★★', logic:'国内<strong>唯一</strong>HVLP1-4全系列量产。<strong><mark class="updated">锁定10台三船MSP-8000设备（全球70%），未来3年产能确定性最强</mark></strong>。日韩四强垄断85%+。阴极辊设备交期18-24月。2026年底全球月缺口<strong>~23%</strong>。2027市占率预期42%。', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'],
-    valuation: { pe:'约22倍', pePercentile:18, grossMargin:'18%+', fromHigh:'距前高-55%', note:'🆪 PE处历史18%分位（AI估值初版），HVLP4爬坡存在不确定性，但估值已充分反映悲观预期；周一cron会用真实数据覆盖' } }
+    valuation: { pe:'约22倍', pePercentile:18, grossMargin:'18%+', fromHigh:'距前高-55%', note:'🆪 PE处历史18%分位（AI估值初版），HVLP4爬坡存在不确定性，但估值已充分反映悲观预期；周一cron会用真实数据覆盖' },
+    verification: {
+      items: [
+        { type:'供给寡头', claim:'锁定三船MSP-8000设备10台、全球70%阴极辊产能', howToCheck:'查三船/MSP-8000出货清单、铜冠铜箔/卢森堡/诺贝丽斯(海外)的设备锁定公告，看铜冠锁定比例', falsifySignal:'设备锁定被打破 / 国产新进入者锁定三船新设备 → 设备垄断逻辑塌', status:'pending' },
+        { type:'产能缺口', claim:'2026年底全球月缺口~23%、日韩四强垄断85%+', howToCheck:'查铜冠HVLP4月产能、英伟达Rubin/Blackwell HVLP铜箔需求测算、日韩厂商扩产公告，交叉验证供需差', falsifySignal:'日韩厂商快速扩产 / 缺口率快速收窄 → 卡口降级', status:'pending' },
+        { type:'财报印证', claim:'HVLP1-4全系列量产、2027市占率预期42%', howToCheck:'查铜冠最新季报：HVLP4出货量爬坡进度、毛利率水平。HVLP4毛利率应显著高于普通铜箔(15-20%)', falsifySignal:'HVLP4毛利率平庸 / 出货量爬坡不达预期 → 卡口大概率为假', status:'pending' },
+        { type:'交叉信源', claim:'至少两个独立来源印证设备锁定+市占率', howToCheck:'一篇券商深度研报 + 公司年报/公告 + 三船公司出货公告同时印证。只有单一来源则存疑', falsifySignal:'只找得到单一来源(尤其只有自媒体) → 存疑', status:'pending' }
+      ],
+      note: '这是初始版本验证清单 — 实际状态需手动核查后切换'
+    } }
 ];
 CHAINS.pcb.supplyGap = [
   { segment:'M9碳氢树脂', demand:'~8000吨/年', capacity:'~3000吨/年', gap:'5000吨', rate:'~63%', bottleneck:'认证周期18-24个月' },
@@ -2412,6 +2431,41 @@ function renderChain(chainId) {
   d.overview.forEach(o => {
     h += `<div class="overview-item"><div class="label">${o.label}</div><div class="value" style="${o.color?'color:'+o.color:''}">${o.value}</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">${o.note}</div></div>`;
   });
+  // ★ 升级三：周期位置卡片（可选字段，没填 cyclePosition 就不渲染）
+  if (d.cyclePosition && d.cyclePosition.stage) {
+    const cp = d.cyclePosition;
+    const stages = [
+      { key:'recovery', label:'复苏' },
+      { key:'boom',     label:'繁荣' },
+      { key:'peak',     label:'顶部' },
+      { key:'decline',  label:'下行' }
+    ];
+    h += `<div class="card" style="padding:20px;margin-top:18px;">`;
+    h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">📍 周期位置 — <span style="color:var(--accent);">${cp.label || ''}</span></div>`;
+    h += `<div style="display:flex;gap:6px;margin-bottom:14px;">`;
+    stages.forEach(s => {
+      const isCurrent = s.key === cp.stage;
+      let bg = 'var(--card2)', fg = 'var(--muted)';
+      if (isCurrent) {
+        if (s.key === 'recovery')      { bg = 'var(--green)';          fg = '#0f1117'; }
+        else if (s.key === 'boom')     { bg = 'var(--barrier-high)';   fg = '#0f1117'; }
+        else if (s.key === 'peak')     { bg = 'rgba(246,70,93,0.4)';   fg = '#fff'; }
+        else if (s.key === 'decline')  { bg = 'rgba(246,70,93,0.85)';  fg = '#fff'; }
+      }
+      h += `<div style="flex:1;padding:10px 6px;background:${bg};color:${fg};border-radius:6px;text-align:center;font-size:12px;font-weight:${isCurrent?700:500};transition:all 0.2s;">${s.label}</div>`;
+    });
+    h += `</div>`;
+    if (cp.reason) {
+      h += `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;padding:10px 14px;background:var(--card2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;">💡 ${cp.reason}</div>`;
+    }
+    if (cp.watchSignals && cp.watchSignals.length) {
+      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🔍 关注信号（判断周期是否转向）</div>`;
+      h += `<ul style="margin:0;padding-left:20px;font-size:12px;color:var(--text);line-height:1.8;">`;
+      cp.watchSignals.forEach(sig => { h += `<li>${sig}</li>`; });
+      h += `</ul>`;
+    }
+    h += `</div>`;
+  }
   h += `</div></div>`;
 
   // Section 2/3: Tree Map
@@ -2744,6 +2798,7 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-12', sector:'system', desc:'🆪 周期位置卡片上线（AI初版）', old:'—', new:'「① 赛道概览」section 末尾追加独立 .card，4 阶段进度条（复苏/繁荣/顶部/下行），pcb 填示例；周一cron会用真实数据覆盖', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆪 估值/择时条上线（AI初版）', old:'—', new:'每张卡口卡新增PE分位三色条（红≥80/橙30-80/绿<30），pcb 3张全填示例；周一cron会用真实数据覆盖', pct:'NEW' },
   { date:'2026-06-11', sector:'system', desc:'🆕 卡口验证面板上线', old:'—', new:'每张卡口卡新增 4 维证据清单 + 整体状态徽章 + 本地持久化', pct:'NEW' },
   { date:'2026-06-08', sector:'semi', desc:'全球半导体销售额2026E', old:'~$1万亿', new:'$1.51万亿(WSTS 2026.6)', pct:'+51%' },
