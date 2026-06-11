@@ -350,3 +350,22 @@ cron 任务 7 天后自动过期。如需长期运行，每次更新完成后自
 - `route()` 函数分发：`#cards` → `renderCards()`；其他 → `switchChain(...)`
 - 升级五预留 `LS_KEYS.trades = 'myTrades'` 和 hash 路由 `#trades` 的 guard，不需要再动路由代码
 
+## 交易日志（升级五，localStorage 业务层）
+
+**不在 CHAINS 数据里**，是 localStorage 业务层（key: `myTrades`）。详见 [index.html] 的 `loadTrades / saveTrades / addTrade / removeTrade / renderTrades` 等业务函数。
+
+数据结构（每笔交易）：
+- **核心**：`date / side / price / qty / amount / followedPlan`
+- **可选**：`cardId / cardName / breakReason / note`
+- **系统自动维护**：`id / createdAt`
+- **side 枚举**：`'buy'` 买入 / `'sell'` 卖出
+- **followedPlan 强制约束**：false 时 `breakReason` 必填（前端 alert 拦截）
+- **统计字段**：从所有交易推导 `disciplined / impulse / discRate / impRate`
+
+路由（升级四已预留，升级五打开）：
+- 侧栏 `data-chain="trades"`，点击后 `window.location.hash = 'trades'`
+- `route()` 函数分发：`#trades` → `renderTrades()`
+- `switchChain` guard 已包含 `trades` 分支
+
+**不预填示例**：交易是真金白银的记录，**不**给占位数据；首次进入空状态 + 提示"去决策卡片库关联"是正确选择。
+

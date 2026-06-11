@@ -257,6 +257,7 @@
     <span class="nav-item" data-chain="ai-full-chain" onclick="switchChain('ai-full-chain')">🧠 AI 全产业链</span>
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 我的决策</span>
     <span class="nav-item" data-chain="cards" onclick="window.location.hash='cards'">📋 决策卡片库</span>
+    <span class="nav-item" data-chain="trades" onclick="window.location.hash='trades'">📒 交易日志</span>
   </div>
 </nav>
 
@@ -2467,6 +2468,7 @@ function switchChain(chainId) {
   // ★ 升级四：决策卡片库 / 交易日志走独立路由，不进 renderChain
   if (chainId === 'cards' || chainId === 'trades') {
     if (chainId === 'cards') renderCards();
+    if (chainId === 'trades') renderTrades();   // ★ 升级五
     return;
   }
   currentChain = chainId;
@@ -2896,6 +2898,7 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-12', sector:'system', desc:'🆕 交易日志上线', old:'—', new:'新增 #trades 路由 + 侧栏「交易日志」入口 + 新建/删除交易 + 守纪律/冲动统计 + localStorage 持久化', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆕 决策卡片库上线', old:'—', new:'新增 #cards 路由 + 侧栏「我的决策」入口 + 一键建卡按钮 + 4阶段完成度展示 + localStorage 持久化', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆪 周期位置卡片上线（AI初版）', old:'—', new:'「① 赛道概览」section 末尾追加独立 .card，4 阶段进度条（复苏/繁荣/顶部/下行），pcb 填示例；周一cron会用真实数据覆盖', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆪 估值/择时条上线（AI初版）', old:'—', new:'每张卡口卡新增PE分位三色条（红≥80/橙30-80/绿<30），pcb 3张全填示例；周一cron会用真实数据覆盖', pct:'NEW' },
@@ -3098,10 +3101,200 @@ function toggleCardStatus(id) {
   renderCards();
 }
 
+// ==================== 交易日志业务函数（升级五） ====================
+function loadTrades() { return LS.get(LS_KEYS.trades, []); }
+function saveTrades(arr) { LS.set(LS_KEYS.trades, arr); }
+
+function addTrade(trade) {
+  const all = loadTrades();
+  trade.id = `trade_${Date.now()}`;
+  trade.createdAt = new Date().toISOString();
+  if (!trade.breakReason) trade.breakReason = '';
+  if (!trade.note) trade.note = '';
+  all.unshift(trade);
+  saveTrades(all);
+}
+
+function removeTrade(id) {
+  if (!confirm('确定要删除这笔交易记录吗？此操作不可恢复。')) return;
+  saveTrades(loadTrades().filter(t => t.id !== id));
+  renderTrades();
+}
+
+function lookupCardName(cardId) {
+  if (!cardId) return '';
+  const c = loadCards().find(x => x.id === cardId);
+  return c ? c.name : '';
+}
+
+// ==================== 交易日志渲染（升级五） ====================
+let _tradesFilter = 'all';
+
+function renderTrades() {
+  currentChain = 'trades';
+  document.querySelectorAll('#nav-list .nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.chain === 'trades');
+  });
+  const trades = loadTrades();
+  let h = '';
+  h += `<div class="section"><div class="section-title"><span class="num num-result">📒</span> 交易日志</div>`;
+  h += `<div class="section-desc">每笔实盘交易都记录一下，月底看自己冲动了多少次。所有数据存 localStorage（key: myTrades），刷新不丢。</div>`;
+
+  // 顶部统计栏
+  const total = trades.length;
+  const disciplined = trades.filter(t => t.followedPlan === true).length;
+  const impulse = trades.filter(t => t.followedPlan === false).length;
+  const discRate = total ? Math.round(disciplined / total * 100) : 0;
+  const impRate = total ? Math.round(impulse / total * 100) : 0;
+  h += `<div class="card" style="padding:20px;margin-bottom:18px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;">`;
+  h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">总交易</div><div style="font-size:24px;font-weight:700;color:var(--accent);">${total} 笔</div></div>`;
+  h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">✅ 守纪律</div><div style="font-size:24px;font-weight:700;color:var(--green);">${disciplined} 笔 (${discRate}%)</div></div>`;
+  h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">❌ 冲动</div><div style="font-size:24px;font-weight:700;color:var(--red);">${impulse} 笔 (${impRate}%)</div></div>`;
+  h += `</div>`;
+
+  // 行内展开表单
+  h += `<div class="card" style="padding:20px;margin-bottom:18px;">`;
+  h += `<div class="card-header" style="font-size:15px;"><button onclick="toggleNewTradeForm()" style="padding:6px 14px;background:var(--accent);color:#0f1117;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">+ 新建交易记录</button></div>`;
+  h += `<div id="new-trade-form" style="display:none;margin-top:14px;padding:14px;background:var(--card2);border-radius:6px;">`;
+  h += formField('t_date', '交易日期', 'YYYY-MM-DD');
+  h += formField('t_cardId', '关联决策卡片 ID（可选）', '如 pcb_601208_xxx');
+  h += `<div style="margin-bottom:10px;"><label style="display:block;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">方向</label>`;
+  h += `<label style="margin-right:14px;cursor:pointer;font-size:13px;"><input type="radio" name="t_side" value="buy" checked /> 🟢 买入</label>`;
+  h += `<label style="cursor:pointer;font-size:13px;"><input type="radio" name="t_side" value="sell" /> 🔴 卖出</label></div>`;
+  h += formField('t_price', '价格（元/股）', '如 50.5');
+  h += formField('t_qty', '数量（股）', '如 100');
+  h += formField('t_note', '一句话想法', '');
+
+  // 两个大按钮：守纪律 / 冲动
+  h += `<div style="margin-bottom:10px;"><label style="display:block;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px;">是否守纪律？</label>`;
+  h += `<div style="display:flex;gap:10px;">`;
+  h += `<button type="button" id="t-btn-disc" onclick="setDiscipline(true)" style="flex:1;padding:12px;background:var(--green);color:#0f1117;border:2px solid var(--green);border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;">✅ 守纪律</button>`;
+  h += `<button type="button" id="t-btn-imp" onclick="setDiscipline(false)" style="flex:1;padding:12px;background:var(--card);color:var(--muted);border:2px solid var(--border);border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;">❌ 冲动</button>`;
+  h += `</div></div>`;
+  h += `<div id="t-break-reason-box" style="display:none;margin-bottom:10px;padding:8px 12px;background:rgba(246,70,93,0.1);border-left:3px solid var(--red);border-radius:0 4px 4px 0;">`;
+  h += `<div style="font-size:11px;color:var(--red);font-weight:600;margin-bottom:4px;">⚠️ 选"冲动"时必填：为什么没按计划？</div>`;
+  h += formField('t_breakReason', '原因', '例：FOMO 追高 / 跌了扛不住割肉 / 看到别人买就跟');
+  h += `</div>`;
+  h += `<input type="hidden" id="t_followedPlan" value="true" />`;
+
+  h += `<button onclick="saveNewTrade()" style="padding:8px 20px;background:var(--green);color:#0f1117;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;">💾 保存交易</button>`;
+  h += `<button onclick="toggleNewTradeForm()" style="padding:8px 14px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:6px;font-size:12px;cursor:pointer;margin-left:8px;">取消</button>`;
+  h += `</div></div>`;
+
+  // 顶部筛选：3 chip 按钮
+  h += `<div style="margin-bottom:14px;display:flex;gap:8px;align-items:center;">`;
+  h += `<span style="font-size:12px;color:var(--muted);font-weight:600;margin-right:6px;">筛选：</span>`;
+  const chipAll = _tradesFilter === 'all' ? 'background:var(--accent);color:#0f1117;' : 'background:transparent;color:var(--text);border:1px solid var(--border);';
+  const chipDisc = _tradesFilter === 'disciplined' ? 'background:var(--green);color:#0f1117;' : 'background:transparent;color:var(--text);border:1px solid var(--border);';
+  const chipImp = _tradesFilter === 'impulse' ? 'background:var(--red);color:#fff;' : 'background:transparent;color:var(--text);border:1px solid var(--border);';
+  h += `<button onclick="setTradesFilter('all')" style="padding:6px 14px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;${chipAll}">全部</button>`;
+  h += `<button onclick="setTradesFilter('disciplined')" style="padding:6px 14px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;${chipDisc}">✅ 守纪律</button>`;
+  h += `<button onclick="setTradesFilter('impulse')" style="padding:6px 14px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;${chipImp}">❌ 冲动</button>`;
+  h += `</div>`;
+
+  // 交易记录表
+  let display = trades;
+  if (_tradesFilter === 'disciplined') display = trades.filter(t => t.followedPlan === true);
+  if (_tradesFilter === 'impulse') display = trades.filter(t => t.followedPlan === false);
+
+  if (!display.length) {
+    h += `<div class="card" style="padding:40px;text-align:center;color:var(--muted);">`;
+    if (!total) {
+      h += `📭 还没有交易记录。点击「+ 新建交易记录」开始第一笔，或去 <strong>「📋 决策卡片库」</strong> 关联到已有的决策卡片。</div>`;
+    } else {
+      h += `🔍 当前筛选下没有交易记录。</div>`;
+    }
+  } else {
+    h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;"><thead><tr>`;
+    h += `<th>日期</th><th>标的</th><th>方向</th><th style="text-align:right;">价格</th><th style="text-align:right;">数量</th><th style="text-align:right;">金额</th><th>守纪律</th><th>备注</th><th style="width:60px;">操作</th>`;
+    h += `</tr></thead><tbody>`;
+    display.forEach(t => {
+      const sideCls = t.side === 'buy' ? 'tg-green' : 'tg-extreme';
+      const sideTxt = t.side === 'buy' ? '🟢 买' : '🔴 卖';
+      const discCls = t.followedPlan ? 'tg-green' : 'tg-extreme';
+      const discTxt = t.followedPlan ? '✅ 守纪律' : '❌ 冲动';
+      const rowBg = t.followedPlan === false ? 'background:rgba(246,70,93,0.06);' : '';
+      h += `<tr style="${rowBg}">`;
+      h += `<td>${t.date || '—'}</td>`;
+      h += `<td class="s-name">${t.cardName || (t.cardId ? `[${t.cardId}]` : '—')}<div class="s-code">${t.cardId || ''}</div></td>`;
+      h += `<td><span class="tag ${sideCls}" style="font-size:10px;">${sideTxt}</span></td>`;
+      h += `<td style="text-align:right;font-family:monospace;">${t.price ? t.price.toFixed(2) : '—'}</td>`;
+      h += `<td style="text-align:right;font-family:monospace;">${t.qty || '—'}</td>`;
+      h += `<td style="text-align:right;font-family:monospace;font-weight:600;">${t.amount ? t.amount.toFixed(0) : '—'}</td>`;
+      h += `<td><span class="tag ${discCls}" style="font-size:10px;cursor:help;" title="${t.breakReason || ''}">${discTxt}</span></td>`;
+      h += `<td style="font-size:11px;max-width:200px;">${t.note || ''}${t.breakReason ? `<div style="color:var(--red);font-size:10px;margin-top:2px;">原因：${t.breakReason}</div>` : ''}</td>`;
+      h += `<td><button onclick="removeTrade('${t.id}')" style="padding:2px 8px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button></td>`;
+      h += `</tr>`;
+    });
+    h += `</tbody></table></div>`;
+  }
+  h += `</div>`;
+  document.getElementById('chain-content').innerHTML = h;
+  window.scrollTo(0, 0);
+}
+
+function setTradesFilter(f) {
+  _tradesFilter = f;
+  renderTrades();
+}
+
+function setDiscipline(followedPlan) {
+  document.getElementById('t_followedPlan').value = followedPlan ? 'true' : 'false';
+  const discBtn = document.getElementById('t-btn-disc');
+  const impBtn = document.getElementById('t-btn-imp');
+  const reasonBox = document.getElementById('t-break-reason-box');
+  if (followedPlan) {
+    discBtn.style.background = 'var(--green)'; discBtn.style.color = '#0f1117'; discBtn.style.borderColor = 'var(--green)'; discBtn.style.fontWeight = '700';
+    impBtn.style.background = 'var(--card)'; impBtn.style.color = 'var(--muted)'; impBtn.style.borderColor = 'var(--border)'; impBtn.style.fontWeight = '600';
+    if (reasonBox) reasonBox.style.display = 'none';
+  } else {
+    impBtn.style.background = 'var(--red)'; impBtn.style.color = '#fff'; impBtn.style.borderColor = 'var(--red)'; impBtn.style.fontWeight = '700';
+    discBtn.style.background = 'var(--card)'; discBtn.style.color = 'var(--muted)'; discBtn.style.borderColor = 'var(--border)'; discBtn.style.fontWeight = '600';
+    if (reasonBox) reasonBox.style.display = 'block';
+  }
+}
+
+function toggleNewTradeForm() {
+  const el = document.getElementById('new-trade-form');
+  if (el) el.style.display = (el.style.display === 'none' ? 'block' : 'none');
+  setDiscipline(true);
+}
+
+function saveNewTrade() {
+  const form = document.getElementById('new-trade-form');
+  if (!form) return;
+  const get = n => (form.querySelector(`[name="${n}"]`) || {}).value || '';
+  const followedPlan = document.getElementById('t_followedPlan').value === 'true';
+  const breakReason = get('t_breakReason');
+  if (!followedPlan && !breakReason.trim()) {
+    alert('选了"冲动"必须填原因（为什么没按计划）');
+    return;
+  }
+  const price = parseFloat(get('t_price')) || 0;
+  const qty = parseFloat(get('t_qty')) || 0;
+  const amount = price * qty;
+  const cardId = get('t_cardId').trim();
+  const trade = {
+    cardId: cardId,
+    cardName: lookupCardName(cardId),
+    date: get('t_date'),
+    side: (form.querySelector('[name="t_side"]:checked') || {}).value || 'buy',
+    price: price,
+    qty: qty,
+    amount: amount,
+    followedPlan: followedPlan,
+    breakReason: followedPlan ? '' : breakReason,
+    note: get('t_note')
+  };
+  addTrade(trade);
+  renderTrades();
+}
+
 // ==================== 路由分发（升级四） ====================
 function route() {
   const hash = (window.location.hash || '').replace('#', '') || 'pcb';
   if (hash === 'cards') return renderCards();
+  if (hash === 'trades') return renderTrades();   // ★ 升级五
   return switchChain(CHAINS[hash] ? hash : 'pcb');
 }
 
