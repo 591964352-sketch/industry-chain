@@ -322,6 +322,7 @@
     </div>
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 整合视图</span>
     <span class="nav-item" data-chain="ai-full-chain" onclick="switchChain('ai-full-chain')">🧠 AI 全产业链<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('ai-full-chain')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+    <span class="nav-item" data-chain="arena" onclick="window.location.hash='arena'">🏟️ 赛道擂台</span>
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 我的决策</span>
     <span class="nav-item" data-chain="cards" onclick="window.location.hash='cards'">📋 决策卡片库</span>
     <span class="nav-item" data-chain="trades" onclick="window.location.hash='trades'">📒 交易日志</span>
@@ -2917,9 +2918,11 @@ let currentChain = 'pcb';
 
 function switchChain(chainId) {
   // ★ 升级四：决策卡片库 / 交易日志走独立路由，不进 renderChain
-  if (chainId === 'cards' || chainId === 'trades') {
+  // ★ 升级九 STEP 3：赛道擂台 #arena 同模式，绕开 CHAINS lookup 避免静默 return
+  if (chainId === 'cards' || chainId === 'trades' || chainId === 'arena') {
     if (chainId === 'cards') renderCards();
     if (chainId === 'trades') renderTrades();   // ★ 升级五
+    if (chainId === 'arena')  renderArena();    // ★ 升级九 STEP 3
     return;
   }
   currentChain = chainId;
@@ -4065,11 +4068,159 @@ function filterSidebar(query) {
   });
 }
 
+// ==================== 升级九 STEP 3：赛道擂台 #arena（横向比 12+ 条赛道） ====================
+// 依据：景气六维样板 §8.4。当前只有 PCB 有 prosperity，其余赛道行显示"六维待回填"。
+// 0 CSS 增量：复用 .stock-tbl / .card / .highlight-box / var(--*) 调色板
+let _arenaState = { sortKey: 'ltFit', sortDir: 'desc', filterSector: '', filterTier: '' };
+
+function sortArena(key) {
+  if (_arenaState.sortKey === key) {
+    _arenaState.sortDir = _arenaState.sortDir === 'desc' ? 'asc' : 'desc';
+  } else {
+    _arenaState.sortKey = key;
+    // name/sector/tier 字符串字段默认升序，其它分数字段默认降序
+    _arenaState.sortDir = (key === 'name' || key === 'sector' || key === 'tier') ? 'asc' : 'desc';
+  }
+  renderArena();
+}
+
+function filterArena(type, val) {
+  if (type === 'sector') _arenaState.filterSector = val;
+  if (type === 'tier')   _arenaState.filterTier = val;
+  renderArena();
+}
+
+function renderArena() {
+  const container = document.getElementById('chain-content');
+  if (!container) return;
+
+  // 收集所有 CHAINS 行
+  const rows = [];
+  Object.keys(CHAINS).forEach(id => {
+    const c = CHAINS[id];
+    if (!c) return;
+    const hasP = !!(c.prosperity && c.prosperity.dims && c.prosperity.dims.length === 6);
+    const lt = hasP && typeof computeLtFit === 'function' ? computeLtFit(c.prosperity) : null;
+    const dimScores = {};
+    if (hasP) c.prosperity.dims.forEach(d => { dimScores[d.key] = d.score; });
+    const m = c.meta || {};
+    rows.push({
+      id, name: c.name || id, icon: c.icon || '',
+      sector: m.sector || '', tier: m.tier || '', status: m.status || '',
+      hasP, d: dimScores,
+      ltScore: lt ? lt.score : -1, ltTier: lt ? lt.tier : '', ltRisk: lt ? lt.risk : false
+    });
+  });
+
+  // 筛选
+  const _s = _arenaState;
+  let filtered = rows.filter(r => {
+    if (_s.filterSector && r.sector !== _s.filterSector) return false;
+    if (_s.filterTier   && r.tier   !== _s.filterTier)   return false;
+    return true;
+  });
+
+  // 排序（未填六维的行无论升降都垫底）
+  filtered.sort((a, b) => {
+    if (a.hasP !== b.hasP) return a.hasP ? -1 : 1;
+    let av, bv;
+    if (_s.sortKey === 'name')        { av = a.name;   bv = b.name; }
+    else if (_s.sortKey === 'sector') { av = a.sector; bv = b.sector; }
+    else if (_s.sortKey === 'tier')   { av = a.tier;   bv = b.tier; }
+    else if (_s.sortKey === 'ltFit')  { av = a.ltScore;bv = b.ltScore; }
+    else                              { av = a.d[_s.sortKey] ?? -1; bv = b.d[_s.sortKey] ?? -1; }
+    if (av < bv) return _s.sortDir === 'desc' ? 1 : -1;
+    if (av > bv) return _s.sortDir === 'desc' ? -1 : 1;
+    return 0;
+  });
+
+  const sectors = [...new Set(rows.map(r => r.sector).filter(Boolean))].sort();
+  const tiers   = [...new Set(rows.map(r => r.tier).filter(Boolean))].sort();
+
+  let h = '';
+  h += `<div class="section"><div class="section-title"><span class="num num-macro">🏟️</span> 赛道擂台 — 全站长线适配横向比</div>`;
+  h += `<div class="section-desc">所有赛道按景气六维综合分横向排序；点列头切换排序，顶部按板块/层级筛选。综合分 = Σ(score/5 × 权重) × 100（权重：持续 0.25 / 兑现 0.25 / 估值 0.20 / 供需 0.12 / 壁垒 0.10 / 政策 0.08）；估值或壁垒 ≤1 触发安全垫门控（封顶 60 + ⚠风险）。🆪 AI 主观判断，cron 不刷顶部"数据截止"日期。</div>`;
+
+  // 筛选条
+  h += `<div class="card" style="padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:13px;">`;
+  h += `<span style="color:var(--muted);">筛选：</span>`;
+  h += `<label>板块 <select onchange="filterArena('sector', this.value)" style="background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:12px;margin-left:4px;">`;
+  h += `<option value="">全部 (${rows.length})</option>`;
+  sectors.forEach(s => { h += `<option value="${s}"${_s.filterSector===s?' selected':''}>${s}</option>`; });
+  h += `</select></label>`;
+  h += `<label>层级 <select onchange="filterArena('tier', this.value)" style="background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:12px;margin-left:4px;">`;
+  h += `<option value="">全部</option>`;
+  tiers.forEach(t => { h += `<option value="${t}"${_s.filterTier===t?' selected':''}>${t}</option>`; });
+  h += `</select></label>`;
+  h += `<span style="margin-left:auto;color:var(--muted);font-size:12px;">显示 ${filtered.length} / ${rows.length} 条 · 已填六维 <strong style="color:var(--accent);">${rows.filter(r=>r.hasP).length}</strong> 条</span>`;
+  h += `</div>`;
+
+  const sortArrow = key => {
+    if (_s.sortKey !== key) return '<span style="opacity:0.3;font-size:10px;">⇅</span>';
+    return _s.sortDir === 'desc' ? '<span style="color:var(--accent);">▼</span>' : '<span style="color:var(--accent);">▲</span>';
+  };
+  const colHeaders = [
+    { key:'name',       label:'赛道',   w:'150px', align:'left'   },
+    { key:'sector',     label:'板块',   w:'70px',  align:'center' },
+    { key:'tier',       label:'层级',   w:'70px',  align:'center' },
+    { key:'durability', label:'持续',   w:'52px',  align:'center' },
+    { key:'visibility', label:'兑现',   w:'52px',  align:'center' },
+    { key:'policy',     label:'政策',   w:'52px',  align:'center' },
+    { key:'supply',     label:'供需',   w:'52px',  align:'center' },
+    { key:'valuation',  label:'估值',   w:'52px',  align:'center' },
+    { key:'barrier',    label:'壁垒',   w:'52px',  align:'center' },
+    { key:'ltFit',      label:'综合分', w:'110px', align:'left'   }
+  ];
+
+  h += `<div class="card" style="padding:0;overflow-x:auto;">`;
+  h += `<table class="stock-tbl" style="font-size:13px;margin:0;">`;
+  h += `<thead><tr>`;
+  colHeaders.forEach(c => {
+    h += `<th onclick="sortArena('${c.key}')" style="cursor:pointer;user-select:none;width:${c.w};text-align:${c.align};">${c.label} ${sortArrow(c.key)}</th>`;
+  });
+  h += `</tr></thead><tbody>`;
+
+  if (!filtered.length) {
+    h += `<tr><td colspan="${colHeaders.length}" style="text-align:center;color:var(--muted);padding:24px;">无符合筛选条件的赛道</td></tr>`;
+  }
+
+  filtered.forEach(r => {
+    h += `<tr${r.hasP ? '' : ' style="opacity:0.55;"'}>`;
+    h += `<td style="font-weight:600;cursor:pointer;" onclick="window.location.hash='${r.id}'" title="点击进入 ${r.name} 详细页">${r.icon} ${r.name}</td>`;
+    h += `<td style="text-align:center;">${r.sector || '—'}</td>`;
+    h += `<td style="text-align:center;">${r.tier   || '—'}</td>`;
+    ['durability','visibility','policy','supply','valuation','barrier'].forEach(k => {
+      const s = r.d[k];
+      if (s === undefined) {
+        h += `<td style="text-align:center;color:var(--barrier-low);">—</td>`;
+      } else {
+        const color = s >= 4 ? 'var(--green)' : s >= 3 ? 'var(--barrier-high)' : s >= 2 ? 'var(--barrier-mid)' : 'var(--red)';
+        h += `<td style="text-align:center;color:${color};font-weight:600;font-family:monospace;">${s}</td>`;
+      }
+    });
+    if (r.hasP) {
+      h += `<td style="font-family:monospace;font-weight:700;"><span style="color:var(--accent);font-size:16px;">${r.ltScore}</span><span style="color:var(--muted);font-size:11px;">/100</span> ${r.ltTier}${r.ltRisk?' <span style="color:var(--red);font-size:10px;" title="安全垫不足：估值或壁垒≤1，已封顶 60">⚠</span>':''}</td>`;
+    } else {
+      h += `<td style="color:var(--muted);font-size:11px;">六维待回填</td>`;
+    }
+    h += `</tr>`;
+  });
+
+  h += `</tbody></table></div>`;
+  h += `<div class="highlight-box" style="margin-top:14px;font-size:12px;">💡 <strong>怎么读：</strong>点击赛道名进入该条详细页 · 点列头切换升降排序 · tier 阈值：🟢 综合 ≥75 / 🟡 ≥55 / 🔴 <55 · 安全垫不足（估值或壁垒 ≤1）→ ⚠ 自动封顶 60。<br>📌 当前只有 PCB 已填六维（试点），其余赛道将按 STEP 5 节奏逐条回填。</div>`;
+  h += `</div>`;
+
+  container.innerHTML = h;
+  // 高亮侧栏 arena 入口
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.toggle('active', el.dataset.chain === 'arena'));
+}
+
 // ==================== 路由分发（升级四） ====================
 function route() {
   const hash = (window.location.hash || '').replace('#', '') || 'pcb';
-  if (hash === 'cards') return renderCards();
+  if (hash === 'cards')  return renderCards();
   if (hash === 'trades') return renderTrades();   // ★ 升级五
+  if (hash === 'arena')  return renderArena();    // ★ 升级九 STEP 3
   return switchChain(CHAINS[hash] ? hash : 'pcb');
 }
 
