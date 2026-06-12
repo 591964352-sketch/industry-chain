@@ -286,6 +286,9 @@
   /* ===== 升级八 Step 3：toast（刷新按钮反馈） ===== */
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--bg); padding: 10px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; z-index: 300; opacity: 0; transition: opacity 0.3s; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
   .toast.show { opacity: 1; }
+  /* ★ 升级九 STEP 2B：景气六维 <details> 视觉修正 — 隐藏 webkit/firefox 默认 ▶ marker。靶向原生 summary 元素，未新增任何 class */
+  summary::-webkit-details-marker, summary::marker { display: none; }
+  details > summary { list-style: none; outline: none; user-select: none; }
 </style>
 </head>
 <body>
@@ -372,6 +375,67 @@ const LS_KEYS = {
   customChains: 'myCustomChains',   // ★ 升级六：侧栏"+ 新建空模板赛道"
   sidebarCollapsed: 'sidebarCollapsed'  // ★ 升级八 Step 2：侧栏折叠状态
 };
+
+// ==================== 升级九 · 景气六维框架（全站共享基础设施） ====================
+// 依据：景气六维_SOP试水样板_PCB.md（v3 · 2026-06-12）
+// STEP 1：只新增 3 个全站共享对象，不动任何赛道数据/渲染，页面零可见变化
+// 所有六维评分均为 🆪 AI 主观判断，cron 不刷顶部"数据截止"日期
+
+// —— 6 维定义+标尺+依据（全站一份；渲染时供 ⓘ tooltip 展开 define/scale/basis）—— 样板 §2.1 原文
+const PROSPERITY_META = {
+  durability: {
+    name: '景气持续性',
+    define: '本轮上行能持续多久——看周期位置 + 需求增速相对行业均速的超额。',
+    scale: { 5:'多年超级周期、需求 CAGR ≫ 行业均速', 3:'温和复苏 / 结构分化', 1:'周期下行' },
+    basis: '依据：cyclePosition + 下游 CAGR vs 行业均速（Prismark/券商）。'
+  },
+  visibility: {
+    name: '业绩可见度',
+    define: '景气是否已落到报表——头部最近财报兑现度 + 订单/长协可见性。',
+    scale: { 5:'头部已兑现 + 长协锁单', 3:'部分兑现、预期为主', 1:'纯主题、未盈利' },
+    basis: '依据：上市公司最近年报/季报营收净利同比 + 在手订单/扩产长协公告。'
+  },
+  policy: {
+    name: '政策确定性',
+    define: '国家政策的扶持强度与确定性——专项/大基金/规划倾斜 vs 无政策或逆风。',
+    scale: { 5:'国家专项直补 + 卡脖子重点', 3:'方向受益、非直补', 1:'无政策 / 有逆风' },
+    basis: '依据：十五五倾斜、大基金、02 专项、国产替代主体地位。'
+  },
+  supply: {
+    name: '供需紧张度',
+    define: '供需格局松紧——缺口/涨价/长协锁死 vs 过剩内卷；区分结构性紧张。',
+    scale: { 5:'全面缺货 / 涨价 / 长协锁死', 3:'结构性紧（高端紧低端松）', 1:'普遍过剩内卷' },
+    basis: '依据：缺口测算、涨价函、长协公告、产能利用率。'
+  },
+  valuation: {
+    name: '估值性价比',
+    define: '当前价位的安全度（方向已翻转：分越高越便宜）——PE 历史分位。',
+    scale: { 5:'PE 分位 < 30%', 3:'分位 30–70%', 1:'分位 > 80%、严重透支' },
+    basis: '依据：roll-up 自 chokePoints[].valuation.pePercentile / 个股自身 PE 分位。'
+  },
+  barrier: {
+    name: '壁垒安全垫',
+    define: '护城河深度——核心环节寡头/认证壁垒 vs 无壁垒纯成本竞争。',
+    scale: { 5:'核心环节 T0 寡头 + 认证', 3:'中高、可替代', 1:'无壁垒、纯成本竞争' },
+    basis: '依据：roll-up 自 segments[].barrier + 卡口 strength / 个股自身 barrier。'
+  }
+};
+
+// —— 长线适配度综合分（针对 1–2 年持有；权重可调，但全站统一一处，30+ 条链同步生效）—— 样板 §8.1 原文
+// 安全垫门控：估值或壁垒 ≤1 → 封顶 60 并标 risk（防"景气爆表但泡沫/无护城河"冲榜首）
+function computeLtFit(prosperity){
+  const w = { durability:0.25, visibility:0.25, valuation:0.20, supply:0.12, barrier:0.10, policy:0.08 };
+  const s = Object.fromEntries(prosperity.dims.map(d=>[d.key, d.score]));
+  let score = Object.entries(w).reduce((a,[k,wk])=> a + (s[k]||0)/5*wk, 0) * 100; // 0-100
+  let risk = (s.valuation<=1 || s.barrier<=1);
+  if (risk) score = Math.min(score, 60);
+  let tier = score>=75 ? {k:'core',label:'🟢核心'} : score>=55 ? {k:'watch',label:'🟡观察'} : {k:'avoid',label:'🔴回避/等'};
+  return { score: Math.round(score), tier: tier.label, risk };
+}
+
+// —— 跨链重复个股 canonical 注册表（先留空壳留钩子，20+ 条链时正式收口）—— 样板 §8.3
+// 用法：渲染时若 stock.dims6 缺省，回退 STOCK_REGISTRY[code].dims6；二者都有则校验一致，不一致 console.warn
+const STOCK_REGISTRY = {};
 
 // 验证状态推导
 function loadVerifyStatus(chainId, code, type) {
@@ -500,6 +564,36 @@ const DEMO_CARD = {
 // ==================== PCB ====================
 CHAINS.pcb = {
   id: 'pcb', name: 'PCB 印制电路板', icon: '🔌',
+  // ★ 升级九 STEP 2：赛道级 meta（分组/筛选/治理）—— 样板 §8.2
+  meta: { sector:'中游', tier:'核心', status:'active', updatedAt:'2026-06-12', ltFit:null },
+  // ★ 升级九 STEP 2：景气六维 —— 样板 §3.1 原文（全标 🆪 AI 主观判断，cron 不刷数据截止日）
+  prosperity: {
+    dims: [
+      { key:'durability', name:'景气持续性', score:4, trend:'up',
+        reason:'AI 结构性上行：单机 PCB 价值量较传统服务器提升 5–10 倍(UBS)；高多层/IC载板/高速CCL 2024–29 CAGR 约 15.7%/7.4%/40%，远超行业 5% 均速；GB200/300+2026 Rubin+中板/背板持续抬升。总量温和、弹性集中高端，故 4。',
+        evidence:'Prismark、UBS / 2026-06', flag:'🆪' },
+      { key:'visibility', name:'业绩可见度', score:5, trend:'up',
+        reason:'已兑现非纯预期：沪电 2026Q1 营收+54%/净利+63%、2025 营收189亿(+42%)；胜宏 2025 净利43.1亿居A股PCB首位；生益电子 2025 前三季净利约+500%。订单+扩产长协可见。',
+        evidence:'2025年报/2026Q1公告 / 2026-06', flag:'🆪' },
+      { key:'policy', name:'政策确定性', score:3, trend:'flat',
+        reason:'主体由 AI capex 市场驱动、政策为辅；但 IC 载板纳入"02 专项"、大基金二期投兴森，国产替代有政策顺风。制造环节中等、载板/上游材料更强。',
+        evidence:'大基金二期、02专项 / 2026-06', flag:'🆪' },
+      { key:'supply', name:'供需紧张度', score:4, trend:'up',
+        reason:'结构性紧张：高速 CCL 阶段性缺货、高端电子布(石英布/Low-DK)2026–28 缺口显著、ABF 膜(味之素)卡脖子、HVLP 铜箔偏紧；低端单双面板过剩内卷。紧张集中高端材料。',
+        evidence:'行业供需测算/公司公告 / 2026-06', flag:'🆪' },
+      { key:'valuation', name:'估值性价比', score:2, trend:'down',
+        reason:'⚠️本轮最大扣分项：部分龙头 2023 底至今涨幅数倍、PE 历史高位，性价比偏低，需等回调或选估值合理的二线高端环节。下钻见各卡口 valuation.pePercentile。',
+        evidence:'roll-up 自 chokePoints[].valuation / 2026-06', flag:'🆪', rollupFrom:'chokePoints[].valuation.pePercentile' },
+      { key:'barrier', name:'壁垒安全垫', score:4, trend:'flat',
+        reason:'分化极大：T0(ABF载板/高速CCL M9–M10/高端电子布)极高、安全垫足；T4(单双面/普通多层)几无壁垒、内卷。赛道级取核心卡口环节给 4。下钻见 segments[].barrier 与卡口 strength。',
+        evidence:'roll-up 自 segments[].barrier / 2026-06', flag:'🆪', rollupFrom:'segments[].barrier' }
+    ],
+    verdict: {
+      longTermFit:'适合长线研究/跟踪，但不宜当前高位追——等买点或选环节',
+      oneLine:'🆪 PCB 是"业绩可见度(5)+景气持续性(4)"双高、但"估值性价比(2)"明显偏贵的赛道：长线逻辑顺，胜负手在买点与选环节。',
+      stockHint:'壁垒看 segments[].barrier(T0/T1 优先)，买点看 chokePoints[].valuation.pePercentile(分位越低越安全)。"景气+确定性选环节，壁垒+估值选标的与买点"。'
+    }
+  },
   cyclePosition: { stage:'boom', label:'繁荣中后期', reason:'🆪 AI 算力超级上行周期，需求强劲但估值已高，2027 年上游集中扩产可能形成供给拐点（AI初版，周一cron覆盖）', watchSignals:['英伟达资本开支指引（季度财报披露）','上游集中扩产公告（M9 树脂/HVLP 铜箔新产能落地）','M9 材料缺口率变化（缺口收窄 = 见顶信号）'] },
   plainIntro: {
     analogy: 'PCB = 所有电子产品的"骨架 + 血管系统"',
@@ -690,11 +784,21 @@ CHAINS.pcb.segments = [
       { lbl: '台系五强（其余）', val: '台燿/联茂等', note: '紧跟英伟达' }
     ],
     stocks: [
-      { rank:1, name:'生益科技', code:'600183', position:'全球第二大CCL·大陆唯一M9认证·M9市占30-40%', barrier:'极高', trend:'up', trendNote:'M9大陆唯一·Q1净利+105%', logic:'<mark class="updated">2026Q1营收81.41亿+45%，净利11.58亿+105%</mark>。M9 CCL已批量供货英伟达供应链，全球市占14-15%，Q1毛利率28.10%' },
-      { rank:2, name:'华正新材', code:'603186', position:'华为昇腾CCL核心供·CBF积层膜对标味之素ABF', barrier:'高', trend:'up', trendNote:'CBF膜切入华为/中芯', logic:'AI服务器用高等级CCL+CBF膜切入华为/中芯，国产替代直接受益' },
-      { rank:3, name:'南亚新材', code:'603519', position:'覆铜板A股第三·M8量产M9测试中', barrier:'高', trend:'up', trendNote:'高速材料M8→M9', logic:'高速材料从M8→M9追赶中，AI服务器订单加速放量' },
-      { rank:4, name:'金安国纪', code:'002636', position:'国内龙头·全球CCL第7', barrier:'中', trend:'flat', trendNote:'涨价标杆·AI暴露弱', logic:'涨价期情绪标杆，中低端CCL为主，AI暴露弱' },
-      { rank:5, name:'超华科技', code:'002288', position:'中端覆铜板+铜箔一体化·铜箔营收占比30%', barrier:'中', trend:'down', trendNote:'中端CCL·AI纯度低', logic:'中端覆铜板+铜箔，AI纯度低，5G/汽车转型中' }
+      { rank:1, name:'生益科技', code:'600183', position:'全球第二大CCL·大陆唯一M9认证·M9市占30-40%', barrier:'极高', trend:'up', trendNote:'M9大陆唯一·Q1净利+105%', logic:'<mark class="updated">2026Q1营收81.41亿+45%，净利11.58亿+105%</mark>。M9 CCL已批量供货英伟达供应链，全球市占14-15%，Q1毛利率28.10%',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:5,trend:'flat'}],
+        dims6Note:'🆪 大陆唯一 M9 CCL，业绩(Q1+105%)+壁垒双满分，估值已不便宜——业绩派' },
+      { rank:2, name:'华正新材', code:'603186', position:'华为昇腾CCL核心供·CBF积层膜对标味之素ABF', barrier:'高', trend:'up', trendNote:'CBF膜切入华为/中芯', logic:'AI服务器用高等级CCL+CBF膜切入华为/中芯，国产替代直接受益',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🆪 CBF 膜国产替代潜力，业绩兑现尚需时间' },
+      { rank:3, name:'南亚新材', code:'603519', position:'覆铜板A股第三·M8量产M9测试中', barrier:'高', trend:'up', trendNote:'高速材料M8→M9', logic:'高速材料从M8→M9追赶中，AI服务器订单加速放量',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🆪 高速 CCL 第三梯队，M8→M9 追赶中' },
+      { rank:4, name:'金安国纪', code:'002636', position:'国内龙头·全球CCL第7', barrier:'中', trend:'flat', trendNote:'涨价标杆·AI暴露弱', logic:'涨价期情绪标杆，中低端CCL为主，AI暴露弱',
+        dims6:[{key:'durability',score:2,trend:'flat'},{key:'visibility',score:2,trend:'flat'},{key:'policy',score:2,trend:'flat'},{key:'supply',score:2,trend:'flat'},{key:'valuation',score:4,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 涨价情绪标杆，AI 暴露弱、估值便宜但缺驱动' },
+      { rank:5, name:'超华科技', code:'002288', position:'中端覆铜板+铜箔一体化·铜箔营收占比30%', barrier:'中', trend:'down', trendNote:'中端CCL·AI纯度低', logic:'中端覆铜板+铜箔，AI纯度低，5G/汽车转型中',
+        dims6:[{key:'durability',score:2,trend:'down'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:2,trend:'flat'},{key:'supply',score:2,trend:'flat'},{key:'valuation',score:4,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 中端 CCL+铜箔一体化，AI 纯度低，转型阵痛' }
     ]
   },
   {
@@ -707,11 +811,21 @@ CHAINS.pcb.segments = [
       { lbl: '世名科技（中）', val: '500吨已投产', note: '通过台光/生益M9方案认证' }
     ],
     stocks: [
-      { rank:1, name:'东材科技', code:'601208', position:'全球唯二M9碳氢树脂认证·国内唯一', barrier:'极高', trend:'up', trendNote:'Q1+103%·台光排他', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1归母净利1.87亿+103%，高速电子树脂营收2.58亿+131%</mark>。台光独供2-3年排他协议。眉山3500吨<mark class="updated">2026年6月30日投料试产（提前至Q2末）</mark>。价格80-120万元/吨，毛利率50%+' },
-      { rank:2, name:'圣泉集团', code:'605589', position:'PPO国内唯一量产·全球第四', barrier:'高', trend:'up', trendNote:'PPO国产70%·碳氢投产', hits:null, strength:null, logic:'PPO国产市占70%稳定。碳氢树脂2026Q4投产1500吨，向上突破' },
-      { rank:3, name:'世名科技', code:'300522', position:'盘锦500吨已投产·M9方案已认证', barrier:'高', trend:'up', trendNote:'M9方案已认证·扩产', hits:null, strength:null, logic:'已通过台光/生益/联茂M9方案认证，规划总产能2500吨·H2放量' },
-      { rank:4, name:'宏昌电子', code:'603002', position:'环氧树脂龙头·GBF增层膜送样', barrier:'中', trend:'flat', trendNote:'环氧树脂壁垒低', hits:null, strength:null, logic:'GBF增层膜送样台积电/长电，但环氧树脂壁垒低→非卡口' },
-      { rank:5, name:'彤程新材', code:'603650', position:'电子级酚醛树脂·对标SABIC PPO', barrier:'中', trend:'flat', trendNote:'PPO对标SABIC·AI弱', logic:'电子级酚醛稳定供应·PPO对标SABIC·AI暴露弱' }
+      { rank:1, name:'东材科技', code:'601208', position:'全球唯二M9碳氢树脂认证·国内唯一', barrier:'极高', trend:'up', trendNote:'Q1+103%·台光排他', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1归母净利1.87亿+103%，高速电子树脂营收2.58亿+131%</mark>。台光独供2-3年排他协议。眉山3500吨<mark class="updated">2026年6月30日投料试产（提前至Q2末）</mark>。价格80-120万元/吨，毛利率50%+',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:5,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:5,trend:'flat'}],
+        dims6Note:'🆪 M9 树脂唯一国产，壁垒+供需双满分、业绩未放量——赔率/左侧派（样板 §3.2 原文）' },
+      { rank:2, name:'圣泉集团', code:'605589', position:'PPO国内唯一量产·全球第四', barrier:'高', trend:'up', trendNote:'PPO国产70%·碳氢投产', hits:null, strength:null, logic:'PPO国产市占70%稳定。碳氢树脂2026Q4投产1500吨，向上突破',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🆪 PPO 国产唯一+碳氢扩产，业绩待 Q4 投产兑现' },
+      { rank:3, name:'世名科技', code:'300522', position:'盘锦500吨已投产·M9方案已认证', barrier:'高', trend:'up', trendNote:'M9方案已认证·扩产', hits:null, strength:null, logic:'已通过台光/生益/联茂M9方案认证，规划总产能2500吨·H2放量',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🆪 M9 方案已认证，500 吨小批量、扩产爬坡中' },
+      { rank:4, name:'宏昌电子', code:'603002', position:'环氧树脂龙头·GBF增层膜送样', barrier:'中', trend:'flat', trendNote:'环氧树脂壁垒低', hits:null, strength:null, logic:'GBF增层膜送样台积电/长电，但环氧树脂壁垒低→非卡口',
+        dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:2,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 GBF 膜送样，但环氧树脂壁垒低，非卡口' },
+      { rank:5, name:'彤程新材', code:'603650', position:'电子级酚醛树脂·对标SABIC PPO', barrier:'中', trend:'flat', trendNote:'PPO对标SABIC·AI弱', logic:'电子级酚醛稳定供应·PPO对标SABIC·AI暴露弱',
+        dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:2,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 电子级酚醛+PPO 对标，AI 暴露弱' }
     ]
   },
   {
@@ -724,11 +838,21 @@ CHAINS.pcb.segments = [
       { lbl: '宏和科技（中）', val: '4μm极薄布全球唯一量产', note: '超薄电子布全球市占~50%' }
     ],
     stocks: [
-      { rank:1, name:'菲利华', code:'300395', position:'<mark class="updated">Q布全球市占~80%·绝对龙头</mark>·国产唯一全产业链', barrier:'极高', trend:'up', trendNote:'Q布全球80%·Q1+53%', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1营收6.22亿+53%，净利1.44亿+37%</mark>。已通过英伟达/台积电/台光/生益全链路认证。台光锁定500-700万米。全球缺口>40%。毛利率55-65%。2027目标2000万米/年' },
-      { rank:2, name:'宏和科技', code:'603256', position:'4μm极薄布全球唯一量产·全球市占~50%', barrier:'高', trend:'up', trendNote:'4μm超薄布全球第一', hits:3, strength:'★★☆', logic:'超薄电子布全球市占~50%。但非AI最核心瓶颈→降级' },
-      { rank:3, name:'中材科技', code:'002080', position:'国内Low Dk市占35%·石英布独供胜宏GB300', barrier:'中', trend:'up', trendNote:'石英布独供GB300·送样Rubin', hits:null, strength:null, logic:'Q布占比仅20-30%，非前三寡头·主业玻纤稳' },
-      { rank:4, name:'中国巨石', code:'600176', position:'电子布销量A股第一·全球玻纤龙头', barrier:'中', trend:'up', trendNote:'高端电子布扩产·AI纯度升', hits:null, strength:null, logic:'全球玻纤龙头，但非Q布寡头·AI纯度低' },
-      { rank:5, name:'山东玻纤', code:'605006', position:'电子布老牌·ECR玻纤纱', barrier:'中', trend:'down', trendNote:'电子布老牌·非Q布', logic:'中端电子布为主·非Q布寡头·AI暴露极弱' }
+      { rank:1, name:'菲利华', code:'300395', position:'<mark class="updated">Q布全球市占~80%·绝对龙头</mark>·国产唯一全产业链', barrier:'极高', trend:'up', trendNote:'Q布全球80%·Q1+53%', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1营收6.22亿+53%，净利1.44亿+37%</mark>。已通过英伟达/台积电/台光/生益全链路认证。台光锁定500-700万米。全球缺口>40%。毛利率55-65%。2027目标2000万米/年',
+        dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:5,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:5,trend:'flat'}],
+        dims6Note:'🆪 Q布全球80%绝对龙头，六维近满分仅估值中位——长线核心' },
+      { rank:2, name:'宏和科技', code:'603256', position:'4μm极薄布全球唯一量产·全球市占~50%', barrier:'高', trend:'up', trendNote:'4μm超薄布全球第一', hits:3, strength:'★★☆', logic:'超薄电子布全球市占~50%。但非AI最核心瓶颈→降级',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🆪 4μm 超薄布全球唯一，但非 AI 最核心瓶颈' },
+      { rank:3, name:'中材科技', code:'002080', position:'国内Low Dk市占35%·石英布独供胜宏GB300', barrier:'中', trend:'up', trendNote:'石英布独供GB300·送样Rubin', hits:null, strength:null, logic:'Q布占比仅20-30%，非前三寡头·主业玻纤稳',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 石英布独供 GB300，Q布占比仅 20-30%' },
+      { rank:4, name:'中国巨石', code:'600176', position:'电子布销量A股第一·全球玻纤龙头', barrier:'中', trend:'up', trendNote:'高端电子布扩产·AI纯度升', hits:null, strength:null, logic:'全球玻纤龙头，但非Q布寡头·AI纯度低',
+        dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 全球玻纤龙头，但非 Q布寡头、AI 纯度低' },
+      { rank:5, name:'山东玻纤', code:'605006', position:'电子布老牌·ECR玻纤纱', barrier:'中', trend:'down', trendNote:'电子布老牌·非Q布', logic:'中端电子布为主·非Q布寡头·AI暴露极弱',
+        dims6:[{key:'durability',score:2,trend:'down'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:2,trend:'flat'},{key:'supply',score:2,trend:'flat'},{key:'valuation',score:4,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 电子布老牌，非 Q布寡头、AI 暴露极弱' }
     ]
   },
   {
@@ -741,11 +865,21 @@ CHAINS.pcb.segments = [
       { lbl: '德福科技（中）', val: 'HVLP3量产，HVLP4验证中', note: '进入英伟达供应链' }
     ],
     stocks: [
-      { rank:1, name:'铜冠铜箔', code:'301217', position:'国内唯一HVLP1-4全系列量产·2027市占预期42%', barrier:'极高', trend:'up', trendNote:'设备锁定70%·2027市占42%', hits:4, strength:'★★★', logic:'<mark class="updated">锁定10台三船MSP-8000表面处理机（全球70%），产能确定性最强</mark>。2026目标500吨/月。日韩四强垄断85%+。设备交期18-24月。2027市占率预期42%。已实现HVLP4规模化量产' },
-      { rank:2, name:'德福科技', code:'301511', position:'进入英伟达供应链·5万吨产能可切换', barrier:'高', trend:'up', trendNote:'5万吨切换·HVLP4验证', hits:3, strength:'★★☆', logic:'5万吨产能可切换。HVLP4台光验证中，机构关注度高→降级' },
-      { rank:3, name:'诺德股份', code:'600110', position:'6μm极薄铜箔量产·服务器铜箔市占>25%·2026Q1扭亏', barrier:'中', trend:'up', trendNote:'6μm·Q1扭亏·HVLP4量产', hits:null, strength:null, logic:'服务器PCB用铜箔市占>25%，但HVLP4仍在认证' },
-      { rank:4, name:'嘉元科技', code:'688388', position:'极薄铜箔4.5μm市占>50%', barrier:'中', trend:'up', trendNote:'锂电转HVLP·Q1预增329%', hits:null, strength:null, logic:'锂电铜箔转产HVLP，2026Q1净利预增329-395%' },
-      { rank:5, name:'中一科技', code:'688234', position:'高性能电子铜箔·HVLP4在研', barrier:'中', trend:'flat', trendNote:'高性能铜箔·主业稳', logic:'锂电铜箔主业转HVLP4，AI暴露弱·业绩弹性待验证' }
+      { rank:1, name:'铜冠铜箔', code:'301217', position:'国内唯一HVLP1-4全系列量产·2027市占预期42%', barrier:'极高', trend:'up', trendNote:'设备锁定70%·2027市占42%', hits:4, strength:'★★★', logic:'<mark class="updated">锁定10台三船MSP-8000表面处理机（全球70%），产能确定性最强</mark>。2026目标500吨/月。日韩四强垄断85%+。设备交期18-24月。2027市占率预期42%。已实现HVLP4规模化量产',
+        dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:5,trend:'up'},{key:'valuation',score:4,trend:'up'},{key:'barrier',score:5,trend:'flat'}],
+        dims6Note:'🆪 国产唯一 HVLP1-4 全系列+设备锁定 70%，估值低位（PE分位18%）——赔率派' },
+      { rank:2, name:'德福科技', code:'301511', position:'进入英伟达供应链·5万吨产能可切换', barrier:'高', trend:'up', trendNote:'5万吨切换·HVLP4验证', hits:3, strength:'★★☆', logic:'5万吨产能可切换。HVLP4台光验证中，机构关注度高→降级',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🆪 5 万吨产能可切换，HVLP4 验证中' },
+      { rank:3, name:'诺德股份', code:'600110', position:'6μm极薄铜箔量产·服务器铜箔市占>25%·2026Q1扭亏', barrier:'中', trend:'up', trendNote:'6μm·Q1扭亏·HVLP4量产', hits:null, strength:null, logic:'服务器PCB用铜箔市占>25%，但HVLP4仍在认证',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 6μm 极薄铜箔+Q1 扭亏，HVLP4 仍在认证' },
+      { rank:4, name:'嘉元科技', code:'688388', position:'极薄铜箔4.5μm市占>50%', barrier:'中', trend:'up', trendNote:'锂电转HVLP·Q1预增329%', hits:null, strength:null, logic:'锂电铜箔转产HVLP，2026Q1净利预增329-395%',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 锂电转 HVLP，Q1 预增 329%' },
+      { rank:5, name:'中一科技', code:'688234', position:'高性能电子铜箔·HVLP4在研', barrier:'中', trend:'flat', trendNote:'高性能铜箔·主业稳', logic:'锂电铜箔主业转HVLP4，AI暴露弱·业绩弹性待验证',
+        dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:2,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 高性能铜箔+HVLP4 在研，AI 暴露弱' }
     ]
   },
   {
@@ -757,11 +891,21 @@ CHAINS.pcb.segments = [
       { lbl: '华正新材（中）', val: 'CBF积层膜对标味之素ABF', note: 'ABF膜国产替代唯一看点' }
     ],
     stocks: [
-      { rank:1, name:'深南电路', code:'002916', position:'国内唯一ABF载板批量交付·全球PCB营收前10', barrier:'极高', trend:'up', trendNote:'ABF国内唯一·Q1+73%', hits:null, strength:null, logic:'广州60亿投资2亿颗FC-BGA/年。Q1净利+73%。封装基板营收41.48亿+30.8%' },
-      { rank:2, name:'兴森科技', code:'002436', position:'ABF载板国产化追赶者·HBM级ABF唯一', barrier:'高', trend:'up', trendNote:'HBM级ABF·华为入股', hits:null, strength:null, logic:'华为昇腾认证通过。华为哈勃入股。量产爬坡缓慢' },
-      { rank:3, name:'华正新材', code:'603186', position:'CBF积层膜对标味之素ABF', barrier:'高', trend:'up', trendNote:'CBF膜华为/中芯', hits:null, strength:null, logic:'CBF膜切入华为昇腾供应链，中芯国际验证中' },
-      { rank:4, name:'联瑞新材', code:'688300', position:'亚微米球形硅微粉·球形硅微粉国内市占~40%', barrier:'中', trend:'flat', trendNote:'球形硅微粉稳', hits:null, strength:null, logic:'ABF膜关键填料，进入头部供应链·主业硅微粉稳定' },
-      { rank:5, name:'博敏电子', code:'603936', position:'PCB+汽车切入ABF', barrier:'中', trend:'down', trendNote:'PCB切入ABF规模小', logic:'PCB老牌厂商切入ABF，量产规模小·AI暴露弱' }
+      { rank:1, name:'深南电路', code:'002916', position:'国内唯一ABF载板批量交付·全球PCB营收前10', barrier:'极高', trend:'up', trendNote:'ABF国内唯一·Q1+73%', hits:null, strength:null, logic:'广州60亿投资2亿颗FC-BGA/年。Q1净利+73%。封装基板营收41.48亿+30.8%',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:5,trend:'flat'}],
+        dims6Note:'🆪 壁垒(PCB+载板全栈,ABF良率破80%)+政策(内资份额~63%)最强、估值相对温和——壁垒派首选（样板 §3.2 原文）' },
+      { rank:2, name:'兴森科技', code:'002436', position:'ABF载板国产化追赶者·HBM级ABF唯一', barrier:'高', trend:'up', trendNote:'HBM级ABF·华为入股', hits:null, strength:null, logic:'华为昇腾认证通过。华为哈勃入股。量产爬坡缓慢',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🆪 HBM 级 ABF+华为哈勃入股，量产爬坡缓慢' },
+      { rank:3, name:'华正新材', code:'603186', position:'CBF积层膜对标味之素ABF', barrier:'高', trend:'up', trendNote:'CBF膜华为/中芯', hits:null, strength:null, logic:'CBF膜切入华为昇腾供应链，中芯国际验证中',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🆪 CBF 膜对标味之素，华为/中芯验证中' },
+      { rank:4, name:'联瑞新材', code:'688300', position:'亚微米球形硅微粉·球形硅微粉国内市占~40%', barrier:'中', trend:'flat', trendNote:'球形硅微粉稳', hits:null, strength:null, logic:'ABF膜关键填料，进入头部供应链·主业硅微粉稳定',
+        dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 ABF 膜关键填料，主业球形硅微粉稳' },
+      { rank:5, name:'博敏电子', code:'603936', position:'PCB+汽车切入ABF', barrier:'中', trend:'down', trendNote:'PCB切入ABF规模小', logic:'PCB老牌厂商切入ABF，量产规模小·AI暴露弱',
+        dims6:[{key:'durability',score:2,trend:'down'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:2,trend:'flat'},{key:'supply',score:2,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 PCB 切入 ABF，量产规模小、AI 暴露弱' }
     ]
   },
   {
@@ -773,11 +917,21 @@ CHAINS.pcb.segments = [
       { lbl: '芯碁微装（中）', val: 'LDI曝光全球市占15%', note: '2026激光钻孔机订单70-100台' }
     ],
     stocks: [
-      { rank:1, name:'鼎泰高科', code:'301377', position:'PCB钻针全球第一·市占26.5%', barrier:'高', trend:'up', trendNote:'钻针全球第一·AI高多层', hits:null, strength:null, logic:'AI高多层板单块钻孔数从10万→50万+，钻针耗量激增·2025净利预增80-103%' },
-      { rank:2, name:'大族数控', code:'301200', position:'钻孔设备全球第二·AI高多层板设备市占40-50%', barrier:'高', trend:'up', trendNote:'净利预增161-194%', hits:null, strength:null, logic:'2025净利预增161-194%。AI高多层板设备市占40-50%' },
-      { rank:3, name:'芯碁微装', code:'688630', position:'LDI曝光全球市占15%·3-4μm线宽', barrier:'高', trend:'up', trendNote:'3-4μm小批量·双催化', hits:null, strength:null, logic:'3-4μm线宽小批量交付。PCB+先进封装双催化·2026激光钻孔订单70-100台' },
-      { rank:4, name:'东威科技', code:'688700', position:'VCP电镀国内市占>50%·AI订单>5亿', barrier:'中', trend:'up', trendNote:'AI订单>5亿', hits:null, strength:null, logic:'AI订单>5亿。三合一电镀设备打破海外垄断' },
-      { rank:5, name:'金洲精工', code:'002443', position:'PCB钻针全球第二·市占20.8%', barrier:'中', trend:'up', trendNote:'钻针全球第二·市占20.8%', logic:'PCB钻针老牌厂商，被鼎泰高科高端化替代·AI纯度低' }
+      { rank:1, name:'鼎泰高科', code:'301377', position:'PCB钻针全球第一·市占26.5%', barrier:'高', trend:'up', trendNote:'钻针全球第一·AI高多层', hits:null, strength:null, logic:'AI高多层板单块钻孔数从10万→50万+，钻针耗量激增·2025净利预增80-103%',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🆪 PCB 钻针全球第一+AI 高多层钻孔量级飙升' },
+      { rank:2, name:'大族数控', code:'301200', position:'钻孔设备全球第二·AI高多层板设备市占40-50%', barrier:'高', trend:'up', trendNote:'净利预增161-194%', hits:null, strength:null, logic:'2025净利预增161-194%。AI高多层板设备市占40-50%',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🆪 钻孔设备全球第二+净利预增 161-194%' },
+      { rank:3, name:'芯碁微装', code:'688630', position:'LDI曝光全球市占15%·3-4μm线宽', barrier:'高', trend:'up', trendNote:'3-4μm小批量·双催化', hits:null, strength:null, logic:'3-4μm线宽小批量交付。PCB+先进封装双催化·2026激光钻孔订单70-100台',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🆪 LDI 曝光全球 15%+激光钻孔订单 70-100 台' },
+      { rank:4, name:'东威科技', code:'688700', position:'VCP电镀国内市占>50%·AI订单>5亿', barrier:'中', trend:'up', trendNote:'AI订单>5亿', hits:null, strength:null, logic:'AI订单>5亿。三合一电镀设备打破海外垄断',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 VCP 电镀国内>50%+AI 订单>5 亿' },
+      { rank:5, name:'金洲精工', code:'002443', position:'PCB钻针全球第二·市占20.8%', barrier:'中', trend:'up', trendNote:'钻针全球第二·市占20.8%', logic:'PCB钻针老牌厂商，被鼎泰高科高端化替代·AI纯度低',
+        dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:2,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+        dims6Note:'🆪 钻针老牌+被鼎泰高科高端化替代' }
     ]
   }
 ];
@@ -786,16 +940,36 @@ CHAINS.pcb.segments = [
 CHAINS.pcb.midstream = {
   description: 'PCB制造是充分竞争行业。2025年以来五大龙头新增投资合计超400亿元，产能预计2026-2027年集中释放。行业呈"K型分化"。卡口判定：该环节无物理卡口（客户可切换供应商）。但头部企业强者恒强。',
   stocks: [
-    { rank:1, name:'胜宏科技', code:'300476', barrier:'极高', trend:'up', trendNote:'GB300主供·Q1+40%', note:'英伟达Tier1，显卡PCB全球~50%(Prismark 2026)，Q1净利12.88亿+40%' },
-    { rank:2, name:'沪电股份', code:'002463', barrier:'极高', trend:'up', trendNote:'78层背板·Q1+62.9%', note:'英伟达78层背板认证·AI+汽车双龙头，Q1净利12.42亿+62.9%，年内四次扩产' },
-    { rank:3, name:'深南电路', code:'002916', barrier:'极高', trend:'up', trendNote:'Q1+73%·装联3in1', note:'PCB+封装基板+装联3-in-1·国内唯一ABF批量交付，Q1净利8.50亿+73%' },
-    { rank:4, name:'鹏鼎控股', code:'002938', barrier:'高', trend:'flat', trendNote:'苹果链FPC·消费占比高', note:'全球PCB营收9连冠·苹果链FPC主供，消费电子占比~70%→AI转型中' },
-    { rank:5, name:'广合科技', code:'001389', barrier:'高', trend:'up', trendNote:'算力纯度最高', note:'专注算力PCB（服务器/交换机）·算力纯度最高' },
-    { rank:6, name:'生益电子', code:'688183', barrier:'高', trend:'up', trendNote:'AI服务器黑马·净利+5倍', note:'AI服务器PCB黑马·净利增近5倍·生益科技子公司' },
-    { rank:7, name:'景旺电子', code:'603228', barrier:'中', trend:'flat', trendNote:'汽车+HDI·高阶转型', note:'刚性/FPC/金属基全覆盖，英伟达二级供应商·AI纯度低' },
-    { rank:8, name:'东山精密', code:'002384', barrier:'中', trend:'up', trendNote:'切入AI服务器供应链', note:'FPC龙头+光电双主业·苹果链稳定' },
-    { rank:9, name:'世运电路', code:'603920', barrier:'中', trend:'up', trendNote:'28层AI服务器板+转型AI/机器人', note:'特斯拉汽车/人形机器人PCB·汽车赛道稳定' },
-    { rank:10, name:'奥士康', code:'002913', barrier:'中', trend:'up', trendNote:'向高端HDI/多层切换', note:'通过供应体系向英伟达供货·AI暴露弱' }
+    { rank:1, name:'胜宏科技', code:'300476', barrier:'极高', trend:'up', trendNote:'GB300主供·Q1+40%', note:'英伟达Tier1，显卡PCB全球~50%(Prismark 2026)，Q1净利12.88亿+40%',
+      dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:2,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}],
+      dims6Note:'🆪 弹性最大(英伟达显卡板~50%)，但出口近八成、汇率敏感+估值最贵（样板 §3.2 原文）' },
+    { rank:2, name:'沪电股份', code:'002463', barrier:'极高', trend:'up', trendNote:'78层背板·Q1+62.9%', note:'英伟达78层背板认证·AI+汽车双龙头，Q1净利12.42亿+62.9%，年内四次扩产',
+      dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}],
+      dims6Note:'🆪 兑现最快、估值同样不便宜——业绩派首选、但需控买点（样板 §3.2 原文）' },
+    { rank:3, name:'深南电路', code:'002916', barrier:'极高', trend:'up', trendNote:'Q1+73%·装联3in1', note:'PCB+封装基板+装联3-in-1·国内唯一ABF批量交付，Q1净利8.50亿+73%',
+      dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:5,trend:'flat'}],
+      dims6Note:'🆪 壁垒(全栈)+政策最强、估值相对温和；载板兑现慢——壁垒派首选（样板 §3.2 原文）' },
+    { rank:4, name:'鹏鼎控股', code:'002938', barrier:'高', trend:'flat', trendNote:'苹果链FPC·消费占比高', note:'全球PCB营收9连冠·苹果链FPC主供，消费电子占比~70%→AI转型中',
+      dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+      dims6Note:'🆪 全球 PCB 9 连冠，但消费占比~70%，AI 转型中' },
+    { rank:5, name:'广合科技', code:'001389', barrier:'高', trend:'up', trendNote:'算力纯度最高', note:'专注算力PCB（服务器/交换机）·算力纯度最高',
+      dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
+      dims6Note:'🆪 专注算力 PCB，纯度最高' },
+    { rank:6, name:'生益电子', code:'688183', barrier:'高', trend:'up', trendNote:'AI服务器黑马·净利+5倍', note:'AI服务器PCB黑马·净利增近5倍·生益科技子公司',
+      dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}],
+      dims6Note:'🆪 AI 服务器 PCB 黑马+净利近 5 倍，估值跟涨' },
+    { rank:7, name:'景旺电子', code:'603228', barrier:'中', trend:'flat', trendNote:'汽车+HDI·高阶转型', note:'刚性/FPC/金属基全覆盖，英伟达二级供应商·AI纯度低',
+      dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+      dims6Note:'🆪 全覆盖+二级供应商，AI 纯度低' },
+    { rank:8, name:'东山精密', code:'002384', barrier:'中', trend:'up', trendNote:'切入AI服务器供应链', note:'FPC龙头+光电双主业·苹果链稳定',
+      dims6:[{key:'durability',score:3,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+      dims6Note:'🆪 FPC 龙头切入 AI 服务器，苹果链稳' },
+    { rank:9, name:'世运电路', code:'603920', barrier:'中', trend:'up', trendNote:'28层AI服务器板+转型AI/机器人', note:'特斯拉汽车/人形机器人PCB·汽车赛道稳定',
+      dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+      dims6Note:'🆪 28 层 AI 服务器板+机器人 PCB' },
+    { rank:10, name:'奥士康', code:'002913', barrier:'中', trend:'up', trendNote:'向高端HDI/多层切换', note:'通过供应体系向英伟达供货·AI暴露弱',
+      dims6:[{key:'durability',score:3,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}],
+      dims6Note:'🆪 向高端 HDI/多层切换，AI 暴露弱' }
   ]
 };
 
@@ -2774,6 +2948,25 @@ function renderChain(chainId) {
     return '';
   }
 
+  // ===== 升级九 STEP 2B：个股六维 mini-bar 展开（native <details>，0 JS、0 CSS 增量） =====
+  function stockDims6Badge(s) {
+    if (!s.dims6 || !s.dims6.length) return '';
+    const META = (typeof PROSPERITY_META !== 'undefined') ? PROSPERITY_META : {};
+    const arrow = t => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : '<span style="color:var(--muted);">→</span>';
+    let bars = '';
+    s.dims6.forEach(d6 => {
+      const meta = META[d6.key] || {};
+      const pct = Math.max(0, Math.min(100, (d6.score/5)*100));
+      const barColor = d6.score >= 4 ? 'var(--green)' : d6.score >= 3 ? 'var(--barrier-high)' : d6.score >= 2 ? 'var(--barrier-mid)' : 'var(--red)';
+      bars += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:11px;line-height:1.4;">`;
+      bars += `<span style="width:68px;color:var(--muted);flex-shrink:0;">${meta.name || d6.key}</span>`;
+      bars += `<div style="flex:1;min-width:50px;height:4px;background:var(--card2);border-radius:2px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${barColor};"></div></div>`;
+      bars += `<span style="width:42px;text-align:right;font-family:monospace;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend)}</span>`;
+      bars += `</div>`;
+    });
+    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:240px;">${bars}${s.dims6Note?`<div style="margin-top:6px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}</div></details>`;
+  }
+
 
   // ===== AI全产业链专属：Section ⓪ 苏格拉底六问 =====
   if (d.socraticInquiry) {
@@ -2814,6 +3007,51 @@ function renderChain(chainId) {
   d.overview.forEach(o => {
     h += `<div class="overview-item"><div class="label">${o.label}</div><div class="value" style="${o.color?'color:'+o.color:''}">${o.value}</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">${o.note}</div></div>`;
   });
+  // ★ 升级九 STEP 2B：景气六维卡（可选字段，没填 prosperity 就不渲染；0 CSS 增量，全 inline 复用 var(--*) 调色板）
+  if (d.prosperity && d.prosperity.dims && d.prosperity.dims.length === 6) {
+    const p = d.prosperity;
+    const META = (typeof PROSPERITY_META !== 'undefined') ? PROSPERITY_META : {};
+    const arrowD = t => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : '<span style="color:var(--muted);">→</span>';
+    const lt = (typeof computeLtFit === 'function') ? computeLtFit(p) : null;
+    h += `<div class="card" style="padding:20px;margin-top:18px;border-left:3px solid var(--accent);">`;
+    h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">`;
+    h += `<span>🆪 景气六维 — 长线适配度<span style="color:var(--muted);font-size:11px;margin-left:8px;font-weight:400;">（AI 主观判断 · 权重全站统一 · 横向可比 · cron 不刷数据截止日）</span></span>`;
+    if (lt) {
+      h += `<span style="font-size:13px;">综合 <strong style="color:var(--accent);font-size:18px;">${lt.score}</strong>/100 ${lt.tier}${lt.risk?' <span style="color:var(--red);font-size:11px;">⚠安全垫不足</span>':''}</span>`;
+    }
+    h += `</div>`;
+    p.dims.forEach(d6 => {
+      const meta = META[d6.key] || {};
+      const pct = Math.max(0, Math.min(100, (d6.score/5)*100));
+      const barColor = d6.score >= 4 ? 'var(--green)' : d6.score >= 3 ? 'var(--barrier-high)' : d6.score >= 2 ? 'var(--barrier-mid)' : 'var(--red)';
+      const scaleText = meta.scale ? Object.entries(meta.scale).map(([k,v])=>`<strong>${k}</strong>=${v}`).join('；') : '';
+      h += `<div style="margin-bottom:10px;">`;
+      h += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;font-size:13px;">`;
+      h += `<span><strong>${d6.name || meta.name || d6.key}</strong>`;
+      h += ` <details style="display:inline-block;margin-left:6px;font-size:11px;color:var(--muted);font-weight:400;vertical-align:middle;">`;
+      h += `<summary style="cursor:pointer;display:inline-block;padding:1px 7px;background:rgba(123,168,255,0.10);border:1px solid rgba(123,168,255,0.35);border-radius:9px;color:var(--blue);font-weight:600;">ⓘ 依据</summary>`;
+      h += `<div style="display:block;background:var(--card2);padding:10px 12px;border-radius:6px;margin-top:6px;line-height:1.7;color:var(--text);font-size:12px;max-width:680px;">`;
+      if (meta.define) h += `<div><strong>定义：</strong>${meta.define}</div>`;
+      if (scaleText)   h += `<div style="margin-top:4px;"><strong>标尺：</strong>${scaleText}</div>`;
+      if (meta.basis)  h += `<div style="margin-top:4px;color:var(--muted);">${meta.basis}</div>`;
+      if (d6.reason)   h += `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);"><strong>本赛道判断：</strong>${d6.reason}</div>`;
+      if (d6.evidence) h += `<div style="margin-top:3px;color:var(--muted);font-size:10px;">📎 ${d6.evidence}${d6.flag?' '+d6.flag:''}</div>`;
+      h += `</div></details></span>`;
+      h += `<span style="font-family:monospace;color:var(--text);">${d6.score}/5 ${arrowD(d6.trend)}</span>`;
+      h += `</div>`;
+      h += `<div style="height:6px;background:var(--card2);border-radius:3px;overflow:hidden;">`;
+      h += `<div style="width:${pct}%;height:100%;background:${barColor};transition:width .3s;"></div>`;
+      h += `</div></div>`;
+    });
+    if (p.verdict) {
+      h += `<div class="highlight-box" style="margin-top:14px;">`;
+      if (p.verdict.oneLine)     h += `<div>${p.verdict.oneLine}</div>`;
+      if (p.verdict.longTermFit) h += `<div style="margin-top:6px;color:var(--muted);font-size:12px;"><strong>长线适配：</strong>${p.verdict.longTermFit}</div>`;
+      if (p.verdict.stockHint)   h += `<div style="margin-top:6px;color:var(--muted);font-size:12px;"><strong>选股提示：</strong>${p.verdict.stockHint}</div>`;
+      h += `</div>`;
+    }
+    h += `</div>`;
+  }
   // ★ 升级三：周期位置卡片（可选字段，没填 cyclePosition 就不渲染）
   if (d.cyclePosition && d.cyclePosition.stage) {
     const cp = d.cyclePosition;
@@ -3094,7 +3332,7 @@ function renderChain(chainId) {
           h += `<td style="color:var(--barrier-low);font-size:11px;">—</td>`;
         }
       }
-      h += `<td style="font-size:13px;">${s.logic}</td>`;
+      h += `<td style="font-size:13px;">${s.logic}${stockDims6Badge(s)}</td>`;
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
@@ -3116,7 +3354,7 @@ function renderChain(chainId) {
       }
       h += `<h4>A股标的</h4><table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
       seg.stocks.forEach(s => {
-        h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.logic}</td></tr>`;
+        h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.logic}${stockDims6Badge(s)}</td></tr>`;
       });
       h += `</tbody></table></div>`;
     });
@@ -3138,7 +3376,7 @@ function renderChain(chainId) {
     }
     h += `<table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
     d.midstream.stocks.forEach(s => {
-      h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.note}</td></tr>`;
+      h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.note}${stockDims6Badge(s)}</td></tr>`;
     });
     h += `</tbody></table></div></div>`;
   }
