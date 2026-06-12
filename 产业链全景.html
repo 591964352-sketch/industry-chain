@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>产业链全景 · 物理卡口投研</title>
+<title>Jack唐的投研看板</title>
 <style>
   :root {
     --bg: #0f1117; --card: #1a1d27; --card2: #1f2233; --border: #2a2d3a;
@@ -245,6 +245,37 @@
     .trade-table { font-size: 10px; }                           /* 交易日志 9 列表更紧 */
     .trade-table th, .trade-table td { padding: 6px 4px; }      /* 9 列表格 padding 收紧 */
   }
+
+  /* ===== 升级七：5 列树状图布局（破例 0 CSS 增量，append 到主结构末尾）===== */
+  .tree-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .tree-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .tree-col-title { font-size: 12px; font-weight: 700; color: var(--accent); padding: 6px 0; border-bottom: 2px solid var(--border); margin-bottom: 6px; text-align: center; letter-spacing: 1px; text-transform: uppercase; }
+  .tree-col-count { font-size: 10px; color: var(--muted); font-weight: 500; margin-left: 4px; }
+  .tree-legend-sticky { position: sticky; top: 0; z-index: 5; background: var(--card); padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; font-size: 11px; color: var(--muted); }
+  .tree-legend-sticky span { display: flex; align-items: center; gap: 5px; }
+  .tree-legend-sticky .dot { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+  .tree-sub-card { padding: 10px 12px; background: var(--card2); border-radius: 8px; border-left: 3px solid var(--barrier-low); transition: all 0.2s; }
+  .tree-sub-card:hover { transform: translateY(-1px); box-shadow: 0 3px 12px rgba(0,0,0,0.2); }
+  .tree-sub-card.b-extreme { border-left-color: var(--barrier-extreme); }
+  .tree-sub-card.b-high { border-left-color: var(--barrier-high); }
+  .tree-sub-card.b-mid { border-left-color: var(--barrier-mid); }
+  .tree-sub-header { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; font-size: 12px; }
+  .tree-sub-note { font-size: 10.5px; color: var(--muted); line-height: 1.5; margin: 4px 0 6px; }
+  .tree-sub-mini-tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .tree-sub-mini-tbl td { padding: 3px 0; border-bottom: 1px dashed rgba(42,45,58,0.5); }
+  .tree-sub-mini-tbl tr:last-child td { border-bottom: none; }
+  .tree-sub-mini-tbl .rank-num { color: var(--muted); font-size: 9px; width: 14px; }
+  .tree-sub-empty { font-size: 10.5px; color: var(--muted); padding: 6px 0; text-align: center; font-style: italic; }
+  @media (max-width: 900px) {
+    .tree-grid { grid-template-columns: repeat(3, 1fr); }
+    .tree-col-title { font-size: 11px; }
+  }
+  @media (max-width: 480px) {
+    .tree-grid { grid-template-columns: 1fr; }
+    .tree-col-title { font-size: 14px; padding: 8px 0; }
+    .tree-sub-card { padding: 12px 14px; }
+    .tree-legend-sticky { position: static; }
+  }
 </style>
 </head>
 <body>
@@ -252,6 +283,14 @@
 <!-- ===== SIDEBAR ===== -->
 <nav class="sidebar">
   <div class="sidebar-title">📊 产业链全景</div>
+  <!-- ★ 升级六：侧栏搜索 + "+"占位新建 -->
+  <div style="padding:0 8px 10px 8px;display:flex;gap:6px;align-items:center;">
+    <input id="chain-search" type="text" placeholder="🔍 搜索/筛选" autocomplete="off"
+           oninput="filterSidebar(this.value)" onkeydown="if(event.key==='Enter'){addCustomChain();this.blur();}"
+           style="flex:1;min-width:0;padding:6px 8px;background:var(--card2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:12px;outline:none;font-family:inherit;" />
+    <button onclick="addCustomChain()" title="新建空模板赛道（按 PCB 结构）"
+            style="padding:6px 10px;background:var(--accent);color:#0f1117;border:none;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;line-height:1;">+</button>
+  </div>
   <div class="sidebar-nav" id="nav-list">
     <span class="nav-item active" data-chain="pcb" onclick="switchChain('pcb')">🔌 PCB 印制电路板</span>
     <span class="nav-item" data-chain="semi" onclick="switchChain('semi')">💻 半导体</span>
@@ -276,7 +315,7 @@
 <!-- ===== MAIN CONTENT ===== -->
 <div class="main-area">
   <div class="header">
-    <h1>产业链全景<span>· 物理卡口投研</span></h1>
+    <h1>Jack唐的投研看板</h1>
     <p class="subtitle">从宏观到微观，用物理约束当筛子，挖出产业链"河道收窄处"的寡头瓶颈 · <span style="color:var(--accent);font-weight:600;">数据截止：2026-06-11</span></p>
   </div>
   <div class="container" id="chain-content"></div>
@@ -316,7 +355,8 @@ const LS = {
 const LS_KEYS = {
   verify: (chainId, code) => `verify_${chainId}_${code}`,
   cards: 'myCards',
-  trades: 'myTrades'
+  trades: 'myTrades',
+  customChains: 'myCustomChains'   // ★ 升级六：侧栏"+ 新建空模板赛道"
 };
 
 // 验证状态推导
@@ -458,27 +498,163 @@ CHAINS.pcb = {
   },
   overview: [
     { label: '🌍 全球 PCB 产值（2026E）', value: '~$958 亿', note: '2025实际$852亿，+12.5%（Prismark 2026.6）', color: 'var(--accent)' },
-    { label: '🇨🇳 中国大陆全球占比', value: '~55%', note: '全球最大生产国', color: 'var(--blue)' },
-    { label: '🤖 AI 服务器 PCB 增速', value: 'CAGR 30%+', note: '2024-2028，价值量 3-5x', color: 'var(--green)' },
-    { label: '🏭 产业阶段', value: '结构性升级期', note: '低端饱和/M7+供不应求', color: 'var(--accent)' },
-    { label: '📐 M9 CCL 市场（2026E）', value: '~$80 亿', note: 'CAGR 40%，缺口~20%', color: 'var(--red)' },
-    { label: '⚡ 核心驱动', value: 'Rubin + GB300', note: '英伟达下一代架构 2026Q3', color: null },
-    { label: '🔴 核心矛盾', value: '上游材料卡脖子', note: '碳氢树脂/Q布/HVLP4 <30%', color: 'var(--red)' },
-    { label: '📋 M9 材料国产化率', value: '<mark class="updated">树脂<10%·Q布~80%</mark>', note: '铜箔15-20%·CCL~30%', color: null }
+    { label: '🇨🇳 中国大陆全球占比', value: '~55%', note: '全球最大生产国（Prismark 2026）', color: 'var(--blue)' },
+    { label: '🤖 AI 算力核心驱动', value: 'CAGR 30%+', note: '2024-2028 价值量 3-5x（Prismark 2026.6）', color: 'var(--green)' },
+    { label: '🏭 产业阶段', value: '结构性升级期', note: '低端饱和/M7+供不应求（CPCA 2025）', color: 'var(--accent)' },
+    { label: '📐 M9 CCL 市场（2026E）', value: '~$80 亿', note: 'CAGR 40%，缺口~20%（Prismark 2026.6）', color: 'var(--red)' },
+    { label: '⚡ 下一代催化', value: 'Rubin + GB300', note: '英伟达GTC 2026：Rubin 2026Q3量产', color: null },
+    { label: '🔴 核心矛盾', value: '上游材料卡脖子', note: '碳氢树脂<30%·Q布<30%·HVLP4<15%（CPCA 2025）', color: 'var(--red)' },
+    { label: '📋 M9 材料国产化率', value: '<mark class="updated">树脂<10%·Q布~80%</mark>', note: '铜箔15-20%·CCL~30%（Prismark 2026.6）', color: null }
   ],
+  // ★ 升级七：5 列横向树状图（下游→中游→上游材料→上游设备→侧枝）
+  // 每列内是 sub-card 数组，sub-card 公司数据来源二选一：
+  //   ① sourceSegment: 'xxx' → 渲染时从 segments[] 找同名 → 用其 stocks（0 重复数据）
+  //   ② companies: [...]   → inline 写死（用于下游/中游/侧枝等 segments 没覆盖的环节）
   treeMap: {
-    downstream: { name: 'AI服务器(40%)·汽车(25%)·通信(20%)·消费电子(15%)', barrier: 'low', note: '核心驱动：英伟达 Rubin/GB300、华为昇腾' },
-    midstream: { name: 'PCB 制造', barrier: 'low', note: '全球 CR5<30%·A股 30+家→物理卡口: 无卡口' },
-    upstreamCCL: { name: '覆铜板 CCL', barrier: 'high', note: 'PCB成本30-40%·M9全球仅台光+生益认证' },
-    materials: [
-      { name: '电子树脂(碳氢/PPO)', barrier: 'extreme', choke: true, note: 'M9碳氢树脂全球仅2家认证' },
-      { name: '玻纤布/Q布', barrier: 'extreme', choke: true, note: 'Q布全球仅3家量产' },
-      { name: '铜箔 / HVLP4（超低轮廓铜箔）', barrier: 'extreme', choke: true, note: '日韩四强垄断85%+' },
-      { name: '硅微粉/填料', barrier: 'mid', choke: false, note: '联瑞新材龙头' }
+    // ============ ① 下游 (4 个 sub-card) ============
+    downstream: [
+      {
+        name: 'AI 服务器(40%)',
+        barrier: 'high',
+        note: '英伟达 GB300/Rubin · 华为昇腾 · 单机柜价值量 200 万+ (Prismark 2026)',
+        companies: [
+          { name:'工业富联', code:'601138', position:'英伟达 AI 服务器整机代工龙头·GB300 独家设计生产', barrier:'高' },
+          { name:'浪潮信息', code:'000977', position:'国内 AI 服务器整机市占 50%+·液冷全球第 5.5%', barrier:'高' },
+          { name:'中科曙光', code:'603019', position:'海光信息+曙光模组双驱·智算中心建设核心', barrier:'高' }
+        ]
+      },
+      {
+        name: '汽车电子(25%)',
+        barrier: 'mid',
+        note: '智能驾驶域控+车规 PCB+连接器 · 电动化催化 (CPCA 2025)',
+        companies: [
+          { name:'比亚迪', code:'002594', position:'整车+三电+智驾域控全链·新能源车全球销冠', barrier:'高' },
+          { name:'沪光股份', code:'605333', position:'汽车线束+高压连接器·上汽/特斯拉供', barrier:'中' },
+          { name:'和而泰', code:'002402', position:'汽车智能控制器·海外 Tier1 客户', barrier:'中' }
+        ]
+      },
+      {
+        name: '通信/5G(20%)',
+        barrier: 'mid',
+        note: '光模块+基站+路由器 · 5G-A 升级周期 (Prismark 2026)',
+        companies: [
+          { name:'中兴通讯', code:'000063', position:'5G 基站+光通信设备龙头·全球前 4', barrier:'高' },
+          { name:'深南电路', code:'002916', position:'通信 PCB+封装基板双轮·国内唯一 ABF 量产', barrier:'高' },
+          { name:'烽火通信', code:'600498', position:'光通信传输设备·光网络国家队', barrier:'中' }
+        ]
+      },
+      {
+        name: '消费电子(15%)',
+        barrier: 'low',
+        note: '手机/笔电/可穿戴 · 增速 0-3% · 充分竞争 (Prismark 2026)',
+        companies: [
+          { name:'鹏鼎控股', code:'002938', position:'全球 PCB 营收 9 连冠·苹果链 FPC 主供', barrier:'中' },
+          { name:'东山精密', code:'002384', position:'FPC+结构件双主业·苹果链核心', barrier:'中' },
+          { name:'景旺电子', code:'603228', position:'中低端 PCB 老牌·汽车+消费双轮', barrier:'低' }
+        ]
+      }
     ],
+
+    // ============ ② 中游 (3 个 sub-card) ============
+    midstream: [
+      {
+        name: 'AI 服务器 PCB',
+        barrier: 'extreme',
+        note: '占中游产值 30-40%(Prismark 2026) · 30-40 层高速 PCB · M9 级 CCL · 单价 10-50 万/块',
+        companies: [
+          { name:'胜宏科技', code:'300476', position:'英伟达 GB300 PCB 主供·显卡 PCB 全球~50%', barrier:'极高' },
+          { name:'沪电股份', code:'002463', position:'AI 服务器+汽车 PCB 双龙头·78 层背板认证', barrier:'极高' },
+          { name:'生益电子', code:'603183', position:'生益科技子公司·AI 服务器 PCB 黑马', barrier:'高' }
+        ]
+      },
+      {
+        name: '汽车 PCB',
+        barrier: 'mid',
+        note: '占中游产值 20-25%(CPCA 2025) · 车规级 AEC-Q 认证 · 单车 PCB 价值 1000-3000 元',
+        companies: [
+          { name:'依顿电子', code:'603328', position:'汽车 PCB 老牌厂商·国内份额前 5', barrier:'中' },
+          { name:'世运电路', code:'603920', position:'特斯拉/比亚迪汽车 PCB 核心供', barrier:'中' },
+          { name:'景旺电子', code:'603228', position:'汽车+消费双轮·全球 PCB 第 9', barrier:'中' }
+        ]
+      },
+      {
+        name: '消费类 PCB',
+        barrier: 'low',
+        note: '占中游产值 30-40%(Prismark 2026) · 中低端 FPC/RFPCB · 充分竞争 · 利润薄',
+        companies: [
+          { name:'鹏鼎控股', code:'002938', position:'全球 PCB 营收 9 连冠·苹果链 FPC 主供', barrier:'中' },
+          { name:'东山精密', code:'002384', position:'FPC+结构件双主业·苹果链核心', barrier:'中' },
+          { name:'超声电子', code:'000823', position:'中低端 PCB+覆铜板·老牌厂商', barrier:'低' }
+        ]
+      }
+    ],
+
+    // ============ ③ 上游材料 (4 个 sub-card) · 复用 segments 映射 ============
+    materials: [
+      {
+        name: '电子树脂(碳氢/PPO)',
+        barrier: 'extreme',
+        choke: true,
+        note: '占 CCL 成本 26%(Prismark) · M9 碳氢树脂全球仅 2 家认证 · 缺口率 63%',
+        sourceSegment: '电子树脂（碳氢树脂/PPO）'
+      },
+      {
+        name: '玻纤布/Q布(石英纤维布)',
+        barrier: 'extreme',
+        choke: true,
+        note: '占 CCL 成本 19%(Prismark) · 菲利华 Q 布全球市占~80% · 价格 8 倍+',
+        sourceSegment: '玻纤布/Q布（石英纤维布）'
+      },
+      {
+        name: 'HVLP4 超低轮廓铜箔',
+        barrier: 'extreme',
+        choke: true,
+        note: '占 CCL 成本 42%(Prismark) · M9 必须 HVLP4+ · 2026 月缺口~23%',
+        sourceSegment: '铜箔（HVLP4超低轮廓铜箔）'
+      },
+      {
+        name: 'CCL 覆铜板',
+        barrier: 'high',
+        choke: false,
+        note: '占 PCB 成本 30-40%(Prismark) · M9 全球仅 2 家认证(台光+生益)',
+        sourceSegment: '覆铜板 CCL'
+      }
+    ],
+
+    // ============ ④ 上游设备 (2 个 sub-card) ============
+    equipment: [
+      {
+        name: 'PCB 钻孔机/曝光机',
+        barrier: 'high',
+        choke: false,
+        note: '占 PCB 设备投资~37%(CPCA 2025, 钻孔20%+曝光17%) · 高端曝光机国产化<10% · 钻孔机大族/鼎泰',
+        sourceSegment: 'PCB专用设备'
+      },
+      {
+        name: 'IC 封装基板设备',
+        barrier: 'extreme',
+        note: '占 ABF 载板投资 50%+ · 100% 进口(美能达/Adtec 等) · 国产空白',
+        companies: []
+      }
+    ],
+
+    // ============ ⑤ 侧枝 (2 个 sub-card) ============
     sideBranches: [
-      { name: 'PCB专用设备', barrier: 'mid', note: '激光钻孔国产化~30%' },
-      { name: 'IC封装基板 / ABF（味之素增层膜）载板', barrier: 'high', note: '国产化率~4%' }
+      {
+        name: 'IC 封装基板(ABF 载板)',
+        barrier: 'high',
+        note: '占 PCB 高端 5-8%(Prismark 2026) · 全球仅味之素+兴森+1 家量产 · 国产化~4%',
+        sourceSegment: 'IC封装基板（ABF载板）'
+      },
+      {
+        name: 'CCL 上游硅微粉',
+        barrier: 'mid',
+        note: '占 CCL 成本 5-10%(CPCA) · 国产化率 60%+ · 联瑞/凯盛二供格局',
+        companies: [
+          { name:'联瑞新材', code:'688300', position:'球形硅微粉龙头·国内市占~40%', barrier:'高' },
+          { name:'凯盛科技', code:'600552', position:'硅微粉二供·央企背景', barrier:'中' }
+        ]
+      }
     ]
   },
   segments: [/* filled below */],
@@ -500,10 +676,11 @@ CHAINS.pcb.segments = [
       { lbl: '台系五强（其余）', val: '台燿/联茂等', note: '紧跟英伟达' }
     ],
     stocks: [
-      { rank:1, name:'生益科技', code:'600183', position:'全球第二大CCL，大陆唯一M9认证', barrier:'极高', logic:'<mark class="updated">2026Q1营收81.41亿+45%，净利11.58亿+105%</mark>。M9 CCL已批量供货英伟达供应链，全球市占14-15%，Q1毛利率28.10%' },
-      { rank:2, name:'华正新材', code:'603186', position:'华为昇腾CCL核心供应商', barrier:'高', logic:'AI服务器用高等级CCL，CBF积层膜对标味之素ABF' },
-      { rank:3, name:'南亚新材', code:'603519', position:'M8已量产，M9测试中', barrier:'高', logic:'覆铜板营收A股第三，高速材料追赶中' },
-      { rank:4, name:'金安国纪', code:'002636', position:'国内龙头（全球第七）', barrier:'中', logic:'涨价期情绪标杆，中低端CCL为主' }
+      { rank:1, name:'生益科技', code:'600183', position:'全球第二大CCL·大陆唯一M9认证·M9市占30-40%', barrier:'极高', trend:'up', trendNote:'M9大陆唯一·Q1净利+105%', logic:'<mark class="updated">2026Q1营收81.41亿+45%，净利11.58亿+105%</mark>。M9 CCL已批量供货英伟达供应链，全球市占14-15%，Q1毛利率28.10%' },
+      { rank:2, name:'华正新材', code:'603186', position:'华为昇腾CCL核心供·CBF积层膜对标味之素ABF', barrier:'高', trend:'up', trendNote:'CBF膜切入华为/中芯', logic:'AI服务器用高等级CCL+CBF膜切入华为/中芯，国产替代直接受益' },
+      { rank:3, name:'南亚新材', code:'603519', position:'覆铜板A股第三·M8量产M9测试中', barrier:'高', trend:'up', trendNote:'高速材料M8→M9', logic:'高速材料从M8→M9追赶中，AI服务器订单加速放量' },
+      { rank:4, name:'金安国纪', code:'002636', position:'国内龙头·全球CCL第7', barrier:'中', trend:'flat', trendNote:'涨价标杆·AI暴露弱', logic:'涨价期情绪标杆，中低端CCL为主，AI暴露弱' },
+      { rank:5, name:'超华科技', code:'002288', position:'中端覆铜板+铜箔一体化·铜箔营收占比30%', barrier:'中', trend:'down', trendNote:'中端CCL·AI纯度低', logic:'中端覆铜板+铜箔，AI纯度低，5G/汽车转型中' }
     ]
   },
   {
@@ -516,10 +693,11 @@ CHAINS.pcb.segments = [
       { lbl: '世名科技（中）', val: '500吨已投产', note: '通过台光/生益M9方案认证' }
     ],
     stocks: [
-      { rank:1, name:'东材科技', code:'601208', position:'全球唯二M9碳氢树脂认证，国内唯一', barrier:'极高', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1归母净利1.87亿+103%，高速电子树脂营收2.58亿+131%</mark>。台光独供2-3年排他协议。眉山3500吨<mark class="updated">2026年6月30日投料试产（提前至Q2末）</mark>。价格80-120万元/吨，毛利率50%+' },
-      { rank:2, name:'圣泉集团', code:'605589', position:'PPO国内唯一量产，全球第四', barrier:'高', hits:null, strength:null, logic:'PPO国产市占70%。碳氢树脂2026Q4投产1500吨。但PPO领域SABIC+三菱可替代→非寡头' },
-      { rank:3, name:'世名科技', code:'300522', position:'盘锦500吨已投产', barrier:'高', hits:null, strength:null, logic:'已通过台光/生益/联茂M9方案认证，规划总产能2500吨' },
-      { rank:4, name:'宏昌电子', code:'603002', position:'环氧树脂龙头', barrier:'中', hits:null, strength:null, logic:'GBF增层膜送样台积电/长电，但环氧树脂壁垒低→非卡口' }
+      { rank:1, name:'东材科技', code:'601208', position:'全球唯二M9碳氢树脂认证·国内唯一', barrier:'极高', trend:'up', trendNote:'Q1+103%·台光排他', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1归母净利1.87亿+103%，高速电子树脂营收2.58亿+131%</mark>。台光独供2-3年排他协议。眉山3500吨<mark class="updated">2026年6月30日投料试产（提前至Q2末）</mark>。价格80-120万元/吨，毛利率50%+' },
+      { rank:2, name:'圣泉集团', code:'605589', position:'PPO国内唯一量产·全球第四', barrier:'高', trend:'up', trendNote:'PPO国产70%·碳氢投产', hits:null, strength:null, logic:'PPO国产市占70%稳定。碳氢树脂2026Q4投产1500吨，向上突破' },
+      { rank:3, name:'世名科技', code:'300522', position:'盘锦500吨已投产·M9方案已认证', barrier:'高', trend:'up', trendNote:'M9方案已认证·扩产', hits:null, strength:null, logic:'已通过台光/生益/联茂M9方案认证，规划总产能2500吨·H2放量' },
+      { rank:4, name:'宏昌电子', code:'603002', position:'环氧树脂龙头·GBF增层膜送样', barrier:'中', trend:'flat', trendNote:'环氧树脂壁垒低', hits:null, strength:null, logic:'GBF增层膜送样台积电/长电，但环氧树脂壁垒低→非卡口' },
+      { rank:5, name:'彤程新材', code:'603650', position:'电子级酚醛树脂·对标SABIC PPO', barrier:'中', trend:'flat', trendNote:'PPO对标SABIC·AI弱', logic:'电子级酚醛稳定供应·PPO对标SABIC·AI暴露弱' }
     ]
   },
   {
@@ -532,10 +710,11 @@ CHAINS.pcb.segments = [
       { lbl: '宏和科技（中）', val: '4μm极薄布全球唯一量产', note: '超薄电子布全球市占~50%' }
     ],
     stocks: [
-      { rank:1, name:'菲利华', code:'300395', position:'<mark class="updated">Q布全球市占~80%，绝对龙头</mark>'+'国产唯一全产业链', barrier:'极高', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1营收6.22亿+53%，净利1.44亿+37%</mark>。已通过英伟达/台积电/台光/生益全链路认证。台光锁定500-700万米。全球缺口>40%。毛利率55-65%。2027目标2000万米/年' },
-      { rank:2, name:'宏和科技', code:'603256', position:'4μm极薄布全球唯一量产', barrier:'高', hits:3, strength:'★★☆', logic:'超薄电子布全球市占~50%。但非AI最核心瓶颈→降级' },
-      { rank:3, name:'中材科技', code:'002080', position:'国内Low Dk市占35%', barrier:'中', hits:null, strength:null, logic:'Q布占比仅20-30%，非前三寡头' },
-      { rank:4, name:'中国巨石', code:'600176', position:'电子布销量A股第一', barrier:'中', hits:null, strength:null, logic:'全球玻纤龙头，但非Q布寡头' }
+      { rank:1, name:'菲利华', code:'300395', position:'<mark class="updated">Q布全球市占~80%·绝对龙头</mark>·国产唯一全产业链', barrier:'极高', trend:'up', trendNote:'Q布全球80%·Q1+53%', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1营收6.22亿+53%，净利1.44亿+37%</mark>。已通过英伟达/台积电/台光/生益全链路认证。台光锁定500-700万米。全球缺口>40%。毛利率55-65%。2027目标2000万米/年' },
+      { rank:2, name:'宏和科技', code:'603256', position:'4μm极薄布全球唯一量产·全球市占~50%', barrier:'高', trend:'up', trendNote:'4μm超薄布全球第一', hits:3, strength:'★★☆', logic:'超薄电子布全球市占~50%。但非AI最核心瓶颈→降级' },
+      { rank:3, name:'中材科技', code:'002080', position:'国内Low Dk市占35%·石英布独供胜宏GB300', barrier:'中', trend:'up', trendNote:'石英布独供GB300·送样Rubin', hits:null, strength:null, logic:'Q布占比仅20-30%，非前三寡头·主业玻纤稳' },
+      { rank:4, name:'中国巨石', code:'600176', position:'电子布销量A股第一·全球玻纤龙头', barrier:'中', trend:'up', trendNote:'高端电子布扩产·AI纯度升', hits:null, strength:null, logic:'全球玻纤龙头，但非Q布寡头·AI纯度低' },
+      { rank:5, name:'山东玻纤', code:'605006', position:'电子布老牌·ECR玻纤纱', barrier:'中', trend:'down', trendNote:'电子布老牌·非Q布', logic:'中端电子布为主·非Q布寡头·AI暴露极弱' }
     ]
   },
   {
@@ -548,10 +727,11 @@ CHAINS.pcb.segments = [
       { lbl: '德福科技（中）', val: 'HVLP3量产，HVLP4验证中', note: '进入英伟达供应链' }
     ],
     stocks: [
-      { rank:1, name:'铜冠铜箔', code:'301217', position:'国内唯一HVLP1-4全系列量产', barrier:'极高', hits:4, strength:'★★★', logic:'<mark class="updated">锁定10台三船MSP-8000表面处理机（全球70%），产能确定性最强</mark>。2026目标500吨/月。日韩四强垄断85%+。设备交期18-24月。2027市占率预期42%。已实现HVLP4规模化量产' },
-      { rank:2, name:'德福科技', code:'301511', position:'进入英伟达供应链', barrier:'高', hits:3, strength:'★★☆', logic:'5万吨产能可切换。HVLP4台光验证中。机构关注度高→降级' },
-      { rank:3, name:'诺德股份', code:'600110', position:'6μm极薄铜箔量产', barrier:'中', hits:null, strength:null, logic:'服务器PCB用铜箔市占>25%，但HVLP4仍在认证' },
-      { rank:4, name:'嘉元科技', code:'688388', position:'极薄铜箔4.5μm市占>50%', barrier:'中', hits:null, strength:null, logic:'锂电铜箔转产HVLP，2026Q1净利预增329-395%' }
+      { rank:1, name:'铜冠铜箔', code:'301217', position:'国内唯一HVLP1-4全系列量产·2027市占预期42%', barrier:'极高', trend:'up', trendNote:'设备锁定70%·2027市占42%', hits:4, strength:'★★★', logic:'<mark class="updated">锁定10台三船MSP-8000表面处理机（全球70%），产能确定性最强</mark>。2026目标500吨/月。日韩四强垄断85%+。设备交期18-24月。2027市占率预期42%。已实现HVLP4规模化量产' },
+      { rank:2, name:'德福科技', code:'301511', position:'进入英伟达供应链·5万吨产能可切换', barrier:'高', trend:'up', trendNote:'5万吨切换·HVLP4验证', hits:3, strength:'★★☆', logic:'5万吨产能可切换。HVLP4台光验证中，机构关注度高→降级' },
+      { rank:3, name:'诺德股份', code:'600110', position:'6μm极薄铜箔量产·服务器铜箔市占>25%·2026Q1扭亏', barrier:'中', trend:'up', trendNote:'6μm·Q1扭亏·HVLP4量产', hits:null, strength:null, logic:'服务器PCB用铜箔市占>25%，但HVLP4仍在认证' },
+      { rank:4, name:'嘉元科技', code:'688388', position:'极薄铜箔4.5μm市占>50%', barrier:'中', trend:'up', trendNote:'锂电转HVLP·Q1预增329%', hits:null, strength:null, logic:'锂电铜箔转产HVLP，2026Q1净利预增329-395%' },
+      { rank:5, name:'中一科技', code:'688234', position:'高性能电子铜箔·HVLP4在研', barrier:'中', trend:'flat', trendNote:'高性能铜箔·主业稳', logic:'锂电铜箔主业转HVLP4，AI暴露弱·业绩弹性待验证' }
     ]
   },
   {
@@ -563,10 +743,11 @@ CHAINS.pcb.segments = [
       { lbl: '华正新材（中）', val: 'CBF积层膜对标味之素ABF', note: 'ABF膜国产替代唯一看点' }
     ],
     stocks: [
-      { rank:1, name:'深南电路', code:'002916', position:'国内唯一ABF载板批量交付', barrier:'极高', hits:null, strength:null, logic:'广州60亿投资2亿颗FC-BGA/年。Q1净利+73%。封装基板营收41.48亿+30.8%' },
-      { rank:2, name:'兴森科技', code:'002436', position:'ABF载板国产化追赶者', barrier:'高', hits:null, strength:null, logic:'华为昇腾认证通过。华为哈勃入股。量产爬坡缓慢' },
-      { rank:3, name:'华正新材', code:'603186', position:'CBF积层膜对标味之素ABF', barrier:'高', hits:null, strength:null, logic:'CBF膜切入华为昇腾供应链，中芯国际验证中' },
-      { rank:4, name:'联瑞新材', code:'688300', position:'亚微米球形硅微粉', barrier:'中', hits:null, strength:null, logic:'ABF膜关键填料，进入头部供应链' }
+      { rank:1, name:'深南电路', code:'002916', position:'国内唯一ABF载板批量交付·全球PCB营收前10', barrier:'极高', trend:'up', trendNote:'ABF国内唯一·Q1+73%', hits:null, strength:null, logic:'广州60亿投资2亿颗FC-BGA/年。Q1净利+73%。封装基板营收41.48亿+30.8%' },
+      { rank:2, name:'兴森科技', code:'002436', position:'ABF载板国产化追赶者·HBM级ABF唯一', barrier:'高', trend:'up', trendNote:'HBM级ABF·华为入股', hits:null, strength:null, logic:'华为昇腾认证通过。华为哈勃入股。量产爬坡缓慢' },
+      { rank:3, name:'华正新材', code:'603186', position:'CBF积层膜对标味之素ABF', barrier:'高', trend:'up', trendNote:'CBF膜华为/中芯', hits:null, strength:null, logic:'CBF膜切入华为昇腾供应链，中芯国际验证中' },
+      { rank:4, name:'联瑞新材', code:'688300', position:'亚微米球形硅微粉·球形硅微粉国内市占~40%', barrier:'中', trend:'flat', trendNote:'球形硅微粉稳', hits:null, strength:null, logic:'ABF膜关键填料，进入头部供应链·主业硅微粉稳定' },
+      { rank:5, name:'博敏电子', code:'603936', position:'PCB+汽车切入ABF', barrier:'中', trend:'down', trendNote:'PCB切入ABF规模小', logic:'PCB老牌厂商切入ABF，量产规模小·AI暴露弱' }
     ]
   },
   {
@@ -578,10 +759,11 @@ CHAINS.pcb.segments = [
       { lbl: '芯碁微装（中）', val: 'LDI曝光全球市占15%', note: '2026激光钻孔机订单70-100台' }
     ],
     stocks: [
-      { rank:1, name:'鼎泰高科', code:'301377', position:'PCB钻针全球第一（市占26.5%）', barrier:'高', hits:null, strength:null, logic:'AI高多层板单块钻孔数从10万→50万+，钻针耗量激增' },
-      { rank:2, name:'大族数控', code:'301200', position:'钻孔设备全球第二', barrier:'高', hits:null, strength:null, logic:'2025净利预增161-194%。AI高多层板设备市占40-50%' },
-      { rank:3, name:'芯碁微装', code:'688630', position:'LDI曝光全球市占15%', barrier:'高', hits:null, strength:null, logic:'3-4μm线宽小批量交付。PCB+先进封装双催化' },
-      { rank:4, name:'东威科技', code:'688700', position:'VCP电镀国内市占>50%', barrier:'中', hits:null, strength:null, logic:'AI订单>5亿。三合一电镀设备打破海外垄断' }
+      { rank:1, name:'鼎泰高科', code:'301377', position:'PCB钻针全球第一·市占26.5%', barrier:'高', trend:'up', trendNote:'钻针全球第一·AI高多层', hits:null, strength:null, logic:'AI高多层板单块钻孔数从10万→50万+，钻针耗量激增·2025净利预增80-103%' },
+      { rank:2, name:'大族数控', code:'301200', position:'钻孔设备全球第二·AI高多层板设备市占40-50%', barrier:'高', trend:'up', trendNote:'净利预增161-194%', hits:null, strength:null, logic:'2025净利预增161-194%。AI高多层板设备市占40-50%' },
+      { rank:3, name:'芯碁微装', code:'688630', position:'LDI曝光全球市占15%·3-4μm线宽', barrier:'高', trend:'up', trendNote:'3-4μm小批量·双催化', hits:null, strength:null, logic:'3-4μm线宽小批量交付。PCB+先进封装双催化·2026激光钻孔订单70-100台' },
+      { rank:4, name:'东威科技', code:'688700', position:'VCP电镀国内市占>50%·AI订单>5亿', barrier:'中', trend:'up', trendNote:'AI订单>5亿', hits:null, strength:null, logic:'AI订单>5亿。三合一电镀设备打破海外垄断' },
+      { rank:5, name:'金洲精工', code:'002443', position:'PCB钻针全球第二·市占20.8%', barrier:'中', trend:'up', trendNote:'钻针全球第二·市占20.8%', logic:'PCB钻针老牌厂商，被鼎泰高科高端化替代·AI纯度低' }
     ]
   }
 ];
@@ -590,16 +772,16 @@ CHAINS.pcb.segments = [
 CHAINS.pcb.midstream = {
   description: 'PCB制造是充分竞争行业。2025年以来五大龙头新增投资合计超400亿元，产能预计2026-2027年集中释放。行业呈"K型分化"。卡口判定：该环节无物理卡口（客户可切换供应商）。但头部企业强者恒强。',
   stocks: [
-    { rank:1, name:'胜宏科技', code:'300476', barrier:'极高', note:'英伟达Tier1，显卡PCB全球~55%，Q1净利12.88亿+40%' },
-    { rank:2, name:'沪电股份', code:'002463', barrier:'极高', note:'英伟达78层背板认证，Q1净利12.42亿+62.9%，年内四次扩产' },
-    { rank:3, name:'深南电路', code:'002916', barrier:'极高', note:'PCB+基板+装联3-in-1，Q1净利8.50亿+73%' },
-    { rank:4, name:'鹏鼎控股', code:'002938', barrier:'高', note:'全球PCB营收9连冠，消费电子占比高→AI转型中' },
-    { rank:5, name:'景旺电子', code:'603228', barrier:'中', note:'刚性/FPC/金属基全覆盖，英伟达二级供应商' },
-    { rank:6, name:'广合科技', code:'001389', barrier:'高', note:'专注算力PCB（服务器/交换机），算力纯度最高' },
-    { rank:7, name:'生益电子', code:'688183', barrier:'高', note:'AI服务器PCB黑马，净利增近5倍' },
-    { rank:8, name:'东山精密', code:'002384', barrier:'中', note:'FPC龙头+光电双主业' },
-    { rank:9, name:'世运电路', code:'603920', barrier:'中', note:'特斯拉汽车/人形机器人PCB' },
-    { rank:10, name:'奥士康', code:'002913', barrier:'中', note:'通过供应体系向英伟达供货' }
+    { rank:1, name:'胜宏科技', code:'300476', barrier:'极高', trend:'up', trendNote:'GB300主供·Q1+40%', note:'英伟达Tier1，显卡PCB全球~50%(Prismark 2026)，Q1净利12.88亿+40%' },
+    { rank:2, name:'沪电股份', code:'002463', barrier:'极高', trend:'up', trendNote:'78层背板·Q1+62.9%', note:'英伟达78层背板认证·AI+汽车双龙头，Q1净利12.42亿+62.9%，年内四次扩产' },
+    { rank:3, name:'深南电路', code:'002916', barrier:'极高', trend:'up', trendNote:'Q1+73%·装联3in1', note:'PCB+封装基板+装联3-in-1·国内唯一ABF批量交付，Q1净利8.50亿+73%' },
+    { rank:4, name:'鹏鼎控股', code:'002938', barrier:'高', trend:'flat', trendNote:'苹果链FPC·消费占比高', note:'全球PCB营收9连冠·苹果链FPC主供，消费电子占比~70%→AI转型中' },
+    { rank:5, name:'广合科技', code:'001389', barrier:'高', trend:'up', trendNote:'算力纯度最高', note:'专注算力PCB（服务器/交换机）·算力纯度最高' },
+    { rank:6, name:'生益电子', code:'688183', barrier:'高', trend:'up', trendNote:'AI服务器黑马·净利+5倍', note:'AI服务器PCB黑马·净利增近5倍·生益科技子公司' },
+    { rank:7, name:'景旺电子', code:'603228', barrier:'中', trend:'flat', trendNote:'汽车+HDI·高阶转型', note:'刚性/FPC/金属基全覆盖，英伟达二级供应商·AI纯度低' },
+    { rank:8, name:'东山精密', code:'002384', barrier:'中', trend:'up', trendNote:'切入AI服务器供应链', note:'FPC龙头+光电双主业·苹果链稳定' },
+    { rank:9, name:'世运电路', code:'603920', barrier:'中', trend:'up', trendNote:'28层AI服务器板+转型AI/机器人', note:'特斯拉汽车/人形机器人PCB·汽车赛道稳定' },
+    { rank:10, name:'奥士康', code:'002913', barrier:'中', trend:'up', trendNote:'向高端HDI/多层切换', note:'通过供应体系向英伟达供货·AI暴露弱' }
   ]
 };
 
@@ -689,7 +871,7 @@ CHAINS.pcb.supplyGap = [
   { segment:'Q布', demand:'~1500-1800万米/年', capacity:'~1000-1500万米/年', gap:'~300-685万米', rate:'>40%', bottleneck:'日东纺垄断70%+' },
   { segment:'HVLP4铜箔', demand:'~1849吨/月(H2)', capacity:'~1424吨/月', gap:'~425吨/月', rate:'~23%', bottleneck:'阴极辊交期18-24月' }
 ];
-CHAINS.pcb.methodologyNotes = 'PCB制造、设备等环节找不到满足四大条件的卡口——这是方法论的正常结果。中游制造环节虽然胜宏/沪电等头部企业非常优秀，但按卡口标准，客户可切换供应商→不构成物理卡口。';
+CHAINS.pcb.methodologyNotes = 'PCB制造、设备等环节找不到满足四大条件的卡口——这是方法论的正常结果。中游制造环节虽然胜宏/沪电等头部企业非常优秀，但按卡口标准，客户可切换供应商→不构成物理卡口。<br><br><strong>【内容标准】</strong> 本赛道已叠加「全景占比/个股密度/进步退步」内容标准——每 segment stocks 补至 ≥5 家、treeMap sub-card note 标占比+Prismark/CPCA 来源、stocks.logic 加 ⬆ 进步/⬇ 承压/➖ 平稳 趋势前缀、position 必含市占率/排名。';
 
 
 // ==================== SEMICONDUCTOR ====================
@@ -1024,157 +1206,226 @@ CHAINS['ai-server'].supplyGap = [
   { segment:'224G高速铜缆', demand:'超节点2026E~67亿(英伟达+ASIC)', capacity:'安费诺+沃尔+另1家', gap:'二梯队厂商交期>18月', rate:'~20%', bottleneck:'发泡芯线挤出机交期>12月' }
 ];
 CHAINS['ai-server'].methodologyNotes = 'AI服务器的物理卡口集中在液冷和铜连接两个环节。整机制造（工业富联/浪潮/华勤）虽然营收最大，但客户可切换供应商→不构成物理卡口。注意：①液冷目前产能严重不足，但技术门槛中等，需警惕新进入者出现；②铜连接有"正交背板"替代风险（Rubin Ultra架构变化），但中短期沃尔受益确定性高。';
-// ==================== HBM / ADVANCED MEMORY ====================
+// ==================== HBM 高带宽存储 ====================
 CHAINS.hbm = {
-  id: 'hbm', name: 'HBM/先进存储', icon: '🧠',
+  id: 'hbm', name: 'HBM 高带宽存储', icon: '🧠',
+  cyclePosition: { stage:'boom', label:'繁荣中后期', reason:'🆪 AI 算力刚需+结构性短缺，产能长协锁死至2027；但本体三巨头垄断、估值已高，国产卡口在设备/材料端兑现节奏是关键变量', watchSignals:['英伟达/AMD HBM 订单与 HBM4 放量节奏','三巨头扩产与长协锁单公告','长鑫/武汉新芯 HBM 量产与国产设备材料验证进度'] },
   plainIntro: {
-    analogy: 'HBM = AI芯片的"高速公路"——数据跑在普通DRAM(国道)和HBM(12车道高速)之间，通勤时间差16倍',
+    analogy: 'HBM = AI 芯片身边的"超高速记忆仓库"',
     paragraphs: [
-      'AI芯片（如英伟达H100/B200）的"工作记忆"叫<strong>HBM（高带宽内存）</strong>，它不是一颗独立芯片，而是<strong>把8-12层DRAM芯片像三明治一样垂直堆叠起来</strong>，用比头发丝还细的TSV（硅通孔）上下贯通。一个HBM堆栈的带宽可达<strong>1TB/s+</strong>——相当于1秒传完100部高清电影。没有HBM，再强的GPU也是"空转"。',
-      '<strong>为什么HBM是卡脖子最严重的存储环节？</strong>因为全球HBM制造被<strong>SK海力士（52%）+三星（35%）+美光（10%）三家垄断97%</strong>。中国HBM自给率几乎为0。但机会在设备和材料侧：HBM的TSV通孔、混合键合、CoWoS先进封装等环节，需要大量新设备和材料——这些是A股能抓到的。长鑫存储HBM3样品已交付华为昇腾910C验证。'
+      'GPU 算得再快，数据喂不进来也白搭。<strong>HBM（高带宽内存）</strong>把多层 DRAM 用"打孔叠楼"（TSV 硅通孔）的方式 3D 堆起来，紧贴 GPU，带宽是普通内存的十几倍——这是大模型训练的命门。',
+      '<strong>钱被谁赚走了？</strong> HBM 本体被韩美三家（SK 海力士/三星/美光）垄断，A 股<strong>买不到本体</strong>。但造 HBM 要用的<strong>关键设备（混合键合机）和关键材料（GMC 塑封料、前驱体）</strong>，国产正在卡位突破——这才是 A 股的"河道收窄处"。'
     ],
-    flowSteps: ['DRAM晶圆制造','TSV硅通孔→穿洞+镀铜','芯片减薄至<50μm','多层堆叠+键合(Hybrid Bonding)','CoWoS封装集成到GPU旁','→英伟达B200/华为昇腾'],
-    highlightBox: '<strong>💡 物理卡口 视角：A股无直接HBM制造标的（被海力士/三星/美光垄断）。但"卖铲人"有卡口：</strong><br>① <strong>混合键合设备</strong>：拓荆科技是全球仅3-4家能量产Hybrid Bonding的企业，HBM堆叠不可跳过此环节。② <strong>HBM级ABF载板</strong>：兴森科技国产唯一HBM级ABF量产，全球仅味之素+兴森+1家。③ <strong>CoWoS封测</strong>：台积电产能溢出→长电科技国内唯一HBM3E封测（良率98.5%超三星）。④ <strong>CMP减薄</strong>：华海清科国内唯一12寸CMP，TSV减薄必备。'
+    flowSteps: ['DRAM 晶圆','TSV 硅通孔钻孔','晶圆减薄','多层堆叠键合','GMC 塑封','2.5D 封装上 GPU'],
+    highlightBox: '<strong>💡 物理卡口视角：本体买不到，就盯"卖铲子+卖耗材"</strong><br>HBM 本体 CR3≈100% 且全是外资，A 股无直接标的。真正的国产卡口在两端：① <strong>混合键合设备</strong>（HBM4 必经、Besi 垄断、拓荆/北方华创追赶）；② <strong>GMC 颗粒塑封料</strong>（全球仅住友/昭和+华海诚科，A 股唯一量产）；③ <strong>前驱体</strong>（雅克子公司是 SK 海力士核心供应商）。'
   },
   overview: [
-    { label: '🧠 全球HBM市场（2026E）', value: '~$550亿', note: '同比+59%，占DRAM市场30%+', color: 'var(--accent)' },
-    { label: '🇰🇷 HBM制造垄断度', value: '海力士52%+三星35%', note: '前三家97%，中国自给率≈0%', color: 'var(--red)' },
-    { label: '🏭 长鑫HBM3进展', value: '样品交付华为', note: 'HBM3e良率75%·IPO过会募295亿', color: null },
-    { label: '📐 先进封装市场2026E', value: '~$587亿', note: '占封测54%·CAGR>25%', color: 'var(--blue)' },
-    { label: '🔧 CoWoS产能（台积电2026E）', value: '月产~8万片', note: '仍供不应求·oS委外至长电/通富', color: 'var(--barrier-high)' },
-    { label: '⚡ 核心驱动', value: 'AI GPU升级+涨价周期', note: '英伟达B200/Rubin+华为昇腾910C', color: null },
-    { label: '🔴 最大瓶颈', value: 'HBM制造3家垄断', note: 'A股只能抓设备/材料/封测溢出', color: 'var(--red)' },
-    { label: '📋 DRAM涨价(2026Q1)', value: '合约价环比+55-60%', note: '国产存储设计+模组业绩爆发', color: 'var(--green)' }
+    { label: '🌍 全球 HBM 市场(2026E)', value: '~$500 亿', note: '2025约$307-357亿+52%（TrendForce）', color: 'var(--accent)' },
+    { label: '📈 TAM CAGR(25-28)', value: '~40%', note: '2028冲$1000亿（美光测算）', color: 'var(--green)' },
+    { label: '🏆 本体寡头格局', value: 'SK53/三星38/美光9', note: '2024份额%，CR3≈100%', color: 'var(--blue)' },
+    { label: '🇨🇳 本体国产化率', value: '~0%(未上市)', note: 'CXMT HBM2量产/HBM3 2026目标', color: 'var(--red)' },
+    { label: '⚡ 核心驱动', value: 'GB300+HBM4', note: '英伟达Rubin 2026，单GPU用量升', color: null },
+    { label: '🏭 供需状态', value: '结构性短缺', note: '长协锁死至2027', color: 'var(--accent)' },
+    { label: '🔴 核心矛盾', value: '本体买不到', note: '卡口在设备(混合键合)+材料(GMC)', color: 'var(--red)' },
+    { label: '🔧 混合键合设备', value: 'Besi 垄断', note: 'HBM4必经，拓荆/北方华创追赶', color: 'var(--red)' }
   ],
+  // 5 列横向树状图：五键全为数组（渲染器靠 Array.isArray 判定）
   treeMap: {
-    downstream: { name: 'AI GPU(英伟达B200/Rubin)·华为昇腾·AMD MI300X', barrier: 'low', note: '单颗B200配8颗HBM3e，HBM价值占GPU BOM成本50%+' },
-    midstream: { name: 'HBM制造 → 晶圆制造+TSV+堆叠+封装测试', barrier: 'low', note: 'SK海力士/三星/美光97%→长鑫存储HBM3突破中' },
-    equipment: [
-      { name: 'TSV硅通孔设备(刻蚀/电镀)', barrier: 'extreme', choke: true, note: '中微/北方华创/盛美→进入产线核心' },
-      { name: '混合键合(Hybrid Bonding)', barrier: 'extreme', choke: true, note: '拓荆科技→国产唯一方案' },
-      { name: 'CMP减薄设备(晶圆<50μm)', barrier: 'high', choke: false, note: '华海清科→国内唯一12寸量产' },
-      { name: '临时键合/解键合', barrier: 'high', choke: false, note: '芯源微→进入长电/通富产线' }
+    downstream: [
+      { name: 'AI GPU/加速卡(主力)', barrier:'high', note:'英伟达/AMD/华为昇腾 · 单GPU配6-8颗HBM',
+        companies:[ {name:'工业富联',code:'601138',position:'英伟达AI服务器整机代工龙头',barrier:'高'}, {name:'寒武纪',code:'688256',position:'国产AI芯片，需配国产HBM',barrier:'高'}, {name:'海光信息',code:'688041',position:'国产CPU/DCU',barrier:'高'} ] },
+      { name: 'AI 服务器/HPC', barrier:'high', note:'数据中心 · HBM装载量年增30-50%',
+        companies:[ {name:'浪潮信息',code:'000977',position:'国内AI服务器市占50%+',barrier:'高'}, {name:'中科曙光',code:'603019',position:'HPC+液冷',barrier:'高'} ] }
+    ],
+    midstream: [
+      { name: 'HBM 本体制造', barrier:'extreme', note:'SK/三星/美光垄断 · 国产CXMT/武汉新芯未上市 · A股无直接标的',
+        companies:[ {name:'(长鑫CXMT)',code:'未上市',position:'HBM2量产/HBM3 2026目标',barrier:'极高'}, {name:'(武汉新芯)',code:'未上市',position:'HBM先进封装',barrier:'极高'} ] },
+      { name: '先进封装/2.5D-3D', barrier:'high', note:'CoWoS/HBM后道 · 客户可切换→非卡口',
+        sourceSegment: 'HBM制造+先进封装（中游）' }
     ],
     materials: [
-      { name: 'HBM级ABF载板', barrier: 'extreme', choke: true, note: '全球仅味之素+兴森+1家量产' },
-      { name: '环氧塑封料(EMIF/Underfill)', barrier: 'high', choke: false, note: '华海诚科→国产替代加速' },
-      { name: '抛光液/垫(CMP耗材)', barrier: 'high', choke: false, note: '安集科技→TSV抛光液龙头' }
+      { name: 'GMC 颗粒状塑封料', barrier:'extreme', choke:true, note:'全球仅住友/昭和+华海诚科 · A股唯一量产', sourceSegment:'GMC颗粒状环氧塑封料' },
+      { name: '前驱体材料', barrier:'extreme', choke:true, note:'雅克子公司=SK海力士核心供应商 · 贯穿全世代', sourceSegment:'前驱体材料' },
+      { name: 'low-α球硅/球铝填料', barrier:'high', choke:false, note:'GMC核心填料占比70-90% · 联瑞供海力士', companies:[ {name:'联瑞新材',code:'688300',position:'low-α球硅，供SK海力士',barrier:'高'}, {name:'壹石通',code:'688733',position:'low-α球铝(散热)',barrier:'中'} ] }
+    ],
+    equipment: [
+      { name: '混合键合/键合设备', barrier:'extreme', choke:true, note:'HBM4必经，Besi垄断 · 拓荆/北方华创追赶', sourceSegment:'混合键合及核心设备' },
+      { name: 'TSV刻蚀/减薄', barrier:'high', choke:false, note:'TSV占HBM成本近30% · 中微/华海清科', companies:[ {name:'中微公司',code:'688012',position:'TSV深孔刻蚀设备主供',barrier:'高'}, {name:'华海清科',code:'688120',position:'国产减薄/CMP唯一量产',barrier:'高'} ] },
+      { name: '测试设备', barrier:'high', choke:false, note:'HBM测试复杂度高 · 华峰/长川', sourceSegment:'测试设备' }
     ],
     sideBranches: [
-      { name: '长鑫存储→国产HBM唯一希望', barrier: 'extreme', note: 'HBM3已送样·IPO过会募295亿' },
-      { name: '长江存储→3D NAND全球第6', barrier: 'extreme', note: '294层量产·良率>90%·市占14.2%' }
+      { name: '存储模组/颗粒/代理', barrier:'mid', note:'HBM代理+利基存储 · 香农芯创(海力士代理)',
+        companies:[ {name:'香农芯创',code:'300475',position:'SK海力士国内核心代理',barrier:'中'}, {name:'兆易创新',code:'603986',position:'利基存储+MCU龙头',barrier:'中'}, {name:'江波龙',code:'301308',position:'存储模组龙头',barrier:'中'} ] },
+      { name: '玻璃通孔 TGV/中介层', barrier:'high', note:'下一代基板技术 · 沃格光电TGV',
+        companies:[ {name:'沃格光电',code:'603773',position:'玻璃通孔TGV',barrier:'高'} ] }
     ]
   },
   segments: [],
-  midstream: { description: '', stocks: [] },
-  fourQuestions: { segments: [] },
+  midstream: { description:'', stocks:[] },
+  fourQuestions: { segments:[] },
   chokePoints: [],
   supplyGap: []
 };
 
-// HBM Segments
 CHAINS.hbm.segments = [
   {
-    name: '先进封装设备 — HBM制造的"卖铲人"', costRatio: '设备投资60%+', barrier: 'extreme', choke: true, border: true,
-    intro: 'HBM制造的关键工艺——<strong>TSV通孔、晶圆减薄、混合键合、RDL布线</strong>——全都需要专用设备。台积电CoWoS产能供不应求，产能正外溢至国内长电/通富等OSAT厂，直接拉动设备订单爆发。核心瓶颈：混合键合机全球仅<strong>EVG/SUSS/拓荆科技</strong>等少数几家能量产，国产化率<10%。',
-    globalLandscape: [
-      { lbl: '🥇 拓荆科技（中）', val: 'PECVD+混合键合国产唯一', note: 'RDL介质层+堆叠键合双设备，进入长电/通富产线' },
-      { lbl: '🥈 EVG+SUSS（欧）', val: '混合键合全球领先', note: '技术最成熟但价格昂贵' },
-      { lbl: '🥉 中微/北方华创（中）', val: 'TSV刻蚀设备', note: '深硅通孔刻蚀核心供应商' },
-      { lbl: '华海清科（中）', val: 'CMP减薄→国内唯一12寸量产', note: 'HBM晶圆需减薄至<50μm' }
+    name:'混合键合及核心设备', costRatio:'设备最高价值环节', barrier:'extreme', choke:true, border:true,
+    intro:'混合键合（Hybrid Bonding，铜对铜直连）是 <strong>HBM4 16Hi/20Hi 堆叠的必经之路</strong>，也是中外差距最大的环节，核心设备被荷兰 <strong>Besi</strong> 垄断。当前国产 HBM 主用 TCB-NCF 热压键合（依赖新加坡 ASMPT）。国产追赶以 <strong>拓荆科技</strong>（国内唯一量产 PECVD、深度参与混合键合）与北方华创为主。',
+    globalLandscape:[
+      { lbl:'🥇 Besi（荷兰）', val:'混合键合设备全球垄断', note:'晶圆对晶圆/芯片对晶圆' },
+      { lbl:'ASMPT（新加坡）', val:'TCB 热压键合主供', note:'国产 HBM 产线主力进口设备' },
+      { lbl:'拓荆科技（中）', val:'国产唯一量产 PECVD，混合键合追赶', note:'HBM 设备国产化率>50%' },
+      { lbl:'北方华创（中）', val:'平台型设备，键合/刻蚀布局', note:'国产替代主力' }
     ],
-    stocks: [
-      { rank:1, name:'拓荆科技', code:'688072', position:'混合键合设备国产唯一+全球第3-4', barrier:'极高', hits:4, strength:'★★★', logic:'PECVD是TSV/RDL必备设备。键合机是HBM堆叠刚需。长电/通富百亿扩产→设备订单确定性最高。国产化率<10%' },
-      { rank:2, name:'中微公司', code:'688012', position:'5nm TSV刻蚀龙头', barrier:'极高', hits:3, strength:'★★☆', logic:'TSV深孔刻蚀核心供应商。5nm进台积电。Q1净利9.3亿+197%' },
-      { rank:3, name:'华海清科', code:'688120', position:'国内唯一12英寸CMP量产', barrier:'高', hits:null, strength:null, logic:'TSV晶圆减薄至<50μm必备设备。国产替代唯一选择' },
-      { rank:4, name:'芯源微', code:'688037', position:'临时键合/解键合龙头', barrier:'高', hits:null, strength:null, logic:'进入长电/通富产线。晶圆堆叠前必须临时键合→减薄→解键合' }
+    stocks:[
+      { rank:1, name:'拓荆科技', code:'688072', position:'国产唯一量产PECVD，薄膜沉积国内市占>25%', barrier:'极高', hits:3, strength:'★★☆', trend:'up', trendNote:'HBM设备放量+混合键合突破', logic:'国内唯一量产PECVD企业，深度参与HBM混合键合研发，设备国产化率>50%，存储双雄订单占比高。混合键合仍受Besi垄断→暂列潜在卡口' },
+      { rank:2, name:'北方华创', code:'002371', position:'国内最大平台型设备商，全球第5', barrier:'极高', hits:3, strength:'★★☆', trend:'up', trendNote:'刻蚀/薄膜/键合全布局', logic:'覆盖刻蚀/薄膜/清洗/热处理，HBM相关键合与刻蚀设备布局，在手订单饱满，国产替代平台龙头' },
+      { rank:3, name:'中微公司', code:'688012', position:'TSV深孔刻蚀设备主供', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'TSV刻蚀受益HBM', logic:'2010年即推出首台TSV深孔硅刻蚀设备，TSV占HBM成本近30%，刻蚀需求随堆叠层数增加' },
+      { rank:4, name:'华海清科', code:'688120', position:'国产CMP/减薄设备唯一量产', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'晶圆减薄受益HBM堆叠', logic:'HBM超薄晶圆堆叠需多次减薄，国产减薄/CMP唯一量产，导入存储产线' },
+      { rank:5, name:'快克智能', code:'603203', position:'国产TCB热压键合追赶者', barrier:'中', hits:null, strength:null, trend:'up', trendNote:'TCB国产研发', logic:'国产TCB键合设备研发中，对标ASMPT，HBM12层以下键合有切入机会' },
+      { rank:6, name:'赛腾股份', code:'688343', position:'HBM芯片检测设备供应商', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'检测设备配套', logic:'供货HBM相关检测设备，受益封测扩产，壁垒中等' }
     ]
   },
   {
-    name: '先进封装（CoWoS+chiplet）', costRatio: '封测投资40%+', barrier: 'high', choke: true, border: true,
-    intro: 'HBM必须与GPU通过CoWoS封装在一起。台积电CoWoS产能2026年月产~8万片仍供不应求，大量<strong>oS（on-Substrate）委外订单</strong>给国内OSAT厂。长电科技2026资本开支上调至<strong>约100亿元</strong>，8层HBM3E堆叠良率<strong>98.5%超三星</strong>。通富微电定增44亿扩产，2026Q1净利+224%。',
-    globalLandscape: [
-      { lbl: '🥇 台积电（台）', val: 'CoWoS产能2026月产~8万片', note: '独家先进制程Chiplet集成' },
-      { lbl: '🥈 长电科技（中）', val: '国内第1/全球第3封测', note: 'HBM3E良率98.5%超三星·资本开支~100亿' },
-      { lbl: '🥉 通富微电（中）', val: '国内第2/全球第4', note: 'AMD MI300X独家HBM封装·Q1净利+224%' },
-      { lbl: '华天科技（中）', val: '全球第6·Q1净利+568%', note: '30亿扩产存储封测' }
+    name:'GMC颗粒状环氧塑封料', costRatio:'封装关键耗材', barrier:'extreme', choke:true, border:true,
+    intro:'GMC（颗粒状环氧塑封料）是 HBM 3D 堆叠封装的<strong>核心耗材</strong>，保护芯片并散热，随堆叠层数增加用量与价值量显著提升。<strong>全球仅日本住友、昭和电工 + 华海诚科三家通过认证</strong>，华海诚科是 <strong>A 股唯一量产</strong>、华为哈勃参股。GMC 核心填料 low-α 球硅占成本 70-90%（联瑞新材供货）。',
+    globalLandscape:[
+      { lbl:'🥇 日本住友', val:'EMC全球市占~40%，GMC双寡头', note:'高端封装料垄断' },
+      { lbl:'🥈 昭和电工 Resonac（日）', val:'GMC 另一寡头', note:'HBM 主供' },
+      { lbl:'华海诚科（中）', val:'A股唯一量产GMC', note:'通过验证，替代日系，华为哈勃参股' },
+      { lbl:'联瑞新材（中）', val:'low-α球硅填料供海力士', note:'GMC核心填料占比70-90%' }
     ],
-    stocks: [
-      { rank:1, name:'长电科技', code:'600584', position:'国内封测第1/全球第3，HBM3E良率98.5%', barrier:'极高', hits:3, strength:'★★☆', logic:'XDFOI平台量产HBM封装。2026资本开支~100亿。英伟达/AMD/SK海力士/华为海思全覆盖。Q1净利+42.7%。先进封装收入>50%' },
-      { rank:2, name:'通富微电', code:'002156', position:'国内第2/AMD独家HBM封装', barrier:'高', hits:null, strength:null, logic:'AMD MI300X HBM3封装核心供应商。定增44亿扩产。Q1净利+224%' },
-      { rank:3, name:'华天科技', code:'002185', position:'全球第6·Q1净利+568%', barrier:'中', hits:null, strength:null, logic:'30亿扩产存储封测。弹性最大但壁垒相对低' }
+    stocks:[
+      { rank:1, name:'华海诚科', code:'688535', position:'A股唯一量产GMC，全球仅3家之一', barrier:'极高', hits:4, strength:'★★★', trend:'up', trendNote:'GMC替代日系+华为哈勃参股', logic:'A股唯一量产颗粒状环氧塑封料(GMC)，HBM必备耗材，已通过客户验证、技术替代住友/昭和，华为深圳哈勃参股，国产替代空间超百亿' },
+      { rank:2, name:'联瑞新材', code:'688300', position:'low-α球硅龙头，供SK海力士', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'球硅随HBM堆叠层数增量', logic:'GMC核心填料low-α球形硅微粉(球形度≥98%)小批量供货SK海力士，HBM 8→12层升级带动单位用量提升' },
+      { rank:3, name:'壹石通', code:'688733', position:'low-α球铝(HBM基板散热)', barrier:'中', hits:null, strength:null, trend:'up', trendNote:'球铝导热受益', logic:'供应low-α球形氧化铝(导热30W/mK)用于HBM散热，客户覆盖三星/海力士封装厂' },
+      { rank:4, name:'飞凯材料', code:'300398', position:'子公司长兴电子EMC', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'EMC布局HBM料', logic:'环氧塑封料布局，研发HBM相关高端封装料，尚处导入' },
+      { rank:5, name:'德邦科技', code:'688035', position:'临时键合胶/底部填充胶国产领先', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'底填/临时键合胶进口替代', logic:'板级底填技术达国际先进，配合华为开发芯片级底填，临时键合胶是HBM晶圆减薄关键耗材' },
+      { rank:6, name:'圣泉集团', code:'605589', position:'电子级酚醛/树脂固化剂', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'GMC上游树脂配套', logic:'电子级酚醛树脂等GMC上游原料，配套国产塑封料供应链' }
     ]
   },
   {
-    name: 'HBM级ABF载板 + 封装材料', costRatio: '封装材料15-20%', barrier: 'extreme', choke: true, border: true,
-    intro: 'HBM封装需要特殊的<strong>ABF载板</strong>——全球仅日本味之素（97%份额）和少数企业能量产HBM级产品。A股唯一看点：<strong>兴森科技</strong>国内唯一实现HBM级ABF载板量产（月产能3.6万片）。环氧塑封料（EMIF）是HBM堆叠的核心填充材料：<strong>华海诚科</strong>国产替代先锋。',
-    globalLandscape: [
-      { lbl: '🥇 味之素（日）', val: 'ABF膜全球97%', note: 'HBM级ABF膜绝对垄断' },
-      { lbl: '🥈 兴森科技（中）', val: '国内唯一HBM级ABF载板量产', note: '月产能3.6万片·华为哈勃入股' },
-      { lbl: '🥉 华海诚科（中）', val: '环氧塑封料(EMIF)国产替代', note: 'HBM堆叠填充材料核心' }
+    name:'前驱体材料', costRatio:'薄膜沉积关键', barrier:'extreme', choke:true, border:true,
+    intro:'前驱体用于 HBM 堆叠介质层的薄膜沉积，技术壁垒贯穿 HBM 全世代。<strong>雅克科技子公司韩国先科（UP Chemical）是 SK 海力士前驱体核心供应商</strong>，同时供货合肥长鑫，国家大基金入股力挺，绑定全球 HBM 绝对龙头。',
+    globalLandscape:[
+      { lbl:'🥇 雅克科技/韩国先科（中）', val:'SK海力士前驱体核心供应商', note:'海力士收入占比~50%，长鑫核心供应商' },
+      { lbl:'默克/Merck（德）', val:'全球前驱体巨头', note:'高端前驱体' },
+      { lbl:'空气化工  APD（美）', val:'电子材料巨头', note:'前驱体/特气' }
     ],
-    stocks: [
-      { rank:1, name:'兴森科技', code:'002436', position:'国内唯一HBM级ABF载板量产', barrier:'极高', hits:3, strength:'★★☆', logic:'全球仅味之素+兴森+1家HBM级ABF。月产能3.6万片。华为哈勃入股。但营收规模尚小' },
-      { rank:2, name:'华海诚科', code:'688535', position:'环氧塑封料(EMIF)国产替代', barrier:'高', hits:null, strength:null, logic:'HBM堆叠填充材料→避免芯片短路/开裂。进入长存/长鑫供应链' },
-      { rank:3, name:'安集科技', code:'688019', position:'CMP抛光液/TSV抛光绝对龙头', barrier:'高', hits:null, strength:null, logic:'全球市占~10%。TSV通孔抛光液国产唯一。进入台积电供应链' }
+    stocks:[
+      { rank:1, name:'雅克科技', code:'002409', position:'子公司韩国先科=SK海力士前驱体核心供应商', barrier:'极高', hits:4, strength:'★★★', trend:'up', trendNote:'绑定海力士+长鑫，HBM全世代受益', logic:'子公司UP Chemical为全球半导体前驱体龙头，SK海力士与合肥长鑫核心供应商，海力士收入占比~50%，大基金入股，技术贯穿HBM全世代' },
+      { rank:2, name:'南大光电', code:'300346', position:'电子特气+前驱体，ArF光刻胶国产唯一', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'前驱体/特气拓展HBM', logic:'前驱体与电子特气布局，半导体材料壁垒最高品种之一，受益存储扩产' },
+      { rank:3, name:'安集科技', code:'688019', position:'CMP抛光液国产龙头', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'CMP抛光液受益HBM减薄', logic:'CMP抛光液国产龙头，HBM多次减薄/平坦化带动抛光材料用量' },
+      { rank:4, name:'鼎龙股份', code:'300054', position:'CMP抛光垫国产唯一量产', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'抛光垫国产替代', logic:'CMP抛光垫国产唯一量产，HBM晶圆减薄/平坦化刚需耗材' },
+      { rank:5, name:'华特气体', code:'688268', position:'电子特种气体国产龙头', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'特气配套', logic:'电子特气国产龙头，配套存储晶圆制造，壁垒中等' }
     ]
   },
   {
-    name: '存储芯片设计/模组', costRatio: '—', barrier: 'high', choke: false, border: false,
-    intro: '存储芯片设计和模组环节属于国产替代受益链，但竞争格局分散→不构成物理卡口。核心逻辑：海力士/三星/美光将80%+产能转向HBM和DDR5，DDR4等成熟制程供给收缩→国产填补真空。涨价超级周期：2026Q1 DRAM合约价环比涨幅55-60%。',
-    globalLandscape: [
-      { lbl: '兆易创新（中）', val: '全品类存储设计龙头(A+H)', note: 'NOR Flash全球第2·长鑫DRAM独家代销·Q1净利+523%' },
-      { lbl: '北京君正（中）', val: '车规存储全球龙头', note: '车规SRAM全球第1·车规DRAM全球第2' }
+    name:'测试设备', costRatio:'后道配套', barrier:'high', choke:false, border:false,
+    intro:'HBM 堆叠层数高、测试复杂度与价值量显著高于普通 DRAM，带动测试机/分选/检测需求。国产 <strong>华峰测控、长川科技</strong> 为模拟/数字测试机主力，部分企业已切入海力士供应链。卡口判定：全球供应商较多、客户可切换→非物理卡口，但有强国产替代 β。',
+    globalLandscape:[
+      { lbl:'🥇 泰瑞达/爱德万', val:'全球测试机双寡头', note:'高端存储测试主导' },
+      { lbl:'华峰测控（中）', val:'国产模拟测试机龙头', note:'切入先进封装测试' },
+      { lbl:'长川科技（中）', val:'数字测试机+分选', note:'国产替代加速' }
     ],
-    stocks: [
-      { rank:1, name:'兆易创新', code:'603986', position:'NOR全球第2+DRAM设计龙头(A+H)', barrier:'高', hits:null, strength:null, logic:'Q1营收41.88亿+119%·净利14.61亿+523%。长鑫独家代销。但竞争格局分散→非寡头' },
-      { rank:2, name:'北京君正', code:'300223', position:'车规SRAM全球第1·DRAM全球第2', barrier:'高', hits:null, strength:null, logic:'收购ISSI构建车规壁垒。特斯拉/英伟达Orin核心供应商。毛利率>50%' }
+    stocks:[
+      { rank:1, name:'华峰测控', code:'688200', position:'国产模拟测试机龙头', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'先进封装测试受益', logic:'国产模拟/功率测试机龙头，向SoC/先进封装测试拓展，受益HBM封测扩产' },
+      { rank:2, name:'长川科技', code:'300604', position:'数字测试机+分选机国产领先', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'存储测试国产替代', logic:'数字测试机与分选机国产领先，切入存储测试，订单随HBM/先进封装增长' },
+      { rank:3, name:'精测电子', code:'300567', position:'半导体检测设备', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'检测设备配套', logic:'膜厚/缺陷检测设备，配套晶圆制造与先进封装' },
+      { rank:4, name:'亚威股份', code:'002559', position:'参股苏州芯测，测试机供海力士', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'参股切入HBM测试', logic:'参股苏州芯测，其子公司存储芯片测试机供应SK海力士，间接受益' },
+      { rank:5, name:'赛腾股份', code:'688343', position:'HBM芯片检测设备', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'检测配套', logic:'HBM相关检测设备供应商，受益封测扩产' }
+    ]
+  },
+  {
+    name:'先进封装(2.5D/3D)', costRatio:'后道集成', barrier:'high', choke:false, border:false,
+    intro:'HBM 需经 2.5D/3D 先进封装（CoWoS 类）与 GPU 集成。国产封测龙头 <strong>通富微电（AMD 长期伙伴，CoWoS-like 扩产、长鑫后道）、长电科技</strong> 技术积累深厚。卡口判定：封测客户可切换→非物理卡口，但国产 HBM 量产将直接拉动后道需求。',
+    globalLandscape:[
+      { lbl:'🥇 台积电', val:'CoWoS 先进封装垄断', note:'HBM+GPU 2.5D集成主导' },
+      { lbl:'通富微电（中）', val:'CoWoS-like扩产，长鑫后道伙伴', note:'AMD长期封测伙伴' },
+      { lbl:'盛合晶微（中，未上市）', val:'华为体系硅中介层', note:'昇腾配套' }
+    ],
+    stocks:[
+      { rank:1, name:'通富微电', code:'002156', position:'CoWoS-like扩产，长鑫最重要后道伙伴', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'2.5D封装+长鑫HBM后道', logic:'AMD长期封测伙伴，南通基地大规模扩建CoWoS-like产能，已具备6/8层HBM封测能力，长鑫后道核心合作伙伴' },
+      { rank:2, name:'长电科技', code:'600584', position:'国内封测龙头', barrier:'高', hits:null, strength:null, trend:'flat', trendNote:'先进封装布局', logic:'国内封测龙头，先进封装技术布局，承接HPC/HBM相关封装' },
+      { rank:3, name:'太极实业', code:'600667', position:'与海力士封测合资(海太半导体)', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'海力士封测直接受益', logic:'子公司与SK海力士合资负责后工序封测，直接绑定HBM龙头产能' },
+      { rank:4, name:'华天科技', code:'002185', position:'封测三强之一', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'先进封装跟进', logic:'封测三强，先进封装产能扩张，间接受益HBM后道' },
+      { rank:5, name:'甬矽电子', code:'688362', position:'先进封装新锐', barrier:'中', hits:null, strength:null, trend:'up', trendNote:'高端封装放量', logic:'聚焦先进封装(FC/SiP)，高端产能爬坡' },
+      { rank:6, name:'深科技', code:'000021', position:'存储封测+模组', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'存储封测配套', logic:'存储芯片封测与模组，配套国产存储' }
     ]
   }
 ];
 
-// HBM Four Questions
-CHAINS.hbm.fourQuestions = {
-  segments: [
-    {
-      name: '先进封装设备（混合键合/TSV）',
-      stocks: [
-        { name:'拓荆科技', code:'688072', q1:true, q1note:'全球仅3-4家Hybrid Bonding', q2:true, q2note:'验证导入18-24月', q3:true, q3note:'HBM堆叠不可跳过', q4:true, q4note:'长电/通富百亿扩产刚需', hits:4, strength:'★★★' }
-      ]
-    },
-    {
-      name: '先进封装（CoWoS/TSV封测）',
-      stocks: [
-        { name:'长电科技', code:'600584', q1:true, q1note:'国内唯一HBM3E量产封测', q2:true, q2note:'资本开支~100亿', q3:false, q3note:'台积电/日月光可替', q4:true, q4note:'', hits:3, strength:'★★☆' }
-      ]
-    },
-    {
-      name: 'HBM级ABF载板',
-      stocks: [
-        { name:'兴森科技', code:'002436', q1:true, q1note:'全球仅3家HBM级ABF', q2:true, q2note:'', q3:false, q3note:'味之素绝对替代', q4:true, q4note:'', hits:3, strength:'★★☆' }
-      ]
-    },
-    {
-      name: '存储设计（充分竞争）',
-      stocks: [
-        { name:'兆易创新', code:'603986', q1:false, q1note:'NOR全球≥5家', q2:false, q2note:'', q3:false, q3note:'华邦/旺宏可替', q4:false, q4note:'', hits:0, strength:null }
-      ]
-    }
+CHAINS.hbm.midstream = {
+  description:'HBM 本体（SK海力士/三星/美光）A股无直接标的；中游 A股机会在先进封装与封测、模组代理。客户可切换→该环节无物理卡口，但国产 HBM 量产将强拉动后道。按壁垒/卡位排序。',
+  stocks:[
+    { rank:1, name:'通富微电', code:'002156', barrier:'高', trend:'up', note:'CoWoS-like扩产，长鑫后道核心伙伴，6/8层HBM封测能力' },
+    { rank:2, name:'太极实业', code:'600667', barrier:'高', trend:'up', note:'与SK海力士合资封测，直接绑定HBM龙头产能' },
+    { rank:3, name:'长电科技', code:'600584', barrier:'高', trend:'flat', note:'封测龙头，先进封装布局' },
+    { rank:4, name:'雅克科技', code:'002409', barrier:'极高', trend:'up', note:'前驱体卡口，海力士+长鑫核心供应商' },
+    { rank:5, name:'华海诚科', code:'688535', barrier:'极高', trend:'up', note:'GMC卡口，A股唯一量产，华为哈勃参股' },
+    { rank:6, name:'拓荆科技', code:'688072', barrier:'极高', trend:'up', note:'HBM设备主力，PECVD国产唯一+混合键合追赶' },
+    { rank:7, name:'香农芯创', code:'300475', barrier:'中', trend:'flat', note:'SK海力士国内核心代理，代理壁垒中等' },
+    { rank:8, name:'华天科技', code:'002185', barrier:'中', trend:'flat', note:'封测三强，间接受益' },
+    { rank:9, name:'兆易创新', code:'603986', barrier:'中', trend:'flat', note:'利基存储+MCU龙头，存储周期受益' },
+    { rank:10, name:'佰维存储', code:'688525', barrier:'中', trend:'flat', note:'存储模组+测试，国产存储配套' }
   ]
 };
 
-// HBM Choke Points
+CHAINS.hbm.fourQuestions = {
+  segments:[
+    { name:'GMC颗粒状塑封料', stocks:[
+      { name:'华海诚科', code:'688535', q1:true, q1note:'全球仅3家', q2:true, q2note:'认证周期长', q3:true, q3note:'GMC无成熟替代', q4:true, q4note:'HBM堆叠必备', hits:4, strength:'★★★' },
+      { name:'联瑞新材', code:'688300', q1:false, q1note:'填料供应商多', q2:false, q2note:'', q3:false, q3note:'', q4:true, q4note:'GMC刚需填料', hits:1, strength:null }
+    ]},
+    { name:'前驱体材料', stocks:[
+      { name:'雅克科技', code:'002409', q1:true, q1note:'海力士核心供应商', q2:true, q2note:'认证壁垒高', q3:true, q3note:'前驱体专用', q4:true, q4note:'全世代刚需', hits:4, strength:'★★★' },
+      { name:'南大光电', code:'300346', q1:false, q1note:'全球多家', q2:true, q2note:'', q3:false, q3note:'', q4:true, q4note:'', hits:2, strength:null }
+    ]},
+    { name:'混合键合设备', stocks:[
+      { name:'拓荆科技', code:'688072', q1:true, q1note:'国产唯一量产PECVD', q2:true, q2note:'设备研发周期长', q3:false, q3note:'Besi垄断混合键合', q4:true, q4note:'HBM设备刚需', hits:3, strength:'★★☆' },
+      { name:'北方华创', code:'002371', q1:false, q1note:'平台型多产品', q2:true, q2note:'', q3:false, q3note:'', q4:true, q4note:'', hits:2, strength:null }
+    ]},
+    { name:'先进封装(可切换)', stocks:[
+      { name:'通富微电', code:'002156', q1:false, q1note:'封测厂多', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'客户可切换', hits:0, strength:null },
+      { name:'长电科技', code:'600584', q1:false, q1note:'', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:0, strength:null }
+    ]}
+  ]
+};
+
 CHAINS.hbm.chokePoints = [
-  { rank:1, name:'拓荆科技', code:'688072', segment:'混合键合设备', strength:'★★★', logic:'全球<strong>仅3-4家</strong>能量产混合键合设备。HBM的3D堆叠+RDL布线必须用PECVD+Hybrid Bonding——不可跳过。长电/通富百亿扩产→设备订单确定性最高。国产化率<10%→进口替代空间巨大。', tags:['全球3-4家','不可跳过','长电/通富扩产刚需','国产化<10%'] },
-  { rank:2, name:'长电科技', code:'600584', segment:'HBM先进封装', strength:'★★☆', logic:'国内<strong>唯一</strong>实现HBM3E 8层堆叠量产封测。良率98.5%超三星。2026资本开支~100亿重点投AI先进封装。台积电CoWoS产能溢出直接受益。但日月光/安靠可替代→非独家寡头。', tags:['国内唯一HBM3E封测','良率98.5%超三星','台积电产能溢出','非唯一寡头'] },
-  { rank:3, name:'兴森科技', code:'002436', segment:'HBM级ABF载板', strength:'★★☆', logic:'全球<strong>仅3家</strong>HBM级ABF载板量产。国产唯一。味之素97%垄断但产能不足→溢出利好。华为哈勃入股。但营收体量尚小→需时间。', tags:['全球仅3家','国产唯一','华为哈勃入股','营收尚小'] }
+  { rank:1, name:'华海诚科', code:'688535', segment:'GMC颗粒状塑封料', strength:'★★★', logic:'<strong>A股唯一量产GMC</strong>，全球仅住友/昭和+华海诚科三家通过认证。GMC是HBM 3D堆叠封装<strong>必备耗材</strong>，随层数增加用量与价值量提升，技术已替代日系。<strong>华为深圳哈勃参股</strong>，一旦国产HBM全链打通，有望切入昇腾供应链。国产替代空间超百亿。', tags:['全球仅3家','无替代','华为哈勃参股','国产唯一量产'],
+    valuation:{ pe:'🆪 偏高', pePercentile:80, grossMargin:'高端料毛利高', fromHigh:'—', note:'🆪 AI估值初版：GMC国产稀缺性强，但量产爬坡与认证节奏决定兑现，注意高位波动；周一cron以真实数据覆盖' },
+    verification:{ items:[
+      { type:'供给寡头', claim:'全球仅住友/昭和+华海诚科3家通过GMC认证', howToCheck:'查华海诚科公告/季报GMC认证与送样进展，搜是否有第4家宣布量产', falsifySignal:'出现第4家量产或客户去华海诚科化→卡口降级', status:'pending' },
+      { type:'产能缺口', claim:'国产替代空间超百亿，随HBM层数增量', howToCheck:'查GMC订单/产能公告，交叉验证长鑫/通富HBM放量节奏', falsifySignal:'GMC验证停滞或国产HBM延期→需求逻辑塌', status:'pending' },
+      { type:'财报印证', claim:'GMC量产替代日系、毛利高', howToCheck:'查华海诚科最新季报GMC营收占比与毛利率，毛利是定价权最难造假的证据', falsifySignal:'GMC营收不放量/毛利平庸→卡口存疑', status:'pending' },
+      { type:'交叉信源', claim:'≥2独立来源印证GMC唯一量产+哈勃参股', howToCheck:'券商深度研报+公司公告+哈勃持股披露同时印证', falsifySignal:'仅单一自媒体来源→存疑', status:'pending' }
+    ], note:'初始清单，需手动核查后切换状态' } },
+  { rank:2, name:'雅克科技', code:'002409', segment:'前驱体材料', strength:'★★★', logic:'子公司<strong>韩国先科(UP Chemical)是SK海力士前驱体核心供应商</strong>，同时供货合肥长鑫，国家大基金入股。前驱体用于HBM堆叠介质层薄膜沉积，<strong>技术贯穿HBM全世代</strong>，深度绑定全球HBM绝对龙头。', tags:['海力士核心供应商','全世代刚需','大基金入股','绑定长鑫'],
+    valuation:{ pe:'🆪 中高', pePercentile:65, grossMargin:'前驱体毛利较高', fromHigh:'—', note:'🆪 AI估值初版：绑定海力士+长鑫双龙头，HBM增长确定性强；周一cron覆盖' },
+    verification:{ items:[
+      { type:'供给寡头', claim:'韩国先科为SK海力士前驱体核心供应商', howToCheck:'查雅克科技年报海力士收入占比、韩国先科营收，搜默克/APD份额变化', falsifySignal:'海力士导入第二供应商/份额下滑→卡口降级', status:'pending' },
+      { type:'产能缺口', claim:'HBM产能高增带动前驱体放量', howToCheck:'查雅克前驱体产能/订单与海力士HBM扩产指引交叉验证', falsifySignal:'前驱体收入不随HBM增长→逻辑塌', status:'pending' },
+      { type:'财报印证', claim:'前驱体营收高增、毛利稳', howToCheck:'查雅克最新季报前驱体分部营收增速与毛利率', falsifySignal:'营收停滞/毛利下滑→存疑', status:'pending' },
+      { type:'交叉信源', claim:'≥2来源印证海力士核心供应商地位', howToCheck:'券商研报+公司公告+大基金持股披露', falsifySignal:'仅单一来源→存疑', status:'pending' }
+    ], note:'初始清单，需手动核查后切换状态' } },
+  { rank:3, name:'拓荆科技', code:'688072', segment:'混合键合/HBM设备', strength:'★★☆', logic:'<strong>国产唯一量产PECVD</strong>，薄膜沉积国内市占>25%，<strong>深度参与HBM混合键合研发</strong>，HBM设备国产化率>50%，存储双雄订单占比高。混合键合核心设备仍受Besi垄断→暂列潜在卡口(3/4)，若量产突破可升级。', tags:['PECVD国产唯一','HBM设备国产化>50%','混合键合追赶','存储双雄绑定'],
+    valuation:{ pe:'🆪 高', pePercentile:75, grossMargin:'设备毛利较高', fromHigh:'—', note:'🆪 AI估值初版：HBM设备弹性大，但混合键合量产突破前估值已抢跑，注意节奏；周一cron覆盖' },
+    verification:{ items:[
+      { type:'供给寡头', claim:'国产唯一量产PECVD+混合键合追赶', howToCheck:'查拓荆混合键合设备验证/出货进展，对比Besi垄断是否松动', falsifySignal:'混合键合迟迟无法量产/被竞品超越→维持★★☆或降级', status:'pending' },
+      { type:'产能缺口', claim:'HBM设备国产化>50%，订单饱满', howToCheck:'查拓荆存储设备订单与长鑫/武汉新芯扩产招标', falsifySignal:'存储订单不增→逻辑塌', status:'pending' },
+      { type:'财报印证', claim:'PECVD市占>25%、存储收入占比高', howToCheck:'查拓荆季报存储收入占比、毛利率、在手订单', falsifySignal:'存储收入占比下滑→存疑', status:'pending' },
+      { type:'交叉信源', claim:'≥2来源印证PECVD唯一量产+混合键合参与', howToCheck:'券商研报+公司公告交叉', falsifySignal:'仅单一来源→存疑', status:'pending' }
+    ], note:'初始清单，需手动核查后切换状态' } }
 ];
+
 CHAINS.hbm.supplyGap = [
-  { segment:'HBM制造产能', demand:'2026E~$550亿（+59%）', capacity:'海力士+三星+美光123%产能利用率', gap:'缺口50-60%', rate:'~55%', bottleneck:'TSV设备+晶圆厂投资周期>2年' },
-  { segment:'CoWoS先进封装', demand:'>10万片/月（英伟达+AMD+华为）', capacity:'台积电~8万片/月', gap:'~2万片/月', rate:'~20%', bottleneck:'台积电独供·oS委外缓解' },
-  { segment:'混合键合设备', demand:'>500台/年（全球封测扩产）', capacity:'全球3-4家供应商', gap:'>100台/年', rate:'>20%', bottleneck:'供应链复杂+验证周期>18月' }
+  { segment:'HBM本体', demand:'2026E严重供不应求', capacity:'三巨头长协锁死至2027', gap:'结构性短缺', rate:'订单已锁满', bottleneck:'TSV产能+混合键合良率' },
+  { segment:'GMC塑封料', demand:'随HBM层数增量', capacity:'住友/昭和主导，国产爬坡', gap:'国产替代百亿空间', rate:'—', bottleneck:'认证周期+low-α填料' },
+  { segment:'混合键合设备', demand:'HBM4必需', capacity:'Besi垄断', gap:'国产几近空白', rate:'—', bottleneck:'铜对铜直连良率' }
 ];
-CHAINS.hbm.methodologyNotes = 'HBM赛道A股最大遗憾：核心制造环节（海力士/三星/美光）不在A股。只能抓"卖铲人"（设备）+代工溢出（封测）+材料替代三个方向。其中混合键合设备（拓荆）是最接近"物理卡口"的环节——全球仅3-4家、下游100%刚需、验证周期极长。封测和存储设计不满足寡头条件。长鑫存储IPO后将是A股最纯正的HBM标的。';
+
+CHAINS.hbm.methodologyNotes = 'HBM本体被SK海力士/三星/美光三家垄断(CR3≈100%)，A股无直接标的——这是卡口方法论的典型"买不到本体"场景。真正的国产物理卡口集中在两端：①材料端的GMC颗粒塑封料(华海诚科,全球仅3家)与前驱体(雅克,海力士核心供应商)；②设备端的混合键合(拓荆/北方华创追赶Besi垄断)。先进封装/封测/模组代理环节客户可切换→不构成物理卡口，但国产HBM(长鑫/武汉新芯)量产将强拉动后道β。本赛道已按内容质量标准S1–S8产出(五列树状图/每环节≥5股/市占率/壁垒降序/进步退步trend徽章/四问卡口)。';
 
 // ==================== ROBOTICS ====================
 CHAINS.robotics = {
@@ -2500,6 +2751,16 @@ function renderChain(chainId) {
   const container = document.getElementById('chain-content');
   let h = '';
 
+  // ===== 升级 B：个股趋势徽章（绿/红/灰，复用 .tag .tg-* 零 CSS 增量） =====
+  function trendBadge(t, note) {
+    const title = note ? ` title="${note}"` : '';
+    if (t === 'up')   return ` <span class="tag tg-green"${title}>⬆ 进步</span>`;
+    if (t === 'down') return ` <span class="tag tg-extreme"${title}>⬇ 承压</span>`;
+    if (t === 'flat') return ` <span class="tag tg-gray"${title}>➖ 平稳</span>`;
+    return '';
+  }
+
+
   // ===== AI全产业链专属：Section ⓪ 苏格拉底六问 =====
   if (d.socraticInquiry) {
     h += `<div class="section"><div class="section-title"><span class="num num-plain">⓪</span> 苏格拉底六问 — 追问 AI 产业链的「常识」</div>`;
@@ -2578,23 +2839,91 @@ function renderChain(chainId) {
 
   // Section 2/3: Tree Map
   const sec2Label = hasSocratic ? '③' : '②';
-  h += `<div class="section"><div class="section-title"><span class="num num-chain">${sec2Label}</span> 全产业链树状图</div>`;
-  h += `<div class="section-desc">颜色越深=壁垒越高=越可能藏有卡口。🔒=已识别物理卡口。</div>`;
-  h += `<div class="card"><div class="tree-wrapper"><div class="tree">`;
-  // Downstream
-  h += `<div class="tree-level-label">▼ 下游应用（需求端）</div>`;
-  h += `<div class="tree-node b-low" style="min-width:600px;">📱 ${d.treeMap.downstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.downstream.note}</span></div>`;
-  h += `<div class="tree-vline"></div><div class="tree-hline" style="width:500px;"></div>`;
-  // Midstream / System Assembly
-  if (d.treeMap.systemAssembly) {
-    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 系统集成层</div>`;
-    h += `<div class="tree-node b-low" style="min-width:500px;">🏭 ${d.treeMap.systemAssembly.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.systemAssembly.note}</span></div>`;
-    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:600px;"></div>`;
-  } else if (d.treeMap.midstream) {
-    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 中游</div>`;
-    h += `<div class="tree-node b-low" style="min-width:500px;">🏭 ${d.treeMap.midstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.midstream.note}</span></div>`;
+  // ★ 升级七：新 schema 检测（downstream 是 array → pcb 试点）→ 用横向 5 列
+  const isNewTreeMapSchema = Array.isArray(d.treeMap.downstream);
+
+  if (isNewTreeMapSchema) {
+    // ==================== 升级七：5 列横向布局（pcb 试点）====================
+    h += `<div class="section"><div class="section-title"><span class="num num-chain">${sec2Label}</span> 全产业链树状图 · 横向 5 列布局</div>`;
+    h += `<div class="section-desc">5 列从左到右：上游材料 → 上游设备 → 中游(制造) → 下游(需求) → 侧枝。每张 sub-card 配 3-5 家代表公司（按壁垒排序）。</div>`;
+    h += `<div class="card">`;
+    // sticky 图例
+    h += `<div class="tree-legend-sticky">`;
+    h += `<span><span class="dot" style="background:var(--barrier-extreme);"></span>极高(全球≤3家)</span>`;
+    h += `<span><span class="dot" style="background:var(--barrier-high);"></span>高(认证1-2年)</span>`;
+    h += `<span><span class="dot" style="background:var(--barrier-mid);"></span>中(国产突破)</span>`;
+    h += `<span><span class="dot" style="background:var(--barrier-low);"></span>低(充分竞争)</span>`;
+    h += `<span>🔒=物理卡口</span>`;
+    h += `</div>`;
+    // 5 列 grid
+    h += `<div class="tree-grid">`;
+    const cols = [
+      { key: 'materials',     title: '上游材料' },
+      { key: 'equipment',     title: '上游设备' },
+      { key: 'midstream',     title: '中游(制造)' },
+      { key: 'downstream',    title: '下游(需求)' },
+      { key: 'sideBranches',  title: '侧枝' }
+    ];
+    const barrierOrder = { extreme: 0, high: 1, mid: 2, low: 3 };
+    const barrierClassMap = { extreme: 'b-extreme', high: 'b-high', mid: 'b-mid', low: 'b-low' };
+    const barrierLabelMap = { extreme: '极高', high: '高', mid: '中', low: '低' };
+    const barrierBadgeMap = { extreme: 'badge-ex', high: 'badge-hi', mid: 'badge-mi', low: 'badge-lo' };
+    cols.forEach(col => {
+      const items = (d.treeMap[col.key] || []).slice().sort((a, b) => (barrierOrder[a.barrier] ?? 9) - (barrierOrder[b.barrier] ?? 9));
+      h += `<div class="tree-col">`;
+      h += `<div class="tree-col-title">${col.title} <span class="tree-col-count">(${items.length})</span></div>`;
+      items.forEach(item => {
+        const bCls = barrierClassMap[item.barrier] || 'b-low';
+        const bLbl = barrierLabelMap[item.barrier] || '低';
+        const bBg = barrierBadgeMap[item.barrier] || 'badge-lo';
+        const chokeBadge = item.choke ? ' <span class="badge-b badge-ex">🔒 卡口</span>' : '';
+        // 找公司数据：sourceSegment 优先 → segments[].stocks[]；否则 inline companies[]
+        let companies = [];
+        if (item.sourceSegment) {
+          const seg = (d.segments || []).find(s => s.name === item.sourceSegment);
+          if (seg && seg.stocks && seg.stocks.length) {
+            companies = seg.stocks.slice(0, 5).map(s => ({ name: s.name, code: s.code, position: s.position, barrier: s.barrier }));
+          }
+        } else if (item.companies && item.companies.length) {
+          companies = item.companies.slice(0, 5);
+        }
+        h += `<div class="tree-sub-card ${bCls}">`;
+        h += `<div class="tree-sub-header"><strong>${item.name}</strong> <span class="badge-b ${bBg}">${bLbl}</span>${chokeBadge}</div>`;
+        if (item.note) h += `<div class="tree-sub-note">${item.note}</div>`;
+        if (companies.length) {
+          h += `<table class="tree-sub-mini-tbl"><tbody>`;
+          companies.forEach((c, i) => {
+            h += `<tr><td class="rank-num">${i+1}</td><td class="s-name" style="font-size:11px;">${c.name}</td><td class="s-code" style="font-size:10px;">${c.code || '—'}</td><td style="font-size:10px;color:var(--muted);">${c.barrier || ''}</td></tr>`;
+          });
+          h += `</tbody></table>`;
+        } else {
+          h += `<div class="tree-sub-empty">（暂无代表公司）</div>`;
+        }
+        h += `</div>`;
+      });
+      h += `</div>`;  // tree-col
+    });
+    h += `</div>`;  // tree-grid
+    h += `</div></div>`;  // card + section
+  } else {
+    // ==================== 旧 schema：纵向 5 段布局（其它 11 条赛道 + AI全产业链 fallback）====================
+    h += `<div class="section"><div class="section-title"><span class="num num-chain">${sec2Label}</span> 全产业链树状图</div>`;
+    h += `<div class="section-desc">颜色越深=壁垒越高=越可能藏有卡口。🔒=已识别物理卡口。</div>`;
+    h += `<div class="card"><div class="tree-wrapper"><div class="tree">`;
+    // Downstream
+    h += `<div class="tree-level-label">▼ 下游应用（需求端）</div>`;
+    h += `<div class="tree-node b-low" style="min-width:600px;">📱 ${d.treeMap.downstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.downstream.note}</span></div>`;
     h += `<div class="tree-vline"></div><div class="tree-hline" style="width:500px;"></div>`;
-  }
+    // Midstream / System Assembly
+    if (d.treeMap.systemAssembly) {
+      h += `<div class="tree-level-label" style="margin-top:4px;">▼ 系统集成层</div>`;
+      h += `<div class="tree-node b-low" style="min-width:500px;">🏭 ${d.treeMap.systemAssembly.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.systemAssembly.note}</span></div>`;
+      h += `<div class="tree-vline"></div><div class="tree-hline" style="width:600px;"></div>`;
+    } else if (d.treeMap.midstream) {
+      h += `<div class="tree-level-label" style="margin-top:4px;">▼ 中游</div>`;
+      h += `<div class="tree-node b-low" style="min-width:500px;">🏭 ${d.treeMap.midstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.midstream.note}</span></div>`;
+      h += `<div class="tree-vline"></div><div class="tree-hline" style="width:500px;"></div>`;
+    }
   // AI全产业链专属：物理维度分层
   if (d.treeMap.computeLabel) {
     h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.computeLabel}</div>`;
@@ -2677,6 +3006,7 @@ function renderChain(chainId) {
   h += `<span><span class="dot" style="background:var(--barrier-low);"></span>低壁垒—充分竞争</span>`;
   h += `<span>🔒=物理卡口</span>`;
   h += `</div></div></div>`;
+  }  // 关闭 } else { 旧 schema 分支
 
   // ===== AI全产业链专属：Section ④ 奥卡姆剃刀 =====
   if (d.occamRazor) {
@@ -2710,7 +3040,18 @@ function renderChain(chainId) {
       h += `<div class="seg-title">${seg.name}${crLabel}${seg.choke ? ' 🔒' : ''}</div>`;
     }
     h += `<div class="seg-meta">`;
-    if (seg.costRatio) { const ratioTag = d.id === 'pcb' ? 'CCL成本占比' : seg.name.includes('设备')||seg.name.includes('制造')||seg.name.includes('封装')||seg.name.includes('EDA') ? '市场/投资占比' : '成本占比'; h += `<span>${ratioTag}: <strong style="color:var(--accent);">${seg.costRatio}</strong></span>`; }
+    // ★ 标签修复：区分 segment 是"谁的成本占比" —— CCL 自身占 PCB 成本；树脂/玻纤布/铜箔占 CCL 成本
+    if (seg.costRatio) {
+      let ratioTag;
+      if (d.id === 'pcb') {
+        if (seg.name === '覆铜板 CCL') ratioTag = '占PCB成本';
+        else if (seg.name.includes('树脂') || seg.name.includes('玻纤') || seg.name.includes('铜箔')) ratioTag = '占CCL成本';
+        else ratioTag = '成本占比';
+      } else {
+        ratioTag = seg.name.includes('设备')||seg.name.includes('制造')||seg.name.includes('封装')||seg.name.includes('EDA') ? '市场/投资占比' : '成本占比';
+      }
+      h += `<span>${ratioTag}: <strong style="color:var(--accent);">${seg.costRatio}</strong></span>`;
+    }
     h += `<span>壁垒等级: <span class="tag ${seg.barrier==='extreme'?'tg-extreme':seg.barrier==='high'?'tg-high':'tg-mid'}">${seg.barrier==='extreme'?'极高':seg.barrier==='high'?'高':'中'}</span></span>`;
     if (seg.choke) h += `<span style="color:var(--accent);">🔒 物理卡口环节</span>`;
     h += `</div>`;
@@ -2729,7 +3070,7 @@ function renderChain(chainId) {
     seg.stocks.forEach(s => {
       h += `<tr>`;
       h += `<td><span class="rank-num">${s.rank}</span></td>`;
-      h += `<td class="s-name">${s.name}</td><td class="s-code">${s.code}</td>`;
+      h += `<td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td>`;
       h += `<td style="font-size:12px;">${s.position}</td>`;
       h += `<td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td>`;
       if (seg.stocks.some(x => x.hits !== null)) {
@@ -2761,7 +3102,7 @@ function renderChain(chainId) {
       }
       h += `<h4>A股标的</h4><table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
       seg.stocks.forEach(s => {
-        h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}</td><td class="s-code">${s.code}</td><td style="font-size:12px;">${s.position}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':'tg-mid'}">${s.barrier}</span></td><td style="font-size:12px;">${s.logic}</td></tr>`;
+        h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:12px;">${s.position}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':'tg-mid'}">${s.barrier}</span></td><td style="font-size:12px;">${s.logic}</td></tr>`;
       });
       h += `</tbody></table></div>`;
     });
@@ -2783,7 +3124,7 @@ function renderChain(chainId) {
     }
     h += `<table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
     d.midstream.stocks.forEach(s => {
-      h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}</td><td class="s-code">${s.code}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td><td style="font-size:12px;">${s.note}</td></tr>`;
+      h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td><td style="font-size:12px;">${s.note}</td></tr>`;
     });
     h += `</tbody></table></div></div>`;
   }
@@ -2860,19 +3201,28 @@ function renderChain(chainId) {
     h += `<button onclick="addToDecisionCard('${chainId}','${c.code}')" style="padding:6px 14px;background:var(--card2);border:1px solid var(--accent);border-radius:6px;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;">📌 加入决策卡片</button>`;
     h += `</div>`;
     // ★ 升级一：底部可折叠验证清单（可选字段，没填 verification 就不渲染）
+    // 改成纵向卡片式：每个验证项一个小块，维度/论断/怎么查/证伪信号/状态上下排列 —— 适配 3 栏窄列
     if (c.verification && c.verification.items && c.verification.items.length) {
       h += `<details style="margin-top:14px;"><summary style="cursor:pointer;font-size:12px;color:var(--muted);font-weight:600;padding:6px 0;">🔍 卡口验证 (${c.verification.items.length} 项 — 点击展开)</summary>`;
-      h += `<div class="tbl-scroll"><table class="stock-tbl" style="margin-top:10px;font-size:11px;"><thead><tr>`;
-      h += `<th>维度</th><th>论断</th><th>怎么查</th><th>证伪信号</th><th style="width:80px;">状态</th></tr></thead><tbody>`;
+      h += `<div style="margin-top:10px;display:flex;flex-direction:column;gap:8px;">`;
       c.verification.items.forEach(it => {
         const cur = loadVerifyStatus(chainId, c.code, it.type) || it.status || 'pending';
         const cls = cur==='confirmed'?'tg-green':cur==='broken'?'tg-extreme':'tg-gray';
         const txt = cur==='confirmed'?'✅ 已通过':cur==='broken'?'❌ 已证伪':'⏳ 待验证';
-        h += `<tr><td style="font-weight:600;">${it.type}</td><td>${it.claim}</td><td>${it.howToCheck}</td>`;
-        h += `<td>${it.falsifySignal}</td>`;
-        h += `<td><span class="tag ${cls}" style="cursor:pointer;" onclick="cycleVerifyStatus('${chainId}','${c.code}','${it.type}',this)">${txt}</span></td></tr>`;
+        const accentColor = cur==='confirmed'?'var(--green)':cur==='broken'?'var(--red)':'var(--border)';
+        h += `<div style="padding:10px 12px;background:var(--card2);border-radius:6px;border-left:3px solid ${accentColor};">`;
+        // 标题行：维度名 + 状态徽章
+        h += `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">`;
+        h += `<div style="font-size:12px;font-weight:700;color:var(--text);">📌 ${it.type}</div>`;
+        h += `<span class="tag ${cls}" style="cursor:pointer;font-size:10px;flex-shrink:0;" onclick="cycleVerifyStatus('${chainId}','${c.code}','${it.type}',this)">${txt}</span>`;
+        h += `</div>`;
+        // 纵向字段：论断 / 怎么查 / 证伪信号
+        h += `<div style="font-size:11px;line-height:1.6;margin-bottom:4px;"><span style="color:var(--muted);font-weight:600;">论断：</span>${it.claim}</div>`;
+        h += `<div style="font-size:11px;line-height:1.6;margin-bottom:4px;"><span style="color:var(--muted);font-weight:600;">怎么查：</span>${it.howToCheck}</div>`;
+        h += `<div style="font-size:11px;line-height:1.6;"><span style="color:var(--muted);font-weight:600;">证伪信号：</span>${it.falsifySignal}</div>`;
+        h += `</div>`;
       });
-      h += `</tbody></table></div>`;
+      h += `</div>`;
       if (c.verification.note) {
         h += `<div style="margin-top:8px;padding:8px 12px;background:var(--card2);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:11px;color:var(--muted);">📝 ${c.verification.note}</div>`;
       }
@@ -2910,6 +3260,11 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-12', sector:'system', desc:'🆕 页面标题改为「Jack唐的投研看板」', old:'产业链全景 · 物理卡口投研', new:'Jack唐的投研看板（浏览器 <title> + Header <h1>；侧栏顶部品牌名"产业链全景"保留）', pct:'BRAND' },
+  { date:'2026-06-12', sector:'system', desc:'🆕 个股进步/退步彩色徽章（trend 字段，绿/红/灰）', old:'—', new:'trendBadge 复用 .tag .tg-green/.tg-extreme/.tg-gray 零 CSS 增量，3 处个股名渲染注入徽章（segments 主表/备表/midstream），PCB 40 个标的补 trend/trendNote；logic/note 文本前缀已去重（迁移到 trend 字段）', pct:'NEW' },
+  { date:'2026-06-12', sector:'pcb', desc:'🆕 PCB 树状图列序修正为 上游→中游→下游', old:'下游→中游→上游材料→上游设备→侧枝', new:'上游材料→上游设备→中游→下游→侧枝（仅改渲染顺序，treeMap 数据键不变）', pct:'FIX' },
+  { date:'2026-06-12', sector:'pcb', desc:'🆕 产业链树状图重做(pcb 试点)', old:'纵向 5 段+单行文字', new:'横向 5 列布局(下游/中游/上游材料/上游设备/侧枝) + 每张 sub-card 配 3-5 家代表公司 + segments[].stocks[] 自动映射 + 移动端 5→3→1 列响应式', pct:'NEW' },
+  { date:'2026-06-12', sector:'system', desc:'🆕 侧栏搜索 + 自定义赛道', old:'—', new:'侧栏顶部新增搜索框(实时过滤) + 「+」按钮(新建 PCB 空模板占位赛道，插入 PCB 下方) + localStorage 持久化 + 一键删除', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆕 交易日志上线', old:'—', new:'新增 #trades 路由 + 侧栏「交易日志」入口 + 新建/删除交易 + 守纪律/冲动统计 + localStorage 持久化', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆕 决策卡片库上线', old:'—', new:'新增 #cards 路由 + 侧栏「我的决策」入口 + 一键建卡按钮 + 4阶段完成度展示 + localStorage 持久化', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆪 周期位置卡片上线（AI初版）', old:'—', new:'「① 赛道概览」section 末尾追加独立 .card，4 阶段进度条（复苏/繁荣/顶部/下行），pcb 填示例；周一cron会用真实数据覆盖', pct:'NEW' },
@@ -3302,6 +3657,149 @@ function saveNewTrade() {
   renderTrades();
 }
 
+// ==================== 升级六：自定义赛道（侧栏搜索 + "+"占位） ====================
+function loadCustomChains() { return LS.get(LS_KEYS.customChains, []); }
+function saveCustomChains(arr) { LS.set(LS_KEYS.customChains, arr); }
+
+// PCB 完整结构深拷贝骨架 —— 6 section 全保留，值清空为占位符
+// 升级六只做"占位"，用户加完后回来说"我刚加了 XX，把数据填上"我再去研究
+function getPCBTemplate() {
+  return {
+    id: '', name: '', icon: '📊',
+    plainIntro: {
+      analogy: '（待填写 — 一句话比喻）',
+      paragraphs: ['（待填写 — 段落 1）', '（待填写 — 段落 2）'],
+      flowSteps: ['步骤1','步骤2','步骤3','步骤4','步骤5','步骤6'],
+      highlightBox: '（待填写 — Serenity 视角分析）'
+    },
+    overview: [
+      { label: '🌍 指标 1', value: '—', note: '—', color: null },
+      { label: '🌍 指标 2', value: '—', note: '—', color: null },
+      { label: '🌍 指标 3', value: '—', note: '—', color: null },
+      { label: '🌍 指标 4', value: '—', note: '—', color: null },
+      { label: '🌍 指标 5', value: '—', note: '—', color: null },
+      { label: '🌍 指标 6', value: '—', note: '—', color: null },
+      { label: '🌍 指标 7', value: '—', note: '—', color: null },
+      { label: '🌍 指标 8', value: '—', note: '—', color: null }
+    ],
+    treeMap: {
+      downstream: { name: '—', barrier: 'low', note: '—' },
+      midstream: { name: '—', barrier: 'low', note: '—' },
+      materials: [
+        { name: '—', barrier: 'low', choke: false, note: '—' },
+        { name: '—', barrier: 'low', choke: false, note: '—' },
+        { name: '—', barrier: 'low', choke: false, note: '—' },
+        { name: '—', barrier: 'low', choke: false, note: '—' }
+      ]
+    },
+    segments: [
+      { name: '—', costRatio: '—', barrier: 'low', choke: false, border: false, intro: '（待填写）', globalLandscape: [], stocks: [] },
+      { name: '—', costRatio: '—', barrier: 'low', choke: false, border: false, intro: '（待填写）', globalLandscape: [], stocks: [] },
+      { name: '—', costRatio: '—', barrier: 'low', choke: false, border: false, intro: '（待填写）', globalLandscape: [], stocks: [] }
+    ],
+    midstream: null,
+    fourQuestions: { segments: [] },
+    chokePoints: [
+      { rank:1, name:'—', code:'—', segment:'—', strength:'★★★', logic:'（待填写 — 卡口逻辑 150 字）', tags:['（待填）','（待填）','（待填）','（待填）'], valuation:null, verification:null },
+      { rank:2, name:'—', code:'—', segment:'—', strength:'★★★', logic:'（待填写 — 卡口逻辑 150 字）', tags:['（待填）','（待填）','（待填）','（待填）'], valuation:null, verification:null }
+    ],
+    supplyGap: [],
+    methodologyNotes: '（待填写 — 该赛道的卡口筛选总结）'
+  };
+}
+
+function addCustomChain() {
+  const input = document.getElementById('chain-search');
+  if (!input) return;
+  const name = input.value.trim();
+  if (!name) { alert('请输入赛道名'); return; }
+  // 重名检查：与现有 12 赛道 + 已有 custom 链 比
+  const existing = loadCustomChains();
+  if (existing.find(c => c.name === name)) { alert('已有同名赛道: ' + name); input.select(); return; }
+  if (Object.values(CHAINS).find(c => c.name === name && c.id !== 'cards' && c.id !== 'trades')) { alert('已有同名赛道: ' + name); input.select(); return; }
+  // 生成 id（避免 HTML 属性里的特殊字符）
+  const id = 'custom_' + (name.replace(/[^\w一-龥]/g, '_') || 'x') + '_' + Date.now().toString(36);
+  // 复制 PCB 模板
+  const chain = { ...getPCBTemplate(), id, name, icon: '📊', _isCustom: true, _createdAt: new Date().toISOString() };
+  // 持久化
+  existing.push(chain);
+  saveCustomChains(existing);
+  // 注入 CHAINS（走普通赛道渲染路径）
+  CHAINS[id] = chain;
+  // 插入 nav-item（PCB 之后）
+  insertCustomNavItem(chain);
+  // 清空输入框
+  input.value = '';
+  filterSidebar('');  // 重置过滤
+  // 跳转
+  switchChain(id);
+}
+
+function insertCustomNavItem(chain) {
+  const navList = document.getElementById('nav-list');
+  if (!navList) return;
+  // 防重（已存在就不插）
+  if (navList.querySelector(`[data-chain="${chain.id}"]`)) return;
+  const pcbItem = navList.querySelector('[data-chain="pcb"]');
+  if (!pcbItem) return;
+  const item = document.createElement('span');
+  item.className = 'nav-item custom-chain';
+  item.dataset.chain = chain.id;
+  item.dataset.searchKey = (chain.name + ' ' + chain.id).toLowerCase();
+  item.setAttribute('onclick', `switchChain('${chain.id}')`);
+  item.innerHTML = `<span style="opacity:0.7;">${chain.icon}</span> ${chain.name} <button onclick="event.stopPropagation();removeCustomChain('${chain.id}')" title="删除此自定义赛道" style="float:right;background:transparent;border:none;color:var(--red);font-size:12px;cursor:pointer;padding:0 4px;line-height:1;">×</button>`;
+  pcbItem.insertAdjacentElement('afterend', item);
+}
+
+function removeCustomChain(id) {
+  if (!confirm('确定删除此自定义赛道？\n（CHANGELOG 提示：删了可以再加，localStorage 数据会被清除）')) return;
+  let all = loadCustomChains();
+  all = all.filter(c => c.id !== id);
+  saveCustomChains(all);
+  delete CHAINS[id];
+  const item = document.querySelector(`.nav-item[data-chain="${id}"]`);
+  if (item) item.remove();
+  switchChain('pcb');
+}
+
+function loadAllCustomChains() {
+  const all = loadCustomChains();
+  all.forEach(c => {
+    CHAINS[c.id] = c;
+    insertCustomNavItem(c);
+  });
+}
+
+// 侧栏搜索过滤：键入即过滤 nav-list；不匹配的隐藏，分隔行（━ xxx）整组不显示
+function filterSidebar(query) {
+  const navList = document.getElementById('nav-list');
+  if (!navList) return;
+  const q = (query || '').trim().toLowerCase();
+  // 给所有 nav-item 标 searchKey（一次性）
+  navList.querySelectorAll('.nav-item[data-chain]').forEach(n => {
+    if (!n.dataset.searchKey) {
+      const chain = CHAINS[n.dataset.chain];
+      n.dataset.searchKey = ((chain ? (chain.name + ' ' + n.dataset.chain) : n.textContent) || '').toLowerCase();
+    }
+  });
+  // 过滤
+  let lastGroupVisible = false;
+  const items = Array.from(navList.children);
+  items.forEach(n => {
+    if (!n.dataset.chain) {
+      // 分隔行（━ xxx）：仅当下一项匹配才显示
+      n.style.display = q ? 'none' : '';
+    } else {
+      const match = !q || (n.dataset.searchKey || '').includes(q);
+      n.style.display = match ? '' : 'none';
+    }
+  });
+  // 隐藏没有匹配项的"━ xxx"分组标题（实现：清空 q 时恢复显示，q 非空时一律隐藏分隔行）
+  navList.querySelectorAll('.nav-item:not([data-chain])').forEach(n => {
+    n.style.display = q ? 'none' : '';
+  });
+}
+
 // ==================== 路由分发（升级四） ====================
 function route() {
   const hash = (window.location.hash || '').replace('#', '') || 'pcb';
@@ -3311,6 +3809,7 @@ function route() {
 }
 
 function init() {
+  loadAllCustomChains();   // ★ 升级六：复活 localStorage 里的自定义赛道
   route();
   renderChangelog();
 }
