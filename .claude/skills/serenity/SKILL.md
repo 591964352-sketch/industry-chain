@@ -38,8 +38,8 @@
 1. **深度搜索** — 用 WebSearch 对目标产业链做多轮（≥5 次）搜索
 2. **四问筛选** — 对每个标的套四大追问，标注 ★★★/★★☆/不通过
 3. **数据结构化** — 按下方"数据模板"整理 JS 对象
-4. **三处必改注入** — CHAINS 数据块 / 侧栏 nav-item / CHANGELOG
-5. **验证** — 双文件同步 + JS 语法自检 + 浏览器测试
+4. **四处必改注入** — 新建 `data/<id>.js` / 在 `index.html` manifest 数组加 `'<id>'` / 侧栏 nav-item / CHANGELOG（升级九 STEP 4 后由 3 处改 4 处）
+5. **验证** — `data/<id>.js` 独立加载自检 + 主 inline script JS 语法自检 + 浏览器测试（双文件镜像 `diff -q` 已废弃）
 
 > **关键卡点（Step 3 → Step 4 之间）**：数据结构化完成后，**必须逐条对照《内容质量标准》S1–S8 + 《避坑清单》自检，不达标不得注入网站**（详见下方"## 新赛道 SOP（第三层）" 章节）。S1–S8 见"## 内容质量标准"，避坑清单在 SOP 章节末尾。
 
@@ -97,35 +97,45 @@
 
 S1–S10 完整版见"## 内容质量标准（所有赛道必须达标）"。
 
-#### Step 4 · 三处必改注入（缺一不可）
+#### Step 4 · 四处必改注入（缺一不可，升级九 STEP 4 后由 3 处改 4 处）
 
 | 顺序 | 改哪里 | 漏改后果 |
 |---|---|---|
-| 1 | 在合适 `// ==================== <NAME> ====================` 分隔处追加 `CHAINS.xxx = { ... };` | 数据不可达 |
-| 2 | 在 `<div class="sidebar-nav" id="nav-list">` 里加 `<span class="nav-item" data-chain="xxx" onclick="switchChain('xxx')">…</span>` | 侧栏看不到、URL hash 之外不可达 |
-| 3 | 在 `CHANGELOG` 前面插一条今日日期记录（`sector: 赛道id` 或 `'system'`） | 用户 7 天内感知不到变化 |
+| 1 | **新建 `data/<id>.js`**（参考 `data/pcb.js` 结构：`window.CHAINS = window.CHAINS \|\| {}; (function(CHAINS){ CHAINS.<id> = {...}; })(window.CHAINS);`）| 数据完全不存在 |
+| 2 | 在 `index.html` 顶部 `DATA_MANIFEST` 数组（line ~360）加 `'<id>'` | 数据文件存在但浏览器不加载 → `renderChain` guard 显示「该赛道数据加载失败」红色卡 |
+| 3 | 在 `<div class="sidebar-nav" id="nav-list">` 里加 `<span class="nav-item" data-chain="<id>" onclick="switchChain('<id>')">…</span>` | 数据可达但侧栏看不到（URL hash 之外不可达）|
+| 4 | 在 `CHANGELOG` 前面插一条今日日期记录（`sector: 赛道id` 或 `'system'`） | 用户 7 天内感知不到变化 |
 
 > **侧栏顺序 = 用户看到顺序**。注意末尾 "━ 我的决策" / "━ 整合视图" 分隔行不要破坏。`renderChangelog` 内的 `sectorName` / `sectorColor` 三元映射可能要把新 id 加进去。
+> **manifest 数组顺序 = 浏览器加载顺序**（与侧栏顺序独立）。新赛道追加到数组末尾即可。
 
-#### Step 5 · 验证
+#### Step 5 · 验证（升级九 STEP 4 后）
 
 ```bash
-# 1. 双文件字节级同步（必须无输出）
-diff -q index.html 产业链全景.html
+# 1. 单条 data/<id>.js 独立加载验证（替换 <id> 为新赛道 id）
+node -e "global.window={};require('./data/<id>.js');const c=global.window.CHAINS.<id>;console.log(c?'OK '+c.name+' segments='+c.segments.length:'FAIL');"
 
-# 2. JS 语法粗检（必须 OK）
-node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script>([\s\S]+)<\/script>/);try{new Function(m[1]);console.log('OK',m[1].length,'chars');}catch(e){console.log('ERR',e.message);}"
+# 2. 模拟完整浏览器加载，确认全部 13+ 条赛道注册（manifest 数组要先更新过）
+node -e "global.window={};['pcb','semi','ai-server','hbm','robotics','autonomous-driving','power-semi','ai-apps','cpo','solid-battery','low-altitude','commercial-aero','ai-full-chain','<id>'].forEach(i=>require('./data/'+i+'.js'));console.log(Object.keys(global.window.CHAINS).length+' 条');"
 
-# 3. 浏览器测试（手动）
+# 3. 主 inline script JS 语法粗检（不会因为 data/<id>.js 而失败，因为已外置）
+node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script>\s*\n\s*\/\/ ={5,}\n\/\/ DATA LAYER[\s\S]+?<\/script>/);const code=m[0].replace(/^<script>/,'').replace(/<\/script>$/,'');try{new Function(code);console.log('OK',code.length,'chars');}catch(e){console.log('ERR',e.message);}"
+
+# 4. 浏览器测试（必须用 http server，file:// 下 <script src> 可能受同源限制）
 py -m http.server 8000   # 浏览器开 http://localhost:8000/index.html#<新赛道id>
 ```
 
+> **升级九 STEP 4 后已废弃**：`diff -q index.html 产业链全景.html`（产业链全景.html 是 16 行跳转页，不再镜像）。
+
 校验点（手动）：
-- 侧栏点新赛道 → 内容正确渲染
+- 侧栏点新赛道 → 内容正确渲染（不进 `renderChain` guard 的红色错误卡）
 - ② 树状图 5 列全部为 array（`Array.isArray(d.treeMap.downstream)` 走新布局），每列 ≥2 sub-card、每个 sub-card note 含占比+来源
 - ③ segments 表每段 ≥5 stocks，每个 stock 旁有趋势徽章（绿/红/灰）
 - ④ chokePoints 三大卡口 verification 默认 4 项 + 整体徽章
 - ⑤ 顶部"数据截止"日期未动
+- ⑥ 浏览器 DevTools Network 应看到 14+ 个 `data/*.js` 全 200（包含新赛道）
+- ⑦ DevTools Console 无红色 JS 错误
+- ⑧ 进 `#arena` 赛道擂台 → 新赛道行出现（如填了 prosperity，应看到综合分；否则显示"六维待回填"）
 
 ### 模式 2：刷新现有赛道（同样按 PCB 黄金范例）
 
@@ -136,10 +146,11 @@ py -m http.server 8000   # 浏览器开 http://localhost:8000/index.html#<新赛
 **执行流程**：与"模式 1 添加新赛道"**完全相同**的 5 步流程（深度搜索 → 四问筛选 → 数据结构化 → 注入替换 → 验证），**字段密度要求与新增赛道一致**（S1–S10 全套硬标准）。
 
 **核心约束**：
-- 刷新产出的新 `CHAINS.xxx` 数据块**必须**与黄金范例 `CHAINS.pcb` 同款结构与字段密度（segments ≥ 6 / 个股 ≥ 5 / midstream ≥ 10 / 卡口 3 大 / verification 4 项 / valuation.pePercentile 必填 / S1-S10 全过）
+- 刷新产出的新数据**必须**与黄金范例 `data/pcb.js` 同款结构与字段密度（segments ≥ 6 / 个股 ≥ 5 / midstream ≥ 10 / 卡口 3 大 / verification 4 项 / valuation.pePercentile 必填 / S1-S10 全过）
 - 任意一条不达标 → **不替换原数据**（保留旧版本 + 在 CHANGELOG 加 1 条 `❌ 刷新未达标未注入` 记录原因）
-- 注入替换路径：直接 Edit 现有 `CHAINS.<id> = { ... }` 块（不需要新建分隔行；保持原 `// ==================== <NAME> ====================` 行）
-- 替换后**双文件同步 + JS 语法自检 + 浏览器抽查**（3 个 anchor 段：segments 表格、treeMap、chokePoints）
+- 注入替换路径：**直接 Edit `data/<id>.js`**（IIFE 内的 `CHAINS.<id> = { ... }` 块或后续独立赋值；保持顶部 `window.CHAINS = ...; (function(CHAINS){` 包装结构不变）
+- 替换后验证：`data/<id>.js` 独立加载自检 + 主 inline script JS 语法 + 浏览器抽查 3 个 anchor 段（segments 表格、treeMap、chokePoints）
+- 升级九 STEP 4 后**已废弃**：`diff -q` 双文件同步（产业链全景.html 是跳转页，不再镜像）
 
 ### 避坑清单（数据落入前最后一遍）
 
@@ -155,9 +166,11 @@ py -m http.server 8000   # 浏览器开 http://localhost:8000/index.html#<新赛
 - ❌ **不**为凑数塞无关标的——segments[].stocks <5 时老实写 4-5 家，不强凑
 - ❌ **不**加自定义 CSS 类——先复用现有 `.tag / .choke-card / .card / .stock-tbl / var(--*)` 调色板
 - ❌ **不**在树状图 mini 表（`tree-sub-mini-tbl`）加 trend 徽章——空间太小，避免拥挤
-- ❌ **不**破坏 `// ==================== <NAME> ====================` 分隔行——下次找数据靠 grep 定位
+- ❌ **不**破坏 `// ==================== <NAME> ====================` 分隔行——`data/<id>.js` 内仍保留，便于阅读定位（虽然不再用 grep 跨文件定位）
 - ❌ **不**改 CSS 主结构——非要新加 CSS 类 append 到主结构后面（`</style>` 之前），不改既有定义
+- ❌ **不**在 `index.html` 主 `<script>` 里直接写 `CHAINS.xxx = {...}`——升级九 STEP 4 后赛道数据**一律**放 `data/<id>.js`
 - ❌ **不**改 `index.html` 之外的孤立 PCB-only 页面（[PCB产业链全景.html](PCB产业链全景.html) 早期独立页，没明确要求别动）
+- ❌ **不**期待 `产业链全景.html` 内有数据——升级九 STEP 4-2 后它是 16 行 meta-refresh 跳转页，不再镜像 `index.html`
 
 ### 验收清单（改完逐项自查并回报结果）
 
@@ -171,13 +184,13 @@ py -m http.server 8000   # 浏览器开 http://localhost:8000/index.html#<新赛
 - [ ] **S8 卡口方法论**：**3 大卡口**（★★★/★★★/★★☆ 至少 1 个 ★★★）配齐 hits/strength/tags/valuation(pePercentile 必填)/verification(4 项 howToCheck+falsifySignal) + supplyGap 2-4 条
 - [ ] **S9 数据时效**：关键数据带最近一期财报 + `<mark class="updated">` 标注 + 来源+时点 + AI 估算标 🆪
 - [ ] **S10 研究纪律**：≥2-3 独立信源交叉验证 + 只摘事实数据 + **严禁复制研报/文章原文**
-- [ ] **PCB 黄金范例对齐**：字段密度+结构与 `CHAINS.pcb` 同款（不达标不注入）
+- [ ] **PCB 黄金范例对齐**：字段密度+结构与 `data/pcb.js` 同款（不达标不注入）
 - [ ] **避坑清单**：13 条全部通过
-- [ ] **三处必改**：CHAINS 数据块 / 侧栏 nav-item / CHANGELOG 今日记录齐
-- [ ] **双文件同步**：`diff -q index.html 产业链全景.html` 无输出
-- [ ] **JS 语法**：`node -e` 输出 `OK <chars>`
-- [ ] **浏览器测试**：3 个 anchor（segments 表格、treeMap、chokePoints）正常渲染
-- [ ] **既有赛道不破坏**：现有 12 条赛道 + 升级一-六视图视觉不变
+- [ ] **四处必改**（升级九 STEP 4 后）：`data/<id>.js` 已建 / `index.html` 的 `DATA_MANIFEST` 数组已加 `'<id>'` / 侧栏 nav-item 已加 / CHANGELOG 今日记录已加
+- [ ] **`data/<id>.js` 独立加载**：`node -e "global.window={};require('./data/<id>.js');..."` 输出 OK
+- [ ] **主 inline script JS 语法**：`node -e` 输出 `OK <chars>`
+- [ ] **浏览器测试**：3 个 anchor（segments 表格、treeMap、chokePoints）正常渲染；DevTools Network 看到该 `data/<id>.js` 200；Console 无红色 JS 错误
+- [ ] **既有赛道不破坏**：现有 13 条赛道 + 升级一-九视图视觉不变
 - [ ] **未自动 commit**——已列改动清单等用户确认
 
 ### 通用约束
@@ -467,38 +480,79 @@ CHAINS.<id> = {
 - 不预填交易日志示例
 - **所有赛道产出必须与黄金范例 `CHAINS.pcb` 字段密度+结构对齐**（S1-S10 全套硬标准）
 
-## 网站文件结构
-
-`产业链全景.html` 是一个单文件 Web 应用：
+## 网站文件结构（升级九 STEP 4 后）
 
 ```
-HTML 框架
-├─ <style>  — 全局 CSS（深色主题，1400px桌面端）
-├─ <header> — 标题 + 方法论标签
-├─ <div class="sector-tabs"> — Tab 切换栏
-├─ <div id="chain-content"> — 动态内容容器（JS渲染）
-├─ <div class="footer"> — 免责声明
-└─ <script>
-    ├─ CHAINS.pcb    — PCB 产业链数据
-    ├─ CHAINS.semi   — 半导体产业链数据
-    ├─ CHAINS.xxx    — 未来新赛道在此追加
-    ├─ renderChain() — 渲染引擎（6个子函数）
-    ├─ switchChain() — Tab 切换
-    └─ init()        — 页面初始化 + URL hash 路由
+仓库根目录
+├─ index.html (~1970 行)
+│  ├─ <style>        — 全局 CSS（深色主题）
+│  ├─ <header>       — Header（含 Jack唐的投研看板 + 数据截止日期）
+│  ├─ <nav>          — 侧栏（含搜索框 + 13 条赛道 + 整合视图 + 我的决策）
+│  ├─ <main>         — 动态内容容器 #chain-content（JS 渲染）
+│  ├─ <aside>        — 右侧浮动变更面板（CHANGELOG，7 天滚动）
+│  ├─ <footer>       — 免责声明
+│  ├─ <script> #1    — manifest 块（DATA_MANIFEST 数组 + document.write 同步注入 13 个 <script src>）
+│  └─ <script> #2    — 主 inline script（~94K chars）
+│      ├─ const CHAINS = window.CHAINS = window.CHAINS || {}  ← 共享外部注入
+│      ├─ PROSPERITY_META / computeLtFit() / STOCK_REGISTRY    ← 升级九 STEP 1
+│      ├─ LS / LS_KEYS                                          ← localStorage 助手
+│      ├─ trendBadge() / stockDims6Badge()                      ← 渲染辅助
+│      ├─ renderChain() / renderCards() / renderTrades() / renderArena()
+│      ├─ switchChain() / route()                               ← 路由
+│      ├─ CHANGELOG[] / renderChangelog()                       ← 变更面板
+│      └─ init()                                                 ← 初始化 + URL hash 路由
+│
+├─ data/                              ← 升级九 STEP 4 新增的数据目录
+│  ├─ pcb.js              (~55 KB)    ← 黄金范例（已填六维）
+│  ├─ semi.js              (14 KB)    ← 12 条普通赛道（六维待 STEP 5 回填）
+│  ├─ ai-server.js         (10 KB)
+│  ├─ hbm.js               (19 KB)
+│  ├─ robotics.js          (10 KB)
+│  ├─ autonomous-driving.js(10 KB)
+│  ├─ power-semi.js         (9 KB)
+│  ├─ ai-apps.js            (9 KB)
+│  ├─ cpo.js                (9 KB)
+│  ├─ solid-battery.js      (9 KB)
+│  ├─ low-altitude.js       (9 KB)
+│  ├─ commercial-aero.js    (8 KB)
+│  └─ ai-full-chain.js     (22 KB)    ← AI 全产业链特殊整合视图
+│
+├─ 产业链全景.html (16 行)            ← 中文 URL 跳转页（meta-refresh → index.html）
+└─ PCB产业链全景.html                 ← 早期 PCB-only 独立页面（主站不再链接，没明确要求别动）
 ```
 
-**CSS 无需改动**，新增赛道只需：
-1. 在 JS 数据区添加 `CHAINS.<id> = { ... };`
-2. 在 Tab 栏添加 `<div class="tab" ...>`
+**数据加载流程**：
+1. 浏览器解析 `index.html` → 看到第 1 个 `<script>`（manifest）→ 同步执行
+2. manifest 内 `document.write` 在 HTML parse 期顺序注入 13 个 `<script src="data/<id>.js">`
+3. 浏览器按 manifest 数组顺序同步加载 13 个 `data/<id>.js` → 每个文件 `window.CHAINS.<id> = {...}`
+4. **然后**才执行第 2 个 `<script>`（主 inline script）→ `const CHAINS = window.CHAINS = window.CHAINS || {}` 共享同一对象 → 渲染函数能拿到全部 13 条数据
+5. `init()` 读 URL hash → `route()` 分发 → 对应的 `renderChain/renderCards/renderTrades/renderArena` 执行
 
-## 已有赛道
+**新增赛道只需**（升级九 STEP 4 后）：
+1. 新建 `data/<id>.js`（IIFE + window.CHAINS 注入）
+2. 在 `index.html` 顶部 `DATA_MANIFEST` 数组加 `'<id>'`
+3. 在 `<nav class="sidebar">` 内加 nav-item
+4. 在 `CHANGELOG` 加今日记录
 
-| 赛道 ID | 名称 | 卡口标的 | 状态 |
-|---------|------|---------|------|
-| `pcb` | PCB 印制电路板 | 东材科技/菲利华/铜冠铜箔 | ✅ 完整 |
-| `semi` | 半导体 | 华大九天/北方华创/南大光电 | ✅ 完整 |
-| `cpo` | CPO 共封装光学 | （待研究） | 🔜 即将上线 |
-| `robot` | 人形机器人 | （待研究） | 🔜 即将上线 |
+**CSS 完全无需改动**（复用现有 .tag / .choke-card / .card / .stock-tbl / `var(--*)` 调色板）。
+
+## 已有赛道（升级九 STEP 4 后，共 13 条，全部外置到 `data/<id>.js`）
+
+| 赛道 ID | 数据文件 | 卡口标的 | 六维（升级九 STEP 1+2） |
+|---------|---------|---------|---------|
+| `pcb` | `data/pcb.js` | 东材科技/菲利华/铜冠铜箔 | ✅ **黄金范例**（meta + prosperity + 40 只 dims6） |
+| `semi` | `data/semi.js` | 华大九天/北方华创/南大光电 | 🔜 待 STEP 5 回填 |
+| `ai-server` | `data/ai-server.js` | 沃尔核材/英维克 | 🔜 待 STEP 5 回填 |
+| `hbm` | `data/hbm.js` | 长鑫/兆易创新（间接）/材料商 | 🔜 待 STEP 5 回填（**建议优先**） |
+| `robotics` | `data/robotics.js` | 鸣志电器/绿的谐波/拓普集团 | 🔜 待 STEP 5 回填 |
+| `autonomous-driving` | `data/autonomous-driving.js` | 德赛/伯特利 | 🔜 待 STEP 5 回填 |
+| `power-semi` | `data/power-semi.js` | 天岳先进/斯达半导 | 🔜 待 STEP 5 回填 |
+| `ai-apps` | `data/ai-apps.js` | 金山办公/科大讯飞 | 🔜 待 STEP 5 回填 |
+| `cpo` | `data/cpo.js` | 中际旭创/天孚通信 | 🔜 待 STEP 5 回填 |
+| `solid-battery` | `data/solid-battery.js` | 当升科技/恩捷股份 | 🔜 待 STEP 5 回填 |
+| `low-altitude` | `data/low-altitude.js` | 万丰奥威/亿航 | 🔜 待 STEP 5 回填 |
+| `commercial-aero` | `data/commercial-aero.js` | 航天电子/中国卫星 | 🔜 待 STEP 5 回填 |
+| `ai-full-chain` | `data/ai-full-chain.js` | （元赛道，整合视图） | 🔜 待 STEP 5 回填（特殊：含 socraticInquiry / occamRazor） |
 
 ## 注意事项
 
@@ -514,53 +568,64 @@ HTML 框架
 
 | 文件 | 说明 |
 |------|------|
-| `产业链全景.html` | 主网站文件（根目录） |
+| `index.html` | 主站 SPA 外壳（CSS + 渲染/路由/业务 JS + manifest 加载 data/<id>.js） |
+| `data/<id>.js` | 13 个赛道数据文件（升级九 STEP 4 新增；IIFE + window.CHAINS 注入） |
+| `产业链全景.html` | 中文 URL 跳转页（16 行 meta-refresh → index.html；升级九 STEP 4-2 后不再镜像） |
 | `.claude/skills/serenity/SKILL.md` | 本 Skill 文档 |
 | `.claude/workflows/serenity-choke-point.js` | 六步下钻工作流脚本 |
 | `sector_research/docs/serenity-choke-point-methodology.md` | 方法论详细文档 |
-| `sector_research/output/serenity_demo.html` | 早期 Demo 版本（已迁移到根目录） |
+| `景气六维_SOP试水样板_PCB.md` | 升级九所有改动的依据样板（v3） |
 
-## 数据周度自动更新
+## 数据手动刷新（升级八 STEP 3 + 升级九 STEP 4 后）
+
+**升级八 STEP 3 把"cron 周一自动刷"改为"用户手动按钮触发"**，理由：cron 会自动给所有赛道刷一遍（包括用户当前不关心的），token 浪费严重；改为按钮后用户只刷想看的那条，节省 token 且更可控。
 
 ### 触发方式
 
-已设置 cron 定时任务：**每周一上午 9:07** 自动执行数据刷新。
+**首选**：浏览器侧栏每条赛道 nav-item 右侧的 🔄 按钮 → 点击弹 modal → 复制 modal 里**预生成的完整研究指令**（含 200+ 研报硬性要求 + PCB 同款结构 + 写回 `data/<id>.js` 指令）→ 粘贴到 Claude Code 让 Agent 跑。
 
-手动触发更新：`/serenity --update`
+**手动触发**（备用）：
+- 用户直接说"刷新 PCB" / "全量研究刷新 PCB" / "/serenity --refresh pcb"
+- 触发后走「模式 2：刷新现有赛道」5 步流程（深度搜索 → 四问筛选 → 数据结构化 → 注入替换 → 验证）
 
-### 更新流程
+### 刷新流程（Claude Code 端跑）
 
-1. **搜索最新数据** — 对每个赛道（PCB/半导体等）WebSearch 搜索：
+1. **搜索最新数据** — WebSearch ≥5 次，覆盖：
    - 宏观数据：市场规模、国产化率、增长率
    - 个股业绩：最新季度营收/净利润/同比增速
    - 重大事件：认证进展、产能投产、大客户变化
+   - 关键数据 ≥2-3 独立信源交叉验证；研报等效参考 ≥200 篇
 
-2. **对比变化** — 与页面现有数据对比：
+2. **对比变化** — 与现有 `data/<id>.js` 数据对比：
    - 变化 <5%：不更新（避免无意义刷新）
    - 变化 5-15%：静默更新数字
    - 变化 >15%：**高亮标记** `<mark class="updated">` + 变化幅度徽章
    - 基本面重大变化：**整行高亮** `class="major-change"` + 追加说明
 
-3. **高亮样式标准**：
+3. **高亮样式标准**（不变）：
    - 数据值变化 >15%：`<mark class="updated">新值</mark><sup class="change-badge up">📈+XX%</sup>`
    - 数据值下跌 >15%：`<sup class="change-badge down">📉-XX%</sup>`
    - 个股基本面重大变化（认证/产能/客户）：`<tr class="major-change">` + 逻辑列追加 `⚡【更新：XXX】`
-   - 高亮保留一周，下周更新时去除旧高亮再加新高亮
+   - 高亮保留一周，下次刷新该赛道时去除旧高亮再加新高亮
 
-4. **更新日期** — 页面顶部数据截止日期改为当天
+4. **写回 `data/<id>.js`** — 升级九 STEP 4 后赛道数据**一律**在 `data/<id>.js`（IIFE 内的 CHAINS.<id> 对象）；不再改 `index.html` 主 script 里的数据（已外置）。
 
-5. **提交推送** — git commit + push
+5. **更新 Header 日期** — `index.html` 顶部"数据截止：YYYY-MM-DD"改为当天（**注意**：这一项仍在 index.html 内，不在 data/<id>.js 内）。AI 主观判断（六维分 / 周期位置）标 🆪、**不刷日期**。
+
+6. **验证** — 走「## 新赛道 SOP（第三层）· Step 5 验证」的命令（`data/<id>.js` 独立加载 + 主 inline script JS 自检 + 浏览器测试），通过后报告改动清单、等用户说"通过"再 `git commit + push`。
 
 ### Token 参考
 
-| 更新类型 | Token | 耗时 |
-|---------|-------|------|
-| 2个赛道月度刷新 | ~5万-8万 | ~5分钟 |
-| 30个赛道月度刷新（未来） | ~10万-15万 | ~10分钟 |
+| 刷新类型 | Token 量级 | 备注 |
+|---|---|---|
+| 单条赛道全量刷新（200+ 研报硬性要求） | ~500K - 1M tokens | 升级八 STEP 3 commit message 估算 |
+| 单条赛道轻量刷新（仅改财报数字 + 高亮）| ~30-50K tokens | 不含新研究、不重排 stocks |
 
-### Cron 续期
+### 已废弃
 
-cron 任务 7 天后自动过期。如需长期运行，每次更新完成后自动重建 cron。
+- ❌ **cron 周一自动刷**（升级八 STEP 3 前用过；按钮化后废弃。当前 `CronList` 应为空）
+- ❌ **`/serenity --update` 自动触发指令**（同上，按钮化后没有自动触发的语义）
+- ❌ **diff -q 双文件同步**（升级九 STEP 4-2 后 `产业链全景.html` 是跳转页）
 
 ## 决策卡片库（升级四，localStorage 业务层）
 
