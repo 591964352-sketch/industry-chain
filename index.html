@@ -667,7 +667,11 @@ function renderChain(chainId) {
   const hasSocratic = !!d.socraticInquiry;
   const sec0Label = hasSocratic ? '①' : '⓪';
   const sec0Title = d.id === 'ai-full-chain' ? '第一性原理 — AI 算力的物理拆解' : `白话解读：${d.name}是什么？`;
-  h += `<div class="section"><div class="section-title"><span class="num num-plain">${sec0Label}</span> ${sec0Title}</div>`;
+  // ★ 新增功能：chain header 右上角 🔄 生成刷新指令按钮（ai-full-chain 元赛道不加；arena/cards/trades 不走 renderChain，本来就没有）
+  const refreshBtn = d.id !== 'ai-full-chain'
+    ? ` <button onclick="showRefreshModal('${d.id}')" title="弹出刷新指令模态框（范围三选一），生成可一键复制到 Claude Code 的指令" style="margin-left:auto;background:var(--accent);color:#0f1117;border:none;border-radius:6px;padding:6px 14px;font-weight:600;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">🔄 生成刷新指令</button>`
+    : '';
+  h += `<div class="section"><div class="section-title"><span class="num num-plain">${sec0Label}</span> ${sec0Title}${refreshBtn}</div>`;
   h += `<div class="plain-box"><div class="analogy">${d.icon} ${d.plainIntro.analogy}</div>`;
   d.plainIntro.paragraphs.forEach(p => h += `<p>${p}</p>`);
   h += `<div style="font-weight:600;margin-bottom:6px;font-size:13px;color:var(--muted);">🔗 产业链通俗流水账：</div><div class="flow-row">`;
@@ -1940,6 +1944,159 @@ function copyRefreshPrompt(chainId) {
 function fallbackCopy(text, name) {
   window.prompt('请手动复制：', text);
   showToast(`手动复制《${name}》刷新指令`);
+}
+
+// ==================== 刷新指令模态（chain header 🔄 按钮，范围三选一） ====================
+// 静态页无法调起 CC，本功能只生成填好的指令、供用户一键复制并手动粘到 Claude Code。
+// 不依赖网络、不引入任何库；模态 HTML 动态创建，按钮/选项复用 var(--*) 调色板与现有 .card / .toast。
+
+const REFRESH_SCOPES = {
+  full:        { label: '全量刷新', cn: '全量刷新（真实数据 + 六维都刷）',                                 fields: '真实数据(overview/treeMap/segments/midstream/fourQuestions/chokePoints/supplyGap/methodologyNotes/cyclePosition) + 六维(meta+prosperity+每股dims6)', refreshDate: true,  flagNote: '真实数据变化才刷顶部"数据截止"日期；六维评分标 🆪 不刷' },
+  prosperity:  { label: '只刷六维', cn: '只刷六维（prosperity + dims6，🆪，禁止刷"数据截止"日期）',  fields: 'meta(updatedAt) + prosperity(6 dims + verdict) + 每只 stock 的 dims6 + dims6Note',                                                                          refreshDate: false, flagNote: '六维全部标 🆪 AI 主观判断；严禁刷顶部"数据截止"日期（仅 meta.updatedAt 改为今日）' },
+  financial:   { label: '只刷财报数据', cn: '只刷财报数据（segments 财报/市占/supplyGap/valuation，允许刷"数据截止"日期）', fields: 'overview(财报/市占数字) + segments[].stocks[].logic/position(财报/市占) + supplyGap + chokePoints[].valuation(PE/分位/毛利率)',           refreshDate: true,  flagNote: '允许刷顶部"数据截止"日期为今日；不动六维评分' }
+};
+
+function showRefreshModal(chainId) {
+  const d = CHAINS[chainId];
+  if (!d) return;
+  // 若已存在则先移除（避免重复弹）
+  const existing = document.getElementById('refresh-modal');
+  if (existing) existing.remove();
+
+  // 顶部日期：从 Header 里抓（不修改、仅展示）
+  const headerEl = document.querySelector('.subtitle');
+  const headerDateMatch = headerEl && headerEl.textContent.match(/数据截止：([\d-]+)/);
+  const headerDate = headerDateMatch ? headerDateMatch[1] : '未知';
+
+  const modal = document.createElement('div');
+  modal.id = 'refresh-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  modal.addEventListener('click', e => { if (e.target === modal) closeRefreshModal(); });
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.style.cssText = 'max-width:780px;width:100%;max-height:90vh;overflow-y:auto;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);';
+
+  let scopesHtml = '';
+  Object.keys(REFRESH_SCOPES).forEach((key, i) => {
+    const sc = REFRESH_SCOPES[key];
+    const checked = i === 0 ? 'checked' : '';
+    scopesHtml += `<label style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;background:var(--card2);border-radius:6px;cursor:pointer;font-size:13px;line-height:1.6;"><input type="radio" name="refresh-scope" value="${key}" ${checked} onchange="onRefreshScopeChange('${chainId}')" style="margin-top:3px;flex-shrink:0;"><span><strong style="color:var(--text);">${sc.label}</strong><br><span style="color:var(--muted);font-size:12px;">${sc.cn.replace(sc.label + '（', '（').replace(/）$/, '）').slice(1, -1)}</span></span></label>`;
+  });
+
+  card.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <h3 style="margin:0;font-size:18px;color:var(--accent);">🔄 生成刷新指令 — ${d.icon || ''} ${d.name}</h3>
+      <button onclick="closeRefreshModal()" style="background:transparent;border:none;color:var(--muted);font-size:24px;cursor:pointer;line-height:1;padding:0 4px;">×</button>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.7;">
+      静态页无法直接调起 Claude Code。本功能只生成一段填好的指令，请复制后手动粘到 Claude Code 让 Agent 跑。<br>
+      <strong>当前赛道</strong>：<code style="color:var(--accent);">${d.id}</code> · meta.updatedAt: <code>${(d.meta && d.meta.updatedAt) || '未填'}</code> · Header 数据截止: <code>${headerDate}</code>
+    </div>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text);">选择刷新范围：</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">${scopesHtml}</div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text);">📋 指令预览（只读，可手动选中复制）：</div>
+      <textarea id="refresh-prompt-text" readonly style="width:100%;min-height:280px;padding:12px;background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:6px;font-family:'Consolas','Monaco',monospace;font-size:12px;line-height:1.6;resize:vertical;"></textarea>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button onclick="closeRefreshModal()" style="background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px 18px;font-size:13px;cursor:pointer;">取消</button>
+      <button onclick="copyRefreshFromModal('${chainId}')" style="background:var(--accent);color:#0f1117;border:none;border-radius:6px;padding:8px 18px;font-weight:600;font-size:13px;cursor:pointer;">📋 复制指令</button>
+    </div>
+  `;
+  modal.appendChild(card);
+  document.body.appendChild(modal);
+  // 初始填充指令文本
+  onRefreshScopeChange(chainId);
+}
+
+function closeRefreshModal() {
+  const modal = document.getElementById('refresh-modal');
+  if (modal) modal.remove();
+}
+
+function onRefreshScopeChange(chainId) {
+  const sel = document.querySelector('input[name="refresh-scope"]:checked');
+  const scope = sel ? sel.value : 'full';
+  const text = buildRefreshPrompt(chainId, scope);
+  const ta = document.getElementById('refresh-prompt-text');
+  if (ta) ta.value = text;
+}
+
+function buildRefreshPrompt(chainId, scope) {
+  const d = CHAINS[chainId];
+  if (!d) return '';
+  const sc = REFRESH_SCOPES[scope] || REFRESH_SCOPES.full;
+  const headerEl = document.querySelector('.subtitle');
+  const headerDateMatch = headerEl && headerEl.textContent.match(/数据截止：([\d-]+)/);
+  const headerDate = headerDateMatch ? headerDateMatch[1] : '未知';
+  const metaDate = (d.meta && d.meta.updatedAt) || '未填';
+
+  return `按《单链复制工单》刷新 ${d.name}（id=${d.id}）这一条赛道，范围=${sc.cn}。
+
+📋 当前状态：
+- chain id: ${d.id}
+- chain name: ${d.name}
+- meta.updatedAt: ${metaDate}
+- Header 数据截止: ${headerDate}
+- 数据文件: data/${d.id}.js
+
+🎯 七步工单：
+1. 研究取证（≥5 次 WebSearch 交叉验证 + 抓 20-30 篇研报全文，关键数据 ≥2-3 独立信源印证）
+2. 四问校验（对照现有 fourQuestions[]，必要时更新四大物理追问）
+3. 更新 ${sc.fields}
+4. 注入 data/${d.id}.js（升级九 STEP 4 后路径；保持 IIFE + window.CHAINS 包装结构不变）
+5. 三处必改（按本场景实际只需 1 处：CHANGELOG 加 1 条；data/${d.id}.js 已存在 / DATA_MANIFEST 数组已含 '${d.id}' / 侧栏 nav-item 已有，这 3 处不动）
+6. 双校验：
+   - node -e "global.window={};require('./data/${d.id}.js');const c=global.window.CHAINS.${d.id};console.log(c?'OK '+c.name:'FAIL');"
+   - node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script>\\s*\\n\\s*\\/\\/ ={5,}\\n\\/\\/ DATA LAYER[\\s\\S]+?<\\/script>/);const code=m[0].replace(/^<script>/,'').replace(/<\\/script>$/,'');try{new Function(code);console.log('OK',code.length,'chars');}catch(e){console.log('ERR',e.message);}"
+   - 浏览器抽查 3 个 anchor（segments 表格 / treeMap / chokePoints）
+   - 注意：升级九 STEP 4-2 后 产业链全景.html 是 16 行跳转页，不再 diff -q
+7. 擂台核对：进 #arena 看 ${d.name} 行综合分${sc.refreshDate ? '及其它数据变化' : '（六维分变化）'}
+
+📐 硬性要求：
+- 字段密度对齐 PCB 黄金范例（data/pcb.js）
+- barrier 降序不破（每段 stocks 按 极高→高→中高→中→低 排）
+- 每只 stock.position 含市占率/排名硬定位；logic 含可核查依据
+- ${sc.flagNote}
+- 注入前过 P1-P7（个股 dims6.barrier 必须等于 barrier 映射分：极高5/高4/中高3/中2/低1）+ S1-S10 全套硬标准 + 《避坑清单》13 条
+- 同一只票若在全站 STOCK_REGISTRY 中已注册（跨链 canonical），需校验六维一致性，不一致 console.warn
+
+📊 范围说明（${sc.label}）：
+${sc.cn}
+- 改动字段：${sc.fields}
+- 数据截止日期：${sc.refreshDate ? '✅ 允许刷到今日（真实数据变化）' : '❌ 严禁刷（仅 meta.updatedAt 改为今日）'}
+
+🚦 流程纪律：
+- 只做这一条赛道，不动其它 12 条
+- 改完报告改动清单（列每个改动文件 + 改动行数 + 关键字段 diff 摘要）+ 该条擂台综合分（computeLtFit 实算）
+- 等用户显式说"通过"再 git commit；不主动 commit，不主动开下一条
+- commit message 中文，描述内容层面变化（改了哪些字段、新增哪些个股 dims6）
+
+立即开始 Step 1。
+`;
+}
+
+function copyRefreshFromModal(chainId) {
+  const d = CHAINS[chainId];
+  if (!d) return;
+  const ta = document.getElementById('refresh-prompt-text');
+  if (!ta) return;
+  const text = ta.value;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(
+      () => { showToast('已复制，去 CC 粘贴'); closeRefreshModal(); },
+      () => { ta.select(); showToast('clipboard 不可用，已选中文本，请 Ctrl+C 手动复制'); }
+    );
+  } else {
+    // file:// 等 clipboard 不可用场景，回退为自动选中
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    showToast('clipboard 不可用，已选中文本，请 Ctrl+C 手动复制');
+  }
 }
 
 function showToast(msg) {
