@@ -4,43 +4,80 @@
 
 ## 仓库是什么
 
-一个单文件静态 HTML 投研网站，承载 **Serenity 物理卡口（Choke Point）** 方法论 —— 对 A 股产业链（PCB、半导体、HBM、人形机器人、CPO 等）做拆解，挖出 ★★★/★★☆ 的"卡口"标的。**无构建系统、无包管理器、无依赖。** 浏览器直接打开 HTML 即可；所有 CSS 和 JS 都内联在文件里。
+一个静态 HTML 投研网站，承载 **Serenity 物理卡口（Choke Point）** 方法论 —— 对 A 股产业链（PCB、半导体、HBM、人形机器人、CPO 等）做拆解，挖出 ★★★/★★☆ 的"卡口"标的。**无构建系统、无包管理器、无依赖。** 浏览器直接打开 HTML 即可。
 
-仓库里**没有测试套件、没有 lint、没有 CI**。"构建" = 保存文件；"运行" = 浏览器打开。
+**架构（升级九 STEP 4 后）**：CSS 仍内联在 `index.html` 的 `<style>` 里；渲染/路由/业务 JS 内联在 `index.html` 的主 `<script>` 里；**13 条赛道数据外置到 `data/<id>.js`**，由 `index.html` 顶部一段 manifest（数组 + `document.write`）同步加载。
 
-## 三个 HTML 文件 —— 各自的角色
+仓库里**没有测试套件、没有 lint、没有 CI**。"构建" = 保存文件；"运行" = 浏览器打开（或 `py -m http.server` 跑本地静态 server，因为 `<script src>` 在 `file://` 协议下也能工作，但本地 server 跑更稳）。
+
+## 文件结构
+
+### HTML 入口
 
 | 文件 | 角色 |
 |------|------|
-| [index.html](index.html) | 主站，GitHub Pages 默认入口 |
-| [产业链全景.html](产业链全景.html) | **与 `index.html` 字节级镜像一致**，保留中文 URL |
+| [index.html](index.html) | **主站** —— SPA 外壳（CSS + 渲染/路由/业务 JS） + manifest 同步加载 13 个 `data/<id>.js`。GitHub Pages 默认入口。约 1970 行。 |
+| [产业链全景.html](产业链全景.html) | **中文 URL 跳转页**（16 行）—— `<meta http-equiv="refresh" content="0; url=index.html">` 立即跳到 index.html。升级九 STEP 4-2 之前与 index.html 字节级镜像，现在收敛为跳转、不再重复维护数据。 |
 | [PCB产业链全景.html](PCB产业链全景.html) | 早期 PCB-only 独立页面，主站不再链接它，没明确要求别动 |
 
-**关键不变式：** `index.html` 和 `产业链全景.html` 必须保持字节级完全一致。最近的 commit 历史里能看到它俩跑偏过（参见 `f1ff548 同步 index.html`）—— 任何编辑必须**同一个 commit 内**同步到两个文件。提交前用 `diff -q index.html 产业链全景.html` 验证。
+### 数据层（`data/` 目录，13 个 JS 文件）
+
+每条赛道一个文件，文件名 = 赛道 id。IIFE 包裹的 `window.CHAINS = window.CHAINS || {}; (function(CHAINS){ CHAINS.<id> = {...}; ... })(window.CHAINS);` 结构，互相完全独立。
+
+| 文件 | 赛道 |
+|---|---|
+| `data/pcb.js` (~55 KB) | PCB 印制电路板（已填六维）|
+| `data/semi.js` / `ai-server.js` / `hbm.js` / `robotics.js` / `autonomous-driving.js` / `power-semi.js` / `ai-apps.js` / `cpo.js` / `solid-battery.js` / `low-altitude.js` / `commercial-aero.js` (8-22 KB 各) | 12 条普通赛道（六维待 STEP 5 回填）|
+| `data/ai-full-chain.js` (~22 KB) | AI 全产业链（特殊整合视图） |
+
+加载顺序由 `index.html` 顶部 manifest 决定：
+
+```html
+<script>
+(function(){
+  var DATA_MANIFEST = ['pcb','semi','ai-server','hbm','robotics','autonomous-driving',
+    'power-semi','ai-apps','cpo','solid-battery','low-altitude','commercial-aero','ai-full-chain'];
+  DATA_MANIFEST.forEach(function(id){
+    document.write('<script src="data/' + id + '.js"><\/script>');   // ← <\/script> 转义不能漏
+  });
+})();
+</script>
+```
+
+**关键陷阱**：inline `<script>` 内字面写 `</script>` 字符串会被 HTML 解析器立即识别为闭合标签，必须用 `<\/script>` 转义（JS 解析无差异）。
+
+**容错收益**：一条 `data/<id>.js` 加载失败（404 / 语法错）只让该赛道在 `renderChain` guard 内显示「该赛道数据加载失败」红色卡，**其余 12 条照常运行**——这是升级九 STEP 4 的核心收益，单文件给不了。
 
 ## `index.html` 的架构
 
-单页应用，三层结构叠在同一个文件里：
+SPA 外壳，三层结构（数据已外置）：
 
 1. **`<style>`** —— 全局 CSS，深色主题，固定侧栏 + flex 主区。两个 media query：`@media (max-width: 900px)` 和 `@media (max-width: 480px)`。
 2. **`<body>`** —— 静态侧栏导航（`<div class="sidebar-nav" id="nav-list">`）、Header、空的 `#chain-content` 容器、右侧浮动变更面板、底部免责。
-3. **`<script>`** —— 数据 + 渲染 + 路由 + 业务逻辑（行 285 起，约 3050+ 行）。
+3. **2 个 `<script>` 块**：
+   - **manifest 块**（line ~356）：13 条 ID 数组 + `document.write` 同步注入 `<script src="data/<id>.js">`
+   - **主 inline script**（line ~370，约 94K chars）：常量 + 渲染函数 + 路由 + 业务逻辑（`PROSPERITY_META` / `computeLtFit` / `LS` / `renderChain` / `renderArena` / `renderCards` / `renderTrades` / `route` 等）
 
-### 路由：3 类视图 + 1 个 hash 分发器
+### 路由：4 类视图 + 1 个 hash 分发器
 
 - **赛道视图**（`#pcb` / `#semi` / ... 共 12 个 + `#ai-full-chain`）→ `switchChain(chainId)` → `renderChain(chainId)`
 - **决策卡片库**（`#cards`）→ `renderCards()`
 - **交易日志**（`#trades`）→ `renderTrades()`
+- **赛道擂台**（`#arena`，升级九 STEP 3）→ `renderArena()` — 30+ 条赛道横向比的总入口
 
-**`route()` 函数**（script 末尾）统一读 `window.location.hash` 分发到上面 3 类。`switchChain` 函数顶有 guard `if (chainId === 'cards' || chainId === 'trades')` —— **绕开 CHAINS lookup**，否则 `CHAINS['cards']` 是 undefined、renderChain 静默 return。
+**`route()` 函数**（script 末尾）统一读 `window.location.hash` 分发到上面 4 类。`switchChain` 函数顶有 guard `if (chainId === 'cards' || chainId === 'trades' || chainId === 'arena')` —— **绕开 CHAINS lookup**，否则 `CHAINS['cards']` 是 undefined、renderChain 静默 return。
 
 侧栏 nav-item 的 `onclick` 用 `window.location.hash='xxx'` 触发 hashchange → `route()`。**不要**用 `switchChain('cards')`，会被 guard 接住但 nav 高亮会错位。
 
-### 三个数据 / 业务层
+### `renderChain` 容错 guard（升级九 STEP 4）
+
+`CHAINS[chainId]` 缺失时不再静默 return，而是渲染红色错误卡 + 跳回 PCB/擂台/卡片库链接。**保证一条 `data/<id>.js` 加载失败不让用户白屏**。
+
+### 四个数据 / 业务层
 
 | 层 | 存储 | 入口函数 | 渲染函数 |
 |---|---|---|---|
-| **CHAINS 赛道数据** | 静态 JS 对象 | `CHAINS[id]` | `renderChain(id)` |
+| **CHAINS 赛道数据** | `data/<id>.js` 通过 manifest 同步加载，全部挂在 `window.CHAINS` 上；主 script `const CHAINS = window.CHAINS = window.CHAINS \|\| {}` 与之共享同一对象 | `CHAINS[id]` | `renderChain(id)` |
 | **决策卡片库** | localStorage `myCards` 数组 | `loadCards/saveCards/addToDecisionCard/...` | `renderCards()` |
 | **交易日志** | localStorage `myTrades` 数组 | `loadTrades/saveTrades/addTrade/...` | `renderTrades()` |
 | **自定义赛道** | localStorage `myCustomChains` 数组 | `loadCustomChains/saveCustomChains/addCustomChain/...` | 走 `renderChain(id)`，无独立视图 |
@@ -49,7 +86,7 @@ localStorage 助手 (`LS.get/set`) + key 字典 (`LS_KEYS.verify/cards/trades/cu
 
 **自定义赛道 (升级六)**：侧栏顶部搜索框键入 + 点 `+` 或回车 → 复制 PCB 完整结构（值全清空为 `—` / `（待填写）`）→ 注入 `CHAINS[id]` → 插入 nav-list PCB 下方。**只是占位**，加完回来说"我刚加了 XX，把数据填上" → 走研究流程填数据。详见 [SKILL.md](.claude/skills/serenity/SKILL.md#自定义赛道升级六侧栏搜索--占位)。
 
-### 5 项升级的字段 + 渲染位置
+### 已上线升级的字段 + 渲染位置
 
 | 升级 | commit | CHAINS 字段位置 | 渲染位置 | localStorage key |
 |---|---|---|---|---|
@@ -60,18 +97,36 @@ localStorage 助手 (`LS.get/set`) + key 字典 (`LS_KEYS.verify/cards/trades/cu
 | 交易日志 | `c5685d1` | — | `#trades` 独立视图 | `myTrades` |
 | 自定义赛道 | (待 commit) | localStorage 注入 `CHAINS[id]` | 走 `renderChain(id)` | `myCustomChains` |
 | 树状图 5 列重做 | (待 commit) | `treeMap.downstream/midstream/materials/equipment/sideBranches` 全部改 array + sub-card 配 companies/sourceSegment | 「② 产业链树状图」横向 5 列（pcb 试点） | — |
+| **升级九 STEP 1+2 景气六维** | `988099a` | 全站常量 `PROSPERITY_META` + `computeLtFit()` + `STOCK_REGISTRY` 空壳；`CHAINS.pcb` 加 `meta` + `prosperity`（6 dims + verdict）+ 40 只 stock 的 `dims6` + `dims6Note`（仅 PCB 试点） | 「① 赛道概览」后插「① 景气六维」卡（综合分 + 6 mini-bar + ⓘ 折叠 + verdict 高亮）；segments/midstream 每只票 logic 末尾加「🆪 六维 ▾」金色 chip → 折叠 6 mini-bar + dims6Note | — |
+| **升级九 STEP 3 赛道擂台** | `3958fcf` | — | `#arena` 独立视图：13 行 × 10 列表格（六维分 + computeLtFit 综合分 + tier 徽章），点列排序 + sector/tier 下拉筛选 | — |
+| **升级九 STEP 4 数据外置** | `f019b60` + `6618f40` | `CHAINS.<id>` 全部搬到 `data/<id>.js`（13 个文件）；主 script `const CHAINS = window.CHAINS = window.CHAINS \|\| {}` 共享 | `renderChain` 顶部加容错 guard（缺数据显示红色错误卡而非白屏） | — |
 
 完整 schema（包含所有可选字段）见 [.claude/skills/serenity/SKILL.md](.claude/skills/serenity/SKILL.md#数据模板)。
 
-### 新增/编辑赛道的数据流
+### 新增/编辑赛道的数据流（升级九 STEP 4 后）
 
-新增赛道 `xxx` 必须按顺序改**三处**：
+新增赛道 `xxx` 必须按顺序改**四处**：
 
-1. 在合适的 `// ==================== <NAME> ====================` 分隔处追加数据块：`CHAINS.xxx = { ... }`。
-2. 在 `<div class="sidebar-nav" id="nav-list">` 里添加 `<span class="nav-item" data-chain="xxx" onclick="switchChain('xxx')">…</span>`。**侧栏里的顺序就是用户看到的顺序。** 注意末尾 "━ 我的决策" / "━ 整合视图" 分隔行不要破坏。
-3. 如果要让用户看到这次更新，往 `CHANGELOG` 前面插一条今日日期的记录 —— 之后 7 天它会出现在浮动面板里。`sector` 取赛道 id 或 `'system'`（系统级变更）。`sectorName` / `sectorColor` 三元映射（`renderChangelog` 内）需要把新 id 加进去。
+1. **新建 `data/xxx.js`**（参考 `data/pcb.js` 结构）：
+   ```js
+   window.CHAINS = window.CHAINS || {};
+   (function(CHAINS){
+     CHAINS.xxx = { id:'xxx', name:'...', icon:'...', meta:{...}, prosperity:{...}, plainIntro:{...}, overview:[...], treeMap:{...}, segments:[...], midstream:{...}, fourQuestions:{...}, chokePoints:[...], supplyGap:[...], methodologyNotes:'...' };
+     // 也可继续 CHAINS.xxx.segments = [...]; 等独立赋值
+   })(window.CHAINS);
+   ```
+2. **在 `index.html` 顶部 manifest 数组里加 `'xxx'`**（line ~360 附近的 `DATA_MANIFEST`）。manifest 数组顺序 = 浏览器加载顺序，与侧栏顺序独立。
+3. **在 `<div class="sidebar-nav" id="nav-list">` 里添加** `<span class="nav-item" data-chain="xxx" onclick="switchChain('xxx')">…</span>`。**侧栏里的顺序就是用户看到的顺序。** 注意末尾 "━ 我的决策" / "━ 整合视图" 分隔行不要破坏。
+4. **往 `CHANGELOG` 前面插一条今日日期记录**——之后 7 天它会出现在浮动面板里。`sector` 取赛道 id 或 `'system'`（系统级变更）。`sectorName` / `sectorColor` 三元映射（`renderChangelog` 内）需要把新 id 加进去。
 
-漏掉第 2 步 → 赛道除了 URL hash 之外不可达；漏掉第 3 步 → 用户感知不到变化。
+**漏改后果**：
+- 漏 1 / 2 → 数据加载失败 → `renderChain` guard 显示红色错误卡（不白屏，但用户看到"该赛道数据加载失败"）
+- 漏 3 → 赛道除 URL hash 之外不可达
+- 漏 4 → 用户感知不到变化
+
+### 编辑现有赛道数据
+
+直接编辑 `data/<id>.js`。**不再需要双文件同步**（产业链全景.html 已收敛为跳转页）。改完用 `py -m http.server 8000` 本地验证 + 浏览器硬刷 Ctrl+Shift+R 即可。
 
 ### `ai-full-chain` 是特殊的"元赛道"
 
@@ -93,18 +148,23 @@ localStorage 助手 (`LS.get/set`) + key 字典 (`LS_KEYS.verify/cards/trades/cu
 ## 常用命令
 
 ```bash
-# 提交前：验证两个主 HTML 仍然同步（应无输出）
-diff -q index.html 产业链全景.html
-
 # 提交后：推到 origin（GitHub Pages 才能拿到最新版本）
 git push
 
-# 提交前：JS 语法粗检（避免低级语法错）
-node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script>([\s\S]+)<\/script>/);try{new Function(m[1]);console.log('OK',m[1].length,'chars');}catch(e){console.log('ERR',e.message);}"
+# 提交前：主 inline script JS 语法粗检（避免低级语法错；注意主 script 现在仅含路由/渲染/业务，不含数据）
+node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script>\s*\n\s*\/\/ ={5,}\n\/\/ DATA LAYER[\s\S]+?<\/script>/);const code=m[0].replace(/^<script>/,'').replace(/<\/script>$/,'');try{new Function(code);console.log('OK',code.length,'chars');}catch(e){console.log('ERR',e.message);}"
 
-# 本地预览
+# 提交前：单条 data/<id>.js 独立加载验证（替换 pcb 为你改的赛道）
+node -e "global.window={};require('./data/pcb.js');const c=global.window.CHAINS.pcb;console.log(c?'OK '+c.name+' segments='+c.segments.length:'FAIL');"
+
+# 提交前：模拟完整浏览器加载，确认全部 13 条赛道注册
+node -e "global.window={};['pcb','semi','ai-server','hbm','robotics','autonomous-driving','power-semi','ai-apps','cpo','solid-battery','low-altitude','commercial-aero','ai-full-chain'].forEach(id=>require('./data/'+id+'.js'));console.log(Object.keys(global.window.CHAINS).length+' 条');"
+
+# 本地预览（必须用 http server，因为 file:// 下 <script src> 可能受同源限制）
 py -m http.server 8000   # 浏览器开 http://localhost:8000/index.html
 ```
+
+**升级九 STEP 4 后不再需要 `diff -q index.html 产业链全景.html`** —— 产业链全景.html 已收敛为 16 行 meta-refresh 跳转页。
 
 **没有依赖要装、没有构建要跑、没有测试要执行。**
 
@@ -128,6 +188,7 @@ py -m http.server 8000   # 浏览器开 http://localhost:8000/index.html
 - 仓库的 commit message 都用中文，描述**内容**层面的变化（改了哪些赛道、哪些字段），不是机械的"修改了文件"。
 - 5 项升级的 CHANGELOG 条目用 `🆕`（稳定功能）；AI 估值/周期位置等"AI 估的"字段用 `🆪`（区别 `🆕` 真实功能，周一 cron 会覆盖）。
 - 任何新功能**先复用现有 .tag / .choke-card / .card / .stock-tbl / `var(--*)` 调色板**；非要新加 CSS 类，**append** 到主结构后面、不改既有定义；`</style>` 之前所有行号都会随升级漂移，**改时用 grep 重新定位、不依赖记忆**。
+- 升级九 STEP 4 后：**赛道数据一律放 `data/<id>.js`**（IIFE + `window.CHAINS` 注入），**不再在 `index.html` 主 `<script>` 里直接写 `CHAINS.xxx = {...}`**。常量 / 函数 / 渲染代码仍在主 inline script 里。
 
 ## 用户的"按顺序做事"铁律
 
