@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jack唐的投研看板</title>
 <link rel="icon" href="data:," />
+<!-- ★ B1 数字排版：JetBrains Mono（仅数字/代码用，正文系统字体；离线/file:// 场景自动降级到 ui-monospace/Menlo/Consolas） -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0f1117; --card: #1a1d27; --card2: #1f2233; --border: #2a2d3a;
@@ -290,6 +294,48 @@
   /* ★ 升级九 STEP 2B：景气六维 <details> 视觉修正 — 隐藏 webkit/firefox 默认 ▶ marker。靶向原生 summary 元素，未新增任何 class */
   summary::-webkit-details-marker, summary::marker { display: none; }
   details > summary { list-style: none; outline: none; user-select: none; }
+
+  /* ============================================================
+   * ★ B1 数字排版（2026-06-13）—— 等宽字体 + tabular-nums
+   * 目的：财报数值/市占率/缺口/CAGR/PE 分位等数字纵向对齐，"投研终端"质感
+   * 纯视觉层：0 业务改动 / 0 新增 class（CSS 靶向已有 class）/ 离线自动降级
+   * ============================================================ */
+
+  /* 字体栈：JetBrains Mono 优先（Google Fonts 加载后），失败降级到系统等宽 */
+  :root {
+    --font-mono: 'JetBrains Mono', 'Roboto Mono', ui-monospace, 'SF Mono', 'Menlo', 'Consolas', monospace;
+  }
+
+  /* (1) tabular-nums：让任何含数字的位置纵向对齐（OpenType 特性，对系统字体也生效）
+   *     覆盖：所有表格 cell + overview 卡 + valuation 行 + 四问表 + 周期阶段 + sup 角标 + 星级评级 + barrier 徽章 + 排名 */
+  .stock-tbl td, .stock-tbl th,
+  .overview-item .label, .overview-item .value,
+  .valuation, .valuation span,
+  .cycle-stage,
+  .fourq-tbl td, .fourq-tbl th,
+  .tree-sub-mini-tbl td, .tree-sub-mini-tbl th,
+  .info-item .val,
+  sup, .stars, .badge-b, .rank-num,
+  .change-badge {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;   /* 老浏览器兜底 */
+  }
+
+  /* (2) 纯数字/代码字段用等宽字体（不污染中文标签）
+   *     覆盖：overview 主数值（如 ~$958 亿）/ 股票代码列 / 排名数字 / 既有用 monospace 写在 inline style 的位置 */
+  .overview-item .value,
+  .stock-tbl .s-code, .stock-tbl td.s-code,
+  .rank-num,
+  .change-badge {
+    font-family: var(--font-mono);
+  }
+
+  /* (3) inline style 里写了 font-family: monospace 的位置（升级九 STEP 2B / 3 模板字符串里）→ 全部统一到 var(--font-mono)
+   *     用 attribute selector 覆盖即可，不需改 JS 模板 */
+  [style*="monospace"], [style*="font-family: 'Consolas'"], [style*="font-family:'Consolas'"] {
+    font-family: var(--font-mono) !important;
+    font-variant-numeric: tabular-nums;
+  }
 </style>
 </head>
 <body>
