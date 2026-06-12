@@ -421,6 +421,58 @@
       display: none;
     }
   }
+
+  /* ============================================================
+   * ★ B5 留白与"安静"（2026-06-13）
+   *   (1) section 顶部 mono 大写 eyebrow "SECTION"（letter-spacing 加大），做层级
+   *   (2) section-title 底部 border → hairline（更低透明，安静）
+   *   (3) hover 动效收敛：保留 translateY 上浮，去除多余阴影 + transition all 0.x 收敛为单独 transform
+   *   (4) backdrop-filter 已仅在 .tree-node 用（用户原话保留），其余位置本来就没用，无需改
+   * 约束：不改 DOM 结构与栅格，只调间距/分隔/动效
+   * ============================================================ */
+
+  /* (B5-1) section eyebrow — 用 .section::before 放在 section-title 上方，自动出现在所有视图（赛道/卡片库/交易日志/擂台）*/
+  .section::before {
+    content: 'SECTION';
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+
+  /* (B5-2) section-title 底部 border 改 hairline（覆盖 L43 满框 border-bottom: 1px solid var(--border)）*/
+  .section-title {
+    border-bottom-color: rgba(42, 45, 58, 0.5) !important;   /* var(--border) 50% 透明 */
+  }
+
+  /* (B5-3) hover 动效收敛 — 树状图节点/sub-node/sub-card 保留 translateY，去多余阴影 + transition 单独 transform */
+  .tree-node {
+    transition: transform 0.18s ease;
+  }
+  .tree-node:hover {
+    box-shadow: none;
+  }
+  .tree-sub-node,
+  .tree-sub-card {
+    transition: transform 0.15s ease;
+  }
+  .tree-sub-node:hover,
+  .tree-sub-card:hover {
+    box-shadow: none;
+  }
+  /* .b-extreme hover 不再加深红光晕，让默认状态稳定（默认 box-shadow 仍在 L78 不动）*/
+  .b-extreme:hover {
+    box-shadow: 0 0 16px rgba(246, 70, 93, 0.18);
+  }
+  /* .cycle-stage 的 transition: all 0.2s 收敛为不过渡（cycle 是状态展示，无 hover 动效需求）*/
+  .cycle-stage {
+    transition: none;
+  }
 </style>
 </head>
 <body>
