@@ -21,22 +21,22 @@ CHAINS.pcb = {
     dims: [
       { key:'durability', name:'景气持续性', score:4, trend:'up',
         reason:'AI 结构性上行：单机 PCB 价值量较传统服务器提升 5–10 倍(UBS)；高多层/IC载板/高速CCL 2024–29 CAGR 约 15.7%/7.4%/40%，远超行业 5% 均速；GB200/300+2026 Rubin+中板/背板持续抬升。总量温和、弹性集中高端，故 4。',
-        evidence:'Prismark、UBS / 2026-06', flag:'🆪' },
+        evidence:'Prismark、UBS / 2026-06', flag:'🆪', tier:'estimate', src:'AI 主观打分 + roll-up' },
       { key:'visibility', name:'业绩可见度', score:5, trend:'up',
         reason:'已兑现非纯预期：沪电 2026Q1 营收+54%/净利+63%、2025 营收189亿(+42%)；胜宏 2025 净利43.1亿居A股PCB首位；生益电子 2025 前三季净利约+500%。订单+扩产长协可见。',
-        evidence:'2025年报/2026Q1公告 / 2026-06', flag:'🆪' },
+        evidence:'2025年报/2026Q1公告 / 2026-06', flag:'🆪', tier:'estimate', src:'AI 主观打分 + roll-up' },
       { key:'policy', name:'政策确定性', score:3, trend:'flat',
         reason:'主体由 AI capex 市场驱动、政策为辅；但 IC 载板纳入"02 专项"、大基金二期投兴森，国产替代有政策顺风。制造环节中等、载板/上游材料更强。',
-        evidence:'大基金二期、02专项 / 2026-06', flag:'🆪' },
+        evidence:'大基金二期、02专项 / 2026-06', flag:'🆪', tier:'estimate', src:'AI 主观打分 + roll-up' },
       { key:'supply', name:'供需紧张度', score:4, trend:'up',
         reason:'结构性紧张：高速 CCL 阶段性缺货、高端电子布(石英布/Low-DK)2026–28 缺口显著、ABF 膜(味之素)卡脖子、HVLP 铜箔偏紧；低端单双面板过剩内卷。紧张集中高端材料。',
-        evidence:'行业供需测算/公司公告 / 2026-06', flag:'🆪' },
+        evidence:'行业供需测算/公司公告 / 2026-06', flag:'🆪', tier:'estimate', src:'AI 主观打分 + roll-up' },
       { key:'valuation', name:'估值性价比', score:2, trend:'down',
         reason:'⚠️本轮最大扣分项：部分龙头 2023 底至今涨幅数倍、PE 历史高位，性价比偏低，需等回调或选估值合理的二线高端环节。下钻见各卡口 valuation.pePercentile。',
-        evidence:'roll-up 自 chokePoints[].valuation / 2026-06', flag:'🆪', rollupFrom:'chokePoints[].valuation.pePercentile' },
+        evidence:'roll-up 自 chokePoints[].valuation / 2026-06', flag:'🆪', rollupFrom:'chokePoints[].valuation.pePercentile', tier:'estimate', src:'AI 主观打分 + roll-up' },
       { key:'barrier', name:'壁垒安全垫', score:4, trend:'flat',
         reason:'分化极大：T0(ABF载板/高速CCL M9–M10/高端电子布)极高、安全垫足；T4(单双面/普通多层)几无壁垒、内卷。赛道级取核心卡口环节给 4。下钻见 segments[].barrier 与卡口 strength。',
-        evidence:'roll-up 自 segments[].barrier / 2026-06', flag:'🆪', rollupFrom:'segments[].barrier' }
+        evidence:'roll-up 自 segments[].barrier / 2026-06', flag:'🆪', rollupFrom:'segments[].barrier', tier:'estimate', src:'AI 主观打分 + roll-up' }
     ],
     verdict: {
       longTermFit:'适合长线研究/跟踪，但不宜当前高位追——等买点或选环节',
@@ -55,14 +55,14 @@ CHAINS.pcb = {
     highlightBox: '<strong>💡 物理卡口 视角：为什么上游材料比 PCB 制造更有"卡口"价值？</strong><br>PCB 制造厂全球有 100+ 家，客户随时可以换供应商。但上游的<strong>碳氢树脂全球只有 2 家通过认证、Q布全球只有 3 家能量产、HVLP4 铜箔被日韩垄断 85%</strong>——这就是"河道收窄处"。不管下游 PCB 制造多卷，水流（需求）必须从这几家过。2026 年英伟达 Rubin 架构全面采用 M9 级别材料，缺口最大的就是这三个环节。'
   },
   overview: [
-    { label: '🌍 全球 PCB 产值（2026E）', value: '~$958 亿', note: '2025实际$852亿，+12.5%（Prismark 2026.6）', color: 'var(--accent)' },
-    { label: '🇨🇳 中国大陆全球占比', value: '~55%', note: '全球最大生产国（Prismark 2026）', color: 'var(--blue)' },
-    { label: '🤖 AI 算力核心驱动', value: 'CAGR 30%+', note: '2024-2028 价值量 3-5x（Prismark 2026.6）', color: 'var(--green)' },
-    { label: '🏭 产业阶段', value: '结构性升级期', note: '低端饱和/M7+供不应求（CPCA 2025）', color: 'var(--accent)' },
-    { label: '📐 M9 CCL 市场（2026E）', value: '~$80 亿', note: 'CAGR 40%，缺口~20%（Prismark 2026.6）', color: 'var(--red)' },
-    { label: '⚡ 下一代催化', value: 'Rubin + GB300', note: '英伟达GTC 2026：Rubin 2026Q3量产', color: null },
-    { label: '🔴 核心矛盾', value: '上游材料卡脖子', note: '碳氢树脂<30%·Q布<30%·HVLP4<15%（CPCA 2025）', color: 'var(--red)' },
-    { label: '📋 M9 材料国产化率', value: '<mark class="updated">树脂<10%·Q布~80%</mark>', note: '铜箔15-20%·CCL~30%（Prismark 2026.6）', color: null }
+    { label: '🌍 全球 PCB 产值（2026E）', value: '~$958 亿', note: '2025实际$852亿，+12.5%（Prismark 2026.6）', color: 'var(--accent)', tier:'broker', src:'Prismark 2026.6' },
+    { label: '🇨🇳 中国大陆全球占比', value: '~55%', note: '全球最大生产国（Prismark 2026）', color: 'var(--blue)', tier:'broker', src:'Prismark 2026（54-55% 区间已核实）' },
+    { label: '🤖 AI 算力核心驱动', value: 'CAGR 30%+', note: '2024-2028 价值量 3-5x（Prismark 2026.6）', color: 'var(--green)', tier:'broker', src:'Prismark 2026.6' },
+    { label: '🏭 产业阶段', value: '结构性升级期', note: '低端饱和/M7+供不应求（CPCA 2025）', color: 'var(--accent)', tier:'broker', src:'CPCA 2025' },
+    { label: '📐 M9 CCL 市场（2026E）', value: '~$80 亿', note: 'CAGR 40%，缺口~20%（待核一手）', color: 'var(--red)', tier:'estimate', src:'未找到 Prismark 一手来源，AI 估算待核' },
+    { label: '⚡ 下一代催化', value: 'Rubin + GB300', note: '英伟达GTC 2026：Rubin 2026Q3量产', color: null, tier:'broker', src:'英伟达 GTC 2026 / 券商纪要' },
+    { label: '🔴 核心矛盾', value: '上游材料卡脖子', note: '碳氢树脂<30%·Q布<30%·HVLP4<15%（CPCA 2025）', color: 'var(--red)', tier:'broker', src:'CPCA 2025 国产化率统计' },
+    { label: '📋 M9 材料国产化率', value: '<mark class="updated">树脂<10%·Q布~80%</mark>', note: '铜箔15-20%·CCL~30%（Prismark 2026.6；注：此处 Q布80% 是国产化率，非全球市占率）', color: null, tier:'broker', src:'Prismark 2026.6 国产化率' }
   ],
   // ★ 升级七：5 列横向树状图（下游→中游→上游材料→上游设备→侧枝）
   // 每列内是 sub-card 数组，sub-card 公司数据来源二选一：
@@ -160,7 +160,7 @@ CHAINS.pcb = {
         name: '玻纤布/Q布(石英纤维布)',
         barrier: 'extreme',
         choke: true,
-        note: '占 CCL 成本 19%(Prismark) · 菲利华 Q 布全球市占~80% · 价格 8 倍+',
+        note: '占 CCL 成本 19%(Prismark) · 菲利华 Q 布全球市占≥55%（绝对龙头·券商口径） · 价格 8 倍+',
         sourceSegment: '玻纤布/Q布（石英纤维布）'
       },
       {
@@ -280,17 +280,17 @@ CHAINS.pcb.segments = [
   },
   {
     name: '玻纤布/Q布（石英纤维布）', costRatio: '19%', barrier: 'extreme', choke: true, border: true,
-    intro: '玻纤布是CCL的增强材料。技术等级：E-glass→Low-Dk布→T-glass→<strong>Q布/石英布（Df≤0.0007）</strong>。Q布价格~260-300元/米，是普通电子布的<strong>8倍+</strong>。<strong><mark class="updated">菲利华Q布全球市占约80%，已超越日东纺成为绝对龙头</mark></strong>。日东纺2026年受日本地震影响停产，黄仁勋亲自赴日催货。2026年菲利华产能扩至1000-1200万米/年，毛利率55-65%。',
+    intro: '玻纤布是CCL的增强材料。技术等级：E-glass→Low-Dk布→T-glass→<strong>Q布/石英布（Df≤0.0007）</strong>。Q布价格~260-300元/米，是普通电子布的<strong>8倍+</strong>。<strong><mark class="updated">菲利华Q布全球市占≥55%（券商硬数据·绝对龙头），已超越停产的日东纺；80% 仅自媒体口径不予采信</mark></strong>。日东纺2026年受日本地震影响停产，黄仁勋亲自赴日催货。2026年菲利华产能扩至1000-1200万米/年，毛利率55-65%。',
     globalLandscape: [
-      { lbl: '🥇 菲利华（中）', val: '<mark class="updated">Q布全球市占~80%，绝对龙头</mark>', note: '国内唯一全产业链自主，2026产能1000-1200万米' },
+      { lbl: '🥇 菲利华（中）', val: '<mark class="updated">Q布全球市占≥55%（绝对龙头·券商口径）</mark>', note: '国内唯一全产业链自主，2026产能1000-1200万米' },
       { lbl: '🥈 日东纺Nittobo（日）', val: 'Q布原全球龙头，地震受损', note: '份额被菲利华快速取代' },
       { lbl: '🥉 圣戈班（法）', val: '全球第三家Q布量产', note: '份额远小于菲利华' },
       { lbl: '宏和科技（中）', val: '4μm极薄布全球唯一量产', note: '超薄电子布全球市占~50%' }
     ],
     stocks: [
-      { rank:1, name:'菲利华', code:'300395', position:'<mark class="updated">Q布全球市占~80%·绝对龙头</mark>·国产唯一全产业链', barrier:'极高', trend:'up', trendNote:'Q布全球80%·Q1+53%', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1营收6.22亿+53%，净利1.44亿+37%</mark>。已通过英伟达/台积电/台光/生益全链路认证。台光锁定500-700万米。全球缺口>40%。毛利率55-65%。2027目标2000万米/年',
+      { rank:1, name:'菲利华', code:'300395', position:'<mark class="updated">Q布全球市占≥55%·绝对龙头（券商口径）</mark>·国产唯一全产业链', barrier:'极高', trend:'up', trendNote:'Q布全球≥55%·Q1+53%', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1营收6.22亿+53%，净利1.44亿+37%</mark>。已通过英伟达/台积电/台光/生益全链路认证。台光锁定500-700万米。全球缺口>40%。毛利率55-65%。2027目标2000万米/年',
         dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:5,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:5,trend:'flat'}],
-        dims6Note:'🆪 Q布全球80%绝对龙头，六维近满分仅估值中位——长线核心' },
+        dims6Note:'🆪 Q布全球≥55%绝对龙头，六维近满分仅估值中位——长线核心' },
       { rank:2, name:'宏和科技', code:'603256', position:'4μm极薄布全球唯一量产·全球市占~50%', barrier:'高', trend:'up', trendNote:'4μm超薄布全球第一', hits:3, strength:'★★☆', logic:'超薄电子布全球市占~50%。但非AI最核心瓶颈→降级',
         dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}],
         dims6Note:'🆪 4μm 超薄布全球唯一，但非 AI 最核心瓶颈' },
@@ -470,7 +470,7 @@ CHAINS.pcb.fourQuestions = {
 // PCB Choke Points
 CHAINS.pcb.chokePoints = [
   { rank:1, name:'东材科技', code:'601208', segment:'M9碳氢树脂', strength:'★★★', logic:'全球<strong>仅2家</strong>通过英伟达M9碳氢树脂认证。台光独供2-3年排他协议。眉山3500吨<strong>2026年6月30日投料试产（提前至Q2末）</strong>。Q1净利1.87亿+103%，高速树脂+131%。2026年全球缺口<strong>~5000吨（63%）</strong>。M10树脂已进入客户验证。', tags:['双寡头','无替代','缺口63%','Q1净利+103%'],
-    valuation: { pe:'约50倍', pePercentile:82, grossMargin:'50%+', fromHigh:'距前高-15%', note:'🆪 PE处历史82%分位（AI估值初版），卡口逻辑已被市场充分定价，谨防高位接盘；周一cron会用真实数据覆盖' },
+    valuation: { pe:'约50倍', pePercentile:82, grossMargin:'50%+', fromHigh:'距前高-15%', note:'🆪 PE处历史82%分位（AI估值初版），卡口逻辑已被市场充分定价，谨防高位接盘；周一cron会用真实数据覆盖', tier:'estimate', src:'PE 分位为 AI 估算 / 财报数字已 primary 核实' },
     verification: {
       items: [
         { type:'供给寡头', claim:'全球仅东材+JX化学2家通过英伟达M9认证', howToCheck:'搜圣泉(605589)、世名(300522)、SABIC最新公告与投资者问答，看有无第三家宣布M9认证', falsifySignal:'出现第三家通过认证 → 卡口降级', status:'pending' },
@@ -481,19 +481,19 @@ CHAINS.pcb.chokePoints = [
       note: '这是初始版本验证清单 — 实际状态需手动核查后切换'
     }
   },
-  { rank:2, name:'菲利华', code:'300395', segment:'Q布/石英纤维布', strength:'★★★', logic:'<strong><mark class="updated">Q布全球市占约80%，绝对龙头</mark></strong>。国内唯一全产业链自主。已通过英伟达全链路认证。台光锁定500-700万米。Q布价格~260-300元/米（普通布8x）。全球缺口<strong>>40%</strong>。Q1营收6.22亿+53%。', tags:['全球80%龙头','无替代','缺口>40%','毛利55-65%'],
-    valuation: { pe:'约35倍', pePercentile:45, grossMargin:'55%+', fromHigh:'距前高-30%', note:'🆪 PE处历史中位（AI估值初版），Q布全球80%市占+全系列认证落地，估值与基本面匹配；周一cron会用真实数据覆盖' },
+  { rank:2, name:'菲利华', code:'300395', segment:'Q布/石英纤维布', strength:'★★★', logic:'<strong><mark class="updated">Q布全球市占≥55%（绝对龙头·券商口径；80% 仅自媒体口径）</mark></strong>。国内唯一全产业链自主。已通过英伟达全链路认证。台光锁定500-700万米。Q布价格~260-300元/米（普通布8x）。全球缺口<strong>>40%</strong>。Q1营收6.22亿+53%。', tags:['≥55%绝对龙头','无替代','缺口>40%','毛利55-65%'],
+    valuation: { pe:'约35倍', pePercentile:45, grossMargin:'55%+', fromHigh:'距前高-30%', note:'🆪 PE处历史中位（AI估值初版），Q布全球≥55%市占+全系列认证落地，但绝对 PE 偏高（4/23 PE-TTM~139x），分位为其自身历史口径不等于便宜；周一cron会用真实数据覆盖', tier:'estimate', src:'分位为 AI 估算 / PE-TTM 139x 为 4/23 收盘 broker 数据' },
     verification: {
       items: [
-        { type:'供给寡头', claim:'Q布全球市占~80%，绝对龙头', howToCheck:'搜菲利华/圣戈班/迈图(海外)的Q布产能公告与投资者问答，看菲利华市占率是否仍维持80%左右', falsifySignal:'市占率快速下滑 / 海外新进入者宣布Q布量产 → 卡口降级', status:'pending' },
+        { type:'供给寡头', claim:'Q布全球市占≥55%（绝对龙头·券商口径）', howToCheck:'搜菲利华/圣戈班/迈图(海外)的Q布产能公告与投资者问答，看菲利华市占率是否仍维持≥55%且快速提升（券商共识）', falsifySignal:'市占率快速下滑 / 海外新进入者宣布Q布量产 → 卡口降级', status:'pending' },
         { type:'产能缺口', claim:'全球缺口>40%、价格~普通布8x', howToCheck:'查菲利华Q布年度出货量、英伟达AI服务器Q布需求测算、台光锁单公告，交叉验证供需差', falsifySignal:'缺口快速收窄 / Q布价格回落至普通布3-4x以内 → 定价权逻辑塌', status:'pending' },
         { type:'财报印证', claim:'Q1营收6.22亿+53%、毛利55-65%', howToCheck:'查菲利华最新季报：分产品营收增速、Q布毛利率是否稳定在55%+。毛利率是定价权最难造假的证据', falsifySignal:'毛利率跌到40%以下 / 营收不增 → 卡口大概率为假', status:'pending' },
-        { type:'交叉信源', claim:'至少两个独立来源印证全球80%市占', howToCheck:'一篇券商深度研报 + 公司年报/调研纪要 + 行业第三方数据（Prismark/CPCA）同时印证', falsifySignal:'只找得到单一来源(尤其只有自媒体) → 存疑', status:'pending' }
+        { type:'交叉信源', claim:'至少两个独立来源印证全球≥55%市占（80% 仅自媒体口径不予采信）', howToCheck:'一篇券商深度研报 + 公司年报/调研纪要 + 行业第三方数据（Prismark/CPCA）同时印证', falsifySignal:'只找得到单一来源(尤其只有自媒体) → 存疑', status:'pending' }
       ],
       note: '这是初始版本验证清单 — 实际状态需手动核查后切换'
     } },
   { rank:3, name:'铜冠铜箔', code:'301217', segment:'HVLP4铜箔', strength:'★★★', logic:'国内<strong>唯一</strong>HVLP1-4全系列量产。<strong><mark class="updated">锁定10台三船MSP-8000设备（全球70%），未来3年产能确定性最强</mark></strong>。日韩四强垄断85%+。阴极辊设备交期18-24月。2026年底全球月缺口<strong>~23%</strong>。2027市占率预期42%。', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'],
-    valuation: { pe:'约22倍', pePercentile:18, grossMargin:'18%+', fromHigh:'距前高-55%', note:'🆪 PE处历史18%分位（AI估值初版），HVLP4爬坡存在不确定性，但估值已充分反映悲观预期；周一cron会用真实数据覆盖' },
+    valuation: { pe:'约22倍', pePercentile:18, grossMargin:'18%+', fromHigh:'距前高-55%', note:'🆪 PE处历史18%分位（AI估值初版），HVLP4爬坡存在不确定性，但估值已充分反映悲观预期；周一cron会用真实数据覆盖', tier:'estimate', src:'分位为 AI 估算' },
     verification: {
       items: [
         { type:'供给寡头', claim:'锁定三船MSP-8000设备10台、全球70%阴极辊产能', howToCheck:'查三船/MSP-8000出货清单、铜冠铜箔/卢森堡/诺贝丽斯(海外)的设备锁定公告，看铜冠锁定比例', falsifySignal:'设备锁定被打破 / 国产新进入者锁定三船新设备 → 设备垄断逻辑塌', status:'pending' },
@@ -505,9 +505,9 @@ CHAINS.pcb.chokePoints = [
     } }
 ];
 CHAINS.pcb.supplyGap = [
-  { segment:'M9碳氢树脂', demand:'~8000吨/年', capacity:'~3000吨/年', gap:'5000吨', rate:'~63%', bottleneck:'认证周期18-24个月' },
-  { segment:'Q布', demand:'~1500-1800万米/年', capacity:'~1000-1500万米/年', gap:'~300-685万米', rate:'>40%', bottleneck:'日东纺垄断70%+' },
-  { segment:'HVLP4铜箔', demand:'~1849吨/月(H2)', capacity:'~1424吨/月', gap:'~425吨/月', rate:'~23%', bottleneck:'阴极辊交期18-24月' }
+  { segment:'M9碳氢树脂', demand:'~8000吨/年', capacity:'~3000吨/年', gap:'5000吨', rate:'~63%', bottleneck:'认证周期18-24个月', tier:'broker', src:'Prismark + 东材公告 / 2026-06' },
+  { segment:'Q布', demand:'~1500-1800万米/年', capacity:'~1000-1500万米/年', gap:'~300-685万米', rate:'>40%', bottleneck:'菲利华承接日东纺停产份额，扩产周期18-24月（产能爬坡是新瓶颈，非日东纺垄断）', tier:'broker', src:'菲利华公告+券商研报 / 2026-06' },
+  { segment:'HVLP4铜箔', demand:'~1849吨/月(H2)', capacity:'~1424吨/月', gap:'~425吨/月', rate:'~23%', bottleneck:'阴极辊交期18-24月', tier:'broker', src:'CPCA + 铜冠铜箔公告 / 2026-06' }
 ];
 CHAINS.pcb.methodologyNotes = 'PCB制造、设备等环节找不到满足四大条件的卡口——这是方法论的正常结果。中游制造环节虽然胜宏/沪电等头部企业非常优秀，但按卡口标准，客户可切换供应商→不构成物理卡口。<br><br><strong>【内容标准】</strong> 本赛道已叠加「全景占比/个股密度/进步退步」内容标准——每 segment stocks 补至 ≥5 家、treeMap sub-card note 标占比+Prismark/CPCA 来源、stocks.logic 加 ⬆ 进步/⬇ 承压/➖ 平稳 趋势前缀、position 必含市占率/排名。';
 

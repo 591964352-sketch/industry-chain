@@ -453,6 +453,30 @@ function computeLtFit(prosperity){
 // 用法：渲染时若 stock.dims6 缺省，回退 STOCK_REGISTRY[code].dims6；二者都有则校验一致，不一致 console.warn
 const STOCK_REGISTRY = {};
 
+// ===== 数据可信度修复 + 信源分级机制（全站共用，PCB 试点；2026-06-13 新增）=====
+// 4 档分级（全站共用）：
+//   primary  🟢 一手  — 财报/公告/交易所
+//   broker   🔵 券商  — 券商研报 / Prismark / TrendForce / 行业协会
+//   media    ⚪ 存疑  — 自媒体/股吧/财富号（关键数字仅此一档 → 必须标"存疑（待核）"）
+//   estimate 🆪 推断  — AI 主观推断（六维评分、估值分位等）
+// 硬规则：关键数字（市占率/缺口率/CAGR/产能）若仅 media 单一来源 → 必须标存疑或补 primary/broker 升级。
+// 渲染：在数据值旁加 <sup> 角标（极小字号 0 新增 CSS 类，复用 var(--*) 调色板）。
+const SOURCE_TIERS = {
+  primary:  { icon:'🟢', label:'一手',  color:'var(--green)',       desc:'财报/公告/交易所一手数据' },
+  broker:   { icon:'🔵', label:'券商',  color:'var(--blue)',        desc:'券商研报/Prismark/行业协会' },
+  media:    { icon:'⚪', label:'存疑',  color:'var(--muted)',       desc:'自媒体/财富号（仅此单一来源，待核）' },
+  estimate: { icon:'🆪', label:'推断',  color:'var(--barrier-mid)', desc:'AI 主观推断（如六维评分）' }
+};
+
+// 角标助手：item.tier 缺省时返回空字符串，不影响既有数据点的渲染（向后兼容）
+function sourceTierBadge(tier, src) {
+  if (!tier || !SOURCE_TIERS[tier]) return '';
+  const t = SOURCE_TIERS[tier];
+  const safeSrc = src ? String(src).replace(/"/g, '&quot;') : '';
+  const titleAttr = safeSrc ? ` title="${t.desc} — ${safeSrc}"` : ` title="${t.desc}"`;
+  return ` <sup style="font-size:9px;color:${t.color};font-weight:600;letter-spacing:0;cursor:help;user-select:none;margin-left:2px;"${titleAttr}>${t.icon}${t.label}</sup>`;
+}
+
 // 验证状态推导
 function loadVerifyStatus(chainId, code, type) {
   return LS.get(LS_KEYS.verify(chainId, code), {})[type] || 'pending';
@@ -686,7 +710,7 @@ function renderChain(chainId) {
   h += `<div class="section"><div class="section-title"><span class="num num-macro">${sec1Label}</span> 赛道概览 — 宏观数据</div>`;
   h += `<div class="section-desc">数据来源：公开研报及行业数据交叉验证。</div><div class="overview-grid">`;
   d.overview.forEach(o => {
-    h += `<div class="overview-item"><div class="label">${o.label}</div><div class="value" style="${o.color?'color:'+o.color:''}">${o.value}</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">${o.note}</div></div>`;
+    h += `<div class="overview-item"><div class="label">${o.label}</div><div class="value" style="${o.color?'color:'+o.color:''}">${o.value}${sourceTierBadge(o.tier, o.src)}</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">${o.note}</div></div>`;
   });
   // ★ 升级九 STEP 2B：景气六维卡（可选字段，没填 prosperity 就不渲染；0 CSS 增量，全 inline 复用 var(--*) 调色板）
   if (d.prosperity && d.prosperity.dims && d.prosperity.dims.length === 6) {
@@ -716,7 +740,7 @@ function renderChain(chainId) {
       if (scaleText)   h += `<div style="margin-top:4px;"><strong>标尺：</strong>${scaleText}</div>`;
       if (meta.basis)  h += `<div style="margin-top:4px;color:var(--muted);">${meta.basis}</div>`;
       if (d6.reason)   h += `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);"><strong>本赛道判断：</strong>${d6.reason}</div>`;
-      if (d6.evidence) h += `<div style="margin-top:3px;color:var(--muted);font-size:10px;">📎 ${d6.evidence}${d6.flag?' '+d6.flag:''}</div>`;
+      if (d6.evidence) h += `<div style="margin-top:3px;color:var(--muted);font-size:10px;">📎 ${d6.evidence}${d6.flag?' '+d6.flag:''}${sourceTierBadge(d6.tier, d6.src)}</div>`;
       h += `</div></details></span>`;
       h += `<span style="font-family:monospace;color:var(--text);">${d6.score}/5 ${arrowD(d6.trend)}</span>`;
       h += `</div>`;
@@ -1117,7 +1141,7 @@ function renderChain(chainId) {
       if (c.valuation.grossMargin) parts.push(`毛利率 ${c.valuation.grossMargin}`);
       if (c.valuation.fromHigh)    parts.push(c.valuation.fromHigh);
       h += `<div class="valuation" style="font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">`;
-      h += `<span>${parts.join(' · ')}</span>`;
+      h += `<span>${parts.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}</span>`;
       h += `<span class="tag ${cls}" style="font-size:10px;">${band} ${p}%分位</span>`;
       h += `</div>`;
       if (c.valuation.note) {
@@ -1170,7 +1194,7 @@ function renderChain(chainId) {
     h += `<div class="card"><h4 style="margin-bottom:16px;font-size:15px;">📊 供需缺口量化（2026E）</h4>`;
     h += `<table class="stock-tbl"><thead><tr><th>卡口环节</th><th>2026E全球需求</th><th>2026E有效产能</th><th>缺口</th><th>缺口率</th><th>核心瓶颈</th></tr></thead><tbody>`;
     d.supplyGap.forEach(g => {
-      h += `<tr><td style="font-weight:600;">${g.segment}</td><td>${g.demand}</td><td>${g.capacity}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap}</span></td><td style="color:var(--red);font-weight:700;">${g.rate}</td><td style="font-size:12px;">${g.bottleneck}</td></tr>`;
+      h += `<tr><td style="font-weight:600;">${g.segment}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand}</td><td>${g.capacity}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap}</span></td><td style="color:var(--red);font-weight:700;">${g.rate}</td><td style="font-size:12px;">${g.bottleneck}</td></tr>`;
     });
     h += `</tbody></table></div>`;
   }
