@@ -282,6 +282,10 @@
   .sidebar-collapsible.collapsed { display: none; }
   .nav-toggle { color: var(--accent) !important; font-size: 12px !important; font-weight: 600 !important; padding-top: 12px !important; border-top: 1px solid var(--border); margin-top: 4px; cursor: pointer; }
   .nav-toggle:hover { color: var(--accent) !important; background: rgba(240,185,11,0.08) !important; }
+
+  /* ===== 升级八 Step 3：toast（刷新按钮反馈） ===== */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--bg); padding: 10px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; z-index: 300; opacity: 0; transition: opacity 0.3s; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .toast.show { opacity: 1; }
 </style>
 </head>
 <body>
@@ -298,23 +302,23 @@
             style="padding:6px 10px;background:var(--accent);color:#0f1117;border:none;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;line-height:1;">+</button>
   </div>
   <div class="sidebar-nav" id="nav-list">
-    <span class="nav-item active" data-chain="pcb" onclick="switchChain('pcb')">🔌 PCB 印制电路板</span>
-    <span class="nav-item" data-chain="semi" onclick="switchChain('semi')">💻 半导体</span>
-    <span class="nav-item" data-chain="ai-server" onclick="switchChain('ai-server')">🖥️ AI服务器</span>
-    <span class="nav-item" data-chain="hbm" onclick="switchChain('hbm')">🧠 HBM/先进存储</span>
-    <span class="nav-item" data-chain="robotics" onclick="switchChain('robotics')">🤖 人形机器人</span>
+    <span class="nav-item active" data-chain="pcb" onclick="switchChain('pcb')">🔌 PCB 印制电路板<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('pcb')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+    <span class="nav-item" data-chain="semi" onclick="switchChain('semi')">💻 半导体<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('semi')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+    <span class="nav-item" data-chain="ai-server" onclick="switchChain('ai-server')">🖥️ AI服务器<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('ai-server')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+    <span class="nav-item" data-chain="hbm" onclick="switchChain('hbm')">🧠 HBM/先进存储<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('hbm')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+    <span class="nav-item" data-chain="robotics" onclick="switchChain('robotics')">🤖 人形机器人<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('robotics')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
     <span class="nav-item nav-toggle" id="chain-toggle" onclick="toggleSidebarChains()">▶ 更多赛道 (8)</span>
     <div class="sidebar-collapsible collapsed" id="chain-collapsed">
-      <span class="nav-item" data-chain="autonomous-driving" onclick="switchChain('autonomous-driving')">🚗 智能驾驶</span>
-      <span class="nav-item" data-chain="power-semi" onclick="switchChain('power-semi')">⚡ 功率半导体/SiC</span>
-      <span class="nav-item" data-chain="ai-apps" onclick="switchChain('ai-apps')">🧠 AI应用</span>
-      <span class="nav-item" data-chain="cpo" onclick="switchChain('cpo')">💡 CPO 共封装光学</span>
-      <span class="nav-item" data-chain="solid-battery" onclick="switchChain('solid-battery')">🔋 固态电池</span>
-      <span class="nav-item" data-chain="low-altitude" onclick="switchChain('low-altitude')">✈️ 低空经济</span>
-      <span class="nav-item" data-chain="commercial-aero" onclick="switchChain('commercial-aero')">🚀 商业航天</span>
+      <span class="nav-item" data-chain="autonomous-driving" onclick="switchChain('autonomous-driving')">🚗 智能驾驶<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('autonomous-driving')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+      <span class="nav-item" data-chain="power-semi" onclick="switchChain('power-semi')">⚡ 功率半导体/SiC<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('power-semi')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+      <span class="nav-item" data-chain="ai-apps" onclick="switchChain('ai-apps')">🧠 AI应用<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('ai-apps')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+      <span class="nav-item" data-chain="cpo" onclick="switchChain('cpo')">💡 CPO 共封装光学<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('cpo')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+      <span class="nav-item" data-chain="solid-battery" onclick="switchChain('solid-battery')">🔋 固态电池<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('solid-battery')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+      <span class="nav-item" data-chain="low-altitude" onclick="switchChain('low-altitude')">✈️ 低空经济<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('low-altitude')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+      <span class="nav-item" data-chain="commercial-aero" onclick="switchChain('commercial-aero')">🚀 商业航天<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('commercial-aero')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
     </div>
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 整合视图</span>
-    <span class="nav-item" data-chain="ai-full-chain" onclick="switchChain('ai-full-chain')">🧠 AI 全产业链</span>
+    <span class="nav-item" data-chain="ai-full-chain" onclick="switchChain('ai-full-chain')">🧠 AI 全产业链<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('ai-full-chain')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 我的决策</span>
     <span class="nav-item" data-chain="cards" onclick="window.location.hash='cards'">📋 决策卡片库</span>
     <span class="nav-item" data-chain="trades" onclick="window.location.hash='trades'">📒 交易日志</span>
@@ -2903,7 +2907,7 @@ function renderChain(chainId) {
         if (companies.length) {
           h += `<table class="tree-sub-mini-tbl"><tbody>`;
           companies.forEach((c, i) => {
-            h += `<tr><td class="rank-num">${i+1}</td><td class="s-name" style="font-size:11px;">${c.name}</td><td class="s-code" style="font-size:10px;">${c.code || '—'}</td><td style="font-size:10px;color:var(--muted);">${c.barrier || ''}</td></tr>`;
+            h += `<tr><td class="rank-num">${i+1}</td><td class="s-name" style="font-size:11px;">${c.name}</td><td class="s-code" style="font-size:11px;">${c.code || '—'}</td><td style="font-size:11px;color:var(--muted);">${c.barrier || ''}</td></tr>`;
           });
           h += `</tbody></table>`;
         } else {
@@ -2939,7 +2943,7 @@ function renderChain(chainId) {
     h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.computeLabel}</div>`;
     h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
     d.treeMap.compute.forEach(e => {
-      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:180px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:10px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:10px;color:var(--muted);">${e.note}</span></div>`;
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:180px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
     });
     h += `</div>`;
   }
@@ -2947,7 +2951,7 @@ function renderChain(chainId) {
     h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.interconnectLabel}</div>`;
     h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
     d.treeMap.interconnect.forEach(e => {
-      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:220px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:10px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:10px;color:var(--muted);">${e.note}</span></div>`;
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:220px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
     });
     h += `</div>`;
   }
@@ -2955,7 +2959,7 @@ function renderChain(chainId) {
     h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.pcLabel}</div>`;
     h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
     d.treeMap.pc.forEach(e => {
-      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:220px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:10px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:10px;color:var(--muted);">${e.note}</span></div>`;
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:220px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
     });
     h += `</div>`;
   }
@@ -2976,7 +2980,7 @@ function renderChain(chainId) {
     h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游核心设备</div>`;
     h += `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
     d.treeMap.equipment.forEach(e => {
-      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:10px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:10px;color:var(--muted);">${e.note}</span></div>`;
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
     });
     h += `</div>`;
   }
@@ -2985,7 +2989,7 @@ function renderChain(chainId) {
     h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.mfgLabel}</div>`;
     h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
     d.treeMap.manufacturing.forEach(e => {
-      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:200px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:10px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:10px;color:var(--muted);">${e.note}</span></div>`;
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:200px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
     });
     h += `</div>`;
   }
@@ -2995,7 +2999,7 @@ function renderChain(chainId) {
     h += `<div class="tree-level-label" style="margin-top:8px;">${label}</div>`;
     h += `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
     d.treeMap.materials.forEach(m => {
-      h += `<div class="tree-sub-node ${m.barrier==='extreme'?'b-extreme':m.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${m.name}<br><span class="badge-b badge-${m.barrier==='extreme'?'ex':m.barrier==='high'?'hi':'mi'}">壁垒:${m.barrier==='extreme'?'极高':m.barrier==='high'?'高':'中'}</span>${m.choke?'<br><span style="font-size:10px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:10px;color:var(--muted);">${m.note}</span></div>`;
+      h += `<div class="tree-sub-node ${m.barrier==='extreme'?'b-extreme':m.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${m.name}<br><span class="badge-b badge-${m.barrier==='extreme'?'ex':m.barrier==='high'?'hi':'mi'}">壁垒:${m.barrier==='extreme'?'极高':m.barrier==='high'?'高':'中'}</span>${m.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${m.note}</span></div>`;
     });
     h += `</div>`;
   }
@@ -3004,7 +3008,7 @@ function renderChain(chainId) {
     h += `<div style="width:400px;height:2px;background:var(--border);margin:12px auto 0;"></div>`;
     h += `<div style="display:flex;gap:20px;justify-content:center;margin-top:6px;">`;
     d.treeMap.sideBranches.forEach(b => {
-      h += `<div class="tree-sub-node ${b.barrier==='high'?'b-high':'b-mid'}" style="min-width:260px;">${b.name}<br><span style="font-size:10px;color:var(--muted);">${b.note}</span></div>`;
+      h += `<div class="tree-sub-node ${b.barrier==='high'?'b-high':'b-mid'}" style="min-width:260px;">${b.name}<br><span style="font-size:11px;color:var(--muted);">${b.note}</span></div>`;
     });
     h += `</div>`;
   }
@@ -3081,7 +3085,7 @@ function renderChain(chainId) {
       h += `<tr>`;
       h += `<td><span class="rank-num">${s.rank}</span></td>`;
       h += `<td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td>`;
-      h += `<td style="font-size:12px;">${s.position}</td>`;
+      h += `<td style="font-size:13px;">${s.position}</td>`;
       h += `<td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td>`;
       if (seg.stocks.some(x => x.hits !== null)) {
         if (s.hits !== null && s.hits !== undefined) {
@@ -3090,7 +3094,7 @@ function renderChain(chainId) {
           h += `<td style="color:var(--barrier-low);font-size:11px;">—</td>`;
         }
       }
-      h += `<td style="font-size:12px;">${s.logic}</td>`;
+      h += `<td style="font-size:13px;">${s.logic}</td>`;
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
@@ -3112,7 +3116,7 @@ function renderChain(chainId) {
       }
       h += `<h4>A股标的</h4><table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
       seg.stocks.forEach(s => {
-        h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:12px;">${s.position}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':'tg-mid'}">${s.barrier}</span></td><td style="font-size:12px;">${s.logic}</td></tr>`;
+        h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.logic}</td></tr>`;
       });
       h += `</tbody></table></div>`;
     });
@@ -3134,7 +3138,7 @@ function renderChain(chainId) {
     }
     h += `<table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
     d.midstream.stocks.forEach(s => {
-      h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td><td style="font-size:12px;">${s.note}</td></tr>`;
+      h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.note}</td></tr>`;
     });
     h += `</tbody></table></div></div>`;
   }
@@ -3150,10 +3154,10 @@ function renderChain(chainId) {
       h += `<tr>`;
       h += `<td style="font-size:11px;color:var(--muted);">${seg.name}</td>`;
       h += `<td style="font-weight:600;">${s.name}<br><span style="font-size:11px;color:var(--muted);">${s.code}</span></td>`;
-      h += `<td>${s.q1 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q1note ? '<br><span style="font-size:10px;color:var(--muted);">'+s.q1note+'</span>' : ''}</td>`;
-      h += `<td>${s.q2 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q2note ? '<br><span style="font-size:10px;color:var(--muted);">'+s.q2note+'</span>' : ''}</td>`;
-      h += `<td>${s.q3 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q3note ? '<br><span style="font-size:10px;color:var(--muted);">'+s.q3note+'</span>' : ''}</td>`;
-      h += `<td>${s.q4 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4note ? '<br><span style="font-size:10px;color:var(--muted);">'+s.q4note+'</span>' : ''}</td>`;
+      h += `<td>${s.q1 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q1note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q1note+'</span>' : ''}</td>`;
+      h += `<td>${s.q2 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q2note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q2note+'</span>' : ''}</td>`;
+      h += `<td>${s.q3 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q3note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q3note+'</span>' : ''}</td>`;
+      h += `<td>${s.q4 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q4note+'</span>' : ''}</td>`;
       const hCls = s.hits === 4 ? 'h4' : s.hits === 3 ? 'h3' : s.hits === 2 ? 'h2' : s.hits === 1 ? 'h1' : 'h0';
       h += `<td><span class="hit-dot ${hCls}">${s.hits}</span></td>`;
       h += `<td>${s.strength ? '<span class="stars '+(s.strength==='★★★'?'s3':'s2')+'">'+s.strength+'</span>' : '<span style="color:var(--barrier-low);">不通过</span>'}</td>`;
@@ -3270,6 +3274,9 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-12', sector:'system', desc:'🆕 内容性小字上调(10→11/12→13)', old:'表格正文 12px / 树状图注释 10px / 四问 10px / 🔒标签 10px / 对比表 10px', new:'表格正文 12px→13px（segments 主表+备用表+midstream 共 5 处）；内容性小字 10px→11px（树状图 note 7 处 / 四问 4 处 / 🔒卡口环节 6 处 / 对比表 2 处）', pct:'FIX' },
+  { date:'2026-06-12', sector:'system', desc:'🆕 赛道刷新按钮：一键复制该赛道标准更新指令', old:'—', new:'13 赛道 nav-item 右上角 🔄 按钮点击 = 直接复制《标准更新指令模板》到剪贴板（含 200+ 研报硬性要求 + PCB 同款结构 + S1-S8 自检），navigator.clipboard.writeText 失败时 prompt 兜底，成功弹 .toast 提示', pct:'NEW' },
+  { date:'2026-06-12', sector:'system', desc:'🆕 产业链全量研究刷新：13 赛道 nav-item 加 🔄 按钮（研究触发器）', old:'—', new:'按钮 = 研究触发器（不是运行时执行）。点击弹 modal 显示预生成的研究命令（含 ≥200 篇研报硬性要求 + 壁垒重排 + 数据全量更新 + 写回 HTML + 同步 CHANGELOG + LS 跟踪研究历史），一键复制到 Claude Code 跑研究。预计 token 消耗 ~500k-1M/次', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆕 侧栏菜单折叠：默认显示 5 个产业链', old:'—', new:'侧栏默认显示 PCB/半导体/AI服务器/HBM/人形机器人 5 个，剩余 8 个折叠在「▶ 更多赛道」容器内；AI 全产业链+决策卡片库+交易日志永远展开；状态 localStorage 记忆；搜索时折叠容器自动展开', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆕 页面标题改为「Jack唐的投研看板」', old:'产业链全景 · 物理卡口投研', new:'Jack唐的投研看板（浏览器 <title> + Header <h1>；侧栏顶部品牌名"产业链全景"保留）', pct:'BRAND' },
   { date:'2026-06-12', sector:'system', desc:'🆕 个股进步/退步彩色徽章（trend 字段，绿/红/灰）', old:'—', new:'trendBadge 复用 .tag .tg-green/.tg-extreme/.tg-gray 零 CSS 增量，3 处个股名渲染注入徽章（segments 主表/备表/midstream），PCB 40 个标的补 trend/trendNote；logic/note 文本前缀已去重（迁移到 trend 字段）', pct:'NEW' },
@@ -3758,7 +3765,7 @@ function insertCustomNavItem(chain) {
   item.dataset.chain = chain.id;
   item.dataset.searchKey = (chain.name + ' ' + chain.id).toLowerCase();
   item.setAttribute('onclick', `switchChain('${chain.id}')`);
-  item.innerHTML = `<span style="opacity:0.7;">${chain.icon}</span> ${chain.name} <button onclick="event.stopPropagation();removeCustomChain('${chain.id}')" title="删除此自定义赛道" style="float:right;background:transparent;border:none;color:var(--red);font-size:12px;cursor:pointer;padding:0 4px;line-height:1;">×</button>`;
+  item.innerHTML = `<span style="opacity:0.7;">${chain.icon}</span> ${chain.name} <button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('${chain.id}')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-right:2px;">🔄</button><button onclick="event.stopPropagation();removeCustomChain('${chain.id}')" title="删除此自定义赛道" style="float:right;background:transparent;border:none;color:var(--red);font-size:12px;cursor:pointer;padding:0 4px;line-height:1;">×</button>`;
   // ★ 升级八 Step 2：自定义赛道插到折叠容器内（不再硬塞 PCB 之后）
   const chainCollapsed = document.getElementById('chain-collapsed');
   if (chainCollapsed) chainCollapsed.appendChild(item);
@@ -3847,6 +3854,43 @@ function toggleSidebarChains() {
   container.classList.toggle('collapsed', collapsed);
   toggle.textContent = collapsed ? '▶ 更多赛道 (8)' : '▼ 更多赛道 (8)';
 })();
+
+// ===== 升级八 Step 3：刷新按钮 = 一键复制该赛道标准更新指令 =====
+function copyRefreshPrompt(chainId) {
+  const d = CHAINS[chainId];
+  if (!d) return;
+  const text = `请按仓库 .claude/skills/serenity/SKILL.md 里的《新赛道 SOP》和「PCB 赛道同款格式」，重新联网研究并全量更新 CHAINS.${chainId}（${d.name}）的全部数据：
+1) 广泛多源检索（券商研报观点、公司公告/财报、行业协会、Prismark/TrendForce/Yole/CPCA 等），关键数据 ≥2-3 个独立信源交叉验证；只摘取事实与数据，严禁复制研报/文章原文（版权）；每项关键数据标注来源+时点；AI 主观估算标 🆪。
+2) 保持与 PCB 赛道完全一致的结构：overview 8-9 卡 / treeMap 五列且每子卡含占比+来源 / 每个 segment ≥5 股且按壁垒降序 / 个股 position 含市占率 / trend 徽章(up/down/flat) / midstream ≥10 股 / 三大卡口配 valuation(pePercentile)+verification(4项) / supplyGap。
+3) 用新数据替换该赛道现有 CHAINS.${chainId} 数据块，不动其它赛道；index.html 与 产业链全景.html 字节同步；node -e 语法自检；逐条对照 S1-S8+避坑清单；改完报告等我确认，不要自动 commit。`;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(
+      () => showToast(`已复制《${d.name}》刷新指令，粘贴到 Claude Code 执行`),
+      () => fallbackCopy(text, d.name)
+    );
+  } else {
+    fallbackCopy(text, d.name);
+  }
+}
+
+function fallbackCopy(text, name) {
+  window.prompt('请手动复制：', text);
+  showToast(`手动复制《${name}》刷新指令`);
+}
+
+function showToast(msg) {
+  let toast = document.getElementById('toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast';
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
 
 function init() {
   loadAllCustomChains();   // ★ 升级六：复活 localStorage 里的自定义赛道
