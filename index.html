@@ -409,6 +409,18 @@
   .src-chip.t-broker:hover   { background: rgba(59, 130, 246, 0.18); }
   .src-chip.t-media:hover    { background: rgba(139, 143, 163, 0.18); }
   .src-chip.t-estimate:hover { background: rgba(234, 179, 8, 0.18); }
+
+  /* ============================================================
+   * ★ B4 六维雷达图（2026-06-13）—— 移动端降级
+   * 桌面端：赛道级六维卡右侧 160px 雷达 / 个股 dims6 折叠区右侧 96px 雷达
+   * 移动端 ≤600px：雷达隐藏，只显示 mini-bar 列表（信息无损，省横向空间）
+   * ============================================================ */
+  @media (max-width: 600px) {
+    .prosperity-radar-wrap,
+    .stock-radar-wrap {
+      display: none;
+    }
+  }
 </style>
 </head>
 <body>
@@ -785,7 +797,63 @@ function renderChain(chainId) {
       bars += `<span style="width:42px;text-align:right;font-family:monospace;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend)}</span>`;
       bars += `</div>`;
     });
-    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:240px;">${bars}${s.dims6Note?`<div style="margin-top:6px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}</div></details>`;
+    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;"><div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}</div></details>`;
+  }
+
+  // ===== ★ B4 六维雷达图（纯内联 SVG，0 依赖，复用 var(--accent) 金色描边+半透明填充）=====
+  // 输入：dims 数组（6 个 {key, score}，顺序固定 durability/visibility/policy/supply/valuation/barrier）
+  // 输出：SVG 字符串，6 个轴顺时针从顶 -90° 起 60° 一段；5 圈背景网格 + 数据多边形 + 数据点 + 轴标签
+  // 用法：赛道级 prosperityRadar(d.prosperity.dims, 160) / 个股级 prosperityRadar(s.dims6, 100)
+  function prosperityRadar(dims, size) {
+    if (!dims || dims.length !== 6) return '';
+    size = size || 140;
+    const cx = size / 2, cy = size / 2;
+    const radius = size * 0.34;  // 留出轴标签空间
+    const angles = [-90, -30, 30, 90, 150, 210];  // 6 个轴角度
+    const labelTexts = ['持续','可见','政策','供需','估值','壁垒'];
+    // 5 圈网格（最外圈加粗）
+    let grid = '';
+    for (let g = 1; g <= 5; g++) {
+      const pts = angles.map(a => {
+        const rad = a * Math.PI / 180;
+        const r = radius * (g / 5);
+        return `${(cx + r * Math.cos(rad)).toFixed(1)},${(cy + r * Math.sin(rad)).toFixed(1)}`;
+      }).join(' ');
+      grid += `<polygon points="${pts}" fill="none" stroke="var(--border)" stroke-width="${g === 5 ? 1 : 0.5}" opacity="${g === 5 ? 0.55 : 0.28}" />`;
+    }
+    // 6 条径向轴线
+    let axes = '';
+    angles.forEach(a => {
+      const rad = a * Math.PI / 180;
+      axes += `<line x1="${cx}" y1="${cy}" x2="${(cx + radius * Math.cos(rad)).toFixed(1)}" y2="${(cy + radius * Math.sin(rad)).toFixed(1)}" stroke="var(--border)" stroke-width="0.5" opacity="0.4" />`;
+    });
+    // 数据多边形
+    const dataPts = dims.map((d, i) => {
+      const rad = angles[i] * Math.PI / 180;
+      const r = radius * Math.max(0, Math.min(1, (d.score || 0) / 5));
+      return [cx + r * Math.cos(rad), cy + r * Math.sin(rad)];
+    });
+    const dataStr = dataPts.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+    const dataPolygon = `<polygon points="${dataStr}" fill="var(--accent)" fill-opacity="0.18" stroke="var(--accent)" stroke-width="1.5" />`;
+    // 数据点小圆
+    let dots = '';
+    dataPts.forEach(p => {
+      dots += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${size >= 130 ? 2.5 : 2}" fill="var(--accent)" />`;
+    });
+    // 轴标签（不同角度的 text-anchor 调整）
+    let labels = '';
+    const fontSize = size >= 130 ? 10 : 8;
+    angles.forEach((a, i) => {
+      const rad = a * Math.PI / 180;
+      const lr = radius + (size >= 130 ? 14 : 10);
+      const lx = cx + lr * Math.cos(rad);
+      const ly = cy + lr * Math.sin(rad);
+      let anchor = 'middle';
+      if (a === -30 || a === 30) anchor = 'start';
+      else if (a === 150 || a === 210) anchor = 'end';
+      labels += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="var(--muted)" font-size="${fontSize}" font-weight="600" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',system-ui,sans-serif;">${labelTexts[i]}</text>`;
+    });
+    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" style="display:block;overflow:visible;flex-shrink:0;" aria-label="六维雷达图">${grid}${axes}${dataPolygon}${dots}${labels}</svg>`;
   }
 
 
@@ -845,6 +913,9 @@ function renderChain(chainId) {
       h += `<span style="font-size:13px;">综合 <strong style="color:var(--accent);font-size:18px;">${lt.score}</strong>/100 ${lt.tier}${lt.risk?' <span style="color:var(--red);font-size:11px;">⚠安全垫不足</span>':''}</span>`;
     }
     h += `</div>`;
+    // ★ B4：两列布局 — 左 mini-bar，右 SVG 六维雷达（移动端 .prosperity-radar-wrap 自动 display:none）
+    h += `<div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;">`;
+    h += `<div style="flex:1;min-width:280px;">`;
     p.dims.forEach(d6 => {
       const meta = META[d6.key] || {};
       const pct = Math.max(0, Math.min(100, (d6.score/5)*100));
@@ -868,6 +939,10 @@ function renderChain(chainId) {
       h += `<div style="width:${pct}%;height:100%;background:${barColor};transition:width .3s;"></div>`;
       h += `</div></div>`;
     });
+    h += `</div>`;  // 左列结束
+    // 右列：SVG 雷达（移动端 hidden）
+    h += `<div class="prosperity-radar-wrap" style="padding:6px;background:var(--card2);border-radius:8px;">${prosperityRadar(p.dims, 160)}</div>`;
+    h += `</div>`;  // 两列容器结束
     if (p.verdict) {
       h += `<div class="highlight-box" style="margin-top:14px;">`;
       if (p.verdict.oneLine)     h += `<div>${p.verdict.oneLine}</div>`;
