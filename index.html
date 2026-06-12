@@ -336,6 +336,40 @@
     font-family: var(--font-mono) !important;
     font-variant-numeric: tabular-nums;
   }
+
+  /* ============================================================
+   * ★ B2 配色收敛（2026-06-13）—— 去"彩虹"，金+灰阶分层级
+   * 思路：section 编号原本用 蓝/紫/金/红/橙/紫/绿 七色装饰，视觉负担重；
+   *       本节统一为"极淡金底 + 金字"作为投研终端主基调，
+   *       信息层级靠 .section-title 字重(700) + 编号数字 + 标题间距分。
+   * 保留语义色：涨跌(--green/--red) + 壁垒四档(barrier-*) 不改原义。
+   * 收敛装饰色：--blue / --purple 在 num-* 的装饰用途取消（变量本身保留供信源角标"券商🔵"等真正语义场景）。
+   * ============================================================ */
+
+  /* (B2-1) section 编号统一极淡金 — 覆盖 L46 既有 7 色定义
+   *        用 .section-title .num.num-* 复合选择器提特异性，确保胜过 L46 单类 */
+  .section-title .num.num-plain,
+  .section-title .num.num-macro,
+  .section-title .num.num-chain,
+  .section-title .num.num-up,
+  .section-title .num.num-mid,
+  .section-title .num.num-ser,
+  .section-title .num.num-result {
+    background: rgba(240, 185, 11, 0.08);
+    color: var(--accent);
+    /* 字重保持 700（继承 L40 定义），靠形状（数字/emoji）做语义识别 */
+  }
+
+  /* (B2-2) freshness-dot.stale 改用灰 — 数据陈旧 = 不重要语义，不应蹭 barrier-high(橙) */
+  .freshness-dot.stale { background: var(--muted); }
+
+  /* (B2-3) 决策卡片库装饰性橙色 → 金（警示语义保留，但避开与 barrier-high 同色混淆）
+   *        L1375 "买入即写死"提示 / L1455 "卖出条件"label 都是装饰橙，与 barrier-high 无语义关系 */
+  [style*="border-left:3px solid var(--barrier-high)"][style*="rgba(249,115,22"] {
+    background: rgba(240, 185, 11, 0.10) !important;
+    border-left-color: var(--accent) !important;
+    color: var(--accent) !important;
+  }
 </style>
 </head>
 <body>
