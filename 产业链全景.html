@@ -276,6 +276,12 @@
     .tree-sub-card { padding: 12px 14px; }
     .tree-legend-sticky { position: static; }
   }
+
+  /* ===== 升级八 Step 2：侧栏菜单折叠 ===== */
+  .sidebar-collapsible { display: block; }
+  .sidebar-collapsible.collapsed { display: none; }
+  .nav-toggle { color: var(--accent) !important; font-size: 12px !important; font-weight: 600 !important; padding-top: 12px !important; border-top: 1px solid var(--border); margin-top: 4px; cursor: pointer; }
+  .nav-toggle:hover { color: var(--accent) !important; background: rgba(240,185,11,0.08) !important; }
 </style>
 </head>
 <body>
@@ -297,13 +303,16 @@
     <span class="nav-item" data-chain="ai-server" onclick="switchChain('ai-server')">🖥️ AI服务器</span>
     <span class="nav-item" data-chain="hbm" onclick="switchChain('hbm')">🧠 HBM/先进存储</span>
     <span class="nav-item" data-chain="robotics" onclick="switchChain('robotics')">🤖 人形机器人</span>
-    <span class="nav-item" data-chain="autonomous-driving" onclick="switchChain('autonomous-driving')">🚗 智能驾驶</span>
-    <span class="nav-item" data-chain="power-semi" onclick="switchChain('power-semi')">⚡ 功率半导体/SiC</span>
-    <span class="nav-item" data-chain="ai-apps" onclick="switchChain('ai-apps')">🧠 AI应用</span>
-    <span class="nav-item" data-chain="cpo" onclick="switchChain('cpo')">💡 CPO 共封装光学</span>
-    <span class="nav-item" data-chain="solid-battery" onclick="switchChain('solid-battery')">🔋 固态电池</span>
-    <span class="nav-item" data-chain="low-altitude" onclick="switchChain('low-altitude')">✈️ 低空经济</span>
-    <span class="nav-item" data-chain="commercial-aero" onclick="switchChain('commercial-aero')">🚀 商业航天</span>
+    <span class="nav-item nav-toggle" id="chain-toggle" onclick="toggleSidebarChains()">▶ 更多赛道 (8)</span>
+    <div class="sidebar-collapsible collapsed" id="chain-collapsed">
+      <span class="nav-item" data-chain="autonomous-driving" onclick="switchChain('autonomous-driving')">🚗 智能驾驶</span>
+      <span class="nav-item" data-chain="power-semi" onclick="switchChain('power-semi')">⚡ 功率半导体/SiC</span>
+      <span class="nav-item" data-chain="ai-apps" onclick="switchChain('ai-apps')">🧠 AI应用</span>
+      <span class="nav-item" data-chain="cpo" onclick="switchChain('cpo')">💡 CPO 共封装光学</span>
+      <span class="nav-item" data-chain="solid-battery" onclick="switchChain('solid-battery')">🔋 固态电池</span>
+      <span class="nav-item" data-chain="low-altitude" onclick="switchChain('low-altitude')">✈️ 低空经济</span>
+      <span class="nav-item" data-chain="commercial-aero" onclick="switchChain('commercial-aero')">🚀 商业航天</span>
+    </div>
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 整合视图</span>
     <span class="nav-item" data-chain="ai-full-chain" onclick="switchChain('ai-full-chain')">🧠 AI 全产业链</span>
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 我的决策</span>
@@ -356,7 +365,8 @@ const LS_KEYS = {
   verify: (chainId, code) => `verify_${chainId}_${code}`,
   cards: 'myCards',
   trades: 'myTrades',
-  customChains: 'myCustomChains'   // ★ 升级六：侧栏"+ 新建空模板赛道"
+  customChains: 'myCustomChains',   // ★ 升级六：侧栏"+ 新建空模板赛道"
+  sidebarCollapsed: 'sidebarCollapsed'  // ★ 升级八 Step 2：侧栏折叠状态
 };
 
 // 验证状态推导
@@ -3260,6 +3270,7 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-12', sector:'system', desc:'🆕 侧栏菜单折叠：默认显示 5 个产业链', old:'—', new:'侧栏默认显示 PCB/半导体/AI服务器/HBM/人形机器人 5 个，剩余 8 个折叠在「▶ 更多赛道」容器内；AI 全产业链+决策卡片库+交易日志永远展开；状态 localStorage 记忆；搜索时折叠容器自动展开', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆕 页面标题改为「Jack唐的投研看板」', old:'产业链全景 · 物理卡口投研', new:'Jack唐的投研看板（浏览器 <title> + Header <h1>；侧栏顶部品牌名"产业链全景"保留）', pct:'BRAND' },
   { date:'2026-06-12', sector:'system', desc:'🆕 个股进步/退步彩色徽章（trend 字段，绿/红/灰）', old:'—', new:'trendBadge 复用 .tag .tg-green/.tg-extreme/.tg-gray 零 CSS 增量，3 处个股名渲染注入徽章（segments 主表/备表/midstream），PCB 40 个标的补 trend/trendNote；logic/note 文本前缀已去重（迁移到 trend 字段）', pct:'NEW' },
   { date:'2026-06-12', sector:'pcb', desc:'🆕 PCB 树状图列序修正为 上游→中游→下游', old:'下游→中游→上游材料→上游设备→侧枝', new:'上游材料→上游设备→中游→下游→侧枝（仅改渲染顺序，treeMap 数据键不变）', pct:'FIX' },
@@ -3748,7 +3759,10 @@ function insertCustomNavItem(chain) {
   item.dataset.searchKey = (chain.name + ' ' + chain.id).toLowerCase();
   item.setAttribute('onclick', `switchChain('${chain.id}')`);
   item.innerHTML = `<span style="opacity:0.7;">${chain.icon}</span> ${chain.name} <button onclick="event.stopPropagation();removeCustomChain('${chain.id}')" title="删除此自定义赛道" style="float:right;background:transparent;border:none;color:var(--red);font-size:12px;cursor:pointer;padding:0 4px;line-height:1;">×</button>`;
-  pcbItem.insertAdjacentElement('afterend', item);
+  // ★ 升级八 Step 2：自定义赛道插到折叠容器内（不再硬塞 PCB 之后）
+  const chainCollapsed = document.getElementById('chain-collapsed');
+  if (chainCollapsed) chainCollapsed.appendChild(item);
+  else pcbItem.insertAdjacentElement('afterend', item);
 }
 
 function removeCustomChain(id) {
@@ -3785,6 +3799,12 @@ function filterSidebar(query) {
   // 过滤
   let lastGroupVisible = false;
   const items = Array.from(navList.children);
+  // ★ 升级八 Step 2：搜索时自动展开折叠容器；清空时恢复 LS 状态
+  const collapsible = document.getElementById('chain-collapsed');
+  if (collapsible) {
+    if (q) collapsible.classList.remove('collapsed');
+    else if (LS.get(LS_KEYS.sidebarCollapsed, true) !== false) collapsible.classList.add('collapsed');
+  }
   items.forEach(n => {
     if (!n.dataset.chain) {
       // 分隔行（━ xxx）：仅当下一项匹配才显示
@@ -3807,6 +3827,26 @@ function route() {
   if (hash === 'trades') return renderTrades();   // ★ 升级五
   return switchChain(CHAINS[hash] ? hash : 'pcb');
 }
+
+// ===== 升级八 Step 2：侧栏菜单折叠 =====
+function toggleSidebarChains() {
+  const container = document.getElementById('chain-collapsed');
+  const toggle = document.getElementById('chain-toggle');
+  if (!container || !toggle) return;
+  const willCollapse = !container.classList.contains('collapsed');
+  container.classList.toggle('collapsed', willCollapse);
+  toggle.textContent = willCollapse ? '▶ 更多赛道 (8)' : '▼ 更多赛道 (8)';
+  LS.set(LS_KEYS.sidebarCollapsed, !willCollapse);
+}
+
+(function initSidebarCollapse() {
+  const container = document.getElementById('chain-collapsed');
+  const toggle = document.getElementById('chain-toggle');
+  if (!container || !toggle) return;
+  const collapsed = LS.get(LS_KEYS.sidebarCollapsed, true) !== false;
+  container.classList.toggle('collapsed', collapsed);
+  toggle.textContent = collapsed ? '▶ 更多赛道 (8)' : '▼ 更多赛道 (8)';
+})();
 
 function init() {
   loadAllCustomChains();   // ★ 升级六：复活 localStorage 里的自定义赛道
