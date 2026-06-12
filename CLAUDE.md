@@ -43,8 +43,11 @@
 | **CHAINS 赛道数据** | 静态 JS 对象 | `CHAINS[id]` | `renderChain(id)` |
 | **决策卡片库** | localStorage `myCards` 数组 | `loadCards/saveCards/addToDecisionCard/...` | `renderCards()` |
 | **交易日志** | localStorage `myTrades` 数组 | `loadTrades/saveTrades/addTrade/...` | `renderTrades()` |
+| **自定义赛道** | localStorage `myCustomChains` 数组 | `loadCustomChains/saveCustomChains/addCustomChain/...` | 走 `renderChain(id)`，无独立视图 |
 
-localStorage 助手 (`LS.get/set`) + key 字典 (`LS_KEYS.verify/cards/trades`) 集中在 script 顶部。
+localStorage 助手 (`LS.get/set`) + key 字典 (`LS_KEYS.verify/cards/trades/customChains`) 集中在 script 顶部。
+
+**自定义赛道 (升级六)**：侧栏顶部搜索框键入 + 点 `+` 或回车 → 复制 PCB 完整结构（值全清空为 `—` / `（待填写）`）→ 注入 `CHAINS[id]` → 插入 nav-list PCB 下方。**只是占位**，加完回来说"我刚加了 XX，把数据填上" → 走研究流程填数据。详见 [SKILL.md](.claude/skills/serenity/SKILL.md#自定义赛道升级六侧栏搜索--占位)。
 
 ### 5 项升级的字段 + 渲染位置
 
@@ -55,6 +58,8 @@ localStorage 助手 (`LS.get/set`) + key 字典 (`LS_KEYS.verify/cards/trades`) 
 | 周期位置 | `0f773a2` | `CHAINS[id].cyclePosition` | 「① 赛道概览」末尾独立 .card | — |
 | 决策卡片库 | `ca5de6d` | — | `#cards` 独立视图 | `myCards` |
 | 交易日志 | `c5685d1` | — | `#trades` 独立视图 | `myTrades` |
+| 自定义赛道 | (待 commit) | localStorage 注入 `CHAINS[id]` | 走 `renderChain(id)` | `myCustomChains` |
+| 树状图 5 列重做 | (待 commit) | `treeMap.downstream/midstream/materials/equipment/sideBranches` 全部改 array + sub-card 配 companies/sourceSegment | 「② 产业链树状图」横向 5 列（pcb 试点） | — |
 
 完整 schema（包含所有可选字段）见 [.claude/skills/serenity/SKILL.md](.claude/skills/serenity/SKILL.md#数据模板)。
 

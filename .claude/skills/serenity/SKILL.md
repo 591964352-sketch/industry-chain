@@ -29,36 +29,164 @@
 
 ### 模式 1：添加新产业链（最常用）
 
-用户说以下任意一句即可触发：
-- "加入 XX 产业链"
-- "添加 XX 赛道"
-- "研究 XX 行业"
+**触发契约**：用户说以下任意一句即按本 SOP 执行——
+- "加入/添加/研究 XX 产业链"
 - "/serenity --add <赛道名>"
 
-**执行流程**：
+**执行流程**（详见下方"## 新赛道 SOP（第三层）"章节）：
 
-1. **深度搜索** — 用 WebSearch 对目标产业链做多轮搜索：
-   - 产业链全景结构（上游→中游→下游，各环节格局）
-   - 上游核心壁垒环节（材料/设备/元器件，国产化率）
-   - 每个壁垒环节的全球寡头格局（谁垄断？几家能量产？）
-   - 每个环节的 A 股标的（名称+代码+壁垒评级+核心逻辑）
-   - 下游需求测算（龙头放量节奏、单台用量、缺口计算）
-
+1. **深度搜索** — 用 WebSearch 对目标产业链做多轮（≥5 次）搜索
 2. **四问筛选** — 对每个标的套四大追问，标注 ★★★/★★☆/不通过
+3. **数据结构化** — 按下方"数据模板"整理 JS 对象
+4. **三处必改注入** — CHAINS 数据块 / 侧栏 nav-item / CHANGELOG
+5. **验证** — 双文件同步 + JS 语法自检 + 浏览器测试
 
-3. **数据结构化** — 将研究结果整理为 JS 对象，格式见下方"数据模板"
-
-4. **注入网站** — 用 Edit 工具操作 `产业链全景.html`：
-   - 在 `// ==================== CHAINS ====================` 区域末尾插入 `CHAINS.xxx = { ... };`
-   - 在 Tab 栏添加 `<div class="tab" data-chain="xxx" onclick="switchChain('xxx')">🆕 赛道名</div>`
-   - 将新的 "coming" Tab 改为活跃状态
-
-5. **验证** — 浏览器打开确认 Tab 切换正常、数据完整
+> **关键卡点（Step 3 → Step 4 之间）**：数据结构化完成后，**必须逐条对照《内容质量标准》S1–S8 + 《避坑清单》自检，不达标不得注入网站**（详见下方"## 新赛道 SOP（第三层）" 章节）。S1–S8 见"## 内容质量标准"，避坑清单在 SOP 章节末尾。
 
 ### 模式 2：仅研究（不更新网站）
 
 - `/serenity --sector <赛道名>` — 运行完整六步下钻研究
 - `/workflow serenity-choke-point --args '{ "sector": "xxx", "leader": "xxx" }'` — 直接调 workflow
+
+## 新赛道 SOP（第三层 · 操作手册）
+
+> 模式 1（添加新产业链）的展开版。把"做法"和"避坑"沉淀成通用规范，以后研究 HBM/CPO/机器人/光模块/任何新赛道都按此执行。
+
+### 触发契约
+
+用户说以下任一句即按本 SOP 执行——
+
+| 触发语 | 含义 |
+|---|---|
+| "加入 XX 产业链" / "添加 XX 赛道" | 新增一条完整赛道到 CHAINS |
+| "研究 XX 行业" | 先研究再决定是否注入 |
+| "/serenity --add <赛道名>" | CLI 形式触发 |
+
+### 5 步执行流程
+
+#### Step 1 · 深度搜索（WebSearch 多轮 ≥5 次）
+
+覆盖：
+1. 产业链全景结构（上游→中游→下游，各环节格局）
+2. 上游核心壁垒环节（材料/设备/元器件，国产化率）
+3. 每个壁垒环节的全球寡头格局（谁垄断？几家能量产？认证周期？）
+4. 每个环节的 A 股标的（名称 + 代码 + 壁垒评级 + 核心逻辑 + **市占率/排名**）
+5. 下游需求测算（龙头放量节奏、单台用量、缺口计算）
+
+数据精度：每个环节 ≥5 次独立 WebSearch，关键数据交叉验证。数据等效参考研报 ≥200 篇。
+
+#### Step 2 · 四问筛选
+
+对每个标的套四大追问（详见"## 核心方法论 → 四大物理追问"），标注 ★★★/★★☆/不通过：
+- ★★★ 核心卡口 = 命中 4/4
+- ★★☆ 潜在卡口 = 命中 3/4
+- 不通过 = 命中 ≤2/4
+
+#### Step 3 · 数据结构化（关键卡点）
+
+按下方"## 数据模板"整理 JS 对象。**结构化后必须逐条对照《内容质量标准》S1–S10 + 《避坑清单》自检，任何一条不达标都不得注入网站**。具体硬约束包括但不限于：
+- `segments < 6 环节` → 不达标
+- 任一 `segments[].stocks < 5 家` → 不达标
+- `midstream.stocks < 10 家`（若赛道有 midstream）→ 不达标
+- 任一 `stock.position` 缺市占率/排名 → 不达标
+- 任一 `stock.logic` 缺可核查依据 → 不达标
+- 任一卡口 `chokePoints[i].valuation.pePercentile` 缺 → 不达标
+- 任一卡口 `chokePoints[i].verification.items < 4 项` → 不达标
+- `overview` 缺 8 类必含项任一 → 不达标
+- `treeMap` 缺 5 列任一列或任一列 sub-card < 2 个 → 不达标
+
+S1–S10 完整版见"## 内容质量标准（所有赛道必须达标）"。
+
+#### Step 4 · 三处必改注入（缺一不可）
+
+| 顺序 | 改哪里 | 漏改后果 |
+|---|---|---|
+| 1 | 在合适 `// ==================== <NAME> ====================` 分隔处追加 `CHAINS.xxx = { ... };` | 数据不可达 |
+| 2 | 在 `<div class="sidebar-nav" id="nav-list">` 里加 `<span class="nav-item" data-chain="xxx" onclick="switchChain('xxx')">…</span>` | 侧栏看不到、URL hash 之外不可达 |
+| 3 | 在 `CHANGELOG` 前面插一条今日日期记录（`sector: 赛道id` 或 `'system'`） | 用户 7 天内感知不到变化 |
+
+> **侧栏顺序 = 用户看到顺序**。注意末尾 "━ 我的决策" / "━ 整合视图" 分隔行不要破坏。`renderChangelog` 内的 `sectorName` / `sectorColor` 三元映射可能要把新 id 加进去。
+
+#### Step 5 · 验证
+
+```bash
+# 1. 双文件字节级同步（必须无输出）
+diff -q index.html 产业链全景.html
+
+# 2. JS 语法粗检（必须 OK）
+node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script>([\s\S]+)<\/script>/);try{new Function(m[1]);console.log('OK',m[1].length,'chars');}catch(e){console.log('ERR',e.message);}"
+
+# 3. 浏览器测试（手动）
+py -m http.server 8000   # 浏览器开 http://localhost:8000/index.html#<新赛道id>
+```
+
+校验点（手动）：
+- 侧栏点新赛道 → 内容正确渲染
+- ② 树状图 5 列全部为 array（`Array.isArray(d.treeMap.downstream)` 走新布局），每列 ≥2 sub-card、每个 sub-card note 含占比+来源
+- ③ segments 表每段 ≥5 stocks，每个 stock 旁有趋势徽章（绿/红/灰）
+- ④ chokePoints 三大卡口 verification 默认 4 项 + 整体徽章
+- ⑤ 顶部"数据截止"日期未动
+
+### 模式 2：刷新现有赛道（同样按 PCB 黄金范例）
+
+**触发契约**：用户说以下任一句即按本 SOP 执行——
+- "刷新 XX 赛道" / "重做 XX 赛道" / "全量研究 XX 赛道"
+- "/serenity --refresh <赛道id>"
+
+**执行流程**：与"模式 1 添加新赛道"**完全相同**的 5 步流程（深度搜索 → 四问筛选 → 数据结构化 → 注入替换 → 验证），**字段密度要求与新增赛道一致**（S1–S10 全套硬标准）。
+
+**核心约束**：
+- 刷新产出的新 `CHAINS.xxx` 数据块**必须**与黄金范例 `CHAINS.pcb` 同款结构与字段密度（segments ≥ 6 / 个股 ≥ 5 / midstream ≥ 10 / 卡口 3 大 / verification 4 项 / valuation.pePercentile 必填 / S1-S10 全过）
+- 任意一条不达标 → **不替换原数据**（保留旧版本 + 在 CHANGELOG 加 1 条 `❌ 刷新未达标未注入` 记录原因）
+- 注入替换路径：直接 Edit 现有 `CHAINS.<id> = { ... }` 块（不需要新建分隔行；保持原 `// ==================== <NAME> ====================` 行）
+- 替换后**双文件同步 + JS 语法自检 + 浏览器抽查**（3 个 anchor 段：segments 表格、treeMap、chokePoints）
+
+### 避坑清单（数据落入前最后一遍）
+
+数据落入**前**对照这一节，**避免常见错误**：
+
+- ❌ **不**填 `socraticInquiry` / `occamRazor`——除非真需要这两个 section，会继承 section 序号偏移的副作用（`ai-full-chain` 专属）
+- ❌ **不**预填交易日志示例（`myTrades` 保持空状态）——交易是真金白银的记录
+- ❌ **不**动顶部"数据截止"日期——只有真实数据/财报/扩产等硬变化才刷，AI 主观判断标 🆪 不刷日期
+- ❌ **不**主动 commit——改完只报告，等用户显式说"通过"再 `git commit`（中文 message 描述内容变化）
+- ❌ **不**破 `barrier` 降序（极高 → 高 → 中 → 低）——`rank` 字段对应
+- ❌ **不**丢原 `logic` / `note` / `position` / `hits` / `strength` 字段——升级 A/B 是叠加非替换
+- ❌ **不**复制-粘贴别人的 logic 不改 stock 名——每条 logic 必须对应该 stock 的具体业务
+- ❌ **不**为凑数塞无关标的——segments[].stocks <5 时老实写 4-5 家，不强凑
+- ❌ **不**加自定义 CSS 类——先复用现有 `.tag / .choke-card / .card / .stock-tbl / var(--*)` 调色板
+- ❌ **不**在树状图 mini 表（`tree-sub-mini-tbl`）加 trend 徽章——空间太小，避免拥挤
+- ❌ **不**破坏 `// ==================== <NAME> ====================` 分隔行——下次找数据靠 grep 定位
+- ❌ **不**改 CSS 主结构——非要新加 CSS 类 append 到主结构后面（`</style>` 之前），不改既有定义
+- ❌ **不**改 `index.html` 之外的孤立 PCB-only 页面（[PCB产业链全景.html](PCB产业链全景.html) 早期独立页，没明确要求别动）
+
+### 验收清单（改完逐项自查并回报结果）
+
+- [ ] **S1 宏观完整**：overview 8-9 卡，6 类必含项全 + 来源+时点
+- [ ] **S2 全景五列**：treeMap 5 列齐全（列名与 PCB 完全一致），每列 ≥2 sub-card，全部为 array
+- [ ] **S3 分支占比**：每个 sub-card 的 note 含占比/规模数字 + 来源
+- [ ] **S4 个股密度**：segments **≥ 6 环节**、每个 `segments[].stocks` ≥ 5、`midstream.stocks` ≥ 10
+- [ ] **S5 市占率/定位 + 可核查逻辑**：每个 stock 的 position 含市占率/排名硬定位 + logic 含可核查依据
+- [ ] **S6 壁垒排序**：每段 stocks 严格 barrier 降序、rank 对应
+- [ ] **S7 进步/退步**：每个 stock 有 `trend` 字段（up/down/flat）+ `trendNote` 一句理由
+- [ ] **S8 卡口方法论**：**3 大卡口**（★★★/★★★/★★☆ 至少 1 个 ★★★）配齐 hits/strength/tags/valuation(pePercentile 必填)/verification(4 项 howToCheck+falsifySignal) + supplyGap 2-4 条
+- [ ] **S9 数据时效**：关键数据带最近一期财报 + `<mark class="updated">` 标注 + 来源+时点 + AI 估算标 🆪
+- [ ] **S10 研究纪律**：≥2-3 独立信源交叉验证 + 只摘事实数据 + **严禁复制研报/文章原文**
+- [ ] **PCB 黄金范例对齐**：字段密度+结构与 `CHAINS.pcb` 同款（不达标不注入）
+- [ ] **避坑清单**：13 条全部通过
+- [ ] **三处必改**：CHAINS 数据块 / 侧栏 nav-item / CHANGELOG 今日记录齐
+- [ ] **双文件同步**：`diff -q index.html 产业链全景.html` 无输出
+- [ ] **JS 语法**：`node -e` 输出 `OK <chars>`
+- [ ] **浏览器测试**：3 个 anchor（segments 表格、treeMap、chokePoints）正常渲染
+- [ ] **既有赛道不破坏**：现有 12 条赛道 + 升级一-六视图视觉不变
+- [ ] **未自动 commit**——已列改动清单等用户确认
+
+### 通用约束
+
+- 面向用户文案用简体中文，技术标识符（赛道 id、CSS class、JS 函数名）保持英文小写连字符
+- 底部"不构成投资建议"免责声明必须保留，不要删
+- AI 主观判断（周期位置/估值分位）标 🆪 不刷日期
+- 不预填交易日志示例
+- commit message 用中文，描述**内容**层面的变化（改了哪些赛道、哪些字段）
 
 ## 数据模板
 
@@ -100,22 +228,31 @@ CHAINS.<id> = {
   ],
 
   // ② 产业链树图
+  // ★ 升级七：横向 5 列布局（pcb 试点）
+  // 5 列从左到右：downstream → midstream → materials → equipment → sideBranches
+  // 每列内是 sub-card 数组；sub-card 选 1 个：sourceSegment 映射 OR inline companies[]
+  // 其它 11 条赛道仍用旧 schema，渲染器自动 fallback（旧版纵向 5 段）
+  //
+  // ★ 新 schema（pcb 试点）：
+  //   treeMap.downstream: [...]    // array of sub-cards
+  //   sub-card: { name, barrier, note, companies?: [...], sourceSegment?: 'segments[].name' }
+  //   sourceSegment: 渲染时从 segments[] 找同名项 → 用其 stocks（0 重复数据）
+  //
+  // ★ 旧 schema（其它 11 条赛道 + AI 全产业链 fallback）：
+  //   treeMap.downstream: { name, barrier, note }   // 单对象
+  //   treeMap.midstream:  { name, barrier, note }   // 单对象（或 systemAssembly）
+  //   treeMap.materials: [{ name, barrier, choke, note }]   // 数组
+  //   treeMap.equipment: [{ name, barrier, choke, note }]
+  //   treeMap.sideBranches: [{ name, barrier, note }]
+  //   可选: upstreamCCL (PCB 特色) / upstreamTools (半导体特色)
+  //   AI 全产业链专属: computeLabel+compute[] / interconnectLabel+interconnect[] / pcLabel+pc[] / mfgLabel+manufacturing[]
+  //
+  // 渲染器检测 `Array.isArray(d.treeMap.downstream)` 决定走新/旧布局
   treeMap: {
     downstream: { name: '下游描述', barrier: 'low', note: '补充说明' },
     midstream: { name: '中游描述', barrier: 'low', note: '补充说明' },
     // 可选：upstreamCCL（PCB特色，有中间基材层时使用）
     // 可选：upstreamTools（半导体特色，有EDA等设计工具层时使用）
-    materials: [
-      { name: '材料/环节名', barrier: 'extreme'|'high'|'mid'|'low', choke: true|false, note: '说明' },
-      // ... 4-6 个上游环节
-    ],
-    equipment: [  // 可选：有设备分支时使用
-      { name: '设备名', barrier: 'extreme'|'high'|'mid', choke: false, note: '说明' },
-    ],
-    sideBranches: [  // 可选：产业链侧枝
-      { name: '分支名', barrier: 'high'|'mid', note: '说明' },
-    ]
-  },
 
   // ③ 上游深度拆解（每个环节一个 segment）
   segments: [
@@ -139,6 +276,8 @@ CHAINS.<id> = {
           barrier: '极高'|'高'|'中',
           hits: 4|null,           // 四问命中数（卡口标的填数字，非卡口填 null）
           strength: '★★★'|'★★☆'|null,  // 卡口强度（非卡口填 null）
+          trend: 'up'|'down'|'flat',      // 可选·进步/承压/平稳（S7 彩色徽章）
+          trendNote: '一句趋势理由',     // 可选·悬浮提示（≤15字）
           logic: '一句话投资逻辑'
         },
         // ... 3-7 个标的，按壁垒从高到低排序
@@ -238,6 +377,95 @@ CHAINS.<id> = {
   methodologyNotes: '<该赛道的卡口筛选总结，哪些环节有/无卡口，为什么>'
 }
 ```
+
+## 内容质量标准（所有赛道必须达标）
+
+评判"一个赛道内容是否合格"的 8 条硬标准。新增/优化赛道时**必须**逐条对照自检，不达标不得注入网站。
+
+### S1 宏观完整
+`overview` 恰 **8-9 卡**（黄金范例 `CHAINS.pcb` 用 8 卡；如赛道有特殊细分/对标/风险维度可酌情加 1 张至 9 张）。必含：①全球市场规模+增速 ②本土全球占比 ③核心需求驱动 ④产业周期阶段 ⑤核心矛盾/卡脖子点 ⑥关键环节国产化率 ⑦下一代技术/大客户催化 ⑧最具弹性的高端细分市场。每卡数据标来源（Prismark/SEMI/券商名/公司公告/CPCA 等）+ 时点。所有赛道产出必须与 PCB 黄金范例字段密度对齐。
+
+### S2 全景五列
+`treeMap` 五列齐全（**列名与 PCB 黄金范例完全一致**）：下游(需求) / 中游(制造) / 上游材料 / 上游设备 / 侧枝。**不缺列、不重命名**。每列 ≥2 个 sub-card。
+
+### S3 分支占比
+每个 sub-card 的 `note` 必含该环节的占比/规模数字 + 来源：
+- 下游按应用占比（例：AI 服务器 40%）
+- 中游按产品占比（例：AI 服务器 PCB 占中游 30-40%）
+- 上游材料按占 CCL/PCB 成本占比（例：电子树脂占 CCL 26%）
+- 上游设备按占设备投资占比（例：钻孔+曝光占 PCB 设备 ~37%）
+- 侧枝按占整体规模占比（例：ABF 载板占 PCB 高端 5-8%）
+
+占比之和逻辑自洽（下游 100% / 中游 100% / 上游材料成本占比与 CCL 100% 对账）。
+
+### S4 个股密度（与 PCB 黄金范例对齐）
+- `segments` 数量 **≥ 6 个环节**（黄金范例 `CHAINS.pcb` 用 6 环节）
+- 每个 `segments[].stocks` **≥ 5 家**（pcb 多数环节 6-9 家）
+- `midstream.stocks` **≥ 10 家**（pcb midstream 10 家）
+- 标的须真实相关、不凑数（A 股直接标的实在不够时，可在 `globalLandscape` 列海外参照）
+
+### S5 市占率/定位 + 可核查逻辑
+- 每个 `stock.position` 必含**全球或国内市占率或排名**这一硬定位（例：'PCB 钻针全球第一 26.5%' / '英伟达显卡 PCB ~50%' / 'M9 大陆唯一认证'），而非空泛形容词（'国内龙头'、'老牌厂商' 这种不算）。
+- 每个 `stock.logic` 必须含**可核查依据**（具体数据 / 财报数字 / 出处），不是空泛判断（"业绩高增"/"卡位龙头" 单独出现不构成 logic 主体，必须配数字+原因）。
+
+### S6 壁垒排序
+- `segments` 之间按**卡口强度/壁垒**排（卡口环节靠前）
+- 每个 segment 内 stocks 与 midstream.stocks 一律按 `barrier`（极高 → 高 → 中 → 低）降序，`rank` 字段对应
+- barrier 四档判定标准：
+  - **extreme 极高**：全球能量产 ≤3 家且认证周期 >18 月 / 有卡脖子原料
+  - **high 高**：全球 4~6 家寡头 / 国产刚突破 / 高认证壁垒
+  - **mid 中**：车规等中等认证 / 规模成本主导
+  - **low 低**：充分竞争、可快速切换
+
+### S7 进步/退步（结构化 trend 字段 + 彩色徽章）
+每个 `stock` 用结构化字段标注趋势，**渲染器自动生成彩色徽章**（绿/红/灰）：
+
+```javascript
+{ rank:1, name:'东材科技', code:'601208', barrier:'极高',
+  trend:'up',           // 'up' | 'down' | 'flat'（缺省=不显示徽章）
+  trendNote:'Q1+103%·台光排他',  // 可选·用于 title 悬浮提示（≤15字）
+  logic:'<mark>...', ... }
+```
+
+渲染实现：`renderChain` 顶部内置 `trendBadge(t, note)` 函数，复用现成 `.tag .tg-green/.tg-extreme/.tg-gray` 三色，**零 CSS 增量**。在 3 处 `<td class="s-name">${s.name}</td>` 锚点注入 `${trendBadge(s.trend, s.trendNote)}`：
+- segments 主表（带四问命中列那张）
+- segments 备用表（`<h4>A股标的</h4>` 段）
+- midstream 表
+
+树状图 mini 表（`tree-sub-mini-tbl`）空间太小，**本次不加徽章**。
+
+判定参考：
+- **up**：份额提升 / 新认证通过 / 高端产能放量 / 业绩高增 / AI 卡位增强
+- **down**：掉队 / AI 暴露低 / 被替代风险 / 扩产阵痛压制利润
+- **flat**：维持现状
+- 拿不准的标的**留空**（不填 trend）→ 自动不显示徽章，零影响
+
+### S8 卡口方法论
+- 保留物理卡口四问（供给寡头/产能周期/替代缺位/下游刚需）
+- 卡口标的填 `hits: 0-4` + `strength: '★★★'|'★★☆'`
+- 非卡口填 `hits: null, strength: null`
+- 核心卡口在 `chokePoints` 配齐 **3 大卡口**（★★★/★★★/★★☆ 至少 1 个 ★★★）+ `tags / valuation(pePercentile 必填) / verification(4 项可核查清单，每项含 howToCheck + falsifySignal)`
+- `supplyGap` 给出 2-4 条供需缺口
+
+### S9 数据时效（最新财报 + 来源标注）
+- 关键数据**尽量带最近一期财报**（如 2026Q1 营收/净利/同比），用 `<mark class="updated">最新值</mark>` 标注
+- 关键数据**必标来源+时点**（Prismark 2026Q1 / SEMI 2026.6 / 某券商 2026-05-20 / 公司公告 2026-04-28 等）
+- **AI 估算**（如估值分位、周期位置、卡口强度）必标 🆪，**不刷顶部"数据截止"日期**
+- 旧数据（>1 年）若仍引用必须 `<mark class="outdated">` 标注
+
+### S10 研究与准确性纪律
+- **广泛多源检索**：每个环节 ≥5 次独立 WebSearch，覆盖产业格局/全球寡头/A 股标的/财报/认证进展
+- **关键数据 ≥2-3 独立信源交叉验证**：单一来源不采信
+- **只摘事实数据**：数字/事实/出处/时点；不输出主观情绪、不预测股价
+- **严禁复制研报/文章原文**（版权红线）—— logic / plainIntro / methodologyNotes 全部 100% 自写，可参考思路但不可抄写表述
+- **来源等效参考研报 ≥200 篇**（用 WebSearch 多轮覆盖，不下载全文）
+
+### 通用约束
+- 面向用户文案**中文**，技术标识符（赛道 id、CSS class、JS 函数名）**英文小写连字符**
+- 底部免责声明保留
+- AI 主观判断（周期位置 / 估值分位）标 🆪，**不刷顶部"数据截止"日期**
+- 不预填交易日志示例
+- **所有赛道产出必须与黄金范例 `CHAINS.pcb` 字段密度+结构对齐**（S1-S10 全套硬标准）
 
 ## 网站文件结构
 
@@ -368,4 +596,30 @@ cron 任务 7 天后自动过期。如需长期运行，每次更新完成后自
 - `switchChain` guard 已包含 `trades` 分支
 
 **不预填示例**：交易是真金白银的记录，**不**给占位数据；首次进入空状态 + 提示"去决策卡片库关联"是正确选择。
+
+## 自定义赛道（升级六，侧栏搜索 + "+"占位）
+
+**不在 CHAINS 静态数据里**，是 localStorage 业务层（key: `myCustomChains`）。详见 [index.html] 的 `getPCBTemplate / loadCustomChains / saveCustomChains / addCustomChain / removeCustomChain / loadAllCustomChains / filterSidebar` 业务函数。
+
+**用途**：用户搜索框输入赛道名 → 点"+"或回车 → 复制 PCB 完整结构（plainIntro / overview×8 / treeMap / segments×3 / fourQuestions / chokePoints×2 / supplyGap / methodologyNotes 全部保留，值清空为 `—` / `（待填写）`）→ 注入 `CHAINS[id]` → 插入 nav-list PCB 下方 → 跳转新赛道。**加完后用户回来说"我刚加了 XX，把数据填上"——再走研究流程把空模板填成真数据**。
+
+数据结构（每条 custom 链）：
+- **自动生成**：`id`（`custom_<name>_<ts>`）/ `name` / `icon: '📊'` / `_isCustom: true` / `_createdAt`
+- **PCB 模板骨架**：所有 section 字段保留，值统一 `—` / `（待填写）` / `[]` / `null`
+- **localStorage 存储**：每次 `addCustomChain` / `removeCustomChain` 都写 LS
+
+路由（无需新加 — 走 `switchChain` → `CHAINS[hash]`）：
+- 侧栏 nav-item `data-chain="<custom_id>"`，`onclick="switchChain('<custom_id>')"`
+- `route()` 检测 `CHAINS[hash]` 存在 → 直接进 `switchChain`（无需 guard）
+- `loadAllCustomChains()` 在 `init()` 开头调一次，把 LS 里的 custom 链复活（reload 不丢）
+
+侧栏搜索 `filterSidebar(query)`：
+- 键入即过滤 nav-list（不匹配项 `display:none`）
+- 分隔行 `━ 整合视图` / `━ 我的决策` 在搜索时整组隐藏（不显示半空分组）
+- 清空搜索框 → 全部恢复显示
+
+**诚实声明**：
+- 搜索加载出来的 custom 链**不是真研究**，是 PCB 结构的空模板（值是 `—` / `（待填写）`）
+- 真正能用于投资决策的数据 = 我研究后填满的链
+- 加完 custom 链后**回来说"我刚加了 XX，把数据填上"**——我才会用研究流程填数据
 
