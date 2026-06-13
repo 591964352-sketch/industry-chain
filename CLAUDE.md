@@ -236,8 +236,7 @@ py -m http.server 8000   # 浏览器开 http://localhost:8000/index.html
 - 5 项升级的 CHANGELOG 条目用 `🆕`（稳定功能）；AI 估值/周期位置等"AI 估的"字段用 `🆪`（区别 `🆕` 真实功能，周一 cron 会覆盖）。
 - 任何新功能**先复用现有 .tag / .choke-card / .card / .stock-tbl / `var(--*)` 调色板**；非要新加 CSS 类，**append** 到主结构后面、不改既有定义；`</style>` 之前所有行号都会随升级漂移，**改时用 grep 重新定位、不依赖记忆**。
 - 升级九 STEP 4 后：**赛道数据一律放 `data/<id>.js`**（IIFE + `window.CHAINS` 注入），**不再在 `index.html` 主 `<script>` 里直接写 `CHAINS.xxx = {...}`**。常量 / 函数 / 渲染代码仍在主 inline script 里。
-
-## 用户的"按顺序做事"铁律
+- `prosperity.verdict.stockHint`（以及 dim.reason）**不写 `segments[].barrier` / `chokePoints[].valuation.pePercentile` 这种字段路径**——面向用户的文案用 T0/T1（极高/高）、PE 分位 等口语词。字段路径**只**用于查数据时定位。完整写作模板见 [.claude/skills/serenity/SKILL.md](.claude/skills/serenity/SKILL.md) 的 `### verdict.stockHint 写作模板` 节。
 
 - 一次只做一个升级，**严格按用户给的"做什么"原文执行**，不替用户决定范围
 - 改之前确认天然还原点（`git status` 干净 + HEAD 是稳定 commit），`git reset --hard HEAD` 兜底

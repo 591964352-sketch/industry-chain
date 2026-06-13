@@ -539,13 +539,18 @@
 <!-- ★ 升级九 STEP 4 小步 2：13 条赛道数据外置 + manifest 同步加载（document.write 在 HTML parse 期顺序注入 <script src>，保证主 inline script 执行时所有 window.CHAINS.<id> 已就绪；任一条加载失败不连累其它，renderChain guard 显示"该赛道数据加载失败"卡片而非白屏）-->
 <script>
 (function(){
+  // ★ 升级九 STEP 5+：data/*.js 半自动 cache buster
+  // 改了 data/<id>.js 后，**手动 bump 下面这一行**（YYYYMMDD），
+  // 让浏览器忽略旧缓存、走新版。下次 commit 同时同步这行。
+  // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写)
+  var DATA_VERSION = '?v=20260613';
   var DATA_MANIFEST = [
     'pcb','semi','ai-server','hbm','robotics','autonomous-driving',
     'power-semi','ai-apps','cpo','solid-battery','low-altitude','commercial-aero',
     'ai-full-chain'
   ];
   DATA_MANIFEST.forEach(function(id){
-    document.write('<script src="data/' + id + '.js"><\/script>');
+    document.write('<script src="data/' + id + '.js' + DATA_VERSION + '"><\/script>');
   });
 })();
 </script>

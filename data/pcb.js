@@ -41,7 +41,7 @@ CHAINS.pcb = {
     verdict: {
       longTermFit:'适合长线研究/跟踪，但不宜当前高位追——等买点或选环节',
       oneLine:'🆪 PCB 是"业绩可见度(5)+景气持续性(4)"双高、但"估值性价比(2)"明显偏贵的赛道：长线逻辑顺，胜负手在买点与选环节。',
-      stockHint:'壁垒看 segments[].barrier(T0/T1 优先)，买点看 chokePoints[].valuation.pePercentile(分位越低越安全)。"景气+确定性选环节，壁垒+估值选标的与买点"。'
+      stockHint:'优先 T0/T1 环节（极高/高壁垒），PE 分位越低越安全；景气+确定性选环节，壁垒+估值选标的与买点。'
     }
   },
   cyclePosition: { stage:'boom', label:'繁荣中后期', reason:'🆪 AI 算力超级上行周期，需求强劲但估值已高，2027 年上游集中扩产可能形成供给拐点（AI初版，周一cron覆盖）', watchSignals:['英伟达资本开支指引（季度财报披露）','上游集中扩产公告（M9 树脂/HVLP 铜箔新产能落地）','M9 材料缺口率变化（缺口收窄 = 见顶信号）'] },
@@ -62,7 +62,7 @@ CHAINS.pcb = {
     { label: '📐 M9 CCL 市场（2026E）', value: '~$80 亿', note: 'CAGR 40%，缺口~20%（待核一手）', color: 'var(--red)', tier:'estimate', src:'未找到 Prismark 一手来源，AI 估算待核' },
     { label: '⚡ 下一代催化', value: 'Rubin + GB300', note: '英伟达GTC 2026：Rubin 2026Q3量产', color: null, tier:'broker', src:'英伟达 GTC 2026 / 券商纪要' },
     { label: '🔴 核心矛盾', value: '上游材料卡脖子', note: '碳氢树脂<30%·Q布<30%·HVLP4<15%（CPCA 2025）', color: 'var(--red)', tier:'broker', src:'CPCA 2025 国产化率统计' },
-    { label: '📋 M9 材料国产化率', value: '<mark class="updated">树脂<10%·Q布~80%</mark>', note: '铜箔15-20%·CCL~30%（Prismark 2026.6；注：此处 Q布80% 是国产化率，非全球市占率）', color: null, tier:'broker', src:'Prismark 2026.6 国产化率' }
+    { label: '📋 M9 材料国产化率', value: '<mark class="updated">树脂<10%·Q布国产化率~80%</mark>', note: '铜箔15-20%·CCL~30%（Prismark 2026.6；80%为国产化率(非全球市占)、估算待核）', color: null, tier:'media', src:'国产化率（80%为媒体估算，未见一手）' }
   ],
   // ★ 升级七：5 列横向树状图（下游→中游→上游材料→上游设备→侧枝）
   // 每列内是 sub-card 数组，sub-card 公司数据来源二选一：
