@@ -625,16 +625,42 @@ const PROSPERITY_META = {
   }
 };
 
-// —— 长线适配度综合分（针对 1–2 年持有；权重可调，但全站统一一处，30+ 条链同步生效）—— 样板 §8.1 原文
+// —— 长线适配度综合分内核（赛道级/个股级共用同一份权重+门控；全站权重只此一份）——
+// 输入：[{key,score},...]（必须 6 个，key 顺序不限，缺 key 按 0 计）
+// 输出：{ score:0-100整数, tier:'🟢核心'|'🟡观察'|'🔴回避/等', risk:bool }
 // 安全垫门控：估值或壁垒 ≤1 → 封顶 60 并标 risk（防"景气爆表但泡沫/无护城河"冲榜首）
-function computeLtFit(prosperity){
+// 权重：durability 0.25 / visibility 0.25 / valuation 0.20 / supply 0.12 / barrier 0.10 / policy 0.08
+function computeFitFromDims(dims){
   const w = { durability:0.25, visibility:0.25, valuation:0.20, supply:0.12, barrier:0.10, policy:0.08 };
-  const s = Object.fromEntries(prosperity.dims.map(d=>[d.key, d.score]));
+  if (!dims || !dims.length) return { score:0, tier:'🔴回避/等', risk:false };
+  const s = Object.fromEntries(dims.map(d=>[d.key, d.score]));
   let score = Object.entries(w).reduce((a,[k,wk])=> a + (s[k]||0)/5*wk, 0) * 100; // 0-100
   let risk = (s.valuation<=1 || s.barrier<=1);
   if (risk) score = Math.min(score, 60);
-  let tier = score>=75 ? {k:'core',label:'🟢核心'} : score>=55 ? {k:'watch',label:'🟡观察'} : {k:'avoid',label:'🔴回避/等'};
-  return { score: Math.round(score), tier: tier.label, risk };
+  let tier = score>=75 ? '🟢核心' : score>=55 ? '🟡观察' : '🔴回避/等';
+  return { score: Math.round(score), tier, risk };
+}
+
+// 赛道级（prosperity.dims）— 内部转调内核，行为不变
+function computeLtFit(prosperity){
+  if (!prosperity || !prosperity.dims) return null;
+  return computeFitFromDims(prosperity.dims);
+}
+
+// 个股级（stock.dims6）— 与赛道级同口径、纯实时计算、不写入数据
+function computeStockFit(dims6){
+  if (!dims6 || !dims6.length) return null;
+  return computeFitFromDims(dims6);
+}
+
+// 个股长线适配分小徽章（segments 个股行末用），无 dims6 优雅降级为空字符串
+// 复用 .tag .tg-{color}（tg-green/tg-mid/tg-extreme），不新增 CSS 主结构
+function stockFitBadge(s){
+  if (!s.dims6 || !s.dims6.length) return '';
+  const f = computeStockFit(s.dims6);
+  if (!f) return '';
+  const cls = f.tier.indexOf('🟢')===0 ? 'tg-green' : f.tier.indexOf('🟡')===0 ? 'tg-mid' : 'tg-extreme';
+  return ` <span class="tag ${cls}" style="display:inline-block;margin-top:4px;" title="长线适配分（与赛道综合分同口径；权重：持续 0.25/兑现 0.25/估值 0.20/供需 0.12/壁垒 0.10/政策 0.08）">${f.score}/100 ${f.tier}</span>`;
 }
 
 // —— 跨链重复个股 canonical 注册表（先留空壳留钩子，20+ 条链时正式收口）—— 样板 §8.3
@@ -843,6 +869,10 @@ function renderChain(chainId) {
     if (!s.dims6 || !s.dims6.length) return '';
     const META = (typeof PROSPERITY_META !== 'undefined') ? PROSPERITY_META : {};
     const arrow = t => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : '<span style="color:var(--muted);">→</span>';
+    // ★ 升级 E：fold 面板顶部综合分行（复用赛道六维卡排版：综合 X/100 + 档位徽章 + ⚠安全垫）
+    const f = computeStockFit(s.dims6);
+    const tierCls = f.tier.indexOf('🟢')===0 ? 'tg-green' : f.tier.indexOf('🟡')===0 ? 'tg-mid' : 'tg-extreme';
+    const summaryRow = `<div style="margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--border);font-size:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">综合 <strong style="color:var(--accent);font-size:14px;">${f.score}</strong>/100 <span class="tag ${tierCls}" style="font-size:10px;">${f.tier}</span>${f.risk?' <span style="color:var(--red);font-size:10px;">⚠安全垫不足</span>':''}</div>`;
     let bars = '';
     s.dims6.forEach(d6 => {
       const meta = META[d6.key] || {};
@@ -854,7 +884,7 @@ function renderChain(chainId) {
       bars += `<span style="width:42px;text-align:right;font-family:monospace;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend)}</span>`;
       bars += `</div>`;
     });
-    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;"><div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}</div></details>`;
+    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;">${summaryRow}<div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}</div></details>`;
   }
 
   // ===== ★ B4 六维雷达图（纯内联 SVG，0 依赖，复用 var(--accent) 金色描边+半透明填充）=====
@@ -1289,7 +1319,7 @@ function renderChain(chainId) {
           h += `<td style="color:var(--barrier-low);font-size:11px;">—</td>`;
         }
       }
-      h += `<td style="font-size:13px;">${s.logic}${stockDims6Badge(s)}</td>`;
+      h += `<td style="font-size:13px;">${s.logic}${stockDims6Badge(s)}${stockFitBadge(s)}</td>`;
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
@@ -1311,7 +1341,7 @@ function renderChain(chainId) {
       }
       h += `<h4>A股标的</h4><table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
       seg.stocks.forEach(s => {
-        h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.logic}${stockDims6Badge(s)}</td></tr>`;
+        h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.logic}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
       });
       h += `</tbody></table></div>`;
     });
@@ -1333,7 +1363,7 @@ function renderChain(chainId) {
     }
     h += `<table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
     d.midstream.stocks.forEach(s => {
-      h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.note}${stockDims6Badge(s)}</td></tr>`;
+      h += `<tr><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.note}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
     });
     h += `</tbody></table></div></div>`;
   }
