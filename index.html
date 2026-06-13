@@ -881,7 +881,7 @@ function renderChain(chainId) {
       const pct = Math.max(0, Math.min(100, (d6.score/5)*100));
       const barColor = d6.score >= 4 ? 'var(--green)' : d6.score >= 3 ? 'var(--barrier-high)' : d6.score >= 2 ? 'var(--barrier-mid)' : 'var(--red)';
       bars += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:11px;line-height:1.4;">`;
-      bars += `<span style="width:68px;color:var(--muted);flex-shrink:0;">${meta.name || d6.key}</span>`;
+      bars += `<span style="width:68px;color:var(--muted);flex-shrink:0;">${meta.name || d6.key}${sourceTierBadge(d6.tier, d6.src)}</span>`;
       bars += `<div style="flex:1;min-width:50px;height:4px;background:var(--card2);border-radius:2px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${barColor};"></div></div>`;
       bars += `<span style="width:42px;text-align:right;font-family:monospace;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend)}</span>`;
       bars += `</div>`;
@@ -1012,7 +1012,7 @@ function renderChain(chainId) {
       const scaleText = meta.scale ? Object.entries(meta.scale).map(([k,v])=>`<strong>${k}</strong>=${v}`).join('；') : '';
       h += `<div style="margin-bottom:10px;">`;
       h += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;font-size:13px;">`;
-      h += `<span><strong>${d6.name || meta.name || d6.key}</strong>`;
+      h += `<span><strong>${d6.name || meta.name || d6.key}</strong>${sourceTierBadge(d6.tier, d6.src)}`;
       h += ` <details style="display:inline-block;margin-left:6px;font-size:11px;color:var(--muted);font-weight:400;vertical-align:middle;">`;
       h += `<summary style="cursor:pointer;display:inline-block;padding:1px 7px;background:rgba(123,168,255,0.10);border:1px solid rgba(123,168,255,0.35);border-radius:9px;color:var(--blue);font-weight:600;">ⓘ 依据</summary>`;
       h += `<div style="display:block;background:var(--card2);padding:10px 12px;border-radius:6px;margin-top:6px;line-height:1.7;color:var(--text);font-size:12px;max-width:680px;">`;
@@ -1020,7 +1020,7 @@ function renderChain(chainId) {
       if (scaleText)   h += `<div style="margin-top:4px;"><strong>标尺：</strong>${scaleText}</div>`;
       if (meta.basis)  h += `<div style="margin-top:4px;color:var(--muted);">${meta.basis}</div>`;
       if (d6.reason)   h += `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);"><strong>本赛道判断：</strong>${d6.reason}</div>`;
-      if (d6.evidence) h += `<div style="margin-top:3px;color:var(--muted);font-size:10px;">📎 ${d6.evidence}${d6.flag?' '+d6.flag:''}${sourceTierBadge(d6.tier, d6.src)}</div>`;
+      if (d6.evidence) h += `<div style="margin-top:3px;color:var(--muted);font-size:10px;">📎 ${d6.evidence}${d6.flag?' '+d6.flag:''}</div>`;
       h += `</div></details></span>`;
       h += `<span style="font-family:monospace;color:var(--text);">${d6.score}/5 ${arrowD(d6.trend)}</span>`;
       h += `</div>`;
@@ -1421,11 +1421,13 @@ function renderChain(chainId) {
       const band = p >= 80 ? '估值高位' : p >= 30 ? '估值合理' : '估值低位';
       const parts = [];
       if (c.valuation.pe)          parts.push(`PE ${c.valuation.pe}`);
+      // ★ 升级 PCB-完善：绝对 PE 独立显示（避免"分位中位"被误读为便宜；同时显示 PE-TTM 实际值）
+      if (c.valuation.peAbsolute)  parts.push(`<strong style="color:var(--text);">绝对 ${c.valuation.peAbsolute}</strong>`);
       parts.push(`分位 ${p}%`);
       if (c.valuation.grossMargin) parts.push(`毛利率 ${c.valuation.grossMargin}`);
       if (c.valuation.fromHigh)    parts.push(c.valuation.fromHigh);
       h += `<div class="valuation" style="font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">`;
-      h += `<span>${parts.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}</span>`;
+      h += `<span>${parts.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}${c.valuation.asOf?` <span style="color:var(--barrier-low);font-size:10px;" title="估值/PE 截至日">📅 ${c.valuation.asOf}</span>`:''}</span>`;
       h += `<span class="tag ${cls}" style="font-size:10px;">${band} ${p}%分位</span>`;
       h += `</div>`;
       if (c.valuation.note) {
