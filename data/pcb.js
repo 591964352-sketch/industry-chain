@@ -383,6 +383,35 @@ CHAINS.pcb.segments = [
         dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:2,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
         dims6Note:'🆪 钻针老牌+被鼎泰高科高端化替代' }
     ]
+  },
+  {
+    // ★ 升级 PCB-完善（终版）：AI PCB 制造(中游) 段 — 流动性主线，**非物理卡口**
+    // 方法论：制造段全球 100+ 家、客户可换，**不构成稀缺性卡口**（choke:false）；
+    // 但作为 AI 算力主线下流动性最好的受益标的（AI 服务器/汽车/消费三方向），
+    // 仍需评分上榜（barrier:high）。
+    // 5 只票 roster：沪电(002463)/胜宏(300476)/景旺(603228)/东山(002384)/鹏鼎(002938)
+    // 注：深南(002916)已在 ABF 载板段、生益(600183)已在 CCL 段 → 走 STOCK_REGISTRY 不重复。
+    // 本段与 fourQuestions.segments[4] 同名壳（4-问视图独立用）形成"双视图并行"：树状图看 6 维、4-问看物理卡口打分。
+    // 6-维时效：5 只票全部带 valAsOf:'YYYY-MM-DD'，渲染在 dims6 面板右下角灰字"📅 截至 MM-DD"。
+    name: 'AI PCB 制造(中游)', costRatio: '—', barrier: 'high', choke: false, border: false,
+    intro: 'PCB 制造是充分竞争行业、<strong>非物理卡口</strong>，但 AI 高多层/HDI 高端板有能力壁垒、且为本链<strong>最核心流动性标的</strong>。胜负手在"AI 纯度"与"估值"：纯 AI 受益(沪电/胜宏)业绩最硬但估值高；体量龙头(鹏鼎)AI 暴露小、Q1 走弱。',
+    stocks: [
+      { rank:1, name:'沪电股份', code:'002463', barrier:'高', tier:'primary', valAsOf:'2026-06-13',
+        dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🟢 AI PCB最纯标的：26Q1营收62.14亿+53.91%/净利12.42亿+62.9%、AI营收占比升至~60%、英伟达份额>50%；2025净利38.22亿+47.74%。扣分项为估值高位(PE随股价波动，需刷新)。', src:'2026Q1/2025年报' },
+      { rank:2, name:'胜宏科技', code:'300476', barrier:'高', tier:'primary', valAsOf:'2026-06-13',
+        dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🟢 AI弹性最大：2025净利43.12亿+273.52%(A股PCB首位)、26Q1净利12.88亿+40%(营收55.19亿+28%)、显卡/AI算力卡PCB领先。估值高位为扣分项(随股价刷新)。', src:'2026Q1/2025年报' },
+      { rank:3, name:'东山精密', code:'002384', barrier:'高', tier:'primary', valAsOf:'2026-04-26',
+        dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}],
+        dims6Note:'🟢 26Q1营收131.38亿+52.72%/净利11.10亿+143%/扣非+167%；弹性主要来自索尔思光模块并表(非纯PCB)，为PCB+光模块综合体；估值相对没沪电/胜宏极端(券商测2026 PE~29x，截至2026-04-26)。', src:'2026Q1/2025快报' },
+      { rank:4, name:'景旺电子', code:'603228', barrier:'中', tier:'primary', valAsOf:'2026-06-13',
+        dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}],
+        dims6Note:'🟢 综合PCB(软板/硬板/金属基)、AI纯度低：26Q1营收38.92亿+16.41%但净利2.33亿-28.37%(原材料涨价备货拖累、含18.57%非经常)；2025营收153亿+20.92%。弹性弱于纯AI龙头。', src:'2026Q1/2025年报' },
+      { rank:5, name:'鹏鼎控股', code:'002938', barrier:'高', tier:'primary', valAsOf:'2026-05-22',
+        dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}],
+        dims6Note:'🟢 全球PCB营收9连冠/苹果软板核心，"大而不纯AI"：AI服务器板仅占营收5.41%；26Q1营收79.86亿-1.25%/净利4.63亿-5.21%/扣非-31.85%走弱；估值贵(动态PE~130x、TTM~65x，截至2026-05-22)。', src:'2026Q1/2025年报' }
+    ]
   }
 ];
 
@@ -423,7 +452,7 @@ CHAINS.pcb.midstream = {
   ]
 };
 
-// PCB Four Questions
+// PCB Midstream stocks
 CHAINS.pcb.fourQuestions = {
   segments: [
     {
@@ -458,21 +487,22 @@ CHAINS.pcb.fourQuestions = {
       ]
     },
     {
-      // ★ 升级 PCB-完善：AI 视角的 PCB 制造(中游)环节 — 流动性主线标的，但**非物理卡口**
-      // 方法论：制造段全球 100+ 家、客户可换，**不构成稀缺性卡口**；但作为 AI 算力主线下流动性最好的
-      // 受益标的（AI 服务器/汽车/消费三方向），仍需评分上榜（barrier:high, choke:false）。
+      // ★ 升级 PCB-完善（终版）：AI PCB 制造(中游) 4-问视图（与 segments[6] 同名壳双视图并行）
+      // 4-问视图只读 q1-q4/hits/strength——5 只票**全部不通过 4-问**（制造段 100+ 家可切换 = 不构成物理卡口）。
+      // 这正是方法论的预期结果：制造段流动性主线 ≠ 物理卡口，卡口结论请看 segments[6] + chokePoints。
       // 5 只票 roster：沪电(002463)/胜宏(300476)/景旺(603228)/东山(002384)/鹏鼎(002938)
       // 注：深南(002916)已在 ABF 载板段、生益(600183)已在 CCL 段 → 走 STOCK_REGISTRY 不重复。
-      // **本单为"空壳搭建"，财报/dims6 待联网端核实后补**（cc 联网断，详见本会话第 0 步）。
+      // 数据已联网端核实：财报为 primary（2026Q1/2025 年报），估值类标 tier:'primary' 占位为初版，
+      //   周一 cron 刷新时按真实口径重标；4-问命中=0 保持，景气 6-维在 segments[6] 看。
       name: 'AI PCB 制造(中游)',
       barrier: 'high',
       choke: false,
       stocks: [
-        { name:'沪电股份', code:'002463', position:'AI 服务器 PCB 双龙头(待核)', barrier:'高', trend:null, trendNote:'⚠ 财报/dims6 待联网端补' },
-        { name:'胜宏科技', code:'300476', position:'英伟达 GB300 PCB 主供(待核)', barrier:'高', trend:null, trendNote:'⚠ 财报/dims6 待联网端补' },
-        { name:'景旺电子', code:'603228', position:'PCB 老牌(汽车+消费双轮·待核)', barrier:'中', trend:null, trendNote:'⚠ 财报/dims6 待联网端补' },
-        { name:'东山精密', code:'002384', position:'FPC+结构件·苹果链核心(待核)', barrier:'中', trend:null, trendNote:'⚠ 财报/dims6 待联网端补' },
-        { name:'鹏鼎控股', code:'002938', position:'全球 PCB 营收 9 连冠(待核)', barrier:'中', trend:null, trendNote:'⚠ 财报/dims6 待联网端补' }
+        { name:'沪电股份', code:'002463', position:'AI 服务器 PCB 双龙头(待核)', barrier:'高', q1:false, q1note:'', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:0, strength:null, trend:null, trendNote:'⚠ 财报/dims6 待联网端补' },
+        { name:'胜宏科技', code:'300476', position:'英伟达 GB300 PCB 主供(待核)', barrier:'高', q1:false, q1note:'', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:0, strength:null, trend:null, trendNote:'⚠ 财报/dims6 待联网端补' },
+        { name:'景旺电子', code:'603228', position:'PCB 老牌(汽车+消费双轮·待核)', barrier:'中', q1:false, q1note:'', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:0, strength:null, trend:null, trendNote:'⚠ 财报/dims6 待联网端补' },
+        { name:'东山精密', code:'002384', position:'FPC+结构件·苹果链核心(待核)', barrier:'中', q1:false, q1note:'', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:0, strength:null, trend:null, trendNote:'⚠ 财报/dims6 待联网端补' },
+        { name:'鹏鼎控股', code:'002938', position:'全球 PCB 营收 9 连冠(待核)', barrier:'中', q1:false, q1note:'', q2:false, q2note:'', q3:false, q3note:'', q4:false, q4note:'', hits:0, strength:null, trend:null, trendNote:'⚠ 财报/dims6 待联网端补' }
       ]
     },
     {
