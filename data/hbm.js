@@ -8,6 +8,34 @@ window.CHAINS = window.CHAINS || {};
 // ==================== HBM 高带宽存储 ====================
 CHAINS.hbm = {
   id: 'hbm', name: 'HBM 高带宽存储', icon: '🧠',
+    meta: { sector:'上游', tier:'核心', status:'active', updatedAt:'2026-06-13', ltFit:null },
+  prosperity: {
+    dims: [
+      { key:'durability', name:'景气持续性', score:5, trend:'up',
+        reason:'HBM超级周期：SK海力士已锁定2026全部产能、管理层判断供应紧张持续至2027；HBM4 2026H2成主流、溢价>30%；国产HBM量产周期5-7年。',
+        evidence:'TrendForce / 2026-06', flag:'🆪', tier:'broker' },
+      { key:'visibility', name:'业绩可见度', score:4, trend:'up',
+        reason:'A股为"卖铲子"间接受益(本体三巨头在海外)：拓荆26Q1营收+57%(订单110亿)、雅克2025净利10亿(+15%)；纯HBM弹性不如海外本体。',
+        evidence:'各公司2025年报/2026Q1 / 2026-06', flag:'🆪', tier:'primary' },
+      { key:'policy', name:'政策确定性', score:5, trend:'up',
+        reason:'国产替代主线：大基金三期3440亿、大基金入股雅克、华为(哈勃)与华海诚科合作、长鑫/武汉新芯扩产带动国产设备材料验证。',
+        evidence:'雅克股东/华海诚科年报 / 2026-06', flag:'🆪', tier:'primary' },
+      { key:'supply', name:'供需紧张度', score:5, trend:'up',
+        reason:'结构性极紧：HBM产能长协锁死至2027、2026缺口率仍~30%；DRAM 26Q1价格季增93-98%、Q2再增58-63%。',
+        evidence:'TrendForce / 2026-06', flag:'🆪', tier:'broker' },
+      { key:'valuation', name:'估值性价比', score:2, trend:'down',
+        reason:'⚠️扣分项：存储链估值高位。北方华创PE(TTM)~57x、雅克PE(TTM)~58x(截至2026-06-10,2026E forward~37x)、板块分位80%+。下钻见各卡口valuation。',
+        evidence:'同花顺/雪球 截至2026-06-10', flag:'🆪', tier:'primary' },
+      { key:'barrier', name:'壁垒安全垫', score:4, trend:'flat',
+        reason:'卡口环节(GMC/前驱体/混合键合设备)壁垒极高，但本体不在A股、封测模组可切换。安全垫集中在材料/设备卡口、不在概念股。',
+        evidence:'roll-up 自 segments[].barrier / 2026-06', flag:'🆪', tier:'broker' }
+    ],
+    verdict: {
+      longTermFit:'景气/政策/供需三高，但"A股纯度"与"估值"是两个折扣项——选材料/设备真卡口、避概念',
+      oneLine:'🆪 HBM本体在海外(SK海力士主导)，A股是"卖铲子"——三高但要选到真卡口(雅克/华海诚科/拓荆/北方华创)而非蹭概念的模组封测、且控估值。',
+      stockHint:'壁垒看segments[].barrier(GMC/前驱体/混合键合设备为真卡口)，买点看PE分位。纯度>概念。'
+    }
+  },
   cyclePosition: { stage:'boom', label:'繁荣中后期', reason:'🆪 AI 算力刚需+结构性短缺，产能长协锁死至2027；但本体三巨头垄断、估值已高，国产卡口在设备/材料端兑现节奏是关键变量', watchSignals:['英伟达/AMD HBM 订单与 HBM4 放量节奏','三巨头扩产与长协锁单公告','长鑫/武汉新芯 HBM 量产与国产设备材料验证进度'] },
   plainIntro: {
     analogy: 'HBM = AI 芯片身边的"超高速记忆仓库"',
@@ -20,7 +48,7 @@ CHAINS.hbm = {
   },
   overview: [
     { label: '🌍 全球 HBM 市场(2026E)', value: '~$500 亿', note: '2025约$307-357亿+52%（TrendForce）', color: 'var(--accent)' },
-    { label: '📈 TAM CAGR(25-28)', value: '~40%', note: '2028冲$1000亿（美光测算）', color: 'var(--green)' },
+    { label: '📈 TAM CAGR(25-28)', value: '~40%', note: '2030 美光测算~$1000亿', color: 'var(--green)' },
     { label: '🏆 本体寡头格局', value: 'SK53/三星38/美光9', note: '2024份额%，CR3≈100%', color: 'var(--blue)' },
     { label: '🇨🇳 本体国产化率', value: '~0%(未上市)', note: 'CXMT HBM2量产/HBM3 2026目标', color: 'var(--red)' },
     { label: '⚡ 核心驱动', value: 'GB300+HBM4', note: '英伟达Rubin 2026，单GPU用量升', color: null },
@@ -77,12 +105,12 @@ CHAINS.hbm.segments = [
       { lbl:'北方华创（中）', val:'平台型设备，键合/刻蚀布局', note:'国产替代主力' }
     ],
     stocks:[
-      { rank:1, name:'拓荆科技', code:'688072', position:'国产唯一量产PECVD，薄膜沉积国内市占>25%', barrier:'极高', hits:3, strength:'★★☆', trend:'up', trendNote:'HBM设备放量+混合键合突破', logic:'国内唯一量产PECVD企业，深度参与HBM混合键合研发，设备国产化率>50%，存储双雄订单占比高。混合键合仍受Besi垄断→暂列潜在卡口' },
-      { rank:2, name:'北方华创', code:'002371', position:'国内最大平台型设备商，全球第5', barrier:'极高', hits:3, strength:'★★☆', trend:'up', trendNote:'刻蚀/薄膜/键合全布局', logic:'覆盖刻蚀/薄膜/清洗/热处理，HBM相关键合与刻蚀设备布局，在手订单饱满，国产替代平台龙头' },
-      { rank:3, name:'中微公司', code:'688012', position:'TSV深孔刻蚀设备主供', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'TSV刻蚀受益HBM', logic:'2010年即推出首台TSV深孔硅刻蚀设备，TSV占HBM成本近30%，刻蚀需求随堆叠层数增加' },
-      { rank:4, name:'华海清科', code:'688120', position:'国产CMP/减薄设备唯一量产', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'晶圆减薄受益HBM堆叠', logic:'HBM超薄晶圆堆叠需多次减薄，国产减薄/CMP唯一量产，导入存储产线' },
-      { rank:5, name:'快克智能', code:'603203', position:'国产TCB热压键合追赶者', barrier:'中', hits:null, strength:null, trend:'up', trendNote:'TCB国产研发', logic:'国产TCB键合设备研发中，对标ASMPT，HBM12层以下键合有切入机会' },
-      { rank:6, name:'赛腾股份', code:'688343', position:'HBM芯片检测设备供应商', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'检测设备配套', logic:'供货HBM相关检测设备，受益封测扩产，壁垒中等' }
+      { rank:1, name:'拓荆科技', code:'688072', position:'国产唯一量产PECVD，薄膜沉积国内市占>25%', barrier:'极高', hits:3, strength:'★★☆', trend:'up', trendNote:'HBM设备放量+混合键合突破', logic:'国内唯一量产PECVD企业，深度参与HBM混合键合研发，设备国产化率>50%，存储双雄订单占比高。混合键合仍受Besi垄断→暂列潜在卡口' , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'up'}], dims6Note:'⚪ PECVD国产唯一/混合键合追赶；扣非利润小、混合键合未量产→卡口兑现靠突破', tier:'estimate', src:'扣非=公司一季报/混合键合=招股书+券商'},
+      { rank:2, name:'北方华创', code:'002371', position:'国内最大平台型设备商，全球第5', barrier:'极高', hits:3, strength:'★★☆', trend:'up', trendNote:'刻蚀/薄膜/键合全布局', logic:'覆盖刻蚀/薄膜/清洗/热处理，HBM相关键合与刻蚀设备布局，在手订单饱满，国产替代平台龙头' , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:5,trend:'up'},{key:'supply',score:5,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:5,trend:'up'}], dims6Note:'🆪 Q1营收103.23亿+25.8%/净利16.35亿+3.42%(研发拖累)；HBM混合键合Qomola HPD30；平台龙头、估值高(PE~57x)', tier:'primary', src:'Q1营收/净利=公司一季报+同花顺/平台龙头=招股书+行业协会'},
+      { rank:3, name:'中微公司', code:'688012', position:'TSV深孔刻蚀设备主供', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'TSV刻蚀受益HBM', logic:'2010年即推出首台TSV深孔硅刻蚀设备，TSV占HBM成本近30%，刻蚀需求随堆叠层数增加' , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'up'}], dims6Note:'🆪 Q1营收29.15亿+34.13%/净利9.3亿+197%(含售拓荆股票3.97亿,扣非4.78亿+60%)；TSV/存储刻蚀；净利含一次性', tier:'primary', src:'Q1营收/净利/扣非=公司一季报/售拓荆股票=公司公告'},
+      { rank:4, name:'华海清科', code:'688120', position:'国产CMP/减薄设备唯一量产', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'晶圆减薄受益HBM堆叠', logic:'HBM超薄晶圆堆叠需多次减薄，国产减薄/CMP唯一量产，导入存储产线' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'up'}], dims6Note:'🆪 ⚠️CMP/减薄设备(非华海诚科)；Q1营收+31.66%/净利2.47亿仅+5.95%；HBM减薄国产唯一', tier:'primary', src:'Q1营收/净利=公司一季报/CMP+减薄定位=招股书+券商'},
+      { rank:5, name:'快克智能', code:'603203', position:'国产TCB热压键合追赶者', barrier:'中', hits:null, strength:null, trend:'up', trendNote:'TCB国产研发', logic:'国产TCB键合设备研发中，对标ASMPT，HBM12层以下键合有切入机会' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 Q1营收3.33亿+33%/净利7707万+16%/扣非+31%;TCB先进封装设备(研发)+精密焊接装联(供光模块龙头/富士康);2025净利-35%系补税款、剔除后约2.22亿', tier:'primary', src:'Q1营收/净利/扣非=公司一季报+同花顺/2025净利=公司公告'},
+      { rank:6, name:'赛腾股份', code:'603283', position:'HBM芯片检测设备供应商', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'检测设备配套', logic:'供货HBM相关检测设备，受益封测扩产，壁垒中等' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 代码603283;Q1营收7.75亿+6.11%/净利9106万+33%/扣非+47%;HBM全制程检测落地、晶圆边缘检测获头部FAB验收;但主业仍消费电子、半导体占比小', tier:'primary', src:'Q1营收/净利/扣非=公司一季报+同花顺/HBM检测=公司公告+券商'}
     ]
   },
   {
@@ -95,12 +123,12 @@ CHAINS.hbm.segments = [
       { lbl:'联瑞新材（中）', val:'low-α球硅填料供海力士', note:'GMC核心填料占比70-90%' }
     ],
     stocks:[
-      { rank:1, name:'华海诚科', code:'688535', position:'A股唯一量产GMC，全球仅3家之一', barrier:'极高', hits:4, strength:'★★★', trend:'up', trendNote:'GMC替代日系+华为哈勃参股', logic:'A股唯一量产颗粒状环氧塑封料(GMC)，HBM必备耗材，已通过客户验证、技术替代住友/昭和，华为深圳哈勃参股，国产替代空间超百亿' },
-      { rank:2, name:'联瑞新材', code:'688300', position:'low-α球硅龙头，供SK海力士', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'球硅随HBM堆叠层数增量', logic:'GMC核心填料low-α球形硅微粉(球形度≥98%)小批量供货SK海力士，HBM 8→12层升级带动单位用量提升' },
-      { rank:3, name:'壹石通', code:'688733', position:'low-α球铝(HBM基板散热)', barrier:'中', hits:null, strength:null, trend:'up', trendNote:'球铝导热受益', logic:'供应low-α球形氧化铝(导热30W/mK)用于HBM散热，客户覆盖三星/海力士封装厂' },
-      { rank:4, name:'飞凯材料', code:'300398', position:'子公司长兴电子EMC', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'EMC布局HBM料', logic:'环氧塑封料布局，研发HBM相关高端封装料，尚处导入' },
-      { rank:5, name:'德邦科技', code:'688035', position:'临时键合胶/底部填充胶国产领先', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'底填/临时键合胶进口替代', logic:'板级底填技术达国际先进，配合华为开发芯片级底填，临时键合胶是HBM晶圆减薄关键耗材' },
-      { rank:6, name:'圣泉集团', code:'605589', position:'电子级酚醛/树脂固化剂', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'GMC上游树脂配套', logic:'电子级酚醛树脂等GMC上游原料，配套国产塑封料供应链' }
+      { rank:1, name:'华海诚科', code:'688535', position:'A股唯一量产GMC，全球仅3家之一', barrier:'极高', hits:4, strength:'★★★', trend:'up', trendNote:'GMC替代日系+华为哈勃参股', logic:'A股唯一量产颗粒状环氧塑封料(GMC)，HBM必备耗材，已通过客户验证、技术替代住友/昭和，华为深圳哈勃参股，国产替代空间超百亿' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:5,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:5,trend:'up'}], dims6Note:'⚪ A股唯一量产GMC(全球3家)；利润未放量、华为哈勃参股=estimate待核', tier:'estimate', src:'GMC=招股书+券商/华为哈勃=estimate待核'},
+      { rank:2, name:'联瑞新材', code:'688300', position:'low-α球硅龙头，供SK海力士', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'球硅随HBM堆叠层数增量', logic:'GMC核心填料low-α球形硅微粉(球形度≥98%)小批量供货SK海力士，HBM 8→12层升级带动单位用量提升' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 Q1营收2.94亿+23%/净利7163万+14%/PE74x高；HBM球铝关键填料(中国第三)、球硅打破海外垄断；⚠️跨PCB/HBM链走STOCK_REGISTRY对齐；生益为股东+客户', tier:'primary', src:'Q1营收/净利=公司一季报+同花顺/球铝/球硅=招股书+券商/生益关系=公司公告'},
+      { rank:3, name:'壹石通', code:'688733', position:'low-α球铝(HBM基板散热)', barrier:'中', hits:null, strength:null, trend:'up', trendNote:'球铝导热受益', logic:'供应low-α球形氧化铝(导热30W/mK)用于HBM散热，客户覆盖三星/海力士封装厂' , dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'⚪ low-α球铝散热/Q1当期财报未核实(estimate)；HBM散热球铝为间接卡位', tier:'estimate', src:'low-α球铝=招股书+券商/Q1具体待核'},
+      { rank:4, name:'飞凯材料', code:'300398', position:'子公司长兴电子EMC', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'EMC布局HBM料', logic:'环氧塑封料布局，研发HBM相关高端封装料，尚处导入' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 Q1营收8.73亿+24.56%/净利1.31亿+9.57%(扣非+74%,一次性收益消退致归母增速回落);半导体材料(EMC/湿电子化学品)占比小、主业屏显;2025净利3.9亿+58%', tier:'primary', src:'Q1营收/净利/2025年报=公司一季报+同花顺/扣非=公司公告'},
+      { rank:5, name:'德邦科技', code:'688035', position:'临时键合胶/底部填充胶国产领先', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'底填/临时键合胶进口替代', logic:'板级底填技术达国际先进，配合华为开发芯片级底填，临时键合胶是HBM晶圆减薄关键耗材' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}], dims6Note:'🆪 Q1营收4.06亿+28.48%/净利3441万+27%/扣非+23%;半导体先进封装胶(临时键合/底填)+高算力热界面材料', tier:'primary', src:'Q1营收/净利/扣非=公司一季报+同花顺/先进封装胶=招股书+券商'},
+      { rank:6, name:'圣泉集团', code:'605589', position:'电子级酚醛/树脂固化剂', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'GMC上游树脂配套', logic:'电子级酚醛树脂等GMC上游原料，配套国产塑封料供应链' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'up'}], dims6Note:'🆪 Q1营收26.71亿+8.6%/净利1.77亿-14%(剔股份支付+5.6%)；PPO国产唯一/GMC上游树脂；2025净利10.07亿+16%', tier:'primary', src:'Q1营收/净利=公司一季报+同花顺/2025年报=公司公告/PPO/GMC=招股书+券商'}
     ]
   },
   {
@@ -112,11 +140,11 @@ CHAINS.hbm.segments = [
       { lbl:'空气化工  APD（美）', val:'电子材料巨头', note:'前驱体/特气' }
     ],
     stocks:[
-      { rank:1, name:'雅克科技', code:'002409', position:'子公司韩国先科=SK海力士前驱体核心供应商', barrier:'极高', hits:4, strength:'★★★', trend:'up', trendNote:'绑定海力士+长鑫，HBM全世代受益', logic:'子公司UP Chemical为全球半导体前驱体龙头，SK海力士与合肥长鑫核心供应商，海力士收入占比~50%，大基金入股，技术贯穿HBM全世代' },
-      { rank:2, name:'南大光电', code:'300346', position:'电子特气+前驱体，ArF光刻胶国产唯一', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'前驱体/特气拓展HBM', logic:'前驱体与电子特气布局，半导体材料壁垒最高品种之一，受益存储扩产' },
-      { rank:3, name:'安集科技', code:'688019', position:'CMP抛光液国产龙头', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'CMP抛光液受益HBM减薄', logic:'CMP抛光液国产龙头，HBM多次减薄/平坦化带动抛光材料用量' },
-      { rank:4, name:'鼎龙股份', code:'300054', position:'CMP抛光垫国产唯一量产', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'抛光垫国产替代', logic:'CMP抛光垫国产唯一量产，HBM晶圆减薄/平坦化刚需耗材' },
-      { rank:5, name:'华特气体', code:'688268', position:'电子特种气体国产龙头', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'特气配套', logic:'电子特气国产龙头，配套存储晶圆制造，壁垒中等' }
+      { rank:1, name:'雅克科技', code:'002409', position:'子公司韩国先科=SK海力士前驱体核心供应商', barrier:'极高', hits:4, strength:'★★★', trend:'up', trendNote:'绑定海力士+长鑫，HBM全世代受益', logic:'子公司UP Chemical为全球半导体前驱体龙头，SK海力士与合肥长鑫核心供应商，海力士收入占比~50%，大基金入股，技术贯穿HBM全世代' , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:5,trend:'up'},{key:'supply',score:5,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:5,trend:'up'}], dims6Note:'⚪ 海力士+长鑫前驱体核心供、绑定全世代；26Q1营收-6.85%(LNG拖累)、长线卡口买点看估值', tier:'estimate', src:'海力士+长鑫=招股书+季报/Q1-6.85%=公司一季报'},
+      { rank:2, name:'南大光电', code:'300346', position:'电子特气+前驱体，ArF光刻胶国产唯一', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'前驱体/特气拓展HBM', logic:'前驱体与电子特气布局，半导体材料壁垒最高品种之一，受益存储扩产' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'up'}], dims6Note:'🆪 Q1营收6.62亿+5.45%/净利1.24亿+30%/扣非1.05亿+38.6%；前驱体收入+22%、电子特气', tier:'primary', src:'Q1营收/净利/扣非=公司一季报+同花顺/前驱体收入=公司公告'},
+      { rank:3, name:'安集科技', code:'688019', position:'CMP抛光液国产龙头', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'CMP抛光液受益HBM减薄', logic:'CMP抛光液国产龙头，HBM多次减薄/平坦化带动抛光材料用量' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'up'}], dims6Note:'🆪 2025净利约7.95亿+49%；CMP抛光液龙头入台积电、TSV/混合键合抛光液；Q1具体待补', tier:'primary', src:'2025净利=公司年报+同花顺/台积电=招股书+券商/Q1具体=待补'},
+      { rank:4, name:'鼎龙股份', code:'300054', position:'CMP抛光垫国产唯一量产', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'抛光垫国产替代', logic:'CMP抛光垫国产唯一量产，HBM晶圆减薄/平坦化刚需耗材' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'up'}], dims6Note:'🆪 Q1净利预增70-84%(2.4-2.6亿)；CMP抛光垫国产唯一、半导体材料营收占比首破50%', tier:'primary', src:'Q1预增=公司业绩预告/CMP=招股书+券商'},
+      { rank:5, name:'华特气体', code:'688268', position:'电子特种气体国产龙头', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'特气配套', logic:'电子特气国产龙头，配套存储晶圆制造，壁垒中等' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'flat'}], dims6Note:'🆪 电子特气国产替代龙头;Q1营收3.41亿-8.04%(平淡)、净利约6千万(精确值待补)', tier:'primary', src:'Q1营收=公司一季报/净利精确值=待补/电子特气龙头=招股书+券商'}
     ]
   },
   {
@@ -128,11 +156,11 @@ CHAINS.hbm.segments = [
       { lbl:'长川科技（中）', val:'数字测试机+分选', note:'国产替代加速' }
     ],
     stocks:[
-      { rank:1, name:'华峰测控', code:'688200', position:'国产模拟测试机龙头', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'先进封装测试受益', logic:'国产模拟/功率测试机龙头，向SoC/先进封装测试拓展，受益HBM封测扩产' },
-      { rank:2, name:'长川科技', code:'300604', position:'数字测试机+分选机国产领先', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'存储测试国产替代', logic:'数字测试机与分选机国产领先，切入存储测试，订单随HBM/先进封装增长' },
-      { rank:3, name:'精测电子', code:'300567', position:'半导体检测设备', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'检测设备配套', logic:'膜厚/缺陷检测设备，配套晶圆制造与先进封装' },
-      { rank:4, name:'亚威股份', code:'002559', position:'参股苏州芯测，测试机供海力士', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'参股切入HBM测试', logic:'参股苏州芯测，其子公司存储芯片测试机供应SK海力士，间接受益' },
-      { rank:5, name:'赛腾股份', code:'688343', position:'HBM芯片检测设备', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'检测配套', logic:'HBM相关检测设备供应商，受益封测扩产' }
+      { rank:1, name:'华峰测控', code:'688200', position:'国产模拟测试机龙头', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'先进封装测试受益', logic:'国产模拟/功率测试机龙头，向SoC/先进封装测试拓展，受益HBM封测扩产' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'up'}], dims6Note:'🆪 Q1营收2.72亿+37.5%/净利9420万+52%；模拟ATE龙头STS8300、封测扩产受益', tier:'primary', src:'Q1营收/净利=公司一季报+同花顺/STS8300=招股书+券商'},
+      { rank:2, name:'长川科技', code:'300604', position:'数字测试机+分选机国产领先', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'存储测试国产替代', logic:'数字测试机与分选机国产领先，切入存储测试，订单随HBM/先进封装增长' , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:4,trend:'up'}], dims6Note:'🆪 Q1营收13.78亿+69%/净利3.53亿+218%/扣非+612%；封测设备数字测试机、业绩最猛', tier:'primary', src:'Q1营收/净利/扣非=公司一季报+同花顺'},
+      { rank:3, name:'精测电子', code:'300567', position:'半导体检测设备', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'检测设备配套', logic:'膜厚/缺陷检测设备，配套晶圆制造与先进封装' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}], dims6Note:'🆪 Q1营收7.39亿+7.26%/净利0.43亿+13.6%(扣非0.13亿薄);半导体量测设备国产化(半导体业务+72%)、估值高(PE~125x 2026)', tier:'primary', src:'Q1营收/净利=公司一季报+同花顺/半导体+72%=公司公告'},
+      { rank:4, name:'亚威股份', code:'002559', position:'参股苏州芯测，测试机供海力士', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'参股切入HBM测试', logic:'参股苏州芯测，其子公司存储芯片测试机供应SK海力士，间接受益' , dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:2,trend:'flat'},{key:'policy',score:2,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'flat'}], dims6Note:'🆪 Q1营收4.56亿-2.37%/净利3214万-10.46%;主业机床(折弯机单项冠军),半导体仅小参股芯测、HBM概念边缘、主业平淡', tier:'primary', src:'Q1营收/净利=公司一季报+同花顺/主业=招股书+券商'},
+      { rank:5, name:'赛腾股份', code:'603283', position:'HBM芯片检测设备', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'检测配套', logic:'HBM相关检测设备供应商，受益封测扩产' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 代码603283;Q1营收7.75亿+6.11%/净利9106万+33%/扣非+47%;HBM全制程检测落地、晶圆边缘检测获头部FAB验收;但主业仍消费电子、半导体占比小', tier:'primary', src:'Q1营收/净利/扣非=公司一季报+同花顺/HBM检测=公司公告+券商'}
     ]
   },
   {
@@ -144,12 +172,12 @@ CHAINS.hbm.segments = [
       { lbl:'盛合晶微（中，未上市）', val:'华为体系硅中介层', note:'昇腾配套' }
     ],
     stocks:[
-      { rank:1, name:'通富微电', code:'002156', position:'CoWoS-like扩产，长鑫最重要后道伙伴', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'2.5D封装+长鑫HBM后道', logic:'AMD长期封测伙伴，南通基地大规模扩建CoWoS-like产能，已具备6/8层HBM封测能力，长鑫后道核心合作伙伴' },
-      { rank:2, name:'长电科技', code:'600584', position:'国内封测龙头', barrier:'高', hits:null, strength:null, trend:'flat', trendNote:'先进封装布局', logic:'国内封测龙头，先进封装技术布局，承接HPC/HBM相关封装' },
-      { rank:3, name:'太极实业', code:'600667', position:'与海力士封测合资(海太半导体)', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'海力士封测直接受益', logic:'子公司与SK海力士合资负责后工序封测，直接绑定HBM龙头产能' },
-      { rank:4, name:'华天科技', code:'002185', position:'封测三强之一', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'先进封装跟进', logic:'封测三强，先进封装产能扩张，间接受益HBM后道' },
-      { rank:5, name:'甬矽电子', code:'688362', position:'先进封装新锐', barrier:'中', hits:null, strength:null, trend:'up', trendNote:'高端封装放量', logic:'聚焦先进封装(FC/SiP)，高端产能爬坡' },
-      { rank:6, name:'深科技', code:'000021', position:'存储封测+模组', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'存储封测配套', logic:'存储芯片封测与模组，配套国产存储' }
+      { rank:1, name:'通富微电', code:'002156', position:'CoWoS-like扩产，长鑫最重要后道伙伴', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'2.5D封装+长鑫HBM后道', logic:'AMD长期封测伙伴，南通基地大规模扩建CoWoS-like产能，已具备6/8层HBM封测能力，长鑫后道核心合作伙伴' , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 2025净利+79.86%/全球第四封测/AMD深绑/先进封装含HBM；客户可切换非卡口；"长鑫后道"待核', tier:'primary', src:'2025净利=公司年报+同花顺/AMD深绑=招股书+券商/长鑫后道=调研纪要待核'},
+      { rank:2, name:'长电科技', code:'600584', position:'国内封测龙头', barrier:'高', hits:null, strength:null, trend:'flat', trendNote:'先进封装布局', logic:'国内封测龙头，先进封装技术布局，承接HPC/HBM相关封装' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 Q1营收91.71亿-1.76%/净利2.9亿+42.74%/PE48x；封测龙头、先进封装布局', tier:'primary', src:'Q1营收/净利=公司一季报/PE=同花顺/龙头=招股书+券商'},
+      { rank:3, name:'太极实业', code:'600667', position:'与海力士封测合资(海太半导体)', barrier:'高', hits:null, strength:null, trend:'up', trendNote:'海力士封测直接受益', logic:'子公司与SK海力士合资负责后工序封测，直接绑定HBM龙头产能' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 海太绑SK海力士长约2030/月封HBM3E 12万片锁10%回报；但毛利仅7.65%、单一客户、体量小', tier:'primary', src:'海太长约=公司公告+海力士合作/毛利/单一客户=2025年报'},
+      { rank:4, name:'华天科技', code:'002185', position:'封测三强之一', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'先进封装跟进', logic:'封测三强，先进封装产能扩张，间接受益HBM后道' , dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'down'}], dims6Note:'🆪 Q1营收47.99亿+34.49%/净利0.87亿+568%扭亏；封测三强、同质化竞争、弹性一般', tier:'primary', src:'Q1营收/净利=公司一季报/同质化=行业研究'},
+      { rank:5, name:'甬矽电子', code:'688362', position:'先进封装新锐', barrier:'中', hits:null, strength:null, trend:'up', trendNote:'高端封装放量', logic:'聚焦先进封装(FC/SiP)，高端产能爬坡' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'down'}], dims6Note:'🆪 Q1营收11.72亿+24%/净利2660万+8%(扣非130万扭亏、主要靠政府补助)；先进封装新锐、主业薄弱', tier:'primary', src:'Q1营收/净利/扣非=公司一季报+同花顺/政府补助=公司公告'},
+      { rank:6, name:'深科技', code:'000021', position:'存储封测+模组', barrier:'中', hits:null, strength:null, trend:'flat', trendNote:'存储封测配套', logic:'存储芯片封测与模组，配套国产存储' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 Q1营收37.24亿+10.67%/净利2.42亿+35.35%；存储封测绑长鑫、合肥满产；2025净利11.36亿+22%', tier:'primary', src:'Q1营收/净利=公司一季报/2025年报=公司公告/长鑫绑定=招股书+券商'}
     ]
   }
 ];
@@ -157,16 +185,17 @@ CHAINS.hbm.segments = [
 CHAINS.hbm.midstream = {
   description:'HBM 本体（SK海力士/三星/美光）A股无直接标的；中游 A股机会在先进封装与封测、模组代理。客户可切换→该环节无物理卡口，但国产 HBM 量产将强拉动后道。按壁垒/卡位排序。',
   stocks:[
-    { rank:1, name:'通富微电', code:'002156', barrier:'高', trend:'up', note:'CoWoS-like扩产，长鑫后道核心伙伴，6/8层HBM封测能力' },
-    { rank:2, name:'太极实业', code:'600667', barrier:'高', trend:'up', note:'与SK海力士合资封测，直接绑定HBM龙头产能' },
-    { rank:3, name:'长电科技', code:'600584', barrier:'高', trend:'flat', note:'封测龙头，先进封装布局' },
-    { rank:4, name:'雅克科技', code:'002409', barrier:'极高', trend:'up', note:'前驱体卡口，海力士+长鑫核心供应商' },
-    { rank:5, name:'华海诚科', code:'688535', barrier:'极高', trend:'up', note:'GMC卡口，A股唯一量产，华为哈勃参股' },
-    { rank:6, name:'拓荆科技', code:'688072', barrier:'极高', trend:'up', note:'HBM设备主力，PECVD国产唯一+混合键合追赶' },
-    { rank:7, name:'香农芯创', code:'300475', barrier:'中', trend:'flat', note:'SK海力士国内核心代理，代理壁垒中等' },
-    { rank:8, name:'华天科技', code:'002185', barrier:'中', trend:'flat', note:'封测三强，间接受益' },
-    { rank:9, name:'兆易创新', code:'603986', barrier:'中', trend:'flat', note:'利基存储+MCU龙头，存储周期受益' },
-    { rank:10, name:'佰维存储', code:'688525', barrier:'中', trend:'flat', note:'存储模组+测试，国产存储配套' }
+    { rank:1, name:'通富微电', code:'002156', barrier:'高', trend:'up', note:'CoWoS-like扩产，长鑫后道核心伙伴，6/8层HBM封测能力' , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 2025净利+79.86%/全球第四封测/AMD深绑/先进封装含HBM；客户可切换非卡口；"长鑫后道"待核', tier:'primary', src:'2025净利=公司年报+同花顺/AMD深绑=招股书+券商/长鑫后道=调研纪要待核'},
+    { rank:2, name:'太极实业', code:'600667', barrier:'高', trend:'up', note:'与SK海力士合资封测，直接绑定HBM龙头产能' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 海太绑SK海力士长约2030/月封HBM3E 12万片锁10%回报；但毛利仅7.65%、单一客户、体量小', tier:'primary', src:'海太长约=公司公告+海力士合作/毛利/单一客户=2025年报'},
+    { rank:3, name:'长电科技', code:'600584', barrier:'高', trend:'flat', note:'封测龙头，先进封装布局' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 Q1营收91.71亿-1.76%/净利2.9亿+42.74%/PE48x；封测龙头、先进封装布局', tier:'primary', src:'Q1营收/净利=公司一季报/PE=同花顺/龙头=招股书+券商'},
+    { rank:4, name:'雅克科技', code:'002409', barrier:'极高', trend:'up', note:'前驱体卡口，海力士+长鑫核心供应商' , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:5,trend:'up'},{key:'supply',score:5,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:5,trend:'up'}], dims6Note:'⚪ 海力士+长鑫前驱体核心供、绑定全世代；26Q1营收-6.85%(LNG拖累)、长线卡口买点看估值', tier:'estimate', src:'海力士+长鑫=招股书+季报/Q1-6.85%=公司一季报'},
+    { rank:5, name:'华海诚科', code:'688535', barrier:'极高', trend:'up', note:'GMC卡口，A股唯一量产，华为哈勃参股' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:5,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:5,trend:'up'}], dims6Note:'⚪ A股唯一量产GMC(全球3家)；利润未放量、华为哈勃参股=estimate待核', tier:'estimate', src:'GMC=招股书+券商/华为哈勃=estimate待核'},
+    { rank:6, name:'拓荆科技', code:'688072', barrier:'极高', trend:'up', note:'HBM设备主力，PECVD国产唯一+混合键合追赶' , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'up'}], dims6Note:'⚪ PECVD国产唯一/混合键合追赶；扣非利润小、混合键合未量产→卡口兑现靠突破', tier:'estimate', src:'扣非=公司一季报/混合键合=招股书+券商'},
+    { rank:7, name:'香农芯创', code:'300475', barrier:'中', trend:'flat', note:'SK海力士国内核心代理，代理壁垒中等' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:2,trend:'down'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'down'}], dims6Note:'🆪 Q1营收237.65亿+200.6%/净利近80倍；SK海力士国内代理；但分销低毛利、壁垒低、周期', tier:'primary', src:'Q1营收/净利=公司一季报/SK代理=公司公告+招股书'},
+    { rank:8, name:'华天科技', code:'002185', barrier:'中', trend:'flat', note:'封测三强，间接受益' , dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:2,trend:'down'}], dims6Note:'🆪 Q1营收47.99亿+34.49%/净利0.87亿+568%扭亏；封测三强、同质化竞争、弹性一般', tier:'primary', src:'Q1营收/净利=公司一季报/同质化=行业研究'},
+    { rank:9, name:'兆易创新', code:'603986', barrier:'中', trend:'flat', note:'利基存储+MCU龙头，存储周期受益' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:5,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:3,trend:'flat'}], dims6Note:'🆪 Q1营收41.88亿+119%/净利14.61亿+523%/扣非+530%无水分；存储设计龙头；周期反转强但cyclical、估值已高', tier:'primary', src:'Q1营收/净利/扣非=公司一季报+同花顺'},
+    { rank:10, name:'佰维存储', code:'688525', barrier:'中', trend:'flat', note:'存储模组+测试，国产存储配套' , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:5,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:2,trend:'down'}], dims6Note:'🆪 Q1营收68.14亿+341%/净利28.99亿扭亏/毛利53.3%；存储模组=周期品、模组壁垒中、估值已高', tier:'primary', src:'Q1营收/净利/毛利=公司一季报+同花顺'},
+    { rank:11, name:'沃格光电', code:'603773', barrier:'高', trend:'up', note:'TGV玻璃通孔(CoWoS/CoPoS下一代)，台积电CoPoS验证中、订单90亿+' , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}], dims6Note:'⚪ TGV玻璃通孔(CoWoS/CoPoS下一代),Q1净利预增180-220%(自媒体口径、待核财报),进台积电CoPoS验证、订单90亿+;高弹性高估值', tier:'broker', src:'净利预增=自媒体口径待核/TGV台积电=公司公告+调研纪要'}
   ]
 };
 
@@ -199,7 +228,7 @@ CHAINS.hbm.chokePoints = [
       { type:'产能缺口', claim:'国产替代空间超百亿，随HBM层数增量', howToCheck:'查GMC订单/产能公告，交叉验证长鑫/通富HBM放量节奏', falsifySignal:'GMC验证停滞或国产HBM延期→需求逻辑塌', status:'pending' },
       { type:'财报印证', claim:'GMC量产替代日系、毛利高', howToCheck:'查华海诚科最新季报GMC营收占比与毛利率，毛利是定价权最难造假的证据', falsifySignal:'GMC营收不放量/毛利平庸→卡口存疑', status:'pending' },
       { type:'交叉信源', claim:'≥2独立来源印证GMC唯一量产+哈勃参股', howToCheck:'券商深度研报+公司公告+哈勃持股披露同时印证', falsifySignal:'仅单一自媒体来源→存疑', status:'pending' }
-    ], note:'初始清单，需手动核查后切换状态' } },
+    ], note:'初始清单，需手动核查后切换状态' } , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:5,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:5,trend:'up'}], dims6Note:'🆪 A股唯一量产GMC/全球3家、壁垒满分；但利润未放量(2026净利~1亿)、估值靠未来——赔率/左侧派。⚠️华为哈勃参股: 本轮未核到精确出处(estimate,media)', tier:'estimate', src:'GMC=招股书+券商/华为哈勃=estimate待核'},
   { rank:2, name:'雅克科技', code:'002409', segment:'前驱体材料', strength:'★★★', logic:'子公司<strong>韩国先科(UP Chemical)是SK海力士前驱体核心供应商</strong>，同时供货合肥长鑫，国家大基金入股。前驱体用于HBM堆叠介质层薄膜沉积，<strong>技术贯穿HBM全世代</strong>，深度绑定全球HBM绝对龙头。', tags:['海力士核心供应商','全世代刚需','大基金入股','绑定长鑫'],
     valuation:{ pe:'🆪 中高', pePercentile:65, grossMargin:'前驱体毛利较高', fromHigh:'—', note:'🆪 AI估值初版：绑定海力士+长鑫双龙头，HBM增长确定性强；周一cron覆盖' },
     verification:{ items:[
@@ -207,7 +236,7 @@ CHAINS.hbm.chokePoints = [
       { type:'产能缺口', claim:'HBM产能高增带动前驱体放量', howToCheck:'查雅克前驱体产能/订单与海力士HBM扩产指引交叉验证', falsifySignal:'前驱体收入不随HBM增长→逻辑塌', status:'pending' },
       { type:'财报印证', claim:'前驱体营收高增、毛利稳', howToCheck:'查雅克最新季报前驱体分部营收增速与毛利率', falsifySignal:'营收停滞/毛利下滑→存疑', status:'pending' },
       { type:'交叉信源', claim:'≥2来源印证海力士核心供应商地位', howToCheck:'券商研报+公司公告+大基金持股披露', falsifySignal:'仅单一来源→存疑', status:'pending' }
-    ], note:'初始清单，需手动核查后切换状态' } },
+    ], note:'初始清单，需手动核查后切换状态' } , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:5,trend:'up'},{key:'supply',score:5,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:5,trend:'up'}], dims6Note:'🆪 子公司韩国先科为海力士HBM前驱体核心供、绑定全世代；但26Q1营收-6.85%(LNG交付拖累)、业绩平淡——长线卡口买点看估值', tier:'estimate', src:'绑定海力士=招股书+季报/海力士占比50%=media estimate待核'},
   { rank:3, name:'拓荆科技', code:'688072', segment:'混合键合/HBM设备', strength:'★★☆', logic:'<strong>国产唯一量产PECVD</strong>，薄膜沉积国内市占>25%，<strong>深度参与HBM混合键合研发</strong>，HBM设备国产化率>50%，存储双雄订单占比高。混合键合核心设备仍受Besi垄断→暂列潜在卡口(3/4)，若量产突破可升级。', tags:['PECVD国产唯一','HBM设备国产化>50%','混合键合追赶','存储双雄绑定'],
     valuation:{ pe:'🆪 高', pePercentile:75, grossMargin:'设备毛利较高', fromHigh:'—', note:'🆪 AI估值初版：HBM设备弹性大，但混合键合量产突破前估值已抢跑，注意节奏；周一cron覆盖' },
     verification:{ items:[
@@ -215,7 +244,7 @@ CHAINS.hbm.chokePoints = [
       { type:'产能缺口', claim:'HBM设备国产化>50%，订单饱满', howToCheck:'查拓荆存储设备订单与长鑫/武汉新芯扩产招标', falsifySignal:'存储订单不增→逻辑塌', status:'pending' },
       { type:'财报印证', claim:'PECVD市占>25%、存储收入占比高', howToCheck:'查拓荆季报存储收入占比、毛利率、在手订单', falsifySignal:'存储收入占比下滑→存疑', status:'pending' },
       { type:'交叉信源', claim:'≥2来源印证PECVD唯一量产+混合键合参与', howToCheck:'券商研报+公司公告交叉', falsifySignal:'仅单一来源→存疑', status:'pending' }
-    ], note:'初始清单，需手动核查后切换状态' } }
+    ], note:'初始清单，需手动核查后切换状态' } , dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:4,trend:'up'},{key:'policy',score:4,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'up'}], dims6Note:'🆪 26Q1净利5.71亿含82%非经常/扣非仅1.02亿(盈利质量扣分)；混合键合仍受Besi垄断——卡口兑现靠技术突破', tier:'estimate', src:'扣非数据=公司一季报/混合键合=招股书+券商'}
 ];
 
 CHAINS.hbm.supplyGap = [
