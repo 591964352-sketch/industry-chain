@@ -494,12 +494,13 @@
     <span class="nav-item" data-chain="ai-server" onclick="switchChain('ai-server')">🖥️ AI服务器<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('ai-server')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
     <span class="nav-item" data-chain="hbm" onclick="switchChain('hbm')">🧠 HBM/先进存储<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('hbm')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
     <span class="nav-item" data-chain="robotics" onclick="switchChain('robotics')">🤖 人形机器人<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('robotics')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-    <span class="nav-item nav-toggle" id="chain-toggle" onclick="toggleSidebarChains()">▶ 更多赛道 (8)</span>
+    <span class="nav-item nav-toggle" id="chain-toggle" onclick="toggleSidebarChains()">▶ 更多赛道 (9)</span>
     <div class="sidebar-collapsible collapsed" id="chain-collapsed">
       <span class="nav-item" data-chain="autonomous-driving" onclick="switchChain('autonomous-driving')">🚗 智能驾驶<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('autonomous-driving')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
       <span class="nav-item" data-chain="power-semi" onclick="switchChain('power-semi')">⚡ 功率半导体/SiC<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('power-semi')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
       <span class="nav-item" data-chain="ai-apps" onclick="switchChain('ai-apps')">🧠 AI应用<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('ai-apps')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
       <span class="nav-item" data-chain="cpo" onclick="switchChain('cpo')">💡 CPO 共封装光学<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('cpo')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+      <span class="nav-item" data-chain="optical" onclick="switchChain('optical')">🔦 光模块<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('optical')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
       <span class="nav-item" data-chain="solid-battery" onclick="switchChain('solid-battery')">🔋 固态电池<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('solid-battery')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
       <span class="nav-item" data-chain="low-altitude" onclick="switchChain('low-altitude')">✈️ 低空经济<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('low-altitude')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
       <span class="nav-item" data-chain="commercial-aero" onclick="switchChain('commercial-aero')">🚀 商业航天<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('commercial-aero')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
@@ -542,11 +543,11 @@
   // ★ 升级九 STEP 5+：data/*.js 半自动 cache buster
   // 改了 data/<id>.js 后，**手动 bump 下面这一行**（YYYYMMDD），
   // 让浏览器忽略旧缓存、走新版。下次 commit 同时同步这行。
-  // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写)
-  var DATA_VERSION = '?v=20260613';
+  // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写) / v2=20260614 (新增 optical 骨架)
+  var DATA_VERSION = '?v=20260614';
   var DATA_MANIFEST = [
     'pcb','semi','ai-server','hbm','robotics','autonomous-driving',
-    'power-semi','ai-apps','cpo','solid-battery','low-altitude','commercial-aero',
+    'power-semi','ai-apps','cpo','optical','solid-battery','low-altitude','commercial-aero',
     'ai-full-chain'
   ];
   DATA_MANIFEST.forEach(function(id){
@@ -1519,6 +1520,7 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-14', sector:'optical', desc:'🆕 光模块赛道骨架上线（仅结构+个股名单，"会变"数据全留待核）', old:'—', new:'新增 data/optical.js 骨架(segments×6/卡口×3/treeMap 5 列/中游/4 问)；DATA_MANIFEST 加 optical + DATA_VERSION bump(20260613→20260614)；侧栏加 🔦 光模块 入口；六维/prosperity/PE/PE 分位/市占/缺口 全部"待核"，等 Gemini 端核实后注入', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆕 内容性小字上调(10→11/12→13)', old:'表格正文 12px / 树状图注释 10px / 四问 10px / 🔒标签 10px / 对比表 10px', new:'表格正文 12px→13px（segments 主表+备用表+midstream 共 5 处）；内容性小字 10px→11px（树状图 note 7 处 / 四问 4 处 / 🔒卡口环节 6 处 / 对比表 2 处）', pct:'FIX' },
   { date:'2026-06-12', sector:'system', desc:'🆕 赛道刷新按钮：一键复制该赛道标准更新指令', old:'—', new:'13 赛道 nav-item 右上角 🔄 按钮点击 = 直接复制《标准更新指令模板》到剪贴板（含 200+ 研报硬性要求 + PCB 同款结构 + S1-S8 自检），navigator.clipboard.writeText 失败时 prompt 兜底，成功弹 .toast 提示', pct:'NEW' },
   { date:'2026-06-12', sector:'system', desc:'🆕 产业链全量研究刷新：13 赛道 nav-item 加 🔄 按钮（研究触发器）', old:'—', new:'按钮 = 研究触发器（不是运行时执行）。点击弹 modal 显示预生成的研究命令（含 ≥200 篇研报硬性要求 + 壁垒重排 + 数据全量更新 + 写回 HTML + 同步 CHANGELOG + LS 跟踪研究历史），一键复制到 Claude Code 跑研究。预计 token 消耗 ~500k-1M/次', pct:'NEW' },
@@ -1596,8 +1598,8 @@ function renderChangelog() {
 
   list.innerHTML = recentChanges.map(c => {
     const dir = c.pct.startsWith('+') ? 'up' : 'down';
-    const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'power-semi' ? '功率半导/SiC' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'ai-full-chain' ? 'AI全产业链' : c.sector === 'system' ? '系统升级' : c.sector;
-    const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'power-semi' ? '#f6465d' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'ai-full-chain' ? 'var(--accent)' : c.sector === 'system' ? '#3b82f6' : 'var(--muted)';
+    const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'power-semi' ? '功率半导/SiC' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'optical' ? '光模块' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'ai-full-chain' ? 'AI全产业链' : c.sector === 'system' ? '系统升级' : c.sector;
+    const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'power-semi' ? '#f6465d' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'optical' ? '#06b6d4' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'ai-full-chain' ? 'var(--accent)' : c.sector === 'system' ? '#3b82f6' : 'var(--muted)';
     return `<div class="changelog-item" onclick="switchChain('${c.sector}')">
       <div class="cl-date">${c.date}</div>
       <div class="cl-sector" style="color:${sectorColor};">${sectorName}</div>
