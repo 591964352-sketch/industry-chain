@@ -46,7 +46,8 @@ CHAINS['commercial-aero'] = {
     ]
   },
   segments: [],
-  midstream: { description: '', stocks: [] },
+  // ★ 异常 2 修复：midstream.description 由空字符串升级为「行业判断 + 卡口判定 + 暂不填个股原因」三段式，沿用 PCB midstream 范例格式；stocks 留空（商业火箭头部未上市）
+  midstream: { description: '商业航天中游"卫星总装+火箭发射"是充分竞争行业,卡口判定:非寡头。① 卫星总装:中国卫星(国家队)/长光卫星/微纳星空 等多家竞争,客户可切换,认证不构成寡头;② 火箭发射:头部公司(蓝箭航天/天兵科技/星河动力/东方空间/深蓝航天)5 家递交上市申请,但均未上市,A 股无纯正火箭标的。综合判定:商业航天中游为非卡口环节,本字段暂不填个股(stocks 留空)。', stocks: [] },
   fourQuestions: { segments: [] },
   chokePoints: [],
   supplyGap: [],
