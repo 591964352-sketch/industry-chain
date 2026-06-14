@@ -59,10 +59,10 @@ CHAINS.pcb = {
     { label: '🇨🇳 中国大陆全球占比', value: '~55%', note: '全球最大生产国（Prismark 2026）', color: 'var(--blue)', tier:'broker', src:'Prismark 2026（54-55% 区间已核实）' },
     { label: '🤖 AI 算力核心驱动', value: 'CAGR 30%+', note: '2024-2028 价值量 3-5x（Prismark 2026.6）', color: 'var(--green)', tier:'broker', src:'Prismark 2026.6' },
     { label: '🏭 产业阶段', value: '结构性升级期', note: '低端饱和/M7+供不应求（CPCA 2025）', color: 'var(--accent)', tier:'broker', src:'CPCA 2025' },
-    { label: '📐 M9 CCL 市场（2026E）', value: '~$80 亿', note: 'CAGR 40%，缺口~20%（待核一手）', color: 'var(--red)', tier:'estimate', src:'未找到 Prismark 一手来源，AI 估算待核' },
+    { label: '📐 M9 高速树脂市场（2026后续）', value: 'M9 高速树脂市场 ~80 亿元(2026后续)', note: '高频高速树脂市场 2026E ~50 亿元、后续超 80 亿元(**人民币**); 整个 M9 产业链 TAM ~1400 亿元。**原"$80 亿/CCL" 口径存疑(疑似树脂市场 80 亿元 RMB 误作 CCL 美元), 已修正**。缺口~20%(broker 估算)', color: 'var(--red)', tier:'broker', asOf:'2026-06-13', src:'艾邦/上海证券《AI PCB 浪潮 M9 材料升级》2026-01' },
     { label: '⚡ 下一代催化', value: 'Rubin + GB300', note: '英伟达GTC 2026：Rubin 2026Q3量产', color: null, tier:'broker', src:'英伟达 GTC 2026 / 券商纪要' },
     { label: '🔴 核心矛盾', value: '上游材料卡脖子', note: '碳氢树脂<30%·Q布<30%·HVLP4<15%（CPCA 2025）', color: 'var(--red)', tier:'broker', src:'CPCA 2025 国产化率统计' },
-    { label: '📋 M9 材料国产化率', value: '<mark class="updated">树脂<10%·Q布国产化率~80%</mark>', note: '铜箔15-20%·CCL~30%（Prismark 2026.6；80%为国产化率(非全球市占)、估算待核）', color: null, tier:'media', src:'国产化率（80%为媒体估算，未见一手）' }
+    { label: '📋 M9 材料国产化率（4 项分型）', value: '<mark class="updated">树脂早期替代 · 铜箔 15-20% · Q布上升 · CCL ~30%</mark>', note: '**4 项分指标 + 口径区分**(国产化率=中国市场供应份额 ≠ 全球市占):\n  - **树脂**: 国产替代早期,**东材为国内唯一 M9 认证 + 国内高速树脂市占 70-80%**;但**整体 M9 树脂国产化率仍低、大量依赖进口**(两个指标不同, 勿混)\n  - **铜箔(HVLP4)**: 国产化率低(**~15-20%**), 三井/金居主导, 国产扩产中\n  - **Q 布**: 国产化率上升, 菲利华/中材/宏和扩产, 供不应求至 2027H2\n  - **CCL**: 国产化率 **~30%**, 台光主导 M9 高端, 生益为大陆第二\n\n**整体标注**: 以上为券商/行业估算(**非一手统计**), 方向性参考', color: null, tier:'broker', asOf:'2026-06-13', src:'艾邦/上海证券《AI PCB 浪潮 M9 材料升级》2026-01 + CPCA 2025(部分指标)·树脂/铜箔/CCL 为 broker,Q 布 broker+estimate 混合' }
   ],
   // ★ 升级七：5 列横向树状图（下游→中游→上游材料→上游设备→侧枝）
   // 每列内是 sub-card 数组，sub-card 公司数据来源二选一：
