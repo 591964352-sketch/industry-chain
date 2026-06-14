@@ -29,8 +29,9 @@ CHAINS['commercial-aero'] = {
     { label: '📋 T/R芯片国产化', value: '铖昌科技已全自给并批量交付', note: '相控阵天线占卫星载荷核心成本,单星需消耗数千颗核心芯片', color: 'var(--green)', tier: 'primary', src: '铖昌科技(001270)2025年年度报告' }
   ],
   treeMap: {
-    downstream: { name: '手机直连卫星·远洋通信·应急救灾·航空WiFi·IoT', barrier: 'low', note: '华为Mate已支持天通卫星通信→C端普及在即' },
-    midstream: { name: '卫星总装+火箭发射+星座运营', barrier: 'low', note: '中国卫星(国家队)·千帆/星网运营·蓝箭/天兵等火箭→竞争激烈' },
+    // ★ 异常 1 修复：downstream/midstream 由 object 升级为 array(单元素)，与 PCB 黄金范例 schema 一致 → 触发 5 列横向布局
+    downstream: [ { name: '手机直连卫星·远洋通信·应急救灾·航空WiFi·IoT', barrier: 'low', note: '华为Mate已支持天通卫星通信→C端普及在即' } ],
+    midstream: [ { name: '卫星总装+火箭发射+星座运营', barrier: 'low', note: '中国卫星(国家队)·千帆/星网运营·蓝箭/天兵等火箭→竞争激烈' } ],
     equipment: [
       { name: '星载相控阵T/R芯片', barrier: 'extreme', choke: true, note: '铖昌科技龙头·全球仅3-4家量产' },
       { name: '通信载荷集成', barrier: 'extreme', choke: true, note: '上海瀚讯→华为低轨项目载荷供应商' }
