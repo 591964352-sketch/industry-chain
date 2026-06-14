@@ -32,7 +32,7 @@ CHAINS.pcb = {
         reason:'结构性紧张：高速 CCL 阶段性缺货、高端电子布(石英布/Low-DK)2026–28 缺口显著、ABF 膜(味之素)卡脖子、HVLP 铜箔偏紧；低端单双面板过剩内卷。紧张集中高端材料。',
         evidence:'行业供需测算/公司公告 / 2026-06', flag:'🆪', tier:'broker', src:'Prismark 2026.6 + CPCA 2025 + 公司公告交叉验证' },
       { key:'valuation', name:'估值性价比', score:1, trend:'down',
-        reason:'⚠️本轮最大扣分项（更新·亿牛网2026-06-12）：3 只核心卡口 2 只 PE-TTM 99.8%/99.9% 绝对历史高位（东材 270.8x / 菲利华 166.11x）+ 1 只 TTM 失真（铜冠铜箔 2024亏损+2025盈利近零致TTM失真、上市<5y 不构成5y分位，建议改 PB/PS 上市以来分位代替）——比 AI 初判（82/45/18 错落分布）整体更贵，性价比进一步下修。下钻见各卡口 valuation。',
+        reason:'⚠️本轮最大扣分项（更新·亿牛网2026-06-12）：3 只核心卡口估值口径须**分别看待**，不可拿一个 TTM 拍整体——(1) 东材 PE-TTM 270.8x/99.8% 含 2025 投产爬坡的非常规低基数(眉山 3500 吨 2026.6.30 投料),early-stage forward PE 显著低于 TTM,TTM 不可作硬依据; (2) 菲利华 PE-TTM 166.11x/99.9% 6 周 +19.5%,Q 布全球 ≥55% 市占+全系列认证逻辑已充分定价,TTM 可作硬依据; (3) 铜冠 PE-TTM 失真(2024 亏损+2025 盈利近零 + 上市<5y),亿牛网显示 ~10698x/分位 -1,TTM 不可作硬依据,建议改 PB/PS 上市以来分位代替。三只情况不同,综合 1 分=门控触发,挡掉"业绩爆表+泡沫"陷阱。下钻见各卡口 valuation。',
         evidence:'roll-up 自 chokePoints[].valuation / 2026-06-12', flag:'🆪', rollupFrom:'chokePoints[].valuation.pePercentile', tier:'media', src:'亿牛网 PE 聚合页（media 单源）· 3 卡口 PE-TTM 均为 2026-06-12 收盘·未独立交叉核实', asOf:'2026-06-12' },
       { key:'barrier', name:'壁垒安全垫', score:4, trend:'flat',
         reason:'分化极大：T0(ABF载板/高速CCL M9–M10/高端电子布)极高、安全垫足；T4(单双面/普通多层)几无壁垒、内卷。赛道级取核心卡口环节给 4。下钻见 segments[].barrier 与卡口 strength。',
@@ -40,7 +40,7 @@ CHAINS.pcb = {
     ],
     verdict: {
       longTermFit:'适合长线研究/跟踪，但不宜当前高位追——等买点或选环节',
-      oneLine:'🆪 PCB 是"业绩可见度(5)+景气持续性(4)"双高、但"估值性价比(2)"明显偏贵的赛道：长线逻辑顺，胜负手在买点与选环节。',
+      oneLine:'🆪 PCB 是"业绩可见度(5)+景气持续性(4)"双高、但"估值性价比(1)"处绝对历史高位、门控触发的赛道：长线逻辑顺，胜负手在买点（等 PE 分位回踩）与选环节。',
       stockHint:'优先 T0/T1 环节（极高/高壁垒），PE 分位越低越安全；景气+确定性选环节，壁垒+估值选标的与买点。'
     }
   },
@@ -511,7 +511,7 @@ CHAINS.pcb.fourQuestions = {
 // PCB Choke Points
 CHAINS.pcb.chokePoints = [
   { rank:1, name:'东材科技', code:'601208', segment:'M9碳氢树脂', strength:'★★★', logic:'全球<strong>仅2家</strong>通过英伟达M9碳氢树脂认证。台光独供2-3年排他协议。眉山3500吨<strong>2026年6月30日投料试产（提前至Q2末）</strong>。Q1净利1.87亿+103%，高速树脂+131%。2026年全球缺口<strong>~5000吨（63%）</strong>。M10树脂已进入客户验证。', tags:['双寡头','无替代','缺口63%','Q1净利+103%'],
-    valuation: { pe:'约270.8倍', peAbsolute:'PE-TTM 270.8x (2026-06-12)', pePercentile:99.8, grossMargin:'50%+', fromHigh:'(2026-06-12 数据·相对前高位置未独立核实)', asOf:'2026-06-12', note:'🆪 PE-TTM 270.8x 实际处历史99.8%绝对高位（亿牛网media口径），AI 初判 50x/82% 分位 严重低估；眉山3500吨 2026.6.30 投料试产 + Q1净利+103% 等卡口逻辑已充分定价，谨防高位接盘；建议用 PB 或 PS 上市以来分位交叉验证', tier:'media', src:'亿牛网 601208 历史PE页 https://eniu.com/gu/sh601208/pe_ttm · media 单源·未独立交叉核实' },
+    valuation: { pe:'约270.8倍(TTM)', peAbsolute:'PE-TTM 270.8x (2026-06-12)', pePercentile:99.8, grossMargin:'50%+', fromHigh:'(2026-06-12 数据·相对前高位置未独立核实)', asOf:'2026-06-12', note:'🆪 PE-TTM 270.8x 含**2025 投产爬坡低基数**(眉山 3500 吨 2026.6.30 投料试产, 2025 全年净利润基数被早期摊销压低)→ early-stage **forward PE 显著低于 TTM**, TTM 不可作硬依据; 99.8% 分位为绝对历史高位; 眉山 3500 吨 + Q1 净利+103% 卡口逻辑已充分定价, 谨防高位接盘; 建议 2026 H2 投产后用 forward PE + PB 交叉验证', tier:'media', src:'亿牛网 601208 历史PE页 https://eniu.com/gu/sh601208/pe_ttm · media 单源·未独立交叉核实' },
     verification: {
       items: [
         { type:'供给寡头', claim:'全球仅东材+JX化学2家通过英伟达M9认证', howToCheck:'搜圣泉(605589)、世名(300522)、SABIC最新公告与投资者问答，看有无第三家宣布M9认证', falsifySignal:'出现第三家通过认证 → 卡口降级', status:'pending' },
@@ -523,7 +523,7 @@ CHAINS.pcb.chokePoints = [
     }
   },
   { rank:2, name:'菲利华', code:'300395', segment:'Q布/石英纤维布', strength:'★★★', logic:'<strong><mark class="updated">Q布全球市占≥55%（绝对龙头·券商口径；80% 仅自媒体口径）</mark></strong>。国内唯一全产业链自主。已通过英伟达全链路认证。台光锁定500-700万米。Q布价格~260-300元/米（普通布8x）。全球缺口<strong>>40%</strong>。Q1营收6.22亿+53%。', tags:['≥55%绝对龙头','无替代','缺口>40%','毛利55-65%'],
-    valuation: { pe:'约166.11倍(TTM)', peAbsolute:'PE-TTM 166.11x (2026-06-12)', pePercentile:99.9, grossMargin:'55%+', fromHigh:'(2026-06-12 数据·相对前高位置未独立核实)', asOf:'2026-06-12', note:'🆪 PE-TTM 166.11x 实际处历史99.9%绝对高位（亿牛网media口径）；AI 初判"前瞻35倍/45%分位"严重低估——2026-04-23 139x → 2026-06-12 166.11x 6周内 +19.5%；Q布全球≥55%市占+全系列认证落地逻辑已充分定价', tier:'media', src:'亿牛网 300395 历史PE页 https://eniu.com/gu/sz300395/pe_ttm · media 单源·未独立交叉核实' },
+    valuation: { pe:'约166.11倍(TTM)', peAbsolute:'PE-TTM 166.11x (2026-06-12)', pePercentile:99.9, grossMargin:'55%+', fromHigh:'(2026-06-12 数据·相对前高位置未独立核实)', asOf:'2026-06-12', note:'🆪 PE-TTM 166.11x 实际处历史 99.9% 绝对高位(亿牛网 media 口径); 2026-04-23 139x → 2026-06-12 166.11x **6 周内 +19.5%**; 不同于东材(早期低基数 forward PE 显著低于 TTM), 菲利华无显著早期放量摊销, **TTM 可作硬依据**; Q 布全球 ≥55% 市占 + 全系列认证落地逻辑已充分定价; 建议等分位回踩或改用 PEG/Q 布出货量增速交叉', tier:'media', src:'亿牛网 300395 历史PE页 https://eniu.com/gu/sz300395/pe_ttm · media 单源·未独立交叉核实' },
     verification: {
       items: [
         { type:'供给寡头', claim:'Q布全球市占≥55%（绝对龙头·券商口径）', howToCheck:'搜菲利华/圣戈班/迈图(海外)的Q布产能公告与投资者问答，看菲利华市占率是否仍维持≥55%且快速提升（券商共识）', falsifySignal:'市占率快速下滑 / 海外新进入者宣布Q布量产 → 卡口降级', status:'pending' },
@@ -534,7 +534,7 @@ CHAINS.pcb.chokePoints = [
       note: '这是初始版本验证清单 — 实际状态需手动核查后切换'
     } },
   { rank:3, name:'铜冠铜箔', code:'301217', segment:'HVLP4铜箔', strength:'★★★', logic:'国内<strong>唯一</strong>HVLP1-4全系列量产。<strong><mark class="updated">锁定10台三船MSP-8000设备（全球70%），未来3年产能确定性最强</mark></strong>。日韩四强垄断85%+。阴极辊设备交期18-24月。2026年底全球月缺口<strong>~23%</strong>。2027市占率预期42%。', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'],
-    valuation: { pe:'不适用(数据不足)', peAbsolute:'PE-TTM 不适用(2024亏损/2025盈利近零·TTM失真;亿牛网显示~10698x,分位返回-1)', pePercentile:null, grossMargin:'18%+', fromHigh:'(2026-06-12 数据·相对前高位置未独立核实)', asOf:'2026-06-12', note:'🆪 PE-TTM 数据不足：2022-01 上市<5y(无完整5y分位) + 2024 亏损/2025 盈利近零致 TTM 失真(亿牛网显示~10698x·分位返回-1);AI 初判 22x/18% 分位系"PE-TTM 22"假设,不成立;建议改用 PB(~13.3x)/PS(~11.6x) 上市以来分位代替(待用户从网页Claude端补PB/PS分位)', tier:'estimate', src:'亿牛网 301217 PE页 https://eniu.com/gu/sz301217/pe_ttm · media 单源 + 上市<5y/盈利失真 · 建议改 PB/PS' },
+    valuation: { pe:'不适用(数据不足)', peAbsolute:'PE-TTM 不适用(2024亏损/2025盈利近零·TTM失真;亿牛网显示~10698x,分位返回-1)', pePercentile:null, grossMargin:'18%+', fromHigh:'(2026-06-12 数据·相对前高位置未独立核实)', asOf:'2026-06-12', note:'🆪 **PE-TTM 不可作硬依据**——(a) 2024 亏损 + 2025 盈利近零 → TTM 失真(亿牛网显示 ~10698x · 分位 -1);(b) 2022-01 上市 < 5y → 不构成 5y 分位(前 AI 初判 22x/18% 系把"PE 22"当 TTM 假设, **不成立**);(c) AI 初判 22x 远低于真实 TTM 失真值, 故不填 22x。**建议改用 PB(~13.3x) / PS(~11.6x) 上市以来分位代替**(待用户从网页 Claude 端补 PB/PS 分位, 阶段一 1.4 主题 A 备注)。卡口逻辑(M9 HVLP4 设备锁定+缺口 23%)不受估值口径影响', tier:'estimate', src:'亿牛网 301217 PE页 https://eniu.com/gu/sz301217/pe_ttm · media 单源 + 上市<5y/盈利失真 · 建议改 PB/PS' },
     verification: {
       items: [
         { type:'供给寡头', claim:'锁定三船MSP-8000设备10台、全球70%阴极辊产能', howToCheck:'查三船/MSP-8000出货清单、铜冠铜箔/卢森堡/诺贝丽斯(海外)的设备锁定公告，看铜冠锁定比例', falsifySignal:'设备锁定被打破 / 国产新进入者锁定三船新设备 → 设备垄断逻辑塌', status:'pending' },

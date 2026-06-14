@@ -870,7 +870,8 @@ function renderChain(chainId) {
   function stockDims6Badge(s) {
     if (!s.dims6 || !s.dims6.length) return '';
     const META = (typeof PROSPERITY_META !== 'undefined') ? PROSPERITY_META : {};
-    const arrow = t => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : '<span style="color:var(--muted);">→</span>';
+    // ★ 调优 B：高分 flat 调色 — score≥4 flat 用 var(--barrier-high) 金 / 其余 flat 仍 muted 灰
+    const arrow = (t, sc) => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : (sc!=null && sc>=4 ? '<span style="color:var(--barrier-high);">→</span>' : '<span style="color:var(--muted);">→</span>');
     // ★ 升级 E：fold 面板顶部综合分行（复用赛道六维卡排版：综合 X/100 + 档位徽章 + ⚠安全垫）
     const f = computeStockFit(s.dims6);
     const tierCls = f.tier.indexOf('🟢')===0 ? 'tg-green' : f.tier.indexOf('🟡')===0 ? 'tg-mid' : 'tg-extreme';
@@ -883,7 +884,7 @@ function renderChain(chainId) {
       bars += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:11px;line-height:1.4;">`;
       bars += `<span style="width:68px;color:var(--muted);flex-shrink:0;">${meta.name || d6.key}${sourceTierBadge(d6.tier, d6.src)}</span>`;
       bars += `<div style="flex:1;min-width:50px;height:4px;background:var(--card2);border-radius:2px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${barColor};"></div></div>`;
-      bars += `<span style="width:42px;text-align:right;font-family:monospace;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend)}</span>`;
+      bars += `<span style="width:42px;text-align:right;font-family:monospace;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend, d6.score)}</span>`;
       bars += `</div>`;
     });
     return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;">${summaryRow}<div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}${s.valAsOf?`<div style="margin-top:4px;font-size:10px;color:var(--barrier-low);text-align:right;" title="估值判断时点">📅 截至 ${s.valAsOf.slice(5)}</div>`:''}</div></details>`;
@@ -993,7 +994,8 @@ function renderChain(chainId) {
   if (d.prosperity && d.prosperity.dims && d.prosperity.dims.length === 6) {
     const p = d.prosperity;
     const META = (typeof PROSPERITY_META !== 'undefined') ? PROSPERITY_META : {};
-    const arrowD = t => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : '<span style="color:var(--muted);">→</span>';
+    // ★ 调优 B：高分 flat 调色 — score≥4 flat 用 var(--barrier-high) 金 / 其余 flat 仍 muted 灰
+    const arrowD = (t, sc) => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : (sc!=null && sc>=4 ? '<span style="color:var(--barrier-high);">→</span>' : '<span style="color:var(--muted);">→</span>');
     const lt = (typeof computeLtFit === 'function') ? computeLtFit(p) : null;
     h += `<div class="card" style="padding:20px;margin-top:18px;border-left:3px solid var(--accent);">`;
     h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">`;
@@ -1022,7 +1024,7 @@ function renderChain(chainId) {
       if (d6.reason)   h += `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);"><strong>本赛道判断：</strong>${d6.reason}</div>`;
       if (d6.evidence) h += `<div style="margin-top:3px;color:var(--muted);font-size:10px;">📎 ${d6.evidence}${d6.flag?' '+d6.flag:''}</div>`;
       h += `</div></details></span>`;
-      h += `<span style="font-family:monospace;color:var(--text);">${d6.score}/5 ${arrowD(d6.trend)}</span>`;
+      h += `<span style="font-family:monospace;color:var(--text);">${d6.score}/5 ${arrowD(d6.trend, d6.score)}</span>`;
       h += `</div>`;
       h += `<div style="height:6px;background:var(--card2);border-radius:3px;overflow:hidden;">`;
       h += `<div style="width:${pct}%;height:100%;background:${barColor};transition:width .3s;"></div>`;
