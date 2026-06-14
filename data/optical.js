@@ -77,14 +77,14 @@ CHAINS.optical = {
 
   // 8 张宏观卡(Gemini object → PCB array)
   overview: [
-    { label:'🌍 全球光模块市场(2026E)', value:'~$230 亿', note:'以太网光模块 ~$170 亿 [tier: estimate][来源1: LightCounting 2025-12-17] [来源2: 证券时报 2026-01-22]', color:'var(--accent)', tier:'estimate', src:'LightCounting + 证券时报 2026-01', asOf:'2026-06-14' },
+    { label:'🌍 全球光模块市场(2026E)', value:'~$380 亿', note:'以太网光模块 ~$228 亿(占 ~60%);<strong>口径:全市场美元口径</strong>(LC 2026 Q1 报告原文);较 2025 年 $238 亿 +60% [tier: broker][来源1: LightCounting 2026-Q1 报告 https://www.hyc-system.com/news/Industry/8173.html][来源2: 360iResearch 2026 预测分析 https://www.c-light.com/news/details/2026_Telecom_Optical_Module_Market.html]', color:'var(--accent)', tier:'broker', src:'LC 2026-Q1 + 360iResearch 2026', asOf:'2026-04-27' },
     { label:'🇨🇳 中国大陆全球占比', value:'~60% (出货量)', note:'<strong>口径:全球出货量占比,非自给率</strong>;招商证券通信组 2026-02-15 + ICC 讯石 2026-04 双源印证', color:'var(--blue)', tier:'broker', src:'招商证券 + ICC 讯石 2026-02', asOf:'2026-06-14' },
     { label:'🤖 AI 算力核心驱动', value:'AI 超大集群 Scale-up + 分布式推理', note:'AI 集群 Scale-up 与多地分布式推理网络引发对高速率/低延时光互连的爆炸性需求 [tier: primary]', color:'var(--green)', tier:'primary', src:'Nvidia 2026 GTC + LightCounting 2026-06', asOf:'2026-06-14' },
     { label:'🏭 产业阶段', value:'1.6T 商用爆发初期', note:'从 800G 常态化放量步入 1.6T 商用爆发初期,硅光/CPO 架构渗透率迎来核心向上拐点 [tier: broker]', color:'var(--accent)', tier:'broker', src:'天风证券 2026-04-12', asOf:'2026-06-14' },
-    { label:'📐 1.6T 光模块需求(2026E)', value:'1200-2000 万只', note:'<strong>1 源标"存疑(待核)"</strong>:维科号/OFweek 2026-05(存疑) + 发现报告云厂商 Capex 测算 2025-06-16', color:'var(--red)', tier:'estimate', src:'维科号(存疑) + 发现报告 2025-06', asOf:'2026-06-14' },
+    { label:'📐 1.6T 光模块需求(2026E)', value:'~2000 万只(美银) / 出货快速超 500 万只(Cignal AI)', note:'<strong>两源差异 ~4 倍待核</strong>:美银 BofA《中际旭创全栈光学平台》2026-06-12 测算 ~2000 万只(终端需求) + Cignal AI 2026 预测出货量将快速超 500 万并冲刺高位(实际出货)。<strong>已彻底移除维科号(media 存疑)单源</strong>[tier: broker][来源1: 美银 BofA 2026-06-12 https://app.myzaker.com/news/article.php?pk=6a2e3c2b8e9f09037b15760d][来源2: Cignal AI 2026 行业预判]', color:'var(--red)', tier:'broker', src:'美银 BofA 2026-06 + Cignal AI 2026', asOf:'2026-06-12' },
     { label:'⚡ 下一代催化', value:'CoWoS 扩产 + 3.2T + OFC 2026', note:'台积电 CoWoS 先进封装产能大规模释放、3.2T 以太网标准落地、OFC 2026 新秀产品量产 [tier: primary]', color:null, tier:'primary', src:'TSMC Q1 法说会 2026-04-18', asOf:'2026-06-14' },
     { label:'🔴 核心矛盾', value:'CSP 高 Capex 确定性 vs 200G EML+DSP 短缺', note:'下游北美四大 CSP 极高 Capex 增长确定性 vs 上游高阶光芯片(200G EML)及核心测试设备产能供给短缺 [tier: broker]', color:'var(--red)', tier:'broker', src:'国泰君安 2026-05-05', asOf:'2026-06-14' },
-    { label:'📋 上游材料国产化率', value:'<mark class="updated">总装 >90% / 上游 EML <20%</mark>', note:'<strong>口径区分:总装国产化率>90% ≠ 上游 100G/200G EML/高端 DSP 自给率<20%</strong>;芯智讯 2026-03 + 长光华芯新品发布会 2025-03-14 双源', color:'var(--red)', tier:'estimate', src:'芯智讯 2026-03 + 长光华芯 2025-03', asOf:'2026-06-14' }
+    { label:'📋 上游材料国产化率', value:'<mark class="updated">总装 >90% / 高端 EML <10%</mark>', note:'<strong>口径区分:总装国产化率>90% ≠ 上游高阶光芯片自给率<10%</strong>(中国市场供应份额口径,非全球市占);4 项分型 · <strong>DFB 国产化率:待核(null,缺源)</strong> · <strong>100G EML 国产化率:<10%</strong> · <strong>200G EML 国产化率:<10%</strong> · <strong>CW 激光器国产化率:待核(null,缺源)</strong>。[tier: broker][来源1: 国信证券产业链梳理 2026][来源2: 新浪新闻引述 2026 光芯片行业统计 https://www.sina.cn/news/detail/5297637717705090.html]', color:'var(--red)', tier:'broker', src:'国信证券 2026 + 新浪新闻引述 2026', asOf:'2026-06-14' }
   ],
 
   // 5 列树状图(骨架框架 + Gemini 28 只分配)
@@ -309,7 +309,7 @@ CHAINS.optical = {
         { key:'supply', score:3, trend:'flat', tier:'estimate' },
         { key:'valuation', score:1, trend:'down', tier:'estimate' },
         { key:'barrier', score:5, trend:'flat', tier:'estimate' }
-      ], dims6Note:'🆪 壁垒安全垫(5)+景气持续性(5)双满,业绩可见度(5)季度财报连续验证;但估值性价比(1)反映历史极高分位+情绪溢价;供需(3)是中游制造的天然中性;政策(3)中美科技博弈双向风险同在', tier:'broker' },
+      ], dims6Note:'🆪 壁垒安全垫(5)+景气持续性(5)双满,业绩可见度(5)季度财报连续验证;但估值性价比(1)反映历史极高分位+情绪溢价;供需(3)是中游制造的天然中性;政策(3)中美科技博弈双向风险同在;<strong>2025 年报硬数据(巨潮 primary)</strong>:营收 382.4 亿/+60% · 归母净利 108 亿/+109% · 综合毛利率(光通信收发模块) 42.61% · 研发费率 4.38% · 海外占比 90.58%', tier:'primary' },
       { rank:2, name:'新易盛', code:'300502', barrier:'高', trend:'up', trendNote:'Meta/Amazon 供应链中份额持续攀升', note:'<strong>800G/1.6T/LPO 核心供应商</strong> · 北美云厂商破局者 · 业绩弹性极强', dims6:[
         { key:'durability', score:4, trend:'up', tier:'estimate' },
         { key:'visibility', score:4, trend:'up', tier:'estimate' },
@@ -317,7 +317,7 @@ CHAINS.optical = {
         { key:'supply', score:3, trend:'flat', tier:'estimate' },
         { key:'valuation', score:2, trend:'down', tier:'estimate' },
         { key:'barrier', score:4, trend:'flat', tier:'estimate' }
-      ], dims6Note:'🆪 景气(4)+可见度(4)次于旭创但仍在高位;估值(2)略好于龙头;壁垒(4)中游第二梯队龙头;弹性大但客户集中度+北美关税风险同步放大', tier:'broker' },
+      ], dims6Note:'🆪 景气(4)+可见度(4)次于旭创但仍在高位;估值(2)略好于龙头;壁垒(4)中游第二梯队龙头;弹性大但客户集中度+北美关税风险同步放大;<strong>2025 年报硬数据(巨潮 primary)</strong>:营收 248.42 亿/+187.29% · 归母净利 95.32 亿/+235.89% · 综合毛利率待核(2026Q1 49.16% 旁证) · 研发费率 2.83% · 海外占比 ~95.8%', tier:'primary' },
       { rank:3, name:'光迅科技', code:'002281', barrier:'极高', trend:'up', trendNote:'自研芯片降低 BOM 成本,数通 1.6T 取得突破', note:'<strong>硅光+模块+芯片一体化</strong> · IDM 模式 · 1.6T 硅光批量', dims6:[
         { key:'durability', score:4, trend:'up', tier:'estimate' },
         { key:'visibility', score:4, trend:'up', tier:'estimate' },
@@ -325,7 +325,7 @@ CHAINS.optical = {
         { key:'supply', score:4, trend:'up', tier:'estimate' },
         { key:'valuation', score:2, trend:'down', tier:'estimate' },
         { key:'barrier', score:5, trend:'flat', tier:'estimate' }
-      ], dims6Note:'🆪 壁垒(5)硅光+模块+芯片 IDM 一体化,中游唯一自研光芯片;政策(4)国产替代直接受益;估值(2)反映 IDM 重资产折价;供给(4)上游芯片自给缓解外部卡口', tier:'broker' },
+      ], dims6Note:'🆪 壁垒(5)硅光+模块+芯片 IDM 一体化,中游唯一自研光芯片;政策(4)国产替代直接受益;估值(2)反映 IDM 重资产折价;供给(4)上游芯片自给缓解外部卡口;<strong>2025 年报硬数据(巨潮 primary,3 项待核)</strong>:营收 119.29 亿/+44.20% · 归母净利 9.46 亿/+43.10% · 综合毛利率待核 · 研发费率待核 · 海外占比待核(历史口径约 25%)', tier:'estimate' },
       { rank:4, name:'华工科技', code:'000988', barrier:'中', trend:'flat', trendNote:'北美市场拓展承压,国内份额稳固', note:'<strong>激光+光模块+传感器</strong> · 激光业务对冲 · 北美 AI 纯度略逊旭创', dims6:[
         { key:'durability', score:3, trend:'flat', tier:'estimate' },
         { key:'visibility', score:3, trend:'flat', tier:'estimate' },
@@ -475,7 +475,7 @@ CHAINS.optical = {
 
   // 3 条供需缺口(Gemini 细类)
   supplyGap: [
-    { segment:'1.6T 光模块', demand:'2026 年全球需求超 1200 万只,头部 CSP 需求暴增 [tier: estimate][来源1: 发现报告 2025-06-16] [来源2: 维科号 2026-05,存疑(待核)]', capacity:'封装产能充足,但受限核心组件,实际有效产出约 800-1000 万只', gap:'约 20-30% 绝对缺口', rate:'供需比 ~0.8:1,紧平衡', bottleneck:'极度依赖 Marvell/Broadcom 的 DSP 电芯片交期,以及 200G EML 的良率分配', tier:'broker', src:'招商证券通信组深度报告 2026-05' },
+    { segment:'1.6T 光模块', demand:'2026 年全球终端需求 ~2000 万只(美银 BofA 测算),实际出货快速超 500 万只并冲刺高位(Cignal AI 预测) [tier: broker][来源1: 美银 BofA《中际旭创全栈光学平台》2026-06-12 https://app.myzaker.com/news/article.php?pk=6a2e3c2b8e9f09037b15760d][来源2: Cignal AI 2026 行业预判]', capacity:'封装产能充足,但受限核心组件(200G EML + Marvell/Broadcom DSP)', gap:'上游物料产能瓶颈制约,~30% 绝对缺口(美银测算)', rate:'供需缺口约 30%', bottleneck:'极度依赖 Marvell/Broadcom 的 DSP 电芯片交期,以及 200G EML 的良率分配(已彻底移除维科号 media 存疑单源)', tier:'broker', src:'美银 BofA 2026-06 + Cignal AI 2026(已升级移除维科号/发现报告存疑源)' },
     { segment:'200G EML 光芯片', demand:'配合 1.6T 及 800G 下沉,2026 年需求激增至数千万颗级别 [tier: broker][来源: 中信建投测算 2026-04]', capacity:'产能死锁于海外巨头(Lumentum/Coherent),国内刚起步', gap:'全球缺口极高,国内近乎 100% 依赖进口分配', rate:'国产供需比 < 0.1:1', bottleneck:'InP 衬底材料的海外出口管制威胁,及高频电极设计和外延生长的良率墙', tier:'primary', src:'长光华芯公开纪要/ICC 讯石产业调研 2026-04' },
     { segment:'大功率 CW 激光器', demand:'CPO/硅光模块销售占比在 2026 年突破 50%,配套高功率光源需求呈指数级爆发 [tier: primary][来源: LightCounting 2026-06-02]', capacity:'大厂优先保供自身高端模块,外部商用流通盘极度稀缺', gap:'高缺口,特定波段(如 1310nm 70mW+)现货一芯难求', rate:'缺货率达 20-40%', bottleneck:'大功率下的散热处理导致寿命测试难过关,且生产耗费大量测试设备机时', tier:'media', src:'华为 JDC 社区/C114 通信网 2026-05' }
   ],
