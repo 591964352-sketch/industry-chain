@@ -40,9 +40,9 @@ CHAINS.optical = {
       { key:'policy', name:'政策确定性', score:3, trend:'flat',
         reason:'🆪 国内虽有"东数西算"及自主可控强指引,但本赛道景气度主要来源于不受国内宏观干预的北美出海需求。光模块多次被纳入美国关税豁免清单,具备"美国离不开中国制造"特质。',
         evidence:'ICC 讯石光通讯 2026-04-22 + C114 通信网 2026-05', flag:'🆪', tier:'media', src:'C114 通信网 2026-05' },
-      { key:'supply', name:'供需紧张度', score:2, trend:'down',
-        reason:'🆪 总装产能易扩,但受制于上游 DSP 电芯片与 200G EML 光芯片的良率爬坡,实际有效产出处于紧平衡。LC 提示需求超出核心光器件供应 30% 以上。',
-        evidence:'LightCounting 2026-05-07', flag:'🆪', tier:'broker', src:'中信建投通信研报 2026-05' },
+      { key:'supply', name:'供需紧张度', score:4, trend:'up',
+        reason:'🆪 供给极紧:800G/1.6T 供不应求、上游光芯片/法拉第旋片物料紧缺持续;中际旭创预付款环比激增 10 倍以上锁产能、与供应商签保障协议、导入新供应商。',
+        evidence:'中际旭创 26Q1 财报电话会 / 2026-04', flag:'🆪', tier:'broker', src:'中际旭创 26Q1 财报电话会 2026-04' },
       { key:'valuation', name:'估值性价比', score:2, trend:'down',
         reason:'🆪 核心标的(旭创/天孚)经历 2023-2025 戴维斯双击,市值已部分透支 2026 业绩预期。核心光模块厂平均 PE(TTM) 在 40-50 倍,相较历史中枢 30 倍有显著溢价。',
         evidence:'巨潮资讯网 2026-06-14 + 沪深交易所/Choice 数据 2026-06', flag:'🆪', tier:'primary', src:'巨潮资讯网 2026-06-14', asOf:'2026-06-14' },
@@ -148,19 +148,19 @@ CHAINS.optical = {
       stocks: [
         { rank:1, name:'源杰科技', code:'688498', position:'国内极其稀缺的 100G/200G EML 量产及 IDM 平台', barrier:'极高', trend:'up', trendNote:'100G EML 订单兑现预期强,但估值受情绪波动', logic:'<strong>卡口 ② 主标的</strong>:国内极其稀缺的 100G/200G EML 量产及 IDM 平台。100G EML 开始交付,长光华芯发布 200G PAM4 EML。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:2,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 壁垒极高(4)但当前估值分位较高(2),业绩兑现节奏需观察', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收3.55亿+320.94%/净利1.79亿+1153%(环比+111%);数据中心CW光源放量、高毛利;光芯片卡口候选。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:2, name:'长光华芯', code:'688048', position:'大功率 CW 激光器及高阶 VCSEL 国产化排头兵', barrier:'高', trend:'up', trendNote:'70mW CW 激光器发布填补空白,静待大客户验证', logic:'<strong>卡口 ① 主标的</strong>:大功率 CW 激光器(70mW CWDM4)+高阶 VCSEL 国产化排头兵。政策扶持力度大,产能正在释放。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'up',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 政策(4)+壁垒(4)双高,业绩能见度(3)中等(早期导入期),估值 PE 失真', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1净利448万、扭亏;光通信芯片收入接近去年全年、放量快;高功率激光芯片竞争格局固化。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:3, name:'仕佳光子', code:'688313', position:'AWG 及 DFB 芯片细分龙头,无源+有源双轮驱动', barrier:'高', trend:'flat', trendNote:'传统数通需求复苏,但高端 AI 占比较小', logic:'AWG 及 DFB 芯片细分龙头,无源+有源双轮驱动。业绩能见度中等,供给稳定。',
           dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 AWG+DFB 双线,业绩能见度(3)+供给(3)中等', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收5.77亿+32.18%/净利1.16亿+24.66%(扣非1.07亿+16.31%、所得税开始缴纳+政府补助895万致利润质量略弱);2025净利3.72亿+473%;PLC/AWG/DFB/EML光芯片全流程。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:4, name:'炬光科技', code:'688167', position:'微光学器件及激光元器件全球领先,受益上游材料爆发', barrier:'高', trend:'flat', trendNote:'泛半导体与汽车业务拖累部分利润,光通信稳步增长', logic:'微光学器件及激光元器件全球领先,泛半导体+汽车+光通信三线。持久度好但短期业绩能见度一般。',
           dims6:[{key:'durability',score:4,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 持久度(4)好但短期业绩(3)一般', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收2.05亿+21.15%/归母净利-1320万(仍亏、同比减亏59%)/毛利43.24%;光通信收入+218%(小基数)、消费电子+360%;⚠️激光雷达欧洲Tier1定点(原50万套)被取消;光子上游(高功率激光元器件/激光光学);2025亏3841万。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:5, name:'永鼎股份', code:'600105', position:'滤光片及部分光通信芯片研发能力,主做光纤缆', barrier:'中', trend:'down', trendNote:'AI 光模块核心增量相关性较弱', logic:'具备滤光片及部分光通信芯片研发能力,主做光纤缆。技术壁垒相对较低,估值合理,AI 暴露弱。',
           dims6:[{key:'durability',score:2,trend:'down',tier:'estimate'},{key:'visibility',score:2,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 壁垒(2)低+AI 暴露弱,纯超跌反弹逻辑', valAsOf:'2026-06-14', tier:'estimate' }
+          dims6Note:'🟢 26Q1营收12.46亿+41.92%/净利1.59亿-45.19%(系去年同期有2.92亿投资收益基数;剔除后经营性利润大增、超预期);光纤涨价、毛利26.2%提升;子公司鼎芯光电布局EML/CW光芯片(已签保供放量)。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' }
       ]
     },
     {
@@ -179,7 +179,7 @@ CHAINS.optical = {
           dims6Note:'🆪 垄断级壁垒(4)+供给极度紧缺(2),并表节点决定业绩弹性', valAsOf:'2026-06-14', tier:'broker' },
         { rank:2, name:'光库科技', code:'300620', position:'薄膜铌酸锂(TFLN)调制器绝对龙头,下一代相干通信核心', barrier:'极高', trend:'up', trendNote:'产业节点趋近,1.6T/3.2T 超长距传输方案开始导入', logic:'<strong>卡口 ③ 材料侧主标的</strong>:薄膜铌酸锂(TFLN)调制器绝对龙头,1.6T/3.2T 相干模块核心。技术壁垒高,但放量节点需观察。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 TFLN 壁垒(4)高,产能供给(3)稳定,估值(2)偏贵', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🔵 26Q1净利预告4370-4587万、同比+303-323%;薄膜铌酸锂调制器(光芯片侧枝,精确值待正式报)。[2026Q1预告]', valAsOf:'2026-06-14', tier:'broker' },
         { rank:3, name:'赛微电子', code:'300456', position:'全球 MEMS 代工龙头,具备硅光芯片代工制造能力与产能', barrier:'极高', trend:'up', trendNote:'受益于硅光模块流片需求大增及北京产线放量', logic:'全球 MEMS 代工龙头,硅光芯片代工制造能力。代工壁垒高,但折旧压力压制短期利润。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
           dims6Note:'🆪 代工壁垒(4)高,折旧压力压制短期利润', valAsOf:'2026-06-14', tier:'broker' }
@@ -197,7 +197,7 @@ CHAINS.optical = {
       stocks: [
         { rank:1, name:'天孚通信', code:'300394', position:'全球光器件龙头,深度绑定英伟达', barrier:'极高', trend:'flat', trendNote:'业绩连续超预期兑现,利润率一骑绝尘', logic:'全球光器件龙头,一站式提供从光引擎到隔离器核心组件,深度绑定英伟达。极高能见度但估值分位进入警戒区。',
           dims6:[{key:'durability',score:4,trend:'flat',tier:'estimate'},{key:'visibility',score:4,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 极高能见度(4)+壁垒(4),估值分位进入警戒区(2)', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1净利4.92亿+45.79%(环比降约11%);光器件平台、深度配套旭创。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:2, name:'太辰光', code:'300570', position:'MPO 高密度光纤连接器龙头,直接受益 AI 集群高密度布线', barrier:'中', trend:'up', trendNote:'北美大客户订单持续落地,北美建厂规避关税', logic:'MPO 高密度光纤连接器龙头,直接受益 AI 集群高密度布线。需求稳定可见,壁垒适中。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
           dims6Note:'🆪 需求稳定可见(4),壁垒(3)适中', valAsOf:'2026-06-14', tier:'broker' },
@@ -222,28 +222,28 @@ CHAINS.optical = {
       stocks: [
         { rank:1, name:'中际旭创', code:'300308', position:'全球市占第一,1.6T 时代继续领跑并独揽首批核心份额', barrier:'极高', trend:'flat', trendNote:'Q1/Q2 财报不断验证景气度,博弈 2026 终局市占', logic:'全球市占率第一,1.6T 时代继续领跑。龙头能见度爆表,但估值存在微小透支。',
           dims6:[{key:'durability',score:4,trend:'flat',tier:'estimate'},{key:'visibility',score:4,trend:'flat',tier:'estimate'},{key:'policy',score:2,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 龙头能见度爆表(4),估值存在微小透支(2)', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收194.96亿+192%/净利57.35亿+262%/扣非+264.6%/毛利46%;800G约40%、1.6T 50%+全球第一;谷歌NPO拿60%份额。⚠️供应链风险:前五大供应商占51.5%、核心光芯片依赖进口。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:2, name:'新易盛', code:'300502', position:'北美云厂商破局者,LPO 路线核心推手,业绩弹性极强', barrier:'高', trend:'up', trendNote:'在 Meta 及 Amazon 供应链中份额持续攀升,利润率改善', logic:'北美云厂商破局者,LPO 路线核心推手。弹性极大,客户拓展能见度高。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:2,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 弹性极大,客户拓展能见度高(4)', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收83.38亿+105.76%/净利27.80亿+76.80%(环比Q4降13%、低于市场预期);财务费用5.22亿系汇兑损失;预付款环比+3920%;800G/1.6T约15-20%市占。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:3, name:'光迅科技', code:'002281', position:'稀缺的"光芯片+器件+模块"垂直整合大厂,内资电信盘基本面深厚', barrier:'极高', trend:'up', trendNote:'自研芯片能力降低 BOM 成本,数通 1.6T 取得突破', logic:'稀缺的"光芯片+器件+模块"垂直整合大厂。IDM 模式抗风险极强,估值安全垫较厚。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'up',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 IDM 模式抗风险极强(4),估值安全垫较厚(3)', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收27.73亿+24.79%/净利2.40亿+59.76%/毛利26.83%;2025净利9.46亿+43%;国资系、全球光器件前四。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:4, name:'华工科技', code:'000988', position:'全球领先的光模块厂,硅光与 LPO 布局深远', barrier:'中', trend:'flat', trendNote:'在北美市场面临一定拓展压力,国内算力市场份额稳固', logic:'全球领先的光模块厂,硅光与 LPO 布局深远。估值较低,但北美 AI 纯度略逊旭创。',
           dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 估值(3)较低,北美 AI 纯度略逊旭创', valAsOf:'2026-06-14', tier:'estimate' },
+          dims6Note:'🔵 26Q1净利预告6-6.4亿、同比+46-56%(环比+303-329%);400G/800G/1.6T光模块出货大增、光互联盈利约+120%(精确值待正式报)。[2026Q1预告]', valAsOf:'2026-06-14', tier:'broker' },
         { rank:5, name:'联特科技', code:'301205', position:'海外制造基地布局早,马来西亚工厂规避关税风险', barrier:'中', trend:'flat', trendNote:'800G 产能爬坡中,博弈能否挤入北美核心供应链', logic:'海外制造基地布局早,马来西亚工厂规避关税风险。具有突围潜力,但能见度偏低且估值弹性大。',
           dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:2,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 突围潜力,能见度(2)偏低+估值弹性大(2)', valAsOf:'2026-06-14', tier:'estimate' },
+          dims6Note:'🟢 26Q1营收2.13亿-9.56%/净利304.58万-83.71%(扣非降幅更大);海外电信市场为主、短期大幅承压;2024净利+251%、2025前三季+31%。本链弱势标的。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:6, name:'剑桥科技', code:'603083', position:'收购 Macom 日本资产切入高端光模块,LPO 路线积极跟跑者', barrier:'中', trend:'flat', trendNote:'前期炒作退潮,回归业绩验证期,1.6T 进展尚需跟踪', logic:'收购 Macom 日本资产切入高端光模块。基本面等待反转信号,估值已大幅回调。',
           dims6:[{key:'durability',score:2,trend:'flat',tier:'estimate'},{key:'visibility',score:2,trend:'flat',tier:'estimate'},{key:'policy',score:2,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 基本面等待反转信号,估值(3)已大幅回调', valAsOf:'2026-06-14', tier:'estimate' },
+          dims6Note:'🟢 26Q1净利同比+276%、高速光模块业务规模增加(营收/净利绝对值待补)。[2026Q1]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:7, name:'特发信息', code:'000070', position:'控股四川华拓,主营光纤缆及中低端光模块业务', barrier:'中', trend:'down', trendNote:'主要依赖国内政企及运营商市场,受地方财力牵制', logic:'控股四川华拓,主营光纤缆及中低端光模块业务。AI 算力关联度极低,纯超跌反弹逻辑。',
           dims6:[{key:'durability',score:2,trend:'down',tier:'estimate'},{key:'visibility',score:2,trend:'down',tier:'estimate'},{key:'policy',score:2,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 AI 算力关联度极低(2),纯超跌反弹逻辑', valAsOf:'2026-06-14', tier:'estimate' },
+          dims6Note:'🟢 26Q1营收8.30亿+5.06%/归母净利-953.5万(仍亏、同比减亏37%、去年亏1506万);光纤光缆/光通信/军工;2025全年亏系计提减值;经营现金流2.29亿+222%。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:8, name:'铭普光磁', code:'002902', position:'磁性元器件起家,积极向硅光模块与光器件转型', barrier:'中', trend:'flat', trendNote:'概念属性强于业绩兑现,光模块业务占比仍较小', logic:'磁性元器件起家,积极向硅光模块与光器件转型。壁垒有限,估值投机溢价高。',
           dims6:[{key:'durability',score:2,trend:'flat',tier:'estimate'},{key:'visibility',score:2,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 壁垒(2)有限,估值投机溢价高(2)', valAsOf:'2026-06-14', tier:'estimate' }
+          dims6Note:'🟢 26Q1营收4.85亿+34.94%/归母净利-2285.83万(仍亏、同比亏损收窄51%);光磁器件/通信电源/光模块配套。本链尚未盈利标的。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' }
       ]
     },
     {
@@ -309,7 +309,7 @@ CHAINS.optical = {
         { key:'supply', score:3, trend:'flat', tier:'estimate' },
         { key:'valuation', score:1, trend:'down', tier:'estimate' },
         { key:'barrier', score:5, trend:'flat', tier:'estimate' }
-      ], dims6Note:'🆪 壁垒安全垫(5)+景气持续性(5)双满,业绩可见度(5)季度财报连续验证;但估值性价比(1)反映历史极高分位+情绪溢价;供需(3)是中游制造的天然中性;政策(3)中美科技博弈双向风险同在;<strong>2025 年报硬数据(巨潮 primary)</strong>:营收 382.4 亿/+60% · 归母净利 108 亿/+109% · 综合毛利率(光通信收发模块) 42.61% · 研发费率 4.38% · 海外占比 90.58%', tier:'primary' },
+      ], dims6Note:'🟢 26Q1营收194.96亿+192%/净利57.35亿+262%/扣非+264.6%/毛利46%;800G约40%、1.6T 50%+全球第一;谷歌NPO拿60%份额。⚠️供应链风险:前五大供应商占51.5%、核心光芯片依赖进口。[2026Q1报]', tier:'primary' },
       { rank:2, name:'新易盛', code:'300502', barrier:'高', trend:'up', trendNote:'Meta/Amazon 供应链中份额持续攀升', note:'<strong>800G/1.6T/LPO 核心供应商</strong> · 北美云厂商破局者 · 业绩弹性极强', dims6:[
         { key:'durability', score:4, trend:'up', tier:'estimate' },
         { key:'visibility', score:4, trend:'up', tier:'estimate' },
@@ -317,7 +317,7 @@ CHAINS.optical = {
         { key:'supply', score:3, trend:'flat', tier:'estimate' },
         { key:'valuation', score:2, trend:'down', tier:'estimate' },
         { key:'barrier', score:4, trend:'flat', tier:'estimate' }
-      ], dims6Note:'🆪 景气(4)+可见度(4)次于旭创但仍在高位;估值(2)略好于龙头;壁垒(4)中游第二梯队龙头;弹性大但客户集中度+北美关税风险同步放大;<strong>2025 年报硬数据(巨潮 primary)</strong>:营收 248.42 亿/+187.29% · 归母净利 95.32 亿/+235.89% · 综合毛利率待核(2026Q1 49.16% 旁证) · 研发费率 2.83% · 海外占比 ~95.8%', tier:'primary' },
+      ], dims6Note:'🟢 26Q1营收83.38亿+105.76%/净利27.80亿+76.80%(环比Q4降13%、低于市场预期);财务费用5.22亿系汇兑损失;预付款环比+3920%;800G/1.6T约15-20%市占。[2026Q1报]', tier:'primary' },
       { rank:3, name:'光迅科技', code:'002281', barrier:'极高', trend:'up', trendNote:'自研芯片降低 BOM 成本,数通 1.6T 取得突破', note:'<strong>硅光+模块+芯片一体化</strong> · IDM 模式 · 1.6T 硅光批量', dims6:[
         { key:'durability', score:4, trend:'up', tier:'estimate' },
         { key:'visibility', score:4, trend:'up', tier:'estimate' },
@@ -325,7 +325,7 @@ CHAINS.optical = {
         { key:'supply', score:4, trend:'up', tier:'estimate' },
         { key:'valuation', score:2, trend:'down', tier:'estimate' },
         { key:'barrier', score:5, trend:'flat', tier:'estimate' }
-      ], dims6Note:'🆪 壁垒(5)硅光+模块+芯片 IDM 一体化,中游唯一自研光芯片;政策(4)国产替代直接受益;估值(2)反映 IDM 重资产折价;供给(4)上游芯片自给缓解外部卡口;<strong>2025 年报硬数据(巨潮 primary,3 项待核)</strong>:营收 119.29 亿/+44.20% · 归母净利 9.46 亿/+43.10% · 综合毛利率待核 · 研发费率待核 · 海外占比待核(历史口径约 25%)', tier:'estimate' },
+      ], dims6Note:'🟢 26Q1营收27.73亿+24.79%/净利2.40亿+59.76%/毛利26.83%;2025净利9.46亿+43%;国资系、全球光器件前四。[2026Q1报]', tier:'primary' },
       { rank:4, name:'华工科技', code:'000988', barrier:'中', trend:'flat', trendNote:'北美市场拓展承压,国内份额稳固', note:'<strong>激光+光模块+传感器</strong> · 激光业务对冲 · 北美 AI 纯度略逊旭创', dims6:[
         { key:'durability', score:3, trend:'flat', tier:'estimate' },
         { key:'visibility', score:3, trend:'flat', tier:'estimate' },
@@ -333,7 +333,7 @@ CHAINS.optical = {
         { key:'supply', score:3, trend:'flat', tier:'estimate' },
         { key:'valuation', score:3, trend:'flat', tier:'estimate' },
         { key:'barrier', score:2, trend:'flat', tier:'estimate' }
-      ], dims6Note:'🆪 激光业务对冲光模块景气,北美 AI 纯度低拖累估值弹性;壁垒(2)中游第二梯队;各项 3 分为行业中性,无显著差异化', tier:'broker' },
+      ], dims6Note:'🔵 26Q1净利预告6-6.4亿、同比+46-56%(环比+303-329%);400G/800G/1.6T光模块出货大增、光互联盈利约+120%(精确值待正式报)。[2026Q1预告]', tier:'broker' },
       { rank:5, name:'联特科技', code:'301205', barrier:'中', trend:'flat', trendNote:'800G 产能爬坡中,博弈挤入北美核心供应链', note:'<strong>1.6T 光模块新晋</strong> · 马来工厂规避关税 · 突围潜力', dims6:[
         { key:'durability', score:3, trend:'up', tier:'estimate' },
         { key:'visibility', score:3, trend:'up', tier:'estimate' },
@@ -341,7 +341,7 @@ CHAINS.optical = {
         { key:'supply', score:3, trend:'up', tier:'estimate' },
         { key:'valuation', score:3, trend:'flat', tier:'estimate' },
         { key:'barrier', score:2, trend:'flat', tier:'estimate' }
-      ], dims6Note:'🆪 马来工厂规避关税是政策(4)差异化亮点;1.6T 新晋突围有博弈空间;但壁垒(2)客户认证未稳,属高赔率低胜率标的', tier:'estimate' },
+      ], dims6Note:'🟢 26Q1营收2.13亿-9.56%/净利304.58万-83.71%(扣非降幅更大);海外电信市场为主、短期大幅承压;2024净利+251%、2025前三季+31%。本链弱势标的。[2026Q1报]', tier:'primary' },
       { rank:6, name:'剑桥科技', code:'603083', barrier:'中', trend:'flat', trendNote:'前期炒作退潮,回归业绩验证期', note:'<strong>光模块+无线小基站</strong> · 收购 Macom 日本资产 · LPO 跟跑', dims6:[
         { key:'durability', score:3, trend:'flat', tier:'estimate' },
         { key:'visibility', score:2, trend:'down', tier:'estimate' },
@@ -349,7 +349,7 @@ CHAINS.optical = {
         { key:'supply', score:2, trend:'flat', tier:'estimate' },
         { key:'valuation', score:3, trend:'flat', tier:'estimate' },
         { key:'barrier', score:2, trend:'flat', tier:'estimate' }
-      ], dims6Note:'🆪 LPO 跟跑+Macom 日本资产整合存不确定性;可见度(2)与供给(2)双低;属修复型标的,等业绩验证', tier:'estimate' },
+      ], dims6Note:'🟢 26Q1净利同比+276%、高速光模块业务规模增加(营收/净利绝对值待补)。[2026Q1]', tier:'primary' },
       { rank:7, name:'特发信息', code:'000070', barrier:'中', trend:'down', trendNote:'主要依赖国内政企及运营商', note:'<strong>光纤缆+中低端光模块</strong> · AI 暴露弱 · 纯超跌反弹', dims6:[
         { key:'durability', score:2, trend:'down', tier:'estimate' },
         { key:'visibility', score:2, trend:'flat', tier:'estimate' },
@@ -357,7 +357,7 @@ CHAINS.optical = {
         { key:'supply', score:2, trend:'flat', tier:'estimate' },
         { key:'valuation', score:4, trend:'up', tier:'estimate' },
         { key:'barrier', score:2, trend:'flat', tier:'estimate' }
-      ], dims6Note:'🆪 估值(4)是唯一亮点(超跌反弹);其余维度均偏弱,AI 暴露弱,纯题材属性,无卡口逻辑支撑', tier:'estimate' },
+      ], dims6Note:'🟢 26Q1营收8.30亿+5.06%/归母净利-953.5万(仍亏、同比减亏37%、去年亏1506万);光纤光缆/光通信/军工;2025全年亏系计提减值;经营现金流2.29亿+222%。[2026Q1报]', tier:'primary' },
       { rank:8, name:'铭普光磁', code:'002902', barrier:'中', trend:'flat', trendNote:'概念属性强于业绩兑现', note:'<strong>磁性元器件+光模块转型</strong> · 壁垒有限 · 估值投机溢价', dims6:[
         { key:'durability', score:2, trend:'flat', tier:'estimate' },
         { key:'visibility', score:2, trend:'flat', tier:'estimate' },
@@ -365,7 +365,7 @@ CHAINS.optical = {
         { key:'supply', score:2, trend:'flat', tier:'estimate' },
         { key:'valuation', score:2, trend:'down', tier:'estimate' },
         { key:'barrier', score:1, trend:'flat', tier:'estimate' }
-      ], dims6Note:'🆪 壁垒(1)最低,概念属性强;估值(2)已透支;属纯题材标的,无业绩/卡口逻辑支撑', tier:'estimate' }
+      ], dims6Note:'🟢 26Q1营收4.85亿+34.94%/归母净利-2285.83万(仍亏、同比亏损收窄51%);光磁器件/通信电源/光模块配套。本链尚未盈利标的。[2026Q1报]', tier:'primary' }
     ]
   },
 
