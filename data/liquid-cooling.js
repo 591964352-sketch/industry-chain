@@ -28,10 +28,13 @@ window.CHAINS = window.CHAINS || {};
 CHAINS['liquid-cooling'] = {
   id: 'liquid-cooling', name: '液冷', icon: '❄️',
   // ★ 升级九 STEP 2：赛道级 meta —— 骨架态标记
-  // ★ 升级九 STEP 2+ 复查(2026-06-15):meta.status 不再标 'active'(完整态)
-  //   真实状态:结构骨架100%对齐PCB schema + chokePoints/部分dims6已核实,
-  //   但 S4b/S4c/S5/S8 数据密度未达PCB标准,详见 .claude/scratch/liquid-cooling-gap-report.md
-  meta: { sector:'中游', tier:'待核', status:'结构骨架对齐+数据密度待补(S4b/S4c/S5/S8未达)', updatedAt:'2026-06-15', ltFit:true },
+  // ★ 升级九 STEP 2+ 复查(2026-06-15 P1-1 后):meta.status 不再标 'active'(完整态)
+  //   真实状态:
+  //   S4a/S4b 已补(S4a 5→6 段漏液检测+1 段,各段均 ≥5 只,total 32 只)
+  //   剩 S4c 完整度(midstream 0/10 三全齐) + S5 position 真市占率(21+11=32 ②待补)
+  //   + S3 sub-card note 占比(0/11 含%)待补
+  //   详见 .claude/scratch/liquid-cooling-gap-report.md
+  meta: { sector:'中游', tier:'待核', status:'S4a/S4b已补(6段/32只);剩S4c完整度+S5 position+S3占比待补', updatedAt:'2026-06-15', ltFit:true },
   // ★ 升级九 STEP 2：景气六维 —— 骨架版（6 维 score/trend/reason 全留空，标"待核"）
   prosperity: {
     dims: [
@@ -251,7 +254,24 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'26Q1 营收 66.73 亿(+91.29%)/归母 16.54 亿(+1005.75%)/扣非归母 15.60 亿(+1062.23%)单季净利大增;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)', tier:'primary', valAsOf:'2026-06-15' }
+        ], dims6Note:'26Q1 营收 66.73 亿(+91.29%)/归母 16.54 亿(+1005.75%)/扣非归母 15.60 亿(+1062.23%)单季净利大增;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)', tier:'primary', valAsOf:'2026-06-15' },
+        // ★ P1-1 注入(2026-06-15):seg[0] 氟化液 3→5
+        { rank:4, name:'多氟多', code:'002407', position:'②待补(本轮 P1-1 占位):氟化液/六氟磷酸锂业务具体份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        { rank:5, name:'昊华科技', code:'600378', position:'②待补(本轮 P1-1 占位):氟化工平台在液冷介质份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' }
       ]
     },
     {
@@ -374,7 +394,16 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'26Q1 营收 14.30 亿(+17.57%)/归母 7800.88 万(+13.15%)/经营现金流 1.21 亿(+160.80%);毛利率/PE-TTM 待核。来源:公司第一季度报告公告(截至 2026-04-26)', tier:'primary', valAsOf:'2026-06-15' }
+        ], dims6Note:'26Q1 营收 14.30 亿(+17.57%)/归母 7800.88 万(+13.15%)/经营现金流 1.21 亿(+160.80%);毛利率/PE-TTM 待核。来源:公司第一季度报告公告(截至 2026-04-26)', tier:'primary', valAsOf:'2026-06-15' },
+        // ★ P1-1 注入(2026-06-15):seg[2] 集成 4→5
+        { rank:5, name:'工业富联', code:'601138', position:'②待补(本轮 P1-1 占位,与 midstream 推算对齐):全球 AI 服务器代工份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' }
       ]
     },
     {
@@ -411,7 +440,24 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'🟢 26Q1 营收 16.33 亿/-10.83% / 归母 2246.52 万/-67.52%(扣非 1052.82 万/-82.48%) / 毛利率 14.09%/-6.9pct。来源:证券之星 2026-04-29/30 整理(公司一季报公告)。PE-TTM 约 173 倍 broker(因利润大幅下滑失真,口径不可信)。PE 历史分位 ②待补(因公司巨亏分位计算失真)。⚠️重大风险:控股股东舟山百汇达 2026-03-17~06-16 减持窗口期内,计划减持不超过 3% 股份(tier:primary,src:2026-02-13 公告)——作 ⚠️ 提示可见,不改 barrier。', tier:'primary', valAsOf:'2026-03-20' }
+        ], dims6Note:'🟢 26Q1 营收 16.33 亿/-10.83% / 归母 2246.52 万/-67.52%(扣非 1052.82 万/-82.48%) / 毛利率 14.09%/-6.9pct。来源:证券之星 2026-04-29/30 整理(公司一季报公告)。PE-TTM 约 173 倍 broker(因利润大幅下滑失真,口径不可信)。PE 历史分位 ②待补(因公司巨亏分位计算失真)。⚠️重大风险:控股股东舟山百汇达 2026-03-17~06-16 减持窗口期内,计划减持不超过 3% 股份(tier:primary,src:2026-02-13 公告)——作 ⚠️ 提示可见,不改 barrier。', tier:'primary', valAsOf:'2026-03-20' },
+        // ★ P1-1 注入(2026-06-15):seg[3] IDC 3→5
+        { rank:4, name:'宝信软件', code:'600845', position:'②待补(本轮 P1-1 占位):液冷 IDC 业务份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        { rank:5, name:'奥飞数据', code:'300738', position:'②待补(本轮 P1-1 占位):华南液冷 IDC 份额', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' }
       ]
     },
     {
@@ -447,7 +493,78 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'🟢 26Q1 营收 8.37 亿/-7.96% / 归母 1.05 亿/+0.39%(扣非 1.02 亿/+1.34%) / 毛利率 29.63%/+4.21pct。来源:证券之星 2026-05-08 整理(公司一季报公告)。PE-TTM 精确倍数 ②待补(仅查到分位,未查到对应 TTM 倍数本身)。PE 历史分位 38.0%(近 1 年)broker,src:知了财报网。海容是液冷侧枝(冷却塔),非纯液冷标的,液冷相关业务占比待核。', tier:'primary', valAsOf:'2026-05-08' }
+        ], dims6Note:'🟢 26Q1 营收 8.37 亿/-7.96% / 归母 1.05 亿/+0.39%(扣非 1.02 亿/+1.34%) / 毛利率 29.63%/+4.21pct。来源:证券之星 2026-05-08 整理(公司一季报公告)。PE-TTM 精确倍数 ②待补(仅查到分位,未查到对应 TTM 倍数本身)。PE 历史分位 38.0%(近 1 年)broker,src:知了财报网。海容是液冷侧枝(冷却塔),非纯液冷标的,液冷相关业务占比待核。', tier:'primary', valAsOf:'2026-05-08' },
+        // ★ P1-1 注入(2026-06-15):seg[4] 侧枝 3→5
+        { rank:4, name:'芯原股份', code:'688521', position:'②待补(本轮 P1-1 占位):液冷温控芯片 IP 设计份额', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        { rank:5, name:'中颖电子', code:'300327', position:'②待补(本轮 P1-1 占位):MCU 温控芯片在液冷份额', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' }
+      ]
+    },
+    {
+      // ★ P1-1 注入(2026-06-15):新环节"漏液检测/传感"(S4a 加 1 段,5→6)
+      //   候选:二次侧冷却塔 / 温控芯片 / 漏液检测,选漏液检测(候选池最明确+有"防漏烧服务器"卡口逻辑)
+      //   本轮 P1-1 重点是数量,position/logic 标②待补,数据密度后续轮补
+      name: '漏液检测/传感(防漏卡口)', costRatio: '—', barrier: '—', choke: false, border: false,
+      intro: '<strong>漏液检测</strong>是液冷系统的"安全阀"——液冷介质一旦泄漏,直接烧毁昂贵算力设备(<strong>单台 GB200 服务器 30-50 万元</strong>)。传感器(气体/湿度/温度)+ 漏液线缆+ 测试设备构成"检测→告警→关断→维护"闭环。<strong>技术壁垒中等</strong>(传感器精度 + 误报率),但<strong>客户认证周期 6-12 月</strong>(漏报后果严重,整机厂不敢换供)。',
+      globalLandscape: [
+        { lbl:'汉威科技(中)', val:'—', note:'气体传感器国内龙头(具体液冷漏液份额待核)' },
+        { lbl:'四方光电(中)', val:'—', note:'激光红外气体传感器(具体份额待核)' }
+      ],
+      stocks: [
+        { rank:1, name:'汉威科技', code:'300007', position:'②待补(本轮 P1-1 占位):液冷漏液检测气体传感器国内份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        { rank:2, name:'四方光电', code:'688665', position:'②待补(本轮 P1-1 占位):激光红外气体传感器在液冷漏液检测份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        { rank:3, name:'精测电子', code:'300567', position:'②待补(本轮 P1-1 占位):液冷系统测试设备份额', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        { rank:4, name:'雪迪龙', code:'002658', position:'②待补(本轮 P1-1 占位):环境监测传感器在 IDC 液冷份额', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        // ★ P1-1 补全(2026-06-15):seg[5] 漏液检测 4→5
+        { rank:5, name:'华工科技', code:'000988', position:'②待补(本轮 P1-1 占位):激光传感器在 IDC 液冷漏液检测份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+          {key:'durability',name:'景气持续性',score:5,trend:'up'},
+          {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
+          {key:'policy',name:'政策确定性',score:4,trend:'flat'},
+          {key:'supply',name:'供需紧张度',score:4,trend:'up'},
+          {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
+          {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' }
       ]
     }
   ],
