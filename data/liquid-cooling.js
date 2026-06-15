@@ -28,7 +28,10 @@ window.CHAINS = window.CHAINS || {};
 CHAINS['liquid-cooling'] = {
   id: 'liquid-cooling', name: '液冷', icon: '❄️',
   // ★ 升级九 STEP 2：赛道级 meta —— 骨架态标记
-  meta: { sector:'中游', tier:'待核', status:'active', updatedAt:'2026-06-15', ltFit:true },
+  // ★ 升级九 STEP 2+ 复查(2026-06-15):meta.status 不再标 'active'(完整态)
+  //   真实状态:结构骨架100%对齐PCB schema + chokePoints/部分dims6已核实,
+  //   但 S4b/S4c/S5/S8 数据密度未达PCB标准,详见 .claude/scratch/liquid-cooling-gap-report.md
+  meta: { sector:'中游', tier:'待核', status:'结构骨架对齐+数据密度待补(S4b/S4c/S5/S8未达)', updatedAt:'2026-06-15', ltFit:true },
   // ★ 升级九 STEP 2：景气六维 —— 骨架版（6 维 score/trend/reason 全留空，标"待核"）
   prosperity: {
     dims: [
