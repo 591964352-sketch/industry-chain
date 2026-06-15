@@ -1,13 +1,18 @@
 // data/liquid-cooling.js  —— 升级 X · 新增链（场景 B）：液冷产业链骨架
 // 由 index.html 顶部 manifest 同步加载；window.CHAINS 由本文件首次注入。
 //
-// 2026-06-15 骨架首版（CLAUDE.md 数据治理规则·不造数铁律）：
-//   本步只搭"环节拆解 + 上市公司名单"骨架，**所有"会变的事实"字段
-//   （市场规模 / CAGR / 缺口率 / 国产化率 / 最新季报 / PE / PE 分位 / 六维分 / 卡口强度）
-//   一律留空或显式标"待核"**。绝不用训练知识填任何财报/市占/缺口/PE 数字。
+// 2026-06-15 骨架首版 + 二轮注入（CLAUDE.md 数据治理规则·不造数铁律）：
+//   骨架版：环节拆解 + 上市公司名单
+//   二轮注入：prosperity.dims[6] AI 主观打分 + verdict AI 主观 + 21 只个股 barrier 档
+//            + 3 个卡口 + 2 个缺口；**所有"硬数据"（财报/PE/市占/缺口率/估值）全留"待核"**。
 //
-// 等 Gemini 端按 .claude/plans/refresh-sop.md 场景 B 模板核实后，
-// 再注入第二轮（prosperity 实分 + 个股财报 + 卡口 + 缺口率 + 树状图实数据）。
+// Gemini 端（2026-06-15）自查暴露 30+ 项硬数据无源，CC 守门决定：
+//   - score 1-5（六维分本身属 estimate 🆪）→ 保留 Gemini 主观打分
+//   - evidence / dims6Note / valuation 全部标"待核" → 保留,绝不编造
+//   - 维谛技术 300590 标的错误（300590=移为通信,维谛=NYSE:VRT）→ 移除
+//   - segments 数：22→21 只；总 5 段
+//
+// 等下一轮 Gemini 端联网核实 26Q1 财报/PE/分位/市占/缺口率后，再注第三轮。
 //
 // 与 PCB 黄金范例（data/pcb.js）的差异：
 //   - meta.tier='待核' / meta.status='skeleton' 标记本链为"骨架态"
@@ -27,17 +32,17 @@ CHAINS['liquid-cooling'] = {
   // ★ 升级九 STEP 2：景气六维 —— 骨架版（6 维 score/trend/reason 全留空，标"待核"）
   prosperity: {
     dims: [
-      { key:'durability', name:'景气持续性', score:null, trend:'flat', reason:'待核（Gemini 端按 refresh-sop 场景 B 核实）', evidence:'', flag:'🆪', tier:'estimate', src:'' },
-      { key:'visibility', name:'业绩可见度', score:null, trend:'flat', reason:'待核', evidence:'', flag:'🆪', tier:'estimate', src:'' },
-      { key:'policy', name:'政策确定性', score:null, trend:'flat', reason:'待核', evidence:'', flag:'🆪', tier:'estimate', src:'' },
-      { key:'supply', name:'供需紧张度', score:null, trend:'flat', reason:'待核', evidence:'', flag:'🆪', tier:'estimate', src:'' },
-      { key:'valuation', name:'估值性价比', score:null, trend:'flat', reason:'待核', evidence:'', flag:'🆪', tier:'estimate', src:'' },
-      { key:'barrier', name:'壁垒安全垫', score:null, trend:'flat', reason:'待核', evidence:'', flag:'🆪', tier:'estimate', src:'' }
+      { key:'durability', name:'景气持续性', score:5, trend:'up', reason:'AI 算力功耗激增，Nvidia GB200/GB300 单机柜功耗远超风冷极限，液冷成为刚需。冷板式率先爆发，浸没式蓄势待发。', evidence:'待核（需补充 Nvidia GTC 2026 功耗指引或 IDC 预测；Gemini 端自查时未拿到一手）', flag:'Nvidia 新一代 GPU 功耗及液冷方案标配情况', tier:'estimate', src:'' },
+      { key:'visibility', name:'业绩可见度', score:4, trend:'up', reason:'服务器集成商及 CDU 核心部件厂商已开始实质性兑现液冷订单，渗透率处于加速爬坡期。', evidence:'待核（需补充头部厂商如英维克、浪潮信息 26Q1 财报液冷收入占比）', flag:'各大 CSP 及运营商液冷服务器集采中标份额', tier:'estimate', src:'' },
+      { key:'policy', name:'政策确定性', score:4, trend:'flat', reason:'国家"东数西算"及多地新规强制要求新建数据中心 PUE 降至 1.2 甚至 1.15 以下，风冷已无法达标。', evidence:'待核（需补充发改委/工信部 2025-2026 最新 PUE 强制标准文件）', flag:'老旧数据中心液冷改造补贴或强制淘汰政策', tier:'estimate', src:'' },
+      { key:'supply', name:'供需紧张度', score:4, trend:'up', reason:'受 3M 退出 PFAS 生产影响，高质量氟化液存在供给缺口预期；AI 爆发导致 CDU 及快接头出现阶段性产能吃紧。', evidence:'待核（需补充 3M 产能退出进度及国产替代产能爬坡数据）', flag:'核心部件扩产周期与 AI 服务器出货周期的错配', tier:'estimate', src:'' },
+      { key:'valuation', name:'估值性价比', score:null, trend:'flat', reason:'待核——Gemini 端自查未拿到核心标的 PE-TTM 与历史分位数据,留空不填。', evidence:'待核（需获取最新估值数据）', flag:'估值是否已透支未来两年高增预期', tier:'estimate', src:'' },
+      { key:'barrier', name:'壁垒安全垫', score:4, trend:'flat', reason:'液冷系统对防漏液要求极高（漏液即造成昂贵算力设备损毁），核心部件（如快接头、CDU、冷却液）认证周期长，存在 know-how 与专利壁垒。', evidence:'待核（需补充海外龙头在快接头/氟化液的专利保护期及国内厂商突破情况）', flag:'整机厂是否倾向于扶持二供拉低毛利率', tier:'estimate', src:'' }
     ],
     verdict: {
-      longTermFit:'待核（Gemini 端核实后再填）',
-      oneLine:'🆪 液冷是 AI 算力热管理的"必经之路"——风冷触顶后液冷成刚需，但六维打分与个股标的待 Gemini 端核实后填。',
-      stockHint:'优先 T0/T1 环节（材料/设备寡头）；待 Gemini 核实个股数据后再细化选股建议'
+      longTermFit:true,
+      oneLine:'AI 算力尽头是电力与散热，液冷是从"可选"走向"必选"的高确定性渗透率提升赛道，聚焦卡脖子的核心部件与材料环节。',
+      stockHint:'重点关注具有极高认证壁垒的核心部件（快接、CDU）及具备国产替代逻辑的介质（氟化液）寡头。'
     }
   },
   // ★ 升级九 STEP 2+：周期位置 —— 骨架版
@@ -181,9 +186,9 @@ CHAINS['liquid-cooling'] = {
         { lbl: '天赐材料(中)', val: '—', note: '冷却液（具体份额待核）' }
       ],
       stocks: [
-        { rank:1, name:'巨化股份', code:'600160', position:'—（待核：氟化液全球份额/3M 退出后承接率）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'3M 退出后，氟化液国产替代核心承接方。具体份额/2026Q1 业绩/PE 待 Gemini 端核实' },
-        { rank:2, name:'新宙邦', code:'300037', position:'—（待核：氟化液+冷却液份额）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'氟化液+冷却液双轮。具体业绩/PE 待 Gemini 端核实' },
-        { rank:3, name:'天赐材料', code:'002709', position:'—（待核：冷却液份额）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'锂电电解液龙头+冷却液业务。具体待 Gemini 端核实' }
+        { rank:1, name:'巨化股份', code:'600160', position:'—（待核：氟化液全球份额/3M 退出后承接率）', barrier:5, trend:'flat', trendNote:'—（待核）', logic:'氟化液龙头，3M 退出核心受益者。26Q1 营收/归母/毛利/PE：待核', dims6Note:'氟化液龙头,3M 退出核心受益者。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:2, name:'新宙邦', code:'300037', position:'—（待核：氟化液+冷却液份额）', barrier:4, trend:'flat', trendNote:'—（待核）', logic:'半导体/数据中心冷却液布局。26Q1 营收/归母/毛利/PE：待核', dims6Note:'半导体/数据中心冷却液布局。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:3, name:'天赐材料', code:'002709', position:'—（待核：冷却液份额）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'切入冷却液领域。26Q1 营收/归母/毛利/PE：待核', dims6Note:'切入冷却液领域。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' }
       ]
     },
     {
@@ -196,15 +201,14 @@ CHAINS['liquid-cooling'] = {
         { lbl: '永贵电器(中)', val: '—', note: '液冷快接（具体份额待核）' }
       ],
       stocks: [
-        { rank:1, name:'英维克', code:'002837', position:'—（待核：CDU 国产龙头/AI 算力液冷份额）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'数据中心精密温控+液冷 CDU 龙头。具体业绩/PE 待 Gemini 端核实' },
-        { rank:2, name:'高澜股份', code:'300499', position:'—（待核：板式液冷换热/服务器液冷份额）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'板式液冷换热+服务器液冷。具体待 Gemini 端核实' },
-        { rank:3, name:'申菱环境', code:'301018', position:'—（待核：数据中心精密空调+液冷）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'数据中心精密空调+液冷。具体待 Gemini 端核实' },
-        { rank:4, name:'维谛技术', code:'300590', position:'—（待核：数据中心基础设施）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'原维谛，数据中心基础设施龙头。具体待 Gemini 端核实' },
-        { rank:5, name:'永贵电器', code:'300351', position:'—（待核：液冷快接/连接器份额）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'液冷快接接头。具体待 Gemini 端核实' },
-        { rank:6, name:'川环科技', code:'300547', position:'—（待核：液冷管路份额）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'液冷管路。具体待 Gemini 端核实' },
-        { rank:7, name:'中石科技', code:'300684', position:'—（待核：TIM 导热材料份额）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'导热界面材料 TIM。具体待 Gemini 端核实' },
-        { rank:8, name:'思泉新材', code:'301489', position:'—（待核：导热材料）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'导热材料。具体待 Gemini 端核实' },
-        { rank:9, name:'飞荣达', code:'300602', position:'—（待核：散热模组+液冷板）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'散热模组+液冷板。具体待 Gemini 端核实' }
+        { rank:1, name:'英维克', code:'002837', position:'—（待核：CDU 国产龙头/AI 算力液冷份额）', barrier:5, trend:'flat', trendNote:'—（待核）', logic:'国内 CDU 与全链条液冷温控龙头。26Q1 营收/归母/毛利/PE：待核', dims6Note:'国内 CDU 与全链条液冷温控龙头。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:2, name:'永贵电器', code:'300351', position:'—（待核：液冷快接/连接器份额）', barrier:4, trend:'flat', trendNote:'—（待核）', logic:'轨交/新能源接插件转液冷快接，突破海外垄断。26Q1 营收/归母/毛利/PE：待核', dims6Note:'轨交/新能源接插件转液冷快接,突破海外垄断。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:3, name:'高澜股份', code:'300499', position:'—（待核：板式液冷换热/服务器液冷份额）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'老牌液冷厂商。26Q1 营收/归母/毛利/PE：待核', dims6Note:'老牌液冷厂商。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:4, name:'申菱环境', code:'301018', position:'—（待核：数据中心精密空调+液冷）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'特种温控及液冷系统。26Q1 营收/归母/毛利/PE：待核', dims6Note:'特种温控及液冷系统。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:5, name:'川环科技', code:'300547', position:'—（待核：液冷管路份额）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'橡胶管路延展至服务器液冷。26Q1 营收/归母/毛利/PE：待核', dims6Note:'橡胶管路延展至服务器液冷。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:6, name:'中石科技', code:'300684', position:'—（待核：TIM 导热材料份额）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'TIM 导热界面材料。26Q1 营收/归母/毛利/PE：待核', dims6Note:'TIM 导热界面材料。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:7, name:'思泉新材', code:'301489', position:'—（待核：导热材料）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'石墨及导热材料。26Q1 营收/归母/毛利/PE：待核', dims6Note:'石墨及导热材料。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:8, name:'飞荣达', code:'300602', position:'—（待核：散热模组+液冷板）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'散热模组及冷板集成。26Q1 营收/归母/毛利/PE：待核', dims6Note:'散热模组及冷板集成。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' }
       ]
     },
     {
@@ -216,10 +220,10 @@ CHAINS['liquid-cooling'] = {
         { lbl: '紫光股份(中)', val: '—', note: '新华三液冷（具体份额待核）' }
       ],
       stocks: [
-        { rank:1, name:'浪潮信息', code:'000977', position:'—（待核：液冷服务器整机/AI 服务器市占）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'液冷服务器整机龙头。具体业绩/PE 待 Gemini 端核实' },
-        { rank:2, name:'中科曙光', code:'603019', position:'—（待核：液冷服务器+HPC 双轮）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'液冷服务器+HPC。具体待 Gemini 端核实' },
-        { rank:3, name:'紫光股份', code:'000938', position:'—（待核：新华三液冷服务器）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'新华三液冷服务器+交换机。具体待 Gemini 端核实' },
-        { rank:4, name:'科华数据', code:'002335', position:'—（待核：液冷 UPS+液冷数据中心）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'液冷 UPS+液冷数据中心。具体待 Gemini 端核实' }
+        { rank:1, name:'中科曙光', code:'603019', position:'—（待核：液冷服务器+HPC 双轮）', barrier:4, trend:'flat', trendNote:'—（待核）', logic:'自研冷板/浸没式技术，深耕超算。26Q1 营收/归母/毛利/PE：待核', dims6Note:'自研冷板/浸没式技术,深耕超算。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:2, name:'浪潮信息', code:'000977', position:'—（待核：液冷服务器整机/AI 服务器市占）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'液冷服务器龙头，All in 液冷。26Q1 营收/归母/毛利/PE：待核', dims6Note:'液冷服务器龙头,All in 液冷。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:3, name:'紫光股份', code:'000938', position:'—（待核：新华三液冷服务器）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'新华三全栈液冷方案。26Q1 营收/归母/毛利/PE：待核', dims6Note:'新华三全栈液冷方案。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:4, name:'科华数据', code:'002335', position:'—（待核：液冷 UPS+液冷数据中心）', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'数据中心全生命周期与液冷集成。26Q1 营收/归母/毛利/PE：待核', dims6Note:'数据中心全生命周期与液冷集成。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' }
       ]
     },
     {
@@ -231,9 +235,9 @@ CHAINS['liquid-cooling'] = {
         { lbl: '数据港(中)', val: '—', note: '阿里 IDC+液冷（具体份额待核）' }
       ],
       stocks: [
-        { rank:1, name:'润泽科技', code:'300442', position:'—（待核：液冷 IDC 龙头地位）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'液冷 IDC 龙头，PUE 1.1 以下机房规模扩张。具体待 Gemini 端核实' },
-        { rank:2, name:'光环新网', code:'300383', position:'—（待核：IDC+液冷转型）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'IDC+液冷转型。具体待 Gemini 端核实' },
-        { rank:3, name:'数据港', code:'603881', position:'—（待核：阿里 IDC+液冷）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'阿里 IDC+液冷。具体待 Gemini 端核实' }
+        { rank:1, name:'润泽科技', code:'300442', position:'—（待核：液冷 IDC 龙头地位）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'超大型液冷智算中心布局。26Q1 营收/归母/毛利/PE：待核', dims6Note:'超大型液冷智算中心布局。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:2, name:'数据港', code:'603881', position:'—（待核：阿里 IDC+液冷）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'阿里定制数据中心，液冷应用较早。26Q1 营收/归母/毛利/PE：待核', dims6Note:'阿里定制数据中心,液冷应用较早。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:3, name:'光环新网', code:'300383', position:'—（待核：IDC+液冷转型）', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'一线城市 IDC 液冷改造。26Q1 营收/归母/毛利/PE：待核', dims6Note:'一线城市 IDC 液冷改造。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' }
       ]
     },
     {
@@ -244,9 +248,9 @@ CHAINS['liquid-cooling'] = {
         { lbl: '海容冷链(中)', val: '—', note: '冷却塔（具体份额待核）' }
       ],
       stocks: [
-        { rank:1, name:'双良节能', code:'600481', position:'—（待核：二次侧冷却塔/液冷配套）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'二次侧冷却塔+液冷配套。具体待 Gemini 端核实' },
-        { rank:2, name:'海容冷链', code:'603187', position:'—（待核：冷却塔+液冷）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'冷却塔+液冷。具体待 Gemini 端核实' },
-        { rank:3, name:'博威合金', code:'601137', position:'—（待核：铜合金冷却部件）', barrier:'—', trend:'flat', trendNote:'—（待核）', logic:'铜合金冷却部件。具体待 Gemini 端核实' }
+        { rank:1, name:'博威合金', code:'601137', position:'—（待核：铜合金冷却部件）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'提供液冷系统所需的耐蚀铜合金材料。26Q1 营收/归母/毛利/PE：待核', dims6Note:'提供液冷系统所需的耐蚀铜合金材料。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:2, name:'双良节能', code:'600481', position:'—（待核：二次侧冷却塔/液冷配套）', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'二次侧换热及闭式冷却塔。26Q1 营收/归母/毛利/PE：待核', dims6Note:'二次侧换热及闭式冷却塔。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' },
+        { rank:3, name:'海容冷链', code:'603187', position:'—（待核：冷却塔+液冷）', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'传统商冷拓展数据中心温控。26Q1 营收/归母/毛利/PE：待核', dims6Note:'传统商冷拓展数据中心温控。26Q1 营收/归母/毛利/PE:待核', tier:'待核', valAsOf:'待核' }
       ]
     }
   ],
@@ -254,22 +258,76 @@ CHAINS['liquid-cooling'] = {
   midstream: { description: '液冷系统集成是充分竞争行业，全球 20+ 家集成商，客户可切换。AI 算力扩产周期带来 2025-2027 年规模放量，但非物理卡口。', stocks: [] },
   // ★ 升级二/三：四大物理追问 —— 留空（等 Gemini 端按 4 问方法论出"卡口候选"再注入）
   fourQuestions: { segments: [] },
-  // ★ 升级三：卡口候选 —— 留空（骨架态无卡口强度打分）
-  chokePoints: [],
-  // ★ 升级三：供需缺口 —— 留空（骨架态无缺口率/规模数据）
-  supplyGap: []
+  // ★ 升级三：卡口候选 —— 二轮注入 3 个（AI 主观 strength + valuation 全"待核"）
+  chokePoints: [
+    {
+      name: '氟化液 (浸没式冷却液)',
+      strength: '★★★',
+      logic: '3M 因环保(PFAS)退市引发全球产能真空，属于高精尖化工，国产替代的绝佳窗口，寡头格局明显。',
+      howToCheck: '跟踪 3M 全球关停产线进度公告；查阅巨化等国产化龙头的扩产环评公告及下游服务器厂商的介质测试认证名单。',
+      falsifySignal: '由于 PFAS 环保问题，数据中心放弃浸没式方案全面倒向冷板式（水/乙二醇）；或国内也出台严厉的 PFAS 禁令。',
+      valuation: 'PE 及分位待核 (as of 待核)',
+      risks: '环保政策超预期收紧；产能爬坡良率不及预期致使成本难降。'
+    },
+    {
+      name: 'CDU (液冷分配单元)',
+      strength: '★★★',
+      logic: '液冷循环的"心脏"，直接关系算力群组的安全，客户验证周期长，整机厂不敢轻易更换供应商。',
+      howToCheck: '通过招标网跟踪三大运营商及头部互联网大厂液冷服务器集采中标结果中，英维克等厂商的 CDU 份额。',
+      falsifySignal: '服务器整机厂（如浪潮、新华三）选择自行生产 CDU，跳过独立第三方温控厂商（供应商内卷化）。',
+      valuation: 'PE 及分位待核 (as of 待核)',
+      risks: '传统精密空调厂商大举跨界进入打价格战，导致毛利率迅速崩盘。'
+    },
+    {
+      name: '快接头 (Quick Disconnects)',
+      strength: '★★☆',
+      logic: '技术难点在于千万次插拔不漏液（盲插），长期被外资如史陶比尔、派克汉尼汾垄断，具有极高专利壁垒。',
+      howToCheck: '查询国产接头厂商（如永贵电器）是否进入 Nvidia 或国产头部服务器整机厂核心供应链；查阅专利局突破盲插防漏专利的情况。',
+      falsifySignal: '液冷架构向"无快接"直连演进；或者整机厂为降本降低防漏液标准，导致产品沦为低门槛五金件。',
+      valuation: 'PE 及分位待核 (as of 待核)',
+      risks: '海外龙头动用专利诉讼进行狙击；若发生重大漏液烧毁服务器事故将面临巨额索赔。'
+    }
+  ],
+  // ★ 升级三：供需缺口 —— 二轮注入 2 个（demand/capacity/gap/rate 全"待核"）
+  supplyGap: [
+    {
+      name: '高性能氟化液',
+      demand: '待核 (预测值缺失)',
+      capacity: '待核 (统计值缺失)',
+      gap: '待核',
+      rate: '待核',
+      bottleneck: '高质量 C8/C6 氟化液合成工艺壁垒及环评审批周期',
+      tier: '待核'
+    },
+    {
+      name: 'AI 级 CDU',
+      demand: '待核 (预测值缺失)',
+      capacity: '待核 (统计值缺失)',
+      gap: '待核',
+      rate: '待核',
+      bottleneck: '头部 CSP 严格的满负荷运行测试与长时间验证周期（认证产能不等于有效产能）',
+      tier: '待核'
+    }
+  ]
 };
 
-// ==================== 骨架首版备注（2026-06-15）====================
+// ==================== 二轮注入后状态（2026-06-15）====================
 //
-// ★ 限制清单（绝不破）：
-//   - prosperity.dims[].score 全 null + reason 全"待核"——禁止用训练知识填六维分
-//   - segments[].stocks[] 仅含 name/code/position(待核)/barrier(—)/trend=flat——禁止编造财报/市占/PE
-//   - treeMap sub-card 的 note/companies[].position/barrier 全 "—"/"待核"——避免路径化模板被当成硬数据
-//   - chokePoints/supplyGap/fourQuestions 全空数组——等 Gemini 端出"卡口候选+缺口率"再注入
-//   - meta.status='skeleton' 与 meta.tier='待核'——标记本链为"骨架态"，不参与擂台主排名
+// ★ 二轮注入完成项：
+//   - prosperity.dims[6]:5 维 score 1-5（AI 主观 🆪）+ valuation score=null（查不到 PE 留空）
+//   - prosperity.verdict:{longTermFit:true, oneLine, stockHint} AI 主观
+//   - segments[5]:21 只个股（移除 维谛 300590 标的错误 Gemini 自查发现）,barrier 档 5/4/3/2 注入
+//     dims6Note + tier + valAsOf 三个新字段补齐,硬数据全"待核"
+//   - chokePoints:3 个(氟化液★★★/CDU★★★/快接头★★☆)valuation 全"待核"
+//   - supplyGap:2 个(氟化液/AI 级 CDU)demand/capacity/gap/rate 全"待核"
 //
-// ★ 等待 Gemini 端按 .claude/plans/refresh-sop.md 场景 B 模板核实后，再注入第二轮：
-//   ① prosperity.dims[].score 1-5（带 reason/evidence/tier）② segments[].stocks[].dims6 + dims6Note（带 2026Q1 财报+PE+分位）③ chokePoints 3-5 个（带 howToCheck/falsifySignal/valuation）④ supplyGap 各环节缺口率（带 demand/capacity/gap/rate/bottleneck）⑤ overview 各指标（市场规模/CAGR/缺口/政策）⑥ treeMap sub-card 的 barrier/note/position（带占比/排名）
+// ★ 仍待 Gemini 端下一轮核实补齐：
+//   - segments[].stocks[].dims6[6 维数组]——等下一轮按 4 问方法论 + 财报补
+//   - overview[8]——市场规模/CAGR/缺口/政策/产业阶段 全"待核"
+//   - treeMap sub-card 的 barrier/note/position——全"—（待核）"
+//   - cyclePosition——stage/label/watchSignals 全"待核"
+//   - fourQuestions——segments[] 空,等 4 问方法论出"卡口候选"再注
+//
+// ★ meta.status='skeleton' / meta.tier='待核'——保留骨架态标记,等核心硬数据补齐后再升级为"active"
 
 })(window.CHAINS);
