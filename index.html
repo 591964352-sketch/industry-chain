@@ -1441,7 +1441,7 @@ function renderChain(chainId) {
   h += `<div class="card" style="padding:16px;"><div class="fourq-wrap"><table class="fourq-tbl"><thead><tr><th style="min-width:90px;">产业链环节</th><th style="min-width:95px;">标的</th><th>①供给端<br>寡头垄断?</th><th>②产能端<br>扩产≥12月?</th><th>③替代端<br>无替代?</th><th>④需求端<br>下游刚需?</th><th>命中</th><th>卡口强度</th></tr></thead><tbody>`;
   d.fourQuestions.segments.forEach(seg => {
     h += `<tr class="seg-div"><td colspan="8">${seg.name}</td></tr>`;
-    seg.stocks.forEach(s => {
+    (seg.stocks || []).forEach(s => {
       h += `<tr>`;
       h += `<td style="font-size:11px;color:var(--muted);">${seg.name}</td>`;
       h += `<td style="font-weight:600;">${s.name}<br><span style="font-size:11px;color:var(--muted);">${s.code}</span></td>`;
