@@ -71,13 +71,13 @@ CHAINS['liquid-cooling'] = {
   // ★ 升级一/二：赛道概览 —— 二轮注入（4 项有数据 + 4 项仍待核，tier 全 estimate 🆪 或 media ⚪）
   overview: [
     { label: '🌍 全球液冷市场规模(2026E)', value: '60 亿美元', note: '2026E 全球液冷市场 60 亿美元;预计 2035E 达 271 亿美元(CAGR 18.2%)。来源:Global Market Insights(截至 2026-06)', color: 'var(--blue)', tier:'estimate', src:'https://www.gminsights.com/industry-analysis/liquid-cooling-market' },
-    { label: '🇨🇳 中国液冷市场全球占比', value: '—（待核）', note: '②待补。2026-06-15 第 4 轮 Gemini 端断网,信通院/IDC/集邦一手数据未拿到;等能联网的端重试。', color: 'var(--muted)', tier:'media', src:'待核' },
+    { label: '🇨🇳 中国液冷市场全球占比', value: '—（待核）', note: '②待补。2026-06-15 第 4-2 轮 Gemini 端拿到 IDC+中商产业研究院(中国 2026E 液冷服务市场 257 亿元)+Omdia(全球数据中心冷却市场 2028 年 168.7 亿美元);但「中国液冷服务市场」vs「全球数据中心冷却市场」口径不可比(后者含风冷),Gemini 主动拒绝强行相除算占比。', color: 'var(--muted)', tier:'media', src:'IDC+中商产业研究院 2026-03-03 / Omdia 2025-09-30' },
     { label: '🤖 AI 算力核心驱动', value: 'GB300 >100kW', note: 'Nvidia 新一代机柜功耗超 100kW,远超风冷极限,液冷成高密度"必选配置"。来源:IDC 2026 GTC 趋势报告(截至 2026-06)', color: 'var(--red)', tier:'broker', src:'IDC 官方博客' },
     { label: '🏭 产业阶段', value: '繁荣期(渗透加速)', note: '冷板式液冷大面积铺开,服务器厂商加速集采。AI 主观定性,非具体数字。', color: 'var(--green)', tier:'estimate', src:'产业常识' },
-    { label: '📐 氟化液全球市场规模(2026E)', value: '—（待核）', note: '②待补。2026-06-15 第 4 轮 Gemini 端断网,MarketsandMarkets/集邦/Prismark 一手未拿到;3M 退出后份额重构期,数据缺口大。', color: 'var(--muted)', tier:'media', src:'待核' },
+    { label: '📐 氟化液全球市场规模(2026E)', value: '—（待核）', note: '②待补。2026-06-15 第 4-2 轮 Gemini 端找到浸没式液冷市场 2026 年 28 亿美元(新浪财经转引)+非氟流体占浸没式 55%+ 份额;按 28 亿×(1-55%)≈12.6 亿美元推算氟化液规模,仅覆盖浸没式液冷场景,氟化液大量用于半导体/航空/医疗等非数据中心场景,口径范围明显偏小,故标②待补。', color: 'var(--muted)', tier:'media', src:'新浪财经转引 2026 / 行业文章 2026' },
     { label: '⚡ 下一代催化', value: '浸没式商业化', note: '3M 退出倒逼国产浸没式氟化液验证加速;PUE≤1.2 红线促使存量机房改造。AI 主观判断。', color: 'var(--blue)', tier:'estimate', src:'行业研究综述' },
     { label: '🔴 核心矛盾', value: '需求暴增 vs 产能/认证瓶颈', note: '前端算力散热刚需井喷,后端 CDU/盲插快接头验证周期长(12-18 月),高质量冷媒供给不足。AI 主观判断。', color: 'var(--red)', tier:'estimate', src:'产业链调研逻辑' },
-    { label: '📋 液冷国产化率(分环节)', value: '—（待核）', note: '②待补。2026-06-15 第 4 轮 Gemini 端断网,信通院/集邦/Prismark 分环节一手未拿到;关键数(国产化率)≥2 独立源门槛未达。', color: 'var(--muted)', tier:'media', src:'待核' }
+    { label: '📋 液冷国产化率(分环节)', value: '—（待核）', note: '②待补(5 项全)。2026-06-15 第 4-2 轮 Gemini 端仅查到冷板式液冷系统成本结构占比(液冷板 32% / 快接 28% / CDU 25% / 管路阀门 10% / 冷却液 5%),这是「成本占比」不是「国产化率」,无法用于推算,5 项全标②待补。', color: 'var(--muted)', tier:'media', src:'行业文章 2026' }
   ],
   // ★ 升级七：5 列横向树状图 —— 四轮注入（11 sub-card 全部 barrier/note/position 注入;companies[].barrier 严格与 segments 一致 11/11;3 个 sub-card 标 choke=true 对应 3 个卡口）
   treeMap: {
@@ -392,7 +392,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4 轮 Gemini 端断网,巨潮/上交所一手未拿到;为严守绝不估算纪律,26Q1 5 项全留空,等能联网的端重试。', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4-2 轮 Gemini 端口径自查通过(3.80 亿元是合并总营收,非分项),但精确到万元原文因 PDF 抓取空白仍②待补;3.80 亿/-3.76% 数字本身有证券之星/网易/搜狐 ≥3 独立二级来源交叉确认(2026-04-25 一季报),按 G1 一手纪律不能注入为硬数据,待精确万元数字。来源:http://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-04-25/603881_20260425_VTU6.pdf(原文 PDF 抓取空白,需 cninfo 人工下载)。', tier:'media', valAsOf:'待核' },
         { rank:3, name:'光环新网', code:'300383', position:'—（待核：IDC+液冷转型）', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'一线城市 IDC 液冷改造。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -400,7 +400,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4 轮 Gemini 端断网,巨潮/深交所一手未拿到;为严守绝不估算纪律,26Q1 5 项全留空,等能联网的端重试。', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'🟢 26Q1 营收 16.33 亿/-10.83% / 归母 2246.52 万/-67.52%(扣非 1052.82 万/-82.48%) / 毛利率 14.09%/-6.9pct。来源:证券之星 2026-04-29/30 整理(公司一季报公告)。PE-TTM 约 173 倍 broker(因利润大幅下滑失真,口径不可信)。PE 历史分位 ②待补(因公司巨亏分位计算失真)。⚠️重大风险:控股股东舟山百汇达 2026-03-17~06-16 减持窗口期内,计划减持不超过 3% 股份(tier:primary,src:2026-02-13 公告)——作 ⚠️ 提示可见,不改 barrier。', tier:'primary', valAsOf:'2026-03-20' }
       ]
     },
     {
@@ -418,7 +418,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4 轮 Gemini 端断网,巨潮/上交所一手未拿到;博威是液冷侧枝(铜合金冷却部件),非纯液冷标的,液冷业务占比待核。', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'🟢 26Q1 营收 56.61 亿/+14.03% / 归母 -9135.98 万/-128.84%(由盈转亏,扣非 -7360.67 万/-124.06%) / 毛利率 8.07%/-6.22pct 环比-4.40pct。来源:新浪财经 2026-04-27 整理(公司一季报公告)。PE-TTM 约 149.29 倍 primary(2026-04-27)。PE 历史分位 ②待补(当期亏损,常规 PE-TTM 意义存疑)。⚠️G3 方向提示:本季亏损主因是新能源板块(汇兑损失+美国联邦补贴失去,单季亏损 1.59 亿元),液冷相关的铜合金散热新材料在 2025 年报中描述为正增长——dims6 方向判断时不要把新能源板块亏损等同于液冷散热业务景气下滑。博威是液冷侧枝(铜合金冷却部件),非纯液冷标的,液冷业务占比待核。', tier:'primary', valAsOf:'2026-04-27' },
         { rank:2, name:'双良节能', code:'600481', position:'—（待核：二次侧冷却塔/液冷配套）', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'二次侧换热及闭式冷却塔。⚠️重大风险:主业承压波及', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -434,7 +434,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4 轮 Gemini 端断网,巨潮/上交所一手未拿到;海容是液冷侧枝(冷却塔),非纯液冷标的,液冷相关业务占比待核。', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'🟢 26Q1 营收 8.37 亿/-7.96% / 归母 1.05 亿/+0.39%(扣非 1.02 亿/+1.34%) / 毛利率 29.63%/+4.21pct。来源:证券之星 2026-05-08 整理(公司一季报公告)。PE-TTM 精确倍数 ②待补(仅查到分位,未查到对应 TTM 倍数本身)。PE 历史分位 38.0%(近 1 年)broker,src:知了财报网。海容是液冷侧枝(冷却塔),非纯液冷标的,液冷相关业务占比待核。', tier:'primary', valAsOf:'2026-05-08' }
       ]
     }
   ],
