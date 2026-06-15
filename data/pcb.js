@@ -404,17 +404,17 @@ CHAINS.pcb.segments = [
         dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}],
         logic:'（待补）',
         dims6Note:'🟢 AI弹性最大：2025净利43.12亿+273.52%(A股PCB首位)、26Q1净利12.88亿+40%(营收55.19亿+28%)、显卡/AI算力卡PCB领先。估值高位为扣分项(随股价刷新)。', src:'2026Q1/2025年报' },
-      { rank:3, name:'东山精密', code:'002384', position:'（待补）', barrier:'高', tier:'primary', valAsOf:'2026-04-26',
+      { rank:3, name:'东山精密', code:'002384', position:'边缘AI设备PCB全球第一(2025市占26.9%)·全球PCB前3(市占4.2%)·FPC软板全球第二(市占24.5%)', barrier:'高', tier:'primary', valAsOf:'2026-04-26',
         dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}],
-        logic:'（待补）',
+        logic:'子公司Multek 78层+高层数PCB量产适配英伟达GB200；2025收购索尔思光电(国内唯一量产200G EML光芯片IDM)·800G光模块批量交付Meta/微软·1.6T通过英伟达验证(2026Q4量产)；珠海10亿美元高端PCB基地2026Q3投产',
         dims6Note:'🟢 26Q1营收131.38亿+52.72%/净利11.10亿+143%/扣非+167%；弹性主要来自索尔思光模块并表(非纯PCB)，为PCB+光模块综合体；估值相对没沪电/胜宏极端(券商测2026 PE~29x，截至2026-04-26)。', src:'2026Q1/2025快报' },
       { rank:4, name:'景旺电子', code:'603228', position:'（待补）', barrier:'中', tier:'primary', valAsOf:'2026-06-13',
         dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}],
         logic:'（待补）',
         dims6Note:'🟢 综合PCB(软板/硬板/金属基)、AI纯度低：26Q1营收38.92亿+16.41%但净利2.33亿-28.37%(原材料涨价备货拖累、含18.57%非经常)；2025营收153亿+20.92%。弹性弱于纯AI龙头。', src:'2026Q1/2025年报' },
-      { rank:5, name:'鹏鼎控股', code:'002938', position:'（待补）', barrier:'高', tier:'primary', valAsOf:'2026-05-22',
+      { rank:5, name:'鹏鼎控股', code:'002938', position:'全球PCB营收连续9年第一·FPC软板全球第二(2025市占25%)', barrier:'高', tier:'primary', valAsOf:'2026-05-22',
         dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}],
-        logic:'（待补）',
+        logic:'主营FPC/SLP/HDI/高多层刚性板,覆盖AI服务器/光模块/交换机；2026-01-15调研纪要披露"算力直接客户订单导入元年",AI多场景布局推进中；但26Q1营收79.86亿同比-1.25%/归母净利4.63亿同比-5.21%,AI业务尚未兑现到整体业绩',
         dims6Note:'🟢 全球PCB营收9连冠/苹果软板核心，"大而不纯AI"：AI服务器板仅占营收5.41%；26Q1营收79.86亿-1.25%/净利4.63亿-5.21%/扣非-31.85%走弱；估值贵(动态PE~130x、TTM~65x，截至2026-05-22)。', src:'2026Q1/2025年报' }
     ]
   }
