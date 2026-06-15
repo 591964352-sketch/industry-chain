@@ -473,6 +473,59 @@
   .cycle-stage {
     transition: none;
   }
+
+  /* ============================================================
+   * ★ 升级十一 · 侧栏拖拽 + 置顶
+   * 复用既有 .nav-item 容器 + var(--*) 调色板；append 新类
+   * ============================================================ */
+  /* 拖拽手柄 cursor（nav-item 默认 cursor:pointer；拖拽时变 grab/grabbing） */
+  .sidebar-nav .nav-item[data-chain][draggable="true"] { cursor: grab; }
+  .sidebar-nav .nav-item[data-chain].dragging { opacity: 0.4; cursor: grabbing; }
+  .sidebar-nav .nav-item[data-chain].drag-over-top { border-top: 2px solid var(--accent); }
+  .sidebar-nav .nav-item[data-chain].drag-over-bottom { border-bottom: 2px solid var(--accent); }
+  /* 📌 置顶按钮：复用 .nav-refresh 视觉（透明背景 + 小号字），但用金色高亮置顶态 */
+  .sidebar-nav .pin-btn {
+    float: right;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 10px;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .sidebar-nav .pin-btn:hover { color: var(--accent); }
+  .sidebar-nav .nav-item.pinned .pin-btn { color: var(--accent); }
+  /* 置顶项视觉强化：左侧金边 + 极淡金底 */
+  .sidebar-nav .nav-item.pinned {
+    border-left-color: var(--accent) !important;
+    background: rgba(240, 185, 11, 0.06);
+  }
+  /* 置顶分组容器 */
+  .sidebar-nav .pinned-section { display: none; padding-bottom: 4px; }
+  .sidebar-nav .pinned-section.has-pinned { display: block; }
+  .sidebar-nav .pinned-section .pinned-title {
+    padding: 8px 20px 4px;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-top: 1px solid var(--border);
+    margin-top: 2px;
+  }
+  /* 重置按钮 */
+  .sidebar-nav .sidebar-reset {
+    display: block;
+    padding: 6px 20px;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+  .sidebar-nav .sidebar-reset:hover { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -489,6 +542,9 @@
             style="padding:6px 10px;background:var(--accent);color:#0f1117;border:none;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;line-height:1;">+</button>
   </div>
   <div class="sidebar-nav" id="nav-list">
+    <div class="pinned-section" id="pinned-section">
+      <div class="pinned-title">📌 已置顶</div>
+    </div>
     <span class="nav-item active" data-chain="pcb" onclick="switchChain('pcb')">🔌 PCB 印制电路板<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('pcb')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
     <span class="nav-item" data-chain="semi" onclick="switchChain('semi')">💻 半导体<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('semi')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
     <span class="nav-item" data-chain="ai-server" onclick="switchChain('ai-server')">🖥️ AI服务器<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('ai-server')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
@@ -511,6 +567,7 @@
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 我的决策</span>
     <span class="nav-item" data-chain="cards" onclick="window.location.hash='cards'">📋 决策卡片库</span>
     <span class="nav-item" data-chain="trades" onclick="window.location.hash='trades'">📒 交易日志</span>
+    <span class="sidebar-reset" onclick="resetSidebarOrder()">↺ 重置侧栏顺序</span>
   </div>
 </nav>
 
@@ -578,7 +635,9 @@ const LS_KEYS = {
   cards: 'myCards',
   trades: 'myTrades',
   customChains: 'myCustomChains',   // ★ 升级六：侧栏"+ 新建空模板赛道"
-  sidebarCollapsed: 'sidebarCollapsed'  // ★ 升级八 Step 2：侧栏折叠状态
+  sidebarCollapsed: 'sidebarCollapsed',  // ★ 升级八 Step 2：侧栏折叠状态
+  sidebarOrder: 'mySidebarOrder',        // ★ 侧栏拖拽：用户排序后的 [code1, code2, ...]
+  sidebarPinned: 'mySidebarPinned'       // ★ 侧栏置顶：置顶的 [code1, code2, ...]
 };
 
 // ==================== 升级九 · 景气六维框架（全站共享基础设施） ====================
@@ -2485,6 +2544,274 @@ function toggleSidebarChains() {
   const collapsed = LS.get(LS_KEYS.sidebarCollapsed, true) !== false;
   container.classList.toggle('collapsed', collapsed);
   toggle.textContent = collapsed ? '▶ 更多赛道 (8)' : '▼ 更多赛道 (8)';
+})();
+
+// ============================================================
+// ★ 升级十一 · 侧栏拖拽调整顺序 + 置顶
+// ============================================================
+// 持久化键：LS_KEYS.sidebarOrder(mySidebarOrder) 存 [code1,code2,...] 用户排序后的 nav-item code 列表
+//           LS_KEYS.sidebarPinned(mySidebarPinned) 存 [code1,code2,...] 置顶的 code 列表
+// 约束：分隔行(无 data-chain)、nav-toggle、pinned-section、折叠容器本身 不可拖
+//       折叠容器内 8 项只允许在折叠容器内重排(同 parent 拖拽,不跨容器)
+function loadSidebarOrder() { return LS.get(LS_KEYS.sidebarOrder, null); }
+function saveSidebarOrder(arr) { LS.set(LS_KEYS.sidebarOrder, arr); }
+function loadSidebarPinned() { return LS.get(LS_KEYS.sidebarPinned, []); }
+function saveSidebarPinned(arr) { LS.set(LS_KEYS.sidebarPinned, arr); }
+
+// 持久化当前 nav-list 顺序(按 DOM 现状,跨容器分别提取)
+function persistSidebarOrder() {
+  const navList = document.getElementById('nav-list');
+  if (!navList) return;
+  // 收集所有 .nav-item[data-chain] 的 code 序列(按当前 DOM 顺序)
+  const codes = Array.from(navList.querySelectorAll('.nav-item[data-chain]')).map(n => n.dataset.chain);
+  saveSidebarOrder(codes);
+}
+
+// 应用 LS 中保存的顺序：按 parent 分组,在每组内按 saved 顺序重排(同 parent 内)
+function applySidebarOrder() {
+  const navList = document.getElementById('nav-list');
+  if (!navList) return;
+  const saved = loadSidebarOrder();
+  if (!saved || !Array.isArray(saved) || saved.length === 0) return;
+  // 按 parent(直接父节点)分组
+  const groups = new Map();
+  navList.querySelectorAll('.nav-item[data-chain]').forEach(n => {
+    const parent = n.parentNode;
+    if (!groups.has(parent)) groups.set(parent, new Map());
+    groups.get(parent).set(n.dataset.chain, n);
+  });
+  // 按 saved 顺序重排每个 parent 内的子节点
+  groups.forEach((codeMap, parent) => {
+    const fragment = document.createDocumentFragment();
+    const seenInParent = new Set();
+    saved.forEach(code => {
+      const item = codeMap.get(code);
+      if (item && item.parentNode === parent) {
+        fragment.appendChild(item);
+        seenInParent.add(code);
+      }
+    });
+    // 剩余未在 saved 中的(新加的 custom 赛道等),append 到末尾
+    codeMap.forEach((item, code) => {
+      if (!seenInParent.has(code)) fragment.appendChild(item);
+    });
+    parent.appendChild(fragment);
+  });
+}
+
+// 置顶切换
+function togglePin(code) {
+  let pinned = loadSidebarPinned();
+  if (!Array.isArray(pinned)) pinned = [];   // 防御：LS 被外部弄成 null 时不抛 TypeError
+  if (pinned.includes(code)) {
+    pinned = pinned.filter(c => c !== code);
+  } else {
+    pinned.push(code);
+  }
+  saveSidebarPinned(pinned);
+  applySidebarPinned();
+}
+
+// 应用置顶：diff 模式 + 归位重排
+// 设计要点：
+//   - 每条 nav-item 在 attachToNavItem 时记下 data-original-parent-id + data-original-sibling-codes
+//   - 取消置顶的项：先 appendChild 回原 parent 末尾(简单稳定)
+//   - 然后用"原兄弟列表"找锚点 + insertBefore 把该项挪回原位置
+//   - 用 children 数组手动遍历找锚点(避免 querySelector 边角)
+//   - 新置顶的项：appendChild 到 #pinned-section
+function applySidebarPinned() {
+  const navList = document.getElementById('nav-list');
+  const pinnedSection = document.getElementById('pinned-section');
+  if (!navList || !pinnedSection) return;
+
+  const pinnedRaw = loadSidebarPinned();
+  const pinnedList = Array.isArray(pinnedRaw) ? pinnedRaw : [];
+
+  // 1) 取消置顶的项:appendChild 到原 parent 末尾(简单稳定) + 用 children 数组找锚点挪回原位置
+  Array.from(pinnedSection.querySelectorAll('.nav-item[data-chain]')).forEach(item => {
+    if (pinnedList.includes(item.dataset.chain)) return;
+    const origParentId = item.dataset.originalParentId;
+    const origParent = (origParentId && origParentId !== 'pinned-section') ? document.getElementById(origParentId) : null;
+    const targetParent = origParent || navList;
+    // 先 appendChild 到 targetParent 末尾(简单稳定)
+    targetParent.appendChild(item);
+    // 然后用原兄弟列表找锚点,挪回原位置
+    const origCodes = (item.dataset.originalSiblingCodes || '').split(',').filter(Boolean);
+    const cIdx = origCodes.indexOf(item.dataset.chain);
+    let anchor = null;
+    if (cIdx > 0) {
+      // 从 c 之前往前往后找第一个还在 targetParent 内的 .nav-item[data-chain] 作为锚点
+      for (let i = cIdx - 1; i >= 0; i--) {
+        const targetCode = origCodes[i];
+        // 遍历 targetParent.children 找 targetCode(避免 querySelector 边角)
+        for (let j = 0; j < targetParent.children.length; j++) {
+          const ch = targetParent.children[j];
+          if (ch === item) continue;  // 跳过自己
+          if (ch.dataset && ch.dataset.chain === targetCode) {
+            anchor = ch;
+            break;
+          }
+        }
+        if (anchor) break;
+      }
+    }
+    if (anchor) {
+      // 把 item 挪到 anchor 之后(找 anchor 后面那个兄弟作为 refChild)
+      let refNode = null;
+      for (let k = 0; k < targetParent.children.length; k++) {
+        if (targetParent.children[k] === anchor) {
+          refNode = targetParent.children[k + 1] || null;
+          break;
+        }
+      }
+      targetParent.insertBefore(item, refNode);  // refNode 为 null 时 = appendChild(末尾)
+    } else {
+      // fallback:item 是 origCodes 列表中第一项 / 前面所有项都被置顶走了
+      // → 找 targetParent 内"非 item 的第一个 .nav-item[data-chain]",把 item 插到它之前
+      let firstNavItem = null;
+      for (let j = 0; j < targetParent.children.length; j++) {
+        const ch = targetParent.children[j];
+        if (ch === item) continue;
+        if (ch.classList && ch.classList.contains('nav-item') && ch.dataset && ch.dataset.chain) {
+          firstNavItem = ch;
+          break;
+        }
+      }
+      if (firstNavItem) {
+        targetParent.insertBefore(item, firstNavItem);
+      }
+      // 找不到 firstNavItem(targetParent 内除了 item 没其他 nav-item)→ item 留在末尾,可接受
+    }
+    item.classList.remove('pinned');
+  });
+
+  // 2) 新置顶的项(在 LS 中但不在 #pinned-section 中)→ 挪到 #pinned-section
+  pinnedList.forEach(code => {
+    if (pinnedSection.querySelector(`.nav-item[data-chain="${code}"]`)) return;  // 已经在
+    const item = navList.querySelector(`.nav-item[data-chain="${code}"]`);
+    if (item) {
+      item.classList.add('pinned');
+      pinnedSection.appendChild(item);
+    }
+  });
+
+  // 3) 显示/隐藏
+  pinnedSection.classList.toggle('has-pinned', pinnedList.length > 0);
+}
+
+// 重置顺序：清空 LS 拖拽+置顶,刷新页面
+function resetSidebarOrder() {
+  if (!confirm('确定重置侧栏顺序到默认?\n将清空拖拽顺序和置顶状态,刷新页面后生效。')) return;
+  LS.set(LS_KEYS.sidebarOrder, null);
+  LS.set(LS_KEYS.sidebarPinned, []);
+  location.reload();
+}
+
+// === HTML5 拖拽（原生,无外部库） ===
+let _draggedItem = null;
+function onDragStart(e) {
+  if (!this.dataset.chain) { e.preventDefault(); return; }  // 分隔行/无 data-chain 不可拖
+  _draggedItem = this;
+  this.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+  try { e.dataTransfer.setData('text/plain', ''); } catch(_) {}  // firefox 兼容
+}
+function onDragEnd(e) {
+  this.classList.remove('dragging');
+  // 清除所有 drag-over 标记
+  document.querySelectorAll('.drag-over-top, .drag-over-bottom').forEach(n => n.classList.remove('drag-over-top', 'drag-over-bottom'));
+  if (_draggedItem) {
+    persistSidebarOrder();  // drop 后保存新顺序
+    _draggedItem = null;
+  }
+}
+function onDragOver(e) {
+  if (!_draggedItem || _draggedItem === this) return;
+  // 跨 parent 允许拖拽(用户需求:折叠容器内项可拖到主区,主区项可拖到折叠容器)
+  // 但拒绝拖到 #pinned-section / #chain-toggle / 分隔行(它们不该接收被拖项)
+  if (this.parentNode && (this.parentNode.id === 'pinned-section' || this.classList.contains('nav-toggle'))) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  // 标记上/下插入位置(根据光标在目标项的上/下半)
+  const rect = this.getBoundingClientRect();
+  const isTop = (e.clientY - rect.top) < rect.height / 2;
+  this.classList.toggle('drag-over-top', isTop);
+  this.classList.toggle('drag-over-bottom', !isTop);
+}
+function onDragLeave(e) {
+  this.classList.remove('drag-over-top', 'drag-over-bottom');
+}
+function onDrop(e) {
+  if (!_draggedItem || _draggedItem === this) return;
+  if (this.parentNode && (this.parentNode.id === 'pinned-section' || this.classList.contains('nav-toggle'))) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const isTop = this.classList.contains('drag-over-top');
+  this.classList.remove('drag-over-top', 'drag-over-bottom');
+  // 跨 parent 拖拽:用 this.parentNode.insertBefore,把 _draggedItem 插入到 this 的位置
+  this.parentNode.insertBefore(_draggedItem, isTop ? this : this.nextSibling);
+  // 跨 parent 拖拽后,该项的 originalParentId 仍然记的是初始 parent — 这会导致"取消置顶归位"回到初始 parent
+  // 实际 OK:用户拖拽后再取消置顶,仍然回到初始 parent(而不是当前 parent),这是用户能接受的简单语义
+  // 如果需要"取消置顶回到拖拽后的 parent",可加 LS 记录"用户拖拽后新 parent"——但会复杂化,先不做
+}
+
+// 初始化拖拽 + 置顶按钮（每条 nav-item 一次性绑定,后续 insertCustomNavItem 由 MutationObserver 覆盖）
+function initSidebarDnd() {
+  const navList = document.getElementById('nav-list');
+  if (!navList) return;
+
+  function attachToNavItem(item) {
+    if (item.dataset.dndReady === '1') return;
+    item.dataset.dndReady = '1';
+    const code = item.dataset.chain;
+    if (!code) return;  // 分隔行无 data-chain
+    // ★ 记录原 parent + 原 parent 内的兄弟 code 列表(供取消置顶时精准归位到原位置)
+    if (!item.dataset.originalParentId) {
+      const parent = item.parentNode;
+      item.dataset.originalParentId = parent.id || 'navList';
+      // 记原 parent 内所有 .nav-item[data-chain] 的 code 列表(逗号分隔)
+      const sibCodes = Array.from(parent.querySelectorAll(':scope > .nav-item[data-chain]')).map(s => s.dataset.chain);
+      item.dataset.originalSiblingCodes = sibCodes.join(',');
+    }
+    // 1) 追加 📌 pin 按钮
+    if (!item.querySelector('.pin-btn')) {
+      const pinBtn = document.createElement('button');
+      pinBtn.className = 'pin-btn';
+      pinBtn.textContent = '📌';
+      pinBtn.title = '置顶/取消置顶';
+      pinBtn.onclick = (e) => { e.stopPropagation(); togglePin(code); };
+      item.appendChild(pinBtn);
+    }
+    // 2) nav-toggle 不可拖(它是折叠触发器)
+    if (item.classList.contains('nav-toggle')) return;
+    // 3) 绑 draggable + 5 个拖拽事件
+    item.setAttribute('draggable', 'true');
+    item.addEventListener('dragstart', onDragStart);
+    item.addEventListener('dragend', onDragEnd);
+    item.addEventListener('dragover', onDragOver);
+    item.addEventListener('dragleave', onDragLeave);
+    item.addEventListener('drop', onDrop);
+  }
+
+  // 初始绑定所有现有 nav-item
+  navList.querySelectorAll('.nav-item[data-chain]').forEach(attachToNavItem);
+
+  // 监听 nav-list 的 DOM 变化(让后续 insertCustomNavItem 自动绑定)
+  const observer = new MutationObserver(muts => {
+    muts.forEach(m => m.addedNodes.forEach(n => {
+      if (n.nodeType === 1 && n.classList && n.classList.contains('nav-item') && n.dataset.chain) {
+        attachToNavItem(n);
+      }
+    }));
+  });
+  observer.observe(navList, { childList: true, subtree: true });
+}
+
+// 初始化入口(应用 LS 中保存的顺序+置顶,然后启动拖拽)
+(function initSidebarDndAndPin() {
+  applySidebarOrder();   // 先恢复顺序(置顶恢复在顺序恢复之后,以免顺序恢复把置顶项位置改乱)
+  applySidebarPinned();  // 再恢复置顶
+  initSidebarDnd();      // 最后绑拖拽事件
 })();
 
 // ===== 升级八 Step 3：刷新按钮 = 一键复制该赛道标准更新指令 =====
