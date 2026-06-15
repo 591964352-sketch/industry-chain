@@ -71,13 +71,13 @@ CHAINS['liquid-cooling'] = {
   // ★ 升级一/二：赛道概览 —— 二轮注入（4 项有数据 + 4 项仍待核，tier 全 estimate 🆪 或 media ⚪）
   overview: [
     { label: '🌍 全球液冷市场规模(2026E)', value: '60 亿美元', note: '2026E 全球液冷市场 60 亿美元;预计 2035E 达 271 亿美元(CAGR 18.2%)。来源:Global Market Insights(截至 2026-06)', color: 'var(--blue)', tier:'estimate', src:'https://www.gminsights.com/industry-analysis/liquid-cooling-market' },
-    { label: '🇨🇳 中国液冷市场全球占比', value: '—（待核）', note: '存疑待核。需信通院或第三方一手报告验证。', color: 'var(--muted)', tier:'media', src:'待核' },
+    { label: '🇨🇳 中国液冷市场全球占比', value: '—（待核）', note: '②待补。2026-06-15 第 4 轮 Gemini 端断网,信通院/IDC/集邦一手数据未拿到;等能联网的端重试。', color: 'var(--muted)', tier:'media', src:'待核' },
     { label: '🤖 AI 算力核心驱动', value: 'GB300 >100kW', note: 'Nvidia 新一代机柜功耗超 100kW,远超风冷极限,液冷成高密度"必选配置"。来源:IDC 2026 GTC 趋势报告(截至 2026-06)', color: 'var(--red)', tier:'broker', src:'IDC 官方博客' },
     { label: '🏭 产业阶段', value: '繁荣期(渗透加速)', note: '冷板式液冷大面积铺开,服务器厂商加速集采。AI 主观定性,非具体数字。', color: 'var(--green)', tier:'estimate', src:'产业常识' },
-    { label: '📐 氟化液全球市场规模(2026E)', value: '—（待核）', note: '存疑待核。3M 退出后份额重构期,MarketsandMarkets/信通院一手报告未拿到。', color: 'var(--muted)', tier:'media', src:'待核' },
+    { label: '📐 氟化液全球市场规模(2026E)', value: '—（待核）', note: '②待补。2026-06-15 第 4 轮 Gemini 端断网,MarketsandMarkets/集邦/Prismark 一手未拿到;3M 退出后份额重构期,数据缺口大。', color: 'var(--muted)', tier:'media', src:'待核' },
     { label: '⚡ 下一代催化', value: '浸没式商业化', note: '3M 退出倒逼国产浸没式氟化液验证加速;PUE≤1.2 红线促使存量机房改造。AI 主观判断。', color: 'var(--blue)', tier:'estimate', src:'行业研究综述' },
     { label: '🔴 核心矛盾', value: '需求暴增 vs 产能/认证瓶颈', note: '前端算力散热刚需井喷,后端 CDU/盲插快接头验证周期长(12-18 月),高质量冷媒供给不足。AI 主观判断。', color: 'var(--red)', tier:'estimate', src:'产业链调研逻辑' },
-    { label: '📋 液冷国产化率(分环节)', value: '—（待核）', note: '存疑待核。服务器自给率高,但快接头/氟化液仍具较大国产替代缺口。需分项核。', color: 'var(--muted)', tier:'media', src:'待核' }
+    { label: '📋 液冷国产化率(分环节)', value: '—（待核）', note: '②待补。2026-06-15 第 4 轮 Gemini 端断网,信通院/集邦/Prismark 分环节一手未拿到;关键数(国产化率)≥2 独立源门槛未达。', color: 'var(--muted)', tier:'media', src:'待核' }
   ],
   // ★ 升级七：5 列横向树状图 —— 四轮注入（11 sub-card 全部 barrier/note/position 注入;companies[].barrier 严格与 segments 一致 11/11;3 个 sub-card 标 choke=true 对应 3 个卡口）
   treeMap: {
@@ -392,7 +392,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核(无一手)。26Q1 营收/同比/归母/毛利/PE-TTM 均缺源,待获取。', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4 轮 Gemini 端断网,巨潮/上交所一手未拿到;为严守绝不估算纪律,26Q1 5 项全留空,等能联网的端重试。', tier:'media', valAsOf:'待核' },
         { rank:3, name:'光环新网', code:'300383', position:'—（待核：IDC+液冷转型）', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'一线城市 IDC 液冷改造。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -400,7 +400,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'⚠️财报待核(无一手)。26Q1 营收/同比/归母/毛利/PE-TTM 均缺源,待获取。', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4 轮 Gemini 端断网,巨潮/深交所一手未拿到;为严守绝不估算纪律,26Q1 5 项全留空,等能联网的端重试。', tier:'media', valAsOf:'待核' }
       ]
     },
     {
@@ -418,7 +418,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核(无一手)。26Q1 营收/同比/归母/毛利/PE-TTM 均缺源,待获取。', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4 轮 Gemini 端断网,巨潮/上交所一手未拿到;博威是液冷侧枝(铜合金冷却部件),非纯液冷标的,液冷业务占比待核。', tier:'media', valAsOf:'待核' },
         { rank:2, name:'双良节能', code:'600481', position:'—（待核：二次侧冷却塔/液冷配套）', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'二次侧换热及闭式冷却塔。⚠️重大风险:主业承压波及', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -434,7 +434,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'⚠️财报待核(无一手)。26Q1 营收/同比/归母/毛利/PE-TTM 均缺源,待获取。', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4 轮 Gemini 端断网,巨潮/上交所一手未拿到;海容是液冷侧枝(冷却塔),非纯液冷标的,液冷相关业务占比待核。', tier:'media', valAsOf:'待核' }
       ]
     }
   ],
