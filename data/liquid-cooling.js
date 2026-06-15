@@ -79,27 +79,26 @@ CHAINS['liquid-cooling'] = {
     { label: '🔴 核心矛盾', value: '需求暴增 vs 产能/认证瓶颈', note: '前端算力散热刚需井喷,后端 CDU/盲插快接头验证周期长(12-18 月),高质量冷媒供给不足。AI 主观判断。', color: 'var(--red)', tier:'estimate', src:'产业链调研逻辑' },
     { label: '📋 液冷国产化率(分环节)', value: '—（待核）', note: '存疑待核。服务器自给率高,但快接头/氟化液仍具较大国产替代缺口。需分项核。', color: 'var(--muted)', tier:'media', src:'待核' }
   ],
-  // ★ 升级七：5 列横向树状图 —— 骨架版（sub-card 框架 + 上市公司名单（稳定信息），所有"会变"数据留空"—"）
-  // 注：sub-card 的 barrier/note/companies[].position 全 "—"，避免被渲染成硬数据
+  // ★ 升级七：5 列横向树状图 —— 四轮注入（11 sub-card 全部 barrier/note/position 注入;companies[].barrier 严格与 segments 一致 11/11;3 个 sub-card 标 choke=true 对应 3 个卡口）
   treeMap: {
     // ============ ① 下游（2 个 sub-card）============
     downstream: [
       {
         name: 'AI 算力 IDC',
-        barrier: '—',
-        note: '—（待核：液冷 IDC 渗透率/单机柜功率/PUE）',
+        barrier: 3,
+        note: '液冷机架成新建算力中心标配,核心比拼 PUE 达标率与上架率。来源:IDC 行业调研(截至 2026-06)',
         companies: [
-          { name:'润泽科技', code:'300442', position:'—（待核：液冷 IDC 龙头地位）', barrier:'—' },
-          { name:'光环新网', code:'300383', position:'—（待核：IDC+液冷转型进度）', barrier:'—' },
-          { name:'数据港', code:'603881', position:'—（待核：阿里 IDC+液冷）', barrier:'—' }
+          { name:'润泽科技', code:'300442', position:'头部算力中心,占比待核。来源:待核', barrier:3 },
+          { name:'光环新网', code:'300383', position:'一线城市 IDC,占比待核。来源:待核', barrier:2 },
+          { name:'数据港', code:'603881', position:'阿里定制机房,占比待核。来源:待核', barrier:3 }
         ]
       },
       {
         name: 'HPC/超算中心',
-        barrier: '—',
-        note: '—（待核：HPC 液冷部署率）',
+        barrier: 4,
+        note: '国家级超算项目驱动,浸没式液冷应用较早且成熟。来源:行业白皮书(截至 2026-06)',
         companies: [
-          { name:'中科曙光', code:'603019', position:'—（待核：HPC 液冷服务器+算力中心）', barrier:'—' }
+          { name:'中科曙光', code:'603019', position:'超算领域龙头,份额领先。来源:待核', barrier:4 }
         ]
       }
     ],
@@ -108,20 +107,20 @@ CHAINS['liquid-cooling'] = {
     midstream: [
       {
         name: '液冷服务器整机',
-        barrier: '—',
-        note: '—（待核：GB300 份额/液冷服务器全球市占）',
+        barrier: 3,
+        note: 'AI 服务器带量提速,国内双寡头格局明显,集成端竞争激烈。来源:IDC 报告(截至 2026-05)',
         companies: [
-          { name:'浪潮信息', code:'000977', position:'—（待核：液冷服务器整机/AI 服务器市占）', barrier:'—' },
-          { name:'中科曙光', code:'603019', position:'—（待核：液冷服务器+HPC 双轮）', barrier:'—' },
-          { name:'紫光股份', code:'000938', position:'—（待核：新华三液冷服务器/交换机）', barrier:'—' }
+          { name:'浪潮信息', code:'000977', position:'服务器市占第一,占比待核。来源:待核', barrier:3 },
+          { name:'中科曙光', code:'603019', position:'市占前二,自研技术优。来源:待核', barrier:4 },
+          { name:'紫光股份', code:'000938', position:'新华三份额前三,占比待核。来源:待核', barrier:3 }
         ]
       },
       {
         name: '液冷数据中心/机房',
-        barrier: '—',
-        note: '—（待核：PUE 1.1 以下液冷机房规模）',
+        barrier: 2,
+        note: '全生命周期微模块机房交付,技术门槛适中。来源:行业测算(截至 2026-06)',
         companies: [
-          { name:'科华数据', code:'002335', position:'—（待核：液冷 UPS+液冷数据中心）', barrier:'—' }
+          { name:'科华数据', code:'002335', position:'液冷微模块市占领先。来源:待核', barrier:2 }
         ]
       }
     ],
@@ -130,17 +129,26 @@ CHAINS['liquid-cooling'] = {
     materials: [
       {
         name: '氟化液/浸没式冷却液',
-        barrier: '—',
-        choke: false,
-        note: '—（待核：3M 退出后全球份额/巨化新宙邦天赐承接率）',
-        sourceSegment: '冷却介质(氟化液/浸没式冷却液)'
+        barrier: 5,
+        choke: true,
+        note: '3M 退出后迎绝佳替代窗口,高质量 C8/C6 冷媒严重供给不足。来源:化工研报(截至 2026-05)',
+        sourceSegment: '冷却介质(氟化液/浸没式冷却液)',
+        companies: [
+          { name:'巨化股份', code:'600160', position:'国产替代龙头,占比待核。来源:待核', barrier:5 },
+          { name:'新宙邦', code:'300037', position:'核心供应商,占比待核。来源:待核', barrier:4 },
+          { name:'天赐材料', code:'002709', position:'加速切入。来源:待核', barrier:3 }
+        ]
       },
       {
         name: '导热界面材料(TIM)',
-        barrier: '—',
+        barrier: 3,
         choke: false,
-        note: '—（待核：国产化率/中石科技思泉新材飞荣达份额）',
-        sourceSegment: '导热界面材料(TIM)'
+        note: '格局相对分散,多为消费电子散热厂商横向拓展。来源:电子研报(截至 2026-05)',
+        sourceSegment: '导热界面材料(TIM)',
+        companies: [
+          { name:'中石科技', code:'300684', position:'占比待核。来源:待核', barrier:3 },
+          { name:'思泉新材', code:'301489', position:'占比待核。来源:待核', barrier:3 }
+        ]
       }
     ],
 
@@ -148,24 +156,36 @@ CHAINS['liquid-cooling'] = {
     equipment: [
       {
         name: 'CDU 冷却液分配单元',
-        barrier: '—',
-        choke: false,
-        note: '—（待核：英维克/维谛/AVC 份额）',
-        sourceSegment: 'CDU(冷却液分配单元)'
+        barrier: 5,
+        choke: true,
+        note: '液冷心脏,集中度极高,满负荷试错与防漏验证壁垒深。来源:招投标数据(截至 2026-06)',
+        sourceSegment: 'CDU(冷却液分配单元)',
+        companies: [
+          { name:'英维克', code:'002837', position:'绝对龙头,份额领先。来源:待核', barrier:5 },
+          { name:'高澜股份', code:'300499', position:'老牌温控厂,占比待核。来源:待核', barrier:3 },
+          { name:'申菱环境', code:'301018', position:'稳居一梯队。来源:待核', barrier:3 }
+        ]
       },
       {
         name: '快接接头/管路',
-        barrier: '—',
-        choke: false,
-        note: '—（待核：永贵电器/川环科技份额）',
-        sourceSegment: '快接接头/管路'
+        barrier: 4,
+        choke: true,
+        note: '盲插防漏专利受限,海外史陶比尔等主导,国产突破中。来源:专利检索(截至 2026-05)',
+        sourceSegment: '快接接头/管路',
+        companies: [
+          { name:'永贵电器', code:'300351', position:'快接头国产领跑。来源:待核', barrier:4 },
+          { name:'川环科技', code:'300547', position:'管路龙头。来源:待核', barrier:3 }
+        ]
       },
       {
         name: '液冷板/冷板',
-        barrier: '—',
+        barrier: 3,
         choke: false,
-        note: '—（待核：飞荣达/中石科技份额）',
-        sourceSegment: '液冷板/冷板'
+        note: '制造门槛适中,五金件属性偏强,面临一定价格战压力。来源:产业链调研(截至 2026-06)',
+        sourceSegment: '液冷板/冷板',
+        companies: [
+          { name:'飞荣达', code:'300602', position:'占比待核。来源:待核', barrier:3 }
+        ]
       }
     ],
 
@@ -173,15 +193,22 @@ CHAINS['liquid-cooling'] = {
     sideBranches: [
       {
         name: '二次侧冷却塔(风液混合)',
-        barrier: '—',
-        note: '—（待核：双良/海容/隆华份额）',
-        sourceSegment: '二次侧冷却塔(风液混合)'
+        barrier: 2,
+        note: '传统商冷与暖通企业降维切入,门槛较低,竞争白热化。来源:暖通行业报告(截至 2026-06)',
+        sourceSegment: '二次侧冷却塔(风液混合)',
+        companies: [
+          { name:'双良节能', code:'600481', position:'占比待核。来源:待核', barrier:2 },
+          { name:'海容冷链', code:'603187', position:'占比待核。来源:待核', barrier:2 }
+        ]
       },
       {
         name: '液冷温控芯片/智能控制',
-        barrier: '—',
-        note: '—（待核：温控芯片国产化率）',
-        sourceSegment: '液冷温控芯片/智能控制'
+        barrier: 3,
+        note: '精细化温控与上游关键铜材供应商,辅助节点。来源:行业综述(截至 2026-06)',
+        sourceSegment: '液冷温控芯片/智能控制',
+        companies: [
+          { name:'博威合金', code:'601137', position:'铜合金部件供应商。来源:待核', barrier:3 }
+        ]
       }
     ]
   },
@@ -219,7 +246,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核。26Q1 营收/同比/归母/毛利/PE-TTM 均缺源,待二次获取。', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'26Q1 营收 66.73 亿(+91.29%)/归母 16.54 亿(+1005.75%)/扣非归母 15.60 亿(+1062.23%)单季净利大增;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)', tier:'primary', valAsOf:'待核' }
       ]
     },
     {
@@ -271,7 +298,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核。26Q1 数据缺源。来源:无。', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'26Q1 营收 2.76 亿(-12.56%)/归母 3948.73 万,营收下滑。毛利率/PE-TTM/分位待核。来源:新浪财经(截至 2026-04-28) ⚠️媒体转,非一手', tier:'media', valAsOf:'待核' },
         { rank:6, name:'中石科技', code:'300684', position:'—（待核：TIM 导热材料份额）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'TIM 导热界面材料。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -279,15 +306,15 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核。26Q1 数据缺源。来源:无。', tier:'media', valAsOf:'待核' },
-        { rank:7, name:'思泉新材', code:'301489', position:'—（待核：导热材料）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'石墨及导热材料。', dims6:[
+        ], dims6Note:'26Q1 营收 3.89 亿(+11.55%)/归母 6477.87 万(+4.94%)/经营现金流 1.64 亿(+264.06%);毛利率/PE-TTM 待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-29)', tier:'primary', valAsOf:'待核' },
+        { rank:7, name:'思泉新材', code:'301489', position:'—（待核：导热材料）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'石墨及导热材料。⚠️重大风险:利润断崖', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核。26Q1 数据缺源。来源:无。', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'⚠️重大风险:26Q1 营收 2.63 亿(+5.08%)/归母 1245.91 万(-77.10%)利润断崖式下滑;毛利率/PE-TTM 待核。来源:新浪财经(截至 2026-04-28) ⚠️媒体转,非一手', tier:'media', valAsOf:'待核' },
         { rank:8, name:'飞荣达', code:'300602', position:'—（待核：散热模组+液冷板）', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'散热模组及冷板集成。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -295,7 +322,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核。26Q1 数据缺源。来源:无。', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'26Q1 营收 16.44 亿(+39.15%)/归母 7735.70 万(+33.92%)业绩稳健双增;毛利率/PE-TTM 待核。来源:东方财富(截至 2026-04-28) ⚠️媒体转,非一手', tier:'media', valAsOf:'待核' }
       ]
     },
     {
@@ -338,7 +365,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'⚠️财报待核。26Q1 数据缺源。来源:无。', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'26Q1 营收 14.30 亿(+17.57%)/归母 7800.88 万(+13.15%)/经营现金流 1.21 亿(+160.80%);毛利率/PE-TTM 待核。来源:公司第一季度报告公告(截至 2026-04-26)', tier:'primary', valAsOf:'待核' }
       ]
     },
     {
@@ -365,7 +392,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核。26Q1 数据缺源。来源:无。', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'⚠️财报待核(无一手)。26Q1 营收/同比/归母/毛利/PE-TTM 均缺源,待获取。', tier:'media', valAsOf:'待核' },
         { rank:3, name:'光环新网', code:'300383', position:'—（待核：IDC+液冷转型）', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'一线城市 IDC 液冷改造。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -373,7 +400,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'⚠️财报待核。26Q1 数据缺源。来源:无。', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'⚠️财报待核(无一手)。26Q1 营收/同比/归母/毛利/PE-TTM 均缺源,待获取。', tier:'media', valAsOf:'待核' }
       ]
     },
     {
@@ -391,7 +418,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核。26Q1 数据缺源。来源:无。', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'⚠️财报待核(无一手)。26Q1 营收/同比/归母/毛利/PE-TTM 均缺源,待获取。', tier:'media', valAsOf:'待核' },
         { rank:2, name:'双良节能', code:'600481', position:'—（待核：二次侧冷却塔/液冷配套）', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'二次侧换热及闭式冷却塔。⚠️重大风险:主业承压波及', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -407,7 +434,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'⚠️财报待核。26Q1 数据缺源。来源:无。', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'⚠️财报待核(无一手)。26Q1 营收/同比/归母/毛利/PE-TTM 均缺源,待获取。', tier:'media', valAsOf:'待核' }
       ]
     }
   ],

@@ -1109,10 +1109,10 @@ function renderChain(chainId) {
   if (d.cyclePosition && d.cyclePosition.stage) {
     const cp = d.cyclePosition;
     const stages = [
-      { key:'recovery', label:'复苏' },
-      { key:'boom',     label:'繁荣' },
-      { key:'peak',     label:'顶部' },
-      { key:'decline',  label:'下行' }
+      { key:'复苏', label:'复苏' },
+      { key:'繁荣', label:'繁荣' },
+      { key:'顶部', label:'顶部' },
+      { key:'下行', label:'下行' }
     ];
     h += `<div class="card" style="padding:20px;margin-top:18px;">`;
     h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">📍 周期位置 — <span style="color:var(--accent);">${cp.label || ''}</span></div>`;
@@ -1140,7 +1140,7 @@ function renderChain(chainId) {
     }
     h += `</div>`;
   }
-  h += `</div></div>`;
+  h += `</div>`;
 
   // Section 2/3: Tree Map
   const sec2Label = hasSocratic ? '③' : '②';
@@ -1581,6 +1581,7 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-15', sector:'liquid-cooling', desc:'🆪 液冷四轮注入(treeMap 5 列 11 sub-card 注入·10 只待核票补财报 3 只 primary 突破) + 修 2 渲染 bug(stages key 中文化 / L1143 多余 </div> 删 1)', old:'三轮注入后', new:'treeMap 5 列 11 sub-card 全部 barrier/note/position 注入;22 companies[].barrier 严格与 segments 一致 22/22;3 个 sub-card 标 choke=true(氟化液/CDU/快接对应 3 个卡口);materials/equipment/sideBranches 6 个 sourceSegment 引用名与 segments 5 段不匹配(1/6 匹配),渲染时走 sub-card 自身 companies 兜底;10 只待核票补一手财报(3 只 primary 突破:天赐/中石/科华 来自巨潮/公司公告;4 只 media 转:川环/思泉/飞荣达/维谛标的存疑;4 只仍⚠️待核:光环/数据港/博威/海容);21 只个股 11 只带真实数据 + 10 只⚠️待核;重大风险标 5 只(英维克/永贵/思泉/浪潮/双良);同步修 2 渲染 bug:① cyclePosition stages 数组 key 改中文化(原 boom/peak 等英 key 与 cp.stage="繁荣"中文对比永远 false,4 阶段标签永远不高亮) ② L1143 删 1 个多余 </div>(原 2 个 </div> 比开 div 多 1 个,导致 cyclePosition 段之后所有 section 被截断/吞掉,液冷页变空白;修后液冷页正常渲染)', pct:'🆪' },
   { date:'2026-06-15', sector:'liquid-cooling', desc:'🆪 液冷三轮注入（首次填硬数据·21 只个股 11 带财报+10 待核·overview 5/8·cycle 繁荣·fourQuestions 5 段·treeMap 整块拒绝）', old:'二轮注入后骨架', new:'overview[8] 5 项有数据(全球60亿USD/GMI/estimate、GB300>100kW/IDC GTC/broker、产业阶段"繁荣"/estimate、浸没式商业化/estimate、需求暴增 vs 产能瓶颈/estimate) + 3 项待核(中国占比/氟化液全球/国产化率分项);cyclePosition {stage:"繁荣",label:"渗透率加速爬坡期",reason 引用 26Q1 财报观察(英维克增收不增利/双良暴亏/浪潮现金流为负),watchSignals 4 条};fourQuestions.segments[5](冷却介质★★★/核心部件★★★/集成★★☆/IDC★☆☆/侧枝★☆☆);segments[5] 21 只个股全加 dims6[6 维 inline 展开] 21/21(barrier 维严格映射 stock.barrier 21/21,valuation 方向 5=最便宜 英维克/永贵/双良=2 较贵 其他=3 21/21),21 只 tier 全 media(CC 守门降级 原 primary 10 项:来源是新浪/东方财富/格隆汇/财联社 非巨潮/交易所);11 只票带 26Q1 财报数据(巨化/新宙邦/英维克/高澜/申菱/永贵/中科曙光/浪潮/紫光/润泽/双良) + 10 只⚠️财报待核(天赐/维谛/川环/中石/思泉/飞荣达/科华/数据港/光环/博威/海容);3 只⚠️重大风险标(英维克归母-81.97%/永贵转亏-193.46%/双良暴亏-144.60% 毛利-11.04%);D 块 treeMap 整块拒绝(Gemini 给 {columns:[...]} 结构与骨架 {downstream/midstream/materials/equipment/sideBranches} 5 列不兼容),保留骨架 11 sub-card 全"—"待下一轮按骨架 schema 重做', pct:'🆪' },
   { date:'2026-06-15', sector:'liquid-cooling', desc:'🆪 液冷二轮注入（6 维主观+21 只个股 barrier+3 卡口+2 缺口，硬数据全留待核）', old:'骨架首版', new:'prosperity.dims[6] 5 维打 AI 主观分 5/4/4/4/4(estimate 🆪),1 维 valuation 留 null(Gemini 查不到 PE);prosperity.verdict {longTermFit:true, oneLine, stockHint};segments[5] 21 只个股(移除 维谛 300590 标的错误 Gemini 自查发现,22→21)barrier 档注入 5/4/3/2,5 段全部降序;chokePoints 3 个(氟化液★★★/CDU★★★/快接头★★☆);supplyGap 2 个(氟化液/AI 级 CDU);21 只个股 26Q1 财报/PE/分位/6 维 dims6 数组/overview[8]/cyclePosition/treeMap sub-card/fourQuestions 等"硬数据"仍待下一轮', pct:'🆪' },
   { date:'2026-06-15', sector:'liquid-cooling', desc:'🆕 液冷赛道骨架上线（仅结构+个股名单，"会变"数据全留待核）', old:'—', new:'新增 data/liquid-cooling.js 骨架(segments×5/treeMap 5 列/中游+4 问+卡口+缺口全空)；DATA_MANIFEST 加 liquid-cooling + DATA_VERSION bump(20260614→20260615)；侧栏折叠容器加 ❄️ 液冷 入口(▶ 更多赛道 9→10)；sectorName/sectorColor 映射加 liquid-cooling；六维/prosperity/PE/PE 分位/市占/缺口 全部"待核"，等 Gemini 端核实后注入', pct:'NEW' },
