@@ -1169,27 +1169,42 @@ function renderChain(chainId) {
       { key: 'downstream',    title: '下游(需求)' },
       { key: 'sideBranches',  title: '侧枝' }
     ];
-    const barrierOrder = { extreme: 0, high: 1, mid: 2, low: 3 };
-    const barrierClassMap = { extreme: 'b-extreme', high: 'b-high', mid: 'b-mid', low: 'b-low' };
-    const barrierLabelMap = { extreme: '极高', high: '高', mid: '中', low: '低' };
-    const barrierBadgeMap = { extreme: 'badge-ex', high: 'badge-hi', mid: 'badge-mi', low: 'badge-lo' };
+    // ★ 升级九 STEP 2+ bug 修复(2026-06-15):barrier 归一化 — 兼容数字(液冷 1-5)/中文(极高/高/中/低)/英文(extreme/high/mid/low)/'—' 4 种格式
+    //   历史 bug:液冷 JS 用数字 barrier,渲染层 barrierClassMap 等按英文 key 查找 → 全部 fallback 'b-low' 显低
+    function barrierNorm(b) {
+      if (b == null || b === '—' || b === '待核') return null;
+      if (typeof b === 'number') return b >= 5 ? '极高' : b >= 4 ? '高' : b >= 3 ? '中' : '低';
+      if (b === 'extreme') return '极高';
+      if (b === 'high') return '高';
+      if (b === 'mid' || b === 'medium') return '中';
+      if (b === 'low') return '低';
+      return b;  // 已是 '极高'/'高'/'中'/'低' 或其他未知值
+    }
+    const barrierOrder = { '极高': 0, '高': 1, '中': 2, '低': 3 };
+    const barrierClassMap = { '极高':'b-extreme', '高':'b-high', '中':'b-mid', '低':'b-low' };
+    const barrierLabelMap = { '极高':'极高', '高':'高', '中':'中', '低':'低' };
+    const barrierBadgeMap = { '极高':'badge-ex', '高':'badge-hi', '中':'badge-mi', '低':'badge-lo' };
     cols.forEach(col => {
-      const items = (d.treeMap[col.key] || []).slice().sort((a, b) => (barrierOrder[a.barrier] ?? 9) - (barrierOrder[b.barrier] ?? 9));
+      const items = (d.treeMap[col.key] || []).slice().sort((a, b) => (barrierOrder[barrierNorm(a.barrier)] ?? 9) - (barrierOrder[barrierNorm(b.barrier)] ?? 9));
       h += `<div class="tree-col">`;
       h += `<div class="tree-col-title">${col.title} <span class="tree-col-count">(${items.length})</span></div>`;
       items.forEach(item => {
-        const bCls = barrierClassMap[item.barrier] || 'b-low';
-        const bLbl = barrierLabelMap[item.barrier] || '低';
-        const bBg = barrierBadgeMap[item.barrier] || 'badge-lo';
+        const bNorm = barrierNorm(item.barrier);
+        const bCls = barrierClassMap[bNorm] || 'b-low';
+        const bLbl = bNorm || '待核';
+        const bBg = barrierBadgeMap[bNorm] || 'badge-lo';
         const chokeBadge = item.choke ? ' <span class="badge-b badge-ex">🔒 卡口</span>' : '';
         // 找公司数据：sourceSegment 优先 → segments[].stocks[]；否则 inline companies[]
+        // ★ 升级九 STEP 2+ bug 修复(2026-06-15):sourceSegment 优先按 s.name 匹配,失败时按 s.name.includes(sourceSegment) 模糊匹配,再 fallback sub-card.companies
         let companies = [];
         if (item.sourceSegment) {
-          const seg = (d.segments || []).find(s => s.name === item.sourceSegment);
+          const seg = (d.segments || []).find(s => s.name === item.sourceSegment)
+                   || (d.segments || []).find(s => s.name.includes(item.sourceSegment) || item.sourceSegment.includes(s.name));
           if (seg && seg.stocks && seg.stocks.length) {
             companies = seg.stocks.slice(0, 5).map(s => ({ name: s.name, code: s.code, position: s.position, barrier: s.barrier }));
           }
-        } else if (item.companies && item.companies.length) {
+        }
+        if (!companies.length && item.companies && item.companies.length) {
           companies = item.companies.slice(0, 5);
         }
         h += `<div class="tree-sub-card ${bCls}">`;
@@ -1198,7 +1213,7 @@ function renderChain(chainId) {
         if (companies.length) {
           h += `<table class="tree-sub-mini-tbl"><tbody>`;
           companies.forEach((c, i) => {
-            h += `<tr><td class="rank-num">${i+1}</td><td class="s-name" style="font-size:11px;">${c.name}</td><td class="s-code" style="font-size:11px;">${c.code || '—'}</td><td style="font-size:11px;color:var(--muted);">${c.barrier || ''}</td></tr>`;
+            h += `<tr><td class="rank-num">${i+1}</td><td class="s-name" style="font-size:11px;">${c.name}</td><td class="s-code" style="font-size:11px;">${c.code || '—'}</td><td style="font-size:11px;color:var(--muted);">${barrierNorm(c.barrier) || ''}</td></tr>`;
           });
           h += `</tbody></table>`;
         } else {
@@ -1357,7 +1372,7 @@ function renderChain(chainId) {
       }
       h += `<span>${ratioTag}: <strong style="color:var(--accent);">${seg.costRatio}</strong></span>`;
     }
-    h += `<span>壁垒等级: <span class="tag ${seg.barrier==='extreme'?'tg-extreme':seg.barrier==='high'?'tg-high':'tg-mid'}">${seg.barrier==='extreme'?'极高':seg.barrier==='high'?'高':'中'}</span></span>`;
+    h += `<span>壁垒等级: <span class="tag ${(()=>{const b=barrierNorm(seg.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(seg.barrier) || '待核'}</span></span>`;
     if (seg.choke) h += `<span style="color:var(--accent);">🔒 物理卡口环节</span>`;
     h += `</div>`;
     h += `<p style="font-size:14px;margin-bottom:16px;line-height:1.9;">${seg.intro}</p>`;
@@ -1376,8 +1391,8 @@ function renderChain(chainId) {
       h += `<tr${s.code?` id="stock-${s.code}"`:''}>`;
       h += `<td><span class="rank-num">${s.rank}</span></td>`;
       h += `<td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td>`;
-      h += `<td style="font-size:13px;">${s.position}</td>`;
-      h += `<td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td>`;
+      h += `<td style="font-size:13px;">${s.position || '<span style="color:var(--muted);">—</span>'}</td>`;
+      h += `<td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td>`;
       if (seg.stocks.some(x => x.hits !== null)) {
         if (s.hits !== null && s.hits !== undefined) {
           h += `<td><span class="stars ${s.strength==='★★★'?'s3':'s2'}">${s.strength}</span></td>`;
@@ -1385,7 +1400,7 @@ function renderChain(chainId) {
           h += `<td style="color:var(--barrier-low);font-size:11px;">—</td>`;
         }
       }
-      h += `<td style="font-size:13px;">${s.logic}${stockDims6Badge(s)}${stockFitBadge(s)}</td>`;
+      h += `<td style="font-size:13px;">${s.logic || '<span style="color:var(--muted);">—</span>'}${stockDims6Badge(s)}${stockFitBadge(s)}</td>`;
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
@@ -1398,7 +1413,7 @@ function renderChain(chainId) {
     remainingSegs.forEach(seg => {
       h += `<div class="segment-card">`;
       h += `<div class="seg-title">${seg.name}</div>`;
-      h += `<div class="seg-meta"><span>壁垒等级: <span class="tag ${seg.barrier==='extreme'?'tg-extreme':'tg-mid'}">${seg.barrier==='extreme'?'极高':'中'}</span></span></div>`;
+      h += `<div class="seg-meta"><span>壁垒等级: <span class="tag ${(()=>{const b=barrierNorm(seg.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(seg.barrier) || '待核'}</span></span></div>`;
       h += `<p style="font-size:14px;margin-bottom:16px;line-height:1.9;">${seg.intro}</p>`;
       if (seg.globalLandscape) {
         h += `<h4>🏆 全球竞争格局</h4><div class="info-grid">`;
@@ -1407,7 +1422,7 @@ function renderChain(chainId) {
       }
       h += `<h4>A股标的</h4><table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
       seg.stocks.forEach(s => {
-        h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.logic}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
+        h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:13px;">${s.logic}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
       });
       h += `</tbody></table></div>`;
     });
@@ -1429,7 +1444,7 @@ function renderChain(chainId) {
     }
     h += `<table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
     d.midstream.stocks.forEach(s => {
-      h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${s.barrier==='极高'?'tg-extreme':s.barrier==='高'?'tg-high':'tg-mid'}">${s.barrier}</span></td><td style="font-size:13px;">${s.note}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
+      h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:13px;">${s.logic || s.note || ''}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
     });
     h += `</tbody></table></div></div>`;
   }
@@ -1440,20 +1455,34 @@ function renderChain(chainId) {
   h += `<div class="section-desc">✓=通过 ✗=不通过 ★★★=命中4/4(核心卡口) ★★☆=命中3/4(潜在卡口)</div>`;
   h += `<div class="card" style="padding:16px;"><div class="fourq-wrap"><table class="fourq-tbl"><thead><tr><th style="min-width:90px;">产业链环节</th><th style="min-width:95px;">标的</th><th>①供给端<br>寡头垄断?</th><th>②产能端<br>扩产≥12月?</th><th>③替代端<br>无替代?</th><th>④需求端<br>下游刚需?</th><th>命中</th><th>卡口强度</th></tr></thead><tbody>`;
   d.fourQuestions.segments.forEach(seg => {
-    h += `<tr class="seg-div"><td colspan="8">${seg.name}</td></tr>`;
-    (seg.stocks || []).forEach(s => {
+    const segLabel = seg.name || seg.segmentName || '—';
+    h += `<tr class="seg-div"><td colspan="8">${segLabel}</td></tr>`;
+    if (seg.stocks && seg.stocks.length) {
+      // 个股级 schema (PCB 模式):每只票一行
+      seg.stocks.forEach(s => {
+        h += `<tr>`;
+        h += `<td style="font-size:11px;color:var(--muted);">${segLabel}</td>`;
+        h += `<td style="font-weight:600;">${s.name}<br><span style="font-size:11px;color:var(--muted);">${s.code}</span></td>`;
+        h += `<td>${s.q1 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q1note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q1note+'</span>' : ''}</td>`;
+        h += `<td>${s.q2 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q2note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q2note+'</span>' : ''}</td>`;
+        h += `<td>${s.q3 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q3note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q3note+'</span>' : ''}</td>`;
+        h += `<td>${s.q4 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q4note+'</span>' : ''}</td>`;
+        const hCls = s.hits === 4 ? 'h4' : s.hits === 3 ? 'h3' : s.hits === 2 ? 'h2' : s.hits === 1 ? 'h1' : 'h0';
+        h += `<td><span class="hit-dot ${hCls}">${s.hits}</span></td>`;
+        h += `<td>${s.strength ? '<span class="stars '+(s.strength==='★★★'?'s3':'s2')+'">'+s.strength+'</span>' : '<span style="color:var(--barrier-low);">不通过</span>'}</td>`;
+        h += `</tr>`;
+      });
+    } else {
+      // 段级 schema (液冷模式):整段一行,4 问填进单元格,4 列合并
+      const hCls = seg.hits === 4 ? 'h4' : seg.hits === 3 ? 'h3' : seg.hits === 2 ? 'h2' : seg.hits === 1 ? 'h1' : seg.hits === 0 ? 'h0' : 'h0';
       h += `<tr>`;
-      h += `<td style="font-size:11px;color:var(--muted);">${seg.name}</td>`;
-      h += `<td style="font-weight:600;">${s.name}<br><span style="font-size:11px;color:var(--muted);">${s.code}</span></td>`;
-      h += `<td>${s.q1 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q1note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q1note+'</span>' : ''}</td>`;
-      h += `<td>${s.q2 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q2note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q2note+'</span>' : ''}</td>`;
-      h += `<td>${s.q3 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q3note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q3note+'</span>' : ''}</td>`;
-      h += `<td>${s.q4 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q4note+'</span>' : ''}</td>`;
-      const hCls = s.hits === 4 ? 'h4' : s.hits === 3 ? 'h3' : s.hits === 2 ? 'h2' : s.hits === 1 ? 'h1' : 'h0';
-      h += `<td><span class="hit-dot ${hCls}">${s.hits}</span></td>`;
-      h += `<td>${s.strength ? '<span class="stars '+(s.strength==='★★★'?'s3':'s2')+'">'+s.strength+'</span>' : '<span style="color:var(--barrier-low);">不通过</span>'}</td>`;
+      h += `<td style="font-size:11px;color:var(--muted);">${segLabel}</td>`;
+      h += `<td style="font-size:11px;color:var(--muted);">— 段级 4 问 —</td>`;
+      h += `<td colspan="4" style="font-size:12px;line-height:1.6;text-align:left;"><div><strong>①</strong> ${seg.q1||'—'}</div><div><strong>②</strong> ${seg.q2||'—'}</div><div><strong>③</strong> ${seg.q3||'—'}</div><div><strong>④</strong> ${seg.q4||'—'}</div></td>`;
+      h += `<td><span class="hit-dot ${hCls}">${seg.hits!=null?seg.hits:'—'}</span></td>`;
+      h += `<td>${seg.strength ? '<span class="stars '+(seg.strength==='★★★'?'s3':'s2')+'">'+seg.strength+'</span>' : '<span style="color:var(--barrier-low);">—</span>'}</td>`;
       h += `</tr>`;
-    });
+    }
   });
   h += `</tbody></table></div></div></div>`;
 
@@ -1544,7 +1573,7 @@ function renderChain(chainId) {
     h += `<div class="card"><h4 style="margin-bottom:16px;font-size:15px;">📊 供需缺口量化（2026E）</h4>`;
     h += `<table class="stock-tbl"><thead><tr><th>卡口环节</th><th>2026E全球需求</th><th>2026E有效产能</th><th>缺口</th><th>缺口率</th><th>核心瓶颈</th></tr></thead><tbody>`;
     d.supplyGap.forEach(g => {
-      h += `<tr><td style="font-weight:600;">${g.segment}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand}</td><td>${g.capacity}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap}</span></td><td style="color:var(--red);font-weight:700;">${g.rate}</td><td style="font-size:12px;">${g.bottleneck}</td></tr>`;
+      h += `<tr><td style="font-weight:600;">${g.segment || g.name}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand||'—'}</td><td>${g.capacity||'—'}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap||'—'}</span></td><td style="color:var(--red);font-weight:700;">${g.rate||'—'}</td><td style="font-size:12px;">${g.bottleneck||'—'}</td></tr>`;
     });
     h += `</tbody></table></div>`;
   }

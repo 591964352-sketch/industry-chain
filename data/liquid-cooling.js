@@ -185,7 +185,7 @@ CHAINS['liquid-cooling'] = {
         barrier: 3,
         choke: false,
         note: '格局相对分散,多为消费电子散热厂商横向拓展。来源:电子研报(截至 2026-05)。⚠️ 占比数据:P1-3 批次 2 已查硬件拆解报告/产业链券商深度,受冷板材质(铜/铝)及方案差异影响,无统一公允基准比例,TIM 占液冷板成本占比 ②待补,拒绝编造平均数。',
-        sourceSegment: '导热界面材料(TIM)',
+        sourceSegment: '核心部件(CDU/快接/管路/TIM)',
         companies: [
           { name:'中石科技', code:'300684', position:'占比待核。来源:待核', barrier:3 },
           { name:'思泉新材', code:'301489', position:'占比待核。来源:待核', barrier:3 }
@@ -210,7 +210,7 @@ CHAINS['liquid-cooling'] = {
         barrier: 3,
         choke: false,
         note: '不锈钢/橡胶/EPDM 管路 + 接头金属件(对应 equipment[1] 快接)。来源:行业方案(截至 2026-06)',
-        sourceSegment: '快接接头/管路',
+        sourceSegment: '核心部件(CDU/快接/管路/TIM)',
         companies: [
           { name:'川环科技', code:'300547', position:'液冷管路供应商。来源:待核', barrier:3 },
           { name:'中石科技', code:'300684', position:'导热界面。来源:待核', barrier:3 },
@@ -226,7 +226,7 @@ CHAINS['liquid-cooling'] = {
         barrier: 5,
         choke: true,
         note: '液冷心脏,集中度极高,满负荷试错与防漏验证壁垒深。来源:招投标数据(截至 2026-06)。⚠️ 占比数据:P1-3 批次 2 已查 IDC 测算模型/运营商白皮书,CDU 占液冷设备投资占比(%)未在 2025-2026 年口径下找到 ≥2 独立来源的权威比例数字 → ②待补。',
-        sourceSegment: 'CDU(冷却液分配单元)',
+        sourceSegment: '核心部件(CDU/快接/管路/TIM)',
         companies: [
           { name:'英维克', code:'002837', position:'绝对龙头,份额领先。来源:待核', barrier:5 },
           { name:'高澜股份', code:'300499', position:'老牌温控厂,占比待核。来源:待核', barrier:3 },
@@ -238,7 +238,7 @@ CHAINS['liquid-cooling'] = {
         barrier: 4,
         choke: true,
         note: '盲插防漏专利受限,海外史陶比尔等主导,国产突破中。来源:专利检索(截至 2026-05)。⚠️ 占比数据:P1-3 批次 2 已查产业链调研纪要/券商深度,由于服务器 U 数及环路设计不一,缺乏明确一手的通用造价比例,快接头占管路价值比例(%)②待补。',
-        sourceSegment: '快接接头/管路',
+        sourceSegment: '核心部件(CDU/快接/管路/TIM)',
         companies: [
           { name:'永贵电器', code:'300351', position:'快接头国产领跑。来源:待核', barrier:4 },
           { name:'川环科技', code:'300547', position:'管路龙头。来源:待核', barrier:3 }
@@ -249,7 +249,7 @@ CHAINS['liquid-cooling'] = {
         barrier: 3,
         choke: false,
         note: '制造门槛适中,五金件属性偏强,面临一定价格战压力。来源:产业链调研(截至 2026-06)。⚠️ 占比数据:P1-3 批次 2 已查 IDC 基础设施报告,冷板属服务器侧/CDU 属机房机柜侧分配端,核算边界不一致,液冷板占 CDU 系统价值比例(%)未找到 ≥2 来源的统包占比数据 → ②待补。',
-        sourceSegment: '液冷板/冷板',
+        sourceSegment: '核心部件(CDU/快接/管路/TIM)',
         companies: [
           { name:'飞荣达', code:'300602', position:'占比待核。来源:待核', barrier:3 }
         ]
@@ -262,7 +262,7 @@ CHAINS['liquid-cooling'] = {
         name: '二次侧冷却塔(风液混合)',
         barrier: 2,
         note: '传统商冷与暖通企业降维切入,门槛较低,竞争白热化。来源:暖通行业报告(截至 2026-06)。⚠️ 占比数据:P1-3 批次 3 已查绿色数据中心 PUE 拆解模型,风液混合/冷板式/浸没式二次侧排热架构差异巨大,无全行业通用绝对占比 → 二次侧冷却塔在数据中心总能耗占比(%)②待补。',
-        sourceSegment: '二次侧冷却塔(风液混合)',
+        sourceSegment: '液冷侧枝(冷却塔/温控芯片)',
         companies: [
           { name:'双良节能', code:'600481', position:'占比待核。来源:待核', barrier:2 },
           { name:'海容冷链', code:'603187', position:'占比待核。来源:待核', barrier:2 }
@@ -272,7 +272,7 @@ CHAINS['liquid-cooling'] = {
         name: '液冷温控芯片/智能控制',
         barrier: 3,
         note: '精细化温控与上游关键铜材供应商,辅助节点。来源:行业综述(截至 2026-06)。⚠️ 占比数据:P1-3 批次 3 触发公开数据稀缺区,按 1-2-3-4 顺序,产业链 BOM 硬件拆解报告中,智能控制 IC 在单纯液冷板(多为纯五金结构件)及 CDU 控制模块中的价值占比边界模糊,无统一公允数字 → 温控芯片/智能控制在液冷板中价值占比(%)②待补。',
-        sourceSegment: '液冷温控芯片/智能控制',
+        sourceSegment: '液冷侧枝(冷却塔/温控芯片)',
         companies: [
           { name:'博威合金', code:'601137', position:'铜合金部件供应商。来源:待核', barrier:3 }
         ]
