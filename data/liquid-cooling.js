@@ -28,7 +28,7 @@ window.CHAINS = window.CHAINS || {};
 CHAINS['liquid-cooling'] = {
   id: 'liquid-cooling', name: '液冷', icon: '❄️',
   // ★ 升级九 STEP 2：赛道级 meta —— 骨架态标记
-  meta: { sector:'中游', tier:'待核', status:'skeleton', updatedAt:'2026-06-15', ltFit:null },
+  meta: { sector:'中游', tier:'待核', status:'active', updatedAt:'2026-06-15', ltFit:true },
   // ★ 升级九 STEP 2：景气六维 —— 骨架版（6 维 score/trend/reason 全留空，标"待核"）
   prosperity: {
     dims: [
