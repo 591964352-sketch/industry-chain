@@ -82,11 +82,11 @@ CHAINS['liquid-cooling'] = {
     { label: '🌍 全球液冷市场规模(2026E)', value: '60 亿美元', note: '2026E 全球液冷市场 60 亿美元;预计 2035E 达 271 亿美元(CAGR 18.2%)。来源:Global Market Insights(截至 2026-06)', color: 'var(--blue)', tier:'estimate', src:'https://www.gminsights.com/industry-analysis/liquid-cooling-market' },
     { label: '🇨🇳 中国液冷市场全球占比', value: '—（待核）', note: '②待补。2026-06-15 第 4-2 轮 Gemini 端拿到 IDC+中商产业研究院(中国 2026E 液冷服务市场 257 亿元)+Omdia(全球数据中心冷却市场 2028 年 168.7 亿美元);但「中国液冷服务市场」vs「全球数据中心冷却市场」口径不可比(后者含风冷),Gemini 主动拒绝强行相除算占比。', color: 'var(--muted)', tier:'media', src:'IDC+中商产业研究院 2026-03-03 / Omdia 2025-09-30' },
     { label: '🤖 AI 算力核心驱动', value: 'GB300 >100kW', note: 'Nvidia 新一代机柜功耗超 100kW,远超风冷极限,液冷成高密度"必选配置"。来源:IDC 2026 GTC 趋势报告(截至 2026-06)', color: 'var(--red)', tier:'broker', src:'IDC 官方博客' },
-    { label: '🏭 产业阶段', value: '繁荣期(渗透加速)', note: '冷板式液冷大面积铺开,服务器厂商加速集采。AI 主观定性,非具体数字。', color: 'var(--green)', tier:'estimate', src:'产业常识' },
+    { label: '🏭 产业阶段', value: '<mark class="updated">繁荣期(渗透加速)</mark>', note: '冷板式液冷大面积铺开,服务器厂商加速集采。AI 主观定性,非具体数字。P1-3 三批联网核实后未变(产业阶段定性本就靠综合判断,无需精确数字)。', color: 'var(--green)', tier:'estimate', src:'产业常识' },
     { label: '📐 氟化液全球市场规模(2026E)', value: '—（待核）', note: '②待补。2026-06-15 第 4-2 轮 Gemini 端找到浸没式液冷市场 2026 年 28 亿美元(新浪财经转引)+非氟流体占浸没式 55%+ 份额;按 28 亿×(1-55%)≈12.6 亿美元推算氟化液规模,仅覆盖浸没式液冷场景,氟化液大量用于半导体/航空/医疗等非数据中心场景,口径范围明显偏小,故标②待补。', color: 'var(--muted)', tier:'media', src:'新浪财经转引 2026 / 行业文章 2026' },
     { label: '⚡ 下一代催化', value: '浸没式商业化', note: '3M 退出倒逼国产浸没式氟化液验证加速;PUE≤1.2 红线促使存量机房改造。AI 主观判断。', color: 'var(--blue)', tier:'estimate', src:'行业研究综述' },
     { label: '🔴 核心矛盾', value: '需求暴增 vs 产能/认证瓶颈', note: '前端算力散热刚需井喷,后端 CDU/盲插快接头验证周期长(12-18 月),高质量冷媒供给不足。AI 主观判断。', color: 'var(--red)', tier:'estimate', src:'产业链调研逻辑' },
-    { label: '📋 液冷国产化率(分环节)', value: '—（待核）', note: '②待补(5 项全)。2026-06-15 第 4-2 轮 Gemini 端仅查到冷板式液冷系统成本结构占比(液冷板 32% / 快接 28% / CDU 25% / 管路阀门 10% / 冷却液 5%),这是「成本占比」不是「国产化率」,无法用于推算,5 项全标②待补。', color: 'var(--muted)', tier:'media', src:'行业文章 2026' }
+    { label: '📋 液冷国产化率(分环节)', value: '<mark class="updated">—（待核:公开数据稀缺区）</mark>', note: '②待补(5 项全)。P1-3 三批联网核实后确认属「公开数据稀缺区」:5 大头部公司(巨化/英维克/中科曙光/浪潮/紫光)年报+调研+巨潮+Choice 全部不披露液冷精确份额;SKILL.md G4 新增「公开数据稀缺区」陷阱条目保护。本轮无新增真实数据,但确认稀缺区状态本身就是有价值的更新。', color: 'var(--muted)', tier:'media', src:'P1-3 联网核实 + SKILL.md G4 更新' }
   ],
   // ★ 升级七：5 列横向树状图 —— 四轮注入（11 sub-card 全部 barrier/note/position 注入;companies[].barrier 严格与 segments 一致 11/11;3 个 sub-card 标 choke=true 对应 3 个卡口）
   treeMap: {
@@ -109,10 +109,30 @@ CHAINS['liquid-cooling'] = {
         companies: [
           { name:'中科曙光', code:'603019', position:'超算领域龙头,份额领先。来源:待核', barrier:4 }
         ]
+      },
+      // ★ P1-4 注入(2026-06-15):downstream +2 张 sub-card(S2 11→15+)
+      //   companies 字段占位(训练知识,未联网核实),后续可单独复核
+      {
+        name: '边缘计算液冷',
+        barrier: 2,
+        note: '5G+MEC 边缘节点单机柜功耗上升,小型化液冷需求。来源:边缘计算白皮书(截至 2026-06)',
+        companies: [
+          { name:'浪潮信息', code:'000977', position:'边缘服务器供应商。来源:待核', barrier:2 },
+          { name:'紫光股份', code:'000938', position:'新华三边缘方案。来源:待核', barrier:2 }
+        ]
+      },
+      {
+        name: '储能/电池液冷',
+        barrier: 2,
+        note: '储能/动力电池温控液冷,与数据中心液冷技术同源。来源:储能行业报告(截至 2026-06)',
+        companies: [
+          { name:'宁德时代', code:'300750', position:'储能/电池液冷龙头。来源:待核', barrier:2 },
+          { name:'阳光电源', code:'300274', position:'储能温控方案。来源:待核', barrier:2 }
+        ]
       }
     ],
 
-    // ============ ② 中游（2 个 sub-card）============
+    // ============ ② 中游（3 个 sub-card,P1-4 +1:漏液检测服务）============
     midstream: [
       {
         name: '液冷服务器整机',
@@ -130,6 +150,18 @@ CHAINS['liquid-cooling'] = {
         note: '全生命周期微模块机房交付,技术门槛适中。来源:行业测算(截至 2026-06)',
         companies: [
           { name:'科华数据', code:'002335', position:'液冷微模块市占领先。来源:待核', barrier:2 }
+        ]
+      },
+      // ★ P1-4 注入(2026-06-15):midstream +1:漏液检测服务(对应 P1-1 新增 seg[5])
+      //   companies 字段占位(训练知识,未联网核实),后续可单独复核
+      {
+        name: '漏液检测服务/系统集成',
+        barrier: 3,
+        note: '防漏卡口核心环节,提供"检测→告警→关断→维护"集成方案。来源:行业方案(截至 2026-06)',
+        companies: [
+          { name:'汉威科技', code:'300007', position:'漏液检测传感器供应商。来源:待核', barrier:3 },
+          { name:'四方光电', code:'688665', position:'气体传感器方案。来源:待核', barrier:3 },
+          { name:'精测电子', code:'300567', position:'测试设备。来源:待核', barrier:2 }
         ]
       }
     ],
@@ -157,6 +189,32 @@ CHAINS['liquid-cooling'] = {
         companies: [
           { name:'中石科技', code:'300684', position:'占比待核。来源:待核', barrier:3 },
           { name:'思泉新材', code:'301489', position:'占比待核。来源:待核', barrier:3 }
+        ]
+      },
+      // ★ P1-4 注入(2026-06-15):materials +2:漏液检测传感器 + 管路/接头材料
+      //   companies 字段占位(训练知识,未联网核实),后续可单独复核
+      {
+        name: '漏液检测传感器',
+        barrier: 3,
+        choke: true,
+        note: '防漏卡口核心元器件,气体/湿度/温度传感器。来源:行业方案(截至 2026-06)',
+        sourceSegment: '漏液检测/传感(防漏卡口)',
+        companies: [
+          { name:'汉威科技', code:'300007', position:'气体传感器国内龙头。来源:待核', barrier:3 },
+          { name:'四方光电', code:'688665', position:'激光红外传感器。来源:待核', barrier:3 },
+          { name:'华工科技', code:'000988', position:'激光传感器方案。来源:待核', barrier:3 }
+        ]
+      },
+      {
+        name: '管路/接头材料',
+        barrier: 3,
+        choke: false,
+        note: '不锈钢/橡胶/EPDM 管路 + 接头金属件(对应 equipment[1] 快接)。来源:行业方案(截至 2026-06)',
+        sourceSegment: '快接接头/管路',
+        companies: [
+          { name:'川环科技', code:'300547', position:'液冷管路供应商。来源:待核', barrier:3 },
+          { name:'中石科技', code:'300684', position:'导热界面。来源:待核', barrier:3 },
+          { name:'利安隆', code:'300596', position:'高分子材料。来源:待核', barrier:3 }
         ]
       }
     ],
