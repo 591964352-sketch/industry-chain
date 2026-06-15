@@ -1499,7 +1499,7 @@ function renderChain(chainId) {
       }
     }
     h += `<div class="tags">`;
-    c.tags.forEach(t => {
+    (c.tags || []).forEach(t => {
       h += `<span class="tag ${t.includes('缺口')||t.includes('垄断')||t.includes('替代')||t.includes('寡头')||t.includes('唯一')||t.includes('70%')||t.includes('81%')?'tg-extreme':t.includes('刚通过')||t.includes('认证')||t.includes('替换')?'tg-blue':'tg-green'}">${t}</span>`;
     });
     h += `</div>`;
