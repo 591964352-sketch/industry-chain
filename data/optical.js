@@ -176,13 +176,13 @@ CHAINS.optical = {
       stocks: [
         { rank:1, name:'罗博特科', code:'300757', position:'拟收购 ficonTEC,垄断硅光/CPO 耦合与测试设备全球绝大部分产能', barrier:'极高', trend:'up', trendNote:'ficonTEC 并表预期及 1.6T 设备订单爆发', logic:'<strong>卡口 ③ 设备侧主标的</strong>:拟收购 ficonTEC,垄断硅光/CPO 耦合与测试设备全球绝大部分产能。垄断级壁垒+供给极度紧缺。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:2,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 垄断级壁垒(4)+供给极度紧缺(2),并表节点决定业绩弹性', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收1.64亿+69.33%/归母净利-3882万(亏损扩大);收购ficonTEC(全球硅光/光模块封测设备领先,客户NVIDIA/Broadcom/Lumentum),CPO/OCS逻辑;光伏设备承压。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:2, name:'光库科技', code:'300620', position:'薄膜铌酸锂(TFLN)调制器绝对龙头,下一代相干通信核心', barrier:'极高', trend:'up', trendNote:'产业节点趋近,1.6T/3.2T 超长距传输方案开始导入', logic:'<strong>卡口 ③ 材料侧主标的</strong>:薄膜铌酸锂(TFLN)调制器绝对龙头,1.6T/3.2T 相干模块核心。技术壁垒高,但放量节点需观察。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
           dims6Note:'🔵 26Q1净利预告4370-4587万、同比+303-323%;薄膜铌酸锂调制器(光芯片侧枝,精确值待正式报)。[2026Q1预告]', valAsOf:'2026-06-14', tier:'broker' },
         { rank:3, name:'赛微电子', code:'300456', position:'全球 MEMS 代工龙头,具备硅光芯片代工制造能力与产能', barrier:'极高', trend:'up', trendNote:'受益于硅光模块流片需求大增及北京产线放量', logic:'全球 MEMS 代工龙头,硅光芯片代工制造能力。代工壁垒高,但折旧压力压制短期利润。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 代工壁垒(4)高,折旧压力压制短期利润', valAsOf:'2026-06-14', tier:'broker' }
+          dims6Note:'🟢 26Q1营收9854万-62.68%(瑞典Silex不再并表致口径腰斩)/归母净利-4910万(由盈转亏);MEMS代工+硅光。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' }
       ]
     },
     {
@@ -200,13 +200,13 @@ CHAINS.optical = {
           dims6Note:'🟢 26Q1净利4.92亿+45.79%(环比降约11%);光器件平台、深度配套旭创。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:2, name:'太辰光', code:'300570', position:'MPO 高密度光纤连接器龙头,直接受益 AI 集群高密度布线', barrier:'中', trend:'up', trendNote:'北美大客户订单持续落地,北美建厂规避关税', logic:'MPO 高密度光纤连接器龙头,直接受益 AI 集群高密度布线。需求稳定可见,壁垒适中。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 需求稳定可见(4),壁垒(3)适中', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收3.41亿-8.04%/归母净利6578万-17.12%/扣非-21.23%(汇兑损失致财务费用+378%);MPO光连接器龙头、PE-TTM~107x、应收帐款7.89亿偏高。本链弱势标的。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:3, name:'腾景科技', code:'688195', position:'精密光学元器件供应商,为核心模块厂提供滤光片/透镜', barrier:'中', trend:'up', trendNote:'跟随主设备商放量,合肥产线产能爬坡', logic:'精密光学元器件供应商,跟随主设备商放量。稳健的二线供应商,估值偏合理。',
           dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 稳健二线供应商,估值偏合理', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收1.71亿+51.17%/归母净利1443万+10.74%(环比+112%;员工持股股份支付1267万拖累净利、毛利37%);谷歌OCS铌酸锂晶体/高速光无源核心供应商。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:4, name:'中瓷电子', code:'003031', position:'国内光通信陶瓷封装基板绝对龙头', barrier:'极高', trend:'up', trendNote:'消费电子回暖叠加高端 800G 光模块基板国产替代加速', logic:'国内光通信陶瓷封装基板绝对龙头,材料级卡脖子环节,自主可控急先锋。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 材料级卡脖子环节(4),自主可控急先锋(政策 4)', valAsOf:'2026-06-14', tier:'broker' }
+          dims6Note:'⚠️财报待核:2025H1营收13.98亿+14%/净利2.78亿+31%(电子陶瓷外壳/数通基板,broker旧值);26Q1实际值待补。材料级卡脖子环节,自主可控急先锋(政策 4)。[2025H1报 + 26Q1待补]', valAsOf:'2026-06-14', tier:'broker' }
       ]
     },
     {
@@ -259,19 +259,19 @@ CHAINS.optical = {
       stocks: [
         { rank:1, name:'杰普特', code:'688025', position:'MOPA 激光器龙头,拓展至光模块测试仪(BER/光示波器)', barrier:'高', trend:'up', trendNote:'受益 1.6T 测试设备国产替代及苹果 MR 设备检修订单', logic:'MOPA 激光器龙头,拓展至光模块测试仪。设备国产化逻辑硬,估值处于合理区间。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 设备国产化逻辑硬(4),估值合理(3)', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收6.61亿+92.75%/归母净利0.98亿+170.98%(环比+30%);激光器(动力电池)+激光智能装备(M9电路板激光微孔)+光通信(占比<5%);PE~108x。本链强势标的。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:2, name:'普源精电', code:'688337', position:'国内数字示波器龙头,13GHz 高端示波器切入高速光通信测试', barrier:'极高', trend:'flat', trendNote:'高端化战略见效,但面临 Keysight 等海外巨头压制', logic:'国内数字示波器龙头,13GHz 高端示波器切入高速光通信测试。自主可控纯度极高,研发壁垒极强。',
           dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 自主可控纯度极高(4),研发壁垒极强(4)', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收2.32亿+38%/归母净利2315万+512%/扣非0.15亿(去年同期亏);数字示波器+解决方案(+145%)+光通信精密电源(核心大客户突破)。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:3, name:'鼎阳科技', code:'688112', position:'通用电子测试测量仪器龙头', barrier:'高', trend:'flat', trendNote:'教育科研市场平稳,产业端 1.6T 渗透仍在初期', logic:'通用电子测试测量仪器龙头,产品线涵盖射频微波及光通信基础测试。增长稳健,估值具备较高安全边际。',
           dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 增长稳健,估值安全边际(3)', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收1.62亿+22.85%/毛利64.24%(历史新高);光通信电源收入+166%、1.6T采样示波器储备、高端占比39%;⚠️净利绝对值待补。[2026Q1报]', valAsOf:'2026-06-14', tier:'primary' },
         { rank:4, name:'坤恒顺维', code:'688283', position:'高端无线电测试仿真仪器破局者,拓展至光网络层测试', barrier:'高', trend:'up', trendNote:'受下游特定行业招投标延迟影响,业绩承压后探底企稳', logic:'高端无线电测试仿真仪器破局者。短期能见度受损,但政策底线支撑强。',
           dims6:[{key:'durability',score:3,trend:'up',tier:'estimate'},{key:'visibility',score:2,trend:'up',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 短期能见度受损(2),政策底线支撑强(4)', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'⚠️财报待核:26Q1净利同比扭亏为盈(通信行业年报纵览·broker 方向);⚠️绝对值待补。高端无线信道模拟/测试仪器;短期能见度受损,政策底线支撑强。[26Q1方向+绝对值待补]', valAsOf:'2026-06-14', tier:'broker' },
         { rank:5, name:'华兴源创', code:'688001', position:'面板及半导体检测设备龙头,参股或自研部分光电融合测试', barrier:'中', trend:'flat', trendNote:'消费电子复苏为主线,光通信测试占比尚小', logic:'面板及半导体检测设备龙头。基本面看苹果链脸色,算力溢价有限。',
           dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:2,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 基本面看苹果链,算力溢价有限', valAsOf:'2026-06-14', tier:'estimate' }
+          dims6Note:'⚠️财报待核:2025E净利~2.04亿+141%(broker 预测);26Q1已披露但具体值待补。面板/半导体检测设备龙头,光通信测试占比小。[2025E预测 + 26Q1待补]', valAsOf:'2026-06-14', tier:'broker' }
       ]
     },
     {
@@ -287,13 +287,13 @@ CHAINS.optical = {
       stocks: [
         { rank:1, name:'沪电股份', code:'002463', position:'全球数通及 AI 交换机高多层 PCB 绝对龙头', barrier:'极高', trend:'flat', trendNote:'800G/1.6T 交换机及算力主板 HDI 订单饱满,满产满销', logic:'全球数通及 AI 交换机高多层 PCB 绝对龙头。业绩极度透明,产能紧缺,极具王者相。',
           dims6:[{key:'durability',score:4,trend:'flat',tier:'estimate'},{key:'visibility',score:4,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:2,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 业绩极度透明(4)+产能紧缺(2),极具王者相', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1营收62.14亿+53.91%/净利12.42亿+62.9%;AI服务器/交换机高速板。[2026Q1报](亦在PCB链)', valAsOf:'2026-06-14', tier:'primary' },
         { rank:2, name:'胜宏科技', code:'300476', position:'Nvidia 显卡 PCB 核心供应商,加速切入 AI 服务器主板', barrier:'高', trend:'up', trendNote:'产品结构向高阶 HDI 转移,盈利能力逐季修复', logic:'Nvidia 显卡 PCB 核心供应商。算力绑定深厚,估值对比沪电具备一定性价比。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 算力绑定深厚,估值具备一定性价比(3)', valAsOf:'2026-06-14', tier:'broker' },
+          dims6Note:'🟢 26Q1净利12.88亿+40%;2025净利43.12亿+273%;AI-PCB龙头。[2026Q1报](亦在PCB链)', valAsOf:'2026-06-14', tier:'primary' },
         { rank:3, name:'生益科技', code:'600183', position:'国内覆铜板(CCL)龙头,高端 M6/M7 级材料通过北美大客户认证', barrier:'高', trend:'up', trendNote:'传统 CCL 触底反弹,高速材料打破海外垄断放量', logic:'国内覆铜板(CCL)龙头,高端 M6/M7 级材料。原材料国产替代典范,估值极具吸引力。',
           dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
-          dims6Note:'🆪 国产替代典范(4),估值极具吸引力(3)', valAsOf:'2026-06-14', tier:'broker' }
+          dims6Note:'⚠️主体待核:600183 生益科技(CCL 覆铜板母公司) vs 688183 生益电子(AI-PCB 子公司,生益科技控股);当前 600183 偏 CCL 端、待核正确主体。⚠️26Q1 实际值待补(高盛 2026Q1 预测营收 81-95 亿+45-70% 系预测·非实际);保留估值占位,待主体+实际值双核后回填。[主体+实际值双待补]', valAsOf:'2026-06-14', tier:'broker' }
       ]
     }
   ],
