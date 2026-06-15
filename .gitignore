@@ -1,0 +1,5 @@
+# Node
+node_modules/
+
+# Claude research scratch (process archives not for version control)
+.claude/scratch/
