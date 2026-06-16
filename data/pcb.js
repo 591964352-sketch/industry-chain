@@ -234,7 +234,7 @@ CHAINS.pcb.segments = [
       { lbl: '台系五强（其余）', val: '台燿/联茂等', note: '紧跟英伟达' }
     ],
     stocks: [
-      { rank:1, name:'生益科技', code:'600183', position:'全球第二大CCL·大陆唯一M9认证·M9市占30-40% ⚠️口径待统一:position M9市占30-40% vs logic全球市占14-15%,M9细分vs CCL整体', barrier:'极高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'M9大陆唯一·Q1净利+105%', logic:'<mark class="updated">2026Q1营收81.41亿+45%，净利11.58亿+105%</mark>。M9 CCL已批量供货英伟达供应链，全球市占14-15%，Q1毛利率28.10% ⚠️口径待统一:position M9市占30-40% vs logic全球市占14-15%,M9细分 vs CCL整体不同口径',
+      { rank:1, name:'生益科技', code:'600183', position:'全球高端覆铜板第一梯队·M9等级大陆唯一进入英伟达供应链(与台光/松下并列三大供应商)·全球市占14-15%', barrier:'极高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'M9大陆唯一·Q1净利+105%', logic:'<mark class="updated">2026Q1营收81.41亿+45%，净利11.58亿+105%</mark>。M9 CCL已批量供货英伟达供应链，全球市占14-15%，Q1毛利率28.10% ⚠️口径待统一:position M9市占30-40% vs logic全球市占14-15%——口径不同(细分品类M9 vs 整体CCL) ⚠️待核≥2源:M9大陆唯一表述(国信/东方财富财富号 ≥2源已核实✅)',
         dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
         dims6Note:'🟢 大陆唯一 M9 CCL，业绩(Q1+105%)+壁垒双满分，估值已不便宜——业绩派' },
       { rank:2, name:'华正新材', code:'603186', position:'华为昇腾CCL核心供·CBF积层膜对标味之素ABF', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'CBF膜切入华为/中芯', logic:'AI服务器用高等级CCL+CBF膜切入华为/中芯，国产替代直接受益',
@@ -261,13 +261,13 @@ CHAINS.pcb.segments = [
       { lbl: '世名科技（中）', val: '500吨已投产', note: '通过台光/生益M9方案认证' }
     ],
     stocks: [
-      { rank:1, name:'东材科技', code:'601208', position:'全球唯二M9碳氢树脂认证·国内唯一', barrier:'极高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'Q1+103%·台光排他', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1归母净利1.87亿+103%，高速电子树脂营收2.58亿+131%</mark>。台光独供2-3年排他协议。眉山3500吨<mark class="updated">2026年6月30日投料试产（提前至Q2末）</mark>。价格80-120万元/吨，毛利率50%+ ⚠️口径待统一:价格80-120万元/吨+毛利50%+,协会极少披露价格区间 ⚠️单源待核:价格80-120万元/吨+毛利50%+(协会极少披露) ⚠️asOf待核:眉山3500吨 2026/6/30 投料试产 应标具体披露日(迫近 2026-06-16)',
+      { rank:1, name:'东材科技', code:'601208', position:'全球唯二M9碳氢树脂认证·国内唯一', barrier:'极高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'Q1+103%·台光排他', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1归母净利1.87亿+103%，高速电子树脂营收2.58亿+131%</mark>。台光独供2-3年排他协议。眉山3500吨<mark class="updated">2026年6月30日投料试产（提前至Q2末）</mark>。高速电子级碳氢树脂供应商·价格/毛利率数据待2025年报树脂业务分项披露后核实 ⚠️口径待统一:价格80-120万元/吨+毛利50%+,协会极少披露价格区间 ⚠️单源待核:价格80-120万元/吨+毛利50%+(协会极少披露) ⚠️asOf待核:眉山3500吨 2026/6/30 投料试产 应标具体披露日(迫近 2026-06-16)',
         dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
         dims6Note:'🟢 M9 树脂唯一国产，壁垒+供需双满分、业绩未放量——赔率/左侧派（样板 §3.2 原文）' },
-      { rank:2, name:'圣泉集团', code:'605589', position:'PPO国内唯一量产·全球第四 ⚠️待核≥2源:PPO国内唯一量产(彤程新材也称对标SABIC PPO)', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'PPO国产70%·碳氢投产', hits:null, strength:null, logic:'PPO国产市占70%稳定。碳氢树脂2026Q4投产1500吨，向上突破',
+      { rank:2, name:'圣泉集团', code:'605589', position:'PPO国内唯一量产·全球第四 ⚠️待核≥2源:PPO国内唯一量产(彤程新材也称对标SABIC PPO)', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'PPO国产70%·碳氢投产', hits:null, strength:null, logic:'PPO国内规模化量产领先(现有产能1300-1800吨/年,2026Q3新增2000吨/年项目投产)·碳氢树脂2026Q4投产1500吨，向上突破 ⚠️待核≥2源:"PPO国内唯一量产"未找到协会/研报≥2源支撑 ⚠️单源待核:"国产市占70%"未找到来源支撑,建议改为"待核"或删除',
         dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
         dims6Note:'🟢 PPO 国产唯一+碳氢扩产，业绩待 Q4 投产兑现' },
-      { rank:3, name:'世名科技', code:'300522', position:'盘锦500吨已投产·M9方案已认证 ⚠️单源待核:盘锦500吨已投产 vs logic规划2500吨混淆', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'M9方案已认证·扩产', hits:null, strength:null, logic:'已通过台光/生益/联茂M9方案认证，规划总产能2500吨·H2放量 ⚠️口径待统一:盘锦500吨已投产 vs position 2500吨,当前 vs 规划混淆',
+      { rank:3, name:'世名科技', code:'300522', position:'盘锦500吨已投产·M9方案已认证 ⚠️单源待核:盘锦500吨已投产 vs logic规划2500吨混淆 ⚠️待核:具体产能数字(500吨/2500吨)未找到协会/公告≥2源核实', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'M9方案已认证·扩产', hits:null, strength:null, logic:'已通过台光/生益/联茂M9方案认证，规划总产能2500吨·H2放量 ⚠️口径待统一:盘锦500吨已投产 vs position 2500吨,当前 vs 规划混淆',
         dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
         dims6Note:'🟢 M9 方案已认证，500 吨小批量、扩产爬坡中' },
       { rank:4, name:'宏昌电子', code:'603002', position:'环氧树脂龙头·GBF增层膜送样', barrier:'中', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'flat', trendNote:'环氧树脂壁垒低', hits:null, strength:null, logic:'GBF增层膜送样台积电/长电，但环氧树脂壁垒低→非卡口',
@@ -288,7 +288,7 @@ CHAINS.pcb.segments = [
       { lbl: '宏和科技（中）', val: '4μm极薄布全球唯一量产', note: '超薄电子布全球市占~50%' }
     ],
     stocks: [
-      { rank:1, name:'菲利华', code:'300395', position:'<mark class="updated">Q布全球市占≥55%·绝对龙头（券商口径）</mark>·国产唯一全产业链 ⚠️待核≥2源:国产唯一全产业链(Prismark)', barrier:'极高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'Q布全球≥55%·Q1+53%', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1营收6.22亿+53%，净利1.44亿+37%</mark>。已通过英伟达/台积电/台光/生益全链路认证。台光锁定500-700万米。全球缺口>40%。毛利率55-65%。2027目标2000万米/年 ⚠️口径待统一:4数字密集(缺口>40%+毛利55-65%+台光锁500-700万米+2027目标2000万米/年),需厘清各自时间口径 ⚠️单源待核:台光锁定500-700万米+2027目标2000万米/年(客户锁单+目标数字单源)',
+      { rank:1, name:'菲利华', code:'300395', position:'Q布(石英玻璃纤维)全球市占≥55%绝对龙头·石英砂环节中试阶段(非独家,石英股份等亦布局)·制品环节技术领先', barrier:'极高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'Q布全球≥55%·Q1+53%', hits:4, strength:'★★★', logic:'<mark class="updated">2026Q1营收6.22亿+53%，净利1.44亿+37%</mark>。已通过英伟达/台积电/台光/生益全链路认证。台光锁定500-700万米。全球缺口>40%。毛利率55-65%。2027目标2000万米/年 ⚠️口径待统一:4数字密集(缺口>40%+毛利55-65%+台光锁500-700万米+2027目标2000万米/年),需厘清各自时间口径 ⚠️单源待核:台光锁定500-700万米+2027目标2000万米/年(客户锁单+目标数字单源) ⚠️已发现矛盾证据:原"国产唯一全产业链"表述不成立(石英砂环节中试阶段+石英股份同样布局),position已修订为分环节表述',
         dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
         dims6Note:'🟢 Q布全球≥55%绝对龙头，六维近满分仅估值中位——长线核心' },
       { rank:2, name:'宏和科技', code:'603256', position:'4μm极薄布全球唯一量产·全球市占~50%', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'4μm超薄布全球第一', hits:3, strength:'★★☆', logic:'超薄电子布全球市占~50%。但非AI最核心瓶颈→降级',
@@ -318,7 +318,7 @@ CHAINS.pcb.segments = [
       { rank:1, name:'铜冠铜箔', code:'301217', position:'国内唯一HVLP1-4全系列量产·2027市占预期42% ⚠️待核≥2源:日韩四强垄断85%+(Prismark)', barrier:'极高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'设备锁定70%·2027市占42%', hits:4, strength:'★★★', logic:'<mark class="updated">锁定10台三船MSP-8000表面处理机（全球70%），产能确定性最强</mark>。2026目标500吨/月。日韩四强垄断85%+。设备交期18-24月。2027市占率预期42%。已实现HVLP4规模化量产 ⚠️口径待统一:2027中国1厂42% vs 日韩合计85%+,两口径统计基础不同 ⚠️单源待核:锁定10台三船MSP-8000(全球70%)+2026目标500吨/月+2027市占42%+设备交期18-24月 四数据全单源',
         dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:4,trend:'up',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
         dims6Note:'🟢 国产唯一 HVLP1-4 全系列+设备锁定 70%，估值低位（PE分位18%）——赔率派' },
-      { rank:2, name:'德福科技', code:'301511', position:'进入英伟达供应链·5万吨产能可切换 ⚠️单源待核:5万吨产能可切换(数字单源)', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'5万吨切换·HVLP4验证', hits:3, strength:'★★☆', logic:'5万吨产能可切换。HVLP4台光验证中，机构关注度高→降级',
+      { rank:2, name:'德福科技', code:'301511', position:'进入英伟达供应链·电子电路铜箔年产能5万吨可柔性切换·HVLP4已在部分客户小规模放量(2025年报)·HVLP5完成样品认证', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'5万吨切换·HVLP4验证', hits:3, strength:'★★☆', logic:'2025年报:电子电路铜箔年产能5万吨可柔性切换。HVLP4已在部分客户小规模放量(较"验证中"更进一步)·HVLP5完成样品认证。机构关注度高→降级',
         dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
         dims6Note:'🟢 5 万吨产能可切换，HVLP4 验证中' },
       { rank:3, name:'诺德股份', code:'600110', position:'6μm极薄铜箔量产·服务器铜箔市占>25%·2026Q1扭亏', barrier:'中', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'6μm·Q1扭亏·HVLP4量产', hits:null, strength:null, logic:'服务器PCB用铜箔市占>25%，但HVLP4仍在认证',
@@ -362,24 +362,24 @@ CHAINS.pcb.segments = [
     name: 'PCB专用设备', costRatio: '—', barrier: 'mid', choke: false, border: false,
     intro: 'PCB制造扩产潮直接利好上游设备商。钻孔设备占全产业链~20%（最高），曝光~17%，电镀~7%。高端设备国产化率不足30%。卡口判定：全球供应商>5家，客户可切换→不构成物理卡口。但国产替代+扩产潮双击下，设备商有强β弹性。',
     globalLandscape: [
-      { lbl: '鼎泰高科（中）', val: 'PCB钻针全球第一（市占26.5%）', note: '2025净利预增80-103%' },
-      { lbl: '大族数控（中）', val: '钻孔设备全球第二', note: 'AI高多层板设备市占40-50%' },
-      { lbl: '芯碁微装（中）', val: 'LDI曝光全球市占15%', note: '2026激光钻孔机订单70-100台' }
+      { lbl: '鼎泰高科（中）', val: 'PCB钻针全球第一(2025H1市占28.9%)', note: '2025年报:净利4.34亿+91.1%' },
+      { lbl: '大族数控（中）', val: '钻孔设备全球第二', note: '2025年报:净利8.24亿+173.68%' },
+      { lbl: '芯碁微装（中）', val: 'PCB直接成像设备全球第一(2025市占18.8%)', note: '港交所招股书:全球唯一覆盖四场景' }
     ],
     stocks: [
-      { rank:1, name:'鼎泰高科', code:'301377', position:'PCB钻针全球第一·市占26.5% ⚠️口径待统一:钻针全球第一26.5% vs 同段金洲精工20.8% 全球第二,合计47.3%留47%+给其他', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'钻针全球第一·AI高多层', hits:null, strength:null, logic:'AI高多层板单块钻孔数从10万→50万+，钻针耗量激增·2025净利预增80-103% ⚠️口径待统一:同position 26.5% + 20.8% 合计47.3% 张力 ⚠️单源待核:钻孔数10万→50万+(工艺数字单源) ⚠️asOf待核:2025净利预增80-103% 应改"2025实际净利"或补asOf(2025年报已披露)',
+      { rank:1, name:'鼎泰高科', code:'301377', position:'PCB钻针全球第一(2024年市占26.8%/2025H1进一步提升至28.9%,Frost&Sullivan数据) ⚠️口径待统一:钻针全球第一26.8% vs 同段金洲精工20.8% 全球第二,合计47.6%留52%+给其他 ⚠️时序已更新:原26.5%是2023年Prismark旧数据,本次更新为最新', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'钻针全球第一·AI高多层', hits:null, strength:null, logic:'2025年报(2026-03-26):归母净利4.34亿元(+91.1%),毛利率42.34%(+6.54pct),扣非净利4.09亿元(+102.5%)·AI高多层板钻针耗量激增 ⚠️口径待统一:同position 26.8% + 20.8% 合计47.6% 张力 ⚠️单源待核:"钻孔数10万→50万+"工艺数字未找到年报/研报对应来源,建议删除或标"单源待核"',
         dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
         dims6Note:'🟢 PCB 钻针全球第一+AI 高多层钻孔量级飙升' },
-      { rank:2, name:'大族数控', code:'301200', position:'钻孔设备全球第二·AI高多层板设备市占40-50%', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'净利预增161-194%', hits:null, strength:null, logic:'2025净利预增161-194%。AI高多层板设备市占40-50% ⚠️asOf待核:2025净利预增161-194% 应改"2025实际净利"或补asOf(2025年报已披露)',
+      { rank:2, name:'大族数控', code:'301200', position:'钻孔设备全球第二·AI高多层板设备市占40-50%', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'净利预增161-194%', hits:null, strength:null, logic:'2025年报(2026-03-31):营业总收入57.73亿元(+72.68%),归母净利润8.24亿元(+173.68%),扣非净利8.21亿元(+290.92%)·AI高多层板设备市占40-50%',
         dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-        dims6Note:'🟢 钻孔设备全球第二+净利预增 161-194%' },
-      { rank:3, name:'芯碁微装', code:'688630', position:'LDI曝光全球市占15%·3-4μm线宽', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'3-4μm小批量·双催化', hits:null, strength:null, logic:'3-4μm线宽小批量交付。PCB+先进封装双催化·2026激光钻孔订单70-100台 ⚠️口径待统一:3-4μm线宽+2026订单70-100台,区间数字(下单?意向?在产?)待厘清 ⚠️单源待核:3-4μm线宽+2026激光钻孔订单70-100台 双单源 ⚠️asOf待核:"2026订单"是全年指引还是上半年已实现,asOf 缺',
+        dims6Note:'🟢 钻孔设备全球第二+2025年报净利8.24亿+173.68%' },
+      { rank:3, name:'芯碁微装', code:'688630', position:'PCB直接成像设备全球市占率18.8%(2025年,收入口径,全球第一,领先第二名3.1pct)·全球唯一覆盖PCB/IC载板/先进封装/掩膜版四场景的企业(灼识咨询·港交所招股书)', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'3-4μm小批量·双催化', hits:null, strength:null, logic:'2026年港交所招股书(灼识咨询):PCB直接成像设备2025年全球市占18.8%(收入口径,全球第一,领先第二名3.1pct)·2026年1-2月单月设备交付量65-68台(交付量非订单量)·全球唯一覆盖PCB/IC载板/先进封装/掩膜版四场景企业 ⚠️单源待核:原"3-4μm线宽+2026激光钻孔订单70-100台"未找到对应来源,本次整体替换为招股书数据',
         dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-        dims6Note:'🟢 LDI 曝光全球 15%+激光钻孔订单 70-100 台 ⚠️单源待核:激光钻孔订单70-100台 区间数字单源' },
+        dims6Note:'🟢 PCB直接成像设备全球第一(2025市占18.8%)+港交所招股书披露四场景覆盖' },
       { rank:4, name:'东威科技', code:'688700', position:'VCP电镀国内市占>50%·AI订单>5亿', barrier:'中', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'AI订单>5亿', hits:null, strength:null, logic:'AI订单>5亿。三合一电镀设备打破海外垄断',
         dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
         dims6Note:'🟢 VCP 电镀国内>50%+AI 订单>5 亿' },
-      { rank:5, name:'金洲精工', code:'002443', position:'PCB钻针全球第二·市占20.8%', barrier:'中', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'钻针全球第二·市占20.8%', logic:'PCB钻针老牌厂商，被鼎泰高科高端化替代·AI纯度低',
+      { rank:5, name:'金洲精工', code:'002443', position:'PCB钻针全球第二·市占20.8% ⚠️口径待统一:鼎泰26.8%(2024)/28.9%(2025H1,Frost&Sullivan) + 金洲20.8% 合计47.6%,与原26.5%+20.8%=47.3%略有差异(因鼎泰数据时序更新) ⚠️时序待核:金洲20.8%数据对应年份未独立核实', barrier:'中', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报', trend:'up', trendNote:'钻针全球第二·市占20.8%', logic:'PCB钻针老牌厂商，被鼎泰高科高端化替代·AI纯度低',
         dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:2,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
         dims6Note:'🟢 钻针老牌+被鼎泰高科高端化替代' }
     ]
@@ -396,23 +396,23 @@ CHAINS.pcb.segments = [
     name: 'AI PCB 制造(中游)', costRatio: '—', barrier: 'high', choke: false, border: false,
     intro: 'PCB 制造是充分竞争行业、<strong>非物理卡口</strong>，但 AI 高多层/HDI 高端板有能力壁垒、且为本链<strong>最核心流动性标的</strong>。胜负手在"AI 纯度"与"估值"：纯 AI 受益(沪电/胜宏)业绩最硬但估值高；体量龙头(鹏鼎)AI 暴露小、Q1 走弱。',
     stocks: [
-      { rank:1, name:'沪电股份', code:'002463', position:'英伟达AI服务器PCB全球市占率约40%(多源一致);GB200/GB300交换机及高多层板核心供应商之一', barrier:'高', tier:'primary', valAsOf:'2026-06-13',
+      { rank:1, name:'沪电股份', code:'002463', position:'英伟达AI服务器PCB全球市占率约40%(多源一致);GB200/GB300交换机及高多层板核心供应商之一', barrier:'高', tier:'primary', valAsOf:'2026-06-13', src:'2026Q1/2025年报+券商研报', trend:'up', trendNote:'AI营收占比升至~60%',
         dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}],
         logic:'为英伟达H100/H200提供22-26层高多层板,H200 UBB主板份额超70%(截至2025年,研报口径);与景旺电子等共同供应GB200服务器UBB基板/PCB组件(非独家);2025年10月泰国工厂投产,承接GB300订单,为下一代产品预留产能',
         dims6Note:'🟢 AI PCB最纯标的：26Q1营收62.14亿+53.91%/净利12.42亿+62.9%、AI营收占比升至~60%、英伟达份额>50%；2025净利38.22亿+47.74%。扣分项为估值高位(PE随股价波动，需刷新)。', src:'2026Q1/2025年报' },
-      { rank:2, name:'胜宏科技', code:'300476', position:'英伟达显卡PCB全球份额约50%(一供);GB300 OAM子板核心供应商', barrier:'高', tier:'primary', valAsOf:'2026-06-13',
+      { rank:2, name:'胜宏科技', code:'300476', position:'英伟达显卡PCB全球份额约50%(一供);GB300 OAM子板核心供应商', barrier:'高', tier:'primary', valAsOf:'2026-06-13', src:'2026Q1/2025年报+Prismark', trend:'up', trendNote:'A 股 PCB 净利首位',
         dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}],
         logic:'供应GB300的OAM五阶HDI板,单板价值量提升30%+;2025Q1英伟达订单占比超70%(历史参考数据,2026Q1最新占比②待补);数据中心PCB占比近50%(截至2025年Q1)',
         dims6Note:'🟢 AI弹性最大：2025净利43.12亿+273.52%(A股PCB首位)、26Q1净利12.88亿+40%(营收55.19亿+28%)、显卡/AI算力卡PCB领先。估值高位为扣分项(随股价刷新)。', src:'2026Q1/2025年报' },
-      { rank:3, name:'东山精密', code:'002384', position:'边缘AI设备PCB全球第一(2025市占26.9%)·全球PCB前3(市占4.2%)·FPC软板全球第二(市占24.5%)', barrier:'高', tier:'primary', valAsOf:'2026-04-26',
+      { rank:3, name:'东山精密', code:'002384', position:'边缘AI设备PCB全球第一(2025市占26.9%)·全球PCB前3(市占4.2%)·FPC软板全球第二(市占24.5%)', barrier:'高', tier:'primary', valAsOf:'2026-04-26', src:'2026Q1/2025年报+Prismark', trend:'up', trendNote:'Q1+143%·含光模块',
         dims6:[{key:'durability',score:5,trend:'up'},{key:'visibility',score:5,trend:'up'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}],
         logic:'子公司Multek 78层+高层数PCB量产适配英伟达GB200；2025收购索尔思光电(国内唯一量产200G EML光芯片IDM)·800G光模块批量交付Meta/微软·1.6T通过英伟达验证(2026Q4量产)；珠海10亿美元高端PCB基地2026Q3投产',
         dims6Note:'🟢 26Q1营收131.38亿+52.72%/净利11.10亿+143%/扣非+167%；弹性主要来自索尔思光模块并表(非纯PCB)，为PCB+光模块综合体；估值相对没沪电/胜宏极端(券商测2026 PE~29x，截至2026-04-26)。', src:'2026Q1/2025快报' },
-      { rank:4, name:'景旺电子', code:'603228', position:'2024年首次成为全球第一大汽车PCB供应商(2023年已进全球前三);英伟达H100/GB300交换机托盘核心供应商之一,与日本名幸等共同供应GB200服务器UBB基板', barrier:'中', tier:'primary', valAsOf:'2026-06-13',
+      { rank:4, name:'景旺电子', code:'603228', position:'2024年首次成为全球第一大汽车PCB供应商(2023年已进全球前三);英伟达H100/GB300交换机托盘核心供应商之一,与日本名幸等共同供应GB200服务器UBB基板', barrier:'中', tier:'primary', valAsOf:'2026-06-13', src:'2026Q1/2025年报+券商研报', trend:'up', trendNote:'汽车PCB全球第一',
         dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:3,trend:'flat'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:3,trend:'flat'},{key:'barrier',score:3,trend:'flat'}],
         logic:'2023年4月获英伟达合格供应商认证,2024年高阶HDI一次性通过认证(国内少数实现该突破的企业之一);正交背板项目获研发标(具体份额口径仅见单一媒体源,待核);2026年全年规划新增约200万平米高端产能(珠海金湾+泰国基地,泰国工厂2026年投产)',
         dims6Note:'🟢 综合PCB(软板/硬板/金属基)、AI纯度低：26Q1营收38.92亿+16.41%但净利2.33亿-28.37%(原材料涨价备货拖累、含18.57%非经常)；2025营收153亿+20.92%。弹性弱于纯AI龙头。', src:'2026Q1/2025年报' },
-      { rank:5, name:'鹏鼎控股', code:'002938', position:'全球PCB营收连续9年第一·FPC软板全球第二(2025市占25%)', barrier:'高', tier:'primary', valAsOf:'2026-05-22',
+      { rank:5, name:'鹏鼎控股', code:'002938', position:'全球PCB营收连续9年第一·FPC软板全球第二(2025市占25%)', barrier:'高', tier:'primary', valAsOf:'2026-05-22', src:'2026Q1/2025年报+Prismark', trend:'up', trendNote:'9连冠·AI暴露小',
         dims6:[{key:'durability',score:3,trend:'flat'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:3,trend:'flat'},{key:'supply',score:3,trend:'flat'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:4,trend:'flat'}],
         logic:'主营FPC/SLP/HDI/高多层刚性板,覆盖AI服务器/光模块/交换机；2026-01-15调研纪要披露"算力直接客户订单导入元年",AI多场景布局推进中；但26Q1营收79.86亿同比-1.25%/归母净利4.63亿同比-5.21%,AI业务尚未兑现到整体业绩',
         dims6Note:'🟢 全球PCB营收9连冠/苹果软板核心，"大而不纯AI"：AI服务器板仅占营收5.41%；26Q1营收79.86亿-1.25%/净利4.63亿-5.21%/扣非-31.85%走弱；估值贵(动态PE~130x、TTM~65x，截至2026-05-22)。', src:'2026Q1/2025年报' }
@@ -538,13 +538,13 @@ CHAINS.pcb.chokePoints = [
       ],
       note: '这是初始版本验证清单 — 实际状态需手动核查后切换'
     } },
-  { rank:3, name:'铜冠铜箔', code:'301217', segment:'HVLP4铜箔', strength:'★★★', logic:'国内<strong>唯一</strong>HVLP1-4全系列量产。<strong><mark class="updated">锁定10台三船MSP-8000设备（全球70%），未来3年产能确定性最强</mark></strong>。日韩四强垄断85%+。阴极辊设备交期18-24月。2026年底全球月缺口<strong>~23%</strong>。2027市占率预期42%。', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'],
+  { rank:3, name:'铜冠铜箔', code:'301217', segment:'HVLP4铜箔', strength:'★★★', logic:'国内<strong>唯一</strong>HVLP1-4全系列量产。<strong><mark class="updated">锁定关键阴极辊设备(具体厂商/型号/全球份额数字待核)</mark></strong>。日韩台企业现仍占据高端铜箔市场90%+(2024年口径)·国产替代目标2027年内资合计占全球HVLP产能30%(行业目标,非铜冠单独数字)。阴极辊设备交期18-24月。2026年底全球月缺口<strong>~23%</strong>。', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'],
     valuation: { pe:'不适用(数据不足)', peAbsolute:'PE-TTM 失真(利润近零所致)、不作估值硬依据', pePercentile:null, grossMargin:'18%+', fromHigh:'(2026-06-12 数据·相对前高位置未独立核实)', asOf:'2026-06-12', note:'🟢 **PE-TTM 失真(利润近零所致)、不作估值硬依据**; 应以**盈利拐点 / 产能爬坡 / HVLP4 认证进度**看待(estimate·tier)。亿牛网显示 ~10698x / 分位 -1; 2022-01 上市 < 5y 不构成 5y 分位(前 AI 初判 22x/18% 系"PE 22"假设, **不成立**)。建议改用 PB(~13.3x) / PS(~11.6x) 上市以来分位代替(待用户从网页 Claude 端补 PB/PS 分位)。卡口逻辑(M9 HVLP4 设备锁定 + 缺口 23%)不受估值口径影响', tier:'estimate', src:'亿牛网 301217 PE页 https://eniu.com/gu/sz301217/pe_ttm · media 单源 + 上市<5y/盈利失真 · 建议改 PB/PS' },
     verification: {
       items: [
-        { type:'供给寡头', claim:'锁定三船MSP-8000设备10台、全球70%阴极辊产能', howToCheck:'查三船/MSP-8000出货清单、铜冠铜箔/卢森堡/诺贝丽斯(海外)的设备锁定公告，看铜冠锁定比例', falsifySignal:'设备锁定被打破 / 国产新进入者锁定三船新设备 → 设备垄断逻辑塌', status:'pending' },
-        { type:'产能缺口', claim:'2026年底全球月缺口~23%、日韩四强垄断85%+', howToCheck:'查铜冠HVLP4月产能、英伟达Rubin/Blackwell HVLP铜箔需求测算、日韩厂商扩产公告，交叉验证供需差', falsifySignal:'日韩厂商快速扩产 / 缺口率快速收窄 → 卡口降级', status:'pending' },
-        { type:'财报印证', claim:'HVLP1-4全系列量产、2027市占率预期42%', howToCheck:'查铜冠最新季报：HVLP4出货量爬坡进度、毛利率水平。HVLP4毛利率应显著高于普通铜箔(15-20%)', falsifySignal:'HVLP4毛利率平庸 / 出货量爬坡不达预期 → 卡口大概率为假', status:'pending' },
+        { type:'供给寡头', claim:'锁定关键阴极辊设备(具体厂商/型号/全球份额数字待核)', howToCheck:'查阴极辊厂商出货清单(原"三船MSP-8000/70%全球"未找到对应来源,可能存在厂商名称/型号混淆;另有"日本JCU垄断"和"泰金新能国产替代45%"等不同表述体系),需厘清真实设备厂商与份额', falsifySignal:'设备锁定被打破 / 国产新进入者锁定海外新设备 → 设备垄断逻辑塌', status:'pending' },
+        { type:'产能缺口', claim:'2026年底全球月缺口~23%、日韩台企业高端铜箔占90%+', howToCheck:'查铜冠HVLP4月产能、英伟达Rubin/Blackwell HVLP铜箔需求测算、日韩台厂商扩产公告，交叉验证供需差', falsifySignal:'日韩台厂商快速扩产 / 缺口率快速收窄 → 卡口降级', status:'pending' },
+        { type:'财报印证', claim:'HVLP1-4全系列量产、行业目标2027内资合计占全球HVLP产能30%', howToCheck:'查铜冠最新季报：HVLP4出货量爬坡进度、毛利率水平。HVLP4毛利率应显著高于普通铜箔(15-20%)', falsifySignal:'HVLP4毛利率平庸 / 出货量爬坡不达预期 → 卡口大概率为假', status:'pending' },
         { type:'交叉信源', claim:'至少两个独立来源印证设备锁定+市占率', howToCheck:'一篇券商深度研报 + 公司年报/公告 + 三船公司出货公告同时印证。只有单一来源则存疑', falsifySignal:'只找得到单一来源(尤其只有自媒体) → 存疑', status:'pending' }
       ],
       note: '这是初始版本验证清单 — 实际状态需手动核查后切换'
