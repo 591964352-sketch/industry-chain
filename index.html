@@ -545,25 +545,26 @@
     <div class="pinned-section" id="pinned-section">
       <div class="pinned-title">📌 已置顶</div>
     </div>
-    <span class="nav-item active" data-chain="pcb" onclick="switchChain('pcb')">🔌 PCB 印制电路板<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('pcb')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-    <span class="nav-item" data-chain="semi" onclick="switchChain('semi')">💻 半导体<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('semi')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-    <span class="nav-item" data-chain="ai-server" onclick="switchChain('ai-server')">🖥️ AI服务器<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('ai-server')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-    <span class="nav-item" data-chain="hbm" onclick="switchChain('hbm')">🧠 HBM/先进存储<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('hbm')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-    <span class="nav-item" data-chain="robotics" onclick="switchChain('robotics')">🤖 人形机器人<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('robotics')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-    <span class="nav-item nav-toggle" id="chain-toggle" onclick="toggleSidebarChains()">▶ 更多赛道 (9)</span>
+    <span class="nav-item active" data-chain="pcb" onclick="switchChain('pcb')">🔌 PCB 印制电路板</span>
+    <span class="nav-item" data-chain="semi" onclick="switchChain('semi')">💻 半导体</span>
+    <span class="nav-item" data-chain="ai-server" onclick="switchChain('ai-server')">🖥️ AI服务器</span>
+    <span class="nav-item" data-chain="hbm" onclick="switchChain('hbm')">🧠 HBM/先进存储</span>
+    <span class="nav-item" data-chain="robotics" onclick="switchChain('robotics')">🤖 人形机器人</span>
+    <span class="nav-item nav-toggle" id="chain-toggle" onclick="toggleSidebarChains()">▶ 更多赛道 ()</span>
     <div class="sidebar-collapsible collapsed" id="chain-collapsed">
-      <span class="nav-item" data-chain="autonomous-driving" onclick="switchChain('autonomous-driving')">🚗 智能驾驶<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('autonomous-driving')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-      <span class="nav-item" data-chain="power-semi" onclick="switchChain('power-semi')">⚡ 功率半导体/SiC<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('power-semi')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-      <span class="nav-item" data-chain="ai-apps" onclick="switchChain('ai-apps')">🧠 AI应用<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('ai-apps')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-      <span class="nav-item" data-chain="cpo" onclick="switchChain('cpo')">💡 CPO 共封装光学<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('cpo')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-      <span class="nav-item" data-chain="optical-module" onclick="switchChain('optical-module')">🔦 光模块<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('optical-module')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-      <span class="nav-item" data-chain="solid-battery" onclick="switchChain('solid-battery')">🔋 固态电池<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('solid-battery')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-      <span class="nav-item" data-chain="low-altitude" onclick="switchChain('low-altitude')">✈️ 低空经济<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('low-altitude')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-      <span class="nav-item" data-chain="commercial-aero" onclick="switchChain('commercial-aero')">🚀 商业航天<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('commercial-aero')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
-      <span class="nav-item" data-chain="liquid-cooling" onclick="switchChain('liquid-cooling')">❄️ 液冷<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('liquid-cooling')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+      <span class="nav-item" data-chain="optical-chip" onclick="switchChain('optical-chip')">🔬 光芯片</span>
+      <span class="nav-item" data-chain="optical-module" onclick="switchChain('optical-module')">🔦 光模块</span>
+      <span class="nav-item" data-chain="cpo" onclick="switchChain('cpo')">💡 CPO 共封装光学</span>
+      <span class="nav-item" data-chain="power-semi" onclick="switchChain('power-semi')">⚡ 功率半导体/SiC</span>
+      <span class="nav-item" data-chain="autonomous-driving" onclick="switchChain('autonomous-driving')">🚗 智能驾驶</span>
+      <span class="nav-item" data-chain="ai-apps" onclick="switchChain('ai-apps')">🧠 AI应用</span>
+      <span class="nav-item" data-chain="liquid-cooling" onclick="switchChain('liquid-cooling')">❄️ 液冷</span>
+      <span class="nav-item" data-chain="low-altitude" onclick="switchChain('low-altitude')">✈️ 低空经济</span>
+      <span class="nav-item" data-chain="commercial-aero" onclick="switchChain('commercial-aero')">🚀 商业航天</span>
+      <span class="nav-item" data-chain="solid-battery" onclick="switchChain('solid-battery')">🔋 固态电池</span>
     </div>
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 整合视图</span>
-    <span class="nav-item" data-chain="ai-full-chain" onclick="switchChain('ai-full-chain')">🧠 AI 全产业链<button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('ai-full-chain')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-top:2px;">🔄</button></span>
+    <span class="nav-item" data-chain="ai-full-chain" onclick="switchChain('ai-full-chain')">🧠 AI 全产业链</span>
     <span class="nav-item" data-chain="arena" onclick="window.location.hash='arena'">🏟️ 赛道擂台</span>
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 我的决策</span>
     <span class="nav-item" data-chain="cards" onclick="window.location.hash='cards'">📋 决策卡片库</span>
@@ -602,10 +603,10 @@
   // 改了 data/<id>.js 后，**手动 bump 下面这一行**（YYYYMMDD），
   // 让浏览器忽略旧缓存、走新版。下次 commit 同时同步这行。
   // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写) / v2=20260614 (新增 optical 骨架) / v3=20260615 (新增 liquid-cooling 骨架) / v4=20260616 (新增 optical-chip 骨架)
-  var DATA_VERSION = '?v=20260617';
+  var DATA_VERSION = '?v=20260618';
   var DATA_MANIFEST = [
     'pcb','semi','ai-server','hbm','robotics','autonomous-driving',
-    'power-semi','ai-apps','cpo','optical-module','solid-battery','low-altitude','commercial-aero',
+    'power-semi','ai-apps','cpo','optical-chip','optical-module','solid-battery','low-altitude','commercial-aero',
     'liquid-cooling',
     'ai-full-chain'
   ];
@@ -639,7 +640,8 @@ const LS_KEYS = {
   customChains: 'myCustomChains',   // ★ 升级六：侧栏"+ 新建空模板赛道"
   sidebarCollapsed: 'sidebarCollapsed',  // ★ 升级八 Step 2：侧栏折叠状态
   sidebarOrder: 'mySidebarOrder',        // ★ 侧栏拖拽：用户排序后的 [code1, code2, ...]
-  sidebarPinned: 'mySidebarPinned'       // ★ 侧栏置顶：置顶的 [code1, code2, ...]
+  sidebarPinned: 'mySidebarPinned',      // ★ 侧栏置顶：置顶的 [code1, code2, ...]
+  sidebarMainCount: 'mySidebarMainCount' // ★ v3(2026-06-18):主赛道应有项数(由 persistSidebarOrder 在首次 persist 时记下,后续恢复时按这个数划分主赛道/折叠)
 };
 
 // ==================== 升级九 · 景气六维框架（全站共享基础设施） ====================
@@ -1610,6 +1612,9 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  { date:'2026-06-18', sector:'optical-chip', desc:'🆪 复活光芯片独立赛道(从 _archive 178 KB 复制,meta.updatedAt 2026-06-18)',old:'Round 3 active(optical-module 单链,光芯片作为子环节在 seg0/seg1/seg3)',new:'复活独立 data/optical-chip.js · 6 segments + 5 卡口 + 27 a class + 38 b class + 6 维 prosperity + plainIntro · 侧栏加 🔬 光芯片 入口(cpo 之后 optical-module 之前) · manifest 加 optical-chip(14 项→15 项)· sectorName/sectorColor 复活 optical-chip(青色 #0891b2)· meta.status 保持 active · meta.updatedAt=2026-06-18',pct:'P0' },
+  { date:'2026-06-18', sector:'optical-module', desc:'🆪 Round 3 联网端核实·A 类 36 unique 全覆盖 + 6 维打分 + overview 修正 + plainIntro + G7 标签',old:'Round 2 active(meta.updatedAt=2026-06-17,a 类 5 unique,B 类 45 key)',new:'A 类 36 unique 100% 覆盖完整票池(含 Round 3 31 unique + Round 2 保留 5 unique)· a class PE 失真 7 unique 全标 distorted=true + reason + percentile 保留 · prosperity 6 维打分(durability 5/visibility 4/valuation 2/supply 4/barrier 5/policy 4)综合分 79 分(🟢核心档)· verdict.stockHint 用 T0/T1/PE 分位口语词 · overview 3 处修正(⑤ ficonTEC 备注 / ⑥ 拆 4 子项 / ⑦ 主流路径之一)· plainIntro 字段补全(analogy/paragraphs×2/flowSteps×6/highlightBox)· G7 复查优先级 1-5 标签(1 卡口 2 / 2 核心标的关键数 3 / 3 六维方向 1 / 4 推算 6 / 5 背景 23)· 16 条反向陷阱全部正确标注· meta.updatedAt=2026-06-18',pct:'P0' },
+  { date:'2026-06-17', sector:'optical-module', desc:'🆪 Round 2 联网端注入(B 类重组 + A 类补 5 unique + meta.status=active)',old:'Round 1 skeleton(A 类 24 unique 60% 一手覆盖/B 类 38 条按议题组织)',new:'A 类补 5 unique(精测/普源/鼎阳/坤恒/立讯)→ 29 unique · B 类重组为 45 个 {code-segment} dict-keyed · G1 一手覆盖率: B ① 命中 83.3% · ② 待补 12.1%(微超)· ③ 推算 4.5% · 16 条反向陷阱全部正确标注 · meta.status skeleton→active · meta.updatedAt=2026-06-17',pct:'P0' },
   { date:'2026-06-17', sector:'optical-module', desc:'🆪 新光模块链上线(光模块+光器件+模块上位口径,合并原 optical + optical-chip)',old:'侧栏 14 条赛道(optical/optical-chip 并存 67.9% 票号重叠 + 2/3 卡口重叠)',new:'侧栏 13 条赛道(optical-module 单一链,7 段,5 卡口★★★×2+★★☆×3,继承 optical-chip 25 条 methodologyNotes + 加 1 条"高估≠失真"凑 16 条,a class 待 a class 重做 ~40 unique akshare 拉数·meta.status=skeleton)',pct:'P0' },
   { date:'2026-06-17', sector:'optical-chip', desc:'🆪 刷新光芯片链(全量重做+路径A升级·B类38条注入+9存疑+6推算)',old:'2026-06-16 骨架(active)/A类7/38(18.4%)',new:'A类27/27(100%财务/88.9%估值)+B类38条结构化(9存疑B方案+6推算③)+路径A 5卡口/4问双轨·meta.updatedAt=2026-06-17',pct:'P0' },
   { date:'2026-06-16', sector:'optical-chip', desc:'🆪 光芯片场景B第3步·DeepSeek 15 项 A2 重跑 + 估值维门控解封', old:'6 维估值维门控触发(meta.status=placeholder)+ CSP Capex 无源 + InP 衬底 CR3 不知精确(早期 60%+35% 估)+ 5 只核心标的 PE-TTM 无源', new:'走场景B第3步(DeepSeek 重跑):① <strong>估值维门控解封</strong>:5 只核心标的 PE-TTM + 5 年分位命中(光库 338.31 倍/5 年 97.68% + 仕佳 162.49/65.45% + 赛微 20.84/42.23% + 源杰 638.34/forward 74.62 + 长华 1713.59/扣非续亏) ② 🔴 <strong>政策焦点反转</strong>:本赛道出口管制实际是"中国对 InP 出口管制"(2025-02 实施 + 2026 铟出口锁定年产 30% 以内),不是美国 BIS ③ <strong>CSP Capex 多源命中</strong>:Meta 2026 1,150-1,350 亿(+59-87%)/Google 1,750-1,850 亿(+91-102%)/Amazon ~2,000 亿(+53%)/Microsoft 26Q1 单季 349 亿+指引"增速高于 2025" ④ <strong>InP 衬底 CR3 91% 精确化</strong>(Yole 2020:住友 42%+AXT 36%+JX 13%) ⑤ <strong>InP 缺口 70%</strong>(Yole:2026 需求 260-300 万片 vs 产能 60-75 万片) ⑥ <strong>源杰/长华/仕佳 26Q1 财报升级</strong>(源杰 营收+320.94%/净利+1153%/毛利 77.81% / 长华 营收+37.81%/归母 448 万扭亏但扣非 -1,156.8 万续亏 / 仕佳 营收+32.18%/净利+24.66%/毛利 34.13%) ⑦ <strong>赛微/光库/罗博特科 26Q1 PE 升级</strong>(赛微 PE 20.84 倍同业最低 / 光库 5 年 97.68% 极高分位 / 罗博特科 PE 负值亏损) ⑧ <strong>全球 APD 市场 1.42 亿美元(2024)+ 前 5 大占 47%</strong> ⑨ <strong>1.6T 硅光渗透 2026>50%(LC)→ 60-80%(行业预测)</strong> ⑩ <strong>4 个新陷阱归档</strong>(巨潮一手 / 巨潮页面口径错配 / 政策焦点反转 / Cignal AI 口径分裂);meta.status placeholder→active(估值维解封);methodologyNotes 10→18 条;segments[0] 源杰/长华/仕佳 + segments[2] 赛微/光库/罗博特科 6 只核心标的全升级;overview[3][4][6][7] 4 张卡补强;treeMap.materials[0] InP 衬底 3 层升级;chokePoints[0][2] valuation 5 只核心标的 PE 全注入;supplyGap[0] 双层缺口(EML 25-30% + InP 70%+);G8 复检待跑', pct:'🆪' },
@@ -1700,8 +1705,8 @@ function renderChangelog() {
 
   list.innerHTML = recentChanges.map(c => {
     const dir = c.pct.startsWith('+') ? 'up' : 'down';
-    const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'power-semi' ? '功率半导/SiC' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'optical-module' ? '光模块' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'liquid-cooling' ? '液冷' : c.sector === 'ai-full-chain' ? 'AI全产业链' : c.sector === 'system' ? '系统升级' : c.sector;
-    const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'power-semi' ? '#f6465d' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'optical-module' ? '#06b6d4' : c.sector === 'optical' ? '#06b6d4' : c.sector === 'optical-chip' ? '#0891b2' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'liquid-cooling' ? 'var(--blue)' : c.sector === 'ai-full-chain' ? 'var(--accent)' : c.sector === 'system' ? '#3b82f6' : 'var(--muted)';
+    const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'power-semi' ? '功率半导/SiC' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'optical-module' ? '光模块' : c.sector === 'optical-chip' ? '光芯片' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'liquid-cooling' ? '液冷' : c.sector === 'ai-full-chain' ? 'AI全产业链' : c.sector === 'system' ? '系统升级' : c.sector;
+    const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'power-semi' ? '#f6465d' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'optical-module' ? '#06b6d4' : c.sector === 'optical-chip' ? '#0891b2' : c.sector === 'optical' ? '#06b6d4' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'liquid-cooling' ? 'var(--blue)' : c.sector === 'ai-full-chain' ? 'var(--accent)' : c.sector === 'system' ? '#3b82f6' : 'var(--muted)';
     return `<div class="changelog-item" onclick="switchChain('${c.sector}')">
       <div class="cl-date">${c.date}</div>
       <div class="cl-sector" style="color:${sectorColor};">${sectorName}</div>
@@ -2114,7 +2119,7 @@ function insertCustomNavItem(chain) {
   item.dataset.chain = chain.id;
   item.dataset.searchKey = (chain.name + ' ' + chain.id).toLowerCase();
   item.setAttribute('onclick', `switchChain('${chain.id}')`);
-  item.innerHTML = `<span style="opacity:0.7;">${chain.icon}</span> ${chain.name} <button class="nav-refresh" onclick="event.stopPropagation();copyRefreshPrompt('${chain.id}')" title="全量研究刷新（200+ 研报 + 壁垒重排 + 数据更新）" style="float:right;background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0 4px;line-height:1;margin-right:2px;">🔄</button><button onclick="event.stopPropagation();removeCustomChain('${chain.id}')" title="删除此自定义赛道" style="float:right;background:transparent;border:none;color:var(--red);font-size:12px;cursor:pointer;padding:0 4px;line-height:1;">×</button>`;
+  item.innerHTML = `<span style="opacity:0.7;">${chain.icon}</span> ${chain.name} <button onclick="event.stopPropagation();removeCustomChain('${chain.id}')" title="删除此自定义赛道" style="float:right;background:transparent;border:none;color:var(--red);font-size:12px;cursor:pointer;padding:0 4px;line-height:1;">×</button>`;
   // ★ 升级八 Step 2：自定义赛道插到折叠容器内（不再硬塞 PCB 之后）
   const chainCollapsed = document.getElementById('chain-collapsed');
   if (chainCollapsed) chainCollapsed.appendChild(item);
@@ -2570,14 +2575,24 @@ function route() {
 }
 
 // ===== 升级八 Step 2：侧栏菜单折叠 =====
+// v2(2026-06-18):数字动态化 — 读折叠里实际项目数,不再硬编码 10
+function updateSidebarCount() {
+  const container = document.getElementById('chain-collapsed');
+  const toggle = document.getElementById('chain-toggle');
+  if (!container || !toggle) return;
+  const count = container.querySelectorAll('.nav-item[data-chain]').length;
+  const collapsed = container.classList.contains('collapsed');
+  toggle.textContent = collapsed ? `▶ 更多赛道 (${count})` : `▼ 更多赛道 (${count})`;
+}
+
 function toggleSidebarChains() {
   const container = document.getElementById('chain-collapsed');
   const toggle = document.getElementById('chain-toggle');
   if (!container || !toggle) return;
   const willCollapse = !container.classList.contains('collapsed');
   container.classList.toggle('collapsed', willCollapse);
-  toggle.textContent = willCollapse ? '▶ 更多赛道 (8)' : '▼ 更多赛道 (8)';
   LS.set(LS_KEYS.sidebarCollapsed, !willCollapse);
+  updateSidebarCount();
 }
 
 (function initSidebarCollapse() {
@@ -2586,7 +2601,7 @@ function toggleSidebarChains() {
   if (!container || !toggle) return;
   const collapsed = LS.get(LS_KEYS.sidebarCollapsed, true) !== false;
   container.classList.toggle('collapsed', collapsed);
-  toggle.textContent = collapsed ? '▶ 更多赛道 (8)' : '▼ 更多赛道 (8)';
+  updateSidebarCount();
 })();
 
 // ============================================================
@@ -2601,45 +2616,130 @@ function saveSidebarOrder(arr) { LS.set(LS_KEYS.sidebarOrder, arr); }
 function loadSidebarPinned() { return LS.get(LS_KEYS.sidebarPinned, []); }
 function saveSidebarPinned(arr) { LS.set(LS_KEYS.sidebarPinned, arr); }
 
-// 持久化当前 nav-list 顺序(按 DOM 现状,跨容器分别提取)
+// v2(2026-06-18):persistSidebarOrder 改为完整 DOM 顺序保存
+// 原算法按 parent 分组保存(saved 是 5+8 两组),与 HTML 期望不符;改为单一完整序列保存(支持跨容器拖拽)
 function persistSidebarOrder() {
   const navList = document.getElementById('nav-list');
   if (!navList) return;
-  // 收集所有 .nav-item[data-chain] 的 code 序列(按当前 DOM 顺序)
-  const codes = Array.from(navList.querySelectorAll('.nav-item[data-chain]')).map(n => n.dataset.chain);
+  const INDEPENDENT_MODULES = ['arena', 'cards', 'trades'];  // v5(2026-06-18):独立模块不进赛道算法
+  // 完整 DOM 顺序:nav-list 直接子节点的 .nav-item[data-chain] + chain-collapsed 内部项(按出现顺序)
+  const codes = [];
+  const walk = (parent) => {
+    Array.from(parent.children).forEach(child => {
+      if (child.classList && child.classList.contains('nav-item') && child.dataset && child.dataset.chain) {
+        if (!INDEPENDENT_MODULES.includes(child.dataset.chain)) codes.push(child.dataset.chain);
+      }
+      // 递归进入 chain-collapsed 折叠容器
+      if (child.id === 'chain-collapsed') {
+        Array.from(child.children).forEach(grand => {
+          if (grand.classList && grand.classList.contains('nav-item') && grand.dataset && grand.dataset.chain) {
+            if (!INDEPENDENT_MODULES.includes(grand.dataset.chain)) codes.push(grand.dataset.chain);
+          }
+        });
+      }
+    });
+  };
+  walk(navList);
   saveSidebarOrder(codes);
+  // v3 修复:首次 persist 时记下"主赛道项数"(HTML 写死主赛道 5 + nav-toggle)
+  // 后续 applySidebarOrder 按这个数划分主赛道/折叠,跨容器拖拽后保持此划分
+  const savedMainCount = LS.get(LS_KEYS.sidebarMainCount, null);
+  if (savedMainCount === null) {
+    // 首次 persist:从 HTML DOM 数"nav-list 直接子节点中的 nav-item 数"(这是初始主赛道数)
+    const totalNavItems = Array.from(navList.children).filter(c => c.classList && c.classList.contains('nav-item') && c.dataset.chain).length;
+    const initialMainCount = totalNavItems - INDEPENDENT_MODULES.length;  // v5:减独立模块数
+    LS.set(LS_KEYS.sidebarMainCount, initialMainCount);
+  }
+  updateSidebarCount(); // 拖拽后刷新折叠数字
 }
 
 // 应用 LS 中保存的顺序：按 parent 分组,在每组内按 saved 顺序重排(同 parent 内)
+// v2 修复(2026-06-18):检测 stale LS(saved 里的 code 在 DOM 不存在)→ 强制重置
+//     折叠容器(div#chain-collapsed)只重排内部 10 项,不跨容器(避免把折叠项挪到 nav-list 主赛道位置)
+// v3(2026-06-18):applySidebarOrder 改为完整 DOM 顺序恢复
+// 配合 persistSidebarOrder 的完整序列算法,实现"跨容器拖拽 + 完整持久化"
+// 检测 stale(saved 含 DOM 不存在的 code,或数量 < DOM 总数) → 强制重置
 function applySidebarOrder() {
   const navList = document.getElementById('nav-list');
   if (!navList) return;
   const saved = loadSidebarOrder();
   if (!saved || !Array.isArray(saved) || saved.length === 0) return;
-  // 按 parent(直接父节点)分组
-  const groups = new Map();
-  navList.querySelectorAll('.nav-item[data-chain]').forEach(n => {
-    const parent = n.parentNode;
-    if (!groups.has(parent)) groups.set(parent, new Map());
-    groups.get(parent).set(n.dataset.chain, n);
+
+  // 1) 检测 stale(saved 含 DOM 不存在的 code) → 强制重置
+  //    注:不检测 saved.length < DOM(新增赛道不触发 stale)
+  const allKnownCodes = new Set();
+  navList.querySelectorAll('.nav-item[data-chain]').forEach(n => allKnownCodes.add(n.dataset.chain));
+  const hasStale = saved.some(c => !allKnownCodes.has(c));
+  if (hasStale) {
+    console.warn('[sidebarOrder] 检测到 stale LS 数据(saved 包含 DOM 不存在的 code),强制重置');
+    LS.set(LS_KEYS.sidebarOrder, null);  // LS 没 remove 方法,用 set(null) 模拟删除
+    updateSidebarCount();
+    return; // 用 HTML 默认顺序
+  }
+
+  // 2) 按 saved 顺序重排整个 nav-list(跨容器支持)
+  //    排除独立模块(arena/cards/trades)— 它们是 hash 路由跳转,不进赛道算法
+  const INDEPENDENT_MODULES = ['arena', 'cards', 'trades'];
+  const allItems = Array.from(navList.querySelectorAll('.nav-item[data-chain]'))
+    .filter(item => !INDEPENDENT_MODULES.includes(item.dataset.chain));
+  if (allItems.length === 0) return;
+  const codeToItem = new Map();
+  allItems.forEach(item => codeToItem.set(item.dataset.chain, item));
+
+  const collapsedContainer = document.getElementById('chain-collapsed');
+  if (!collapsedContainer) return;
+
+  // 3) 找主赛道锚点(主赛道第一个 nav-toggle 之前的最后位置)
+  //    找折叠容器锚点(collapsedContainer.appendChild)
+  //    找分隔行位置(━ 整合视图 / ━ 我的决策 / 重置侧栏顺序) — 不动
+  let mainAnchor = null;
+  for (const child of navList.children) {
+    if (child.classList && child.classList.contains('nav-toggle')) {
+      mainAnchor = child;
+      break;
+    }
+  }
+  if (!mainAnchor) return;
+
+  // 4) 主赛道项数 = saved 数组中"第一次保存时是主赛道"的项数
+  //    保存到 LS.sidebarMainCount(由 persistSidebarOrder 在第一次 persist 时记录)
+  const mainCount = LS.get(LS_KEYS.sidebarMainCount, 5);
+
+  // 5) 先清空 nav-list + 折叠容器里的所有 nav-item(保留 nav-toggle / 分隔行)
+  //    这是 v4 修复:v3 算法没清空主赛道位置,导致恢复时主赛道出现重复项
+  //    关键:nav-toggle 元素同时有 'nav-item' + 'nav-toggle' 两个 class,必须排除
+  //    关键 v6:独立模块(arena/cards/trades)也不能 removeChild,否则它们被删了侧栏消失
+  const INDEPENDENT_MODULES_LOCAL = ['arena', 'cards', 'trades'];
+  Array.from(navList.children).forEach(c => {
+    if (c.classList && c.classList.contains('nav-item') && !c.classList.contains('nav-toggle') && c.dataset && c.dataset.chain && !INDEPENDENT_MODULES_LOCAL.includes(c.dataset.chain)) {
+      navList.removeChild(c);
+    }
   });
-  // 按 saved 顺序重排每个 parent 内的子节点
-  groups.forEach((codeMap, parent) => {
-    const fragment = document.createDocumentFragment();
-    const seenInParent = new Set();
-    saved.forEach(code => {
-      const item = codeMap.get(code);
-      if (item && item.parentNode === parent) {
-        fragment.appendChild(item);
-        seenInParent.add(code);
-      }
-    });
-    // 剩余未在 saved 中的(新加的 custom 赛道等),append 到末尾
-    codeMap.forEach((item, code) => {
-      if (!seenInParent.has(code)) fragment.appendChild(item);
-    });
-    parent.appendChild(fragment);
+  Array.from(collapsedContainer.children).forEach(c => {
+    if (c.classList && c.classList.contains('nav-item') && !c.classList.contains('nav-toggle') && c.dataset && c.dataset.chain && !INDEPENDENT_MODULES_LOCAL.includes(c.dataset.chain)) {
+      collapsedContainer.removeChild(c);
+    }
   });
+
+  // 6) 按 saved 顺序依次放置:前 mainCount 项到主赛道(锚点前),其余到折叠容器
+  let mainIndex = 0;
+  saved.forEach(code => {
+    const item = codeToItem.get(code);
+    if (!item) return;
+    if (mainIndex < mainCount) {
+      navList.insertBefore(item, mainAnchor);
+      mainIndex++;
+    } else {
+      collapsedContainer.appendChild(item);
+    }
+  });
+
+  // 7) 剩余未在 saved 中的(新加的 custom 赛道等),append 到折叠容器末尾
+  codeToItem.forEach((item, code) => {
+    if (!saved.includes(code)) collapsedContainer.appendChild(item);
+  });
+
+  updateSidebarCount();
 }
 
 // 置顶切换
@@ -2837,7 +2937,12 @@ function initSidebarDnd() {
   }
 
   // 初始绑定所有现有 nav-item
-  navList.querySelectorAll('.nav-item[data-chain]').forEach(attachToNavItem);
+  const navItems = navList.querySelectorAll('.nav-item[data-chain]');
+  console.log('[debug] initSidebarDnd: 找到 ' + navItems.length + ' 个 nav-item');
+  navItems.forEach(attachToNavItem);
+  console.log('[debug] initSidebarDnd: 绑定完成,验证 draggable:',
+    navList.querySelectorAll('.nav-item[draggable="true"]').length, '/',
+    navList.querySelectorAll('.nav-item[data-chain]').length);
 
   // 监听 nav-list 的 DOM 变化(让后续 insertCustomNavItem 自动绑定)
   const observer = new MutationObserver(muts => {
