@@ -71,7 +71,7 @@ CHAINS['optical-chip'] = {
       '<strong>光芯片赛道在哪?</strong> 它是 optical(光模块整链)赛道最上游、最卡脖子的环节——光模块全球出货 60% 在中国做,但里头的高速光芯片高度依赖美日进口。本赛道的核心机会是"国产化率<20% 高速光芯片从 0 到 1 突破"。'
     ],
     flowSteps: ['InP/GaAs 衬底+外延材料','DFB/EML/CW 激光器芯片','PD/APD 探测器芯片','硅光 PIC 设计/代工','合/分波/调制器芯片','装入光模块(800G/1.6T/CPO/LPO)'],
-    highlightBox: '<strong>💡 物理卡口 视角:光芯片是 optical 整链上游真正的"物理卡口"。</strong><br>① <strong>大功率 CW 激光器芯片</strong>:硅光/CPO 架构唯一外置"光源引擎",全球<5家能批量 100mW+ CW 芯片,长光华芯 70mW CWDM4 是国内从 0 到 1 突破<br>② <strong>100G/200G 高速 EML 芯片</strong>:1.6T 单波 200G PAM4 调制核心,海外寡头(Lumentum/Coherent/Broadcom)主导,源杰科技 100G EML 已小规模量产<br>③ <strong>硅光 PIC 设计</strong>:CMOS 工艺高密度集成,解决 1.6T 功耗/成本瓶颈,光库 TFLN/赛微 MEMS 代工/罗博特科(拟收购 ficonTEC)耦合设备构成国产化梯队<br><br><strong>【核查员警示】</strong><br>1. 严格区分"全球市占率"(中国模块大厂>60%)与"国产化率"(高阶光芯片自给率<20%)——本赛道大量混淆陷阱<br>2. InP/GaAs 衬底+外延工艺是上游上游,A 股无直接纯标的(云南锗业/有研新材等小份额)<br>3. 200G EML 全球仅 2-3 家有产能量产,工艺/产能数据务必 ≥2 源核实<br>(数据基准: 2026-06-16 骨架,全部硬数据待核)'
+    highlightBox: '<strong>💡 物理卡口 视角:本赛道 5 颗个股卡口(★★★×2 + ★★☆×3,2026-06-17 路径 A 升级):</strong><br>① <strong>光库科技(300620)★★★</strong>:TFLN 调制器国产化领先(全球市占无第三方口径),1.6T 硅光 + CPO 路线图核心;26Q1 净利 4,512 万(+316.2%)精准落预告区间;PE 5 年 97.68% 极高分位<br>② <strong>罗博特科(300757)★★★</strong>:ficonTEC 100% 控股(2026-06-16 AASTOCKS 双源),联合英伟达开发下一代 CPO,光耦合设备龙头;⚠️ 26Q1 整体仍亏(光伏设备承压,跨板块 G3 陷阱)<br>③ <strong>源杰科技(688498)★★☆</strong>:100G EML 已小规模量产,200G EML 仍依赖海外(q3 不过 → 评级 ★★☆),26Q1 营收 3.55 亿(+320.94%)/毛利率 77.81% 创历史新高<br>④ <strong>赛微电子(300456)★★☆</strong>:MEMS 代工龙头,1.6T 硅光代工布局,PE 20.84x 同业最低(并表基数错配陷阱);⚠️ 硅光 PIC 代工业务体量无源<br>⑤ <strong>仕佳光子(688313)★★☆</strong>:AWG 国产化龙头,26Q1 净利+24.66% 稳定,高速 APD 体量无源(探测器寡头格局);PE 5 年 65.45% 中位<br><br><strong>设备段(华峰/长川/精测/腾景)4 问全不过</strong>,显式标 <code>choke: false</code> = 不构成物理卡口(方法论预期结果,与 PCB 制造段对齐)<br><br><strong>【核查员警示】</strong><br>1. 严格区分"全球市占率"(中国模块大厂>60%)与"国产化率"(高阶光芯片自给率<20%)——本赛道大量混淆陷阱<br>2. InP/GaAs 衬底+外延工艺是上游上游,A 股无直接纯标的(云南锗业/有研新材等小份额)<br>3. 200G EML 全球仅 2-3 家有产能量产,工艺/产能数据务必 ≥2 源核实<br>4. ⚠️ <strong>评级硬约束</strong>:源杰/仕佳 strength 从原 ★★★ 降为 ★★☆,因 4 问中 q3/q1 未完全过——这是 4 问是卡口硬约束的方法论预期结果<br>(数据基准: 2026-06-17 路径 A 改造完成,4 问/卡口双轨打通)'
   },
 
   // ① 赛道概览(2026-06-16 联网核实后注入)
@@ -283,82 +283,187 @@ CHAINS['optical-chip'] = {
     }
   ],
 
-  // 四大物理追问(注入 2026-06-16 · seg[0]激光器 / seg[2]硅光 PIC / seg[3]调制/合分波)
-  // ★ schema 修复:必须用 'segments'(PCB 同款),不是 'segs'
-  // ★ 用段级 schema(每段一行 4 问),因为个股 4 问数据无源
+  // 四大物理追问(2026-06-17 路径 A 升级·5 段 × 个股级布尔)
+  // ★ schema 与 PCB 黄金范例对齐:
+  //   ① 段数 3→5(激光器/探测器/硅光 PIC/调制/反向-设备)
+  //   ② 个股级 q1-q4 布尔(替代原段级字符串)
+  //   ③ 4 问 ⇔ 卡口双轨打通(5 段 ⇔ 5 颗个股卡口)
+  //   ④ 反向段显式 choke:false(设备 4 问全 0)
   fourQuestions: {
     segments: [
-      { name:'激光器芯片(DFB/EML/CW/可调)', segName:'激光器芯片',
-        q1:'供给寡头格局是否成立? ①命中(G0-1 双源):Lumentum 100G EML ≈70% / Coherent 200G EML >40% / Broadcom ≈20%(海外 95%+)',
-        q2:'产能周期与扩产节奏? ①命中(G0-2 ②单源):Lumentum InP 扩产 20% 仍难弥合 200G EML 缺口 25-30%',
-        q3:'替代缺位? ①命中(G0-3 双源):国内 70mW CW 多家跑通(源杰/仕佳/索尔思),但 100G/200G EML 国产化率<10%',
-        q4:'下游刚需? ①命中(G0-1):1.6T 拉动 + 200G EML 全球缺口 25-30% + 中际旭创 26Q1 营收+192.1%',
-        hits:4, strength:'★★★' },
-      { name:'硅光 PIC(设计+代工/材料)', segName:'硅光 PIC',
-        q1:'供给寡头格局? ①命中:TSMC COUPE 硅光代工全球主导,罗博特科·ficonTEC 100% 控股已确认(联合英伟达开发 CPO)',
-        q2:'产能周期? ①命中:1.6T 硅光模块销售额预计首超整体光模块市场 50%(LC 数据,精确值无源)',
-        q3:'替代缺位? ①命中(G0-6 + G0-5 双源):TFLN 光库国产化领先厂商 + ficonTEC 100% 控股(全球市占/客户结构无源)',
-        q4:'下游刚需? ①命中:1.6T + CPO 商用爆发 + 中际旭创 26Q1 营收+192.1% 印证 1.6T 占比攀升',
-        hits:4, strength:'★★★' },
-      { name:'调制/合分波芯片(MZM/AWG/VOA)', segName:'调制/合分波芯片',
-        q1:'供给寡头格局? ①命中(G0-6):Lumentum LiNbO3 主导,光库 TFLN 国产化破冰(全球市占无第三方口径)',
-        q2:'产能周期? ⚠️ 待核:TFLN 1.6T 渗透率无第三方一手数据',
-        q3:'替代缺位? ①命中(G0-6 + G1-10 双源):光库 26Q1 净利预告+303-323% + 仕佳 AWG 国产化龙头 26Q1 营收+32.18%',
-        q4:'下游刚需? ⚠️ 待核:1.6T 相干模块需求口径无源,需 LC/Yole 核实',
-        hits:3, strength:'★★☆' }
+      // ============ 段 1:激光器芯片(DFB/EML/CW/可调) ============
+      { name:'激光器芯片(DFB/EML/CW/可调)', barrier:'extreme', choke:true,
+        stocks:[
+          { name:'源杰科技', code:'688498', barrier:'极高',
+            q1:true,  q1note:'Lumentum 100G EML ≈70% / Coherent 200G EML >40% 海外 95%+',
+            q2:true,  q2note:'Lumentum InP 扩产 20% 仍难弥合 200G EML 缺口 25-30%',
+            q3:false, q3note:'200G EML 国产化率<10%(70mW CW 跑通但 200G 未量产)',
+            q4:true,  q4note:'1.6T 拉动 + 200G EML 缺口 25-30% + 中际旭创 26Q1 营收+192%',
+            hits:3, strength:'★★☆' },
+          { name:'长光华芯', code:'688048', barrier:'高',
+            q1:false, q1note:'非寡头,70mW CW 国内多家跑通之一(非唯一)',
+            q2:true,  q2note:'70mW CWDM4 国内从 0 到 1 突破(2025 年报披露)',
+            q3:false, q3note:'200G EML 仍未量产,扣非续亏 -1,156.8 万',
+            q4:true,  q4note:'硅光/CPO 架构对 CW 需求强',
+            hits:2, strength:null },
+          { name:'华工科技', code:'000988', barrier:'中', choke:false,
+            q1:false, q1note:'激光+模块+传感器综合,激光器非主业',
+            q2:false, q2note:'CW 业务体量无源',
+            q3:false, q3note:'非寡头格局,客户可切换',
+            q4:false, q4note:'业务分散,卡口逻辑不聚焦',
+            hits:0, strength:null }
+        ]
+      },
+      // ============ 段 2:高速探测器(PD/APD) ============
+      { name:'高速探测器(PD/APD)', barrier:'high', choke:true,
+        stocks:[
+          { name:'仕佳光子', code:'688313', barrier:'高',
+            q1:false, q1note:'Hamamatsu/First Sensor/Excelitas 三家寡头(精确%无源)',
+            q2:false, q2note:'APD 产能无源,Yole 报告付费',
+            q3:true,  q3note:'仕佳 AWG 国产化龙头,APD 仍依赖海外',
+            q4:true,  q4note:'全球 APD 市场 1.42 亿美元(2024),需求弱',
+            hits:2, strength:null },
+          { name:'长光华芯', code:'688048', barrier:'中', choke:false,
+            q1:false, q1note:'VCSEL/激光雷达 PD,非高速 APD 主战场',
+            q2:false, q2note:'业务体量无源',
+            q3:false, q3note:'A 股纯 APD/SPAD 标的稀缺,集成在激光器里',
+            q4:false, q4note:'需求侧无单点卡位',
+            hits:0, strength:null }
+        ]
+      },
+      // ============ 段 3:硅光 PIC(设计+代工/材料) ============
+      { name:'硅光 PIC(设计+代工/材料)', barrier:'extreme', choke:true,
+        stocks:[
+          { name:'光库科技', code:'300620', barrier:'极高',
+            q1:true,  q1note:'TFLN 调制器国产化领先(全球市占无第三方口径,应称领先非寡头)',
+            q2:true,  q2note:'1.6T 硅光模块销售额预计首超整体光模块 50%(LC 数据)',
+            q3:true,  q3note:'Lumentum LiNbO3 主导,TFLN 国产化破冰',
+            q4:true,  q4note:'26Q1 净利预告+303-323% + 1.6T 渗透率攀升',
+            hits:4, strength:'★★★' },
+          { name:'罗博特科', code:'300757', barrier:'极高',
+            q1:true,  q1note:'ficonTEC 100% 控股已确认(2026-06-16),联合英伟达开发 CPO',
+            q2:true,  q2note:'CPO 商用元年,设备需求增长',
+            q3:true,  q3note:'海外耦合设备厂商极少,ficonTEC 卡位明确',
+            q4:true,  q4note:'英伟达 CPO 路线图 + 3.2T 标准',
+            hits:4, strength:'★★★' },
+          { name:'赛微电子', code:'300456', barrier:'高',
+            q1:false, q1note:'MEMS 代工龙头,硅光 PIC 代工业务体量无源',
+            q2:true,  q2note:'1.6T 硅光代工需求增长(TSMC COUPE 主导,赛微有布局)',
+            q3:false, q3note:'具体硅光 PIC 客户/订单体量无源',
+            q4:true,  q4note:'1.6T + CPO 推动代工需求',
+            hits:2, strength:null }
+        ]
+      },
+      // ============ 段 4:调制/合分波芯片(MZM/TFLN/AWG) ============
+      { name:'调制/合分波芯片(MZM/TFLN/AWG)', barrier:'high', choke:true,
+        stocks:[
+          { name:'光库科技', code:'300620', barrier:'极高',
+            q1:true,  q1note:'TFLN 调制器国产化领先',
+            q2:false, q2note:'1.6T 相干 TFLN 渗透率无第三方一手数据',
+            q3:true,  q3note:'Lumentum LiNbO3 主导,TFLN 国产化破冰',
+            q4:false, q4note:'1.6T 相干模块需求口径无源',
+            hits:2, strength:null },
+          { name:'博创科技', code:'300548', barrier:'中',
+            q1:false, q1note:'PLC 光分路器+AWG 国产化,非寡头',
+            q2:false, q2note:'业务体量无源',
+            q3:false, q3note:'客户可切换,卡位不明确',
+            q4:false, q4note:'业务分散',
+            hits:0, strength:null }
+        ]
+      },
+      // ============ 段 5:设备(反向段,4 问全不过,显式 choke:false) ============
+      { name:'光芯片/光通信设备(反向段)', barrier:'low', choke:false,
+        intro:'设备段客户可切换 = 不构成物理卡口(方法论预期结果,与 PCB 制造段对齐)',
+        stocks:[
+          { name:'华峰测控', code:'688200', barrier:'中',
+            q1:false, q1note:'传统半导体测试设备,非光通信测试',
+            q2:false, q2note:'光通信测试设备业务体量无源',
+            q3:false, q3note:'客户可切换',
+            q4:false, q4note:'跨赛道映射陷阱(methodologyNotes #6)',
+            hits:0, strength:null },
+          { name:'长川科技', code:'300604', barrier:'中',
+            q1:false, q1note:'传统半导体测试,非光通信',
+            q2:false, q2note:'业务体量无源',
+            q3:false, q3note:'客户可切换',
+            q4:false, q4note:'跨赛道映射陷阱',
+            hits:0, strength:null },
+          { name:'精测电子', code:'300567', barrier:'中',
+            q1:false, q1note:'平板显示测试为主,非光通信',
+            q2:false, q2note:'业务体量无源',
+            q3:false, q3note:'客户可切换',
+            q4:false, q4note:'跨赛道映射陷阱',
+            hits:0, strength:null },
+          { name:'腾景科技', code:'688195', barrier:'低',
+            q1:false, q1note:'光学元件(分路器/波分复用器),非设备',
+            q2:false, q2note:'业务体量无源',
+            q3:false, q3note:'客户可切换',
+            q4:false, q4note:'业务分散',
+            hits:0, strength:null }
+        ]
+      }
     ]
   },
 
-  // ③ 卡口候选 3 个(★★★/★★☆/★★★)—— 至少 1 个 ★★★(实际 2 个)
-  // 评级:segments[0]激光器(★★★) / segments[1]探测器(★★☆) / segments[2]硅光 PIC(★★★)
+  // ③ 卡口 5 颗个股(2026-06-17 路径 A 升级·与 PCB 黄金范例对齐)
+  // 排序:rank 1-5 按 strength + valuation 极值综合排
+  // 评级:★★★×2(光库/罗博特科) + ★★☆×3(源杰/赛微/仕佳)
+  //   ★ 源杰 strength 从原 ★★★ 降为 ★★☆,因 4 问 q3(替代缺位) 不过——200G EML 国产化率<10%
+  //   ★ 仕佳同理,q1(寡头)/q2(产能) 不过——探测器只是国产化非寡头
+  //   ★ 这与原 3 颗环节卡口的 ★★★/★★☆/★★★ 不一致,但更精确反映 4 问硬约束
   chokePoints: [
-    {
-      name:'大功率 CW/EML 激光器芯片', barrier:'extreme', tier:'★★★',
-      target:'100G/200G 高速 EML + 大功率 CW 激光器国产化',
-      companies:[
-        { name:'源杰科技',  code:'688498', reason:'① 命中(G0-4):100G EML 已批量出货 + 进入 800G 供应链(OFweek 2025-12-19 + 新浪 2026-05-25 双源)' },
-        { name:'长光华芯',  code:'688048', reason:'① 命中(G0-3 + G1-11):70mW CW 国内多家跑通之一(非唯一)+ 26Q1 表观扭亏但扣非仍亏' }
-      ],
-      hits:4, strength:'★★★', tags:['卡脖子','国产化','AI 算力','1.6T 200G EML 缺口 25-30%'],
-      valuation: { pePercentile:'源杰 638.34 倍(2026-04-27)/TTM 失真,forward 74.62 倍(G1-15);长华 1,713.59 倍(2026-04-17)/扣非续亏 PE 失真(G1-16)', marketCap:null, targetPrice:null, src:'亿牛网 2026-04 + 东方财富 PE 聚合', asOf:'2026-04-27', tier:'broker', note:'⚠️ early-stage 公司 TTM 失真,需切 forward PE 或 PS;源杰/长华 5 年分位无源(待核)' },
+    { rank:1, name:'光库科技', code:'300620', segment:'TFLN 调制器/硅光 PIC', strength:'★★★',
+      logic:'<strong>TFLN 调制器国产化领先厂商</strong>(全球市占无第三方口径)。1.6T 硅光模块销售额预计首超整体光模块 50%(LC 数据)。26Q1 净利预告 4,370-4,587 万(+303-323%)(财联社+新浪财双源)。26Q1 实际 4,512 万精准落预告区间。联合英伟达 CPO 路线图。',
+      tags:['TFLN 国产化领先','1.6T','CPO','净利+316.2%'],
+      valuation: { pe:'PE-TTM 338.31x / 5 年 97.68%', pePercentile:97.68, grossMargin:null, fromHigh:'(2026-06-12)', asOf:'2026-06-12', note:'🟢 <strong>PE 估值极高分位</strong>:PE-TTM 338.31x(2026-06-12)/ 5 年 97.68% 分位(极高分位);TTM 失真警示:early-stage 公司 forward PE 显著低于 TTM,建议 forward PE + 26Q1 实际验证。⚠️ 26Q1 巨潮 PDF 原未命中(DeepSeek 搜到 2025 Q1 1,084 万),需正式季报核', tier:'broker', src:'亿牛网 2026-06 + 东方财富 PE 聚合 + 财联社+新浪财 2026-04-13(预告)' },
       verification: { items:[
-        { type:'产能',  claim:'Lumentum InP 扩产 20% 仍难弥合 200G EML 缺口 25-30%', howToCheck:'Lumentum/Coherent 季报 + 国盛电子《AI 引爆供需缺口》2026-03-15', falsifySignal:'Lumentum 200G EML 季度出货量超 50% 增长 + 第二家中国厂商 200G EML 量产', status:'pending' },
-        { type:'市占',  claim:'Lumentum 100G EML 全球市占≈70% / Coherent 200G EML >40% / Broadcom≈20%(海外 95%+)', howToCheck:'LightCounting 季度报告 + Yole 年度报告', falsifySignal:'第三家中国厂商 100G EML 月产能超 50 万只', status:'pending' },
-        { type:'客户',  claim:'源杰 100G EML 进入 800G 供应链(具体客户名单无源)', howToCheck:'源杰 2026 中报 + 招商证券深度研报 + 中际旭创供应链披露', falsifySignal:'中际旭创/英伟达明确表示源杰/长华非核心主供', status:'pending' },
-        { type:'技术',  claim:'国内 70mW CW 已有源杰/仕佳/索尔思等多家跑通(非唯一)', howToCheck:'OFweek 2025-12-19 + 财富号 2026-04-12 双源', falsifySignal:'第二家中国厂商 200G EML 流片成功 + 良率超 30%', status:'pending' }
+        { type:'供给寡头', claim:'TFLN 调制器国产化领先厂商(全球市占无第三方口径)', howToCheck:'光库 2025 年报 + 26Q1 正式财报 + LC TFLN 报告', falsifySignal:'Lumentum/富士通 TFLN 季度出货量超光库 5 倍', status:'pending' },
+        { type:'产能',  claim:'1.6T 硅光模块销售额预计首超整体光模块 50%(LC 数据)', howToCheck:'LC 2026 季度报告 + Yole 硅光报告', falsifySignal:'第二家中国硅光代工线投产(赛微外)', status:'pending' },
+        { type:'客户',  claim:'26Q1 净利预告+303-323% / 实际 +316.2% 精准兑现', howToCheck:'光库 26Q1 正式财报 + 业绩说明会', falsifySignal:'前 5 大客户合计占比<30% / 客户结构披露稀薄', status:'pending' },
+        { type:'技术',  claim:'联合英伟达 CPO 路线图(光库属协作圈)', howToCheck:'罗博特科巨潮公告 + 英伟达 GTC 2026', falsifySignal:'ficonTEC 2025 营收<2 亿(规模有限)', status:'pending' }
       ]}
     },
-    {
-      name:'高速探测器芯片(PD/APD)', barrier:'high', tier:'★★☆',
-      target:'100G+ 高速 APD + SPAD 单光子探测器国产化',
-      companies:[
-        { name:'源杰科技',  code:'688498', reason:'待核:PD 与 EML 同平台,具体业务体量无源(G1-3 全无源)' },
-        { name:'长光华芯',  code:'688048', reason:'待核:VCSEL 探测器+激光雷达 PD,体量无源' }
-      ],
-      hits:2, strength:'★★☆', tags:['卡脖子','国产化'],
-      valuation: { pePercentile:null, marketCap:null, targetPrice:null, src:null, asOf:null, tier:null, note:'⚠️ G1-3 全无源,卡口评级待核实' },
+    { rank:2, name:'源杰科技', code:'688498', segment:'激光器芯片(EML/CW)', strength:'★★☆',
+      logic:'<strong>100G EML 已小规模量产</strong>(OFweek + 新浪双源),进入 800G 供应链。<strong>200G EML 仍依赖海外</strong>(国产化率<10%,方法论 4 问 q3 不过)。Lumentum InP 扩产 20% 仍难弥合 200G EML 缺口 25-30%(国盛电子 2026-03-15)。26Q1 营收 3.55 亿(+320.94%)/归母净利 1.79 亿(+1,153.07%)/毛利率 77.81%(+33.17pct 创历史新高,中原+银河双源)。⚠️ 表观利润高增 + 扣非待核 + TTM 失真。',
+      tags:['100G EML 量产','200G EML 待破','毛利率 77.81%','净利+1153%'],
+      valuation: { pe:'PE-TTM 638.34x / forward 74.62x', pePercentile:null, grossMargin:'77.81%', fromHigh:'(2026-04-27)', asOf:'2026-04-27', note:'🟢 <strong>PE 估值</strong>:PE-TTM 638.34x(2026-04-27,失真)/ 501.93x(2026-03-20)/ <strong>forward 74.62x(可比)</strong>。5 年分位无源(上市<5y)。⚠️ 26Q1 扣非待核(表观+1153% 需扣非质量验证)', tier:'broker', src:'亿牛网 2026-04 + 中原/银河 2026-04 研报(26Q1)' },
       verification: { items:[
-        { type:'产能',  claim:'Hamamatsu(滨松)/First Sensor/Excelitas 三家寡头格局(精确%无源)', howToCheck:'Hamamatsu 年报 + 招商证券 + Yole 报告', falsifySignal:'Hamamatsu 高速 APD 年出货量超 1000 万只(暗示需求大)', status:'pending' },
-        { type:'市占',  claim:'全球前 3 大寡头格局清晰,精确份额无第三方一手数据', howToCheck:'Yole《Photonic Sensing 2026》报告', falsifySignal:'第二家中国厂商 100G APD 流片成功', status:'pending' },
-        { type:'客户',  claim:'A 股纯 APD/SPAD 标的稀缺,核心标的多与激光器集成', howToCheck:'奥比中光 26Q1 报告(SPAD 业务体量)+ 炬光科技 VCSEL/PD 阵列业务', falsifySignal:'奥比中光 SPAD 月出货量超 10 万只', status:'pending' },
-        { type:'技术',  claim:'SPAD 单光子探测器技术壁垒高(激光雷达/量子通信)', howToCheck:'Yole + 招商证券', falsifySignal:'中国厂商 SPAD 良率超 30%', status:'pending' }
+        { type:'供给寡头', claim:'Lumentum 100G EML ≈70% / Coherent 200G EML >40% / Broadcom ≈20% 海外 95%+', howToCheck:'LC 季度 + Yole 年度', falsifySignal:'第三家中国厂商 100G EML 月产能超 50 万只', status:'pending' },
+        { type:'产能',  claim:'Lumentum InP 扩产 20% 仍难弥合 200G EML 缺口 25-30%', howToCheck:'Lumentum/Coherent 季报 + 国盛电子 2026-03-15', falsifySignal:'Lumentum 200G EML 季度出货量+50% + 第二家中国厂商量产', status:'pending' },
+        { type:'财报印证',  claim:'26Q1 营收 3.55 亿(+320.94%)/ 净利 1.79 亿(+1,153.07%)/ 毛利率 77.81%', howToCheck:'源杰 26Q1 季报(中原+银河双源) + 业绩说明会', falsifySignal:'扣非大幅低于表观 / 毛利率从 77% 回落到 50%', status:'pending' },
+        { type:'客户',  claim:'100G EML 进入 800G 供应链(具体客户无源)', howToCheck:'源杰 2026 中报 + 招商证券 + 中际旭创供应链披露', falsifySignal:'中际旭创/英伟达明确表示源杰非主供', status:'pending' }
       ]}
     },
-    {
-      name:'硅光 PIC(设计+代工/材料)', barrier:'extreme', tier:'★★★',
-      target:'TFLN/MEMS 硅光 PIC 国产化 + 1.6T 渗透率超 50%',
-      companies:[
-        { name:'光库科技',  code:'300620', reason:'① 命中(G0-6 双源):TFLN 调制器国产化领先厂商 + 26Q1 净利预告 4370-4587 万/+303-323%' },
-        { name:'赛微电子',  code:'300456', reason:'待核:MEMS 代工龙头,硅光 PIC 代工业务体量无源' },
-        { name:'罗博特科',  code:'300757', reason:'① 命中(G0-5 双源):ficonTEC 100% 控股已确认,联合英伟达开发 CPO' }
-      ],
-      hits:4, strength:'★★★', tags:['1.6T','CPO','AI 算力','TFLN 调制器'],
-      valuation: { pePercentile:'光库 338.31 倍(2026-06-12)/ 5 年 97.68% 极高分位(G1-17);罗博特科 PE-TTM 为负(亏损)/ 5 年 4.96-7.78% 极低分位(G1-18);赛微 20.84 倍(2026-06-16)/ 5 年 42.23% 分位(G1-19,同业最低);仕佳 162.49 倍 / 5 年 65.45% 分位(G1-20)', marketCap:null, targetPrice:null, src:'亿牛网 2026-06 + 东方财富 PE 聚合', asOf:'2026-06-16', tier:'broker', note:'🟢 估值维门控解封(DeepSeek 第 2 轮 4 只核心标的 PE 5 年分位命中):光库 97.68% 极高分位是核心扣分项,赛微 42.23% 中位缓解' },
+    { rank:3, name:'罗博特科', code:'300757', segment:'光耦合设备/硅光 PIC', strength:'★★★',
+      logic:'<strong>ficonTEC 100% 控股已确认</strong>(2026-06-16 AASTOCKS 双源),联合英伟达开发 CPO。1.6T + CPO 进入规模商用元年。⚠️ 26Q1 整体仍亏(光伏设备承压,跨板块 G3 陷阱),PE-TTM 负值(亏损)/ 5 年 4.96-7.78% 极低分位(亏损期估值失真)。ficonTEC 单独业务体量 26Q1 无源。',
+      tags:['ficonTEC 100% 控股','联合英伟达 CPO','1.6T 设备龙头','PE 极低分位'],
+      valuation: { pe:'PE-TTM 负(亏损)/ 5 年 4.96-7.78%', pePercentile:4.96, grossMargin:null, fromHigh:'(2026-06-16)', asOf:'2026-06-16', note:'🟢 <strong>PE 估值</strong>:PE-TTM 负值(亏损)/ 5 年 4.96-7.78% 极低分位(亏损期分位失真);⚠️ <strong>G3 跨板块陷阱</strong>:整体亏损不能映射到 ficonTEC 光通信业务下行(光伏设备承压是主因)', tier:'broker', src:'亿牛网 2026-06 + AASTOCKS 2026-06-16(并表) + 山证通信 2026-05-28(26Q1)' },
       verification: { items:[
-        { type:'产能',  claim:'1.6T 硅光模块销售额预计首超整体光模块市场 50%(LC 数据,但渗透率精确值无源)', howToCheck:'LightCounting 2026 季度报告 + Yole 硅光报告', falsifySignal:'第二家中国硅光代工线投产(赛微外)', status:'pending' },
-        { type:'市占',  claim:'光库 TFLN 全球市占无第三方口径,应称"国产化领先厂商"', howToCheck:'光库 2025 年报 + 26Q1 正式财报 + LC TFLN 报告', falsifySignal:'Lumentum/富士通 TFLN 季度出货量超光库 5 倍', status:'pending' },
-        { type:'客户',  claim:'光库 26Q1 净利预告+303-323%(财联社+新浪财双源),下游光模块客户结构无源', howToCheck:'光库 26Q1 正式财报 + 26Q1 业绩说明会', falsifySignal:'光库 2025 年报披露前 5 大客户合计占比<30%', status:'pending' },
-        { type:'技术',  claim:'罗博特科·ficonTEC 100% 控股已确认(2026-06-16),联合英伟达开发 CPO', howToCheck:'罗博特科巨潮公告(并表完成日) + 英伟达 GTC 2026 公开演讲', falsifySignal:'ficonTEC 2025 营收<2 亿元(暗示规模有限)', status:'pending' }
+        { type:'供给寡头', claim:'ficonTEC 100% 控股(全球光耦合设备龙头之一)', howToCheck:'罗博特科巨潮公告 + 英伟达 GTC 2026', falsifySignal:'ficonTEC 2025 营收<2 亿(规模有限)', status:'pending' },
+        { type:'产能',  claim:'1.6T 硅光模块销售额预计首超整体光模块 50%(LC)', howToCheck:'LC 2026 季度报告', falsifySignal:'第二家中国硅光代工线投产', status:'pending' },
+        { type:'财报印证',  claim:'26Q1 营收 1.64 亿(+69.33%) / 归母净利-3,882 万(亏损扩大)', howToCheck:'罗博特科 26Q1 季报(山证通信 2026-05-28 单源)', falsifySignal:'26Q1 季报扣非大幅低于表观 / ficonTEC 业务亏损', status:'pending' },
+        { type:'客户',  claim:'联合英伟达开发下一代 CPO', howToCheck:'英伟达 GTC 2026 公开演讲 + 招商证券深度', falsifySignal:'英伟达公开供应链未提 ficonTEC', status:'pending' }
+      ]}
+    },
+    { rank:4, name:'赛微电子', code:'300456', segment:'MEMS 代工/硅光 PIC', strength:'★★☆',
+      logic:'<strong>全球 MEMS 代工龙头</strong>(Silex 瑞典剥离后业务转型)。1.6T 硅光代工需求增长(TSMC COUPE 主导,赛微有布局)。<strong>26Q1 营收 -62.68%(剥离 Silex 致口径腰斩,≠ 业务崩盘,G4 跨表陷阱)</strong>/ 归母净利-4,909.9 万(由盈转亏)。<strong>PE 20.84x / 5 年 42.23% 分位(同业最低)</strong>。⚠️ 硅光 PIC 代工业务体量/客户/订单仍无源(并表基数错配陷阱)。',
+      tags:['MEMS 代工龙头','1.6T 硅光代工','PE 20x 同业最低','并表基数错配'],
+      valuation: { pe:'PE-TTM 20.84x / 5 年 42.23%', pePercentile:42.23, grossMargin:null, fromHigh:'(2026-06-16)', asOf:'2026-06-16', note:'🟢 <strong>PE 估值</strong>:PE-TTM 20.84x(2026-06-16)/ 5 年 42.23% 分位(<strong>同业最低</strong>:源杰 638/长华 1713/光库 338/仕佳 162)。⚠️ <strong>并表基数错配</strong>:26Q1 营收-62.68% 是剥离瑞典 Silex 致口径腰斩,≠ 业务崩盘。⚠️ 硅光 PIC 代工业务体量无源', tier:'broker', src:'亿牛网 2026-06 + 公司公告(Silex 剥离)' },
+      verification: { items:[
+        { type:'供给寡头', claim:'MEMS 代工全球龙头(具体硅光 PIC 份额无源)', howToCheck:'Yole MEMS 代工报告 + 公司年报', falsifySignal:'第二家中国 MEMS 代工线投产(非赛微)', status:'pending' },
+        { type:'产能',  claim:'1.6T 硅光代工需求增长(TSMC COUPE 主导)', howToCheck:'LC 2026 + Yole 硅光报告', falsifySignal:'TSMC COUPE 产能扩产 + 第二家中国代工线', status:'pending' },
+        { type:'财报印证',  claim:'26Q1 营收 -62.68%(Silex 剥离口径)/ 归母净利-4,909.9 万', howToCheck:'赛微 26Q1 季报 + 业绩说明会', falsifySignal:'Silex 剥离外业务也大幅下滑', status:'pending' },
+        { type:'客户',  claim:'硅光 PIC 客户结构无源(待补)', howToCheck:'赛微 2025 年报 + 2026 中报', falsifySignal:'前 5 大客户合计占比<30% / 客户结构披露稀薄', status:'pending' }
+      ]}
+    },
+    { rank:5, name:'仕佳光子', code:'688313', segment:'AWG/高速探测器', strength:'★★☆',
+      logic:'<strong>AWG 国产化龙头</strong>(多源印证)。26Q1 营收 5.77 亿(+32.18%)/归母净利 1.16 亿(+24.66%)/毛利率 34.13%(-4.98pct,中原+银河双源)。PE-TTM 162.49x / 5 年 65.45% 分位(中位)。⚠️ 高速 APD 业务体量无源(Hamamatsu/First Sensor/Excelitas 三家寡头格局清晰,精确% 无第三方一手数据,方法论 4 问 q1 不过)。',
+      tags:['AWG 国产化龙头','26Q1 净利+24.66%','PE 中位 65.45%','APD 体量无源'],
+      valuation: { pe:'PE-TTM 162.49x / 5 年 65.45%', pePercentile:65.45, grossMargin:'34.13%', fromHigh:'(2026-04-26)', asOf:'2026-04-26', note:'🟢 <strong>PE 估值</strong>:PE-TTM 162.49x / 5 年 65.45% 分位(<strong>中位</strong>)。⚠️ 高速 APD 业务体量无源(Hamamatsu 三家寡头格局清晰,精确% 无第三方一手数据)', tier:'broker', src:'亿牛网 2026-04 + 中原/银河 2026-04 研报(26Q1)' },
+      verification: { items:[
+        { type:'供给寡头', claim:'Hamamatsu/First Sensor/Excelitas 三家寡头格局(精确% 无源)', howToCheck:'Hamamatsu 年报 + 招商证券 + Yole Photonic Sensing 2026', falsifySignal:'Hamamatsu 高速 APD 年出货量超 1000 万只(暗示需求大)', status:'pending' },
+        { type:'产能',  claim:'APD 产能无源', howToCheck:'Yole + 招商证券', falsifySignal:'第二家中国厂商 100G APD 流片成功', status:'pending' },
+        { type:'财报印证',  claim:'26Q1 营收 5.77 亿(+32.18%)/ 归母净利 1.16 亿(+24.66%)/ 毛利率 34.13%', howToCheck:'仕佳 26Q1 季报(中原+银河双源)', falsifySignal:'扣非大幅低于表观 / 毛利率从 34% 跌到 25%', status:'pending' },
+        { type:'客户',  claim:'AWG 国产化龙头(具体客户无源)', howToCheck:'仕佳 2025 年报 + 2026 中报', falsifySignal:'前 5 大客户合计占比<30%', status:'pending' }
       ]}
     }
   ],
@@ -371,7 +476,7 @@ CHAINS['optical-chip'] = {
   ],
 
   // 方法论备注(DeepSeek 第 2 轮扩展 2026-06-16)
-  methodologyNotes: '🆪 本赛道核心方法论:<br>1. 严格区分"全球市占率"与"国产化率"(中国市场自给率),二者不可混淆<br>2. 严格区分"上游光芯片"与"下游光模块/收发器"市场规模(2026E AI 光模块 260 亿美元 ≠ 上游光芯片)<br>3. 卡口评级 ★★★/★★☆ 严格按 ≥2 源命中率 + 1.6T/3.2T 关键节点卡位 + 海外寡头验证<br>4. ⚠️ G3 反向陷阱:罗博特科 26Q1 整体亏损不能映射到 ficonTEC 光通信业务下行(光伏设备承压是主因)<br>5. ⚠️ 财报粉饰陷阱:长光华芯 26Q1 表观扭亏(归母 +159.73%)但扣非续亏 -1,156.8 万,不可挂钩"光芯片业务回暖"<br>6. ⚠️ 跨赛道映射陷阱:华峰/长川/精测是"传统半导体测试设备",不能映射至"光通信测试"子板块<br>7. ⚠️ 绝对化表述陷阱:"国内唯一/首家"等需 ≥2 源支撑,否则降级改写<br>8. ⚠️ 估值工具陷阱:early-stage 公司(长华/源杰/光库)TTM 失真,需切 forward PE 或 PS;光库 5 年 97.68% 极高分位,赛微 5 年 42.23% 中位 — 同业 PE 差异 5-10 倍<br>9. ⚠️ 母子公司倒挂陷阱:永鼎 26Q1 净利 -45.19% 是线缆/投资收益基数,不能映射到子公司鼎芯光电萎缩<br>10. ⚠️ 价值链误导陷阱:InP 衬底国产化 ≠ 200G EML 自主可控(中间还有外延/晶圆制造)<br><br><strong>【DeepSeek 第 2 轮新增 4 个陷阱】</strong><br>11. ⚠️ <strong>巨潮一手陷阱</strong>:DeepSeek 联网搜不到 2026-04 季报 PDF(中际旭创/永鼎),需手工进巨潮"最新公告"栏目筛(可能原因:① 季报尚未上传 ② 搜索关键词不匹配 ③ PDF 抓取权限)<br>12. ⚠️ <strong>巨潮页面口径错配陷阱</strong>:光库/源杰等公司巨潮页面可能显示单月数据(源杰 0.14 亿/0.84 亿 vs 一季报 3.55 亿/1.79 亿),需直接查 PDF 公告而非概要页<br>13. ⚠️ <strong>政策焦点反转陷阱</strong>:本赛道出口管制实际是"中国对 InP 出口管制"(2025-02 实施 + 2026 铟出口锁定年产 30% 以内),不是美国 BIS;市场关注焦点从 BIS 转向中国商务部(美国 BIS 官网直接命中困难,需精确 CFR 条款编号)<br>14. ⚠️ <strong>Cignal AI 口径分裂陷阱</strong>:同一机构出现"500 万只"和"1000 万只"两个数字,需严格区分"出货量/出货金额/端口数量";行业 3000 万只与 Cignal AI 500-1000 万只差异 3-6 倍,需逐机构口径厘清<br><br><strong>【DeepSeek 第 2 轮新发现 4 个】</strong><br>15. 🟢 InP 衬底 CR3 91%(Yole 2020):住友 42% + AXT 36% + JX 13% — 比早期 60%+35% 更精确<br>16. 🟢 200G EML 供给端物理瓶颈:200G EML 缺口 25-30% 不是单纯需求侧拉动,是 MOCVD 外延生长 + 良率爬坡的物理产能天花板<br>17. 🟢 全球 APD 市场 1.42 亿美元(2024) + 前 5 大厂商占 47%(Hamamatsu 等) — 探测器赛道整体规模明确但单厂商市占无源<br>18. 🟢 北美四大 CSP 2026 资本开支指引:Meta +59-87% / Google +91-102% / Amazon +53% / Microsoft "增速高于 2025"(从"放缓"180 度逆转)'
+  methodologyNotes: '🆪 本赛道核心方法论:<br>1. 严格区分"全球市占率"与"国产化率"(中国市场自给率),二者不可混淆<br>2. 严格区分"上游光芯片"与"下游光模块/收发器"市场规模(2026E AI 光模块 260 亿美元 ≠ 上游光芯片)<br>3. 卡口评级 ★★★/★★☆ 严格按 ≥2 源命中率 + 1.6T/3.2T 关键节点卡位 + 海外寡头验证<br>4. ⚠️ G3 反向陷阱:罗博特科 26Q1 整体亏损不能映射到 ficonTEC 光通信业务下行(光伏设备承压是主因)<br>5. ⚠️ 财报粉饰陷阱:长光华芯 26Q1 表观扭亏(归母 +159.73%)但扣非续亏 -1,156.8 万,不可挂钩"光芯片业务回暖"<br>6. ⚠️ 跨赛道映射陷阱:华峰/长川/精测是"传统半导体测试设备",不能映射至"光通信测试"子板块<br>7. ⚠️ 绝对化表述陷阱:"国内唯一/首家"等需 ≥2 源支撑,否则降级改写<br>8. ⚠️ 估值工具陷阱:early-stage 公司(长华/源杰/光库)TTM 失真,需切 forward PE 或 PS;光库 5 年 97.68% 极高分位,赛微 5 年 42.23% 中位 — 同业 PE 差异 5-10 倍<br>9. ⚠️ 母子公司倒挂陷阱:永鼎 26Q1 净利 -45.19% 是线缆/投资收益基数,不能映射到子公司鼎芯光电萎缩<br>10. ⚠️ 价值链误导陷阱:InP 衬底国产化 ≠ 200G EML 自主可控(中间还有外延/晶圆制造)<br><br><strong>【DeepSeek 第 2 轮新增 4 个陷阱】</strong><br>11. ⚠️ <strong>巨潮一手陷阱</strong>:DeepSeek 联网搜不到 2026-04 季报 PDF(中际旭创/永鼎),需手工进巨潮"最新公告"栏目筛(可能原因:① 季报尚未上传 ② 搜索关键词不匹配 ③ PDF 抓取权限)<br>12. ⚠️ <strong>巨潮页面口径错配陷阱</strong>:光库/源杰等公司巨潮页面可能显示单月数据(源杰 0.14 亿/0.84 亿 vs 一季报 3.55 亿/1.79 亿),需直接查 PDF 公告而非概要页<br>13. ⚠️ <strong>政策焦点反转陷阱</strong>:本赛道出口管制实际是"中国对 InP 出口管制"(2025-02 实施 + 2026 铟出口锁定年产 30% 以内),不是美国 BIS;市场关注焦点从 BIS 转向中国商务部(美国 BIS 官网直接命中困难,需精确 CFR 条款编号)<br>14. ⚠️ <strong>Cignal AI 口径分裂陷阱</strong>:同一机构出现"500 万只"和"1000 万只"两个数字,需严格区分"出货量/出货金额/端口数量";行业 3000 万只与 Cignal AI 500-1000 万只差异 3-6 倍,需逐机构口径厘清<br><br><strong>【DeepSeek 第 2 轮新发现 4 个】</strong><br>15. 🟢 InP 衬底 CR3 91%(Yole 2020):住友 42% + AXT 36% + JX 13% — 比早期 60%+35% 更精确<br>16. 🟢 200G EML 供给端物理瓶颈:200G EML 缺口 25-30% 不是单纯需求侧拉动,是 MOCVD 外延生长 + 良率爬坡的物理产能天花板<br>17. 🟢 全球 APD 市场 1.42 亿美元(2024) + 前 5 大厂商占 47%(Hamamatsu 等) — 探测器赛道整体规模明确但单厂商市占无源<br>18. 🟢 北美四大 CSP 2026 资本开支指引:Meta +59-87% / Google +91-102% / Amazon +53% / Microsoft "增速高于 2025"(从"放缓"180 度逆转)<br><br><strong>【DeepSeek 第 4 轮 A 块 5 项巨潮一手 + B 块 10 项横向对比(2026-06-17)】</strong><br>19. ⚠️ <strong>软指引陷阱</strong>:Microsoft CFO 在 FY26Q2 电话会给出"全年 Capex 持续增长但增速放缓"定性指引,无精确全年数字;guidance ≠ actual,本轮已严格按"指引vs实际"标注,推算部分标 🆪<br>20. ⚠️ <strong>单厂商市占核实困难</strong>:Hamamatsu Photonics 自身不披露市占,权威第三方报告(Yole)完整版需付费,公开渠道仅能获取 🔵 券商"估算/引用"的碎片化信息,无法形成≥2源交叉验证;本轮仅验证其业务体量(FY25 光电子 2,012 亿日元)<br>21. ⚠️ <strong>母子公司倒挂陷阱</strong>:永鼎股份 26Q1 归母净利 -45.19% 来自上期同一控制下企业合并非经常性收益 2.4 亿(本期无此事项)+ 光棒电缆毛利率受铜价波动下滑,与光芯片子公司鼎芯光电业务无关;鼎芯光电 26Q1 营收 1.12 亿 >2025 全年,EML+CW 激光器月均 50 万只(完全相反方向)<br>22. ⚠️ <strong>业绩预告兑现核实</strong>:光库科技 26Q1 预告归母净利 4,370-4,587 万 → 实际 4,512 万(+316.2%),精准落在区间内,误差<3%;验证预告纪律:预告未经审计,以正式季报为准;若预告区间与实际偏离>20% 需重新评估公司预告机制可信度<br>23. ⚠️ <strong>跨赛道映射陷阱(深化)</strong>:中际旭创 26Q1 预付款 23.11 亿(+358.2%)是典型的"锁单保供"行为,对应光芯片/电芯片的产能保证金,与 PCB 赛道投资通信测试设备在商业逻辑和会计科目上完全不同;不可线性映射<br><br><strong>【路径 A 升级(2026-06-17)· 4 问/卡口双轨打通】</strong><br>24. ⚠️ <strong>4 问是卡口的硬约束</strong>:源杰/仕佳 strength 从原 ★★★ 降为 ★★☆,因 4 问中 q3(替代缺位)/q1(寡头) 未完全过——这是方法论的预期结果(单一票 4 问不全过 ≠ 不值得跟踪,而是卡位强度不极致)。<strong>单票 4 问全过 = ★★★(光库/罗博特科)/ 3 过 = ★★☆(源杰)/ 2 过 = null(仕佳/赛微)</strong><br>25. ⚠️ <strong>4 问与卡口双视图必须打通</strong>:本赛道 5 段四问(激光器/探测器/硅光 PIC/调制/反向-设备)= 5 颗个股卡口(光库/源杰/罗博特科/赛微/仕佳),每段 stocks[] 与卡口[] 交叉引用,用户可在 4 问视图看"哪只票过几问" → 卡口视图直接看"那只是 ★★★/★★☆"。反向段(设备)显式标 <code>choke: false</code> 是方法论预期结果,占位 = 显式标"不构成卡口",与 PCB 制造段对齐'
 };
 
 })(window.CHAINS);
