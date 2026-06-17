@@ -20,7 +20,7 @@ CHAINS['optical-chip'] = {
   id: 'optical-chip', name: '光芯片', icon: '🔬',
   // ★ 赛道级 meta(DeepSeek 第 2 轮解封 2026-06-16)
   //   status 'active':valuation 维门控解封(光库 5 年 97.68% / 赛微 5 年 42.23% / 仕佳 5 年 65.45% 三只核心标的 5 年分位命中)
-  meta: { sector:'上游', tier:'核心', status:'active', updatedAt:'2026-06-16', ltFit:'🆪 适合长线研究/跟踪——AI 算力超级上行驱动,景气持续性+壁垒安全垫双高;估值维解封(光库 PE 5 年 97.68% 极高分位是核心扣分项,赛微 5 年 42.23% 中位缓解)' },
+  meta: { sector:'上游', tier:'核心', status:'active', updatedAt:'2026-06-17', ltFit:'🆪 适合长线研究/跟踪——AI 算力超级上行驱动,景气持续性+壁垒安全垫双高;估值维解封(光库 PE 5 年 97.68% 极高分位是核心扣分项,赛微 5 年 42.23% 中位缓解)' },
 
   // ★ 升级九 STEP 2:景气六维 —— 骨架注入(2026-06-16 联网核实后)
   //   5 维 estimate 🆪 主观打分,1 维(估值)门控触发留 null
@@ -476,7 +476,2378 @@ CHAINS['optical-chip'] = {
   ],
 
   // 方法论备注(DeepSeek 第 2 轮扩展 2026-06-16)
-  methodologyNotes: '🆪 本赛道核心方法论:<br>1. 严格区分"全球市占率"与"国产化率"(中国市场自给率),二者不可混淆<br>2. 严格区分"上游光芯片"与"下游光模块/收发器"市场规模(2026E AI 光模块 260 亿美元 ≠ 上游光芯片)<br>3. 卡口评级 ★★★/★★☆ 严格按 ≥2 源命中率 + 1.6T/3.2T 关键节点卡位 + 海外寡头验证<br>4. ⚠️ G3 反向陷阱:罗博特科 26Q1 整体亏损不能映射到 ficonTEC 光通信业务下行(光伏设备承压是主因)<br>5. ⚠️ 财报粉饰陷阱:长光华芯 26Q1 表观扭亏(归母 +159.73%)但扣非续亏 -1,156.8 万,不可挂钩"光芯片业务回暖"<br>6. ⚠️ 跨赛道映射陷阱:华峰/长川/精测是"传统半导体测试设备",不能映射至"光通信测试"子板块<br>7. ⚠️ 绝对化表述陷阱:"国内唯一/首家"等需 ≥2 源支撑,否则降级改写<br>8. ⚠️ 估值工具陷阱:early-stage 公司(长华/源杰/光库)TTM 失真,需切 forward PE 或 PS;光库 5 年 97.68% 极高分位,赛微 5 年 42.23% 中位 — 同业 PE 差异 5-10 倍<br>9. ⚠️ 母子公司倒挂陷阱:永鼎 26Q1 净利 -45.19% 是线缆/投资收益基数,不能映射到子公司鼎芯光电萎缩<br>10. ⚠️ 价值链误导陷阱:InP 衬底国产化 ≠ 200G EML 自主可控(中间还有外延/晶圆制造)<br><br><strong>【DeepSeek 第 2 轮新增 4 个陷阱】</strong><br>11. ⚠️ <strong>巨潮一手陷阱</strong>:DeepSeek 联网搜不到 2026-04 季报 PDF(中际旭创/永鼎),需手工进巨潮"最新公告"栏目筛(可能原因:① 季报尚未上传 ② 搜索关键词不匹配 ③ PDF 抓取权限)<br>12. ⚠️ <strong>巨潮页面口径错配陷阱</strong>:光库/源杰等公司巨潮页面可能显示单月数据(源杰 0.14 亿/0.84 亿 vs 一季报 3.55 亿/1.79 亿),需直接查 PDF 公告而非概要页<br>13. ⚠️ <strong>政策焦点反转陷阱</strong>:本赛道出口管制实际是"中国对 InP 出口管制"(2025-02 实施 + 2026 铟出口锁定年产 30% 以内),不是美国 BIS;市场关注焦点从 BIS 转向中国商务部(美国 BIS 官网直接命中困难,需精确 CFR 条款编号)<br>14. ⚠️ <strong>Cignal AI 口径分裂陷阱</strong>:同一机构出现"500 万只"和"1000 万只"两个数字,需严格区分"出货量/出货金额/端口数量";行业 3000 万只与 Cignal AI 500-1000 万只差异 3-6 倍,需逐机构口径厘清<br><br><strong>【DeepSeek 第 2 轮新发现 4 个】</strong><br>15. 🟢 InP 衬底 CR3 91%(Yole 2020):住友 42% + AXT 36% + JX 13% — 比早期 60%+35% 更精确<br>16. 🟢 200G EML 供给端物理瓶颈:200G EML 缺口 25-30% 不是单纯需求侧拉动,是 MOCVD 外延生长 + 良率爬坡的物理产能天花板<br>17. 🟢 全球 APD 市场 1.42 亿美元(2024) + 前 5 大厂商占 47%(Hamamatsu 等) — 探测器赛道整体规模明确但单厂商市占无源<br>18. 🟢 北美四大 CSP 2026 资本开支指引:Meta +59-87% / Google +91-102% / Amazon +53% / Microsoft "增速高于 2025"(从"放缓"180 度逆转)<br><br><strong>【DeepSeek 第 4 轮 A 块 5 项巨潮一手 + B 块 10 项横向对比(2026-06-17)】</strong><br>19. ⚠️ <strong>软指引陷阱</strong>:Microsoft CFO 在 FY26Q2 电话会给出"全年 Capex 持续增长但增速放缓"定性指引,无精确全年数字;guidance ≠ actual,本轮已严格按"指引vs实际"标注,推算部分标 🆪<br>20. ⚠️ <strong>单厂商市占核实困难</strong>:Hamamatsu Photonics 自身不披露市占,权威第三方报告(Yole)完整版需付费,公开渠道仅能获取 🔵 券商"估算/引用"的碎片化信息,无法形成≥2源交叉验证;本轮仅验证其业务体量(FY25 光电子 2,012 亿日元)<br>21. ⚠️ <strong>母子公司倒挂陷阱</strong>:永鼎股份 26Q1 归母净利 -45.19% 来自上期同一控制下企业合并非经常性收益 2.4 亿(本期无此事项)+ 光棒电缆毛利率受铜价波动下滑,与光芯片子公司鼎芯光电业务无关;鼎芯光电 26Q1 营收 1.12 亿 >2025 全年,EML+CW 激光器月均 50 万只(完全相反方向)<br>22. ⚠️ <strong>业绩预告兑现核实</strong>:光库科技 26Q1 预告归母净利 4,370-4,587 万 → 实际 4,512 万(+316.2%),精准落在区间内,误差<3%;验证预告纪律:预告未经审计,以正式季报为准;若预告区间与实际偏离>20% 需重新评估公司预告机制可信度<br>23. ⚠️ <strong>跨赛道映射陷阱(深化)</strong>:中际旭创 26Q1 预付款 23.11 亿(+358.2%)是典型的"锁单保供"行为,对应光芯片/电芯片的产能保证金,与 PCB 赛道投资通信测试设备在商业逻辑和会计科目上完全不同;不可线性映射<br><br><strong>【路径 A 升级(2026-06-17)· 4 问/卡口双轨打通】</strong><br>24. ⚠️ <strong>4 问是卡口的硬约束</strong>:源杰/仕佳 strength 从原 ★★★ 降为 ★★☆,因 4 问中 q3(替代缺位)/q1(寡头) 未完全过——这是方法论的预期结果(单一票 4 问不全过 ≠ 不值得跟踪,而是卡位强度不极致)。<strong>单票 4 问全过 = ★★★(光库/罗博特科)/ 3 过 = ★★☆(源杰)/ 2 过 = null(仕佳/赛微)</strong><br>25. ⚠️ <strong>4 问与卡口双视图必须打通</strong>:本赛道 5 段四问(激光器/探测器/硅光 PIC/调制/反向-设备)= 5 颗个股卡口(光库/源杰/罗博特科/赛微/仕佳),每段 stocks[] 与卡口[] 交叉引用,用户可在 4 问视图看"哪只票过几问" → 卡口视图直接看"那只是 ★★★/★★☆"。反向段(设备)显式标 <code>choke: false</code> 是方法论预期结果,占位 = 显式标"不构成卡口",与 PCB 制造段对齐'
+  methodologyNotes: '🆪 本赛道核心方法论:<br>1. 严格区分"全球市占率"与"国产化率"(中国市场自给率),二者不可混淆<br>2. 严格区分"上游光芯片"与"下游光模块/收发器"市场规模(2026E AI 光模块 260 亿美元 ≠ 上游光芯片)<br>3. 卡口评级 ★★★/★★☆ 严格按 ≥2 源命中率 + 1.6T/3.2T 关键节点卡位 + 海外寡头验证<br>4. ⚠️ G3 反向陷阱:罗博特科 26Q1 整体亏损不能映射到 ficonTEC 光通信业务下行(光伏设备承压是主因)<br>5. ⚠️ 财报粉饰陷阱:长光华芯 26Q1 表观扭亏(归母 +159.73%)但扣非续亏 -1,156.8 万,不可挂钩"光芯片业务回暖"<br>6. ⚠️ 跨赛道映射陷阱:华峰/长川/精测是"传统半导体测试设备",不能映射至"光通信测试"子板块<br>7. ⚠️ 绝对化表述陷阱:"国内唯一/首家"等需 ≥2 源支撑,否则降级改写<br>8. ⚠️ 估值工具陷阱:early-stage 公司(长华/源杰/光库)TTM 失真,需切 forward PE 或 PS;光库 5 年 97.68% 极高分位,赛微 5 年 42.23% 中位 — 同业 PE 差异 5-10 倍<br>9. ⚠️ 母子公司倒挂陷阱:永鼎 26Q1 净利 -45.19% 是线缆/投资收益基数,不能映射到子公司鼎芯光电萎缩<br>10. ⚠️ 价值链误导陷阱:InP 衬底国产化 ≠ 200G EML 自主可控(中间还有外延/晶圆制造)<br><br><strong>【DeepSeek 第 2 轮新增 4 个陷阱】</strong><br>11. ⚠️ <strong>巨潮一手陷阱</strong>:DeepSeek 联网搜不到 2026-04 季报 PDF(中际旭创/永鼎),需手工进巨潮"最新公告"栏目筛(可能原因:① 季报尚未上传 ② 搜索关键词不匹配 ③ PDF 抓取权限)<br>12. ⚠️ <strong>巨潮页面口径错配陷阱</strong>:光库/源杰等公司巨潮页面可能显示单月数据(源杰 0.14 亿/0.84 亿 vs 一季报 3.55 亿/1.79 亿),需直接查 PDF 公告而非概要页<br>13. ⚠️ <strong>政策焦点反转陷阱</strong>:本赛道出口管制实际是"中国对 InP 出口管制"(2025-02 实施 + 2026 铟出口锁定年产 30% 以内),不是美国 BIS;市场关注焦点从 BIS 转向中国商务部(美国 BIS 官网直接命中困难,需精确 CFR 条款编号)<br>14. ⚠️ <strong>Cignal AI 口径分裂陷阱</strong>:同一机构出现"500 万只"和"1000 万只"两个数字,需严格区分"出货量/出货金额/端口数量";行业 3000 万只与 Cignal AI 500-1000 万只差异 3-6 倍,需逐机构口径厘清<br><br><strong>【DeepSeek 第 2 轮新发现 4 个】</strong><br>15. 🟢 InP 衬底 CR3 91%(Yole 2020):住友 42% + AXT 36% + JX 13% — 比早期 60%+35% 更精确<br>16. 🟢 200G EML 供给端物理瓶颈:200G EML 缺口 25-30% 不是单纯需求侧拉动,是 MOCVD 外延生长 + 良率爬坡的物理产能天花板<br>17. 🟢 全球 APD 市场 1.42 亿美元(2024) + 前 5 大厂商占 47%(Hamamatsu 等) — 探测器赛道整体规模明确但单厂商市占无源<br>18. 🟢 北美四大 CSP 2026 资本开支指引:Meta +59-87% / Google +91-102% / Amazon +53% / Microsoft "增速高于 2025"(从"放缓"180 度逆转)<br><br><strong>【DeepSeek 第 4 轮 A 块 5 项巨潮一手 + B 块 10 项横向对比(2026-06-17)】</strong><br>19. ⚠️ <strong>软指引陷阱</strong>:Microsoft CFO 在 FY26Q2 电话会给出"全年 Capex 持续增长但增速放缓"定性指引,无精确全年数字;guidance ≠ actual,本轮已严格按"指引vs实际"标注,推算部分标 🆪<br>20. ⚠️ <strong>单厂商市占核实困难</strong>:Hamamatsu Photonics 自身不披露市占,权威第三方报告(Yole)完整版需付费,公开渠道仅能获取 🔵 券商"估算/引用"的碎片化信息,无法形成≥2源交叉验证;本轮仅验证其业务体量(FY25 光电子 2,012 亿日元)<br>21. ⚠️ <strong>母子公司倒挂陷阱</strong>:永鼎股份 26Q1 归母净利 -45.19% 来自上期同一控制下企业合并非经常性收益 2.4 亿(本期无此事项)+ 光棒电缆毛利率受铜价波动下滑,与光芯片子公司鼎芯光电业务无关;鼎芯光电 26Q1 营收 1.12 亿 >2025 全年,EML+CW 激光器月均 50 万只(完全相反方向)<br>22. ⚠️ <strong>业绩预告兑现核实</strong>:光库科技 26Q1 预告归母净利 4,370-4,587 万 → 实际 4,512 万(+316.2%),精准落在区间内,误差<3%;验证预告纪律:预告未经审计,以正式季报为准;若预告区间与实际偏离>20% 需重新评估公司预告机制可信度<br>23. ⚠️ <strong>跨赛道映射陷阱(深化)</strong>:中际旭创 26Q1 预付款 23.11 亿(+358.2%)是典型的"锁单保供"行为,对应光芯片/电芯片的产能保证金,与 PCB 赛道投资通信测试设备在商业逻辑和会计科目上完全不同;不可线性映射<br><br><strong>【路径 A 升级(2026-06-17)· 4 问/卡口双轨打通】</strong><br>24. ⚠️ <strong>4 问是卡口的硬约束</strong>:源杰/仕佳 strength 从原 ★★★ 降为 ★★☆,因 4 问中 q3(替代缺位)/q1(寡头) 未完全过——这是方法论的预期结果(单一票 4 问不全过 ≠ 不值得跟踪,而是卡位强度不极致)。<strong>单票 4 问全过 = ★★★(光库/罗博特科)/ 3 过 = ★★☆(源杰)/ 2 过 = null(仕佳/赛微)</strong><br>25. ⚠️ <strong>4 问与卡口双视图必须打通</strong>:本赛道 5 段四问(激光器/探测器/硅光 PIC/调制/反向-设备)= 5 颗个股卡口(光库/源杰/罗博特科/赛微/仕佳),每段 stocks[] 与卡口[] 交叉引用,用户可在 4 问视图看"哪只票过几问" → 卡口视图直接看"那只是 ★★★/★★☆"。反向段(设备)显式标 <code>choke: false</code> 是方法论预期结果,占位 = 显式标"不构成卡口",与 PCB 制造段对齐',
+  // ==================== B类数据层 (2026-06-17 Gemini端注入) ====================
+  // 38 条记录 (跨 segment 重复),每条 4 字段 (market_share/capacity/clients/policy)
+  // 数据截止 2023 年报 + 2024Q1 报告口径(基期与 A 类 26Q1 错开 1 年)
+  // 处理规则:
+  //   - 9 存疑 B 方案: media 单源客户/合作类 ①+⚠️ 注脚,份额类降 estimate+🆪
+  //   - 6 推算 ③ 标记: feedsChoke=false/feedsProsperity=false(不参与卡口/prosperity 打分)
+  //   - 3 seg5 截断 (300308/300502/002281 in seg5): 同 seg2 硅光 PIC(用户拍板)
+  // ==================== 注入日期:2026-06-17 · 待 G8 通过 ====================
+  bclass: {
+    // seg0 · 源杰科技
+    '688498-seg0': {
+          'name': "源杰科技",
+          'code': "688498",
+          'segment': "seg0",
+          'segmentName': "激光器芯片(DFB/EML/CW)",
+          'market_share': {
+            'value': "2023年国产10G DFB激光器芯片市占率约40%,25G DFB约15%(国内厂商第一);全球10G DFB市占率约1.8%",
+            'tier': "broker",
+            'src': "天风证券 2024-02-01 + 国金证券 2024-01-15",
+            'flag': "①",
+            'asOf': "2024-02-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年激光器芯片产能约7200万颗/年,晶圆产能约1.2万片/年(4英寸)",
+            'tier': "primary",
+            'src': "源杰科技2023年年报 2024-04-20 + 华泰证券 2024-04-25",
+            'flag': "①",
+            'asOf': "2024-04-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "中际旭创、光迅科技、华工科技、铭普光磁、烽火通信",
+            'tier': "primary",
+            'src': "源杰科技招股说明书 2022-08-18 + 光纤在线 2023-03-15",
+            'flag': "①",
+            'asOf': "2022-08-18",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "国发〔2020〕8号集成电路政策+十四五光电子产业规划,所得税优惠+研发补贴",
+            'tier': "primary",
+            'src': "国务院 2020-08-04 + 半导体产业网 2023-01-05",
+            'flag': "①",
+            'asOf': "2020-08-04",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg0 · 长光华芯
+    '688048-seg0': {
+          'name': "长光华芯",
+          'code': "688048",
+          'segment': "seg0",
+          'segmentName': "激光器芯片(DFB/EML/CW)",
+          'market_share': {
+            'value': "2023年国内高功率半导体激光芯片市占率约35%,VCSEL芯片国内份额约20%",
+            'tier': "broker",
+            'src': "中信证券 2024-03-20 + 民生证券 2024-02-28",
+            'flag': "①",
+            'asOf': "2024-03-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年边发射激光芯片产能约1000万颗/月,VCSEL晶圆产能约500片/月",
+            'tier': "primary",
+            'src': "长光华芯2023年年报 2024-04-15 + 广发证券 2024-04-18",
+            'flag': "①",
+            'asOf': "2024-04-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "锐科激光、杰普特、大族激光、奔腾激光",
+            'tier': "primary",
+            'src': "长光华芯招股说明书 2022-03-15 + 光电汇 2023-02-01",
+            'flag': "①",
+            'asOf': "2022-03-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "十四五智能制造发展规划+江苏省光子产业链链主",
+            'tier': "primary",
+            'src': "工信部 2021-12-30 + 天风证券 2024-01-10",
+            'flag': "①",
+            'asOf': "2021-12-30",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg0 · 仕佳光子
+    '688313-seg0': {
+          'name': "仕佳光子",
+          'code': "688313",
+          'segment': "seg0",
+          'segmentName': "激光器芯片(DFB/EML/CW)",
+          'market_share': {
+            'value': "2023年国产PLC分路器芯片全球市占率约50%,AWG芯片国内份额约30%",
+            'tier': "broker",
+            'src': "国泰君安 2024-02-10 + 申万宏源 2024-01-20",
+            'flag': "①",
+            'asOf': "2024-02-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年PLC晶圆产能约10万片/年,DFB激光器芯片产能约500万颗/年",
+            'tier': "primary",
+            'src': "仕佳光子2023年年报 2024-03-28 + 东方证券 2024-04-02",
+            'flag': "①",
+            'asOf': "2024-03-28",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "华为、中兴、烽火、中国移动",
+            'tier': "primary",
+            'src': "仕佳光子招股说明书 2022-07-10 + C114通信网 2023-05-10",
+            'flag': "①",
+            'asOf': "2022-07-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "工信部专精特新小巨人+增值税即征即退",
+            'tier': "primary",
+            'src': "工信部 2022-09-01 + 河南日报 2023-02-15",
+            'flag': "①",
+            'asOf': "2022-09-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg0 · 永鼎股份
+    '600105-seg0': {
+          'name': "永鼎股份",
+          'code': "600105",
+          'segment': "seg0",
+          'segmentName': "激光器芯片(DFB/EML/CW)",
+          'market_share': {
+            'value': "2023年国内光芯片(FP/DFB)市占率约3%,主要集中于10G及以下产品",
+            'tier': "broker",
+            'src': "安信证券 2024-03-05 + 光电通信 2024-01-18",
+            'flag': "①",
+            'asOf': "2024-03-05",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "光芯片年产约1200万颗(含外购管芯封装)",
+            'tier': "estimate",
+            'src': "永鼎股份2023年年报 2024-04-25 + 产业链调研推算",
+            'flag': "③⚠️推算非披露",
+            'asOf': "2024-05-01",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "推算依据:产能根据营收及均价推算"
+          },
+          'clients': {
+            'value': "三大运营商及部分设备商",
+            'tier': "media",
+            'src': "公司官网 2023-12-01 + 安信证券 2024-03-05",
+            'flag': "①",
+            'asOf': "2023-12-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "光纤光缆反倾销政策+东数西算光网络建设",
+            'tier': "primary",
+            'src': "商务部反倾销公告 2023-12-01 + 通信世界 2024-01-01",
+            'flag': "①",
+            'asOf': "2023-12-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg0 · 三安光电
+    '600703-seg0': {
+          'name': "三安光电",
+          'code': "600703",
+          'segment': "seg0",
+          'segmentName': "激光器芯片(DFB/EML/CW)",
+          'market_share': {
+            'value': "2023年全球化合物半导体(含光芯片)市占率约3%,国内LED芯片市占率超40%,激光器芯片(VCSEL/边发射)份额约5%",
+            'tier': "broker",
+            'src': "中金公司 2024-01-12 + 兴业证券 2024-02-20",
+            'flag': "①",
+            'asOf': "2024-01-12",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年光通信VCSEL芯片产能约200万颗/月,边发射激光芯片产能约100万颗/月",
+            'tier': "primary",
+            'src': "三安光电2023年年报 2024-04-10 + 华创证券 2024-04-15",
+            'flag': "①",
+            'asOf': "2024-04-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "苹果(VCSEL)、华为、中兴、诺基亚",
+            'tier': "media",
+            'src': "DigiTimes 2023-12-12 + 中金公司 2024-01-12",
+            'flag': "①⚠️media单源",
+            'asOf': "2023-12-12",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ 苹果供应系媒体推测,未获公司确认(B 方案:客户/合作类保留①+⚠️注脚)"
+          },
+          'policy': {
+            'value': "国家大基金重点支持+集成电路产业政策+福建省光电产业规划",
+            'tier': "primary",
+            'src': "国家大基金投资公告 2023-06-10 + 福建省工信厅 2023-01-15",
+            'flag': "①",
+            'asOf': "2023-06-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg0 · 华工科技
+    '000988-seg0': {
+          'name': "华工科技",
+          'code': "000988",
+          'segment': "seg0",
+          'segmentName': "激光器芯片(DFB/EML/CW)",
+          'market_share': {
+            'value': "2023年国内光模块用激光器(子公司华工正源)出货量市占约8%,10G及以下DFB自供率约30%",
+            'tier': "broker",
+            'src': "长城证券 2024-03-15 + 东吴证券 2024-02-28",
+            'flag': "①",
+            'asOf': "2024-03-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年自产激光器芯片(FP/DFB)约300万颗/月,外购补充500万颗/月",
+            'tier': "primary",
+            'src': "华工科技2023年年报 2024-04-18 + 长城证券 2024-03-15",
+            'flag': "①",
+            'asOf': "2024-04-18",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "华为、阿里、腾讯、百度、三大运营商",
+            'tier': "primary",
+            'src': "华工科技2023年年报 2024-04-18 + 讯石光通讯 2024-01-01",
+            'flag': "①",
+            'asOf': "2024-04-18",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "国家光电子信息产业基地+武汉光谷政策+高新技术企业税收优惠",
+            'tier': "primary",
+            'src': "武汉东湖高新区管委会 2023-12-20 + 湖北日报 2024-01-05",
+            'flag': "①",
+            'asOf': "2023-12-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg1 · 源杰科技
+    '688498-seg1': {
+          'name': "源杰科技",
+          'code': "688498",
+          'segment': "seg1",
+          'segmentName': "探测器芯片(PD/APD)",
+          'market_share': {
+            'value': "2023年国产PIN/APD探测器芯片市占率不足2%,主要集中于10G APD",
+            'tier': "estimate",
+            'src': "西部证券 2024-02-20 + 光纤在线 2024-01-10",
+            'flag': "①降档",
+            'asOf': "2024-02-20",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "⚠️ 份额类降 estimate(B 方案),不参与卡口/prosperity 打分"
+          },
+          'capacity': {
+            'value': "探测器芯片年产能约300万颗(与激光器共用晶圆线)",
+            'tier': "estimate",
+            'src': "源杰科技2023年年报 2024-04-20 + 设备利用率推算",
+            'flag': "③⚠️推算非披露",
+            'asOf': "2024-05-01",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "推算依据:未单独披露探测器产能,按产线共用估测"
+          },
+          'clients': {
+            'value': "中际旭创、华工科技、铭普光磁",
+            'tier': "broker",
+            'src': "光电汇 2024-03-01 + 天风证券 2024-02-01",
+            'flag': "①",
+            'asOf': "2024-03-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "同激光器环节,享受集成电路和光电子政策",
+            'tier': "primary",
+            'src': "国务院国发〔2020〕8号 2020-08-04",
+            'flag': "①",
+            'asOf': "2020-08-04",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg1 · 长光华芯
+    '688048-seg1': {
+          'name': "长光华芯",
+          'code': "688048",
+          'segment': "seg1",
+          'segmentName': "探测器芯片(PD/APD)",
+          'market_share': {
+            'value': "2023年探测器芯片(主要用于激光雷达接收端)国内份额约8%",
+            'tier': "estimate",
+            'src': "民生证券 2024-02-28 + 激光制造网 2024-03-25",
+            'flag': "①降档",
+            'asOf': "2024-02-28",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "⚠️ 份额类降 estimate(B 方案),不参与卡口/prosperity 打分"
+          },
+          'capacity': {
+            'value': "探测器芯片产能约50万颗/月(基于VCSEL工艺线扩展)",
+            'tier': "estimate",
+            'src': "根据公司产线规划推算 + 光电汇 2024-03-15",
+            'flag': "③⚠️推算非披露",
+            'asOf': "2024-04-01",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "推算依据:未单独披露探测器产能,由行业专家推测"
+          },
+          'clients': {
+            'value': "禾赛科技、速腾聚创、图达通",
+            'tier': "media",
+            'src': "激光雷达产业网 2024-02-01 + 中信证券 2024-01-20",
+            'flag': "①",
+            'asOf': "2024-02-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "激光雷达列入国家智能汽车创新发展战略,探测器芯片受政策扶持",
+            'tier': "primary",
+            'src': "发改委《智能汽车创新发展战略》 2020-02-10 + 盖世汽车 2024-01-01",
+            'flag': "①",
+            'asOf': "2020-02-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg1 · 炬光科技
+    '688167-seg1': {
+          'name': "炬光科技",
+          'code': "688167",
+          'segment': "seg1",
+          'segmentName': "探测器芯片(PD/APD)",
+          'market_share': {
+            'value': "2023年全球高功率半导体激光器及探测器组件市占率约5%,国内工业探测器芯片份额约12%",
+            'tier': "broker",
+            'src': "华安证券 2024-01-25 + 国联证券 2024-02-10",
+            'flag': "①",
+            'asOf': "2024-01-25",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年探测器产能约200万只/年(含光电探测器模组)",
+            'tier': "primary",
+            'src': "炬光科技2023年年报 2024-04-22 + 华安证券 2024-01-25",
+            'flag': "①",
+            'asOf': "2024-04-22",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "大族激光、锐科激光、Lumentum、ams OSRAM",
+            'tier': "primary",
+            'src': "炬光科技招股说明书 2022-05-20 + 光子探索 2024-01-06",
+            'flag': "①",
+            'asOf': "2022-05-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "陕西省光子产业创新中心成员+先进制造和半导体税收优惠",
+            'tier': "primary",
+            'src': "陕西省工信厅 2023-11-01 + 陕西日报 2023-12-01",
+            'flag': "①",
+            'asOf': "2023-11-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg1 · 水晶光电
+    '002273-seg1': {
+          'name': "水晶光电",
+          'code': "002273",
+          'segment': "seg1",
+          'segmentName': "探测器芯片(PD/APD)",
+          'market_share': {
+            'value': "2023年红外截止滤光片及光探测器窗口片全球市占率约25%",
+            'tier': "broker",
+            'src': "招商证券 2024-01-30 + 申万宏源 2024-02-15",
+            'flag': "①",
+            'asOf': "2024-01-30",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年窄带滤光片及探测器窗口年产能约5亿片",
+            'tier': "primary",
+            'src': "水晶光电2023年年报 2024-04-12 + 招商证券 2024-01-30",
+            'flag': "①",
+            'asOf': "2024-04-12",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "苹果、华为、OPPO、vivo、小米",
+            'tier': "primary",
+            'src': "水晶光电2023年年报 2024-04-12 + 艾邦光学 2024-02-20",
+            'flag': "①",
+            'asOf': "2024-04-12",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "消费电子产业链政策+台州光电产业园扶持",
+            'tier': "primary",
+            'src': "台州市人民政府 2023-12-01 + 浙江在线 2024-01-15",
+            'flag': "①",
+            'asOf': "2023-12-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg1 · 奥比中光
+    '688322-seg1': {
+          'name': "奥比中光",
+          'code': "688322",
+          'segment': "seg1",
+          'segmentName': "探测器芯片(PD/APD)",
+          'market_share': {
+            'value': "2023年全球3D视觉传感器(含探测器芯片)市占率约2%,国内服务机器人领域市占率超50%",
+            'tier': "broker",
+            'src': "东方财富证券 2024-01-18 + 传感器专家网 2024-02-01",
+            'flag': "①",
+            'asOf': "2024-01-18",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年3D视觉模组产能约300万套/年,探测器芯片外购为主",
+            'tier': "primary",
+            'src': "奥比中光2023年年报 2024-04-28 + 东方财富证券 2024-01-18",
+            'flag': "①",
+            'asOf': "2024-04-28",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "石头科技、科沃斯、微软、英伟达",
+            'tier': "media",
+            'src': "奥比中光招股说明书 2022-06-20 + 雷锋网 2024-01-12",
+            'flag': "①⚠️media单源",
+            'asOf': "2024-01-12",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ 英伟达合作系媒体早期报道,需最新确认(B 方案:客户/合作类保留①+⚠️注脚)"
+          },
+          'policy': {
+            'value': "人工智能及机器人产业政策+深圳市3D视觉产业链扶持",
+            'tier': "primary",
+            'src': "深圳市工信局 2023-11-10 + 深圳特区报 2024-01-01",
+            'flag': "①",
+            'asOf': "2023-11-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg2 · 罗博特科
+    '300757-seg2': {
+          'name': "罗博特科",
+          'code': "300757",
+          'segment': "seg2",
+          'segmentName': "硅光 PIC(设计+代工/材料)",
+          'market_share': {
+            'value': "2023年国内硅光模块耦合设备市占率约70%(主要供货中际旭创等)",
+            'tier': "broker",
+            'src': "浙商证券 2024-03-20 + 国盛证券 2024-02-15",
+            'flag': "①",
+            'asOf': "2024-03-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年硅光耦合设备产能约50台/年,订单饱满",
+            'tier': "primary",
+            'src': "罗博特科2023年年报 2024-04-20 + 浙商证券 2024-03-20",
+            'flag': "①",
+            'asOf': "2024-04-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "中际旭创、新易盛、华工科技、光迅科技",
+            'tier': "primary",
+            'src': "罗博特科2023年年报 2024-04-20 + 光纤在线 2024-03-01",
+            'flag': "①",
+            'asOf': "2024-04-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "国家智能制造装备政策+硅光集成列入重点研发计划",
+            'tier': "primary",
+            'src': "科技部重点研发计划申报指南 2024-01-10 + 中国光学期刊网 2024-01-02",
+            'flag': "①",
+            'asOf': "2024-01-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg2 · 光库科技
+    '300620-seg2': {
+          'name': "光库科技",
+          'code': "300620",
+          'segment': "seg2",
+          'segmentName': "硅光 PIC(设计+代工/材料)",
+          'market_share': {
+            'value': "2023年全球铌酸锂调制器芯片(PIC相关)市占率约10%,国内薄膜铌酸锂领先",
+            'tier': "broker",
+            'src': "德邦证券 2024-01-22 + 华西证券 2024-02-05",
+            'flag': "①",
+            'asOf': "2024-01-22",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年铌酸锂芯片(薄膜)产线产能约1000片/年(4英寸)",
+            'tier': "primary",
+            'src': "光库科技2023年年报 2024-04-10 + 德邦证券 2024-01-22",
+            'flag': "①",
+            'asOf': "2024-04-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "华为、中兴、烽火、诺基亚",
+            'tier': "primary",
+            'src': "光库科技2023年年报 2024-04-10 + C114通信网 2024-01-20",
+            'flag': "①",
+            'asOf': "2024-04-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "珠海高新区光电产业扶持+集成电路政策",
+            'tier': "primary",
+            'src': "珠海高新区管委会 2023-12-15 + 珠海特区报 2024-01-01",
+            'flag': "①",
+            'asOf': "2023-12-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg2 · 赛微电子
+    '300456-seg2': {
+          'name': "赛微电子",
+          'code': "300456",
+          'segment': "seg2",
+          'segmentName': "硅光 PIC(设计+代工/材料)",
+          'market_share': {
+            'value': "2023年全球MEMS硅光子代工市占率约1%,国内领先",
+            'tier': "estimate",
+            'src': "海通证券 2024-01-30 + 半导体行业观察 2024-02-15",
+            'flag': "①降档",
+            'asOf': "2024-01-30",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "⚠️ 份额类降 estimate(B 方案),不参与卡口/prosperity 打分"
+          },
+          'capacity': {
+            'value': "2023年MEMS硅光晶圆产能约500片/月(8英寸)",
+            'tier': "primary",
+            'src': "赛微电子2023年年报 2024-04-18 + 海通证券 2024-01-30",
+            'flag': "①",
+            'asOf': "2024-04-18",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "多家硅光设计公司(包括国外初创)",
+            'tier': "broker",
+            'src': "MEMS咨询 2024-03-10 + 海通证券 2024-01-30",
+            'flag': "②待补",
+            'asOf': "2024-03-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "MEMS列入国家重点研发计划+瑞典产线纳入一带一路技术合作",
+            'tier': "primary",
+            'src': "科技部MEMS专项 2023-12-01 + 中国电子报 2024-01-05",
+            'flag': "①",
+            'asOf': "2023-12-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg2 · 中际旭创
+    '300308-seg2': {
+          'name': "中际旭创",
+          'code': "300308",
+          'segment': "seg2",
+          'segmentName': "硅光 PIC(设计+代工/材料)",
+          'market_share': {
+            'value': "2023年全球光模块(含硅光方案)市占率第一约20%;800G硅光模块出货领先",
+            'tier': "broker",
+            'src': "华泰证券 2024-02-10 + 摩根士丹利 2024-01-20",
+            'flag': "①",
+            'asOf': "2024-02-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年光模块总产能约1800万只/年,硅光模块约300万只/年",
+            'tier': "primary",
+            'src': "中际旭创2023年年报 2024-04-25 + 华泰证券 2024-02-10",
+            'flag': "①",
+            'asOf': "2024-04-25",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "Google、Meta、Amazon、微软、华为",
+            'tier': "primary",
+            'src': "中际旭创2023年年报 2024-04-25 + LightCounting 2024-01-15",
+            'flag': "①",
+            'asOf': "2024-04-25",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "数据通信新基建+5G/数据中心建设+苏州市光电产业集群扶持",
+            'tier': "primary",
+            'src': "苏州市政府 2023-12-10 + 苏州日报 2024-01-01",
+            'flag': "①",
+            'asOf': "2023-12-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg2 · 光迅科技
+    '002281-seg2': {
+          'name': "光迅科技",
+          'code': "002281",
+          'segment': "seg2",
+          'segmentName': "硅光 PIC(设计+代工/材料)",
+          'market_share': {
+            'value': "2023年全球光器件市占率约6%,硅光芯片自研能力行业前列",
+            'tier': "broker",
+            'src': "中信建投 2024-01-28 + 东北证券 2024-02-08",
+            'flag': "①",
+            'asOf': "2024-01-28",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年光芯片(含硅光)年产约800万颗,光模块产能约1200万只",
+            'tier': "primary",
+            'src': "光迅科技2023年年报 2024-04-22 + 中信建投 2024-01-28",
+            'flag': "①",
+            'asOf': "2024-04-22",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "华为、中兴、烽火、腾讯、阿里巴巴",
+            'tier': "primary",
+            'src': "光迅科技2023年年报 2024-04-22 + 讯石光通讯 2024-03-01",
+            'flag': "①",
+            'asOf': "2024-04-22",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "国家光电子创新中心承建单位+武汉东湖高新区专项支持",
+            'tier': "primary",
+            'src': "工信部国家制造业创新中心名单 2022-10-01 + 武汉东湖高新区管委会 2024-01-10",
+            'flag': "①",
+            'asOf': "2022-10-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg2 · 新易盛
+    '300502-seg2': {
+          'name': "新易盛",
+          'code': "300502",
+          'segment': "seg2",
+          'segmentName': "硅光 PIC(设计+代工/材料)",
+          'market_share': {
+            'value': "2023年全球光模块市占率约4%,硅光模块导入进度快,400G/800G份额提升",
+            'tier': "broker",
+            'src': "招商证券 2024-01-18 + 广发证券 2024-02-25",
+            'flag': "①",
+            'asOf': "2024-01-18",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年光模块产能约800万只/年,硅光模块约100万只/年",
+            'tier': "primary",
+            'src': "新易盛2023年年报 2024-04-15 + 招商证券 2024-01-18",
+            'flag': "①",
+            'asOf': "2024-04-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "Arista、Juniper、华为、Nokia",
+            'tier': "primary",
+            'src': "新易盛2023年年报 2024-04-15 + Lightwave 2024-01-20",
+            'flag': "①",
+            'asOf': "2024-04-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "成都市光通信产业规划+西部大开发税收优惠",
+            'tier': "primary",
+            'src': "成都市经信局 2023-11-20 + 国家税务总局西部大开发目录 2021-01-01",
+            'flag': "①",
+            'asOf': "2023-11-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg2 · 华工科技
+    '000988-seg2': {
+          'name': "华工科技",
+          'code': "000988",
+          'segment': "seg2",
+          'segmentName': "硅光 PIC(设计+代工/材料)",
+          'market_share': {
+            'value': "2023年全球光模块市占率约2%,自研硅光芯片用于400G模块",
+            'tier': "broker",
+            'src': "长城证券 2024-03-15 + 东吴证券 2024-02-28",
+            'flag': "①",
+            'asOf': "2024-03-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "硅光模块产能约50万只/年(子公司华工正源)",
+            'tier': "primary",
+            'src': "华工科技2023年年报 2024-04-18 + 长城证券 2024-03-15",
+            'flag': "①",
+            'asOf': "2024-04-18",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "同激光器环节",
+            'tier': "primary",
+            'src': "华工科技2023年年报 2024-04-18",
+            'flag': "①",
+            'asOf': "2024-04-18",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "同上",
+            'tier': "primary",
+            'src': "武汉东湖高新区管委会 2023-12-20",
+            'flag': "①",
+            'asOf': "2023-12-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg2 · 腾景科技
+    '688195-seg2': {
+          'name': "腾景科技",
+          'code': "688195",
+          'segment': "seg2",
+          'segmentName': "硅光 PIC(设计+代工/材料)",
+          'market_share': {
+            'value': "2023年硅光模块微光学元件(PIC耦合接口)国内份额约25%",
+            'tier': "estimate",
+            'src': "国信证券 2024-03-10 + 光学前沿 2024-02-20",
+            'flag': "①降档",
+            'asOf': "2024-03-10",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "⚠️ 份额类降 estimate(B 方案),不参与卡口/prosperity 打分"
+          },
+          'capacity': {
+            'value': "2023年精密光学元件产能约1.5亿件/年,其中硅光相关约2000万件",
+            'tier': "primary",
+            'src': "腾景科技2023年年报 2024-04-12 + 国信证券 2024-03-10",
+            'flag': "①",
+            'asOf': "2024-04-12",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "中际旭创、新易盛、华工科技、Finisar",
+            'tier': "primary",
+            'src': "腾景科技招股说明书 2022-04-25 + 讯石光通讯 2024-01-10",
+            'flag': "①",
+            'asOf': "2022-04-25",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "福建省精密光学产业扶持+福州市光电产业链",
+            'tier': "primary",
+            'src': "福州市工信局 2023-12-01 + 福州日报 2024-01-05",
+            'flag': "①",
+            'asOf': "2023-12-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg3 · 光库科技
+    '300620-seg3': {
+          'name': "光库科技",
+          'code': "300620",
+          'segment': "seg3",
+          'segmentName': "调制/合分波芯片(MZM/TFLN/AWG)",
+          'market_share': {
+            'value': "2023年国内电光调制器芯片(铌酸锂)市占率超60%,全球约8%",
+            'tier': "broker",
+            'src': "德邦证券 2024-01-22 + 华西证券 2024-02-05",
+            'flag': "①",
+            'asOf': "2024-01-22",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "同seg2硅光PIC,铌酸锂调制器芯片产能1000片/年",
+            'tier': "primary",
+            'src': "光库科技2023年年报 2024-04-10",
+            'flag': "①",
+            'asOf': "2024-04-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "同seg2",
+            'tier': "primary",
+            'src': "光库科技2023年年报 2024-04-10",
+            'flag': "①",
+            'asOf': "2024-04-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "同seg2",
+            'tier': "primary",
+            'src': "珠海高新区管委会 2023-12-15",
+            'flag': "①",
+            'asOf': "2023-12-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg3 · 仕佳光子
+    '688313-seg3': {
+          'name': "仕佳光子",
+          'code': "688313",
+          'segment': "seg3",
+          'segmentName': "调制/合分波芯片(MZM/TFLN/AWG)",
+          'market_share': {
+            'value': "2023年PLC调制器芯片国内份额约45%,AWG芯片国内份额约30%",
+            'tier': "broker",
+            'src': "国泰君安 2024-02-10 + 申万宏源 2024-01-20",
+            'flag': "①",
+            'asOf': "2024-02-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "同seg0激光器,PLC晶圆10万片/年,部分用于调制器",
+            'tier': "primary",
+            'src': "仕佳光子2023年年报 2024-03-28",
+            'flag': "①",
+            'asOf': "2024-03-28",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "同seg0",
+            'tier': "primary",
+            'src': "仕佳光子招股说明书 2022-07-10",
+            'flag': "①",
+            'asOf': "2022-07-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "同seg0",
+            'tier': "primary",
+            'src': "工信部专精特新名单 2022-09-01",
+            'flag': "①",
+            'asOf': "2022-09-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg3 · 中兴通讯
+    '000063-seg3': {
+          'name': "中兴通讯",
+          'code': "000063",
+          'segment': "seg3",
+          'segmentName': "调制/合分波芯片(MZM/TFLN/AWG)",
+          'market_share': {
+            'value': "2023年光传输设备及自研相干调制芯片出货量全球份额约10%,国内第一",
+            'tier': "broker",
+            'src': "中金公司 2024-02-15 + 瑞银证券 2024-01-25",
+            'flag': "①",
+            'asOf': "2024-02-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "调制器芯片采用 Fabless 模式,不单独披露产能;依赖代工",
+            'tier': "estimate",
+            'src': "中兴通讯2023年年报 2024-03-28 + 根据出货量推算",
+            'flag': "③⚠️推算非披露",
+            'asOf': "2024-05-01",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "推算依据:Fabless 无自有产能,出货量估计约 100 万颗/年"
+          },
+          'clients': {
+            'value': "三大运营商、政企客户,自用为主",
+            'tier': "primary",
+            'src': "中兴通讯2023年年报 2024-03-28",
+            'flag': "①",
+            'asOf': "2024-03-28",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "5G/6G通信政策+国家科技重大专项支持+深圳5G创新中心",
+            'tier': "primary",
+            'src': "工信部5G推进组 2023-11-01 + 深圳市发改委 2023-12-01",
+            'flag': "①",
+            'asOf': "2023-11-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg3 · 天孚通信
+    '300394-seg3': {
+          'name': "天孚通信",
+          'code': "300394",
+          'segment': "seg3",
+          'segmentName': "调制/合分波芯片(MZM/TFLN/AWG)",
+          'market_share': {
+            'value': "2023年光模块调制器TOSA/ROSA组件国内份额约15%",
+            'tier': "broker",
+            'src': "国联证券 2024-01-12 + 光大证券 2024-02-20",
+            'flag': "①",
+            'asOf': "2024-01-12",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年光引擎组件产能约5000万只/年",
+            'tier': "primary",
+            'src': "天孚通信2023年年报 2024-04-08 + 国联证券 2024-01-12",
+            'flag': "①",
+            'asOf': "2024-04-08",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "中际旭创、华工科技、光迅科技、新易盛",
+            'tier': "primary",
+            'src': "天孚通信2023年年报 2024-04-08 + 光纤在线 2024-03-15",
+            'flag': "①",
+            'asOf': "2024-04-08",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "苏州工业园区光电产业政策+高新技术企业优惠",
+            'tier': "primary",
+            'src': "苏州工业园区管委会 2023-12-15",
+            'flag': "①",
+            'asOf': "2023-12-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg3 · 太辰光
+    '300570-seg3': {
+          'name': "太辰光",
+          'code': "300570",
+          'segment': "seg3",
+          'segmentName': "调制/合分波芯片(MZM/TFLN/AWG)",
+          'market_share': {
+            'value': "2023年光调制器用陶瓷插芯/套筒全球市占率约8%",
+            'tier': "estimate",
+            'src': "华西证券 2024-01-15 + 讯石光通讯 2024-01-20",
+            'flag': "①降档",
+            'asOf': "2024-01-15",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "⚠️ 份额类降 estimate(B 方案),不参与卡口/prosperity 打分"
+          },
+          'capacity': {
+            'value': "2023年陶瓷插芯产能约3亿只/年,光纤连接器约5000万端/年",
+            'tier': "primary",
+            'src': "太辰光2023年年报 2024-03-30 + 华西证券 2024-01-15",
+            'flag': "①",
+            'asOf': "2024-03-30",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "运营商、设备商(康宁、古河等)",
+            'tier': "primary",
+            'src': "太辰光2023年年报 2024-03-30",
+            'flag': "①",
+            'asOf': "2024-03-30",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "光通信连接器件列入双千兆网络建设利好",
+            'tier': "primary",
+            'src': "工信部双千兆行动计划 2022-03-20 + 通信世界 2024-01-15",
+            'flag': "①",
+            'asOf': "2022-03-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg4 · 罗博特科
+    '300757-seg4': {
+          'name': "罗博特科",
+          'code': "300757",
+          'segment': "seg4",
+          'segmentName': "光芯片测试与封装设备",
+          'market_share': {
+            'value': "2023年光模块及硅光测试设备市占率约20%,耦合测试国内领先",
+            'tier': "broker",
+            'src': "浙商证券 2024-03-20 + 国盛证券 2024-02-15",
+            'flag': "①",
+            'asOf': "2024-03-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "测试设备产能依托整机装配,2023年交付约30台套",
+            'tier': "primary",
+            'src': "罗博特科2023年年报 2024-04-20",
+            'flag': "①",
+            'asOf': "2024-04-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "同seg2",
+            'tier': "primary",
+            'src': "罗博特科2023年年报 2024-04-20",
+            'flag': "①",
+            'asOf': "2024-04-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "同seg2",
+            'tier': "primary",
+            'src': "科技部重点研发计划 2024-01-10",
+            'flag': "①",
+            'asOf': "2024-01-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg4 · 华峰测控
+    '688200-seg4': {
+          'name': "华峰测控",
+          'code': "688200",
+          'segment': "seg4",
+          'segmentName': "光芯片测试与封装设备",
+          'market_share': {
+            'value': "2023年国内模拟/混合信号测试机市占率约30%,光芯片测试机份额约10%",
+            'tier': "broker",
+            'src': "华创证券 2024-01-25 + 国海证券 2024-02-15",
+            'flag': "①",
+            'asOf': "2024-01-25",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年测试系统产能约1000台/年,光芯片测试系统占比较小",
+            'tier': "primary",
+            'src': "华峰测控2023年年报 2024-04-15 + 华创证券 2024-01-25",
+            'flag': "①",
+            'asOf': "2024-04-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "长电科技、华天科技、通富微电、三安光电",
+            'tier': "primary",
+            'src': "华峰测控招股说明书 2022-08-08 + 半导体封测 2024-01-10",
+            'flag': "①",
+            'asOf': "2022-08-08",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "集成电路测试设备国产替代政策+首台套保险补偿",
+            'tier': "primary",
+            'src': "工信部首台套重大技术装备目录 2023-09-01 + 中国电子报 2024-01-05",
+            'flag': "①",
+            'asOf': "2023-09-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg4 · 长川科技
+    '300604-seg4': {
+          'name': "长川科技",
+          'code': "300604",
+          'segment': "seg4",
+          'segmentName': "光芯片测试与封装设备",
+          'market_share': {
+            'value': "2023年国内半导体测试机(分选机)市占率约15%,光芯片测试尚未形成规模",
+            'tier': "broker",
+            'src': "中泰证券 2024-02-10 + 方正证券 2024-01-20",
+            'flag': "①",
+            'asOf': "2024-02-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年测试系统产能约800台/年",
+            'tier': "primary",
+            'src': "长川科技2023年年报 2024-04-10",
+            'flag': "①",
+            'asOf': "2024-04-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "华为海思、华天科技、通富微电、士兰微",
+            'tier': "primary",
+            'src': "长川科技招股说明书 2022-05-30 + 半导体设备在线 2024-01-15",
+            'flag': "①",
+            'asOf': "2022-05-30",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "半导体设备国产化政策+大基金二期投资",
+            'tier': "primary",
+            'src': "国家集成电路产业投资基金二期公告 2023-09-15 + 中国证券报 2024-01-01",
+            'flag': "①",
+            'asOf': "2023-09-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg4 · 精测电子
+    '300567-seg4': {
+          'name': "精测电子",
+          'code': "300567",
+          'segment': "seg4",
+          'segmentName': "光芯片测试与封装设备",
+          'market_share': {
+            'value': "2023年平板显示检测设备国内市占率约40%,半导体检测(含光芯片)份额约3%",
+            'tier': "broker",
+            'src': "东方证券 2024-01-22 + 西南证券 2024-02-10",
+            'flag': "①",
+            'asOf': "2024-01-22",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "2023年检测设备总产能约2000台套,光芯片测试模组刚起步",
+            'tier': "primary",
+            'src': "精测电子2023年年报 2024-03-30",
+            'flag': "①",
+            'asOf': "2024-03-30",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "京东方、TCL华星、天马微电子,半导体端有小批量",
+            'tier': "primary",
+            'src': "精测电子2023年年报 2024-03-30",
+            'flag': "①",
+            'asOf': "2024-03-30",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "新型显示产业政策+半导体检测列入重点研发计划",
+            'tier': "primary",
+            'src': "工信部新型显示产业指导意见 2023-07-01 + 显示世界 2024-01-05",
+            'flag': "①",
+            'asOf': "2023-07-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg4 · 普源精电
+    '688337-seg4': {
+          'name': "普源精电",
+          'code': "688337",
+          'segment': "seg4",
+          'segmentName': "光芯片测试与封装设备",
+          'market_share': {
+            'value': "2023年国内电子测量仪器市占率约6%,光芯片测试用高精度源表份额微小",
+            'tier': "estimate",
+            'src': "长江证券 2024-03-10 + 电子工程世界 2024-02-10",
+            'flag': "①降档",
+            'asOf': "2024-03-10",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "⚠️ 份额类降 estimate(B 方案),不参与卡口/prosperity 打分"
+          },
+          'capacity': {
+            'value': "2023年仪器产能约2万台,光芯片测试系统为定制化,年产百台级别",
+            'tier': "estimate",
+            'src': "普源精电2023年年报 2024-04-20 + 根据招标信息推算",
+            'flag': "③⚠️推算非披露",
+            'asOf': "2024-05-01",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "推算依据:定制设备未公开产能,按中标项目估计"
+          },
+          'clients': {
+            'value': "高校及研究所、半导体企业(如中芯国际、华为)",
+            'tier': "media",
+            'src': "公司官网案例 2024-01-01 + 长江证券 2024-03-10",
+            'flag': "②待补",
+            'asOf': "2024-01-01",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "⚠️ 份额类降 estimate(B 方案),不参与卡口/prosperity 打分"
+          },
+          'policy': {
+            'value': "科学仪器国产化政策+研发费用加计扣除",
+            'tier': "primary",
+            'src': "科技部科学仪器设备研发计划 2023-10-01 + 仪器信息网 2024-01-02",
+            'flag': "①",
+            'asOf': "2023-10-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg4 · 鼎阳科技
+    '688112-seg4': {
+          'name': "鼎阳科技",
+          'code': "688112",
+          'segment': "seg4",
+          'segmentName': "光芯片测试与封装设备",
+          'market_share': {
+            'value': "2023年国内通用电子测试测量仪器市占率约4%,光芯片眼图仪等份额尚小",
+            'tier': "estimate",
+            'src': "国盛证券 2024-01-30 + 测试测量社区 2024-02-20",
+            'flag': "①降档",
+            'asOf': "2024-01-30",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "⚠️ 份额类降 estimate(B 方案),不参与卡口/prosperity 打分"
+          },
+          'capacity': {
+            'value': "2023年产能约3万台仪器,光相关测试设备约500台",
+            'tier': "estimate",
+            'src': "鼎阳科技2023年年报 2024-04-25 + 根据产品线营收比推算",
+            'flag': "③⚠️推算非披露",
+            'asOf': "2024-05-01",
+            'feedsChoke': false,
+            'feedsProsperity': false,
+            'note': "推算依据:未单独披露光芯片测试产能,按产品结构估计"
+          },
+          'clients': {
+            'value': "教育科研机构、电子制造企业(如富士康)",
+            'tier': "primary",
+            'src': "鼎阳科技招股说明书 2022-09-15",
+            'flag': "①",
+            'asOf': "2022-09-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "国产仪器替代进口政策+深圳市精密仪器产业集群",
+            'tier': "primary",
+            'src': "深圳市发改委仪器专项 2023-11-01 + 深圳商报 2024-01-01",
+            'flag': "①",
+            'asOf': "2023-11-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg5 · 中际旭创
+    '300308-seg5': {
+          'name': "中际旭创",
+          'code': "300308",
+          'segment': "seg5",
+          'segmentName': "模块应用与下游集成(光模块整链)",
+          'market_share': {
+            'value': "同seg2,全球光模块市占率第一约20%",
+            'tier': "broker",
+            'src': "同seg2(2023-2024Q1基期,2026Q1未在 seg5 截断段更新)",
+            'flag': "①同源",
+            'asOf': "2024-04-25",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          },
+          'capacity': {
+            'value': "同seg2,光模块总产能1800万只/年",
+            'tier': "primary",
+            'src': "同seg2",
+            'flag': "①同源",
+            'asOf': "2024-04-25",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          },
+          'clients': {
+            'value': "同seg2",
+            'tier': "primary",
+            'src': "同seg2",
+            'flag': "①同源",
+            'asOf': "2024-04-25",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          },
+          'policy': {
+            'value': "同seg2",
+            'tier': "primary",
+            'src': "同seg2",
+            'flag': "①同源",
+            'asOf': "2023-12-10",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          }
+        },
+    // seg5 · 新易盛
+    '300502-seg5': {
+          'name': "新易盛",
+          'code': "300502",
+          'segment': "seg5",
+          'segmentName': "模块应用与下游集成(光模块整链)",
+          'market_share': {
+            'value': "同seg2,全球光模块市占率约4%",
+            'tier': "broker",
+            'src': "同seg2",
+            'flag': "①同源",
+            'asOf': "2024-04-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          },
+          'capacity': {
+            'value': "同seg2,光模块产能800万只/年",
+            'tier': "primary",
+            'src': "同seg2",
+            'flag': "①同源",
+            'asOf': "2024-04-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          },
+          'clients': {
+            'value': "同seg2",
+            'tier': "primary",
+            'src': "同seg2",
+            'flag': "①同源",
+            'asOf': "2024-04-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          },
+          'policy': {
+            'value': "同seg2",
+            'tier': "primary",
+            'src': "同seg2",
+            'flag': "①同源",
+            'asOf': "2023-11-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          }
+        },
+    // seg5 · 光迅科技
+    '002281-seg5': {
+          'name': "光迅科技",
+          'code': "002281",
+          'segment': "seg5",
+          'segmentName': "模块应用与下游集成(光模块整链)",
+          'market_share': {
+            'value': "同seg2,全球光器件市占率约6%",
+            'tier': "broker",
+            'src': "同seg2",
+            'flag': "①同源",
+            'asOf': "2024-04-22",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          },
+          'capacity': {
+            'value': "同seg2",
+            'tier': "primary",
+            'src': "同seg2",
+            'flag': "①同源",
+            'asOf': "2024-04-22",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          },
+          'clients': {
+            'value': "同seg2",
+            'tier': "primary",
+            'src': "同seg2",
+            'flag': "①同源",
+            'asOf': "2024-04-22",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          },
+          'policy': {
+            'value': "同seg2",
+            'tier': "primary",
+            'src': "同seg2",
+            'flag': "①同源",
+            'asOf': "2022-10-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': "⚠️ seg5 截断 3 段之一,字段引自 seg2 硅光 PIC(用户拍板,2026Q1 26Q1 未在 seg5 段更新)"
+          }
+        },
+    // seg5 · 华工科技
+    '000988-seg5': {
+          'name': "华工科技",
+          'code': "000988",
+          'segment': "seg5",
+          'segmentName': "模块应用与下游集成(光模块整链)",
+          'market_share': {
+            'value': "同激光器环节",
+            'tier': "primary",
+            'src': "同seg0",
+            'flag': "①",
+            'asOf': "2024-03-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "同seg0",
+            'tier': "primary",
+            'src': "同seg0",
+            'flag': "①",
+            'asOf': "2024-04-18",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "同seg0",
+            'tier': "primary",
+            'src': "同seg0",
+            'flag': "①",
+            'asOf': "2024-04-18",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "同seg0",
+            'tier': "primary",
+            'src': "同seg0",
+            'flag': "①",
+            'asOf': "2023-12-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg5 · 剑桥科技
+    '603083-seg5': {
+          'name': "剑桥科技",
+          'code': "603083",
+          'segment': "seg5",
+          'segmentName': "模块应用与下游集成(光模块整链)",
+          'market_share': {
+            'value': "—(业务待补)",
+            'tier': "estimate",
+            'src': "未单独披露,沿用 seg5 占位",
+            'flag': "②待补",
+            'asOf': "2024-05-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "—(业务待补)",
+            'tier': "estimate",
+            'src': "未单独披露",
+            'flag': "②待补",
+            'asOf': "2024-05-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "—(业务待补)",
+            'tier': "estimate",
+            'src': "未单独披露",
+            'flag': "②待补",
+            'asOf': "2024-05-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "光通信+小基站产业政策",
+            'tier': "primary",
+            'src': "工信部双千兆行动计划 + 通信世界 2024-01-15",
+            'flag': "①",
+            'asOf': "2022-03-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg5 · 天孚通信
+    '300394-seg5': {
+          'name': "天孚通信",
+          'code': "300394",
+          'segment': "seg5",
+          'segmentName': "模块应用与下游集成(光模块整链)",
+          'market_share': {
+            'value': "同seg3",
+            'tier': "broker",
+            'src': "同seg3(国联证券 2024-01-12 + 光大证券 2024-02-20)",
+            'flag': "①",
+            'asOf': "2024-01-12",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "同seg3",
+            'tier': "primary",
+            'src': "同seg3",
+            'flag': "①",
+            'asOf': "2024-04-08",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "同seg3",
+            'tier': "primary",
+            'src': "同seg3",
+            'flag': "①",
+            'asOf': "2024-04-08",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "同seg3",
+            'tier': "primary",
+            'src': "同seg3",
+            'flag': "①",
+            'asOf': "2023-12-15",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg5 · 联特科技
+    '301205-seg5': {
+          'name': "联特科技",
+          'code': "301205",
+          'segment': "seg5",
+          'segmentName': "模块应用与下游集成(光模块整链)",
+          'market_share': {
+            'value': "—(业务待补)",
+            'tier': "estimate",
+            'src': "未单独披露,沿用 seg5 占位",
+            'flag': "②待补",
+            'asOf': "2024-05-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "—(业务待补)",
+            'tier': "estimate",
+            'src': "未单独披露",
+            'flag': "②待补",
+            'asOf': "2024-05-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "—(业务待补)",
+            'tier': "estimate",
+            'src': "未单独披露",
+            'flag': "②待补",
+            'asOf': "2024-05-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "马来工厂规避关税+光通信产业政策",
+            'tier': "primary",
+            'src': "工信部双千兆行动计划 2022-03-20 + 通信世界 2024-01-15",
+            'flag': "①",
+            'asOf': "2022-03-20",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        },
+    // seg5 · 博创科技
+    '300548-seg5': {
+          'name': "博创科技",
+          'code': "300548",
+          'segment': "seg5",
+          'segmentName': "模块应用与下游集成(光模块整链)",
+          'market_share': {
+            'value': "—(业务待补)",
+            'tier': "estimate",
+            'src': "未单独披露,沿用 seg5 占位",
+            'flag': "②待补",
+            'asOf': "2024-05-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'capacity': {
+            'value': "—(业务待补)",
+            'tier': "estimate",
+            'src': "未单独披露",
+            'flag': "②待补",
+            'asOf': "2024-05-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'clients': {
+            'value': "—(业务待补)",
+            'tier': "estimate",
+            'src': "未单独披露",
+            'flag': "②待补",
+            'asOf': "2024-05-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          },
+          'policy': {
+            'value': "PLC 光分路器+AWG 国产化政策",
+            'tier': "primary",
+            'src': "工信部专精特新名单 2022-09-01",
+            'flag': "①",
+            'asOf': "2022-09-01",
+            'feedsChoke': true,
+            'feedsProsperity': true,
+            'note': null
+          }
+        }
+  },
+  // ==================== A类数据层 (2026-06-17 akshare 注入) ====================
+  // 27 unique × 5 字段 (营收/归母/毛利率/PE-TTM/PE 3 年分位)
+  // 数据 100% 来自 akshare/新浪财经(基于公司季报) + akshare/百度股市通(基于历史PE-TTM)
+  // tier: primary 全部;3 只 PE 失真(亏损期)pe_ttm=null 但 percentile 保留
+  // ==================== 注入日期:2026-06-17 · 待 G8 通过 ====================
+  aclass: {
+    // 中兴通讯 (000063)
+    '000063': {
+      'name': "中兴通讯",
+      'code': '000063',
+      'revenue_wan': 3498805.70,
+      'parent_wan': 131044.40,
+      'gross_margin_pct': 28.28,
+      'eps': 0.2700,
+      'valAsOf': "2026-04-25",
+      'pe_ttm': 40.24,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 98.46,
+      'pe_history_n': 65,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': 4.83,
+      'qoq_parent_pct': 343.08,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 华工科技 (000988)
+    '000988': {
+      'name': "华工科技",
+      'code': '000988',
+      'revenue_wan': 426585.57,
+      'parent_wan': 63846.19,
+      'gross_margin_pct': 19.81,
+      'eps': 0.6400,
+      'valAsOf': "2026-04-27",
+      'pe_ttm': 100.89,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 98.65,
+      'pe_history_n': 74,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': 28.61,
+      'qoq_parent_pct': 327.10,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 水晶光电 (002273)
+    '002273': {
+      'name': "水晶光电",
+      'code': '002273',
+      'revenue_wan': 172074.37,
+      'parent_wan': 24667.61,
+      'gross_margin_pct': 29.47,
+      'eps': 0.1800,
+      'valAsOf': "2026-04-23",
+      'pe_ttm': 41.47,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 95.45,
+      'pe_history_n': 110,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -4.68,
+      'qoq_parent_pct': 30.44,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 光迅科技 (002281)
+    '002281': {
+      'name': "光迅科技",
+      'code': '002281',
+      'revenue_wan': 277335.28,
+      'parent_wan': 23993.17,
+      'gross_margin_pct': 26.83,
+      'eps': 0.3000,
+      'valAsOf': "2026-04-23",
+      'pe_ttm': 193.30,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 99.18,
+      'pe_history_n': 122,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -18.36,
+      'qoq_parent_pct': 5.53,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 中际旭创 (300308)
+    '300308': {
+      'name': "中际旭创",
+      'code': '300308',
+      'revenue_wan': 1949639.81,
+      'parent_wan': 573450.15,
+      'gross_margin_pct': 46.06,
+      'eps': 5.1800,
+      'valAsOf': "2026-04-17",
+      'pe_ttm': 95.20,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 97.81,
+      'pe_history_n': 137,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': 47.31,
+      'qoq_parent_pct': 56.45,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 天孚通信 (300394)
+    '300394': {
+      'name': "天孚通信",
+      'code': '300394',
+      'revenue_wan': 133027.02,
+      'parent_wan': 49221.89,
+      'gross_margin_pct': 56.60,
+      'eps': 0.6331,
+      'valAsOf': "2026-04-21",
+      'pe_ttm': 165.41,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 99.45,
+      'pe_history_n': 183,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': 6.85,
+      'qoq_parent_pct': -10.82,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 赛微电子 (300456)
+    '300456': {
+      'name': "赛微电子",
+      'code': '300456',
+      'revenue_wan': 9854.25,
+      'parent_wan': -4909.90,
+      'gross_margin_pct': 16.51,
+      'eps': -0.0671,
+      'valAsOf': "2026-04-23",
+      'pe_ttm': 21.98,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 63.93,
+      'pe_history_n': 183,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -30.70,
+      'qoq_parent_pct': 52.04,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 新易盛 (300502)
+    '300502': {
+      'name': "新易盛",
+      'code': '300502',
+      'revenue_wan': 833790.20,
+      'parent_wan': 278022.30,
+      'gross_margin_pct': 49.16,
+      'eps': 2.8000,
+      'valAsOf': "2026-04-24",
+      'pe_ttm': 72.43,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 88.18,
+      'pe_history_n': 220,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': 0.01,
+      'qoq_parent_pct': -13.25,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 博创科技 (300548)
+    '300548': {
+      'name': "博创科技",
+      'code': '300548',
+      'revenue_wan': 67060.56,
+      'parent_wan': 13006.73,
+      'gross_margin_pct': 49.22,
+      'eps': 0.4500,
+      'valAsOf': "2026-04-29",
+      'pe_ttm': 211.93,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 96.82,
+      'pe_history_n': 220,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -9.27,
+      'qoq_parent_pct': 53.24,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 精测电子 (300567)
+    '300567': {
+      'name': "精测电子",
+      'code': '300567',
+      'revenue_wan': 73946.98,
+      'parent_wan': 4271.20,
+      'gross_margin_pct': 45.44,
+      'eps': 0.1500,
+      'valAsOf': "2026-04-28",
+      'pe_ttm': 692.69,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 99.55,
+      'pe_history_n': 220,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -31.33,
+      'qoq_parent_pct': 336.39,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 太辰光 (300570)
+    '300570': {
+      'name': "太辰光",
+      'code': '300570',
+      'revenue_wan': 34076.45,
+      'parent_wan': 6577.88,
+      'gross_margin_pct': 37.80,
+      'eps': 0.2900,
+      'valAsOf': "2026-04-24",
+      'pe_ttm': 211.70,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 99.55,
+      'pe_history_n': 220,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': 2.49,
+      'qoq_parent_pct': 70.28,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 长川科技 (300604)
+    '300604': {
+      'name': "长川科技",
+      'code': '300604',
+      'revenue_wan': 137847.06,
+      'parent_wan': 35254.03,
+      'gross_margin_pct': 56.81,
+      'eps': 0.5571,
+      'valAsOf': "2026-04-25",
+      'pe_ttm': 106.49,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 71.90,
+      'pe_history_n': 274,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -8.87,
+      'qoq_parent_pct': -24.34,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 光库科技 (300620)
+    '300620': {
+      'name': "光库科技",
+      'code': '300620',
+      'revenue_wan': 42646.54,
+      'parent_wan': 4473.64,
+      'gross_margin_pct': 36.63,
+      'eps': 0.1795,
+      'valAsOf': "2026-04-23",
+      'pe_ttm': 467.68,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 99.55,
+      'pe_history_n': 220,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -10.32,
+      'qoq_parent_pct': -27.10,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 罗博特科 (300757)
+    '300757': {
+      'name': "罗博特科",
+      'code': '300757',
+      'revenue_wan': 16370.62,
+      'parent_wan': -3881.80,
+      'gross_margin_pct': 36.31,
+      'eps': -0.2300,
+      'valAsOf': "2026-04-29",
+      'pe_ttm': null,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 5.46,
+      'pe_history_n': 366,
+      'pe_distorted': true,
+      'pe_distorted_reason': "PE-TTM 失真(亏损期)",
+      'qoq_revenue_pct': -69.31,
+      'qoq_parent_pct': -567.21,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 联特科技 (301205)
+    '301205': {
+      'name': "联特科技",
+      'code': '301205',
+      'revenue_wan': 21335.97,
+      'parent_wan': 304.58,
+      'gross_margin_pct': 43.44,
+      'eps': 0.0235,
+      'valAsOf': "2026-04-29",
+      'pe_ttm': 500.21,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 99.36,
+      'pe_history_n': 1095,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -48.08,
+      'qoq_parent_pct': -85.69,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 永鼎股份 (600105)
+    '600105': {
+      'name': "永鼎股份",
+      'code': '600105',
+      'revenue_wan': 124566.93,
+      'parent_wan': 15882.62,
+      'gross_margin_pct': 26.20,
+      'eps': 0.1086,
+      'valAsOf': "2026-04-21",
+      'pe_ttm': 898.19,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 98.46,
+      'pe_history_n': 65,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -24.80,
+      'qoq_parent_pct': 266.39,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 三安光电 (600703)
+    '600703': {
+      'name': "三安光电",
+      'code': '600703',
+      'revenue_wan': 290693.16,
+      'parent_wan': 6749.22,
+      'gross_margin_pct': 18.48,
+      'eps': 0.0100,
+      'valAsOf': "2026-04-25",
+      'pe_ttm': null,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 24.59,
+      'pe_history_n': 61,
+      'pe_distorted': true,
+      'pe_distorted_reason': "PE-TTM 失真(亏损期)",
+      'qoq_revenue_pct': -29.65,
+      'qoq_parent_pct': 115.28,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 剑桥科技 (603083)
+    '603083': {
+      'name': "剑桥科技",
+      'code': '603083',
+      'revenue_wan': 128655.19,
+      'parent_wan': 11832.90,
+      'gross_margin_pct': 29.33,
+      'eps': 0.3400,
+      'valAsOf': "2026-04-28",
+      'pe_ttm': 213.66,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 92.70,
+      'pe_history_n': 274,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -12.09,
+      'qoq_parent_pct': 2722.62,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 长光华芯 (688048)
+    '688048': {
+      'name': "长光华芯",
+      'code': '688048',
+      'revenue_wan': 12992.87,
+      'parent_wan': 447.96,
+      'gross_margin_pct': 30.09,
+      'eps': 0.0254,
+      'valAsOf': "2026-04-18",
+      'pe_ttm': 1940.79,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 84.47,
+      'pe_history_n': 1095,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -5.84,
+      'qoq_parent_pct': 445.28,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 鼎阳科技 (688112)
+    '688112': {
+      'name': "鼎阳科技",
+      'code': '688112',
+      'revenue_wan': 16192.32,
+      'parent_wan': 3834.30,
+      'gross_margin_pct': 64.24,
+      'eps': 0.2400,
+      'valAsOf': "2026-04-24",
+      'pe_ttm': 87.99,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 99.91,
+      'pe_history_n': 1095,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -5.05,
+      'qoq_parent_pct': 22.72,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 炬光科技 (688167)
+    '688167': {
+      'name': "炬光科技",
+      'code': '688167',
+      'revenue_wan': 20538.58,
+      'parent_wan': -1320.26,
+      'gross_margin_pct': 43.24,
+      'eps': -0.1500,
+      'valAsOf': "2026-04-29",
+      'pe_ttm': null,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 0.00,
+      'pe_history_n': 1095,
+      'pe_distorted': true,
+      'pe_distorted_reason': "PE-TTM 失真(亏损期)",
+      'qoq_revenue_pct': -22.97,
+      'qoq_parent_pct': 67.53,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 腾景科技 (688195)
+    '688195': {
+      'name': "腾景科技",
+      'code': '688195',
+      'revenue_wan': 17117.10,
+      'parent_wan': 1443.38,
+      'gross_margin_pct': 37.22,
+      'eps': 0.1100,
+      'valAsOf': "2026-04-25",
+      'pe_ttm': 530.12,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 93.25,
+      'pe_history_n': 548,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': 6.71,
+      'qoq_parent_pct': 111.83,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 华峰测控 (688200)
+    '688200': {
+      'name': "华峰测控",
+      'code': '688200',
+      'revenue_wan': 27180.76,
+      'parent_wan': 9420.73,
+      'gross_margin_pct': 75.30,
+      'eps': 0.7000,
+      'valAsOf': "2026-04-29",
+      'pe_ttm': 128.39,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 99.73,
+      'pe_history_n': 366,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -33.23,
+      'qoq_parent_pct': -36.85,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 仕佳光子 (688313)
+    '688313': {
+      'name': "仕佳光子",
+      'code': '688313',
+      'revenue_wan': 57659.30,
+      'parent_wan': 11617.59,
+      'gross_margin_pct': 34.13,
+      'eps': 0.2570,
+      'valAsOf': "2026-04-18",
+      'pe_ttm': 193.87,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 78.10,
+      'pe_history_n': 548,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': 1.39,
+      'qoq_parent_pct': 60.22,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 奥比中光 (688322)
+    '688322': {
+      'name': "奥比中光",
+      'code': '688322',
+      'revenue_wan': 20288.79,
+      'parent_wan': 3099.66,
+      'gross_margin_pct': 48.58,
+      'eps': 0.0800,
+      'valAsOf': "2026-04-25",
+      'pe_ttm': 389.49,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 92.42,
+      'pe_history_n': 1095,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -10.52,
+      'qoq_parent_pct': 55.83,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 普源精电 (688337)
+    '688337': {
+      'name': "普源精电",
+      'code': '688337',
+      'revenue_wan': 23156.39,
+      'parent_wan': 2315.03,
+      'gross_margin_pct': 58.10,
+      'eps': 0.1200,
+      'valAsOf': "2026-04-21",
+      'pe_ttm': 144.45,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 99.91,
+      'pe_history_n': 1095,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': -23.54,
+      'qoq_parent_pct': -49.03,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    },
+    // 源杰科技 (688498)
+    '688498': {
+      'name': "源杰科技",
+      'code': '688498',
+      'revenue_wan': 35527.85,
+      'parent_wan': 17944.20,
+      'gross_margin_pct': 77.81,
+      'eps': 2.0900,
+      'valAsOf': "2026-04-28",
+      'pe_ttm': 563.68,
+      'pe_date': "2026-06-17",
+      'pe_percentile_3y': 71.14,
+      'pe_history_n': 1095,
+      'pe_distorted': false,
+      'pe_distorted_reason': null,
+      'qoq_revenue_pct': 62.83,
+      'qoq_parent_pct': 111.03,
+      'tier': 'primary',
+      'src_fin': 'akshare/新浪财经(基于公司季报)',
+      'src_pe': 'akshare/百度股市通(基于历史PE-TTM)'
+    }
+  },
 };
+
 
 })(window.CHAINS);
