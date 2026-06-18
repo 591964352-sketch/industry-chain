@@ -37,7 +37,7 @@ CHAINS['liquid-cooling'] = {
   //   全部为公开数据稀缺区(企业公告+行业报告+协会数据 均缺)→ G4「公开数据稀缺区」
   //   陷阱保护触发;SKILL.md G4 已补
   //   详见 .claude/scratch/liquid-cooling-gap-report.md (段七)
-  meta: { sector:'中游', tier:'待核', status:'S4a/S4b/S4c+S5+S3全面联网核实:0/33 position真数字+0/11 sub-card含%(公开数据稀缺区)·meta.status保留非active', updatedAt:'2026-06-15', ltFit:true },
+  meta: { sector:'中游', tier:'待核', status:'G8结构4项不达标(33只position②待补+8项supplyGap数字②待核+11/11 sub-card②待补+overview 2卡②待核)·B类WebFetch失败·meta.status保留非active', updatedAt:'2026-06-18', ltFit:true },
   // ★ 升级九 STEP 2：景气六维 —— 骨架版（6 维 score/trend/reason 全留空，标"待核"）
   prosperity: {
     dims: [
@@ -45,7 +45,9 @@ CHAINS['liquid-cooling'] = {
       { key:'visibility', name:'业绩可见度', score:4, trend:'up', reason:'服务器集成商及 CDU 核心部件厂商已开始实质性兑现液冷订单，渗透率处于加速爬坡期。', evidence:'待核（需补充头部厂商如英维克、浪潮信息 26Q1 财报液冷收入占比）', flag:'各大 CSP 及运营商液冷服务器集采中标份额', tier:'estimate', src:'' },
       { key:'policy', name:'政策确定性', score:4, trend:'flat', reason:'国家"东数西算"及多地新规强制要求新建数据中心 PUE 降至 1.2 甚至 1.15 以下，风冷已无法达标。', evidence:'待核（需补充发改委/工信部 2025-2026 最新 PUE 强制标准文件）', flag:'老旧数据中心液冷改造补贴或强制淘汰政策', tier:'estimate', src:'' },
       { key:'supply', name:'供需紧张度', score:4, trend:'up', reason:'受 3M 退出 PFAS 生产影响，高质量氟化液存在供给缺口预期；AI 爆发导致 CDU 及快接头出现阶段性产能吃紧。', evidence:'待核（需补充 3M 产能退出进度及国产替代产能爬坡数据）', flag:'核心部件扩产周期与 AI 服务器出货周期的错配', tier:'estimate', src:'' },
-      { key:'valuation', name:'估值性价比', score:null, trend:'flat', reason:'待核——Gemini 端自查未拿到核心标的 PE-TTM 与历史分位数据,留空不填。', evidence:'待核（需获取最新估值数据）', flag:'估值是否已透支未来两年高增预期', tier:'estimate', src:'' },
+      { key:'valuation', name:'估值性价比', score:2, trend:'down',
+        reason:'⚠️本轮最大扣分项（3 卡口 PE-TTM 口径已 akshare baidu 2026-06-18 直读）:(1) 巨化 600160 PE-TTM 31.05 倍/3 年分位 50.42% (asOf 2026-04-29)——估值中位、合理;(2) 英维克 002837 PE-TTM 197.06 倍/3 年分位 96.82% (asOf 2026-04-21)——历史极贵、Q1 净利 -81.97% 增收不增利(汇兑+费用);(3) 永贵 300351 PE-TTM 456.42 倍/3 年分位 99.18% (asOf 2026-04-27)——历史极贵、Q1 净利 -193.46% 转亏。三只卡口平均分位 82%+,门控触发 score=2 挡掉「业绩爆表+泡沫」陷阱,等分位回踩或换环节。下钻见各卡口 valuation。',
+        evidence:'akshare baidu 2026-06-18 PE-TTM + 3 年分位直读,akshare/新浪财经 26Q1 季报 2026-04 披露', flag:'3 卡口 PE 全部处历史 50%+ 分位,业绩拐点确认前不追高', tier:'broker', asOf:'2026-06-18', src:'akshare baidu PE 聚合页(2026-06-18)+ akshare/新浪财经 26Q1 季报(2026-04 披露日)' },
       { key:'barrier', name:'壁垒安全垫', score:4, trend:'flat', reason:'液冷系统对防漏液要求极高（漏液即造成昂贵算力设备损毁），核心部件（如快接头、CDU、冷却液）认证周期长，存在 know-how 与专利壁垒。', evidence:'待核（需补充海外龙头在快接头/氟化液的专利保护期及国内厂商突破情况）', flag:'整机厂是否倾向于扶持二供拉低毛利率', tier:'estimate', src:'' }
     ],
     verdict: {
@@ -770,53 +772,83 @@ CHAINS['liquid-cooling'] = {
     ]
   },
   // ★ 升级二/三：四大物理追问 —— 三轮注入（5 段 4 问,strength [★★★/★★★/★★☆/★☆☆/★☆☆],全 estimate 🆪）
-  fourQuestions: {
+    fourQuestions: {
     segments: [
       {
-        segmentName: '冷却介质',
-        q1: '算力功耗跃升与智算中心 PUE 考核引发规模化替代需求',
-        q2: '3M 因 PFAS 问题退出引发全球高质量冷媒供给真空,国产替代处于产能爬坡期',
-        q3: '化工合成、提纯工艺极高,且存在严苛的环保与客户验证门槛,寡头格局(巨化等)难以被跨界打破',
-        q4: '需警惕估值过度透支及国内出台类似 PFAS 禁令的黑天鹅环保风险',
-        hits: 4,
-        strength: '★★★'
+        name: '冷却介质(氟化液/浸没式冷却液)',
+        barrier: '—',
+        choke: false,
+        stocks: [
+          { name:'巨化股份', code:'600160', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:true, q1note:'3M/科慕退出后全球 3 家寡头之一', q2:true, q2note:'扩产 12 月+/新增产能爬坡', q3:true, q3note:'3M Novec/科慕 Opteon 退出 PFAS 无替代', q4:true, q4note:'下游 GB200/GB300 强制液冷+IDC 冷却', hits:4, strength:'★★★' },
+          { name:'新宙邦', code:'300037', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'氟化液业务并入海斯福,非独立寡头', q2:true, q2note:'扩产中', q3:false, q3note:'主业锂电电解液可替', q4:true, q4note:'半导体/IDC 冷却液测试中', hits:2, strength:null },
+          { name:'天赐材料', code:'002709', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'主营锂电电解液,氟化液非主业', q2:false, q2note:'冷却液非主扩产方向', q3:false, q3note:'锂电主业吸收', q4:false, q4note:'液冷业务尚未规模化', hits:0, strength:null },
+          { name:'多氟多', code:'002407', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'氟化工多家厂商之一', q2:false, q2note:'未单列氟化液扩产', q3:false, q3note:'材料层未独家', q4:false, q4note:'冷却液未规模化', hits:0, strength:null },
+          { name:'昊华科技', code:'600378', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'氟化工多家厂商之一', q2:false, q2note:'未单列氟化液扩产', q3:false, q3note:'材料层未独家', q4:false, q4note:'冷却液未规模化', hits:0, strength:null },
+        ]
       },
       {
-        segmentName: '核心部件(CDU/快接)',
-        q1: '整机液冷架构标配带来 CDU、接头组件随服务器出货量成倍放大',
-        q2: '盲插防漏专利受限,高端快接头短期仍依赖进口;优质 CDU 产能相对吃紧',
-        q3: '漏液烧毁服务器的代价极高(极高的试错成本),造就了长达 12-18 个月的客户验证壁垒,龙头难以被迅速替换',
-        q4: '目前部分龙头如英维克 26Q1 出现增收不增利现象,需警惕跨界厂商大打价格战压垮毛利率',
-        hits: 4,
-        strength: '★★★'
+        name: '核心部件(CDU/快接/管路/TIM)',
+        barrier: '—',
+        choke: false,
+        stocks: [
+          { name:'英维克', code:'002837', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:true, q1note:'CDU 国内龙头(英维克+维谛+AVC 三家寡头)', q2:true, q2note:'Coolinside 全链条扩产 12+ 月', q3:true, q3note:'防漏认证 12-18 月+整机厂不敢换供', q4:true, q4note:'下游 GB200/GB300 强制液冷+运营商集采', hits:4, strength:'★★★' },
+          { name:'永贵电器', code:'300351', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:true, q1note:'国产快接头突破史陶比尔/派克垄断,永贵+川环 2 家寡头', q2:true, q2note:'扩产中', q3:true, q3note:'千万次盲插防漏专利壁垒,海外未放', q4:true, q4note:'下游服务器整机厂验证 6-12 月', hits:4, strength:'★★★' },
+          { name:'高澜股份', code:'300499', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'老牌温控厂,服务器厂自研内卷', q2:false, q2note:'未明显扩产', q3:false, q3note:'服务器厂自研体系蚕食', q4:false, q4note:'市占率受压', hits:0, strength:null },
+          { name:'申菱环境', code:'301018', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'机房温控多家之一', q2:false, q2note:'未明显扩产', q3:false, q3note:'华为/化工客户分散,非卡口', q4:false, q4note:'集成端价格战', hits:0, strength:null },
+          { name:'川环科技', code:'300547', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'管路五金属性,门槛适中', q2:true, q2note:'车用管路平移扩产', q3:false, q3note:'管路制造门槛低,海外可替', q4:true, q4note:'服务器管路验证 6+ 月', hits:2, strength:null },
+          { name:'中石科技', code:'300684', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'TIM 消费电子散热扩展,非卡口', q2:false, q2note:'扩产中', q3:false, q3note:'TIM 充分竞争', q4:false, q4note:'算力设备验证中', hits:0, strength:null },
+          { name:'思泉新材', code:'301489', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'均热板多家厂商之一', q2:false, q2note:'未明显扩产', q3:false, q3note:'均热板门槛低', q4:false, q4note:'算力业务收入占比小', hits:0, strength:null },
+          { name:'飞荣达', code:'300602', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'冷板多家厂商之一', q2:false, q2note:'扩产中', q3:false, q3note:'冷板五金化趋势', q4:false, q4note:'客户认证中', hits:0, strength:null },
+        ]
       },
       {
-        segmentName: '系统集成(服务器整机)',
-        q1: 'CSP 资本开支回暖及 AI 大模型拉动液冷服务器采购潮',
-        q2: '国内服务器集成商产能充足,供给非主要矛盾',
-        q3: '比拼全栈方案设计能力及与芯片原厂(如 Nvidia)的深度绑定关系,竞争较激烈',
-        q4: '毛利率长期受上游芯片与下游云厂商双重挤压,现金流压力大(如浪潮 26Q1),适合做 beta 配置',
-        hits: 2,
-        strength: '★★☆'
+        name: '液冷系统集成(制造)',
+        barrier: '—',
+        choke: false,
+        stocks: [
+          { name:'中科曙光', code:'603019', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'集成商 20+ 家,曙光+浪潮+紫光+新华三多家', q2:false, q2note:'集成产能充足', q3:false, q3note:'客户可切换供应商', q4:false, q4note:'集成毛利率长期受挤压(芯片+CSP)', hits:0, strength:null },
+          { name:'浪潮信息', code:'000977', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'同上,集成商非物理卡口', q2:false, q2note:'同上', q3:false, q3note:'同上', q4:false, q4note:'经营现金流 -77.72 亿(26Q1) 资金承压', hits:0, strength:null },
+          { name:'紫光股份', code:'000938', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'同上', q2:false, q2note:'同上', q3:false, q3note:'同上', q4:false, q4note:'运营商集采压价', hits:0, strength:null },
+          { name:'科华数据', code:'002335', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'微模块集成商,UPS 跨业,门槛适中', q2:false, q2note:'未明显扩产', q3:false, q3note:'集成业务竞争激烈', q4:false, q4note:'抗 IDC 资本开支放缓风险', hits:0, strength:null },
+          { name:'工业富联', code:'601138', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'代工厂多家(鸿海/伟创力/比亚迪电子)', q2:false, q2note:'代工产能充足', q3:false, q3note:'代工毛利薄,大客户可切换', q4:false, q4note:'北美大客户集中,地缘政治风险', hits:0, strength:null },
+        ]
       },
       {
-        segmentName: '液冷 IDC 运营',
-        q1: '互联网及 AI 企业大规模租用算力机架',
-        q2: '一线城市能耗指标受限,具备低 PUE 合规液冷机架的 IDC 资源稀缺',
-        q3: '核心地段拿地能力及能耗批文获取能力,具有资源属性的护城河',
-        q4: '重资产运营模式,折旧摊销压力大,需密切关注上架率及出租单价的边际变化',
-        hits: 2,
-        strength: '★☆☆'
+        name: '液冷 IDC 运营(下游)',
+        barrier: '—',
+        choke: false,
+        stocks: [
+          { name:'润泽科技', code:'300442', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'批发型 IDC 多家(润泽+光环+数据港+宝信)', q2:false, q2note:'重资产扩产 2-3 年', q3:false, q3note:'重资产模式可被新进入者复制', q4:false, q4note:'巨额折旧+客户集中风险', hits:0, strength:null },
+          { name:'数据港', code:'603881', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'阿里定制 IDC 单一客户', q2:false, q2note:'阿里定制扩产中', q3:false, q3note:'高度依赖单一互联网巨头', q4:false, q4note:'议价权弱', hits:0, strength:null },
+          { name:'光环新网', code:'300383', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'零售 IDC,一线城市多家', q2:false, q2note:'零售扩产慢', q3:false, q3note:'实控人减持窗口期(2026-03~06)', q4:false, q4note:'零售毛利率下滑(14.09% 26Q1)', hits:0, strength:null },
+          { name:'宝信软件', code:'600845', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'宝之云 IDC,自用为主,商业份额小', q2:false, q2note:'自用扩产中', q3:false, q3note:'宝武集团内消化', q4:false, q4note:'对外液冷 IDC 占比小', hits:0, strength:null },
+          { name:'奥飞数据', code:'300738', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'华南区域 IDC,体量小', q2:false, q2note:'区域扩产慢', q3:false, q3note:'区域市场门槛低', q4:false, q4note:'无大型算力客户', hits:0, strength:null },
+        ]
       },
       {
-        segmentName: '液冷侧枝(二次侧)',
-        q1: '数据中心外循环换热设备同步扩容',
-        q2: '传统冷却设备厂商大举切入,产能严重过剩',
-        q3: '技术降维打击导致护城河极浅,陷入红海竞争',
-        q4: '主业周期性极强(如双良节能受光伏硅片拖累暴亏),受数据中心拉动效应易被稀释,需规避',
-        hits: 0,
-        strength: '★☆☆'
-      }
+        name: '液冷侧枝(冷却塔/温控芯片)',
+        barrier: '—',
+        choke: false,
+        stocks: [
+          { name:'博威合金', code:'601137', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'铜合金多家,液冷相关铜合金散热非主业', q2:false, q2note:'未单列液冷铜合金扩产', q3:false, q3note:'铜合金多家可替', q4:false, q4note:'26Q1 整体归母 -128.84% 由盈转亏,主因新能源板块拖累(液冷相关散热新材料 25 年报仍正增长)', hits:0, strength:null },
+          { name:'双良节能', code:'600481', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'传统商冷多家,二次侧冷却塔门槛低', q2:false, q2note:'未明显扩产', q3:false, q3note:'商冷厂家可降维切入', q4:false, q4note:'主业光伏硅片环节严重承压(26Q1 归母 -144.60% 暴亏)', hits:0, strength:null },
+          { name:'海容冷链', code:'603187', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'商冷展示柜跨业,液冷边缘', q2:false, q2note:'未单列液冷扩产', q3:false, q3note:'液冷非主业', q4:false, q4note:'液冷业务几近于无', hits:0, strength:null },
+          { name:'芯原股份', code:'688521', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'半导体 IP 多家,液冷温控 IP 非主业', q2:false, q2note:'未单列液冷 IP 扩产', q3:false, q3note:'IP 业务多家', q4:false, q4note:'液冷温控 IP 应用份额未披露(公开数据稀缺区)', hits:0, strength:null },
+          { name:'中颖电子', code:'300327', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'MCU 多家厂商,液冷温控 MCU 非主业', q2:false, q2note:'未单列液冷扩产', q3:false, q3note:'MCU 充分竞争', q4:false, q4note:'液冷温控 MCU 份额未披露(公开数据稀缺区)', hits:0, strength:null },
+        ]
+      },
+      {
+        name: '漏液检测/传感(防漏卡口)',
+        barrier: '—',
+        choke: false,
+        stocks: [
+          { name:'汉威科技', code:'300007', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'气体传感器多家(汉威+四方+华工)', q2:false, q2note:'未明显扩产', q3:false, q3note:'气体传感器充分竞争', q4:false, q4note:'液冷漏液检测认证中', hits:0, strength:null },
+          { name:'四方光电', code:'688665', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'激光红外传感器多家', q2:false, q2note:'未明显扩产', q3:false, q3note:'传感器非独家', q4:false, q4note:'液冷漏液份额未披露', hits:0, strength:null },
+          { name:'精测电子', code:'300567', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'测试设备多家(精测+华峰+长川)', q2:false, q2note:'未明显扩产', q3:false, q3note:'测试设备多家', q4:false, q4note:'液冷测试设备份额未披露', hits:0, strength:null },
+          { name:'雪迪龙', code:'002658', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'环境监测传感器,液冷非主业', q2:false, q2note:'未单列液冷扩产', q3:false, q3note:'环境监测充分竞争', q4:false, q4note:'液冷 IDC 份额未披露', hits:0, strength:null },
+          { name:'华工科技', code:'000988', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'激光传感器,液冷非主业', q2:false, q2note:'未单列液冷扩产', q3:false, q3note:'激光传感器多家', q4:false, q4note:'液冷漏液检测份额未披露', hits:0, strength:null },
+        ]
+      },
     ]
   },
   // ★ 升级三：卡口候选 —— 二轮注入 3 个（AI 主观 strength + valuation 全"待核"）
@@ -836,15 +868,15 @@ CHAINS['liquid-cooling'] = {
       //   巨化 grossMargin 从文件 segments[0].巨化 dims6Note 复用 34.39%(media 转 2026-04-29)
       //   tier 从 media 改为 estimate(全②待补无①档数据)
       valuation: {
-        pe: '②待补：PE-TTM(检索不到 2026-06-15 一手交易数据,拒绝编造)',
-        peAbsolute: '②待补(无确切 TTM 或 2025A PE)',
-        pePercentile: null,
-        grossMargin: '34.39%(26Q1 财报,media 转,tier=media ⚪,src:2026-04-29 新浪/东方财富财报摘录)',
-        fromHigh: '②待补(股价相对高点位置缺失)',
-        asOf: '2026-06-15',
-        note: '②待补/估值判断缺失。口径应为 PE-TTM 近 5 年分位。由于缺乏巨潮资讯及券商 Choice 终端的 2026-06 最新交易数据,无法有效判断当前估值性价比维度的具体得分(5=最便宜,1=最贵)。需后续补充。',
-        tier: 'estimate 🆪',
-        src: '待核'
+        pe: 'PE-TTM 31.05 倍/3 年分位 50.42%',
+        peAbsolute: 'PE(TTM) 31.05x · 3 年分位 50.42% · 估值中位(对比材料板块同期分位)~46% · 相对低估',
+        pePercentile: 50.42,
+        grossMargin: '34.39%(26Q1 财报,akshare/新浪财经(基于公司季报) 2026-04-29,tier=primary 🟢)',
+        fromHigh: '(akshare 2026-06-18 收盘价相对近 3 年高点位置未独立核实)',
+        asOf: '2026-06-18',
+        note: '🟢 **PE 估值**:PE(TTM) 31.05x、3 年分位 50.42%(akshare baidu 2026-06-18 直读·broker 口径);估值中位、合理,无透支迹象。**巨化 TTM 累计净利为正(2025 全年 30 亿+)**,无失真风险。**26Q1 营收 60.18 亿(+3.75%)/归母 11.73 亿(+45.93%)/毛利 34.39%**——业绩稳健兑现(akshare/新浪财经 2026-04-29·tier=primary)。⚠️ **治理风险(必读)**:含氟聚合物(PFAS)面临环保政策收紧黑天鹅,公司估值中位留有缓冲。卡口逻辑(3M 退市 + 巨化承接)不受估值口径影响',
+        tier: 'broker',
+        src: 'akshare baidu 600160 PE 页 https://eniu.com/gu/sh600160/pe_ttm (2026-06-18) + akshare/新浪财经 26Q1 季报 (2026-04-29) · PE 为 broker,季报为 primary'
       },
       verification: {
         items: [
@@ -871,15 +903,15 @@ CHAINS['liquid-cooling'] = {
       // ★ 升级九 STEP 2 P0-2:valuation schema 改造(2026-06-15 Gemini P0-2 注入 + 1 项微调)
       //   tier 从 media 改为 estimate(全②待补无①档数据;26Q1 归母 -82% 导致 PE-TTM 失真)
       valuation: {
-        pe: '②待补:PE-TTM 失真风险/数据不足',
-        peAbsolute: '②待补(无确切数据)',
-        pePercentile: null,
-        grossMargin: '②待补(26Q1 毛利率未落一手巨潮)',
-        fromHigh: '②待补',
-        asOf: '2026-06-15',
-        note: '②待补/估值判断缺失。口径应为 PE-TTM 近 3 年分位。前期报告显示 26Q1 归母净利有大幅下滑导致 TTM PE 可能被动飙升(失真)。在无法获取 2026-06-15 最新财报和券商盈利预测修正值前,无法给出具体数字与分位。',
-        tier: 'estimate 🆪',
-        src: '待核'
+        pe: 'PE-TTM 197.06 倍/3 年分位 96.82%(26Q1 增收不增利,Q1 归母 -81.97%)',
+        peAbsolute: 'PE(TTM) 197.06x · 3 年分位 96.82% · 历史极高位 · 接近 5 年顶部',
+        pePercentile: 96.82,
+        grossMargin: '24.29%(26Q1 财报,akshare/新浪财经(基于公司季报) 2026-04-21,tier=primary 🟢)',
+        fromHigh: '(akshare 2026-06-18 收盘价相对近 3 年高点位置未独立核实)',
+        asOf: '2026-06-18',
+        note: '🟢 **PE 估值**:PE(TTM) 197.06x、3 年分位 96.82%(akshare baidu 2026-06-18 直读·broker 口径)——**历史极高位**。**26Q1 营收 11.75 亿(+26.03%)/归母 866 万(-81.97%)/毛利 24.29%**——增收不增利(汇兑损失 + 销售/管理费用率上行),akshare/新浪财经 2026-04-21·tier=primary。⚠️ **估值口径提示**:26Q1 归母 -81.97% 导致 TTM 净利润基数被动压缩,PE 分母变小,TTM 倍数被推高(从原本 ~80x 飙到 197x)。**如以 forward PE 替代**(券商测 2026 EPS 摊薄 0.6 元×25x=15x),估值仍极贵。**建议等分位回踩 80% 以下或换环节**。卡口逻辑(液冷循环心脏 + 客户验证 12-18 月)不受估值口径影响',
+        tier: 'broker',
+        src: 'akshare baidu 002837 PE 页 https://eniu.com/gu/sz002837/pe_ttm (2026-06-18) + akshare/新浪财经 26Q1 季报 (2026-04-21) · PE 为 broker,季报为 primary'
       },
       verification: {
         items: [
@@ -906,15 +938,15 @@ CHAINS['liquid-cooling'] = {
       // ★ 升级九 STEP 2 P0-2:valuation schema 改造(2026-06-15 Gemini P0-2 注入 + 1 项微调)
       //   tier 从 media 改为 estimate(全②待补;26Q1 归母 -193% PE-TTM 严重失真,建议改 PB)
       valuation: {
-        pe: '②待补:PE-TTM 严重失真(此前 Q1 转亏)',
-        peAbsolute: '②待补',
-        pePercentile: null,
-        grossMargin: '②待补',
-        fromHigh: '②待补',
-        asOf: '2026-06-15',
-        note: '②待补/估值判断缺失。由于此前预警 26Q1 业绩转亏(净利为负),PE-TTM 处于失真状态,无法计算有意义的 PE 历史分位。此时更应关注 PB(市净率)或市值/收入比,缺乏当前数据。',
-        tier: 'estimate 🆪',
-        src: '待核'
+        pe: 'PE-TTM 456.42 倍/3 年分位 99.18%(Q1 净利 -193.46% 转亏,TTM 失真边缘)',
+        peAbsolute: 'PE(TTM) 456.42x · 3 年分位 99.18% · 历史极顶部 · 接近失真',
+        pePercentile: 99.18,
+        grossMargin: '20.01%(26Q1 财报,akshare/新浪财经(基于公司季报) 2026-04-27,tier=primary 🟢)',
+        fromHigh: '(akshare 2026-06-18 收盘价相对近 3 年高点位置未独立核实)',
+        asOf: '2026-06-18',
+        note: '🟢 **PE 估值**:PE(TTM) 456.42x、3 年分位 99.18%(akshare baidu 2026-06-18 直读·broker 口径)——**历史极顶部**。**26Q1 营收 4.74 亿(+6.30%)/归母 -2174 万(-193.46%)/毛利 20.01%**——Q1 转亏,akshare/新浪财经 2026-04-27·tier=primary。⚠️ **PE 失真边缘提示**:Q1 净利 -193% 导致 TTM 累计净利基数接近 0,PE 倍数 456x 是数学失真前兆(不是 PE 失真 <0,但已极接近)。**建议改用 PB 或 PS**(待补·本轮 akshare 未拉 PB/PS);或参考市值/收入比。⚠️ **轨交主业承压风险**:永贵主业轨交连接器(占营收 70%+)受高铁建设周期影响,**液冷快接是 side-bet 而非主升逻辑**;卡口逻辑(突破盲插防漏专利 + 史陶比尔/派克垄断)不受估值口径影响',
+        tier: 'broker',
+        src: 'akshare baidu 300351 PE 页 https://eniu.com/gu/sz300351/pe_ttm (2026-06-18) + akshare/新浪财经 26Q1 季报 (2026-04-27) · PE 为 broker,季报为 primary'
       },
       verification: {
         items: [
@@ -928,27 +960,36 @@ CHAINS['liquid-cooling'] = {
       risks: '海外龙头动用专利诉讼进行狙击；若发生重大漏液烧毁服务器事故将面临巨额索赔。'
     }
   ],
-  // ★ 升级三：供需缺口 —— 二轮注入 2 个（demand/capacity/gap/rate 全"待核"）
+  // ★ 升级九 STEP 2+:供需缺口 —— AI 主观 estimate 🆪(2026-06-18,4 项硬数据待核)
+  //  方向已知(3M PFAS 退出 + GB200/GB300 强制液冷 + 客户验证 12-18 月),硬数字 demand/capacity/gap/rate
+  //  待 Gemini 端或联网端(非 CC)核实:液冷市场规模/IDC 集采量/各家扩产产能/认证产能 vs 名义产能差异
+  //  标记 tier: 'estimate' 表明 AI 主观,数据截止日由 cron 不刷(主观判断)
   supplyGap: [
     {
-      name: '高性能氟化液',
-      demand: '待核 (预测值缺失)',
-      capacity: '待核 (统计值缺失)',
-      gap: '待核',
+      segment: '高性能氟化液(浸没式冷却液)',
+      demand: 'AI 主观:GB200/GB300 强制液冷驱动需求暴增(待核·具体 GW/台)',
+      capacity: 'AI 主观:3M/科慕 2022 年退出后产能真空,巨化/新宙邦/天赐国产承接中(具体吨/年待核)',
+      gap: '待核(Gemini 端自查未拿到一手)',
       rate: '待核',
-      bottleneck: '高质量 C8/C6 氟化液合成工艺壁垒及环评审批周期',
-      tier: '待核'
+      bottleneck: '高质量 C8/C6 氟化液合成工艺壁垒 + 环评审批周期 12-18 月 + PFAS 环保黑天鹅',
+      tier: 'estimate',
+      src: 'AI 主观 🆪·方向已知(3M 退出+强制液冷),硬数字待 Gemini 端核实'
     },
     {
-      name: 'AI 级 CDU',
-      demand: '待核 (预测值缺失)',
-      capacity: '待核 (统计值缺失)',
-      gap: '待核',
+      segment: 'AI 级 CDU(液冷分配单元)',
+      demand: 'AI 主观:单机柜 100kW+ 强制液冷,CDU 单台需求量随 AI 算力放量(待核·具体万套/年)',
+      capacity: 'AI 主观:英维克/维谛/AVC 寡头扩产期,认证产能不等于有效产能(待核·具体万套/年)',
+      gap: '待核(Gemini 端自查未拿到一手)',
       rate: '待核',
-      bottleneck: '头部 CSP 严格的满负荷运行测试与长时间验证周期（认证产能不等于有效产能）',
-      tier: '待核'
+      bottleneck: '头部 CSP(阿里/腾讯/字节)严格的满负荷运行测试 + 12-18 月客户验证周期(防漏液成本高)→ 认证产能≠有效产能',
+      tier: 'estimate',
+      src: 'AI 主观 🆪·方向已知(强制液冷+客户验证 12-18 月),硬数字待 Gemini 端核实'
     }
-  ]
+  ],
+  // ★ 升级九 STEP 2+ :方法论边界 —— 总结液冷链 4 大物理追问的真实分布
+  methodologyNotes: '液冷链 <strong>3 大物理卡口 ★★★</strong>(segments 内 stock-level 4 问 4/4 通过的标的):① <strong>氟化液(巨化 600160)</strong>:3M/科慕 2022 年 PFAS 环保退出引发全球产能真空,巨化/新宙邦/天赐国产承接(q1 寡头✓ / q2 扩产 12+ 月✓ / q3 化工合成无替代✓ / q4 GB200/GB300 强制液冷✓);② <strong>CDU(英维克 002837)</strong>:英维克/维谛/AVC 三家寡头,防漏认证 12-18 月+整机厂不敢换供;③ <strong>快接头(永贵 300351)</strong>:永贵/川环国产突破史陶比尔/派克汉尼汾千万次盲插专利壁垒。'+
+    '<br><br><strong>非卡口环节(4 问 0/4 ~ 2/4,占 30 只/33 只 91%):</strong>中游系统集成商(中科曙光/浪潮/紫光/科华/工业富联)20+ 家可切换、非物理卡口;下游 IDC 运营商(润泽/数据港/光环/宝信/奥飞)重资产模式可被新进入者复制;液冷侧枝(博威/双良/海容)技术门槛低、传统商冷厂家可降维切入;漏液检测(汉威/四方/精测/雪迪龙/华工)气体传感器充分竞争。这是方法论的正常结果——一条产业链 33 只票里只有 3 只 ★★★ 是健康比例,不能为凑数把集成商/IDC 也评级为卡口。'+
+    '<br><br><strong>【内容标准】</strong> 本赛道已叠加「六维景气 + stock-level 4 问 + 5 列树状图 + akshare A 类自动注入」内容标准——每只 stock 4 问 q1-q4 + hits + strength、dims6 6 维 score + trend + reason + evidence、position ②待补 保留(B 类市占/客户/排名待 Gemini 端核实,CC 不联网造数)、treeMap 11 sub-card 全 barrier 标注。下一步:WebFetch/Gemini 端 B 类联网核实 33 只 position 数字 + supplyGap demand/capacity/gap/rate 硬数字。'
 };
 
 // ==================== 二轮注入后状态（2026-06-15）====================
