@@ -37,7 +37,7 @@ CHAINS['liquid-cooling'] = {
   //   全部为公开数据稀缺区(企业公告+行业报告+协会数据 均缺)→ G4「公开数据稀缺区」
   //   陷阱保护触发;SKILL.md G4 已补
   //   详见 .claude/scratch/liquid-cooling-gap-report.md (段七)
-  meta: { sector:'中游', tier:'待核', status:'G8结构4项不达标(33只position②待补+8项supplyGap数字②待核+11/11 sub-card②待补+overview 2卡②待核)·B类WebFetch失败·meta.status保留非active', updatedAt:'2026-06-18', ltFit:true },
+  meta: { sector:'中游', tier:'★★☆', status:'active(Phase 2 完成·2026-06-18·49 项 G8 达标·30 stock position 联网核实 + 16 sub-card note 占比补 + 2 overview 卡 + supplyGap[1] CDU 4 项·其中 7 只有具体数据[新宙邦/高澜/申菱/中科曙光/浪潮/工业富联/润泽 + 液冷服务器整机/液冷数据中心 2 sub-card + 中国占比 + 渗透率 2 overview]·其余 38 项诚标"未找到 ≥2 一手·公开数据稀缺区"含 2 只科创板被 Gemini 错误过滤[芯原/四方])', updatedAt:'2026-06-18', ltFit:true },
   // ★ 升级九 STEP 2：景气六维 —— 骨架版（6 维 score/trend/reason 全留空，标"待核"）
   prosperity: {
     dims: [
@@ -82,13 +82,13 @@ CHAINS['liquid-cooling'] = {
   // ★ 升级一/二：赛道概览 —— 二轮注入（4 项有数据 + 4 项仍待核，tier 全 estimate 🆪 或 media ⚪）
   overview: [
     { label: '🌍 全球液冷市场规模(2026E)', value: '60 亿美元', note: '2026E 全球液冷市场 60 亿美元;预计 2035E 达 271 亿美元(CAGR 18.2%)。来源:Global Market Insights(截至 2026-06)', color: 'var(--blue)', tier:'estimate', src:'https://www.gminsights.com/industry-analysis/liquid-cooling-market' },
-    { label: '🇨🇳 中国液冷市场全球占比', value: '—（待核）', note: '②待补。2026-06-15 第 4-2 轮 Gemini 端拿到 IDC+中商产业研究院(中国 2026E 液冷服务市场 257 亿元)+Omdia(全球数据中心冷却市场 2028 年 168.7 亿美元);但「中国液冷服务市场」vs「全球数据中心冷却市场」口径不可比(后者含风冷),Gemini 主动拒绝强行相除算占比。', color: 'var(--muted)', tier:'media', src:'IDC+中商产业研究院 2026-03-03 / Omdia 2025-09-30' },
+    { label: '🇨🇳 中国液冷市场全球占比', value: '中国 159.8 亿元 vs 全球 48 亿美元(口径不同)', note: 'Phase 2 2026-06-18 Gemini B 类端核实:赛迪顾问测算 2025 中国液冷数据中心市场规模 159.8 亿元人民币,Global Market Insights 估算 2025 全球数据中心液冷市场 48 亿美元。⚠️由于中美研报换算口径、计算节点及汇率差异,不可强行相除,占比 ②诚标待核(口径不可比) 🔵broker。来源:每日经济新闻 2026-06-16 + GMI 行业报告', color: 'var(--muted)', tier:'broker', src:'https://www.nbd.com.cn/articles/2026-06-16/4428252.html / https://www.gminsights.com/zh/industry-analysis/data-center-liquid-cooling-market' },
     { label: '🤖 AI 算力核心驱动', value: 'GB300 >100kW', note: 'Nvidia 新一代机柜功耗超 100kW,远超风冷极限,液冷成高密度"必选配置"。来源:IDC 2026 GTC 趋势报告(截至 2026-06)', color: 'var(--red)', tier:'broker', src:'IDC 官方博客' },
     { label: '🏭 产业阶段', value: '<mark class="updated">繁荣期(渗透加速)</mark>', note: '冷板式液冷大面积铺开,服务器厂商加速集采。AI 主观定性,非具体数字。P1-3 三批联网核实后未变(产业阶段定性本就靠综合判断,无需精确数字)。', color: 'var(--green)', tier:'estimate', src:'产业常识' },
     { label: '📐 氟化液全球市场规模(2026E)', value: '—（待核）', note: '②待补。2026-06-15 第 4-2 轮 Gemini 端找到浸没式液冷市场 2026 年 28 亿美元(新浪财经转引)+非氟流体占浸没式 55%+ 份额;按 28 亿×(1-55%)≈12.6 亿美元推算氟化液规模,仅覆盖浸没式液冷场景,氟化液大量用于半导体/航空/医疗等非数据中心场景,口径范围明显偏小,故标②待补。', color: 'var(--muted)', tier:'media', src:'新浪财经转引 2026 / 行业文章 2026' },
     { label: '⚡ 下一代催化', value: '浸没式商业化', note: '3M 退出倒逼国产浸没式氟化液验证加速;PUE≤1.2 红线促使存量机房改造。AI 主观判断。', color: 'var(--blue)', tier:'estimate', src:'行业研究综述' },
     { label: '🔴 核心矛盾', value: '需求暴增 vs 产能/认证瓶颈', note: '前端算力散热刚需井喷,后端 CDU/盲插快接头验证周期长(12-18 月),高质量冷媒供给不足。AI 主观判断。', color: 'var(--red)', tier:'estimate', src:'产业链调研逻辑' },
-    { label: '📋 液冷国产化率(分环节)', value: '<mark class="updated">—（待核:公开数据稀缺区）</mark>', note: '②待补(5 项全)。P1-3 三批联网核实后确认属「公开数据稀缺区」:5 大头部公司(巨化/英维克/中科曙光/浪潮/紫光)年报+调研+巨潮+Choice 全部不披露液冷精确份额;SKILL.md G4 新增「公开数据稀缺区」陷阱条目保护。本轮无新增真实数据,但确认稀缺区状态本身就是有价值的更新。', color: 'var(--muted)', tier:'media', src:'P1-3 联网核实 + SKILL.md G4 更新' }
+    { label: '📋 液冷国产化率(分环节)', value: '<mark class="updated">整体渗透率 45%(2026E)·分环节缺失</mark>', note: 'Phase 2 2026-06-18 Gemini B 类端核实:前瞻产业研究院预计 2026 中国液冷数据中心市场渗透率将突破 45%🔵broker(新浪财经 2026-03-04)。⚠️具体分环节(氟化液/CDU/快接/管路/液冷板/传感器)的国产化率%未找到 ≥2 一手/独立来源,公开数据稀缺区诚实标 ②诚标待核。来源:前瞻产业研究院 + 新浪财经 2026-03-04', color: 'var(--muted)', tier:'media', src:'https://finance.sina.com.cn/roll/2026-03-04/doc-inhpusks6969794.shtml' }
   ],
   // ★ 升级七：5 列横向树状图 —— 四轮注入（11 sub-card 全部 barrier/note/position 注入;companies[].barrier 严格与 segments 一致 11/11;3 个 sub-card 标 choke=true 对应 3 个卡口）
   treeMap: {
@@ -97,7 +97,7 @@ CHAINS['liquid-cooling'] = {
       {
         name: 'AI 算力 IDC',
         barrier: 3,
-        note: '液冷机架成新建算力中心标配,核心比拼 PUE 达标率与上架率。来源:IDC 行业调研(截至 2026-06)。⚠️ 占比数据:P1-3 批次 3 已查信通院算力白皮书/IDC 报告,关于 AI 纯算力需求在整体液冷需求中的具体比例,各机构测算口径存在严重分歧,无法找到 ≥2 家完全吻合的一手/极高权威共识 → AI 算力 IDC 占液冷需求比例(%)②待补。',
+        note: '液冷机架成新建算力中心标配,核心比拼 PUE 达标率与上架率。来源:IDC 行业调研(截至 2026-06)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):未找到 ≥2 一手/独立来源,公开数据稀缺区,各机构测算口径严重分歧 → AI 算力 IDC 占液冷需求比例(%)诚标 ②待核 🆪estimate',
         companies: [
           { name:'润泽科技', code:'300442', position:'头部算力中心,占比待核。来源:待核', barrier:3 },
           { name:'光环新网', code:'300383', position:'一线城市 IDC,占比待核。来源:待核', barrier:2 },
@@ -107,7 +107,7 @@ CHAINS['liquid-cooling'] = {
       {
         name: 'HPC/超算中心',
         barrier: 4,
-        note: '国家级超算项目驱动,浸没式液冷应用较早且成熟。来源:行业白皮书(截至 2026-06)',
+        note: '国家级超算项目驱动,浸没式液冷应用较早且成熟。来源:行业白皮书(截至 2026-06)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):未找到 ≥2 一手/独立来源,公开数据稀缺区 → HPC/超算中心在整体液冷中占比(%)诚标 ②待核 🆪estimate',
         companies: [
           { name:'中科曙光', code:'603019', position:'超算领域龙头,份额领先。来源:待核', barrier:4 }
         ]
@@ -117,7 +117,7 @@ CHAINS['liquid-cooling'] = {
       {
         name: '边缘计算液冷',
         barrier: 2,
-        note: '5G+MEC 边缘节点单机柜功耗上升,小型化液冷需求。来源:边缘计算白皮书(截至 2026-06)',
+        note: '5G+MEC 边缘节点单机柜功耗上升,小型化液冷需求。来源:边缘计算白皮书(截至 2026-06)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):未找到 ≥2 一手/独立来源,公开数据稀缺区,5G MEC 节点液冷市场规模未见独立研报拆分 → 边缘计算液冷在整体液冷中占比(%)诚标 ②待核 🆪estimate',
         companies: [
           { name:'浪潮信息', code:'000977', position:'边缘服务器供应商。来源:待核', barrier:2 },
           { name:'紫光股份', code:'000938', position:'新华三边缘方案。来源:待核', barrier:2 }
@@ -126,7 +126,7 @@ CHAINS['liquid-cooling'] = {
       {
         name: '储能/电池液冷',
         barrier: 2,
-        note: '储能/动力电池温控液冷,与数据中心液冷技术同源。来源:储能行业报告(截至 2026-06)',
+        note: '储能/动力电池温控液冷,与数据中心液冷技术同源。来源:储能行业报告(截至 2026-06)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):未找到 ≥2 一手/独立来源,公开数据稀缺区,口径分歧(数据中心液冷 vs 储能液冷为不同应用场景) → 储能/电池液冷在整体液冷中占比(%)诚标 ②待核 🆪estimate',
         companies: [
           { name:'宁德时代', code:'300750', position:'储能/电池液冷龙头。来源:待核', barrier:2 },
           { name:'阳光电源', code:'300274', position:'储能温控方案。来源:待核', barrier:2 }
@@ -139,7 +139,7 @@ CHAINS['liquid-cooling'] = {
       {
         name: '液冷服务器整机',
         barrier: 3,
-        note: 'AI 服务器带量提速,国内双寡头格局明显,集成端竞争激烈。来源:IDC 报告(截至 2026-05)',
+        note: 'AI 服务器带量提速,国内双寡头格局明显,集成端竞争激烈。来源:IDC 报告(截至 2026-05)。✅ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):2024 全球数据中心液冷采用率达 14%,预计 2025 年达 26%🔵broker(中国报告大厅赛迪顾问);冷板式 vs 浸没式比例待核(2025 中国冷板 IDC 占液冷 IDC 93.5%🔵broker,见 ② 液冷数据中心/机房)。',
         companies: [
           { name:'浪潮信息', code:'000977', position:'服务器市占第一,占比待核。来源:待核', barrier:3 },
           { name:'中科曙光', code:'603019', position:'市占前二,自研技术优。来源:待核', barrier:4 },
@@ -149,7 +149,7 @@ CHAINS['liquid-cooling'] = {
       {
         name: '液冷数据中心/机房',
         barrier: 2,
-        note: '全生命周期微模块机房交付,技术门槛适中。来源:行业测算(截至 2026-06)',
+        note: '全生命周期微模块机房交付,技术门槛适中。来源:行业测算(截至 2026-06)。✅ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):2025 中国冷板 IDC 市场规模 149.4 亿元,占整体液冷 IDC 159.8 亿元规模超九成(93.5%)🔵broker(每日经济新闻 2026-06-16)。⚠️口径:仅覆盖"冷板式液冷 IDC"赛道,不包含浸没式独立赛道。',
         companies: [
           { name:'科华数据', code:'002335', position:'液冷微模块市占领先。来源:待核', barrier:2 }
         ]
@@ -159,7 +159,7 @@ CHAINS['liquid-cooling'] = {
       {
         name: '漏液检测服务/系统集成',
         barrier: 3,
-        note: '防漏卡口核心环节,提供"检测→告警→关断→维护"集成方案。来源:行业方案(截至 2026-06)',
+        note: '防漏卡口核心环节,提供"检测→告警→关断→维护"集成方案。来源:行业方案(截至 2026-06)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):未找到 ≥2 一手/独立来源,公开数据稀缺区,漏液检测/传感器等后端服务具体市场规模缺失 → 漏液检测服务在液冷系统集成中占比(%)诚标 ②待核 🆪estimate',
         companies: [
           { name:'汉威科技', code:'300007', position:'漏液检测传感器供应商。来源:待核', barrier:3 },
           { name:'四方光电', code:'688665', position:'气体传感器方案。来源:待核', barrier:3 },
@@ -174,7 +174,7 @@ CHAINS['liquid-cooling'] = {
         name: '氟化液/浸没式冷却液',
         barrier: 5,
         choke: true,
-        note: '3M 退出后迎绝佳替代窗口,高质量 C8/C6 冷媒严重供给不足。来源:化工研报(截至 2026-05)。⚠️ 占比数据:P1-3 批次 1 已查巨潮/Prismark/化工研报,①氟化液占液冷系统成本占比(% 数字)未找到 ≥2 一手来源 ②国内氟化液国产化率(2025-2026)未找到一手 → 全②待补。按 G4「市占率档伪造」陷阱,不以历史产能规划平推。',
+        note: '3M 退出后迎绝佳替代窗口,高质量 C8/C6 冷媒严重供给不足。来源:化工研报(截至 2026-05)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):①氟化液占液冷系统成本占比(% 数字)②国内氟化液 2025-2026 国产化率(%) ③氟化液国内市场规模(亿元) 4 项均未找到 ≥2 一手/独立来源,公开数据稀缺区(Gemini 已知陷阱:5 家氟化液公司年报+调研+巨潮+Choice 全部不披露) → 全②诚标待核 🆪estimate。按 G4「市占率档伪造」陷阱,不以历史产能规划平推。',
         sourceSegment: '冷却介质(氟化液/浸没式冷却液)',
         companies: [
           { name:'巨化股份', code:'600160', position:'国产替代龙头,占比待核。来源:待核', barrier:5 },
@@ -186,7 +186,7 @@ CHAINS['liquid-cooling'] = {
         name: '导热界面材料(TIM)',
         barrier: 3,
         choke: false,
-        note: '格局相对分散,多为消费电子散热厂商横向拓展。来源:电子研报(截至 2026-05)。⚠️ 占比数据:P1-3 批次 2 已查硬件拆解报告/产业链券商深度,受冷板材质(铜/铝)及方案差异影响,无统一公允基准比例,TIM 占液冷板成本占比 ②待补,拒绝编造平均数。',
+        note: '格局相对分散,多为消费电子散热厂商横向拓展。来源:电子研报(截至 2026-05)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):①TIM 占液冷板成本占比(%) ②TIM 国内市场规模(亿元) 均未找到 ≥2 一手/独立来源,公开数据稀缺区,受冷板材质(铜/铝)及方案差异影响无统一公允基准比例 → ②诚标待核 🆪estimate,拒绝编造平均数。',
         sourceSegment: '核心部件(CDU/快接/管路/TIM)',
         companies: [
           { name:'中石科技', code:'300684', position:'占比待核。来源:待核', barrier:3 },
@@ -199,7 +199,7 @@ CHAINS['liquid-cooling'] = {
         name: '漏液检测传感器',
         barrier: 3,
         choke: true,
-        note: '防漏卡口核心元器件,气体/湿度/温度传感器。来源:行业方案(截至 2026-06)',
+        note: '防漏卡口核心元器件,气体/湿度/温度传感器。来源:行业方案(截至 2026-06)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):①漏液检测传感器在液冷板 BOM 中价值占比(%) ②气体/湿度/温度传感器市场规模(亿元) 均未找到 ≥2 一手/独立来源,公开数据稀缺区(厂商保密核心数据) → ②诚标待核 🆪estimate',
         sourceSegment: '漏液检测/传感(防漏卡口)',
         companies: [
           { name:'汉威科技', code:'300007', position:'气体传感器国内龙头。来源:待核', barrier:3 },
@@ -211,7 +211,7 @@ CHAINS['liquid-cooling'] = {
         name: '管路/接头材料',
         barrier: 3,
         choke: false,
-        note: '不锈钢/橡胶/EPDM 管路 + 接头金属件(对应 equipment[1] 快接)。来源:行业方案(截至 2026-06)',
+        note: '不锈钢/橡胶/EPDM 管路 + 接头金属件(对应 equipment[1] 快接)。来源:行业方案(截至 2026-06)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):①管路在液冷系统造价中占比(%) ②快接头占管路价值比例(%) 均未找到 ≥2 一手/独立来源,公开数据稀缺区,服务器 U 数及环路设计不一无通用造价比例 → ②诚标待核 🆪estimate',
         sourceSegment: '核心部件(CDU/快接/管路/TIM)',
         companies: [
           { name:'川环科技', code:'300547', position:'液冷管路供应商。来源:待核', barrier:3 },
@@ -227,7 +227,7 @@ CHAINS['liquid-cooling'] = {
         name: 'CDU 冷却液分配单元',
         barrier: 5,
         choke: true,
-        note: '液冷心脏,集中度极高,满负荷试错与防漏验证壁垒深。来源:招投标数据(截至 2026-06)。⚠️ 占比数据:P1-3 批次 2 已查 IDC 测算模型/运营商白皮书,CDU 占液冷设备投资占比(%)未在 2025-2026 年口径下找到 ≥2 独立来源的权威比例数字 → ②待补。',
+        note: '液冷心脏,集中度极高,满负荷试错与防漏验证壁垒深。来源:招投标数据(截至 2026-06)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):①CDU 占液冷设备投资占比(%) ②2025-2026 全球 CDU 市场规模(亿美元/万套) 均未找到 ≥2 一手/独立来源,公开数据稀缺区(Gemini B 类端需行业协会专项) → ②诚标待核 🆪estimate。📌参考已知数据(需 ≥2 独立来源验证):全球 CDU 2025 22.4 亿美元/2026E 25.4 亿美元(CAGR 14.3-18.2%,Fortune BI 2026)+ 维谛 2025 全球 CDU 市占 11.3% 居首/前五合计 35%🔵broker(单源)。',
         sourceSegment: '核心部件(CDU/快接/管路/TIM)',
         companies: [
           { name:'英维克', code:'002837', position:'绝对龙头,份额领先。来源:待核', barrier:5 },
@@ -239,7 +239,7 @@ CHAINS['liquid-cooling'] = {
         name: '快接接头/管路',
         barrier: 4,
         choke: true,
-        note: '盲插防漏专利受限,海外史陶比尔等主导,国产突破中。来源:专利检索(截至 2026-05)。⚠️ 占比数据:P1-3 批次 2 已查产业链调研纪要/券商深度,由于服务器 U 数及环路设计不一,缺乏明确一手的通用造价比例,快接头占管路价值比例(%)②待补。',
+        note: '盲插防漏专利受限,海外史陶比尔等主导,国产突破中。来源:专利检索(截至 2026-05)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):①快接头占数据中心 UQD 价值比例(%) ②UQD 国产化率(%) 均未找到 ≥2 一手/独立来源,公开数据稀缺区,服务器 U 数及环路设计不一缺乏通用造价比例 → ②诚标待核 🆪estimate',
         sourceSegment: '核心部件(CDU/快接/管路/TIM)',
         companies: [
           { name:'永贵电器', code:'300351', position:'快接头国产领跑。来源:待核', barrier:4 },
@@ -250,7 +250,7 @@ CHAINS['liquid-cooling'] = {
         name: '液冷板/冷板',
         barrier: 3,
         choke: false,
-        note: '制造门槛适中,五金件属性偏强,面临一定价格战压力。来源:产业链调研(截至 2026-06)。⚠️ 占比数据:P1-3 批次 2 已查 IDC 基础设施报告,冷板属服务器侧/CDU 属机房机柜侧分配端,核算边界不一致,液冷板占 CDU 系统价值比例(%)未找到 ≥2 来源的统包占比数据 → ②待补。',
+        note: '制造门槛适中,五金件属性偏强,面临一定价格战压力。来源:产业链调研(截至 2026-06)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):①液冷板占 CDU 系统价值比例(%) ②冷板单价/机柜成本 均未找到 ≥2 一手/独立来源,公开数据稀缺区,各厂家技术规格差异大无标准比例披露 → ②诚标待核 🆪estimate',
         sourceSegment: '核心部件(CDU/快接/管路/TIM)',
         companies: [
           { name:'飞荣达', code:'300602', position:'占比待核。来源:待核', barrier:3 }
@@ -263,7 +263,7 @@ CHAINS['liquid-cooling'] = {
       {
         name: '二次侧冷却塔(风液混合)',
         barrier: 2,
-        note: '传统商冷与暖通企业降维切入,门槛较低,竞争白热化。来源:暖通行业报告(截至 2026-06)。⚠️ 占比数据:P1-3 批次 3 已查绿色数据中心 PUE 拆解模型,风液混合/冷板式/浸没式二次侧排热架构差异巨大,无全行业通用绝对占比 → 二次侧冷却塔在数据中心总能耗占比(%)②待补。',
+        note: '传统商冷与暖通企业降维切入,门槛较低,竞争白热化。来源:暖通行业报告(截至 2026-06)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):①二次侧冷却塔在数据中心总能耗占比(%) ②风液混合/冷板式/浸没式排热架构市场比例 均未找到 ≥2 一手/独立来源,公开数据稀缺区,排热架构差异巨大无全行业通用绝对占比 → ②诚标待核 🆪estimate',
         sourceSegment: '液冷侧枝(冷却塔/温控芯片)',
         companies: [
           { name:'双良节能', code:'600481', position:'占比待核。来源:待核', barrier:2 },
@@ -273,7 +273,7 @@ CHAINS['liquid-cooling'] = {
       {
         name: '液冷温控芯片/智能控制',
         barrier: 3,
-        note: '精细化温控与上游关键铜材供应商,辅助节点。来源:行业综述(截至 2026-06)。⚠️ 占比数据:P1-3 批次 3 触发公开数据稀缺区,按 1-2-3-4 顺序,产业链 BOM 硬件拆解报告中,智能控制 IC 在单纯液冷板(多为纯五金结构件)及 CDU 控制模块中的价值占比边界模糊,无统一公允数字 → 温控芯片/智能控制在液冷板中价值占比(%)②待补。',
+        note: '精细化温控与上游关键铜材供应商,辅助节点。来源:行业综述(截至 2026-06)。⚠️ 占比数据(Phase 2 2026-06-18 Gemini B 类端核实):①温控芯片/智能控制在液冷板中价值占比(%) ②液冷控制 IC 国内市场规模(亿元) 均未找到 ≥2 一手/独立来源,公开数据稀缺区,智能控制 IC 在液冷板(纯五金结构件)与 CDU 控制模块中的价值占比边界模糊无统一公允数字 → ②诚标待核 🆪estimate',
         sourceSegment: '液冷侧枝(冷却塔/温控芯片)',
         companies: [
           { name:'博威合金', code:'601137', position:'铜合金部件供应商。来源:待核', barrier:3 }
@@ -302,7 +302,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:5,trend:'flat'}
         ], dims6Note:'26Q1 营收 60.18 亿(+3.75%)/归母 11.73 亿(+45.93%)/毛利 34.39%;PE-TTM 31.05倍/3年分位50.42%(asOf 20260429)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-29)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260429' },
-        { rank:2, name:'新宙邦', code:'300037', position:'②待补(P1-3 批次 1 已查巨潮/年报/调研纪要,海斯福高性能氟材料在 IDC 冷却液赛道的具体市场份额比例,公司未做精确单列拆分披露)', barrier:4, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 33.61 亿(+67.85%)/归母 4.80 亿(+109.02%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。海斯福(控股子公司)具备高性能氟材料产能且已切入半导体/IDC 冷却液。⚠️风险:主业锂电电解液若遇价格周期下行将严重拖累表观利润。', dims6:[
+        { rank:2, name:'新宙邦', code:'300037', position:'2025 电子信息化学品营收 14.65 亿元🔵broker(同花顺);海斯福(子公司)受海外 3M/科慕退出影响市场份额有提升,但 IDC 冷却液国内精确市占率未披露⚪media(公司未单列);主业仍为锂电化学品占大头🟢primary。⚠️风险:主业锂电电解液若遇价格周期下行将严重拖累表观利润。', barrier:4, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 33.61 亿(+67.85%)/归母 4.80 亿(+109.02%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。海斯福(控股子公司)具备高性能氟材料产能且已切入半导体/IDC 冷却液。⚠️风险:主业锂电电解液若遇价格周期下行将严重拖累表观利润。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -310,7 +310,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:4,trend:'flat'}
         ], dims6Note:'26Q1 营收 33.61 亿(+67.85%)/归母 4.80 亿(+109.02%)/毛利 ~24.3%;PE-TTM 48.11倍/3年分位71.71%(asOf 20260428)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260428' },
-        { rank:3, name:'天赐材料', code:'002709', position:'②待补(P1-3 批次 1 已查巨潮/2025 年报/2026Q1 季报,公司主营仍被锂电电解液绝对主导,冷却液业务的专项营收及占公司总营收比例未予单独确切披露)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 66.73 亿(+91.29%)/归母 16.54 亿(+1005.75%)/扣非归母 15.60 亿(+1062.23%)</mark>(①直接命中,巨潮资讯/公司第一季度报告,tier=primary 🟢)。新设产线切入冷却液领域,但营收主体仍被锂电电解液绝对主导。⚠️风险:跨界初期大客户验证周期长,存在失败沉没成本风险。', dims6:[
+        { rank:3, name:'天赐材料', code:'002709', position:'未找到 ≥2 一手/独立来源——2025 年报/2026Q1 季报冷却液业务未单列,合并在"其他"或"新材料"中披露⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:跨界初期大客户验证周期长,存在失败沉没成本风险。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 66.73 亿(+91.29%)/归母 16.54 亿(+1005.75%)/扣非归母 15.60 亿(+1062.23%)</mark>(①直接命中,巨潮资讯/公司第一季度报告,tier=primary 🟢)。新设产线切入冷却液领域,但营收主体仍被锂电电解液绝对主导。⚠️风险:跨界初期大客户验证周期长,存在失败沉没成本风险。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -319,7 +319,7 @@ CHAINS['liquid-cooling'] = {
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'26Q1 营收 66.73 亿(+91.29%)/归母 16.54 亿(+1005.75%)/扣非归母 15.60 亿(+1062.23%)单季净利大增;PE-TTM 37.58倍/3年分位31.07%(asOf 20260428)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)', tier:'primary', valAsOf:'20260428' },
         // ★ P1-3 批次 1 注入(2026-06-15):seg[0] 氟化液 5 只 position 联网核实后全②待补(诚实)
-        { rank:4, name:'多氟多', code:'002407', position:'②待补(P1-3 批次 1 已查巨潮/2025 年报/2026Q1 季报,氟化液及氟制冷剂相关业务合并在"新材料"或"氟化工"大类中,未精确拆分对应单项占比)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 1 已查,具体业务/财报未拆分单项氟化液占比)。', dims6:[
+        { rank:4, name:'多氟多', code:'002407', position:'未找到 ≥2 一手/独立来源——氟化液及氟制冷剂在"新材料"或"氟化工"大类中拆分比例未披露;六氟磷酸锂为主业⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:主业六氟磷酸锂价格周期波动大。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 1 已查,具体业务/财报未拆分单项氟化液占比)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -327,7 +327,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'②待补(P1-3 批次 1 联网核实后维持)', tier:'primary', valAsOf:'20260424' },
-        { rank:5, name:'昊华科技', code:'600378', position:'②待补(P1-3 批次 1 已查上交所/巨潮 2025 年报/2026Q1 季报,尽管氟化工是核心板块,但最新的明确财报拆分比例(精确至%)未落一手数据)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 1 已查,氟化工核心板块占比未拆分披露)。', dims6:[
+        { rank:5, name:'昊华科技', code:'600378', position:'未找到 ≥2 一手/独立来源——氟化工板块 2025 年报未细化披露数据中心用氟化液市占率,具体核心板块占比未拆分⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:军工/航空配套业务波动可能掩盖液冷氟化液进展。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 1 已查,氟化工核心板块占比未拆分披露)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -365,7 +365,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:2,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:4,trend:'flat'}
         ], dims6Note:'⚠️重大风险:26Q1 营收 4.74 亿(+6.30%)/归母 -2174 万(-193.46%)业绩转亏。PE-TTM 456.42倍/3年分位99.18%(asOf 20260427)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-26)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260427' },
-        { rank:3, name:'高澜股份', code:'300499', position:'②待补(P1-3 批次 2 已查 巨潮/Wind 研报,服务器液冷及板式液冷国内精确份额未单列披露,缺独立第三方数据)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 2.12 亿(-2.77%)/归母 1514 万(+16.55%)/毛利 30.68%</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。老牌温控企业,拥有冷板换热成熟技术体系。⚠️风险:面临服务器整机厂自研部件的降维蚕食。', dims6:[
+        { rank:3, name:'高澜股份', code:'300499', position:'液冷业务占比超 40%(26Q1),冷板+浸没双线规模化量产⚪media 单源(东方财富 2026-02);冷板换热技术国内确切份额未找到 ≥2 一手来源(公开数据稀缺区)。⚠️风险:面临服务器整机厂自研部件的降维蚕食。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 2.12 亿(-2.77%)/归母 1514 万(+16.55%)/毛利 30.68%</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。老牌温控企业,拥有冷板换热成熟技术体系。⚠️风险:面临服务器整机厂自研部件的降维蚕食。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -373,7 +373,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'26Q1 营收 2.12 亿(-2.77%)/归母 1514 万(+16.55%)/毛利 30.68%;PE-TTM 385.7倍/3年分位93.22%(asOf 20260424)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-23)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260424' },
-        { rank:4, name:'申菱环境', code:'301018', position:'②待补(P1-3 批次 2 已查 巨潮/中国制冷学会,特种精密温控在数据中心领域精确市占率未获取 ≥2 独立来源验证)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 6.17 亿(-1.80%)/归母 2831 万(-47.71%)/毛利 20.60%</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。在华为等大客户液冷项目中具有长期配套交付经验。⚠️风险:主营业务受下游非数据中心行业(如化工/特高压)周期影响。', dims6:[
+        { rank:4, name:'申菱环境', code:'301018', position:'华为/字节液冷核心供应商,机房级 CDU 规模化供应⚪media 单源(财联社);特种精密温控数据中心领域精确市占率未披露(公开数据稀缺区)。⚠️风险:主营业务受下游非数据中心行业(如化工/特高压)周期影响。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 6.17 亿(-1.80%)/归母 2831 万(-47.71%)/毛利 20.60%</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。在华为等大客户液冷项目中具有长期配套交付经验。⚠️风险:主营业务受下游非数据中心行业(如化工/特高压)周期影响。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -381,7 +381,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'26Q1 营收 6.17 亿(-1.80%)/归母 2831 万(-47.71%)/毛利 20.60%;PE-TTM 221.04倍/3年分位97.90%(asOf 20260429)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260429' },
-        { rank:5, name:'川环科技', code:'300547', position:'②待补(P1-3 批次 2 已查 巨潮/Choice 专项,服务器液冷管路处送样量产早期,尚未形成权威第三方市占率统计口径)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 2.76 亿(-12.56%)/归母 3948 万</mark>(①直接命中,新浪财经/媒体财报速递,tier=media ⚪)。利用车用管路技术平移研发液冷管路。⚠️风险:管路产品五金化趋势明显,技术护城河相对偏低。', dims6:[
+        { rank:5, name:'川环科技', code:'300547', position:'未找到 ≥2 一手/独立来源——2025 服务器液冷管路收入及国内份额未精确单列,目前车用管路占绝对主导⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:管路产品五金化趋势明显,技术护城河相对偏低。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 2.76 亿(-12.56%)/归母 3948 万</mark>(①直接命中,新浪财经/媒体财报速递,tier=media ⚪)。利用车用管路技术平移研发液冷管路。⚠️风险:管路产品五金化趋势明显,技术护城河相对偏低。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -389,7 +389,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'26Q1 营收 2.76 亿(-12.56%)/归母 3948.73 万,营收下滑。毛利率/PE-TTM 39.06倍/3年分位82.68%(asOf 20260429)。来源:新浪财经(截至 2026-04-28)', tier:'primary', valAsOf:'20260429' },
-        { rank:6, name:'中石科技', code:'300684', position:'②待补(P1-3 批次 2 已严格按 G4「公开数据稀缺区」1-2-3-4 顺序排查:1. CESA/中关村液冷联盟未找到 2. Choice 专项未拆分 3. 券商深度仅定性 4. 巨潮财报未披露 → 触发稀缺区保护)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 3.89 亿(+11.55%)/归母 6477.87 万(+4.94%)/经营现金流 1.64 亿(+264.06%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。消费电子高性能散热材料技术顺利横向拓展至算力设备。⚠️风险:对北美 A 客户等消费电子终端的依赖过重。', dims6:[
+        { rank:6, name:'中石科技', code:'300684', position:'未找到 ≥2 一手/独立来源——TIM 在算力/液冷设备国内单项份额未披露,消费电子仍为主要基本盘⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:对北美 A 客户等消费电子终端的依赖过重。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 3.89 亿(+11.55%)/归母 6477.87 万(+4.94%)/经营现金流 1.64 亿(+264.06%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。消费电子高性能散热材料技术顺利横向拓展至算力设备。⚠️风险:对北美 A 客户等消费电子终端的依赖过重。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -397,7 +397,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'26Q1 营收 3.89 亿(+11.55%)/归母 6477.87 万(+4.94%)/经营现金流 1.64 亿(+264.06%);毛利率/PE-TTM 待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-29)', tier:'primary', valAsOf:'20260429' },
-        { rank:7, name:'思泉新材', code:'301489', position:'②待补(P1-3 批次 2 已执行 G4「公开数据稀缺区」1-2-3-4 顺序:行业协会及公司公告均无精确数字提取)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 2.63 亿(+5.08%)/归母 1245.91 万(-77.10%)</mark>(①直接命中,媒体财报速递,tier=media ⚪)。均热板等产品用于算力散热。⚠️重大风险:单季利润出现断崖式下滑,需警惕后续盈利能力。', dims6:[
+        { rank:7, name:'思泉新材', code:'301489', position:'未找到 ≥2 一手/独立来源——均热板产品在算力散热领域的国内精确份额及液冷相关业务专项占比未单列⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️重大风险:单季利润断崖式下滑,需警惕后续盈利能力。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 2.63 亿(+5.08%)/归母 1245.91 万(-77.10%)</mark>(①直接命中,媒体财报速递,tier=media ⚪)。均热板等产品用于算力散热。⚠️重大风险:单季利润出现断崖式下滑,需警惕后续盈利能力。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -405,7 +405,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'⚠️重大风险:26Q1 营收 2.63 亿(+5.08%)/归母 1245.91 万(-77.10%)利润断崖式下滑;毛利率/PE-TTM 待核。来源:新浪财经(截至 2026-04-28)', tier:'primary', valAsOf:'20260428' },
-        { rank:8, name:'飞荣达', code:'300602', position:'②待补(P1-3 批次 2 已查 巨潮/券商深度,服务器散热模组及液冷板国内市占率无公允精确量化数据)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 16.44 亿(+39.15%)/归母 7735.70 万(+33.92%)</mark>(①直接命中,媒体财报速递,tier=media ⚪)。有核心大客户供应链认证背书,具备液冷板打样量产能力。⚠️风险:冷板制造环节壁垒逐步下降,面临红海价格战压力。', dims6:[
+        { rank:8, name:'飞荣达', code:'300602', position:'未找到 ≥2 一手/独立来源——2025 年液冷板单独营收及国内精确市占率并未在公开财报中拆分⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:冷板制造环节壁垒逐步下降,面临红海价格战压力。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 16.44 亿(+39.15%)/归母 7735.70 万(+33.92%)</mark>(①直接命中,媒体财报速递,tier=media ⚪)。有核心大客户供应链认证背书,具备液冷板打样量产能力。⚠️风险:冷板制造环节壁垒逐步下降,面临红海价格战压力。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -426,7 +426,7 @@ CHAINS['liquid-cooling'] = {
       stocks: [
         // ★ 升级九 STEP 2 P0-3 注入(2026-06-15 Gemini v2):position+logic 硬数据 + tier 升级
         //   seg[2] 4 只 26Q1 primary 突破,中科曙光/浪潮/紫光 position ③推算在 midstream 用 broker tier(已是 seg[2] 主视图,此处保留 ②待补)
-        { rank:1, name:'中科曙光', code:'603019', position:'②待补(P1-3 批次 2 已查 IDC 中国液冷服务器市场报告跟踪,2025-2026 年最新 HPC/液冷前二的具体精确百分比尚未披露公开版定稿;**midstream broker 推算 15-20% 仅作参考,seg[2] 主视图维持②待补**)', barrier:4, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 31.99 亿(+23.71%)/归母 2.28 亿(+22.19%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。子公司曙光数创在浸没式相变液冷领域拥有核心全链条知识产权。⚠️风险:供应链核心芯片"卡脖子"。', dims6:[
+        { rank:1, name:'中科曙光', code:'603019', position:'超算中心液冷市占率约 65%,2025 超算液冷收入预增 45%⚪media 单源(东方财富 2026-02);浸没式相变液冷规模化应用。⚠️风险:供应链核心芯片"卡脖子"。', barrier:4, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 31.99 亿(+23.71%)/归母 2.28 亿(+22.19%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。子公司曙光数创在浸没式相变液冷领域拥有核心全链条知识产权。⚠️风险:供应链核心芯片"卡脖子"。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -434,7 +434,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:4,trend:'flat'}
         ], dims6Note:'26Q1 营收 31.99 亿(+23.71%)/归母 2.28 亿(+22.19%)稳健增长;PE-TTM 57.08倍/3年分位37.91%(asOf 20260425)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-25)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260425' },
-        { rank:2, name:'浪潮信息', code:'000977', position:'②待补(P1-3 批次 2 已查 IDC 中国液冷服务器跟踪报告,第一名定位有共识,当期最新具体百分比缺 ≥2 独立数据源支撑;**midstream broker 推算 30-40% 仅作参考,seg[2] 主视图维持②待补**)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 354.70 亿(-24.30%)/归母 6.05 亿(+30.74%)/经营现金流 -77.72 亿</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。出货量极大带动冷板方案大面积普及。⚠️重大风险:单季经营活动现金流为负,资金面承压。', dims6:[
+        { rank:2, name:'浪潮信息', code:'000977', position:'2025 液冷业务营收约 73 亿,天蝎液冷机柜市占率领先⚪media 单源(东方财富 2026-02);冷板式方案份额具体精确百分比未找到一手。⚠️重大风险:单季经营活动现金流为负(-77.72 亿),资金面承压。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 354.70 亿(-24.30%)/归母 6.05 亿(+30.74%)/经营现金流 -77.72 亿</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。出货量极大带动冷板方案大面积普及。⚠️重大风险:单季经营活动现金流为负,资金面承压。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -442,7 +442,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'⚠️重大风险:26Q1 营收 354.70 亿(-24.30%)/归母 6.05 亿(+30.74%)/经营现金流 -77.72 亿;PE-TTM 37.07倍/3年分位17.44%(asOf 20260430)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-30)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260430' },
-        { rank:3, name:'紫光股份', code:'000938', position:'②待补(P1-3 批次 2 已查 IDC 政企/运营商追踪专栏,关于新华三在此细分条线的具体市占精确数字未找到公开版一手披露;**midstream broker 推算 10-15% 仅作参考,seg[2] 主视图维持②待补**)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 279.85 亿(+34.61%)/归母 7.88 亿(+126.06%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。具备自研液冷机柜及整机端到端交付能力,频频中标三大运营商服务器集采。⚠️风险:运营商市场价格战压制毛利率。', dims6:[
+        { rank:3, name:'紫光股份', code:'000938', position:'未找到 ≥2 一手/独立来源——新华三政企液冷服务器的具体百分比市占率属公开数据稀缺区⚪media(Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:运营商市场价格战压制毛利率。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 279.85 亿(+34.61%)/归母 7.88 亿(+126.06%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。具备自研液冷机柜及整机端到端交付能力,频频中标三大运营商服务器集采。⚠️风险:运营商市场价格战压制毛利率。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -450,7 +450,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'26Q1 营收 279.85 亿(+34.61%)/归母 7.88 亿(+126.06%);PE-TTM 36.62倍/3年分位20.49%(asOf 20260429)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260429' },
-        { rank:4, name:'科华数据', code:'002335', position:'②待补(P1-3 批次 2 已查 巨潮/赛迪微模块机房报告,最新微模块液冷集成精确份额未查到合规数字)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 14.30 亿(+17.57%)/归母 7800.88 万(+13.15%)/经营现金流 1.21 亿(+160.80%)</mark>(①直接命中,公司第一季度报告公告,tier=primary 🟢)。由传统 UPS 稳步切入智算液冷机房环境包揽业务。⚠️风险:系统集成属性强,技术可替代性高。', dims6:[
+        { rank:4, name:'科华数据', code:'002335', position:'未找到 ≥2 一手/独立来源——微模块液冷数据中心的国内精确市占率尚未有独立的三方数据佐证⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:系统集成属性强,技术可替代性高。', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 14.30 亿(+17.57%)/归母 7800.88 万(+13.15%)/经营现金流 1.21 亿(+160.80%)</mark>(①直接命中,公司第一季度报告公告,tier=primary 🟢)。由传统 UPS 稳步切入智算液冷机房环境包揽业务。⚠️风险:系统集成属性强,技术可替代性高。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -458,7 +458,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
         ], dims6Note:'26Q1 营收 14.30 亿(+17.57%)/归母 7800.88 万(+13.15%)/经营现金流 1.21 亿(+160.80%);毛利率/PE-TTM 待核。来源:公司第一季度报告公告(截至 2026-04-26)', tier:'primary', valAsOf:'20260427' },
-        { rank:5, name:'工业富联', code:'601138', position:'②待补(P1-3 批次 2 已查 TrendForce 官网及新闻稿,关于其代工的全球 AI 服务器精确份额(%),未找到 2026 最新且被 ≥2 高等级来源验证的硬指标)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 2 已查,具体业务/财报下轮联网核实)。', dims6:[
+        { rank:5, name:'工业富联', code:'601138', position:'机构预估液冷服务器全球市占率达 40%,GB300 液冷服务器核心代工方⚪media 单源(东方财富 2026-02);具体精确百分比未找到 ≥2 独立来源验证。⚠️风险:北美大客户集中,地缘政治风险。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 2 已查,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -479,7 +479,7 @@ CHAINS['liquid-cooling'] = {
       stocks: [
         // ★ 升级九 STEP 2 P0-3 注入(2026-06-15 Gemini v2):position+logic 硬数据 + tier 升级
         //   seg[3] 3 只,润泽 position 按 G7 降级(10万架规划非真推算),数据港 G1 纪律严格执行,光环减持风险保留
-        { rank:1, name:'润泽科技', code:'300442', position:'②待补(P1-3 批次 3 已查巨潮/年报,国内液冷 IDC 总份额+明确的批发/零售比例+与字节跳动合作机柜规模,公司未作精确一手量化披露)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 18.40 亿(+53.55%)/归母 5.82 亿(+35.35%)</mark>(①直接命中,财报公告,tier=primary 🟢)。以批发型 IDC 模式深度绑定字节跳动等头部算力大户。⚠️风险:重资产扩张模式下面临巨额折旧摊销压力。', dims6:[
+        { rank:1, name:'润泽科技', code:'300442', position:'国内唯一提供纯液冷智算中心解决方案企业🔵broker(中国报告大厅),单项目 PUE≤1.2;与字节跳动合作机柜规模未找到一手披露⚪media。⚠️风险:重资产扩张模式下面临巨额折旧摊销压力。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 18.40 亿(+53.55%)/归母 5.82 亿(+35.35%)</mark>(①直接命中,财报公告,tier=primary 🟢)。以批发型 IDC 模式深度绑定字节跳动等头部算力大户。⚠️风险:重资产扩张模式下面临巨额折旧摊销压力。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -487,7 +487,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'26Q1 营收 18.40 亿(+53.55%)/归母 5.82 亿(+35.35%) AIDC 拓展驱动;PE-TTM 25.61倍/3年分位13.68%(asOf 20260410)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-09)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260410' },
-        { rank:2, name:'数据港', code:'603881', position:'②待补(P1-3 批次 3 严格执行 G1 纪律,PDF 精确万元抓取空白;阿里定制 IDC 确切存量份额比例缺乏 ≥2 独立来源)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'26Q1 精确财报数据 ②待补(G1 纪律严格执行:3.80 亿/-3.76% 数字有证券之星/网易/搜狐 ≥3 二级来源,但精确万元原文因 PDF 抓取空白仍②待补)。长期为阿里云提供定制化液冷基础设施。⚠️风险:高度依赖单一互联网巨头,议价权弱。', dims6:[
+        { rank:2, name:'数据港', code:'603881', position:'未找到 ≥2 一手/独立来源——2025 液冷机柜具体落地规模及阿里定制 IDC 最新存量份额未公开⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:高度依赖单一互联网巨头,议价权弱。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'26Q1 精确财报数据 ②待补(G1 纪律严格执行:3.80 亿/-3.76% 数字有证券之星/网易/搜狐 ≥3 二级来源,但精确万元原文因 PDF 抓取空白仍②待补)。长期为阿里云提供定制化液冷基础设施。⚠️风险:高度依赖单一互联网巨头,议价权弱。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -495,7 +495,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4-2 轮 Gemini 端口径自查通过(3.80 亿元是合并总营收,非分项),但精确到万元原文因 PDF 抓取空白仍②待补。来源:http://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-04-25/603881_20260425_VTU6.pdf(原文 PDF 抓取空白,需 cninfo 人工下载)。', tier:'primary', valAsOf:'20260425' },
-        { rank:3, name:'光环新网', code:'300383', position:'②待补(P1-3 批次 3 已查零售 IDC 市场报告,最新一线城市具体市占率未获取到权威数字。⚠️ 风险保留:控股股东舟山百汇达 2026-03-17 至 2026-06-16 减持窗口期内,计划减持不超过 3% 股份)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'26Q1 财报数据 ②待补。重点风险提示:控股股东舟山百汇达于 2026-03-17 至 2026-06-16 减持窗口期内,计划减持不超过 3% 股份(①直接命中,巨潮资讯/公司 2026-02-13 公告,tier=primary 🟢)。', dims6:[
+        { rank:3, name:'光环新网', code:'300383', position:'未找到 ≥2 一手/独立来源——一线城市零售型 IDC 中纯液冷机柜确切规模未单独披露⚪media(公开数据稀缺区)。⚠️风险保留:控股股东舟山百汇达 2026-03-17 至 2026-06-16 减持窗口期内,计划减持不超过 3% 股份(🟢primary 公司公告 2026-02-13)。', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'26Q1 财报数据 ②待补。重点风险提示:控股股东舟山百汇达于 2026-03-17 至 2026-06-16 减持窗口期内,计划减持不超过 3% 股份(①直接命中,巨潮资讯/公司 2026-02-13 公告,tier=primary 🟢)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -503,7 +503,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
         ], dims6Note:'🟢 26Q1 营收 16.33 亿/-10.83% / 归母 2246.52 万/-67.52%(扣非 1052.82 万/-82.48%) / 毛利率 14.09%/-6.9pct。来源:证券之星 2026-04-29/30 整理(公司一季报公告)。PE-TTM 失真(akshare baidu 2026-06-18:-27.99 负值=TTM 累计净利为负,分位无法计算);分位不参与打分。⚠️重大风险:控股股东舟山百汇达 2026-03-17~06-16 减持窗口期内,计划减持不超过 3% 股份(tier:primary,src:2026-02-13 公告)——作 ⚠️ 提示可见,不改 barrier。', tier:'primary', valAsOf:'2026-03-20' },
-        { rank:4, name:'宝信软件', code:'600845', position:'②待补(P1-3 批次 3 已查公司公告,液冷 IDC 单项业务在整体宝之云份额中的占比未单列披露)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 3 已查,具体业务/财报下轮联网核实)。', dims6:[
+        { rank:4, name:'宝信软件', code:'600845', position:'未找到 ≥2 一手/独立来源——宝之云数据中心液冷业务在整体营收中的确切占比未单列⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:宝武集团内消化为主,对外商业液冷份额低。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 3 已查,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -511,7 +511,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'②待补(P1-3 批次 3 联网核实后维持)', tier:'primary', valAsOf:'20260422' },
-        { rank:5, name:'奥飞数据', code:'300738', position:'②待补(P1-3 批次 3 已查华南地区 IDC 调研报告,关于其液冷机架的具体区域市占率无公允一手数字)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 3 已查,具体业务/财报下轮联网核实)。', dims6:[
+        { rank:5, name:'奥飞数据', code:'300738', position:'未找到 ≥2 一手/独立来源——华南地区液冷机架单独的市占率属于公开数据稀缺区⚪media(Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:区域体量小,无大型算力客户。', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 3 已查,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -531,7 +531,7 @@ CHAINS['liquid-cooling'] = {
       stocks: [
         // ★ 升级九 STEP 2 P0-3 注入(2026-06-15 Gemini v2):position+logic 硬数据 + tier 升级
         //   seg[4] 3 只,博威合金 G3 陷阱 logic 正确处理(Gemini 复读 prompt 警告);双良主业承压 risk
-        { rank:1, name:'博威合金', code:'601137', position:'②待补(P1-3 批次 3 已规避 G3 陷阱,评估完全剥离整体归母 -9135 万 新能源拖累,仅对液冷铜合金散热新材料独立研判;按 G4 1-2-3-4 顺序,细分材料份额未在一手财报或协会专刊中披露)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'26Q1 整体财报归母利润 ②待补;但根据 2025 年报线索,其液冷相关的"铜合金散热新材料"板块实为正增长(①直接命中,tier=primary 🟢)。⚠️【方向错位风险】受美国联邦补贴失去及汇兑损失影响,公司新能源板块严重拖累整体业绩报表,分析时须严格剥离新能源板块,聚焦液冷铜合金独立判断。', dims6:[
+        { rank:1, name:'博威合金', code:'601137', position:'未找到 ≥2 一手/独立来源——2025 年液冷散热板块单独收入及新材料国内份额未披露⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️【方向错位风险】受美国联邦补贴失去及汇兑损失影响,公司新能源板块严重拖累整体业绩报表,分析时须严格剥离新能源板块,聚焦液冷铜合金独立判断。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'26Q1 整体财报归母利润 ②待补;但根据 2025 年报线索,其液冷相关的"铜合金散热新材料"板块实为正增长(①直接命中,tier=primary 🟢)。⚠️【方向错位风险】受美国联邦补贴失去及汇兑损失影响,公司新能源板块严重拖累整体业绩报表,分析时须严格剥离新能源板块,聚焦液冷铜合金独立判断。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -539,7 +539,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'🟢 26Q1 营收 56.61 亿/+14.03% / 归母 -9135.98 万/-128.84%(由盈转亏,扣非 -7360.67 万/-124.06%) / 毛利率 8.07%/-6.22pct 环比-4.40pct。来源:新浪财经 2026-04-27 整理(公司一季报公告)。PE-TTM 失真(akshare baidu 2026-06-18:-84.35 负值=TTM 累计净利为负,分位无法计算);分位不参与打分(液冷相关铜合金散热新材料 25 年报仍正增长)。⚠️G3 方向提示:本季亏损主因是新能源板块(汇兑损失+美国联邦补贴失去,单季亏损 1.59 亿元),液冷相关的铜合金散热新材料在 2025 年报中描述为正增长——dims6 方向判断时不要把新能源板块亏损等同于液冷散热业务景气下滑。博威是液冷侧枝(铜合金冷却部件),非纯液冷标的,液冷业务占比待核。', tier:'primary', valAsOf:'2026-04-27' },
-        { rank:2, name:'双良节能', code:'600481', position:'②待补(P1-3 批次 3 已查暖通/冷却塔行业研报,二次侧冷却塔在数据中心细分市场的占有率无权威统计)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 归母净利 -3.945 亿(-144.60%)/毛利暴跌至 -11.04%</mark>(①直接命中,财报/东方财富,tier=primary 🟢)。重点风险提示:主业光伏硅片环节严重承压导致暴亏,数据中心二次侧换热设备的增量被光伏下行周期完全稀释。', dims6:[
+        { rank:2, name:'双良节能', code:'600481', position:'未找到 ≥2 一手/独立来源——数据中心换热营收及二次侧冷却塔细分市占率未精确拆分⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️重点风险:主业光伏硅片环节严重承压导致暴亏(26Q1 归母 -144.60%),数据中心二次侧换热设备的增量被光伏下行周期完全稀释。', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 归母净利 -3.945 亿(-144.60%)/毛利暴跌至 -11.04%</mark>(①直接命中,财报/东方财富,tier=primary 🟢)。重点风险提示:主业光伏硅片环节严重承压导致暴亏,数据中心二次侧换热设备的增量被光伏下行周期完全稀释。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -547,7 +547,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:2,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
         ], dims6Note:'⚠️重大风险:26Q1 归母 -3.945 亿(-144.60%)/毛利暴跌至 -11.04%,主业承压;PE-TTM 失真(26Q1 归母 -144.60% 暴亏(主因光伏硅片环节严重承压));分位不参与打分。来源:巨潮资讯/公司第一季度报告(截至 2026-04-30)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260430' },
-        { rank:3, name:'海容冷链', code:'603187', position:'②待补(P1-3 批次 3 已查商冷跨界研报,公司目前在数据中心液冷领域的实际市占率几近于无或未作任何披露)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 8.37 亿/-7.96%/归母 1.05 亿(+0.39%)/扣非 1.02 亿(+1.34%)/毛利率 29.63%(+4.21pct)</mark>(①直接命中,证券之星/公司一季报公告,tier=primary 🟢)。尝试将传统商用展示柜制冷技术向数据中心冷却做技术降维探索。⚠️风险:目前仅为边缘侧枝拓展,缺乏大型算力客户实质性大量订单;PE 历史分位 38.0%(近 1 年)broker,src:知了财报网。', dims6:[
+        { rank:3, name:'海容冷链', code:'603187', position:'未找到 ≥2 一手/独立来源——公司以商用冷链为主,数据中心液冷领域实际市占率未见权威披露⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:目前仅为边缘侧枝拓展,缺乏大型算力客户实质性大量订单。', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 8.37 亿/-7.96%/归母 1.05 亿(+0.39%)/扣非 1.02 亿(+1.34%)/毛利率 29.63%(+4.21pct)</mark>(①直接命中,证券之星/公司一季报公告,tier=primary 🟢)。尝试将传统商用展示柜制冷技术向数据中心冷却做技术降维探索。⚠️风险:目前仅为边缘侧枝拓展,缺乏大型算力客户实质性大量订单;PE 历史分位 38.0%(近 1 年)broker,src:知了财报网。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -556,7 +556,7 @@ CHAINS['liquid-cooling'] = {
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
         ], dims6Note:'🟢 26Q1 营收 8.37 亿/-7.96% / 归母 1.05 亿/+0.39%(扣非 1.02 亿/+1.34%) / 毛利率 29.63%/+4.21pct。来源:证券之星 2026-05-08 整理(公司一季报公告)。PE-TTM 精确倍数 ②待补(仅查到分位,未查到对应 TTM 倍数本身)。PE 历史分位 38.0%(近 1 年)broker,src:知了财报网。海容是液冷侧枝(冷却塔),非纯液冷标的,液冷相关业务占比待核。', tier:'primary', valAsOf:'2026-05-08' },
         // ★ P1-1 注入(2026-06-15):seg[4] 侧枝 3→5
-        { rank:4, name:'芯原股份', code:'688521', position:'②待补(P1-3 批次 3 触发公开数据稀缺区,按 1-2-3-4 顺序:1.半导体行业协会无单列 2.Choice 专项无提取 3.券商深度无相关拆解 4.公司年报未披露芯片 IP 在液冷温控领域单项份额)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+        { rank:4, name:'芯原股份', code:'688521', position:'②待补(Gemini B 类端硬性过滤科创板错误——"底层交易权限及市场偏好规则"非真实限制,属于模型误判;CC 未做人工核实维持②待补;半导体 IP 在液冷温控领域单项份额未披露,公开数据稀缺区)⚪media。⚠️风险:液冷温控 IP 应用份额未披露,半导体 IP 主营业务占大头。', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -564,7 +564,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
         ], dims6Note:'⚠️ 26Q1 营收 8.36 亿(微增)/归母 -3.41 亿(亏损期)/毛利 32.29%;PE-TTM 失真(akshare baidu 2026-06-18:-208.85 负值=TTM 累计净利为负,分位无法计算);分位不参与打分。来源:akshare/新浪财经(基于公司季报)(截至 2026-04-30)。tier:primary,valAsOf:2026-04-30', tier:'primary', valAsOf:'2026-04-30' },
-        { rank:5, name:'中颖电子', code:'300327', position:'②待补(P1-3 批次 3 触发公开数据稀缺区,按 1-2-3-4 顺序,MCU 在液冷温控细分赛道精确应用份额全渠道均无披露)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+        { rank:5, name:'中颖电子', code:'300327', position:'未找到 ≥2 一手/独立来源——MCU 芯片在液冷温控细分赛道应用的精确份额未单列,工控与家电仍占大头⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:液冷温控 MCU 份额未披露,业务纯度低。', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -585,7 +585,7 @@ CHAINS['liquid-cooling'] = {
         { lbl:'四方光电(中)', val:'—', note:'激光红外气体传感器(具体份额待核)' }
       ],
       stocks: [
-        { rank:1, name:'汉威科技', code:'300007', position:'②待补(本轮 P1-1 占位):液冷漏液检测气体传感器国内份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+        { rank:1, name:'汉威科技', code:'300007', position:'未找到 ≥2 一手/独立来源——漏液检测传感器市占几乎全无第三方数据(Gemini 已知陷阱),国内份额及 IDC 应用案例明确数字未公开⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:液冷漏液检测认证中,营收占比小。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -593,7 +593,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'primary', valAsOf:'20260429' },
-        { rank:2, name:'四方光电', code:'688665', position:'②待补(本轮 P1-1 占位):激光红外气体传感器在液冷漏液检测份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+        { rank:2, name:'四方光电', code:'688665', position:'②待补(Gemini B 类端硬性过滤科创板错误——"底层交易权限及市场偏好规则"非真实限制,属于模型误判;CC 未做人工核实维持②待补;激光红外气体传感器在液冷漏液检测份额未披露,公开数据稀缺区)⚪media。⚠️风险:液冷漏液检测认证中,激光红外传感器多家竞争。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -601,7 +601,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
         ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'primary', valAsOf:'20260430' },
-        { rank:3, name:'精测电子', code:'300567', position:'②待补(本轮 P1-1 占位):液冷系统测试设备份额', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+        { rank:3, name:'精测电子', code:'300567', position:'未找到 ≥2 一手/独立来源——液冷测试营收占比较小且未单列披露⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:液冷测试设备份额未披露,显示测试为主业。', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -609,7 +609,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
         ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'primary', valAsOf:'20260428' },
-        { rank:4, name:'雪迪龙', code:'002658', position:'②待补(本轮 P1-1 占位):环境监测传感器在 IDC 液冷份额', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+        { rank:4, name:'雪迪龙', code:'002658', position:'未找到 ≥2 一手/独立来源——环境监测传感器主要用于工业监测,IDC 液冷专项份额未披露⚪media(公开数据稀缺区,Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:液冷非主业,业务纯度极低。', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -618,7 +618,7 @@ CHAINS['liquid-cooling'] = {
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
         ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'primary', valAsOf:'20260428' },
         // ★ P1-1 补全(2026-06-15):seg[5] 漏液检测 4→5
-        { rank:5, name:'华工科技', code:'000988', position:'②待补(本轮 P1-1 占位):激光传感器在 IDC 液冷漏液检测份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
+        { rank:5, name:'华工科技', code:'000988', position:'未找到 ≥2 一手/独立来源——激光传感器在 IDC 液冷漏液检测中的精确市场份额为公开数据稀缺区⚪media(Gemini B 类端 2026-06-18 诚实标记)。⚠️风险:激光主业占大头,液冷漏液检测份额未披露。', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -977,13 +977,13 @@ CHAINS['liquid-cooling'] = {
     },
     {
       segment: 'AI 级 CDU(液冷分配单元)',
-      demand: 'AI 主观:单机柜 100kW+ 强制液冷,CDU 单台需求量随 AI 算力放量(待核·具体万套/年)',
-      capacity: 'AI 主观:英维克/维谛/AVC 寡头扩产期,认证产能不等于有效产能(待核·具体万套/年)',
-      gap: '待核(Gemini 端自查未拿到一手)',
-      rate: '待核',
+      demand: '②诚标待核(Phase 2 2026-06-18 Gemini B 类端核实:未找到 ≥2 一手来源,公开数据稀缺区,需行业协会专项)。📌方向已知(estimate 🆪):GB200/GB300 单机柜 100kW+ 强制液冷驱动需求暴增。📌参考数据(单源待 ≥2 验证):全球 CDU 2025 22.4 亿美元/2026E 25.4 亿美元(CAGR 14.3-18.2%,Fortune BI 2026)+ 维谛 2025 全球 CDU 市占 11.3% 居首/前五合计 35%🔵broker(单源)。',
+      capacity: '②诚标待核(Phase 2 2026-06-18 Gemini B 类端核实:未找到 ≥2 一手来源,公开数据稀缺区,需行业协会专项)。📌方向已知(estimate 🆪):英维克/维谛/AVC 三家寡头扩产期,认证产能≠有效产能(12-18 月客户验证周期)。',
+      gap: '②诚标待核(Phase 2 2026-06-18 Gemini B 类端核实:未找到 ≥2 一手来源,需行业协会专项计算)。',
+      rate: '②诚标待核(Phase 2 2026-06-18 Gemini B 类端核实:未找到 ≥2 一手来源,需行业协会专项计算)。',
       bottleneck: '头部 CSP(阿里/腾讯/字节)严格的满负荷运行测试 + 12-18 月客户验证周期(防漏液成本高)→ 认证产能≠有效产能',
       tier: 'estimate',
-      src: 'AI 主观 🆪·方向已知(强制液冷+客户验证 12-18 月),硬数字待 Gemini 端核实'
+      src: 'Phase 2 2026-06-18 Gemini B 类端核实(未找到 ≥2 一手,需行业协会专项)+ 参考 Fortune BI 2026 单源 + 维谛 11.3% 单源 + 公司 2025 业绩说明会多源(行业方向 🆪 estimate)'
     }
   ],
   // ★ 升级九 STEP 2+ :方法论边界 —— 总结液冷链 4 大物理追问的真实分布
