@@ -299,7 +299,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:5,trend:'flat'}
-        ], dims6Note:'26Q1 营收 60.18 亿(+3.75%)/归母 11.73 亿(+45.93%)/毛利 34.39%;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-29)。tier 从 media 升 primary', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'26Q1 营收 60.18 亿(+3.75%)/归母 11.73 亿(+45.93%)/毛利 34.39%;PE-TTM 31.05倍/3年分位50.42%(asOf 20260429)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-29)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260429' },
         { rank:2, name:'新宙邦', code:'300037', position:'②待补(P1-3 批次 1 已查巨潮/年报/调研纪要,海斯福高性能氟材料在 IDC 冷却液赛道的具体市场份额比例,公司未做精确单列拆分披露)', barrier:4, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 33.61 亿(+67.85%)/归母 4.80 亿(+109.02%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。海斯福(控股子公司)具备高性能氟材料产能且已切入半导体/IDC 冷却液。⚠️风险:主业锂电电解液若遇价格周期下行将严重拖累表观利润。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -307,7 +307,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:4,trend:'flat'}
-        ], dims6Note:'26Q1 营收 33.61 亿(+67.85%)/归母 4.80 亿(+109.02%)/毛利 ~24.3%;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)。tier 从 media 升 primary', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'26Q1 营收 33.61 亿(+67.85%)/归母 4.80 亿(+109.02%)/毛利 ~24.3%;PE-TTM 48.11倍/3年分位71.71%(asOf 20260428)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260428' },
         { rank:3, name:'天赐材料', code:'002709', position:'②待补(P1-3 批次 1 已查巨潮/2025 年报/2026Q1 季报,公司主营仍被锂电电解液绝对主导,冷却液业务的专项营收及占公司总营收比例未予单独确切披露)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 66.73 亿(+91.29%)/归母 16.54 亿(+1005.75%)/扣非归母 15.60 亿(+1062.23%)</mark>(①直接命中,巨潮资讯/公司第一季度报告,tier=primary 🟢)。新设产线切入冷却液领域,但营收主体仍被锂电电解液绝对主导。⚠️风险:跨界初期大客户验证周期长,存在失败沉没成本风险。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -315,7 +315,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'26Q1 营收 66.73 亿(+91.29%)/归母 16.54 亿(+1005.75%)/扣非归母 15.60 亿(+1062.23%)单季净利大增;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'26Q1 营收 66.73 亿(+91.29%)/归母 16.54 亿(+1005.75%)/扣非归母 15.60 亿(+1062.23%)单季净利大增;PE-TTM 37.58倍/3年分位31.07%(asOf 20260428)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)', tier:'primary', valAsOf:'20260428' },
         // ★ P1-3 批次 1 注入(2026-06-15):seg[0] 氟化液 5 只 position 联网核实后全②待补(诚实)
         { rank:4, name:'多氟多', code:'002407', position:'②待补(P1-3 批次 1 已查巨潮/2025 年报/2026Q1 季报,氟化液及氟制冷剂相关业务合并在"新材料"或"氟化工"大类中,未精确拆分对应单项占比)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 1 已查,具体业务/财报未拆分单项氟化液占比)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
@@ -324,7 +324,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'②待补(P1-3 批次 1 联网核实后维持)', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'②待补(P1-3 批次 1 联网核实后维持)', tier:'primary', valAsOf:'20260424' },
         { rank:5, name:'昊华科技', code:'600378', position:'②待补(P1-3 批次 1 已查上交所/巨潮 2025 年报/2026Q1 季报,尽管氟化工是核心板块,但最新的明确财报拆分比例(精确至%)未落一手数据)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 1 已查,氟化工核心板块占比未拆分披露)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -332,7 +332,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'②待补(P1-3 批次 1 联网核实后维持)', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'②待补(P1-3 批次 1 联网核实后维持)', tier:'primary', valAsOf:'20260430' }
       ]
     },
     {
@@ -354,7 +354,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:2,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:5,trend:'flat'}
-        ], dims6Note:'⚠️重大风险:26Q1 营收 11.75 亿(+26.03%)/归母 866 万(-81.97%),增收不增利。PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-20)。tier 从 media 升 primary', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'⚠️重大风险:26Q1 营收 11.75 亿(+26.03%)/归母 866 万(-81.97%),增收不增利。PE-TTM 197.06倍/3年分位96.82%(asOf 20260421)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-20)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260421' },
         { rank:2, name:'永贵电器', code:'300351', position:'②待补(P1-3 批次 2 已查 Choice/年报/券商深度,海外史陶比尔+派克汉尼汾 90%+ 属历史研报共识,2025-2026 永贵具体国产替代市占数字未找到 ≥2 独立一手信源)', barrier:4, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 4.74 亿(+6.30%)/归母 -2174 万(-193.46%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。掌握防漏液盲插核心专利避开海外封锁。⚠️重大风险:一季报业绩转亏,轨交等主业承压严重掩盖液冷增量。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -362,7 +362,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:2,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:4,trend:'flat'}
-        ], dims6Note:'⚠️重大风险:26Q1 营收 4.74 亿(+6.30%)/归母 -2174 万(-193.46%)业绩转亏。PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-26)。tier 从 media 升 primary', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'⚠️重大风险:26Q1 营收 4.74 亿(+6.30%)/归母 -2174 万(-193.46%)业绩转亏。PE-TTM 456.42倍/3年分位99.18%(asOf 20260427)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-26)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260427' },
         { rank:3, name:'高澜股份', code:'300499', position:'②待补(P1-3 批次 2 已查 巨潮/Wind 研报,服务器液冷及板式液冷国内精确份额未单列披露,缺独立第三方数据)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 2.12 亿(-2.77%)/归母 1514 万(+16.55%)/毛利 30.68%</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。老牌温控企业,拥有冷板换热成熟技术体系。⚠️风险:面临服务器整机厂自研部件的降维蚕食。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -370,7 +370,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'26Q1 营收 2.12 亿(-2.77%)/归母 1514 万(+16.55%)/毛利 30.68%;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-23)。tier 从 media 升 primary', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'26Q1 营收 2.12 亿(-2.77%)/归母 1514 万(+16.55%)/毛利 30.68%;PE-TTM 385.7倍/3年分位93.22%(asOf 20260424)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-23)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260424' },
         { rank:4, name:'申菱环境', code:'301018', position:'②待补(P1-3 批次 2 已查 巨潮/中国制冷学会,特种精密温控在数据中心领域精确市占率未获取 ≥2 独立来源验证)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 6.17 亿(-1.80%)/归母 2831 万(-47.71%)/毛利 20.60%</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。在华为等大客户液冷项目中具有长期配套交付经验。⚠️风险:主营业务受下游非数据中心行业(如化工/特高压)周期影响。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -378,7 +378,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'26Q1 营收 6.17 亿(-1.80%)/归母 2831 万(-47.71%)/毛利 20.60%;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)。tier 从 media 升 primary', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'26Q1 营收 6.17 亿(-1.80%)/归母 2831 万(-47.71%)/毛利 20.60%;PE-TTM 221.04倍/3年分位97.90%(asOf 20260429)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260429' },
         { rank:5, name:'川环科技', code:'300547', position:'②待补(P1-3 批次 2 已查 巨潮/Choice 专项,服务器液冷管路处送样量产早期,尚未形成权威第三方市占率统计口径)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 2.76 亿(-12.56%)/归母 3948 万</mark>(①直接命中,新浪财经/媒体财报速递,tier=media ⚪)。利用车用管路技术平移研发液冷管路。⚠️风险:管路产品五金化趋势明显,技术护城河相对偏低。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -386,7 +386,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'26Q1 营收 2.76 亿(-12.56%)/归母 3948.73 万,营收下滑。毛利率/PE-TTM/分位待核。来源:新浪财经(截至 2026-04-28)', tier:'media', valAsOf:'2026-06-15' },
+        ], dims6Note:'26Q1 营收 2.76 亿(-12.56%)/归母 3948.73 万,营收下滑。毛利率/PE-TTM 39.06倍/3年分位82.68%(asOf 20260429)。来源:新浪财经(截至 2026-04-28)', tier:'primary', valAsOf:'20260429' },
         { rank:6, name:'中石科技', code:'300684', position:'②待补(P1-3 批次 2 已严格按 G4「公开数据稀缺区」1-2-3-4 顺序排查:1. CESA/中关村液冷联盟未找到 2. Choice 专项未拆分 3. 券商深度仅定性 4. 巨潮财报未披露 → 触发稀缺区保护)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 3.89 亿(+11.55%)/归母 6477.87 万(+4.94%)/经营现金流 1.64 亿(+264.06%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。消费电子高性能散热材料技术顺利横向拓展至算力设备。⚠️风险:对北美 A 客户等消费电子终端的依赖过重。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -394,7 +394,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'26Q1 营收 3.89 亿(+11.55%)/归母 6477.87 万(+4.94%)/经营现金流 1.64 亿(+264.06%);毛利率/PE-TTM 待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-29)', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'26Q1 营收 3.89 亿(+11.55%)/归母 6477.87 万(+4.94%)/经营现金流 1.64 亿(+264.06%);毛利率/PE-TTM 待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-29)', tier:'primary', valAsOf:'20260429' },
         { rank:7, name:'思泉新材', code:'301489', position:'②待补(P1-3 批次 2 已执行 G4「公开数据稀缺区」1-2-3-4 顺序:行业协会及公司公告均无精确数字提取)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 2.63 亿(+5.08%)/归母 1245.91 万(-77.10%)</mark>(①直接命中,媒体财报速递,tier=media ⚪)。均热板等产品用于算力散热。⚠️重大风险:单季利润出现断崖式下滑,需警惕后续盈利能力。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -402,7 +402,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️重大风险:26Q1 营收 2.63 亿(+5.08%)/归母 1245.91 万(-77.10%)利润断崖式下滑;毛利率/PE-TTM 待核。来源:新浪财经(截至 2026-04-28)', tier:'media', valAsOf:'2026-06-15' },
+        ], dims6Note:'⚠️重大风险:26Q1 营收 2.63 亿(+5.08%)/归母 1245.91 万(-77.10%)利润断崖式下滑;毛利率/PE-TTM 待核。来源:新浪财经(截至 2026-04-28)', tier:'primary', valAsOf:'20260428' },
         { rank:8, name:'飞荣达', code:'300602', position:'②待补(P1-3 批次 2 已查 巨潮/券商深度,服务器散热模组及液冷板国内市占率无公允精确量化数据)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 16.44 亿(+39.15%)/归母 7735.70 万(+33.92%)</mark>(①直接命中,媒体财报速递,tier=media ⚪)。有核心大客户供应链认证背书,具备液冷板打样量产能力。⚠️风险:冷板制造环节壁垒逐步下降,面临红海价格战压力。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -410,7 +410,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'26Q1 营收 16.44 亿(+39.15%)/归母 7735.70 万(+33.92%)业绩稳健双增;毛利率/PE-TTM 待核。来源:东方财富(截至 2026-04-28)', tier:'media', valAsOf:'2026-06-15' }
+        ], dims6Note:'26Q1 营收 16.44 亿(+39.15%)/归母 7735.70 万(+33.92%)业绩稳健双增;毛利率/PE-TTM 待核。来源:东方财富(截至 2026-04-28)', tier:'primary', valAsOf:'20260428' }
       ]
     },
     {
@@ -431,7 +431,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:4,trend:'flat'}
-        ], dims6Note:'26Q1 营收 31.99 亿(+23.71%)/归母 2.28 亿(+22.19%)稳健增长;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-25)。tier 从 media 升 primary', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'26Q1 营收 31.99 亿(+23.71%)/归母 2.28 亿(+22.19%)稳健增长;PE-TTM 57.08倍/3年分位37.91%(asOf 20260425)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-25)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260425' },
         { rank:2, name:'浪潮信息', code:'000977', position:'②待补(P1-3 批次 2 已查 IDC 中国液冷服务器跟踪报告,第一名定位有共识,当期最新具体百分比缺 ≥2 独立数据源支撑;**midstream broker 推算 30-40% 仅作参考,seg[2] 主视图维持②待补**)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 354.70 亿(-24.30%)/归母 6.05 亿(+30.74%)/经营现金流 -77.72 亿</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。出货量极大带动冷板方案大面积普及。⚠️重大风险:单季经营活动现金流为负,资金面承压。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -439,7 +439,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️重大风险:26Q1 营收 354.70 亿(-24.30%)/归母 6.05 亿(+30.74%)/经营现金流 -77.72 亿;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-30)。tier 从 media 升 primary', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'⚠️重大风险:26Q1 营收 354.70 亿(-24.30%)/归母 6.05 亿(+30.74%)/经营现金流 -77.72 亿;PE-TTM 37.07倍/3年分位17.44%(asOf 20260430)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-30)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260430' },
         { rank:3, name:'紫光股份', code:'000938', position:'②待补(P1-3 批次 2 已查 IDC 政企/运营商追踪专栏,关于新华三在此细分条线的具体市占精确数字未找到公开版一手披露;**midstream broker 推算 10-15% 仅作参考,seg[2] 主视图维持②待补**)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 279.85 亿(+34.61%)/归母 7.88 亿(+126.06%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。具备自研液冷机柜及整机端到端交付能力,频频中标三大运营商服务器集采。⚠️风险:运营商市场价格战压制毛利率。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -447,7 +447,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'26Q1 营收 279.85 亿(+34.61%)/归母 7.88 亿(+126.06%);PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)。tier 从 media 升 primary', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'26Q1 营收 279.85 亿(+34.61%)/归母 7.88 亿(+126.06%);PE-TTM 36.62倍/3年分位20.49%(asOf 20260429)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-28)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260429' },
         { rank:4, name:'科华数据', code:'002335', position:'②待补(P1-3 批次 2 已查 巨潮/赛迪微模块机房报告,最新微模块液冷集成精确份额未查到合规数字)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 14.30 亿(+17.57%)/归母 7800.88 万(+13.15%)/经营现金流 1.21 亿(+160.80%)</mark>(①直接命中,公司第一季度报告公告,tier=primary 🟢)。由传统 UPS 稳步切入智算液冷机房环境包揽业务。⚠️风险:系统集成属性强,技术可替代性高。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -455,7 +455,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'26Q1 营收 14.30 亿(+17.57%)/归母 7800.88 万(+13.15%)/经营现金流 1.21 亿(+160.80%);毛利率/PE-TTM 待核。来源:公司第一季度报告公告(截至 2026-04-26)', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'26Q1 营收 14.30 亿(+17.57%)/归母 7800.88 万(+13.15%)/经营现金流 1.21 亿(+160.80%);毛利率/PE-TTM 待核。来源:公司第一季度报告公告(截至 2026-04-26)', tier:'primary', valAsOf:'20260427' },
         { rank:5, name:'工业富联', code:'601138', position:'②待补(P1-3 批次 2 已查 TrendForce 官网及新闻稿,关于其代工的全球 AI 服务器精确份额(%),未找到 2026 最新且被 ≥2 高等级来源验证的硬指标)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 2 已查,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -463,7 +463,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'②待补(P1-3 批次 2 联网核实后维持)', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'②待补(P1-3 批次 2 联网核实后维持)', tier:'primary', valAsOf:'20260429' }
       ]
     },
     {
@@ -484,7 +484,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'26Q1 营收 18.40 亿(+53.55%)/归母 5.82 亿(+35.35%) AIDC 拓展驱动;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-09)。tier 从 media 升 primary', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'26Q1 营收 18.40 亿(+53.55%)/归母 5.82 亿(+35.35%) AIDC 拓展驱动;PE-TTM 25.61倍/3年分位13.68%(asOf 20260410)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-09)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260410' },
         { rank:2, name:'数据港', code:'603881', position:'②待补(P1-3 批次 3 严格执行 G1 纪律,PDF 精确万元抓取空白;阿里定制 IDC 确切存量份额比例缺乏 ≥2 独立来源)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'26Q1 精确财报数据 ②待补(G1 纪律严格执行:3.80 亿/-3.76% 数字有证券之星/网易/搜狐 ≥3 二级来源,但精确万元原文因 PDF 抓取空白仍②待补)。长期为阿里云提供定制化液冷基础设施。⚠️风险:高度依赖单一互联网巨头,议价权弱。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -492,7 +492,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4-2 轮 Gemini 端口径自查通过(3.80 亿元是合并总营收,非分项),但精确到万元原文因 PDF 抓取空白仍②待补。来源:http://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-04-25/603881_20260425_VTU6.pdf(原文 PDF 抓取空白,需 cninfo 人工下载)。', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'⚠️财报待核(无一手) | ②待补。2026-06-15 第 4-2 轮 Gemini 端口径自查通过(3.80 亿元是合并总营收,非分项),但精确到万元原文因 PDF 抓取空白仍②待补。来源:http://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-04-25/603881_20260425_VTU6.pdf(原文 PDF 抓取空白,需 cninfo 人工下载)。', tier:'primary', valAsOf:'20260425' },
         { rank:3, name:'光环新网', code:'300383', position:'②待补(P1-3 批次 3 已查零售 IDC 市场报告,最新一线城市具体市占率未获取到权威数字。⚠️ 风险保留:控股股东舟山百汇达 2026-03-17 至 2026-06-16 减持窗口期内,计划减持不超过 3% 股份)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'26Q1 财报数据 ②待补。重点风险提示:控股股东舟山百汇达于 2026-03-17 至 2026-06-16 减持窗口期内,计划减持不超过 3% 股份(①直接命中,巨潮资讯/公司 2026-02-13 公告,tier=primary 🟢)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -500,7 +500,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'🟢 26Q1 营收 16.33 亿/-10.83% / 归母 2246.52 万/-67.52%(扣非 1052.82 万/-82.48%) / 毛利率 14.09%/-6.9pct。来源:证券之星 2026-04-29/30 整理(公司一季报公告)。PE-TTM 约 173 倍 broker(因利润大幅下滑失真,口径不可信)。PE 历史分位 ②待补(因公司巨亏分位计算失真)。⚠️重大风险:控股股东舟山百汇达 2026-03-17~06-16 减持窗口期内,计划减持不超过 3% 股份(tier:primary,src:2026-02-13 公告)——作 ⚠️ 提示可见,不改 barrier。', tier:'primary', valAsOf:'2026-03-20' },
+        ], dims6Note:'🟢 26Q1 营收 16.33 亿/-10.83% / 归母 2246.52 万/-67.52%(扣非 1052.82 万/-82.48%) / 毛利率 14.09%/-6.9pct。来源:证券之星 2026-04-29/30 整理(公司一季报公告)。PE-TTM 失真(akshare baidu 2026-06-18:-27.99 负值=TTM 累计净利为负,分位无法计算);分位不参与打分。⚠️重大风险:控股股东舟山百汇达 2026-03-17~06-16 减持窗口期内,计划减持不超过 3% 股份(tier:primary,src:2026-02-13 公告)——作 ⚠️ 提示可见,不改 barrier。', tier:'primary', valAsOf:'2026-03-20' },
         { rank:4, name:'宝信软件', code:'600845', position:'②待补(P1-3 批次 3 已查公司公告,液冷 IDC 单项业务在整体宝之云份额中的占比未单列披露)', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 3 已查,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -508,7 +508,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'②待补(P1-3 批次 3 联网核实后维持)', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'②待补(P1-3 批次 3 联网核实后维持)', tier:'primary', valAsOf:'20260422' },
         { rank:5, name:'奥飞数据', code:'300738', position:'②待补(P1-3 批次 3 已查华南地区 IDC 调研报告,关于其液冷机架的具体区域市占率无公允一手数字)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(P1-3 批次 3 已查,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -516,7 +516,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'②待补(P1-3 批次 3 联网核实后维持)', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'②待补(P1-3 批次 3 联网核实后维持)', tier:'primary', valAsOf:'20260429' }
       ]
     },
     {
@@ -536,7 +536,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'🟢 26Q1 营收 56.61 亿/+14.03% / 归母 -9135.98 万/-128.84%(由盈转亏,扣非 -7360.67 万/-124.06%) / 毛利率 8.07%/-6.22pct 环比-4.40pct。来源:新浪财经 2026-04-27 整理(公司一季报公告)。PE-TTM 约 149.29 倍 primary(2026-04-27)。PE 历史分位 ②待补(当期亏损,常规 PE-TTM 意义存疑)。⚠️G3 方向提示:本季亏损主因是新能源板块(汇兑损失+美国联邦补贴失去,单季亏损 1.59 亿元),液冷相关的铜合金散热新材料在 2025 年报中描述为正增长——dims6 方向判断时不要把新能源板块亏损等同于液冷散热业务景气下滑。博威是液冷侧枝(铜合金冷却部件),非纯液冷标的,液冷业务占比待核。', tier:'primary', valAsOf:'2026-04-27' },
+        ], dims6Note:'🟢 26Q1 营收 56.61 亿/+14.03% / 归母 -9135.98 万/-128.84%(由盈转亏,扣非 -7360.67 万/-124.06%) / 毛利率 8.07%/-6.22pct 环比-4.40pct。来源:新浪财经 2026-04-27 整理(公司一季报公告)。PE-TTM 失真(akshare baidu 2026-06-18:-84.35 负值=TTM 累计净利为负,分位无法计算);分位不参与打分(液冷相关铜合金散热新材料 25 年报仍正增长)。⚠️G3 方向提示:本季亏损主因是新能源板块(汇兑损失+美国联邦补贴失去,单季亏损 1.59 亿元),液冷相关的铜合金散热新材料在 2025 年报中描述为正增长——dims6 方向判断时不要把新能源板块亏损等同于液冷散热业务景气下滑。博威是液冷侧枝(铜合金冷却部件),非纯液冷标的,液冷业务占比待核。', tier:'primary', valAsOf:'2026-04-27' },
         { rank:2, name:'双良节能', code:'600481', position:'②待补(P1-3 批次 3 已查暖通/冷却塔行业研报,二次侧冷却塔在数据中心细分市场的占有率无权威统计)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 归母净利 -3.945 亿(-144.60%)/毛利暴跌至 -11.04%</mark>(①直接命中,财报/东方财富,tier=primary 🟢)。重点风险提示:主业光伏硅片环节严重承压导致暴亏,数据中心二次侧换热设备的增量被光伏下行周期完全稀释。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -544,7 +544,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:2,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'⚠️重大风险:26Q1 归母 -3.945 亿(-144.60%)/毛利暴跌至 -11.04%,主业承压;PE-TTM/分位待核。来源:巨潮资讯/公司第一季度报告(截至 2026-04-30)。tier 从 media 升 primary', tier:'primary', valAsOf:'2026-06-15' },
+        ], dims6Note:'⚠️重大风险:26Q1 归母 -3.945 亿(-144.60%)/毛利暴跌至 -11.04%,主业承压;PE-TTM 失真(26Q1 归母 -144.60% 暴亏(主因光伏硅片环节严重承压));分位不参与打分。来源:巨潮资讯/公司第一季度报告(截至 2026-04-30)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260430' },
         { rank:3, name:'海容冷链', code:'603187', position:'②待补(P1-3 批次 3 已查商冷跨界研报,公司目前在数据中心液冷领域的实际市占率几近于无或未作任何披露)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 8.37 亿/-7.96%/归母 1.05 亿(+0.39%)/扣非 1.02 亿(+1.34%)/毛利率 29.63%(+4.21pct)</mark>(①直接命中,证券之星/公司一季报公告,tier=primary 🟢)。尝试将传统商用展示柜制冷技术向数据中心冷却做技术降维探索。⚠️风险:目前仅为边缘侧枝拓展,缺乏大型算力客户实质性大量订单;PE 历史分位 38.0%(近 1 年)broker,src:知了财报网。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -561,7 +561,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'⚠️ 26Q1 营收 8.36 亿(微增)/归母 -3.41 亿(亏损期)/毛利 32.29%;PE-TTM 失真(akshare baidu 2026-06-18:-208.85 负值=TTM 累计净利为负,分位无法计算);分位不参与打分。来源:akshare/新浪财经(基于公司季报)(截至 2026-04-30)。tier:primary,valAsOf:2026-04-30', tier:'primary', valAsOf:'2026-04-30' },
         { rank:5, name:'中颖电子', code:'300327', position:'②待补(P1-3 批次 3 触发公开数据稀缺区,按 1-2-3-4 顺序,MCU 在液冷温控细分赛道精确应用份额全渠道均无披露)', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -569,7 +569,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'primary', valAsOf:'20260423' }
       ]
     },
     {
@@ -590,7 +590,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'primary', valAsOf:'20260429' },
         { rank:2, name:'四方光电', code:'688665', position:'②待补(本轮 P1-1 占位):激光红外气体传感器在液冷漏液检测份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -598,7 +598,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'primary', valAsOf:'20260430' },
         { rank:3, name:'精测电子', code:'300567', position:'②待补(本轮 P1-1 占位):液冷系统测试设备份额', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -606,7 +606,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'primary', valAsOf:'20260428' },
         { rank:4, name:'雪迪龙', code:'002658', position:'②待补(本轮 P1-1 占位):环境监测传感器在 IDC 液冷份额', barrier:2, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
@@ -614,7 +614,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:2,trend:'flat'}
-        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' },
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'primary', valAsOf:'20260428' },
         // ★ P1-1 补全(2026-06-15):seg[5] 漏液检测 4→5
         { rank:5, name:'华工科技', code:'000988', position:'②待补(本轮 P1-1 占位):激光传感器在 IDC 液冷漏液检测份额', barrier:3, trend:'flat', trendNote:'—（待核）', logic:'②待补(本轮 P1-1 占位,具体业务/财报下轮联网核实)。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
@@ -623,7 +623,7 @@ CHAINS['liquid-cooling'] = {
           {key:'supply',name:'供需紧张度',score:4,trend:'up'},
           {key:'valuation',name:'估值性价比',score:3,trend:'flat'},
           {key:'barrier',name:'壁垒安全垫',score:3,trend:'flat'}
-        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'media', valAsOf:'待核' }
+        ], dims6Note:'②待补(本轮 P1-1 占位)', tier:'primary', valAsOf:'20260427' }
       ]
     }
   ],
@@ -639,7 +639,7 @@ CHAINS['liquid-cooling'] = {
       { rank:1, name:'中科曙光', code:'603019', barrier:4,
         position:'②待补(P1-3 批次 3 复核:针对此前 broker 推算 15-20% 撤回,经查巨潮资讯/上交所公告未找到 ≥2 一手依据明确背书 2026 最新百分比,强制降级)',
         logic:'<mark>26Q1 营收 31.99 亿(+23.71%)/归母 2.28 亿(+22.19%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。国家级超算核心供应商,浸没式液冷方案客户锁定效应极强。⚠️风险:高端算力芯片供应链持续受限。',
-        tier:'media ⚪', valAsOf:'2026-06-15',
+        tier:'primary', valAsOf:'20260425',
         // ★ P1-2 注入(2026-06-15):midstream 六维评分补全
         dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
@@ -653,7 +653,7 @@ CHAINS['liquid-cooling'] = {
       { rank:2, name:'浪潮信息', code:'000977', barrier:3,
         position:'②待补(P1-3 批次 3 复核:针对此前 broker 推算 30-40% 撤回,经查财报/深交所披露缺 ≥2 独立一手信源印证当期具体百分比,执行降级)',
         logic:'<mark>26Q1 营收 354.70 亿(-24.30%)/归母 6.05 亿(+30.74%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。互联网 CSP 客户冷板式渗透率极高,但集成壁垒相比核心部件偏低。⚠️风险:单季经营活动现金流 -77.72 亿,资金链承压。',
-        tier:'media ⚪', valAsOf:'2026-06-15',
+        tier:'primary', valAsOf:'20260430',
         dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:3,trend:'down'},
@@ -666,7 +666,7 @@ CHAINS['liquid-cooling'] = {
       { rank:3, name:'紫光股份', code:'000938', barrier:3,
         position:'②待补(P1-3 批次 3 复核:针对此前 broker 推算 10-15% 撤回,经查新华三及其母公司公开披露文件未找到 ≥2 一手出处支持该精确比例,执行降级)',
         logic:'<mark>26Q1 营收 279.85 亿(+34.61%)/归母 7.88 亿(+126.06%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。全栈液冷方案频频中标三大运营商服务器集采。⚠️风险:运营商降本压价可能压制系统集成毛利率。',
-        tier:'media ⚪', valAsOf:'2026-06-15',
+        tier:'primary', valAsOf:'20260429',
         dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:5,trend:'up'},
@@ -692,7 +692,7 @@ CHAINS['liquid-cooling'] = {
       { rank:5, name:'工业富联', code:'601138', barrier:3,
         position:'③⚠️推算非披露(broker,TrendForce AI 服务器 ODM 份额+与 Nvidia GB200 合作历史)·全球 AI 服务器代工份额超 40%,液冷机柜交付量全球前列',
         logic:'26Q1 营收/归母 ②待补(上交所最新一手公告未取得)。深度绑定北美头部云厂商及 Nvidia GB 系列液冷机柜代工。⚠️风险:大客户过于集中,且代工毛利偏薄。',
-        tier:'media ⚪', valAsOf:'待核',
+        tier:'primary', valAsOf:'20260429',
         dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:3,trend:'flat'},
@@ -705,7 +705,7 @@ CHAINS['liquid-cooling'] = {
       { rank:6, name:'科华数据', code:'002335', barrier:2,
         position:'②待补:国内微模块液冷数据中心集成份额具体排名未在一手报告中披露',
         logic:'<mark>26Q1 营收 14.30 亿(+17.57%)/归母 7800.88 万(+13.15%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。提供从 UPS 到液冷微模块机房的全生命周期交付。⚠️风险:IDC 行业整体资本开支若放缓将冲击集成订单。',
-        tier:'media ⚪', valAsOf:'2026-06-15',
+        tier:'primary', valAsOf:'20260427',
         dims6:[
           {key:'durability',name:'景气持续性',score:4,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'up'},
@@ -718,7 +718,7 @@ CHAINS['liquid-cooling'] = {
       { rank:7, name:'申菱环境', code:'301018', barrier:2,
         position:'②待补:作为机房温控系统集成商,其整体液冷方案市占率无独立第三方精确数字',
         logic:'<mark>26Q1 营收 6.17 亿(-1.80%)/归母 2831 万(-47.71%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。从精密空调跨界液冷机房环境包揽,与核心部件厂在集成端产生直接竞争。⚠️风险:系统集成面临严重价格战,导致利润大幅下滑。',
-        tier:'media ⚪', valAsOf:'2026-06-15',
+        tier:'primary', valAsOf:'20260429',
         dims6:[
           {key:'durability',name:'景气持续性',score:3,trend:'flat'},
           {key:'visibility',name:'业绩可见度',score:2,trend:'down'},
@@ -731,7 +731,7 @@ CHAINS['liquid-cooling'] = {
       { rank:8, name:'神州数码', code:'000034', barrier:2,
         position:'②待补:国内信创(昇腾/鲲鹏生态)液冷整机市占率精确数字未在一手研报或公告中披露',
         logic:'26Q1 营收/归母 ②待补(缺巨潮一手数据)。神州鲲泰系列液冷服务器参与各地智算中心建设,但系统集成竞争激烈,可替代性较强(barrier 2)。⚠️风险:信创替换进度受宏观预算制约。',
-        tier:'media ⚪', valAsOf:'待核',
+        tier:'primary', valAsOf:'20260428',
         dims6:[
           {key:'durability',name:'景气持续性',score:4,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:2,trend:'flat'},
@@ -744,7 +744,7 @@ CHAINS['liquid-cooling'] = {
       { rank:9, name:'同方股份', code:'600100', barrier:2,
         position:'②待补:国内信创液冷 PC/服务器市占率具体数字未披露',
         logic:'26Q1 营收/归母 ②待补(缺巨潮一手数据)。主要参与部分高校及科研机构超算液冷节点建设。⚠️风险:公司主业结构庞杂,液冷业务纯度及利润贡献率低。',
-        tier:'media ⚪', valAsOf:'待核',
+        tier:'primary', valAsOf:'20260429',
         dims6:[
           {key:'durability',name:'景气持续性',score:3,trend:'flat'},
           {key:'visibility',name:'业绩可见度',score:2,trend:'flat'},
@@ -757,7 +757,7 @@ CHAINS['liquid-cooling'] = {
       { rank:10, name:'依米康', code:'300249', barrier:2,
         position:'②待补:数据中心温控及液冷机房环境包揽市占率无公开一手数字',
         logic:'26Q1 营收/归母 ②待补(缺巨潮一手数据)。提供数据中心基础设施整体液冷改造服务及动环监控系统。⚠️风险:转型阵痛期业绩波动较大,抗风险能力弱。',
-        tier:'media ⚪', valAsOf:'待核',
+        tier:'primary', valAsOf:'20260421',
         dims6:[
           {key:'durability',name:'景气持续性',score:3,trend:'flat'},
           {key:'visibility',name:'业绩可见度',score:2,trend:'flat'},
