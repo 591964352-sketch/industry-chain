@@ -294,7 +294,7 @@ CHAINS['liquid-cooling'] = {
       stocks: [
         // ★ 升级九 STEP 2 P0-3 注入(2026-06-15 Gemini v2):position+logic 硬数据 + tier 升级
         //   seg[0] 3 只 26Q1 primary,巨化 position 按 G7 规则降级为②待补(产能规划+历史市占延伸非真推算)
-        { rank:1, name:'巨化股份', code:'600160', position:'②待补(P1-3 批次 1 已查巨潮/环评/Choice 研报,2025-2026 全球/国内市占率+3M 退出产能+巨化承接转化量均未找到 ≥2 个独立一手披露来源;按 G4 防伪造原则,不以历史产能规划平推填补)', barrier:5, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 60.18 亿(+3.75%)/归母 11.73 亿(+45.93%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。3M 退出后唯一具备 C8/C6 全链条规模化能力的上市化工龙头。⚠️风险:含氟聚合物(PFAS)面临环保政策收紧黑天鹅。', dims6:[
+        { rank:1, name:'巨化股份', code:'600160', position:'2025 目标 5000 吨/年(巨芯冷却液)·一期 2022 已建 1000 吨·应用 60% 半导体+40% 大数据中心·客户 阿里云/华为/台积电·纯度 99.9999% 适配 3nm 🔵 broker Gemini Advanced 1.5 Pro 联网 2026-06-18', barrier:5, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 60.18 亿(+3.75%)/归母 11.73 亿(+45.93%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。3M 退出后唯一具备 C8/C6 全链条规模化能力的上市化工龙头。⚠️风险:含氟聚合物(PFAS)面临环保政策收紧黑天鹅。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -349,7 +349,7 @@ CHAINS['liquid-cooling'] = {
       stocks: [
         // ★ 升级九 STEP 2 P0-3 注入(2026-06-15 Gemini v2):position+logic 硬数据 + tier 升级
         //   seg[1] 8 只 26Q1 primary 突破(从 0 升 primary),英维克/永贵 position 按 G7 规则降级为 ②待补
-        { rank:1, name:'英维克', code:'002837', position:'②待补(P1-3 批次 2 已查 IDC/赛迪/巨潮/招投标网,2025-2026 数据中心 CDU 国内精确市占率+英维克+维谛+AVC 三家合并占比,尚未发布最新年度一手统计结果)', barrier:5, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 11.75 亿(+26.03%)/归母 866 万(-81.97%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。构建"Coolinside"全链条方案,防漏认证壁垒深。⚠️重大风险:增收不增利(汇兑与费用侵蚀),一季报暴雷。', dims6:[
+        { rank:1, name:'英维克', code:'002837', position:'2024 营收 45.89 亿(+30.04%)/归母 4.53 亿(+31.59%)·机房温控占比 25% 折算液冷相关 ~11.47 亿🟢 primary 巨潮 2025-04 + 2025Q1 营收 9.33 亿(+25.07%)/归母 0.48 亿(-22.53% 增收不增利因交付/存货高增+汇兑)🟢 primary 巨潮 2025-04-21 + 英伟达 GB200/GB300 AVL 合格供应商 Tier 1🔵 broker (lctexpo.com + stcn.com 证券时报 + 中泰证券 三源)+ 全球 CDU 市场 2025 22.4 亿美元/2026E 25.4 亿美元 CAGR 14.3-18.2%🔵 broker Fortune Business Insights + 维谛 2025 全球 CDU 市占 11.3% 居首/前五合计 35%🔵 broker + 国内寡头英维克+维谛+AVC 三家(国内分项市占率公开数据稀缺)🔵 broker', barrier:5, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 11.75 亿(+26.03%)/归母 866 万(-81.97%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。构建"Coolinside"全链条方案,防漏认证壁垒深。⚠️重大风险:增收不增利(汇兑与费用侵蚀),一季报暴雷。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -357,7 +357,7 @@ CHAINS['liquid-cooling'] = {
           {key:'valuation',name:'估值性价比',score:2,trend:'down'},
           {key:'barrier',name:'壁垒安全垫',score:5,trend:'flat'}
         ], dims6Note:'⚠️重大风险:26Q1 营收 11.75 亿(+26.03%)/归母 866 万(-81.97%),增收不增利。PE-TTM 197.06倍/3年分位96.82%(asOf 20260421)。来源:巨潮资讯/公司第一季度报告(截至 2026-04-20)。tier 从 media 升 primary', tier:'primary', valAsOf:'20260421' },
-        { rank:2, name:'永贵电器', code:'300351', position:'②待补(P1-3 批次 2 已查 Choice/年报/券商深度,海外史陶比尔+派克汉尼汾 90%+ 属历史研报共识,2025-2026 永贵具体国产替代市占数字未找到 ≥2 独立一手信源)', barrier:4, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 4.74 亿(+6.30%)/归母 -2174 万(-193.46%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。掌握防漏液盲插核心专利避开海外封锁。⚠️重大风险:一季报业绩转亏,轨交等主业承压严重掩盖液冷增量。', dims6:[
+        { rank:2, name:'永贵电器', code:'300351', position:'2024 营收 20.20 亿(+33.04%)/归母 1.26 亿(+24.47%)·车载与能源信息板块 11.70 亿(占 57.90% YoY +52.24%)含液冷超充枪(赛力斯/吉利/奇瑞/比亚迪/华为 5 家)🟢 primary 巨潮/stcn.com + 2024 研发投入 1.65 亿(占营收 8.18%)🔵 broker + UQD 标准 OCP 2017 英特尔牵头 2020 Rev 1.0 批准 2021 UQDB 盲插版发布🔵 broker (OCP 官网+CEJN+Staubli+CPC 多源) + ⚠️ falsifySignal 三大反向证据:① 永贵未进入英伟达 GB200 供应链(暂无任何官方公告)🔵 broker Gemini 2026-06-18;② 数据中心高阶 UQD 市场仍由海外(史陶比尔/派克/Danfoss/CEJN/CPC)+ 台资代工把控🔵 broker;③ 永贵当前液冷业务实质是新能源液冷超充枪(车载大功率),非数据中心 UQD 严苛盲插防漏场景⚠️卡口评级从 ★★★ 降 ★★☆ (chokePoints[2] 已一致)·保留为"潜在国产替代标的"非"已实现卡口"', barrier:4, trend:'flat', trendNote:'—（待核）', logic:'<mark>26Q1 营收 4.74 亿(+6.30%)/归母 -2174 万(-193.46%)</mark>(①直接命中,巨潮资讯/公司财报,tier=primary 🟢)。掌握防漏液盲插核心专利避开海外封锁。⚠️重大风险:一季报业绩转亏,轨交等主业承压严重掩盖液冷增量。', dims6:[
           {key:'durability',name:'景气持续性',score:5,trend:'up'},
           {key:'visibility',name:'业绩可见度',score:4,trend:'flat'},
           {key:'policy',name:'政策确定性',score:4,trend:'flat'},
@@ -792,7 +792,7 @@ CHAINS['liquid-cooling'] = {
         choke: false,
         stocks: [
           { name:'英维克', code:'002837', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:true, q1note:'CDU 国内龙头(英维克+维谛+AVC 三家寡头)', q2:true, q2note:'Coolinside 全链条扩产 12+ 月', q3:true, q3note:'防漏认证 12-18 月+整机厂不敢换供', q4:true, q4note:'下游 GB200/GB300 强制液冷+运营商集采', hits:4, strength:'★★★' },
-          { name:'永贵电器', code:'300351', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:true, q1note:'国产快接头突破史陶比尔/派克垄断,永贵+川环 2 家寡头', q2:true, q2note:'扩产中', q3:true, q3note:'千万次盲插防漏专利壁垒,海外未放', q4:true, q4note:'下游服务器整机厂验证 6-12 月', hits:4, strength:'★★★' },
+          { name:'永贵电器', code:'300351', position:'⚠️ falsifySignal 降级 ★★★ → ★★☆(详见 segments[1]永贵 position 三大反向证据:① 未入 GB200 供应链 ② 海外+台资仍把控 ③ 液冷业务实质是新能源超充枪非数据中心 UQD·保留"潜在国产替代"非"已实现卡口")', barrier:'—', q1:false, q1note:'⚠️ 永贵未入英伟达 GB200 供应链(无官方公告)·数据中心 UQD 仍海外+台资把控', q2:true, q2note:'扩产中(主业液冷超充枪放量)', q3:false, q3note:'千万次盲插防漏专利壁垒 海外未放 但永贵当前实质未实现突破', q4:false, q4note:'下游服务器整机厂验证 未通过(无 GB200 供应)·当前为车载超充客户', hits:1, strength:'★★☆' },
           { name:'高澜股份', code:'300499', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'老牌温控厂,服务器厂自研内卷', q2:false, q2note:'未明显扩产', q3:false, q3note:'服务器厂自研体系蚕食', q4:false, q4note:'市占率受压', hits:0, strength:null },
           { name:'申菱环境', code:'301018', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'机房温控多家之一', q2:false, q2note:'未明显扩产', q3:false, q3note:'华为/化工客户分散,非卡口', q4:false, q4note:'集成端价格战', hits:0, strength:null },
           { name:'川环科技', code:'300547', position:'②待补(B类:市占/客户/排名,本轮 akshare 未核,保留诚实)', barrier:'—', q1:false, q1note:'管路五金属性,门槛适中', q2:true, q2note:'车用管路平移扩产', q3:false, q3note:'管路制造门槛低,海外可替', q4:true, q4note:'服务器管路验证 6+ 月', hits:2, strength:null },
@@ -973,7 +973,7 @@ CHAINS['liquid-cooling'] = {
       rate: '待核',
       bottleneck: '高质量 C8/C6 氟化液合成工艺壁垒 + 环评审批周期 12-18 月 + PFAS 环保黑天鹅',
       tier: 'estimate',
-      src: 'AI 主观 🆪·方向已知(3M 退出+强制液冷),硬数字待 Gemini 端核实'
+      src: 'AI 主观 🆪·方向已知(3M 2025 年底 PFAS 全面停产+GB200/GB300 倒向冷板式 PG25 水基防冻液+数据中心浸没式短期被封印)+ 公开数据稀缺区(SKILL.md G4 已知:5 家氟化液公司年报+调研+巨潮+Choice 全部不披露精确市占)·硬数字 demand/capacity/gap/rate 4 项全②待核(Gemini 端 2026-06-18 联网核实未突破)+ PFAS 法规时间表(欧盟 ECHA 第 14 版 2025-08-20 + 2026-03 SEAC 草案 + 2026 年底最终评估 + 2030 全面生效)🔵 broker cirs-group.com REACH 解读'
     },
     {
       segment: 'AI 级 CDU(液冷分配单元)',
@@ -987,9 +987,9 @@ CHAINS['liquid-cooling'] = {
     }
   ],
   // ★ 升级九 STEP 2+ :方法论边界 —— 总结液冷链 4 大物理追问的真实分布
-  methodologyNotes: '液冷链 <strong>3 大物理卡口 ★★★</strong>(segments 内 stock-level 4 问 4/4 通过的标的):① <strong>氟化液(巨化 600160)</strong>:3M/科慕 2022 年 PFAS 环保退出引发全球产能真空,巨化/新宙邦/天赐国产承接(q1 寡头✓ / q2 扩产 12+ 月✓ / q3 化工合成无替代✓ / q4 GB200/GB300 强制液冷✓);② <strong>CDU(英维克 002837)</strong>:英维克/维谛/AVC 三家寡头,防漏认证 12-18 月+整机厂不敢换供;③ <strong>快接头(永贵 300351)</strong>:永贵/川环国产突破史陶比尔/派克汉尼汾千万次盲插专利壁垒。'+
-    '<br><br><strong>非卡口环节(4 问 0/4 ~ 2/4,占 30 只/33 只 91%):</strong>中游系统集成商(中科曙光/浪潮/紫光/科华/工业富联)20+ 家可切换、非物理卡口;下游 IDC 运营商(润泽/数据港/光环/宝信/奥飞)重资产模式可被新进入者复制;液冷侧枝(博威/双良/海容)技术门槛低、传统商冷厂家可降维切入;漏液检测(汉威/四方/精测/雪迪龙/华工)气体传感器充分竞争。这是方法论的正常结果——一条产业链 33 只票里只有 3 只 ★★★ 是健康比例,不能为凑数把集成商/IDC 也评级为卡口。'+
-    '<br><br><strong>【内容标准】</strong> 本赛道已叠加「六维景气 + stock-level 4 问 + 5 列树状图 + akshare A 类自动注入」内容标准——每只 stock 4 问 q1-q4 + hits + strength、dims6 6 维 score + trend + reason + evidence、position ②待补 保留(B 类市占/客户/排名待 Gemini 端核实,CC 不联网造数)、treeMap 11 sub-card 全 barrier 标注。下一步:WebFetch/Gemini 端 B 类联网核实 33 只 position 数字 + supplyGap demand/capacity/gap/rate 硬数字。'
+  methodologyNotes: '液冷链 <strong>3 大卡口</strong>(评级已按 Gemini 联网核实 2026-06-18 校准):① <strong>氟化液(巨化 600160) ★★★</strong>:3M/科慕 2022 年 PFAS 环保退出引发全球产能真空,巨化/新宙邦/天赐国产承接(q1 寡头✓ / q2 扩产 12+ 月✓ / q3 化工合成无替代✓ / q4 GB200/GB300 强制液冷✓);② <strong>CDU(英维克 002837) ★★★</strong>:英维克/维谛/AVC 三家寡头,防漏认证 12-18 月+整机厂不敢换供(q1 寡头✓ / q2 Coolinside 扩产 12+ 月✓ / q3 防漏认证壁垒✓ / q4 GB200/GB300+运营商集采✓),Gemini 验证:英伟达 AVL Tier 1 (三源 lctexpo+stcn+中泰) + 维谛 2025 全球 CDU 11.3% 居首/前五 35%;③ <strong>快接头(永贵 300351) ★★☆ 降级</strong>(falsifySignal 触发):Gemini 联网核实反向证据 3 条:① 永贵未入英伟达 GB200 供应链(无官方公告);② 数据中心高阶 UQD 仍由海外(史陶比尔/派克/Danfoss/CEJN/CPC)+ 台资代工把控;③ 永贵 2024 液冷业务实质是新能源液冷超充枪(车载+赛力斯/吉利/奇瑞/比亚迪/华为),非数据中心 UQD 严苛盲插防漏场景。快接头卡口逻辑(千万次盲插防漏+史陶比尔/派克垄断)成立,但<strong>永贵当前尚未实现国产替代突破</strong>,保留为"潜在标的"非"已实现卡口"。'+
+    '<br><br><strong>非卡口环节(4 问 0/4 ~ 2/4,占 30 只/33 只 91%):</strong>中游系统集成商(中科曙光/浪潮/紫光/科华/工业富联)20+ 家可切换、非物理卡口;下游 IDC 运营商(润泽/数据港/光环/宝信/奥飞)重资产模式可被新进入者复制;液冷侧枝(博威/双良/海容)技术门槛低、传统商冷厂家可降维切入;漏液检测(汉威/四方/精测/雪迪龙/华工)气体传感器充分竞争。这是方法论的正常结果——一条产业链 33 只票里只有 3 只卡口(其中 1 只降级)是健康比例,不能为凑数把集成商/IDC 也评级为卡口。'+
+    '<br><br><strong>【内容标准】</strong> 本赛道已叠加「六维景气 + stock-level 4 问 + 5 列树状图 + akshare A 类自动注入」内容标准——每只 stock 4 问 q1-q4 + hits + strength、dims6 6 维 score + trend + reason + evidence、position ②待补 保留(其余 30 只 B 类市占/客户/排名待 Gemini 端核实,CC 不联网造数)、treeMap 11 sub-card 全 barrier 标注。下一步:WebFetch/Gemini 端 B 类联网核实剩 30 只 position 数字 + supplyGap demand/capacity/gap/rate 硬数字。'
 };
 
 // ==================== 二轮注入后状态（2026-06-15）====================
