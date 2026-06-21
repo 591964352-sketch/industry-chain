@@ -15,7 +15,7 @@ window.CHAINS = window.CHAINS || {};
 CHAINS.pcb = {
   id: 'pcb', name: 'PCB 印制电路板', icon: '🔌',
   // ★ 升级九 STEP 2：赛道级 meta（分组/筛选/治理）—— 样板 §8.2
-  meta: { sector:'中游', tier:'核心', status:'active(Phase 9 PCB 短板补充·2026-06-19·34 只 stock 补 tier 标记:🟢primary 6/🔵broker 21/⚪media 6/🆪estimate 1·首次数据治理精度与液冷链对齐·pcb.js 35 只 stock ②待补 = 0)', updatedAt:'2026-06-19', ltFit:null },
+  meta: { sector:'中游', tier:'核心', status:'active(R3-15 深度检查后·2026-06-21·38 只 stock universe(segments 35 + fourQ 36 + midstream 10, 重叠 43)·94.7% fourQ 覆盖率(36/38)·健康度 4.8/5·7 处⚠️单源待核(R3-13 P0 景旺重新核实降低 5 处)·CLAUDE.md §6 + SKILL.md §6§7 + refresh-sop.md §6.5 三处 cross-ref 治理纪律已固化)', updatedAt:'2026-06-19', ltFit:null },
   // ★ 升级九 STEP 2：景气六维 —— 样板 §3.1 原文（全标 🟢 AI 主观判断，cron 不刷数据截止日）
   prosperity: {
     dims: [
