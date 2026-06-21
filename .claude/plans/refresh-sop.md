@@ -353,6 +353,54 @@ Gemini/豆包等外部信源返回数据后，CC 注入前必须做反核实：
 
 ---
 
+### 6.6 Stock 双重检查前置（pre-flight + hallucination-screen）
+
+**触发时机**：每次 PCB 数据刷新任务开始前必跑。
+
+**目的**：在调用任何外部信源（豆包/网页端 Claude/akshare 等）之前，先确认：
+1. 所有 stock 仍在正常上市状态（无退市/停牌/ST）
+2. 豆包返回的内容可信（无幻觉事件）
+
+**双重检查流程**：
+
+**Step 1 · 上市状态预检**
+
+```bash
+node .claude/plans/tools/pcb-pre-flight-check.js
+```
+
+输出：`.claude/scratch/stock-status-report.md`
+
+如果发现异常 stock（退市/停牌/ST）：
+- 暂停数据刷新流程
+- 等用户决策处理方式（删除/标注退市/暂存/手动核查）
+- 处理完后才能进入 Step 2
+
+**Step 2 · 豆包返回幻觉筛查**
+
+每次豆包返回后，对返回内容运行：
+
+```bash
+node .claude/plans/tools/pcb-hallucination-screen.js
+```
+
+（实际使用方式：把豆包返回内容作为输入，调用 `screenHallucination(content, stockCode, stockName)` 函数）
+
+如果 hallucination-screen 判定为 ❌ 强烈疑似幻觉：
+- 不采信该次豆包返回
+- 重新设计 prompt 或更换信源
+- 不基于该次返回做 trend 推断
+
+**双重检查失败的处理优先级**：
+1. pre-flight 检查发现异常 stock → 必须先处理 stock 状态（删除/标注），才能继续
+2. hallucination-screen 发现幻觉 → 必须更换信源或调整 prompt，不基于幻觉数据继续
+
+**违反本节 = 数据治理红线（§6.2 造数 + §6.8 数据准确度优先违反）**。
+
+**事故案例**：2026-06-21 PCB R3-15 P1 阶段，002288 超华科技已退市但被纳入豆包核实流程，豆包返回大量 2026 幻觉事件（HVLP 铜箔/玉林基地/宁德时代比亚迪等）被采信为 down 判定依据，导致三层关卡（CC 采纳→网页端审核→用户确认）全部失守。本次双重检查前置即为此事故的防御措施。
+
+---
+
 ## 7. PCB 黄金范例 schema（对齐用）
 - 六维：`prosperity.dims[]` 每维 `{key,name,score,trend,reason,evidence,flag,tier}`；`verdict` 为对象。⚠️**禁止压缩格式**(否则六维卡渲染失败)。
 - 个股：每股 `dims6[]`+`dims6Note`+`tier`+`code`+`valAsOf`；dims6 的 barrier 维=barrier 档映射分。

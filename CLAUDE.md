@@ -345,6 +345,37 @@ Phase 10 半导体设备 R2-1 → R2-2 → R2-3 → R2-4 累计 4 轮重出。CC
    - 否 → ✅ 可以推荐
 ```
 
+### 6.9 上市状态预检 + 豆包返回幻觉筛查（双重检查·硬约束）
+
+**触发时机**：任何涉及具体 stock 的数据操作前，必须先做上市状态预检 + 豆包返回幻觉筛查。
+
+**双重检查流程（顺序执行，不可跳步）**：
+
+1. **上市状态预检**——运行 `.claude/plans/tools/pcb-pre-flight-check.js`
+   - 动态提取 pcb.js 中所有 stock code（segments + midstream + fourQuestions 三路径）
+   - 扫描字段是否含退市/停牌/ST/暂停上市/delisted/suspended 关键词
+   - 输出报告写入 `.claude/scratch/stock-status-report.md`
+   - **异常 stock 必须用户显式确认处理方式（删除/标注退市/暂存）后，才进入下一步**
+
+2. **豆包返回幻觉筛查**——运行 `.claude/plans/tools/pcb-hallucination-screen.js`
+   - 对豆包每次返回的方案 G 7 段式内容做 4 层防御检查
+   - Layer 1 退市窗口（❌严重）：已退市 stock 不应有实质性事件
+   - Layer 2 事件密度（⚠️警告/❌严重）：总事件数 >15 警告 / >20 严重
+   - Layer 3 数字可验证性（⚠️参考）：未在 pcb.js 中佐证的数字
+   - Layer 4 客户名可验证性（⚠️参考）：未在 pcb.js 中出现的客户名
+   - risk score >= 10 → ❌ 强烈疑似幻觉，禁止采信
+   - risk score 5-9 → ⚠️ 部分可疑，需人工核查
+   - risk score < 5 → ✅ 通过（Layer 3/4 仅供参考）
+
+**双重检查强制规则**：
+- 任何 stock 在 trend 推断前**必须**先过 pre-flight-check.js（查 stock 状态）+ hallucination-screen.js（查豆包返回内容）
+- 单一检查通过不算合规，必须两项都通过
+- 异常 stock（如退市）的豆包返回即使幻觉筛查"通过"也不算合规——双重检查必须都通过
+
+**违反本节 = §6.2 红线（造数）+ §6.8 数据准确度优先原则违反**。
+
+**事故案例（2026-06-21）**：002288 超华科技已退市但被纳入 P1 流程，豆包返回 13 项事件含 7 项 2026 幻觉事件（HVLP 铜箔认证/玉林基地/宁德时代比亚迪绑定等）被采信为 down 判定依据，导致三层关卡（CC 采纳→网页端审核→用户确认）全部失守。本次双重检查机制即为此事故的防御措施。
+
 ## Serenity Skill —— 主要的操作入口
 
 [.claude/skills/serenity/SKILL.md](.claude/skills/serenity/SKILL.md) 是本仓库的操作手册，已经作为可调用 skill (`serenity`) 注册。它涵盖：
