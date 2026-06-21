@@ -15,13 +15,15 @@ const c = global.window.CHAINS.pcb;
 // ============ 配置：阈值与模式 ============
 
 const CONFIG = {
-  // Layer 2 阈值（基于超华案例倒推：~10 项幻觉事件）
-  eventDensityWarning: 15,    // >15 警告
-  eventDensityCritical: 20,   // >20 严重
+  // Layer 2 阈值（2026-06-22 R3-15+ 6 样本校准：超华 13 / 东材 23 / 宏昌 21 / 彤程 25 / 圣泉 21 / 世名 16）
+  // 旧值 15/20 基于超华单案例倒推（~10 项幻觉事件），但正常 stock 在方案 G 7 段式下天然返回 16-25 项
+  // ⚠️ 本次样本量仍较小（1 异常 + 5 正常 = 6 样本），未来需追加样本复核
+  eventDensityWarning: 30,    // >30 警告（6 样本校准后）
+  eventDensityCritical: 40,   // >40 严重（6 样本校准后）
 
-  // 单段落事件数阈值（正常段落 1-3 项）
-  paragraphDensityWarning: 5, // >5 警告
-  paragraphDensityCritical: 8,// >8 严重
+  // 单段落事件数阈值（同批次校准：超华 ~4 / 正常 4-6）
+  paragraphDensityWarning: 7, // >7 警告（6 样本校准后）
+  paragraphDensityCritical: 12,// >12 严重（6 样本校准后）
 
   // Layer 1 触发关键词
   anomalyKeywords: ['退市', '停牌', '已退', '暂停上市', 'ST'],
