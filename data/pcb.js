@@ -15,7 +15,7 @@ window.CHAINS = window.CHAINS || {};
 CHAINS.pcb = {
   id: 'pcb', name: 'PCB 印制电路板', icon: '🔌',
   // ★ 升级九 STEP 2：赛道级 meta（分组/筛选/治理）—— 样板 §8.2
-  meta: { sector:'中游', tier:'核心', status:'active(R3-15+ 健康检查后·2026-06-22·34 只 segments + 30 只 fourQ + 10 只 midstream(实际独立 stock 38 只含跨视图重复)·78.9% fourQ 覆盖率(30/38 segments 内 stock)·健康度 4.8/5·42 处⚠️单源待核(R3-15+ P1 累计 12 批 trend 评估后)·CLAUDE.md §6 + SKILL.md §6§7 + refresh-sop.md §6.5 三处 cross-ref 治理纪律已固化)', updatedAt:'2026-06-22', ltFit:null },
+  meta: { sector:'中游', tier:'核心', status:'active(R3-17 健康检查后·2026-06-22·34只segments + 30只fourQ + 10只midstream(实际独立stock 38只含跨视图重复)·78.9% fourQ覆盖率(30/38 segments内stock)·健康度4.8/5·46处⚠️单源待核(R3-17累计)·CLAUDE.md §6+§6.9+§6.10+§6.11 + SKILL.md §6§7+三重验证机制 + refresh-sop.md §6.5 治理纪律已固化)', updatedAt:'2026-06-22', ltFit:null },
   // ★ 升级九 STEP 2：景气六维 —— 样板 §3.1 原文（全标 🟢 AI 主观判断，cron 不刷数据截止日）
   prosperity: {
     dims: [
