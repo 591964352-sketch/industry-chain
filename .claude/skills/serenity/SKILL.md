@@ -208,6 +208,70 @@ py -m http.server 8000   # 浏览器开 http://localhost:8000/index.html#<新赛
 - [ ] **既有赛道不破坏**：现有 13 条赛道 + 升级一-九视图视觉不变
 - [ ] **未自动 commit**——已列改动清单等用户确认
 
+### 三重验证机制（涉及 ≥10 只 stock 必走·R3-16+ 防御措施）
+
+> **触发时机**：任何涉及 ≥10 只 stock 的数据刷新 / 注入前（豆包 / DeepSeek / Gemini 返回时），必须先做三重验证 + 数据冲突检查。R3-16+ 批 1（2026-06-22）豆包编造 4 只 pcb.js 不存在 stock + 2 只错位段位 stock 事故后强制启用。
+
+**三重验证流程（顺序执行，不可跳步）**：
+
+1. **stock code 校验**——动态提取 `data/pcb.js` 实际 stock list（segments + midstream + fourQuestions 三路径），验证所有返回的 stock code 在 pcb.js 中
+2. **stock 段位校验**——对比返回 stock 的 segIdx 与 pcb.js 实际 segIdx
+3. **stock name 校验**——对比返回 stock 的 name 与 pcb.js 实际 name
+
+**数据冲突检查**：
+
+- 对比上一稳定版本（如 R3-15+ P1）的 `trendNote` 与新数据
+- 重大数据漂移（如 trend 从 up → down / 营收增长率从 +50% → +200%）必须显式标注 ⚠️
+- 不在 pcb.js 中佐证的数字 → 标 ⚠️参考
+
+**验证脚本模板**（可复用）：
+
+```js
+global.window = {};
+require('d:/乌龟/产业链全景/data/pcb.js');
+const c = global.window.CHAINS.pcb;
+
+// 1. 提取 pcb.js 实际 stock list
+const pcbStocks = {};
+for (const seg of c.segments) {
+  for (const s of (seg.stocks || [])) {
+    pcbStocks[s.code] = { name: s.name, segIdx: ..., rank: s.rank };
+  }
+}
+
+// 2-4. 验证 code / 段位 / name + 数据冲突
+const doubaoStocks = [ /* 豆包返回的 stock list */ ];
+for (const ds of doubaoStocks) {
+  if (!pcbStocks[ds.code]) console.log('✗ ' + ds.code + ' 不在 pcb.js 中');
+  else if (pcbStocks[ds.code].segIdx !== ds.segIdx) console.log('✗ ' + ds.code + ' 段位错');
+  else if (pcbStocks[ds.code].name !== ds.name) console.log('✗ ' + ds.code + ' name 错');
+}
+```
+
+**强制规则**：
+
+- 任何涉及 ≥10 只 stock 的数据刷新**必须**先过三重验证
+- 单一检查通过不算合规，三项必须都通过
+- 数据冲突检查必须列出所有重大漂移并标注 ⚠️，否则不算合规
+
+**完整范例**：参考 `.claude/scratch/R3-16-batch2-hallucination-screen.js`（19 只 segments[0]-[3]）+ `.claude/scratch/R3-16-batch3-hallucination-screen.js`（15 只 segments[4]-[6]）。
+
+**prompt 11 条硬约束**（豆包 / DeepSeek / Gemini prompt 设计时必走）：
+
+1. 精确 stock 列表（code + name + 段位 + rank + barrier + tier + trend + trendNote）
+2. 禁止引入新 stock（明确告知模型"pcb.js 中只有以下 stock"）
+3. stock code 必须精确（6 位数字 + 板块标识）
+4. stock 段位必须精确匹配
+5. 查询不到不替换（在【6. 未查到】段列出）
+6. 7 段式格式（认证进展/客户切换/新进入者/技术产能/品类归属/未查到/信源清单）
+7. 信源 tier + broker 双源（primary/broker/media + 时间口径 + 数字 + 时点）
+8. 段位品类标注（明确告知每段品类）
+9. 量产/验证/在研状态标注（已量产/验证中/样品认证/在研/未启动 五档）
+10. 不得编造事实——联网搜不到的事实必须显式列在【6. 未查到】段，不得填入主段伪装成事实，不得编造客户名、数字、日期
+11. A/B 类信号拆分——A 类=壁垒维度本身变化（认证/客户验证/技术领先/竞争位置/产能变化）；B 类=经营业绩（营收/订单/亏损/份额变化）；trend 判断主依据必须是 A 类，B 类仅辅助印证
+
+**违反本节 = CLAUDE.md §6.2 红线（造数）+ §6.8 数据准确度优先原则违反**。
+
 ### 通用约束
 
 - 面向用户文案用简体中文，技术标识符（赛道 id、CSS class、JS 函数名）保持英文小写连字符

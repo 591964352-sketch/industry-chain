@@ -376,6 +376,63 @@ Phase 10 半导体设备 R2-1 → R2-2 → R2-3 → R2-4 累计 4 轮重出。CC
 
 **事故案例（2026-06-21）**：002288 超华科技已退市但被纳入 P1 流程，豆包返回 13 项事件含 7 项 2026 幻觉事件（HVLP 铜箔认证/玉林基地/宁德时代比亚迪绑定等）被采信为 down 判定依据，导致三层关卡（CC 采纳→网页端审核→用户确认）全部失守。本次双重检查机制即为此事故的防御措施。
 
+### 6.10 三重验证机制（stock code / 段位 / name 校验·硬约束）
+
+> §6.9 防御的是"豆包幻觉事件"（退市 + 事件密度），本节防御的是"豆包引入不存在的 stock / 写错 stock code / stock 错位段位"——R3-16+ 批 1（2026-06-22）事故的防御措施。
+
+**触发时机**：任何涉及 ≥10 只 stock 的数据刷新 / 注入前，必须先做三重验证 + 数据冲突检查。
+
+**三重验证流程（顺序执行，不可跳步）**：
+
+1. **stock code 校验**——动态提取 pcb.js 实际 stock list（segments + midstream + fourQuestions 三路径），验证所有返回的 stock code 在 pcb.js 中
+2. **stock 段位校验**——对比返回 stock 的 segIdx 与 pcb.js 实际 segIdx
+3. **stock name 校验**——对比返回 stock 的 name 与 pcb.js 实际 name
+
+**数据冲突检查**：
+
+- 对比上一稳定版本（如 R3-15+ P1）的 trendNote 与新数据
+- 重大数据漂移（如 trend 从 up → down / 营收增长率从 +50% → +200%）必须显式标注 ⚠️
+- 不在 pcb.js 中佐证的数字 → 标 ⚠️参考
+
+**验证脚本模板**：
+
+- 模板 A：[.claude/scratch/R3-16-batch2-hallucination-screen.js](.claude/scratch/R3-16-batch2-hallucination-screen.js)（19 只 stock segments[0]-[3] 范例）
+- 模板 B：[.claude/scratch/R3-16-batch3-hallucination-screen.js](.claude/scratch/R3-16-batch3-hallucination-screen.js)（15 只 stock segments[4]-[6] 范例）
+
+**三重验证强制规则**：
+
+- 任何涉及 ≥10 只 stock 的数据刷新**必须**先过三重验证
+- 单一检查通过不算合规，三项必须都通过
+- 数据冲突检查必须列出所有重大漂移并标注 ⚠️，否则不算合规
+
+**违反本节 = §6.2 红线（造数）**。
+
+**事故案例（2026-06-22）**：R3-16+ 批 1 豆包编造 4 只 pcb.js 不存在的 stock（600143 金发科技、600346 恒力石化、600160 巨化股份、688519 南亚新材错码），并把 603228 景旺电子、002916 深南电路错位到错误段位。三重验证机制即为此事故的防御措施。
+
+### 6.11 精确 stock 列表 prompt 模板（防止豆包引入新 stock·硬约束）
+
+> R3-16+ 批 1（2026-06-22）事故根因：豆包 prompt 缺少 3 条硬约束——精确 stock 列表 / 禁止引入新 stock / stock code 必须精确。本节为强制规则。
+
+**触发时机**：任何涉及具体 stock 的豆包 / DeepSeek / Gemini prompt 设计时。
+
+**强制规则（11 条硬约束）**：
+
+1. **精确 stock 列表**——prompt 必须列出每只 stock 的 `code + name + segment 段位 + rank + barrier + tier + 当前 trend + 当前 trendNote`
+2. **禁止引入新 stock**——明确告知模型"pcb.js 中只有以下 stock，禁止引入其他 stock"
+3. **stock code 必须精确**——明确告知"stock code 是 6 位数字 + 板块标识（如 sz/sh）"，模型不得自编 stock code
+4. **stock 段位必须精确匹配**——明确告知"每只 stock 必须在以下段位中"
+5. **查询不到不替换**——明确告知"如查不到某只 stock 2024-Q4 至 2026-Q2 事实，在【6. 未查到】段列出，不要替换为其他 stock"
+6. **7 段式格式**——【1. 认证进展】/【2. 客户切换】/【3. 新进入者】/【4. 技术产能壁垒】/【5. 品类归属】/【6. 未查到】/【7. 信源清单】
+7. **信源 tier + broker 双源**——每条事实标注 tier（primary/broker/media）+ broker 双源 + 时间口径 + 数字 + 时点
+8. **段位品类标注**——明确告知每段的品类（如 segments[4]=ABF 膜/CBF 膜/FC-BGA/BT 载板/球形硅微粉）
+9. **量产/验证/在研状态标注**——已量产/验证中/样品认证/在研/未启动 五档之一
+10. **不得编造事实**——联网搜不到的事实必须显式列在【6. 未查到】段，不得填入主段伪装成事实，不得编造客户名、数字、日期
+11. **A/B 类信号拆分**——A 类=壁垒维度本身变化（认证/客户验证/技术领先/竞争位置/产能变化）；B 类=经营业绩（营收/订单/亏损/份额变化）；trend 判断主依据必须是 A 类，B 类仅辅助印证
+
+**违反本节 = §6.2 红线（造数）+ §6.8 数据准确度优先原则违反**。
+
+**事故案例（2026-06-22）**：R3-16+ 批 1 豆包在缺上述约束下返回 4 只 pcb.js 不存在的 stock + 2 只错位段位 stock。R3-16+ 批 2/3 重启时加入 9 条硬约束后，豆包返回内容与 pcb.js 100% 一致（[R3-16-batch2-hallucination-screen.js](.claude/scratch/R3-16-batch2-hallucination-screen.js) / [R3-16-batch3-hallucination-screen.js](.claude/scratch/R3-16-batch3-hallucination-screen.js) 三重验证全部通过✓）。
+
 ## Serenity Skill —— 主要的操作入口
 
 [.claude/skills/serenity/SKILL.md](.claude/skills/serenity/SKILL.md) 是本仓库的操作手册，已经作为可调用 skill (`serenity`) 注册。它涵盖：
