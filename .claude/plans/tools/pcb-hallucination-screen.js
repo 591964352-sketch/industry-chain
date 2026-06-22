@@ -29,12 +29,14 @@ const CONFIG = {
   anomalyKeywords: ['退市', '停牌', '已退', '暂停上市', 'ST'],
 
   // Layer 3 数字模式（产能/份额/营收/良率等）
+  // R3-15+ 修复:所有数字模式加 (?<![\d.]) 前置 + (?![\d]) 后置
+  // 防止 \d+ 回溯匹配出子串（如 "4008.97 万元" 拆成 "008.97 万元"）
   numberPatterns: [
-    /\d+(?:\.\d+)?\s*(?:吨|万吨|万张|万平方米|万平米|万米)/g,
-    /市占(?:\s*率)?\s*\d+(?:\.\d+)?\s*%/g,
-    /\d+(?:\.\d+)?\s*(?:亿|万元)/g,
-    /良率\s*\d+(?:\.\d+)?\s*%/g,
-    /\d+(?:\.\d+)?\s*(?:倍|分位)/g
+    /(?<![\d.])\d+(?:\.\d+)?\s*(?:吨|万吨|万张|万平方米|万平米|万米)(?![\d])/g,
+    /市占率?\s*(?<![\d.])\d+(?:\.\d+)?\s*%(?![\d])/g,
+    /(?<![\d.])\d+(?:\.\d+)?\s*(?:亿元|万元)(?![\d])/g,
+    /良率\s*(?<![\d.])\d+(?:\.\d+)?\s*%(?![\d])/g,
+    /(?<![\d.])\d+(?:\.\d+)?\s*(?:倍|分位)(?![\d])/g
   ],
 
   // Layer 4 客户名识别关键词（PCB 产业链已知客户/对手）
@@ -177,6 +179,9 @@ function checkEventDensity(events) {
 
   const sectionCounts = {};
   for (const event of events) {
+    // 修复 R3-15+ L2-段落误报：排除【5. 品类归属】【6. 未查到】【7. 信源清单】三段
+    // 这三段是元数据，不是事实事件，不应计入段落事件密度
+    if (event.section.includes('品类归属') || event.section.includes('未查到') || event.section.includes('信源清单')) continue;
     sectionCounts[event.section] = (sectionCounts[event.section] || 0) + 1;
   }
   for (const section in sectionCounts) {
