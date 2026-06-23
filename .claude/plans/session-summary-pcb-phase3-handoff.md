@@ -1,7 +1,7 @@
 # PCB 产业链看板 · 阶段三 Handoff 会话摘要
 
-> **HEAD**: `0aecae03eb8baeb8c5069f12a62f8ebf40f3320b`（commit 3.5）
-> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）
+> **HEAD**: `c403f12`（commit 3.4.1）
+> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）/ `0aecae0`（阶段三 3.5 末）
 > **前置规则**: CLAUDE.md §6 全部纪律 + §6.8 数据准确度优先 + §6.9 双重检查 + §6.10 三重验证 + §7 数据自查纪律
 
 ---
@@ -15,11 +15,14 @@
 | 3.2 | `375def4` | numpy 算 PE 分位 + entryZone + fromHigh_pe（不拉网络）| ✅ |
 | 3.3 | — | **跳过**（commit 2.2 通用注入自动覆盖 segments+midstream+chokePoints 4 字段·无需新代码）| ✅（跳过）|
 | 3.4 | `6f59b9d` | 买入信号 A/B 模块（program-derived·5 条排除规则·growthAdj 通道暂留空）| ✅ |
+| 3.4.1 | `c403f12` | growthAdj 名单（8 只核心 AI 链）+ peAbsMax:60 | ✅ |
 | 3.5 | `0aecae0` | baostock 拉 close 历史 + 真实价格 fromHigh（覆盖 commit 3.2 fromHigh_pe 占位字段·改名 fromHigh）| ✅ |
+
+**阶段三总计 6 个 commit**（3.3 跳过）· PCB 估值流水线全部跑通。
 
 ---
 
-## 1. 当前数据完整性（commit 3.5 HEAD）
+## 1. 当前数据完整性（commit 3.4.1 HEAD = `c403f12`）
 
 | 字段 | 注入数 | 覆盖率 |
 |---|---|---|
@@ -32,6 +35,8 @@
 | closeLatest + closeHigh5y | 38/38 | 100% |
 | flag | 38/38（4 只亏损股 + 4 只 PE>500 异常·其余 null）| 100% |
 | signal（commit 3.4·0 只命中）| 34/38 | 89.5% |
+| **growthAdj:true（commit 3.4.1）** | **8/38** | **21.1%** |
+| **peAbsMax:60（commit 3.4.1）** | **8/38** | **21.1%** |
 
 **5 只可投卡口 valuation 完整字段**：
 
@@ -43,9 +48,22 @@
 | 002916 | 深南 | 79.84 | 99.75% | -6.85% | null |
 | 600183 | 生益 | 103.80 | 99.67% | -9.01% | null |
 
+**8 只 growthAdj 名单（commit 3.4.1 已注入）**：
+
+| code | name | barrier | pe_ttm | pePctl |
+|---|---|---|---|---|
+| 300395 | 菲利华 | 极高 | 138.96 | 95.87% |
+| 600183 | 生益科技 | 极高 | 103.80 | 99.67% |
+| 601208 | 东材科技 | 极高 | 190.81 | 99.75% |
+| 002916 | 深南电路 | 极高 | 79.84 | 99.87% |
+| 300476 | 胜宏科技 | 高 | 74.65 | 95.98% |
+| 301377 | 鼎泰高科 | 高 | — | 99.88% |
+| 002463 | 沪电股份 | 高 | 62.91 | 90.48% |
+| 688630 | 芯碁微装 | 高 | — | 99.67% |
+
 ---
 
-## 2. growthAdj 名单决策（commit 3.4 用户扩展通道）
+## 2. growthAdj 名单决策（commit 3.4.1 已完成）
 
 ### 阈值常量（plan §4.4 + 用户扩展）
 
@@ -54,48 +72,29 @@
 | 普通 | barrier∈{极高,高} ∩ pePercentile<50% ∩ trend==='up' | 命中可投卡口 ∩ pePercentile<40% ∩ trend!=='down' | 否 |
 | growthAdj | barrier∈{极高,高} ∩ pePercentile<70% ∩ pe_ttm<peAbsMax ∩ trend==='up' | 命中可投卡口 ∩ pePercentile<60% ∩ pe_ttm<peAbsMax ∩ trend!=='down' | 是 |
 
-### 候选名单（barrier=极高/高 · 20 只·等用户决策）
+### 当前实际触发情况
 
-按用户指令：`barrier∈{极高,高} 且 AI 暴露度高的标的·加 growthAdj:true`
+⚠️ 8 只 growthAdj 股票全部未触发信号（0 命中）：
 
-#### barrier=极高（5 只）— AI 卡口核心标的
+- **5 只卡口标的**（300395/600183/601208/002916/300476）pePercentile 95-99% · 远超 growthAdj 阈值 60%/70%
+- **3 只高 barrier**（301377/002463/688630）pePercentile 90-99% · 同样远超阈值
+- **原因**：当前 PCB 板块 PE 普遍高位（AI 热度持续）· growthAdj 通道是为「分位回调到 60%-70% 区间」预留的·触发条件未到
+- **不删除字段**：未来 PCB 板块 PE 回调到 60% 分位以下时，growthAdj 通道将自动触发（信号 A 在分位<70% 时开始命中）
 
-| # | code | name | barrier | trend | trendNote | pePctl | fromHigh |
-|---|---|---|---|---|---|---|---|
-| 1 | 300395 | 菲利华 | 极高 | up | 英伟达全额预购 2026 年 600-700 万米 Q 布 | 95.87% | -15.92% |
-| 2 | 301217 | 铜冠铜箔 | 极高 | up | GB200/GB300 HVLP4 量产·深南长期协议·HVLP5 样品 | 82.88% | -14.09% |
-| 3 | 600183 | 生益科技 | 极高 | up | M9 GB200/GB300 批量·AMD MI300·谷歌 TPU 78 层 | 99.67% | -9.01% |
-| 4 | 601208 | 东材科技 | 极高 | up | M9 GB300 量产·M10 验证中·台光独家 | 99.75% | -10.00% |
-| 5 | 002916 | 深南电路 | 极高 | up | 20 层 ABF GB200 量产·28 层 Rubin 批量·M10 样品 | 99.75% | -6.85% |
+### 不入选名单（写进 commit message 说明原因）
 
-#### barrier=高（15 只）— 候选细分
-
-| # | code | name | barrier | trend | pePctl | fromHigh | 备注 |
-|---|---|---|---|---|---|---|---|
-| 6 | 300476 | 胜宏科技 | 高 | up | 90.17% | -13.93% | GB300 OAM 核心·显卡 PCB 全球 50% |
-| 7 | 300522 | 世名科技 | 高 | up | 76.55% | -0.04% | 500 吨已投产·M9 方案 7 月小批量 |
-| 8 | 301200 | 大族数控 | 高 | up | 100.00% | 0.00% | 钻孔国内 70%·沪电胜宏认证 |
-| 9 | 301377 | 鼎泰高科 | 高 | up | 99.88% | -9.04% | 钻针全球第一 28.9%·0.01mm |
-| 10 | 301511 | 德福科技 | 高 | up | 60.86% | -17.42% | 全球第二 HVLP4 出货·HVLP5 样品认证 |
-| 11 | 603186 | 华正新材 | 高 | up | 96.62% | -7.06% | CBF 国产唯一·海思/中芯/长电 |
-| 12 | 603256 | 宏和科技 | 高 | up | 99.51% | -5.75% | 4μm GB300 全球唯一（⚠️PE 异常高）|
-| 13 | 603519 | 南亚新材 | 高 | up | 76.71% | 0.00% | M7 已量产·M8 验证中 |
-| 14 | 605589 | 圣泉集团 | 高 | up | 99.66% | -10.00% | PPO M8 已量产·碳氢已批量 |
-| 15 | 688183 | 生益电子 | 高 | up | 59.50% | -10.10% | 净利+5 倍 |
-| 16 | 688630 | 芯碁微装 | 高 | up | 99.67% | -7.79% | LDI 全球第一 18.8% |
-| 17 | 001389 | 广合科技 | 高 | up | 96.28% | -11.13% | 算力纯度最高 |
-| 18 | 002436 | 兴森科技 | 高 | up | 99.76% | -9.01% | FCBGA Rubin 200 批量（⚠️PE 异常高）|
-| 19 | 002463 | 沪电股份 | 高 | up | 99.50% | -6.36% | GB200 22 层量产·GB300 112G/224G |
-| 20 | 002938 | 鹏鼎控股 | 高 | up | 99.01% | -10.84% | GB200 20 层·GB300 HDI·9 连冠 |
-
-### 用户决策提示
-
-`growthAdj:true` 应给"高 AI 暴露度 + 高成长"标的。候选分类：
-- **核心 AI 链**（建议必选）：300476 胜宏 / 600183 生益 / 601208 东材 / 002916 深南 / 300395 菲利华 / 301217 铜冠 / 002463 沪电 / 301377 鼎泰 / 688630 芯碁微装
-- **AI 次链**：301200 大族数控（钻孔）/ 301511 德福（HVLP）/ 688183 生益电子（AI 黑马）/ 001389 广合科技（算力纯度最高）
-- **传统链**（growthAdj 价值低）：002938 鹏鼎（消费占 70%）/ 605589 圣泉（PPO）/ 603519 南亚新材（M8 验证中）/ 603186 华正新材（CBF）/ 300522 世名科技（500 吨小批量）/ 603256 宏和（PE 异常高）/ 002436 兴森（PE 异常高）
-
-**用户在 commit 3.4 阶段决定暂不填·等 commit 3.5 真实 fromHigh 出来后一起决定**。
+- 301217 铜冠铜箔 · flag="⚠️PE异常高·可能失真" · 信号逻辑已排除 · growthAdj 无效
+- 301200 大族数控 · pePctl=100% · fromHigh=0 · 今日创 5 年新高 · 加 growthAdj 放宽到 70% 也不命中
+- 301511 德福科技 · AI 次链 · pePctl=60.86% · 待行情回调后再评估
+- 688183 生益电子 · AI 次链 · pePctl=59.50% · 同上 · 后续补入
+- 001389 广合科技 · AI 次链 · pePctl=96.28% · 现在加了也不命中 · 后续补入
+- 002938 鹏鼎控股 · 消费占比约 70% · AI 暴露度不足 · 归传统链
+- 603256 宏和科技 · flag="⚠️PE异常高" · 信号逻辑已排除 · growthAdj 无效
+- 002436 兴森科技 · flag="⚠️PE异常高" · 同上
+- 300522 世名科技 · 传统链 · AI 暴露度低
+- 603519 南亚新材 · 传统链 · AI 暴露度低
+- 605589 圣泉集团 · 传统链 · AI 暴露度低
+- 603186 华正新材 · 传统链 · AI 暴露度低
 
 ---
 
@@ -107,7 +106,7 @@
 3. 【待核实（人工抽查）】+ 核对路径
 4. 【数据完整性统计】
 
-commit 2.3.1 / 3.1 / 3.1.1 / 3.2 / 3.4 / 3.5 均已输出自查报告。
+commit 2.3.1 / 3.1 / 3.1.1 / 3.2 / 3.4 / 3.4.1 / 3.5 均已输出自查报告。
 
 ---
 
@@ -123,45 +122,94 @@ commit 2.3.1 / 3.1 / 3.1.1 / 3.2 / 3.4 / 3.5 均已输出自查报告。
 | 6 | 铜冠 301217 历史 < 5 年（701 行从 2022-01-27 起）·核对 baostock 起始日期 | 1 只 | 同花顺 → 个股 → 上市日期 |
 | 7 | 688234 错码股票（baostock 拉到的是天岳先进碳化硅衬底）| 1 只 | 同花顺 → 搜索 688234 → 确认是天岳先进 |
 | 8 | 业绩可见度中"Q1 营收+净利同比%"数字 | 38 只 | 巨潮 cninfo / 同花顺 F10 → 季报 |
+| 9 | growthAdj 名单 8 只 peAbsMax:60 是否合适（PE 远高于 60·5 只 PE>100）| 8 只 | 同花顺 → 估值分析 → 当前 PE-TTM |
 
 ---
 
-## 5. 下一步（阶段四·待用户决策）
+## 5. PCB 收尾后 · HBM R2 恢复（下一个项目）
 
-### 5.1 growthAdj 名单填写
-按 §2 用户决策·加 `growthAdj:true` 到 `pcb.manual.js` 的 STOCK_REGISTRY[code]。**当前 0 只**。
+### 5.1 复用 PCB 阶段三流水线
 
-### 5.2 HBM R2 恢复
-按 plan §9：复用 commit 3.5 脚本跑 hbm.manual.js（31 只）→ 产出 `data/hbm.auto.json` → 合并到 `data/hbm.js` 兼容壳 → `meta.status` `partial → active`。
+HBM 阶段三估值刷新可以**完全复用** PCB 的 3 个脚本：
 
-### 5.3 PCB 阶段四（plan §4.6 未列·用户可加）
-- **Commit 4.1** 信号 UI 渲染（chain 视图新增「📍 上车点分析」+「📍 卡口但低估」两个 section）
-- **Commit 4.2** 卡口六维偏低说明（methodologyNotes 风格）
-- **Commit 4.3** 景气度 override（commit 3.5 遗留）
+| 脚本 | 路径 | PCB 用途 | HBM 复用要点 |
+|---|---|---|---|
+| `refresh_pcb_valuation.py` | `scripts/refresh_pcb_valuation.py` | 拉 pe_ttm + pe_history | 改 ① `MANUAL_JS = hbm.manual.js` ② baostock login 流程相同 ③ 输出文件名 `hbm.auto.js` |
+| `calc_percentile.py` | `scripts/calc_percentile.py` | 算 pePercentile / entryZone / fromHigh | **完全复用**（只改 `AUTO_JS` 路径）· HBM 无 close 拉数需求（fromHigh_pe 即可） |
+| `fetch_close_history.py` | `scripts/fetch_close_history.py` | 拉 close 5y 算真实 fromHigh | **可选** · HBM 可先省略（只有 H 股/科创板有完整 close 历史）|
+
+### 5.2 HBM 流水线待办
+
+按 plan §9 HBM R2 恢复：
+
+1. **HBM 脚本迁移**——3 个 PCB 脚本复制为 `refresh_hbm_valuation.py` / `calc_hbm_percentile.py` / `fetch_hbm_close.py`（改路径+改文件名前缀）
+2. **baostock 拉 31 只 pe_ttm**——`hbm.manual.js` 的 STOCK_REGISTRY 31 只 stock codes → 拉 5 年 pe_ttm 历史
+3. **算 PE 分位 + fromHigh**——`hbm.auto.js` 生成
+4. **合并到 hbm.js 兼容壳**——4 字段（pe_ttm/pePercentile/entryZone/fromHigh）注入
+5. **meta.status 修正**：`partial → active` · 31 只 stock 全部覆盖
+6. **growthAdj 名单**（按 PCB 模板·HBM 31 只按 barrier 极高/高 + AI 暴露度筛选）
+7. **HBM 信号 A/B 注入**（复用 PCB commit 3.4 buySignal 模块代码）
+8. **产出 handoff 文档**：`session-summary-hbm-phase3-handoff.md`
+
+### 5.3 HBM 阶段三预估工时
+
+| 子任务 | 复杂度 | 预估 commit 数 | 预估 token |
+|---|---|---|---|
+| 脚本迁移 | 低 | 1（一次提交 3 脚本 + 1 README）| ~50k |
+| baostock 拉数 | 中 | 1 | ~80k |
+| 算分位 | 低 | 1（脚本复用）| ~50k |
+| 合并到 hbm.js | 中 | 1 | ~80k |
+| meta.status + growthAdj 名单 | 中 | 1-2 | ~60k |
+| HBM 信号注入 | 中 | 1（复用 PCB 模块）| ~60k |
+| handoff 文档 | 低 | 1 | ~30k |
+| **总计** | — | **6-8 个 commit** | **~410k token** |
+
+### 5.4 HBM 阶段三 · 风险点（PCB 阶段三的教训）
+
+- ⚠️ **688234 类错码**：HBM 是否存在类似 baostock 错码的 stock？需 pre-flight-check
+- ⚠️ **亏损股 PE 处理**：HBM 31 只中可能有亏损股（按 PCB 模板·pe_ttm=null 保留 history）
+- ⚠️ **HBM PE 历史覆盖期**：HBM 概念 2024 起火·历史 < 5 年· WIN_HISTORY_MIN=252（1y）可能需调低
+- ⚠️ **growthAdj 名单**：HBM 31 只需逐一审查 AI 暴露度·不能直接套 PCB 8 只
 
 ---
 
-## 6. 紧急回滚
+## 6. PCB 阶段四（plan §4.6 未列·用户可加·非阻塞）
+
+| Commit | 内容 | 状态 |
+|---|---|---|
+| 4.1 | 信号 UI 渲染（chain 视图新增「📍 上车点分析」+「📍 卡口但低估」两个 section）| 待用户决策 |
+| 4.2 | 卡口六维偏低说明（methodologyNotes 风格）| 待用户决策 |
+| 4.3 | 景气度 override（commit 3.5 遗留）| 待用户决策 |
+
+**当前 HBM R2 恢复优先于 PCB 阶段四**（commit 3.4.1 已完成·无需立即做 UI 渲染）。
+
+---
+
+## 7. 紧急回滚
 
 ```bash
-# 阶段三任一 commit 后回滚
-git reset --hard 0aecae0   # 保留阶段一+阶段二+阶段三全部
+# 阶段三+commit 3.4.1 任一 commit 后回滚
+git reset --hard c403f12   # 保留到 commit 3.4.1
+git reset --hard 0aecae0   # 保留到 commit 3.5（保留阶段一+阶段二+阶段三 3.1-3.5）
 git reset --hard f2ef298   # 回滚阶段三·保留阶段一+阶段二
 git reset --hard 192ee85   # 完全回滚（阶段一二三都不要）
 ```
 
 ---
 
-## 7. 关键文件位置
+## 8. 关键文件位置
 
 | 角色 | 路径 |
 |---|---|
 | PCB 数据层 | `d:\乌龟\产业链全景\data\pcb.js` |
 | PCB 手动层（38 只 stock）| `d:\乌龟\产业链全景\data\pcb.manual.js` |
 | PCB 自动层（38 只 stock 估值·1.57 MB）| `d:\乌龟\产业链全景\data\pcb.auto.js` |
+| HBM 手动层（31 只 stock）| `d:\乌龟\产业链全景\data\hbm.manual.js` |
+| HBM 数据层 | `d:\乌龟\产业链全景\data\hbm.js` |
 | 阶段一末 commit | `f2ef298` |
 | 阶段二末 commit | `4fe4fba` |
-| 阶段三末 commit | `0aecae0` |
+| 阶段三 3.5 末 commit | `0aecae0` |
+| **阶段三 3.4.1 末 commit（HEAD）** | **`c403f12`** |
 | 拉数脚本 | `d:\乌龟\产业链全景\scripts\refresh_pcb_valuation.py` |
 | 分位脚本 | `d:\乌龟\产业链全景\scripts\calc_percentile.py` |
 | close 脚本 | `d:\乌龟\产业链全景\scripts\fetch_close_history.py` |
