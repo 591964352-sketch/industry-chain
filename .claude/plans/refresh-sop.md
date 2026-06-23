@@ -420,3 +420,194 @@ node .claude/plans/tools/pcb-hallucination-screen.js
 ---
 
 *本 SOP 为研究框架数据治理流程，不构成投资建议。数据以一手财报/公告为准。v2 起复查为必经环节，省 token 通过"复查顺序+紧凑块+模型分级"实现，而非省去复查本身。*
+
+---
+
+## 9. R3-17 阶段经验补充（2026-06-22 · CLAUDE.md §6.10 + §6.11 沉淀）
+
+> 本节为 PCB R3-15+ / R3-16+ / R3-17 三轮数据治理过程中识别的**新模式 + 新防御**。原有 v2.1 SOP 流程不变，本节在其基础上叠加 5 条约束。任何涉及 ≥10 只 stock 的数据刷新（不限于 PCB），**必须**先读完本节再启动。
+
+### 9.1 三重验证机制（CLAUDE.md §6.10 · stock code / 段位 / name 校验）
+
+**触发时机**：任何涉及 ≥10 只 stock 的数据刷新 / 注入前（豆包 / DeepSeek / Gemini 返回时）。
+
+**防御对象**：豆包引入不存在的 stock / 写错 stock code / stock 错位段位 —— R3-16+ 批 1（2026-06-22）事故根因。
+
+**事故案例**：R3-16+ 批 1 豆包编造 4 只 pcb.js 不存在的 stock（600143 金发科技 / 600346 恒力石化 / 600160 巨化股份 / 688519 南亚新材错码），并把 603228 景旺电子 / 002916 深南电路错位到错误段位。
+
+**三重验证流程（顺序执行，不可跳步）**：
+
+1. **stock code 校验**——动态提取 `data/<id>.js` 实际 stock list（segments + midstream + fourQuestions 三路径），验证所有返回的 stock code 在 pcb.js 中
+2. **stock 段位校验**——对比返回 stock 的 segIdx 与 pcb.js 实际 segIdx
+3. **stock name 校验**——对比返回 stock 的 name 与 pcb.js 实际 name
+
+**数据冲突检查**：
+- 对比上一稳定版本（如 R3-15+ P1）的 trendNote 与新数据
+- 重大数据漂移（如 trend 从 up → down / 营收增长率从 +50% → +200%）必须显式标注 ⚠️
+- 不在 pcb.js 中佐证的数字 → 标 ⚠️参考
+
+**验证脚本模板**：
+
+```js
+global.window = {};
+require('./data/pcb.js');
+const c = global.window.CHAINS.pcb;
+
+// 1. 提取 pcb.js 实际 stock list（三路径）
+const pcbStocks = {};
+for (const seg of c.segments) {
+  for (const s of (seg.stocks || [])) {
+    pcbStocks[s.code] = { name: s.name, segIdx: c.segments.indexOf(seg), rank: s.rank };
+  }
+}
+if (c.midstream && c.midstream.stocks) {
+  for (const s of c.midstream.stocks) {
+    pcbStocks[s.code] = { name: s.name, segIdx: 'midstream', rank: s.rank };
+  }
+}
+for (const seg of (c.fourQuestions?.segments || [])) {
+  for (const s of (seg.stocks || [])) {
+    if (!pcbStocks[s.code]) pcbStocks[s.code] = { name: s.name, segIdx: 'fourQ', rank: null };
+  }
+}
+
+// 2-4. 验证 code / 段位 / name + 数据冲突
+const doubaoStocks = [ /* 豆包返回的 stock list */ ];
+for (const ds of doubaoStocks) {
+  if (!pcbStocks[ds.code]) console.log('✗ ' + ds.code + ' 不在 pcb.js 中');
+  else if (pcbStocks[ds.code].segIdx !== ds.segIdx) console.log('✗ ' + ds.code + ' 段位错');
+  else if (pcbStocks[ds.code].name !== ds.name) console.log('✗ ' + ds.code + ' name 错');
+}
+```
+
+**强制规则**：
+- 任何涉及 ≥10 只 stock 的数据刷新**必须**先过三重验证
+- 单一检查通过不算合规，三项必须都通过
+- 数据冲突检查必须列出所有重大漂移并标注 ⚠️，否则不算合规
+
+**完整范例**：[.claude/scratch/R3-16-batch2-hallucination-screen.js](.claude/scratch/R3-16-batch2-hallucination-screen.js)（19 只 segments[0]-[3]）+ [.claude/scratch/R3-16-batch3-hallucination-screen.js](.claude/scratch/R3-16-batch3-hallucination-screen.js)（15 只 segments[4]-[6]）。
+
+**违反本节 = CLAUDE.md §6.2 红线（造数）**。
+
+### 9.2 11 条硬约束豆包 prompt 完整结构（CLAUDE.md §6.11）
+
+**触发时机**：任何涉及具体 stock 的豆包 / DeepSeek / Gemini prompt 设计时。
+
+**防御对象**：豆包引入新 stock / 写错 stock code / 错配段位 / 编造客户名 / 编造数字 —— 同 §9.1 事故。
+
+**11 条硬约束**：
+
+1. **精确 stock 列表**——prompt 必须列出每只 stock 的 `code + name + segment 段位 + rank + barrier + tier + 当前 trend + 当前 trendNote`
+2. **禁止引入新 stock**——明确告知模型"pcb.js 中只有以下 stock，禁止引入其他 stock"
+3. **stock code 必须精确**——明确告知"stock code 是 6 位数字 + 板块标识（如 sz/sh）"，模型不得自编 stock code
+4. **stock 段位必须精确匹配**——明确告知"每只 stock 必须在以下段位中"
+5. **查询不到不替换**——明确告知"如查不到某只 stock 2024-Q4 至 2026-Q2 事实，在【6. 未查到】段列出，不要替换为其他 stock"
+6. **7 段式格式**——【1. 认证进展】/【2. 客户切换】/【3. 新进入者】/【4. 技术产能壁垒】/【5. 品类归属】/【6. 未查到】/【7. 信源清单】
+7. **信源 tier + broker 双源**——每条事实标注 tier（primary/broker/media）+ broker 双源 + 时间口径 + 数字 + 时点
+8. **段位品类标注**——明确告知每段的品类（如 segments[4]=ABF 膜/CBF 膜/FC-BGA/BT 载板/球形硅微粉）
+9. **量产/验证/在研状态标注**——已量产/验证中/样品认证/在研/未启动 五档之一
+10. **不得编造事实**——联网搜不到的事实必须显式列在【6. 未查到】段，不得填入主段伪装成事实，不得编造客户名、数字、日期
+11. **A/B 类信号拆分**——A 类=壁垒维度本身变化（认证/客户验证/技术领先/竞争位置/产能变化）；B 类=经营业绩（营收/订单/亏损/份额变化）；trend 判断主依据必须是 A 类，B 类仅辅助印证
+
+**违反本节 = §6.2 红线（造数）+ §6.8 数据准确度优先原则违反**。
+
+### 9.3 L3 digits 计数逻辑教训和修复方案（CLAUDE.md §6.9 hallucination-screen.js）
+
+**问题**：R3-17 批 1（19/19）和批 2（15/15）全部 34 只 stock 触发 Layer 3 数字可验证性警告，**严重违规 = 0**（不阻塞 commit），但 false positive 率 100%。
+
+**根因**：旧版 5 个正则 `[吨/万吨/万张/万平方米/万平米/万米/亿/万元/良率/倍/分位]` 把所有带量词的数字都纳入计数。豆包返回内容频繁出现 5000 吨 / 100 万米 / 良率 70-80% 等描述性数字，pcb.js 中未必有原文锚定 → 全部触发警告。
+
+**修复方案**（[pcb-hallucination-screen.js:31-58](.claude/plans/tools/pcb-hallucination-screen.js#L31-L58)）：
+
+**主正则收紧到 4 条**，仅保留"会变的关键市场指标"：
+```js
+numberPatterns: [
+  // ① 市占率/市占 + 百分号（核心卡口指标）
+  /市占率?\s*(?<![\d.])\d+(?:\.\d+)?\s*%(?![\d])/g,
+  // ② CAGR/缺口率/国产化率 + 百分号（broker 报告核心指标）
+  /(?:CAGR|缺口率|国产化率)\s*(?<![\d.])\d+(?:\.\d+)?\s*%(?![\d])/g,
+  // ③ PE-TTM/PB + 倍数/分位（估值核心指标）
+  /PE-?TTM?\s*(?<![\d.])\d+(?:\.\d+)?\s*(?:倍|分位)(?![\d])/g,
+  /PB\s*(?<![\d.])\d+(?:\.\d+)?\s*(?:倍|分位)(?![\d])/g
+]
+```
+
+**新增 excludePatterns 兜底**（产品代号 + 年份季度）：
+```js
+excludePatterns: [
+  /\b[A-Z]+[A-Za-z]*\d+[A-Za-z0-9]*\b/g,   // M9/GB300/TPU4/H100
+  /20\d{2}[QH][1-4]/g                          // 2026Q4/2025H1
+]
+```
+
+**extractNumbers 函数**（[pcb-hallucination-screen.js:263-298](.claude/plans/tools/pcb-hallucination-screen.js#L263-L298)）追加排除步骤，对每个匹配数字依次测试 excludePatterns，命中即剔除。
+
+**修复前后对比**：
+
+| 数字类型 | 旧版 | 新版 |
+|---|---|---|
+| 市占 26.8% / CAGR 35% / 缺口率 40% / PE-TTM 270.8x | ✅ 计数 | ✅ 计数 |
+| 5000 吨 / 100 万米 / 1 亿元 / 100 万元 | ✅ 计数（false positive）| ❌ 不计数 |
+| 良率 70-80% / 良率 90% | ✅ 计数（false positive）| ❌ 不计数 |
+| M9 / GB300 / TPU4 / H100 | ❌ 不计数（旧版已不匹配）| ❌ 不计数（+ 兜底）|
+| 2026Q4 / 2025H1 / 2024Q2 | ❌ 不计数（旧版已不匹配）| ❌ 不计数（+ 兜底）|
+
+**预期效果**：R3-18+ hallucination-screen.js 重新运行时，Layer 3 警告数从 34/34 大幅下降至预估 5-10 只触发（真正未佐证数字）。
+
+### 9.4 R3-16+ 批 1 豆包编造事故根因和防御机制（CLAUDE.md §6.10 事故案例）
+
+**事故时间线**：2026-06-22 R3-16+ 批 1 数据刷新阶段。
+
+**事故表现**：
+- 豆包返回内容中包含 **4 只 pcb.js 不存在的 stock**：
+  - 600143 金发科技
+  - 600346 恒力石化
+  - 600160 巨化股份
+  - 688519 南亚新材（错码，正确为 688519 南亚新材 → 但与 pcb.js 中其他 stock 重名）
+- **2 只 stock 错位段位**：603228 景旺电子、002916 深南电路
+
+**根因分析**：
+1. 豆包 prompt **缺少 3 条硬约束**（精确 stock 列表 / 禁止引入新 stock / stock code 必须精确）
+2. 豆包 prompt **缺少段位品类标注**（导致段位错位）
+3. CC 注入前**未做三重验证**（stock code / 段位 / name 校验）
+4. 三层关卡（CC 采纳 → 网页端审核 → 用户确认）**全部失守**——CC 未做硬校验，网页端未独立验证豆包返回内容，用户基于 CC 摘要确认
+
+**防御机制（三层防线）**：
+
+| 防线 | 措施 | 责任方 |
+|---|---|---|
+| **L1：prompt 阶段** | 11 条硬约束 prompt 模板（§9.2）| CC 起草 + 网页端执行 |
+| **L2：注入前校验** | 三重验证脚本（§9.1）| CC 执行 node 脚本 |
+| **L3：注入后审计** | 数据冲突检查 + 上一稳定版本对比 | CC 报告 + 用户审阅 |
+
+**修复效果**：R3-16+ 批 2/3 重启时加入 11 条硬约束后，豆包返回内容与 pcb.js 100% 一致（[R3-16-batch2-hallucination-screen.js](.claude/scratch/R3-16-batch2-hallucination-screen.js) / [R3-16-batch3-hallucination-screen.js](.claude/scratch/R3-16-batch3-hallucination-screen.js) 三重验证全部通过✓）。
+
+### 9.5 双视角副本保护规则（PCB 跨视图 stock 案例）
+
+**背景**：PCB 产业链中部分 stock 同时出现在 segments + midstream + fourQuestions 三个视图，跨视图时 trendNote 不同属正常设计（不同段位口径不同）。
+
+**典型案例**：
+
+| code | name | 视图 1 | 视图 2 | trendNote 是否相同 |
+|---|---|---|---|---|
+| 603186 | 华正新材 | segments[0] CCL 段位 | segments[4] IC 段位副本 | **不同**（CCL 口径 vs IC 载板口径）|
+| 002916 | 深南电路 | segments[4] IC 段位 | midstream.stocks rank 3 | **不同**（IC 段位口径 vs 中游设备口径）|
+| 002436 | 兴森 / 002938 鹏鼎 / 002463 沪电 | 多视图 | 多视图 | **不同**（按本段口径）|
+
+**保护规则**：
+
+1. **豆包 prompt 强制分批**——CCL 副本（segments[0] 603186）和 IC 段位（segments[4] 603186）必须**分两批 prompt**，每批只问本段口径的事实，禁止混批。
+2. **trendNote 字段独立维护**——同一 stock 在不同视图的 trendNote 独立写、独立 commit、独立审计。
+3. **三重验证脚本独立识别副本**——脚本提取 stock list 时必须去重但**保留副本 segIdx 区分**，避免混淆。
+4. **commit message 显式标注**——例如 "feat: PCB R3-17 批1 segments[0]-[3] 19只 trendNote刷新"，明确范围是 segments[0]-[3] 还是 midstream。
+
+**反模式（禁止）**：
+- ❌ 把 603186 华正在 segments[0] 的 trendNote 直接复制到 segments[4]
+- ❌ 豆包 prompt 把 CCL 副本和 IC 段位合并问
+- ❌ 三重验证脚本不区分副本 segIdx（导致误判）
+
+**首次确立**：`pcb` 2026-06-22 R3-17 阶段（segments[4]-[6] 批 2 中显式区分 603186 华正 IC 副本与 segments[0] CCL 副本 trendNote 差异）。
+
+---
+
+*§9 节为 R3-17 阶段增量，原 v2.1 SOP 不变。任何 ≥10 只 stock 数据刷新任务**必须**先读本节再启动。违反任一条 = CLAUDE.md §6.2 / §6.8 红线违反。*
