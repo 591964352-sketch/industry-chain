@@ -134,7 +134,8 @@
   .segment-card .info-item .val { font-size: 15px; font-weight: 600; }
 
   /* Stock table */
-  .stock-tbl { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 14px; }
+  .stock-tbl { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 14px; table-layout: fixed; }
+  .stock-tbl td .tag { white-space: nowrap; }   /* 升级：壁垒评级/四问命中 tag 不换行 */
   .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .stock-tbl thead th { text-align: left; padding: 11px 14px; border-bottom: 2px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 0.5px; background: var(--card2); }
   .stock-tbl tbody td { padding: 11px 14px; border-bottom: 1px solid rgba(42,45,58,0.5); }
@@ -726,7 +727,9 @@ function stockFitBadge(s){
   const f = computeStockFit(s.dims6);
   if (!f) return '';
   const cls = f.tier.indexOf('🟢')===0 ? 'tg-green' : f.tier.indexOf('🟡')===0 ? 'tg-mid' : 'tg-extreme';
-  return ` <span class="tag ${cls}" style="display:inline-block;margin-top:4px;" title="长线适配分（与赛道综合分同口径；权重：持续 0.25/兑现 0.25/估值 0.20/供需 0.12/壁垒 0.10/政策 0.08）">${f.score}/100 ${f.tier}</span>`;
+  // ★ 升级：tier 文字 emoji 与中文间加空格（原 `🟢核心` 不直观·改 `🟢 核心`）
+  const tierLabel = f.tier.replace(/^(🟢|🟡|🔴)/, '$1 ');
+  return ` <span class="tag ${cls}" style="display:inline-block;margin-top:4px;white-space:nowrap;" title="长线适配分（与赛道综合分同口径；权重：持续 0.25/兑现 0.25/估值 0.20/供需 0.12/壁垒 0.10/政策 0.08）">${f.score}/100 ${tierLabel}</span>`;
 }
 
 // —— 跨链重复个股 canonical 注册表（先留空壳留钩子，20+ 条链时正式收口）—— 样板 §8.3
@@ -1388,7 +1391,9 @@ function renderChain(chainId) {
       h += `</div>`;
     }
     h += `<h4>A股标的 — 按壁垒高低排序</h4>`;
-    h += `<table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th>`;
+    h += `<table class="stock-tbl"><colgroup><col style="width:5%"><col style="width:18%"><col style="width:9%"><col style="width:18%"><col style="width:11%">`;
+    if (seg.stocks.some(s => s.hits !== null)) h += `<col style="width:11%">`;
+    h += `<col style="width:28%"></col></colgroup><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th>`;
     if (seg.stocks.some(s => s.hits !== null)) h += `<th>四问命中</th>`;
     h += `<th>核心逻辑</th></tr></thead><tbody>`;
     seg.stocks.forEach(s => {
