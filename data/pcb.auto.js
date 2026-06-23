@@ -21,7 +21,7 @@ window.PCB_AUTO = {
     baostockVersion: '00.9.20',
     akshareVersion: null,
     window: '5y (2021-06-23 ~ 2026-06-23)',
-    note: '★ 阶段三 commit 3.1.2：baostock 单源拉 pe_ttm 历史+pe_history 序列·latest_pe 用距今 30 天内最后一条·亏损股保留历史有效数据（不清空 history·commit 3.2 可算历史分位）',
+    note: '★ 阶段三 commit 3.2：numpy 算 pePercentile/entryZone/fromHigh_pe（不拉网络·基于 commit 3.1.2 pe_history 序列）',
     sourceFlag: '⚠️单源(akshare缺失·adata非PE历史接口)',
     stats: {
       success: 34,
@@ -572,7 +572,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 77.7243},
       {date: "2026-06-23", pe: 74.0019}
     ],
-      source: {
+      pePercentile: 96.28,
+      entryZone: {p30: 33.12, p70: 40.34},
+      fromHigh_pe: -0.1113,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -1795,7 +1799,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 72.0777},
       {date: "2026-06-23", pe: 65.6495}
     ],
-      source: {
+      pePercentile: 99.75,
+      entryZone: {p30: 11.66, p70: 20.09},
+      fromHigh_pe: -0.0892,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -3018,7 +3026,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 242.9009},
       {date: "2026-06-23", pe: 228.958}
     ],
-      source: {
+      pePercentile: 99.34,
+      entryZone: {p30: 18.67, p70: 29.56},
+      fromHigh_pe: -0.0779,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -3878,7 +3890,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 627.7278},
       {date: "2026-06-23", pe: 571.197}
     ],
-      source: {
+      pePercentile: 99.76,
+      entryZone: {p30: 31.43, p70: 78.56},
+      fromHigh_pe: -0.0901,
+      flag: "⚠️PE异常高·可能失真",
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -5101,7 +5117,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 38.1984},
       {date: "2026-06-23", pe: 39.1955}
     ],
-      source: {
+      pePercentile: 97.61,
+      entryZone: {p30: 11.24, p70: 17.08},
+      fromHigh_pe: -0.1499,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -6324,7 +6344,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 64.9786},
       {date: "2026-06-23", pe: 61.9547}
     ],
-      source: {
+      pePercentile: 99.5,
+      entryZone: {p30: 24.39, p70: 33.65},
+      fromHigh_pe: -0.0636,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -7425,7 +7449,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 173.5134},
       {date: "2026-06-23", pe: 165.0368}
     ],
-      source: {
+      pePercentile: 68.04,
+      entryZone: {p30: 34.37, p70: 173.56},
+      fromHigh_pe: -0.718,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -8648,7 +8676,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 99.8632},
       {date: "2026-06-23", pe: 100.0717}
     ],
-      source: {
+      pePercentile: 99.83,
+      entryZone: {p30: 19.61, p70: 30.82},
+      fromHigh_pe: -0.0406,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -9871,7 +9903,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 85.7127},
       {date: "2026-06-23", pe: 79.8391}
     ],
-      source: {
+      pePercentile: 99.75,
+      entryZone: {p30: 27.29, p70: 37.82},
+      fromHigh_pe: -0.0685,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -11094,7 +11130,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 70.5357},
       {date: "2026-06-23", pe: 66.7401}
     ],
-      source: {
+      pePercentile: 99.01,
+      entryZone: {p30: 15.44, p70: 27.39},
+      fromHigh_pe: -0.1084,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -12317,7 +12357,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 150.8492},
       {date: "2026-06-23", pe: 138.9558}
     ],
-      source: {
+      pePercentile: 95.87,
+      entryZone: {p30: 47.98, p70: 66.56},
+      fromHigh_pe: -0.1813,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -13540,7 +13584,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 76.7366},
       {date: "2026-06-23", pe: 71.0244}
     ],
-      source: {
+      pePercentile: 90.17,
+      entryZone: {p30: 25.57, p70: 44.73},
+      fromHigh_pe: -0.3598,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -14763,7 +14811,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 434.5242},
       {date: "2026-06-23", pe: 434.3357}
     ],
-      source: {
+      pePercentile: 76.55,
+      entryZone: {p30: 56.23, p70: 404.32},
+      fromHigh_pe: -0.8072,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -15421,7 +15473,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 144.0735},
       {date: "2026-06-23", pe: 134.2672}
     ],
-      source: {
+      pePercentile: 80.5,
+      entryZone: {p30: 17.76, p70: 36.42},
+      fromHigh_pe: -0.8052,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -16479,7 +16535,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 160.8619},
       {date: "2026-06-23", pe: 164.4117}
     ],
-      source: {
+      pePercentile: 100.0,
+      entryZone: {p30: 49.97, p70: 87.91},
+      fromHigh_pe: 0.0,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -17192,7 +17252,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 991.8179},
       {date: "2026-06-23", pe: 867.1971}
     ],
-      source: {
+      pePercentile: 82.88,
+      entryZone: {p30: 36.23, p70: 219.74},
+      fromHigh_pe: -0.8584,
+      flag: "⚠️PE异常高·可能失真",
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -18071,7 +18135,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 436.546},
       {date: "2026-06-23", pe: 397.1007}
     ],
-      source: {
+      pePercentile: 99.88,
+      entryZone: {p30: 37.58, p70: 50.87},
+      fromHigh_pe: -0.0904,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -18410,7 +18478,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 428.2719},
       {date: "2026-06-23", pe: 365.5394}
     ],
-      source: {
+      pePercentile: 60.86,
+      entryZone: {p30: 52.22, p70: 772.42},
+      fromHigh_pe: -0.7691,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -19114,7 +19186,11 @@ window.PCB_AUTO = {
       {date: "2024-04-26", pe: 273.6708},
       {date: "2024-04-29", pe: 292.8533}
     ],
-      source: {
+      pePercentile: null,
+      entryZone: {p30: 42.74, p70: 77.84},
+      fromHigh_pe: null,
+      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考",
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口) · 亏损/PE无意义"
@@ -20337,7 +20413,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 61.1437},
       {date: "2026-06-23", pe: 61.7197}
     ],
-      source: {
+      pePercentile: 100.0,
+      entryZone: {p30: 10.4, p70: 19.02},
+      fromHigh_pe: 0.0,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -21560,7 +21640,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 114.0839},
       {date: "2026-06-23", pe: 103.8009}
     ],
-      source: {
+      pePercentile: 99.67,
+      entryZone: {p30: 25.03, p70: 36.26},
+      fromHigh_pe: -0.0901,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -22783,7 +22867,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 211.9979},
       {date: "2026-06-23", pe: 190.8061}
     ],
-      source: {
+      pePercentile: 99.75,
+      entryZone: {p30: 28.29, p70: 44.54},
+      fromHigh_pe: -0.1,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -24006,7 +24094,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 1001.1375},
       {date: "2026-06-23", pe: 901.1781}
     ],
-      source: {
+      pePercentile: 99.83,
+      entryZone: {p30: 15.84, p70: 103.89},
+      fromHigh_pe: -0.0998,
+      flag: "⚠️PE异常高·可能失真",
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -24521,7 +24613,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 135.0832},
       {date: "2026-06-23", pe: 125.5478}
     ],
-      source: {
+      pePercentile: 96.62,
+      entryZone: {p30: 19.45, p70: 37.5},
+      fromHigh_pe: -0.1206,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -25744,7 +25840,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 66.2347},
       {date: "2026-06-23", pe: 63.0955}
     ],
-      source: {
+      pePercentile: 97.36,
+      entryZone: {p30: 19.43, p70: 26.29},
+      fromHigh_pe: -0.1662,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -26565,7 +26665,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 764.3351},
       {date: "2026-06-23", pe: 720.4238}
     ],
-      source: {
+      pePercentile: 99.51,
+      entryZone: {p30: 67.11, p70: 207.51},
+      fromHigh_pe: -0.0575,
+      flag: "⚠️PE异常高·可能失真",
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -27788,7 +27892,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 25.7438},
       {date: "2026-06-23", pe: 26.4623}
     ],
-      source: {
+      pePercentile: 76.71,
+      entryZone: {p30: 6.2, p70: 24.19},
+      fromHigh_pe: -0.6204,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -29011,7 +29119,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 72.8718},
       {date: "2026-06-23", pe: 73.9676}
     ],
-      source: {
+      pePercentile: 89.35,
+      entryZone: {p30: 42.02, p70: 64.91},
+      fromHigh_pe: -0.3578,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -30234,7 +30346,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 74.5319},
       {date: "2026-06-23", pe: 70.001}
     ],
-      source: {
+      pePercentile: 97.11,
+      entryZone: {p30: 24.1, p70: 37.21},
+      fromHigh_pe: -0.2365,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -30937,7 +31053,11 @@ window.PCB_AUTO = {
       {date: "2024-04-25", pe: 881.1831},
       {date: "2024-04-26", pe: 913.7748}
     ],
-      source: {
+      pePercentile: null,
+      entryZone: {p30: 26.19, p70: 128.38},
+      fromHigh_pe: null,
+      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考",
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口) · 亏损/PE无意义"
@@ -31788,7 +31908,11 @@ window.PCB_AUTO = {
       {date: "2026-04-07", pe: 482.4295},
       {date: "2026-04-08", pe: 500.6836}
     ],
-      source: {
+      pePercentile: null,
+      entryZone: {p30: 10.66, p70: 20.33},
+      fromHigh_pe: null,
+      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考",
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口) · 亏损/PE无意义"
@@ -32977,7 +33101,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 63.6798},
       {date: "2026-06-23", pe: 57.3135}
     ],
-      source: {
+      pePercentile: 99.66,
+      entryZone: {p30: 22.85, p70: 27.51},
+      fromHigh_pe: -0.1,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -34157,7 +34285,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 65.5372},
       {date: "2026-06-23", pe: 61.841}
     ],
-      source: {
+      pePercentile: 59.5,
+      entryZone: {p30: 39.96, p70: 79.3},
+      fromHigh_pe: -0.9855,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -34765,7 +34897,11 @@ window.PCB_AUTO = {
       {date: "2026-02-26", pe: 1259.4395},
       {date: "2026-02-27", pe: 1218.307}
     ],
-      source: {
+      pePercentile: null,
+      entryZone: {p30: 178.19, p70: 922.1},
+      fromHigh_pe: null,
+      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考",
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口) · 亏损/PE无意义"
@@ -35988,7 +36124,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 218.4611},
       {date: "2026-06-23", pe: 191.5202}
     ],
-      source: {
+      pePercentile: 99.83,
+      entryZone: {p30: 41.59, p70: 49.2},
+      fromHigh_pe: -0.1233,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -36768,7 +36908,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 203.8998},
       {date: "2026-06-23", pe: 184.3719}
     ],
-      source: {
+      pePercentile: 88.93,
+      entryZone: {p30: 28.61, p70: 74.67},
+      fromHigh_pe: -0.5471,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -37991,7 +38135,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 185.5616},
       {date: "2026-06-23", pe: 176.0136}
     ],
-      source: {
+      pePercentile: 99.67,
+      entryZone: {p30: 55.8, p70: 77.98},
+      fromHigh_pe: -0.0779,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
@@ -39214,7 +39362,11 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 193.5774},
       {date: "2026-06-23", pe: 180.9568}
     ],
-      source: {
+      pePercentile: 89.6,
+      entryZone: {p30: 63.04, p70: 118.87},
+      fromHigh_pe: -0.3094,
+      flag: null,
+            source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
         flag: "⚠️单源(akshare缺失·adata非PE历史接口)"
