@@ -162,14 +162,22 @@
   .s3{color:var(--accent)}.s2{color:var(--barrier-mid)}
 
   /* Choke cards */
-  .choke-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  .choke-card { background: var(--card); border: 1px solid rgba(240,185,11,0.35); border-radius: 12px; padding: 24px; position: relative; box-shadow: 0 0 24px rgba(240,185,11,0.06); }
+  .choke-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; min-width: 0; }
+  .choke-card { background: var(--card); border: 1px solid rgba(240,185,11,0.35); border-radius: 12px; padding: 24px; position: relative; box-shadow: 0 0 24px rgba(240,185,11,0.06); min-width: 0; overflow: hidden; }
   .choke-card .rank { position: absolute; top: -12px; right: 18px; background: var(--accent); color: #000; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
   .choke-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
   .choke-card .code { font-size: 13px; color: var(--muted); margin-bottom: 12px; font-family: monospace; }
   .choke-card .seg { font-size: 12px; color: var(--accent); margin-bottom: 12px; font-weight: 600; }
-  .choke-card .logic { font-size: 13px; line-height: 1.8; color: var(--text); margin-bottom: 14px; }
+  .choke-card .logic { font-size: 13px; line-height: 1.8; color: var(--text); margin-bottom: 14px; word-break: break-word; overflow-wrap: anywhere; }
   .choke-card .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  /* ★ 升级 1.3：卡口长字段折叠 + 防溢出 */
+  .choke-card .valuation { min-width: 0; }
+  .choke-card .valuation > span { word-break: break-word; overflow-wrap: anywhere; }
+  .choke-card details > div > div { word-break: break-word; overflow-wrap: anywhere; }
+  .choke-long { display: block; max-height: 4.5em; overflow: hidden; position: relative; }
+  .choke-long.expanded { max-height: none; }
+  .choke-long-toggle { display: inline-block; margin-top: 6px; font-size: 11px; color: var(--accent); cursor: pointer; user-select: none; font-weight: 600; }
+  .choke-long-toggle:hover { text-decoration: underline; }
 
   /* 升级六：mobile 适配辅助 class（决策卡片网格 + 周期进度条 + 交易日志表格） */
   .decision-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
@@ -1515,7 +1523,13 @@ function renderChain(chainId) {
     }
     h += `<div class="code">${c.code}</div>`;
     h += `<div class="seg">🔒 ${c.segment}</div>`;
-    h += `<div class="logic">${c.logic}</div>`;
+    // ★ 升级 1.3：长 logic（> 80 字）自动折叠，加 📖 展开 按钮
+    const _logicText = c.logic || '';
+    if (_logicText.length > 80) {
+      h += `<div class="logic"><span class="choke-long">${_logicText}</span><span class="choke-long-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=(this.previousElementSibling.classList.contains('expanded')?'📕 收起':'📖 展开');">📖 展开</span></div>`;
+    } else {
+      h += `<div class="logic">${_logicText}</div>`;
+    }
     // ★ 升级二：估值/择时状态条（可选字段，没填 valuation 就不渲染）
     if (c.valuation && typeof c.valuation.pePercentile === 'number') {
       const p = c.valuation.pePercentile;
