@@ -72,7 +72,7 @@ CHAINS.hbm = {
     ],
     materials: [
       { name: 'GMC 颗粒状塑封料', barrier:'extreme', choke:true, note:'全球仅住友/昭和+华海诚科 · A股唯一量产', sourceSegment:'GMC颗粒状环氧塑封料' },
-      { name: '前驱体材料', barrier:'extreme', choke:true, note:'雅克子公司=SK海力士核心供应商 · 贯穿全世代', sourceSegment:'前驱体材料' },
+      { name: '先进封装材料', barrier:'extreme', choke:true, note:'雅克子公司=SK海力士核心供应商 · 贯穿全世代', sourceSegment:'先进封装材料' },
       { name: 'low-α球硅/球铝填料', barrier:'high', choke:false, note:'GMC核心填料占比70-90% · 联瑞供海力士', companies:[ {name:'联瑞新材',code:'688300',position:'low-α球硅，供SK海力士',barrier:'高'}, {name:'壹石通',code:'688733',position:'low-α球铝(散热)',barrier:'中'} ] }
     ],
     equipment: [
@@ -132,7 +132,7 @@ CHAINS.hbm.segments = [
     ]
   },
   {
-    name:'前驱体材料', costRatio:'薄膜沉积关键', barrier:'extreme', choke:true, border:true,
+    name:'先进封装材料', costRatio:'薄膜沉积关键', barrier:'extreme', choke:true, border:true,
     intro:'前驱体用于 HBM 堆叠介质层的薄膜沉积，技术壁垒贯穿 HBM 全世代。<strong>雅克科技子公司韩国先科（UP Chemical）是 SK 海力士前驱体核心供应商</strong>，同时供货合肥长鑫，国家大基金入股力挺，绑定全球 HBM 绝对龙头。',
     globalLandscape:[
       { lbl:'🥇 雅克科技/韩国先科（中）', val:'SK海力士前驱体核心供应商', note:'海力士收入占比~50%，长鑫核心供应商' },
@@ -205,7 +205,7 @@ CHAINS.hbm.fourQuestions = {
       { name:'华海诚科', code:'688535', q1:true, q1note:'全球仅3家', q2:true, q2note:'认证周期长', q3:true, q3note:'GMC无成熟替代', q4:true, q4note:'HBM堆叠必备', hits:4, strength:'★★★' },
       { name:'联瑞新材', code:'688300', q1:false, q1note:'填料供应商多', q2:false, q2note:'', q3:false, q3note:'', q4:true, q4note:'GMC刚需填料', hits:1, strength:null }
     ]},
-    { name:'前驱体材料', stocks:[
+    { name:'先进封装材料', stocks:[
       { name:'雅克科技', code:'002409', q1:true, q1note:'海力士核心供应商', q2:true, q2note:'认证壁垒高', q3:true, q3note:'前驱体专用', q4:true, q4note:'全世代刚需', hits:4, strength:'★★★' },
       { name:'南大光电', code:'300346', q1:false, q1note:'全球多家', q2:true, q2note:'', q3:false, q3note:'', q4:true, q4note:'', hits:2, strength:null }
     ]},
@@ -237,7 +237,7 @@ CHAINS.hbm.chokePoints = [
       { type:'财报印证', claim:'GMC量产替代日系、毛利高', howToCheck:'查华海诚科最新季报GMC营收占比与毛利率，毛利是定价权最难造假的证据', falsifySignal:'GMC营收不放量/毛利平庸→卡口存疑', status:'pending' },
       { type:'交叉信源', claim:'≥2独立来源印证GMC唯一量产+哈勃参股', howToCheck:'券商深度研报+公司公告+哈勃持股披露同时印证', falsifySignal:'仅单一自媒体来源→存疑', status:'pending' }
     ], note:'初始清单，需手动核查后切换状态' } , dims6:[{key:'durability',score:4,trend:'up'},{key:'visibility',score:2,trend:'down'},{key:'policy',score:5,trend:'up'},{key:'supply',score:4,trend:'up'},{key:'valuation',score:2,trend:'down'},{key:'barrier',score:5,trend:'up'}], dims6Note:'🆪 A股唯一量产GMC/全球3家、壁垒满分；但利润未放量(2026净利~1亿)、估值靠未来——赔率/左侧派。⚠️华为哈勃参股: 本轮未核到精确出处(estimate,media)', tier:'media', src:'GMC=招股书+券商/华为哈勃=estimate待核 ⚪单源待核'},
-  { rank:2, name:'雅克科技', code:'002409', segment:'前驱体材料', strength:'★★★', logic:'子公司<strong>韩国先科(UP Chemical)是SK海力士前驱体核心供应商</strong>，同时供货合肥长鑫，国家大基金入股。前驱体用于HBM堆叠介质层薄膜沉积，<strong>技术贯穿HBM全世代</strong>，深度绑定全球HBM绝对龙头。', tags:['海力士核心供应商','全世代刚需','大基金入股','绑定长鑫'],
+  { rank:2, name:'雅克科技', code:'002409', segment:'先进封装材料', strength:'★★★', logic:'子公司<strong>韩国先科(UP Chemical)是SK海力士前驱体核心供应商</strong>，同时供货合肥长鑫，国家大基金入股。前驱体用于HBM堆叠介质层薄膜沉积，<strong>技术贯穿HBM全世代</strong>，深度绑定全球HBM绝对龙头。', tags:['海力士核心供应商','全世代刚需','大基金入股','绑定长鑫'],
     valuation:{ pe:'🆪 中高(PE-TTM ~58x 截至2026-06-10)', pePercentile:65, grossMargin:'前驱体毛利较高', fromHigh:'—', asOf:'2026-06-10', note:'🆪 AI估值初版：绑定海力士+长鑫双龙头，HBM增长确定性强；周一cron覆盖' },
     verification:{ items:[
       { type:'供给寡头', claim:'韩国先科为SK海力士前驱体核心供应商', howToCheck:'查雅克科技年报海力士收入占比、韩国先科营收，搜默克/APD份额变化', falsifySignal:'海力士导入第二供应商/份额下滑→卡口降级', status:'pending' },
