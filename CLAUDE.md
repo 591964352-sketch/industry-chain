@@ -505,3 +505,11 @@ Phase 10 半导体设备 R2-1 → R2-2 → R2-3 → R2-4 累计 4 轮重出。CC
 - 自查报告**永久记录**在 commit message 或 commit 后回复里·可追溯
 
 - 每次开新升级**重写 plan 文件**（沿用 `C:\Users\Administrator\.claude\plans\app-buzzing-pond.md`），不要在老 plan 上小修小补
+
+## §8 产业链刷新模板（Chain Refresh Template · 阶段四 commit 4.4 立）
+
+**新增 / 刷新产业链数据**统一走模板：[`.claude/templates/chain-refresh-template.md`](.claude/templates/chain-refresh-template.md)
+
+模板涵盖：适用场景（新增 vs 刷新）/ 3 文件结构（manual + auto + 合并层）/ 3 脚本复用方法 / growthAdj 名单决策标准 / 新增 10 步 checklist / 刷新 6 步 checklist / §7.2 自查报告格式 / 紧急回滚命令。
+
+**触发时机**：用户说"新增 XX 产业链" / "刷新 XX 链" / 周一手动触发 🔄 按钮 / 阶段交界验收时。
