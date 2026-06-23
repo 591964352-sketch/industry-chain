@@ -620,6 +620,7 @@
   var DATA_VERSION = '?v=20260619b';
   var DATA_MANIFEST = [
     'pcb.manual',   // ★ 阶段二 commit 2.1：手动层（必须先于 pcb.js 加载·注入 STOCK_REGISTRY）
+    'pcb.auto',     // ★ 阶段二 commit 2.2：自动层（估值字段全 null·commit 3.1+ 脚本回填）
     'pcb','semi','ai-server','hbm','robotics','autonomous-driving',
     'power-semi','semi-equipment','ai-apps','cpo','optical-chip','optical-module','solid-battery','low-altitude','commercial-aero',
     'liquid-cooling',
@@ -1594,6 +1595,34 @@ function renderChain(chainId) {
     h += `</div>`;
   });
   h += `</div>`;
+
+  // ★ 阶段二 commit 2.3：卡脖子参考主体（非 A 股·不可投·不进估值管线）
+  // 渲染位置：chokePoints section 后、supplyGap 前
+  if (d.referenceChokepoints && d.referenceChokepoints.length > 0) {
+    h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--purple);background:rgba(168,85,247,0.04);">`;
+    h += `<h4 style="margin-bottom:8px;font-size:15px;color:var(--purple);">🌐 卡脖子参考（非 A 股·不可投）</h4>`;
+    h += `<div style="font-size:12px;color:var(--muted);margin-bottom:14px;">下列主体为<strong>非 A 股</strong>卡脖子材料/设备商——<strong>不在估值管线</strong>，仅作"国内替代标的"映射参考。点击 ${'<code style="background:var(--card2);padding:1px 4px;border-radius:3px;">replacementCode</code>'} 链回 A 股可投标的。</div>`;
+    h += `<table class="stock-tbl"><colgroup><col style="width:24%"><col style="width:12%"><col style="width:32%"><col style="width:32%"></colgroup><thead><tr><th>国外主体</th><th>地区</th><th>卡脖子环节</th><th>A 股替代标的</th></tr></thead><tbody>`;
+    d.referenceChokepoints.forEach(rp => {
+      const isReplacable = rp.replacementCode && rp.replacementCode !== '—';
+      const replCell = isReplacable
+        ? `<a href="#stock-${rp.replacementCode}" onclick="window.location.hash='stock-${rp.replacementCode}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${rp.replacementCode}</a>`
+        : `<span style="color:var(--muted);">—</span>`;
+      h += `<tr>`;
+      h += `<td style="font-weight:600;">${rp.name}</td>`;
+      h += `<td><span class="tag tg-blue" style="font-size:10px;">${rp.region}</span></td>`;
+      h += `<td style="font-size:13px;">${rp.barrier}</td>`;
+      h += `<td>${replCell}</td>`;
+      h += `</tr>`;
+    });
+    h += `</tbody></table>`;
+    // 显示 688234 错码 issue（如有）
+    if (d.chokePointsMeta && d.chokePointsMeta.newAdditions && d.chokePointsMeta.newAdditions.length) {
+      h += `<div style="margin-top:12px;padding:10px 14px;background:rgba(234,179,8,0.08);border-left:3px solid var(--barrier-mid);border-radius:0 6px 6px 0;font-size:11px;color:var(--text);">`;
+      h += `⚠️ <strong>688234 stock code 错误已识别</strong>：四问段使用 <code>688234</code>（实为天岳先进），中一科技应为 <code>301150</code>。本卡口动态化版本已通过 INVESTABLE+REGION+BARRIER 三重筛选自动跳过该错码——详见 pcb.manual.js 的 <code>stockCodeIssue</code> 字段。R3-13 已标记，commit 2.3 未直接修改 pcb.js 数据层（按用户决策·只加注释）。</div>`;
+    }
+    h += `</div>`;
+  }
 
   // Supply/Demand Gap
   if (d.supplyGap && d.supplyGap.length > 0) {

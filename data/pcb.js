@@ -591,4 +591,109 @@ CHAINS.pcb.supplyGap = [
 ];
 CHAINS.pcb.methodologyNotes = 'PCB制造、设备等环节找不到满足四大条件的卡口——这是方法论的正常结果。中游制造环节虽然胜宏/沪电等头部企业非常优秀，但按卡口标准，客户可切换供应商→不构成物理卡口。<br><br><strong>【内容标准】</strong> 本赛道已叠加「全景占比/个股密度/进步退步」内容标准——每 segment stocks 补至 ≥5 家、treeMap sub-card note 标占比+Prismark/CPCA 来源、stocks.logic 加 ⬆ 进步/⬇ 承压/➖ 平稳 趋势前缀、position 必含市占率/排名。';
 
+// ============================================================
+// ★ 阶段二 commit 2.2：单点真理覆盖 + 估值自动层注入
+// 只覆盖 dims6 字段（从 manual.js 注入）·不动 logic/position 等其他字段
+// 估值字段从 auto.json 注入·脚本（commit 3.1+）只重写 auto.json 不动本行
+// ============================================================
+(function(){
+  const manual = window.PCB_MANUAL || null;
+  const auto   = window.PCB_AUTO   || null;
+  if (!manual || !manual.stocks) return;
+  const REG = manual.stocks;
+
+  // ① 单点真理：把 REGISTRY[code].dims6 覆盖到 segments/midstream/4q 的 stocks 里
+  // 不动 logic/position/barrier/tier/hits/strength 等其他字段
+  const overrideDims6 = (arr) => {
+    if (!arr) return;
+    arr.forEach(s => {
+      if (s && s.code && REG[s.code] && REG[s.code].dims6) {
+        s.dims6 = REG[s.code].dims6;
+      }
+    });
+  };
+
+  // segments[].stocks[]
+  if (CHAINS.pcb.segments) {
+    CHAINS.pcb.segments.forEach(seg => overrideDims6(seg.stocks));
+  }
+  // midstream.stocks[]
+  if (CHAINS.pcb.midstream) overrideDims6(CHAINS.pcb.midstream.stocks);
+  // fourQuestions.segments[].stocks[]
+  if (CHAINS.pcb.fourQuestions && CHAINS.pcb.fourQuestions.segments) {
+    CHAINS.pcb.fourQuestions.segments.forEach(seg => overrideDims6(seg.stocks));
+  }
+
+  // ② 估值自动层注入：auto.valuations[code] → CHAINS.pcb.segments.stocks[].valuation
+  // 阶段三 commit 3.1 跑脚本前·auto.valuations 全 null → 不动原 valuation 字段
+  // 阶段三跑完后·auto.valuations 有值 → 覆盖原 valuation（同时覆盖 chokePoints[].valuation）
+  const injectValuation = (arr) => {
+    if (!arr || !auto || !auto.valuations) return;
+    arr.forEach(s => {
+      if (s && s.code && auto.valuations[s.code]) {
+        s.valuation = auto.valuations[s.code];
+      }
+    });
+  };
+  if (CHAINS.pcb.segments) CHAINS.pcb.segments.forEach(seg => injectValuation(seg.stocks));
+  if (CHAINS.pcb.midstream) injectValuation(CHAINS.pcb.midstream.stocks);
+
+  // chokePoints[].valuation 同步覆盖
+  if (CHAINS.pcb.chokePoints && auto && auto.valuations) {
+    CHAINS.pcb.chokePoints.forEach(cp => {
+      if (cp.code && auto.valuations[cp.code]) {
+        cp.valuation = auto.valuations[cp.code];
+      }
+    });
+  }
+
+  // ③ prosperity override（commit 3.5 才填·默认 null 不覆盖派生）
+  if (CHAINS.pcb.prosperity && manual.prosperity && manual.prosperity.override) {
+    CHAINS.pcb.prosperity.override = manual.prosperity.override;
+  }
+
+  // ④ referenceChokepoints 挂到 CHAINS 上·commit 2.3 才在渲染时使用
+  if (manual.referenceChokepoints) {
+    CHAINS.pcb.referenceChokepoints = manual.referenceChokepoints;
+  }
+
+  // ============================================================
+  // ★ 阶段二 commit 2.3：卡口动态化（程序派生可投卡口）
+  // 筛选条件：barrier==='极高' ∩ investable===true ∩ region==='国内'
+  // PCB 预计 5 只（原 3 只 chokePoint + 新 2 只：600183 生益/002916 深南）
+  // 保留 orig.logic/valuation/verification（不动 logic 字段·按用户决策）
+  // 新加卡口 orig 缺位时用占位 logic（标"待补·卡口逻辑"）
+  // ============================================================
+  const origCP = CHAINS.pcb.chokePoints || [];
+  const DERIVED = [];
+  Object.keys(REG).forEach(code => {
+    const s = REG[code];
+    if (!s) return;
+    if (s.barrier !== '极高') return;
+    if (s.investable !== true) return;
+    if (s.region !== '国内') return;
+    const orig = origCP.find(c => c.code === code);
+    DERIVED.push({
+      rank: DERIVED.length + 1,
+      code: code,
+      name: s.name,
+      segment: orig?.segment || (s.segments && s.segments[0] && s.segments[0].name) || '—',
+      strength: orig?.strength || '★★☆',
+      logic: orig?.logic || `（占位·待补）${s.name} 卡口逻辑 150 字（barrier='极高' 自动筛入·原 chokePoints 列表无注解·待联网核实）`,
+      valuation: orig?.valuation || null,
+      tags: orig?.tags || ['极高壁垒', '动态筛入'],
+      verification: orig?.verification || null
+    });
+  });
+  CHAINS.pcb.chokePoints = DERIVED;
+  CHAINS.pcb.chokePointsMeta = {
+    filter: "barrier==='极高' ∩ investable===true ∩ region==='国内'",
+    derivedCount: DERIVED.length,
+    origCount: origCP.length,
+    newAdditions: DERIVED.filter(c => !origCP.find(o => o.code === c.code)).map(c => c.code+':'+c.name),
+    asOf: '2026-06-23'
+  };
+})();
+
+
 })(window.CHAINS);
