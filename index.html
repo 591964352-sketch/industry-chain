@@ -138,7 +138,8 @@
   .stock-tbl td .tag { white-space: nowrap; }   /* 升级：壁垒评级/四问命中 tag 不换行 */
   .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .stock-tbl thead th { text-align: left; padding: 11px 14px; border-bottom: 2px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 0.5px; background: var(--card2); }
-  .stock-tbl tbody td { padding: 11px 14px; border-bottom: 1px solid rgba(42,45,58,0.5); }
+  .stock-tbl tbody td { padding: 11px 14px; border-bottom: 1px solid rgba(42,45,58,0.5); word-break: break-word; overflow-wrap: anywhere; }
+  .trade-table tbody td { word-break: break-word; overflow-wrap: anywhere; }   /* 升级 1.4：交易日志长字段换行 */
   .stock-tbl .s-name { font-weight: 600; font-size: 14px; }
   .stock-tbl .s-code { color: var(--muted); font-size: 12px; font-family: "SF Mono", monospace; }
   .rank-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; font-size: 12px; font-weight: 700; background: rgba(240,185,11,0.1); color: var(--accent); }
@@ -148,10 +149,10 @@
 
   /* Four question table */
   .fourq-wrap { overflow-x: auto; }
-  .fourq-tbl { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 900px; }
-  .fourq-tbl thead th { position: sticky; top: 0; background: var(--card2); padding: 10px 8px; text-align: center; border-bottom: 2px solid var(--border); font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .fourq-tbl { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+  .fourq-tbl thead th { position: sticky; top: 0; background: var(--card2); padding: 10px 8px; text-align: center; border-bottom: 2px solid var(--border); font-size: 11px; color: var(--muted); white-space: normal; word-break: break-word; }
   .fourq-tbl thead th:first-child { text-align: left; }
-  .fourq-tbl tbody td { padding: 9px 8px; text-align: center; border-bottom: 1px solid rgba(42,45,58,0.5); white-space: nowrap; }
+  .fourq-tbl tbody td { padding: 9px 8px; text-align: center; border-bottom: 1px solid rgba(42,45,58,0.5); white-space: normal; word-break: break-word; overflow-wrap: anywhere; }
   .fourq-tbl tbody td:first-child { text-align: left; }
   .fourq-tbl .pass { color: var(--green); font-weight: 700; font-size: 14px; }
   .fourq-tbl .fail { color: var(--red); font-weight: 700; font-size: 14px; }
@@ -164,7 +165,8 @@
   /* Choke cards */
   .choke-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; min-width: 0; }
   .choke-card { background: var(--card); border: 1px solid rgba(240,185,11,0.35); border-radius: 12px; padding: 24px; position: relative; box-shadow: 0 0 24px rgba(240,185,11,0.06); min-width: 0; overflow: hidden; }
-  .choke-card .rank { position: absolute; top: -12px; right: 18px; background: var(--accent); color: #000; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
+  /* 升级 1.4：rank 改为 h3 内部 inline block（彻底消除与 verify-overall 徽章的 z-index 冲突） */
+  .choke-card .rank { display: inline-block; background: var(--accent); color: #000; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; margin-right: 10px; vertical-align: middle; }
   .choke-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
   .choke-card .code { font-size: 13px; color: var(--muted); margin-bottom: 12px; font-family: monospace; }
   .choke-card .seg { font-size: 12px; color: var(--accent); margin-bottom: 12px; font-weight: 600; }
@@ -217,7 +219,8 @@
     .stock-tbl, .fourq-tbl { font-size: 11px; }
     .stock-tbl thead th, .stock-tbl tbody td { padding: 7px 6px; }
     .fourq-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .fourq-tbl { min-width: 650px; }
+    /* 升级 1.4：移动端 fourq-tbl 仍允许横向滚动（窄屏 8 列挤一起不现实）*/
+    .fourq-tbl { min-width: 720px; }
     /* All cards/tables scrollable on mobile */
     .card, .segment-card { overflow-x: auto; }
     /* Tree: compact */
@@ -1437,7 +1440,7 @@ function renderChain(chainId) {
         seg.globalLandscape.forEach(g => h += `<div class="info-item"><div class="lbl">${g.lbl}</div><div class="val" style="color:var(--accent);">${g.val}</div><div style="font-size:11px;color:var(--muted);">${g.note}</div></div>`);
         h += `</div>`;
       }
-      h += `<h4>A股标的</h4><table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
+      h += `<h4>A股标的</h4><table class="stock-tbl"><colgroup><col style="width:5%"><col style="width:18%"><col style="width:9%"><col style="width:18%"><col style="width:11%"><col style="width:39%"></colgroup><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
       seg.stocks.forEach(s => {
         h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:13px;">${s.logic}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
       });
@@ -1459,7 +1462,7 @@ function renderChain(chainId) {
     } else {
       h += `<div class="seg-meta"><span>卡口判定: <span class="tag tg-gray">不构成物理卡口</span></span></div>`;
     }
-    h += `<table class="stock-tbl"><thead><tr><th>#</th><th>个股</th><th>代码</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
+    h += `<table class="stock-tbl"><colgroup><col style="width:5%"><col style="width:22%"><col style="width:9%"><col style="width:14%"><col style="width:50%"></colgroup><thead><tr><th>#</th><th>个股</th><th>代码</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
     d.midstream.stocks.forEach(s => {
       h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:13px;">${s.logic || s.note || ''}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
     });
@@ -1470,7 +1473,7 @@ function renderChain(chainId) {
   const fqNum = hasSocratic ? '⑥' : '⑤';
   h += `<div class="section"><div class="section-title"><span class="num num-ser">${fqNum}</span> 物理卡口 四问筛选 — 全量标的逐项打分</div>`;
   h += `<div class="section-desc">✓=通过 ✗=不通过 ★★★=命中4/4(核心卡口) ★★☆=命中3/4(潜在卡口)</div>`;
-  h += `<div class="card" style="padding:16px;"><div class="fourq-wrap"><table class="fourq-tbl"><thead><tr><th style="min-width:90px;">产业链环节</th><th style="min-width:95px;">标的</th><th>①供给端<br>寡头垄断?</th><th>②产能端<br>扩产≥12月?</th><th>③替代端<br>无替代?</th><th>④需求端<br>下游刚需?</th><th>命中</th><th>卡口强度</th></tr></thead><tbody>`;
+  h += `<div class="card" style="padding:16px;"><div class="fourq-wrap"><table class="fourq-tbl"><colgroup><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:5%"><col style="width:11%"></colgroup><thead><tr><th>产业链环节</th><th>标的</th><th>①供给端<br>寡头垄断?</th><th>②产能端<br>扩产≥12月?</th><th>③替代端<br>无替代?</th><th>④需求端<br>下游刚需?</th><th>命中</th><th>卡口强度</th></tr></thead><tbody>`;
   d.fourQuestions.segments.forEach(seg => {
     const segLabel = seg.name || seg.segmentName || '—';
     h += `<tr class="seg-div"><td colspan="8">${segLabel}</td></tr>`;
@@ -1511,15 +1514,15 @@ function renderChain(chainId) {
   d.chokePoints.forEach((c, i) => {
     const medals = ['🥇','🥈','🥉'];
     h += `<div class="choke-card">`;
-    h += `<div class="rank">${medals[i]||'#'+(i+1)} 优先级 ${i+1}</div>`;
-    h += `<h3>${c.name}</h3>`;
-    // ★ 升级一：整体验证状态徽章（可选字段，没填 verification 就不渲染）
+    // ★ 升级 1.4 彻底修：rank 合并到 h3 内部 inline block（彻底消除 z-index 冲突·不挡"优先级 N"字样）
+    h += `<h3><span class="rank">${medals[i]||'#'+(i+1)} 优先级 ${i+1}</span>${c.name}</h3>`;
+    // verify-overall 改 div（独占一行·避开 rank）
     if (c.verification && c.verification.items && c.verification.items.length) {
       const all = collectVerifyStatuses(chainId, c.code, c.verification.items);
       const ov = computeOverallStatus(all);
       const ocls = ov==='verified'?'tg-green':ov==='falsified'?'tg-extreme':'tg-gray';
       const otxt = ov==='verified'?'✅ 已验证':ov==='falsified'?'❌ 已证伪':'⏳ 待验证';
-      h += `<span class="tag verify-overall ${ocls}" style="font-size:10px;margin-left:6px;vertical-align:middle;">${otxt}</span>`;
+      h += `<div style="margin:6px 0 4px;"><span class="tag verify-overall ${ocls}" style="font-size:10px;">${otxt}</span></div>`;
     }
     h += `<div class="code">${c.code}</div>`;
     h += `<div class="seg">🔒 ${c.segment}</div>`;
@@ -1594,7 +1597,7 @@ function renderChain(chainId) {
   // Supply/Demand Gap
   if (d.supplyGap && d.supplyGap.length > 0) {
     h += `<div class="card"><h4 style="margin-bottom:16px;font-size:15px;">📊 供需缺口量化（2026E）</h4>`;
-    h += `<table class="stock-tbl"><thead><tr><th>卡口环节</th><th>2026E全球需求</th><th>2026E有效产能</th><th>缺口</th><th>缺口率</th><th>核心瓶颈</th></tr></thead><tbody>`;
+    h += `<table class="stock-tbl"><colgroup><col style="width:20%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:10%"><col style="width:32%"></colgroup><thead><tr><th>卡口环节</th><th>2026E全球需求</th><th>2026E有效产能</th><th>缺口</th><th>缺口率</th><th>核心瓶颈</th></tr></thead><tbody>`;
     d.supplyGap.forEach(g => {
       h += `<tr><td style="font-weight:600;">${g.segment || g.name}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand||'—'}</td><td>${g.capacity||'—'}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap||'—'}</span></td><td style="color:var(--red);font-weight:700;">${g.rate||'—'}</td><td style="font-size:12px;">${g.bottleneck||'—'}</td></tr>`;
     });
@@ -1967,7 +1970,7 @@ function renderTrades() {
       h += `🔍 当前筛选下没有交易记录。</div>`;
     }
   } else {
-    h += `<div class="tbl-scroll"><table class="stock-tbl trade-table" style="font-size:12px;"><thead><tr>`;
+    h += `<div class="tbl-scroll"><table class="stock-tbl trade-table" style="font-size:12px;"><colgroup><col style="width:8%"><col style="width:16%"><col style="width:8%"><col style="width:10%"><col style="width:10%"><col style="width:12%"><col style="width:10%"><col style="width:18%"><col style="width:8%"></colgroup><thead><tr>`;
     h += `<th>日期</th><th>标的</th><th>方向</th><th style="text-align:right;">价格</th><th style="text-align:right;">数量</th><th style="text-align:right;">金额</th><th>守纪律</th><th>备注</th><th style="width:60px;">操作</th>`;
     h += `</tr></thead><tbody>`;
     display.forEach(t => {
