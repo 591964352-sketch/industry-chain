@@ -13,13 +13,17 @@ scripts/refresh_pcb_valuation.py
 - adapter 改名/缺字段 → raise 不静默（§6.11 + §4.2 准确性护栏）
 - 单源合规降级：source.flag 显式标 "⚠️单源(akshare缺失·adata非PE历史接口)"
 
+★ commit 3.1.2 修复：
+- latest_pe 取值改用「距今 30 天内的最后一条历史」（避免用 history[-1] 误取到亏损前几个月旧数据）
+- pe_history 序列本身不变（亏损股保留历史有效数据·commit 3.2 算分位时可用）
+
 commit 3.1 范围只算 pe_ttm，不算分位（分位是 commit 3.2）。
 """
 import re
 import sys
 import json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 import baostock as bs
 
 
@@ -84,9 +88,14 @@ def to_baostock_code(code):
 # ============================================================
 # ③ baostock 拉 peTTM 日频历史（adapter 报错 raise 不静默）
 # ============================================================
+# ★ commit 3.1.2：latest_pe 取值用距今 30 天内的最后一条·避免 history[-1] 误取亏损前几个月旧数据
+LATEST_LOOKBACK_DAYS = 30
+
+
 def fetch_pettm_series(code):
-    """返回 (rows_count, latest_pe_ttm, error_msg)
-       亏损股 (pe_ttm <= 0 或空字符串) → latest_pe_ttm = None
+    """返回 (rows_count, latest_pe_ttm, history_list, error_msg)
+       history_list = [{"date": "2021-06-23", "pe": 162.5}, ...]（只含有效数据 pe>0·亏损股也保留历史）
+       latest_pe_ttm: history 距今 30 天内的最后一条·亏损股为 None
        接口改名/缺字段 → raise 不静默
     """
     bs_code = to_baostock_code(code)
@@ -114,12 +123,13 @@ def fetch_pettm_series(code):
             data_list.append(rs.get_row_data())
 
         if not data_list:
-            return (0, None, '空数据')
+            return (0, None, [], '空数据')
 
-        # 取 peTTM 列（index 1）的最后一个非空数值
+        # 收集有效 pe>0 历史序列（commit 3.2 自己算分位时不用重拉网络）
         rows = len(data_list)
-        latest_pe = None
-        for row in reversed(data_list):
+        history = []
+        for row in data_list:
+            date_str = row[0]
             pe_str = row[1]
             if not pe_str or pe_str.strip() == '':
                 continue
@@ -128,13 +138,15 @@ def fetch_pettm_series(code):
             except ValueError:
                 continue
             if pe_val <= 0:
-                # 亏损股·PE 无意义
-                latest_pe = None
-                break
-            latest_pe = pe_val
-            break
+                continue
+            history.append({"date": date_str, "pe": round(pe_val, 4)})
 
-        return (rows, latest_pe, None)
+        # ★ commit 3.1.2 修复：latest_pe 用距今 30 天内的最后一条（避免用 history[-1] 误取亏损前几个月旧数据）
+        end_dt = datetime.strptime(END_DATE, '%Y-%m-%d')
+        cutoff_date = (end_dt - timedelta(days=LATEST_LOOKBACK_DAYS)).strftime('%Y-%m-%d')
+        recent = [h for h in history if h["date"] >= cutoff_date]
+        latest_pe = recent[-1]["pe"] if recent else None
+        return (rows, latest_pe, history, None)
     except Exception as e:
         # adapter 改名/网络错误/参数错 → raise 不静默
         raise
@@ -165,34 +177,40 @@ def main():
     print(f'  codes: {", ".join(codes)}')
     print()
 
-    # 3) 逐只拉 pe_ttm
+    # 3) 逐只拉 pe_ttm（连同 history 序列存进 auto.js·commit 3.2 自己算分位时不用重拉网络）
     success = []       # 有有效 pe_ttm
     loss_skip = []     # pe_ttm <= 0 或空（亏损股）
     failed = []        # 报错失败
+    history_stats = {'min': 0, 'max': 0, 'total': 0}
     valuations = {}
 
     for i, code in enumerate(codes, 1):
         try:
-            rows, latest_pe, err = fetch_pettm_series(code)
+            rows, latest_pe, history, err = fetch_pettm_series(code)
             if latest_pe is None:
-                # 亏损股或全为空
+                # 亏损股或全为空（commit 3.1.2：pe_history 保留历史有效数据·commit 3.2 算分位时可用）
                 loss_skip.append(code)
                 valuations[code] = {
                     'pe_ttm': None,
+                    'pe_history': history,   # ★ 修 bug：不清空·保留历史有效数据（亏损前盈利期）
                     'source': {'pe': 'baostock.query_history_k_data_plus', 'verify': None, 'flag': f'{SOURCE_FLAG} · 亏损/PE无意义'},
                     'baostockStamp': BAOSTOCK_STAMP,
                     'asOf': ASOF
                 }
-                print(f'  [{i:2d}/{len(codes)}] {code} · 跳过（亏损/PE 无意义）· rows={rows}')
+                print(f'  [{i:2d}/{len(codes)}] {code} · 跳过（亏损/PE 无意义）· rows={rows} · history={len(history)}（保留历史有效数据）')
             else:
                 success.append(code)
                 valuations[code] = {
                     'pe_ttm': round(latest_pe, 4),
+                    'pe_history': history,
                     'source': {'pe': 'baostock.query_history_k_data_plus', 'verify': None, 'flag': SOURCE_FLAG},
                     'baostockStamp': BAOSTOCK_STAMP,
                     'asOf': ASOF
                 }
-                print(f'  [{i:2d}/{len(codes)}] {code} · OK · pe_ttm={latest_pe:.2f} · rows={rows}')
+                history_stats['total'] += len(history)
+                history_stats['min'] = min(history_stats['min'], len(history))
+                history_stats['max'] = max(history_stats['max'], len(history))
+                print(f'  [{i:2d}/{len(codes)}] {code} · OK · pe_ttm={latest_pe:.2f} · rows={rows} · history={len(history)}')
         except Exception as e:
             # 失败：保持 null，不填假数据（§6.8 数据准确度优先）
             failed.append((code, str(e)))
@@ -217,6 +235,9 @@ def main():
     print(f'亏损跳过（pe_ttm<=0）: {len(loss_skip)} 只')
     print(f'失败（保留 null）:     {len(failed)} 只')
     print(f'总计:                  {len(codes)} 只')
+    if success:
+        avg = history_stats['total'] / len(success)
+        print(f'pe_history 平均行数: {avg:.1f}（min={history_stats["min"]}, max={history_stats["max"]}, total={history_stats["total"]}）')
     if failed:
         print()
         print(f'失败列表:')
@@ -254,7 +275,7 @@ window.PCB_AUTO = {{
     baostockVersion: '{BAOSTOCK_VERSION}',
     akshareVersion: null,
     window: '5y ({START_DATE} ~ {END_DATE})',
-    note: '★ 阶段三 commit 3.1：baostock 单源拉 pe_ttm 历史·akshare stock_a_indicator_lg 已移除·adata 是财报接口非 PE 历史',
+    note: '★ 阶段三 commit 3.1.2：baostock 单源拉 pe_ttm 历史+pe_history 序列·latest_pe 用距今 30 天内最后一条·亏损股保留历史有效数据（不清空 history·commit 3.2 可算历史分位）',
     sourceFlag: '{SOURCE_FLAG}',
     stats: {{
       success: {len(success)},
@@ -276,8 +297,19 @@ def format_valuation_line(code, val):
         return f"    '{code}': null   // ⚠️ 拉取失败·保持 null 不静默用估算覆盖（§6.8）"
     # ★ 修 bug：Python None 不能直接 f-string 到 JS（会变成 "None" 字面量）·必须显式转 JS null
     pe_ttm_js = 'null' if val['pe_ttm'] is None else val['pe_ttm']
+    # ★ commit 3.1.1：pe_history 序列格式化为 [{date, pe}, ...] 数组（commit 3.2 算分位用）
+    history = val.get('pe_history', [])
+    if not history:
+        history_js = '[]'
+    else:
+        # 全部数据·一行一条（紧凑格式·38 只 × ~1100 行 ≈ 1MB 文件可接受）
+        history_js = '[\n' + ',\n'.join(
+            f'      {{date: "{h["date"]}", pe: {h["pe"]}}}'
+            for h in history
+        ) + '\n    ]'
     return f"""    '{code}': {{
       pe_ttm: {pe_ttm_js},
+      pe_history: {history_js},
       source: {{
         pe: '{val['source']['pe']}',
         verify: {('null' if val['source']['verify'] is None else repr(val['source']['verify']))},
