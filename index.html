@@ -1174,6 +1174,116 @@ function renderChain(chainId) {
     }
     h += `</div>`;
   }
+  // ★ 阶段四 commit 4.3：买入信号 A/B 监测 section（program-derived · commit 3.4 注入 · 读取 CHAINS.pcb.signalMeta.stats）
+  if (d.signalMeta && d.signalMeta.stats) {
+    const sm = d.signalMeta;
+    const st = sm.stats;
+    const thr = sm.thresholds;
+    const totalHits = (st.A_total || 0) + (st.B_total || 0);
+    const totalExcluded = Object.values(st.excluded || {}).reduce((a, b) => a + (b || 0), 0);
+
+    // 收集命中股票（遍历 segments + midstream）
+    const hits = [];
+    const collectHits = (arr, segName) => {
+      (arr || []).forEach(s => {
+        if (s && s.signal && (s.signal.A || s.signal.B)) {
+          hits.push({
+            code: s.code, name: s.name, segName: segName,
+            barrier: s.signal.barrier, trend: s.signal.trend,
+            pePercentile: s.signal.pePercentile, pe_ttm: s.valuation ? s.valuation.pe_ttm : null,
+            A: s.signal.A, B: s.signal.B, channel: s.signal.channel
+          });
+        }
+      });
+    };
+    (d.segments || []).forEach(seg => collectHits(seg.stocks, seg.name));
+    if (d.midstream) collectHits(d.midstream.stocks, '中游');
+
+    h += `<div class="card" style="padding:20px;margin-top:18px;">`;
+    h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">📡 买入信号监测 — <span style="color:var(--accent);">program-derived A/B</span></div>`;
+
+    // 4 mini-stat：A_total / B_total / 基线卡口 / 被排除
+    h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
+    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">A 命中（barrier 高 + 分位<阈值 + trend=up）</div>`;
+    h += `<div style="font-size:18px;font-weight:600;color:${(st.A_total||0)>0?'var(--green)':'var(--muted)'};">${st.A_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.A_normal||0} · growthAdj ${st.A_growthAdj||0}）</span></div>`;
+    h += `</div>`;
+    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">B 命中（卡口 + 分位<阈值 + trend≠down）</div>`;
+    h += `<div style="font-size:18px;font-weight:600;color:${(st.B_total||0)>0?'var(--green)':'var(--muted)'};">${st.B_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.B_normal||0} · growthAdj ${st.B_growthAdj||0}）</span></div>`;
+    h += `</div>`;
+    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">基线·可投卡口</div>`;
+    h += `<div style="font-size:18px;font-weight:600;color:var(--accent);">${sm.chokepointCodesCount||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `</div>`;
+    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描·被排除</div>`;
+    h += `<div style="font-size:18px;font-weight:600;color:var(--barrier-low);">${totalExcluded} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（按 5 条规则）</span></div>`;
+    h += `</div>`;
+    h += `</div>`;
+
+    // 阈值块：纵向布局（不用 table·table-layout:fixed 会挤窄列宽导致条件折行）
+    if (thr) {
+      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🎯 信号阈值（commit 3.4）</div>`;
+
+      // 普通通道
+      h += `<div style="padding:12px 16px;background:var(--card2);border-radius:6px;margin-bottom:8px;border-left:3px solid var(--accent);">`;
+      h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">普通通道</div>`;
+      h += `<div style="display:grid;grid-template-columns:80px 1fr;gap:6px 12px;font-size:12px;color:var(--text);line-height:1.8;">`;
+      h += `<div style="color:var(--muted);white-space:nowrap;">信号 A</div><div style="white-space:nowrap;overflow-x:auto;">barrier∈{极高,高} · pePercentile&lt;${thr.PE_PCTL_A}% · trend=<code>up</code></div>`;
+      h += `<div style="color:var(--muted);white-space:nowrap;">信号 B</div><div style="white-space:nowrap;overflow-x:auto;">命中可投卡口 · pePercentile&lt;${thr.PE_PCTL_B}% · trend≠<code>down</code></div>`;
+      h += `<div style="color:var(--muted);white-space:nowrap;">peAbsMax</div><div style="white-space:nowrap;">否</div>`;
+      h += `</div></div>`;
+
+      // growthAdj 通道
+      h += `<div style="padding:12px 16px;background:var(--card2);border-radius:6px;margin-bottom:14px;border-left:3px solid var(--barrier-high);">`;
+      h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">growthAdj 通道 <span style="font-size:10px;color:var(--muted);font-weight:400;">(commit 3.4.1·AI 链放宽)</span></div>`;
+      h += `<div style="display:grid;grid-template-columns:80px 1fr;gap:6px 12px;font-size:12px;color:var(--text);line-height:1.8;">`;
+      h += `<div style="color:var(--muted);white-space:nowrap;">信号 A</div><div style="white-space:nowrap;overflow-x:auto;">barrier∈{极高,高} · pePercentile&lt;${thr.PE_PCTL_GROWTH_A}% · pe_ttm&lt;peAbsMax · trend=<code>up</code></div>`;
+      h += `<div style="color:var(--muted);white-space:nowrap;">信号 B</div><div style="white-space:nowrap;overflow-x:auto;">命中可投卡口 · pePercentile&lt;${thr.PE_PCTL_GROWTH_B}% · pe_ttm&lt;peAbsMax · trend≠<code>down</code></div>`;
+      h += `<div style="color:var(--muted);white-space:nowrap;">peAbsMax</div><div style="white-space:nowrap;">是（5 年历史最高 PE）</div>`;
+      h += `</div></div>`;
+    }
+
+    // 命中列表 / 0 命中说明
+    if (totalHits === 0) {
+      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--barrier-mid);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
+      h += `💡 <strong style="color:var(--text);">当前 ${d.name} 板块无信号命中</strong>。`;
+      const reasons = [];
+      if (st.excluded.loss) reasons.push(`亏损股 ${st.excluded.loss} 只`);
+      if (st.excluded.extremePe) reasons.push(`PE 异常高 ${st.excluded.extremePe} 只`);
+      if (st.excluded.noBar) reasons.push(`barrier 不足 ${st.excluded.noBar} 只`);
+      if (st.excluded.region) reasons.push(`非国内 ${st.excluded.region} 只`);
+      if (st.excluded.investable) reasons.push(`不可投 ${st.excluded.investable} 只`);
+      if (reasons.length) h += `<br>排除原因：${reasons.join(' · ')}`;
+      h += `<br>主因：当前 ${d.name} 板块 PE 普遍高位（AI 热度持续）· pePercentile 多数 &gt; 50% · 后续若板块 PE 回调到 50%-70% 区间（特别是 growthAdj 通道）将自动命中。growthAdj 通道阈值放宽至 70% 是为「分位回调到 60%-70% 区间」预留的触发窗口。</div>`;
+    } else {
+      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📌 命中股票列表（${totalHits} 只）</div>`;
+      h += `<table class="stock-tbl" style="font-size:12px;margin-bottom:12px;">`;
+      h += `<thead><tr><th style="width:70px;">code</th><th>name</th><th>段位</th><th style="width:80px;">barrier</th><th style="width:90px;">channel</th><th style="width:80px;">信号</th><th style="width:60px;">trend</th><th style="width:90px;">pePercentile</th></tr></thead><tbody>`;
+      hits.forEach(h2 => {
+        const sigs = [];
+        if (h2.A) sigs.push('<span class="tag tg-green" style="font-size:10px;">A</span>');
+        if (h2.B) sigs.push('<span class="tag tg-high" style="font-size:10px;">B</span>');
+        const pcls = h2.pePercentile === null || h2.pePercentile === undefined ? 'tg-gray' : h2.pePercentile >= 80 ? 'tg-extreme' : h2.pePercentile >= 50 ? 'tg-mid' : 'tg-green';
+        h += `<tr>`;
+        h += `<td><code>${h2.code}</code></td>`;
+        h += `<td>${h2.name||'—'}</td>`;
+        h += `<td>${h2.segName||'—'}</td>`;
+        h += `<td>${h2.barrier||'—'}</td>`;
+        h += `<td>${h2.channel||'—'}</td>`;
+        h += `<td>${sigs.join(' ')}</td>`;
+        h += `<td>${h2.trend||'—'}</td>`;
+        h += `<td><span class="tag ${pcls}" style="font-size:10px;">${h2.pePercentile!==null && h2.pePercentile!==undefined ? h2.pePercentile.toFixed(1)+'%' : '—'}</span></td>`;
+        h += `</tr>`;
+      });
+      h += `</tbody></table>`;
+    }
+
+    // asOf + note
+    h += `<div style="font-size:10px;color:var(--muted);margin-top:12px;font-style:italic;line-height:1.6;">📅 信号 asOf: ${st.asOf||'—'} · 阈值与判定逻辑以 <code>pcb.js SIGNAL_THRESHOLDS</code> 为准${sm.note ? ' · ' + sm.note : ''}</div>`;
+    h += `</div>`;
+  }
   h += `</div>`;
 
   // Section 2/3: Tree Map
