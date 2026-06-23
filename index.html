@@ -1549,23 +1549,44 @@ function renderChain(chainId) {
     } else {
       h += `<div class="logic">${_logicText}</div>`;
     }
-    // ★ 升级二：估值/择时状态条（可选字段，没填 valuation 就不渲染）
-    if (c.valuation && typeof c.valuation.pePercentile === 'number') {
-      const p = c.valuation.pePercentile;
-      const cls = p >= 80 ? 'tg-extreme' : p >= 30 ? 'tg-high' : 'tg-green';
-      const band = p >= 80 ? '估值高位' : p >= 30 ? '估值合理' : '估值低位';
+    // ★ 升级二 + commit 4.2：估值/择时状态条（可选字段，没填 valuation 就不渲染）
+    const _hasPct = c.valuation && typeof c.valuation.pePercentile === 'number';
+    const _hasEZ  = c.valuation && c.valuation.entryZone && typeof c.valuation.entryZone.p30 === 'number' && typeof c.valuation.entryZone.p70 === 'number';
+    if (c.valuation && (_hasPct || _hasEZ)) {
+      const p = _hasPct ? c.valuation.pePercentile : null;
+      // ★ commit 4.2：颜色映射改为 >=80 红 / >=50 黄中位 / <50 绿（用户原话「< 50% 标绿色」）
+      const cls = p === null ? 'tg-gray' : p >= 80 ? 'tg-extreme' : p >= 50 ? 'tg-mid' : 'tg-green';
+      const band = p === null ? '估值待定' : p >= 80 ? '估值高位' : p >= 50 ? '估值中位' : '估值低位';
       const parts = [];
       if (c.valuation.pe)          parts.push(`PE ${c.valuation.pe}`);
       // ★ 升级 PCB-完善：绝对 PE 独立显示（避免"分位中位"被误读为便宜；同时显示 PE-TTM 实际值）
       if (c.valuation.peAbsolute)  parts.push(`<strong style="color:var(--text);">绝对 ${c.valuation.peAbsolute}</strong>`);
-      parts.push(`分位 ${p}%`);
+      // ★ commit 4.2：0.1 精度 + 「PE分位」前缀
+      if (p !== null) parts.push(`PE分位 ${p.toFixed(1)}%`);
+      // ★ commit 4.2：entryZone 买入区间（p30 取整~p70 取整）
+      let _entryOverP70 = false;
+      if (_hasEZ) {
+        const p30 = Math.round(c.valuation.entryZone.p30);
+        const p70 = Math.round(c.valuation.entryZone.p70);
+        parts.push(`买入区间 PE ${p30}~${p70}`);
+        // ★ commit 4.2：当前 pe_ttm > p70 时高估警示
+        if (typeof c.valuation.pe_ttm === 'number' && c.valuation.pe_ttm > c.valuation.entryZone.p70) {
+          _entryOverP70 = true;
+        }
+      }
       if (c.valuation.grossMargin) parts.push(`毛利率 ${c.valuation.grossMargin}`);
       // ★ commit 4.0：用 formatFromHigh 统一 number/string 格式
       const fh = formatFromHigh(c.valuation.fromHigh);
       if (fh) parts.push(fh);
       h += `<div class="valuation" style="font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">`;
       h += `<span>${parts.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}${c.valuation.asOf?` <span style="color:var(--barrier-low);font-size:10px;" title="估值/PE 截至日">📅 ${c.valuation.asOf}</span>`:''}</span>`;
-      h += `<span class="tag ${cls}" style="font-size:10px;">${band} ${p}%分位</span>`;
+      if (p !== null) {
+        h += `<span class="tag ${cls}" style="font-size:10px;">${band} ${p.toFixed(1)}%分位</span>`;
+      }
+      // ★ commit 4.2：entryZone 高估警示徽章
+      if (_entryOverP70) {
+        h += `<span class="tag tg-extreme" style="font-size:10px;" title="当前 PE-TTM ${c.valuation.pe_ttm.toFixed(2)} > p70 ${c.valuation.entryZone.p70.toFixed(2)}">⚠️ 高于 p70</span>`;
+      }
       h += `</div>`;
       if (c.valuation.note) {
         h += `<div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:14px;padding-left:10px;border-left:2px solid var(--card2);">📝 ${c.valuation.note}</div>`;
