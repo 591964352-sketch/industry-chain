@@ -431,7 +431,7 @@ Phase 10 半导体设备 R2-1 → R2-2 → R2-3 → R2-4 累计 4 轮重出。CC
 
 **违反本节 = §6.2 红线（造数）+ §6.8 数据准确度优先原则违反**。
 
-**事故案例（2026-06-22）**：R3-16+ 批 1 豆包在缺上述约束下返回 4 只 pcb.js 不存在的 stock + 2 只错位段位 stock。R3-16+ 批 2/3 重启时加入 9 条硬约束后，豆包返回内容与 pcb.js 100% 一致（[R3-16-batch2-hallucination-screen.js](.claude/scratch/R3-16-batch2-hallucination-screen.js) / [R3-16-batch3-hallucination-screen.js](.claude/scratch/R3-16-batch3-hallucination-screen.js) 三重验证全部通过✓）。
+**事故案例（2026-06-22）**：R3-16+ 批 1 豆包在缺上述约束下返回 4 只 pcb.js 不存在的 stock + 2 只错位段位 stock。R3-16+ 批 2/3 重启时加入 11 条硬约束后，豆包返回内容与 pcb.js 100% 一致（[R3-16-batch2-hallucination-screen.js](.claude/scratch/R3-16-batch2-hallucination-screen.js) / [R3-16-batch3-hallucination-screen.js](.claude/scratch/R3-16-batch3-hallucination-screen.js) 三重验证全部通过✓）。
 
 ## Serenity Skill —— 主要的操作入口
 

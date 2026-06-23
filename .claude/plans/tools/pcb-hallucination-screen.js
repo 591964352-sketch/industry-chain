@@ -28,15 +28,32 @@ const CONFIG = {
   // Layer 1 触发关键词
   anomalyKeywords: ['退市', '停牌', '已退', '暂停上市', 'ST'],
 
-  // Layer 3 数字模式（产能/份额/营收/良率等）
+  // Layer 3 数字模式（核心卡口指标）
   // R3-15+ 修复:所有数字模式加 (?<![\d.]) 前置 + (?![\d]) 后置
-  // 防止 \d+ 回溯匹配出子串（如 "4008.97 万元" 拆成 "008.97 万元"）
+  //   防止 \d+ 回溯匹配出子串（如 "4008.97 万元" 拆成 "008.97 万元"）
+  // R3-18 修复:digits 计数逻辑收紧
+  //   旧版 5 正则含吨/亿/万米/良率/倍/分位 → 豆包返回内容频繁出现 5000 吨/100 万米/
+  //   良率 70-80%/PE-TTM 100 倍 等描述性数字,pcb.js 中未必有原文锚定,导致 R3-17 批 1+批 2
+  //   全部 34 只 stock 触发 Layer 3 警告(false positive)
+  //   修复:仅保留"会变的关键市场指标"——市占率/CAGR/缺口率/国产化率 + PE-TTM 倍数分位
+  //   排除:单位词(吨/亿/万元/万米/万张/万平/μm)、良率、年份季度(2026Q4/2025H1)、
+  //        产品代号(M9/GB300/TPU4/H100)——通过主正则不匹配已隐式排除
   numberPatterns: [
-    /(?<![\d.])\d+(?:\.\d+)?\s*(?:吨|万吨|万张|万平方米|万平米|万米)(?![\d])/g,
+    // ① 市占率/市占 + 百分号(核心卡口指标)
     /市占率?\s*(?<![\d.])\d+(?:\.\d+)?\s*%(?![\d])/g,
-    /(?<![\d.])\d+(?:\.\d+)?\s*(?:亿元|万元)(?![\d])/g,
-    /良率\s*(?<![\d.])\d+(?:\.\d+)?\s*%(?![\d])/g,
-    /(?<![\d.])\d+(?:\.\d+)?\s*(?:倍|分位)(?![\d])/g
+    // ② CAGR/缺口率/国产化率 + 百分号(broker 报告核心指标)
+    /(?:CAGR|缺口率|国产化率)\s*(?<![\d.])\d+(?:\.\d+)?\s*%(?![\d])/g,
+    // ③ PE-TTM/PB + 倍数/分位(估值核心指标)
+    /PE-?TTM?\s*(?<![\d.])\d+(?:\.\d+)?\s*(?:倍|分位)(?![\d])/g,
+    /PB\s*(?<![\d.])\d+(?:\.\d+)?\s*(?:倍|分位)(?![\d])/g
+  ],
+
+  // R3-18 新增:正面排除规则(命中后从数字列表剔除)
+  excludePatterns: [
+    // ① 产品代号(字母+数字+字母/数字,如 M9/GB300/TPU4/H100/B200)
+    /\b[A-Z]+[A-Za-z]*\d+[A-Za-z0-9]*\b/g,
+    // ② 年份季度(20\d{2}Q[1-4]/20\d{2}H[1-2])
+    /20\d{2}[QH][1-4]/g
   ],
 
   // Layer 4 客户名识别关键词（PCB 产业链已知客户/对手）
@@ -262,6 +279,7 @@ function checkDelistedWindow(events, stockStatus, sections) {
 
 function extractNumbers(text) {
   const numbers = [];
+  // 1. 主正则提取
   for (const pattern of CONFIG.numberPatterns) {
     const matches = text.match(pattern);
     if (matches) {
@@ -270,7 +288,22 @@ function extractNumbers(text) {
       }
     }
   }
-  return numbers;
+  // 2. 排除规则——命中后剔除(R3-18 新增)
+  const filtered = [];
+  for (const num of numbers) {
+    let shouldExclude = false;
+    for (const exPattern of (CONFIG.excludePatterns || [])) {
+      exPattern.lastIndex = 0; // 重置全局 regex lastIndex
+      if (exPattern.test(num)) {
+        shouldExclude = true;
+        break;
+      }
+    }
+    if (!shouldExclude) {
+      filtered.push(num);
+    }
+  }
+  return filtered;
 }
 
 function checkNumberVerification(sections, pcbText) {
