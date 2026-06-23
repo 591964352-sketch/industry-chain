@@ -256,13 +256,6 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'净利+5倍',
       segments:[{idx:'midstream',name:'中游'}] },
 
-    '688234': { code:'688234', name:'中一科技(代码错误·实为 301150)', rank:null, barrier:null, tier:null,
-      position:'⚠️ STAGE 2.3 待修：stock code 688234 实际是天岳先进(碳化硅衬底)，中一科技应为 301150。segments[3] 已用 301150，fourQuestions 仍用 688234。',
-      investable:false, region:'国内',
-      dims6:null, src:null, valAsOf:null, trend:null, trendNote:null, hits:null, strength:null,
-      segments:[{idx:'fourQuestions-error',name:'⚠️ 错码·fourQuestions[3] 段'}],
-      stockCodeIssue:'code confusion with 301150 · R3-13 marked fixed · commit 2.3 处理' },
-
     '688300': { code:'688300', name:'联瑞新材', rank:4, barrier:'中', tier:'primary',
       position:'亚微米球形硅微粉·球形硅微粉国内市占~40%',
       investable:true, region:'国内',

@@ -817,6 +817,20 @@ function cycleVerifyStatus(chainId, code, type, el) {
 function loadCards() { return LS.get(LS_KEYS.cards, []); }
 function saveCards(arr) { LS.set(LS_KEYS.cards, arr); }
 
+// ★ 阶段四 commit 4.0：fromHigh 友好文案格式化
+// commit 3.5 注入的 fromHigh 是 number（-0.1 表示距前高-10%）
+// 旧 pcb.js data 写死的是 string（"距前高-15%"）
+// helper 兼容两种格式：number → 格式化；string → 原样；null/undefined → null
+function formatFromHigh(v) {
+  if (v === null || v === undefined) return null;
+  if (typeof v === 'number') {
+    if (!isFinite(v)) return null;
+    return '距前高' + (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%';
+  }
+  if (typeof v === 'string') return v;
+  return null;
+}
+
 function addToDecisionCard(chainId, code) {
   const all = loadCards();
   if (all.some(c => c.chain === chainId && c.code === code)) {
@@ -1546,7 +1560,9 @@ function renderChain(chainId) {
       if (c.valuation.peAbsolute)  parts.push(`<strong style="color:var(--text);">绝对 ${c.valuation.peAbsolute}</strong>`);
       parts.push(`分位 ${p}%`);
       if (c.valuation.grossMargin) parts.push(`毛利率 ${c.valuation.grossMargin}`);
-      if (c.valuation.fromHigh)    parts.push(c.valuation.fromHigh);
+      // ★ commit 4.0：用 formatFromHigh 统一 number/string 格式
+      const fh = formatFromHigh(c.valuation.fromHigh);
+      if (fh) parts.push(fh);
       h += `<div class="valuation" style="font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">`;
       h += `<span>${parts.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}${c.valuation.asOf?` <span style="color:var(--barrier-low);font-size:10px;" title="估值/PE 截至日">📅 ${c.valuation.asOf}</span>`:''}</span>`;
       h += `<span class="tag ${cls}" style="font-size:10px;">${band} ${p}%分位</span>`;
