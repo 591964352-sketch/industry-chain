@@ -12533,21 +12533,21 @@ window.PCB_AUTO = {
       closeLatest: 127.35,
       closeHigh5y: 151.46,
 
-      flag: null,
+      flag: "⚠️单源PE数据(baostock) · ⚠️close数据陈旧(baostock近1年无数据)·fromHigh参考价值有限",
             pePercentile: 95.87,
       entryZone: {p30: 47.98, p70: 66.56},
       fromHigh: -0.1592,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
       closeLatest: 127.35,
       closeHigh5y: 151.46,
 
-      flag: "⚠️单源PE数据(baostock)",
+      flag: "⚠️单源PE数据(baostock) · ⚠️close数据陈旧(baostock近1年无数据)·fromHigh参考价值有限",
             pePercentile: 95.87,
       entryZone: {p30: 47.98, p70: 66.56},
       fromHigh: -0.1592,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
       closeLatest: 127.35,
       closeHigh5y: 151.46,
 
-      flag: "⚠️单源PE数据(baostock)",
+      flag: "⚠️单源PE数据(baostock) · ⚠️close数据陈旧(baostock近1年无数据)·fromHigh参考价值有限",
             source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
