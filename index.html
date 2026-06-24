@@ -1735,7 +1735,7 @@ function renderChain(chainId) {
     } else {
       h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📌 命中股票列表（${triggeredTotal} 只）</div>`;
       h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:12px;">`;
-      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:80px;">触发条件</th><th style="width:110px;">距前高回落幅度</th><th style="width:90px;">PE历史分位</th><th style="width:110px;">近5日/60日量比</th><th style="width:160px;">仓位建议</th></tr></thead><tbody>`;
+      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:80px;">触发条件</th><th style="width:110px;">距前高回落幅度</th><th style="width:90px;">PE历史分位</th><th style="width:110px;">近5日/60日量比</th><th style="width:140px;">仓位建议</th><th style="width:90px;">操作</th></tr></thead><tbody>`;
       (sc.triggeredList || []).forEach(s => {
         const condTag = (s.conditions || '').split('+').map(c =>
           c === 'A'
@@ -1759,6 +1759,8 @@ function renderChain(chainId) {
         h += `<td><span class="tag ${s.pctlDrop !== null && s.pctlDrop !== undefined && s.pctlDrop <= -15 ? 'tg-green' : 'tg-mid'}" style="font-size:10px;">${s.pctlDrop !== null && s.pctlDrop !== undefined ? s.pctlDrop.toFixed(1)+'pp' : '—'}</span></td>`;
         h += `<td><span class="tag ${volRatioCls}" style="font-size:10px;">${volRatioStr}</span></td>`;
         h += `<td style="font-size:11px;">${s.position||'—'}</td>`;
+        // ★ commit 4.22：信号 C 命中行 → 「📝记录买入」按钮（预填 triggerSignal='C'）
+        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'buy',triggerSignal:'C'})" style="padding:3px 8px;background:var(--green);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录买入</button></td>`;
         h += `</tr>`;
       });
       h += `</tbody></table></div>`;
@@ -1798,7 +1800,7 @@ function renderChain(chainId) {
       h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📋 减仓清单（${reduceList.length} 只）</div>`;
       h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 本模块扫描全部 38 只 PCB 标的，不限于核心卡口 3 只。</div>`;
       h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
-      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:200px;">减仓原因</th><th>建议操作</th></tr></thead><tbody>`;
+      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:180px;">减仓原因</th><th>建议操作</th><th style="width:90px;">联动</th></tr></thead><tbody>`;
       reduceList.forEach(s => {
         // 减仓原因高亮（金色/橙色）
         h += `<tr>`;
@@ -1806,6 +1808,8 @@ function renderChain(chainId) {
         h += `<td>${s.name||'—'}</td>`;
         h += `<td><span class="tag tg-mid" style="font-size:10px;">${s.reduceReason||'—'}</span></td>`;
         h += `<td style="font-size:11px;color:var(--barrier-high);">${s.reduceSignal||'—'}</td>`;
+        // ★ commit 4.22：减仓清单 → 「📝记录减仓」按钮（预填 side='sell' + triggerSignal='减仓'）
+        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'减仓'})" style="padding:3px 8px;background:var(--barrier-high);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录减仓</button></td>`;
         h += `</tr>`;
       });
       h += `</tbody></table></div>`;
@@ -1815,12 +1819,14 @@ function renderChain(chainId) {
     if (exitList.length > 0) {
       h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🚨 清仓清单（${exitList.length} 只 · 红色高亮）</div>`;
       h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
-      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th>清仓原因</th></tr></thead><tbody>`;
+      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th>清仓原因</th><th style="width:90px;">联动</th></tr></thead><tbody>`;
       exitList.forEach(s => {
         h += `<tr style="background:rgba(246,70,93,0.08);">`;
         h += `<td><code>${s.code}</code></td>`;
         h += `<td style="color:var(--red);font-weight:600;">${s.name||'—'}</td>`;
         h += `<td><span class="tag tg-extreme" style="font-size:10px;">${s.exitReason||'—'}</span> <span style="font-size:11px;color:var(--red);">${s.exitSignal||'—'}</span></td>`;
+        // ★ commit 4.22：清仓清单 → 「📝记录清仓」按钮（预填 side='sell' + triggerSignal='清仓'）
+        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'清仓'})" style="padding:3px 8px;background:var(--red);color:#fff;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录清仓</button></td>`;
         h += `</tr>`;
       });
       h += `</tbody></table></div>`;
@@ -2728,6 +2734,10 @@ function addTrade(trade) {
   trade.createdAt = new Date().toISOString();
   if (!trade.breakReason) trade.breakReason = '';
   if (!trade.note) trade.note = '';
+  // ★ commit 4.22：新增字段默认值
+  if (!trade.triggerSignal) trade.triggerSignal = '手动';          // 'A'|'B'|'C'|'减仓'|'清仓'|'手动'
+  if (trade.pnlRealized === undefined) trade.pnlRealized = null; // 卖出时由聚合函数回填
+  if (trade.positionAvgCost === undefined) trade.positionAvgCost = null;
   all.unshift(trade);
   saveTrades(all);
 }
@@ -2738,10 +2748,178 @@ function removeTrade(id) {
   renderTrades();
 }
 
+// ============================================================
+// ★ commit 4.22：联动按钮 — prefillTrade
+//   信号 C 命中 / 减仓 / 清仓 3 处调用
+//   行为：切换到 #trades 视图 → 展开表单 → 预填字段
+//   字段预填：code(从 cardId 解析) / name(从 cards 查找) / side(buy/sell) / triggerSignal
+// ============================================================
+function prefillTrade(args) {
+  // args = { code, name, side, triggerSignal }
+  // 1. 切换到交易日志视图
+  window.location.hash = 'trades';
+  // 2. 切换后异步展开表单 + 预填
+  setTimeout(() => {
+    const form = document.getElementById('new-trade-form');
+    if (!form) return;
+    if (form.style.display === 'none') toggleNewTradeForm();     // 展开表单
+    // 3. 预填日期 = 今天
+    const today = new Date().toISOString().slice(0, 10);
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+    set('t_date', today);
+    // 4. 预填 stock code + name（写到「关联决策卡片 ID」字段，遵循既有 schema）
+    if (args.code) {
+      const cardId = `pcb_${args.code}_prefill_${Date.now()}`;    // 临时 cardId·关联不到真实卡片·trade 不计入持仓聚合
+      set('t_cardId', cardId);
+    }
+    // 5. 预填 side
+    if (args.side === 'sell') {
+      const sellRadio = form.querySelector('[name="t_side"][value="sell"]');
+      if (sellRadio) sellRadio.checked = true;
+    }
+    // 6. 预填触发信号
+    if (args.triggerSignal) {
+      set('t_triggerSignal', args.triggerSignal);
+    }
+    // 7. 焦点到价格字段
+    const priceEl = document.getElementById('t_price');
+    if (priceEl) priceEl.focus();
+  }, 80);
+}
+
 function lookupCardName(cardId) {
   if (!cardId) return '';
   const c = loadCards().find(x => x.id === cardId);
   return c ? c.name : '';
+}
+
+// ============================================================
+// ★ commit 4.22：trade 流聚合函数（持仓 + 盈亏）
+//   computeOpenPositions:  按 stock code 聚合未平仓 trade · 返回 [{code, name, qty, avgCost, currentPrice, pnlAbs, pnlPct}]
+//   computeRealizedPnL:    已平仓 trade 的实现盈亏（buy→sell FIFO 配对差）
+//   解析规则：cardId 格式 = `${chainId}_${code}_${xxx}` · 用下划线 split 取第 2 段
+//   fallback：cardId 缺 code 段 / 当前价 null / pnl 不可算 → 字段标 null·前端显示「—」
+// ============================================================
+function parseCodeFromCardId(cardId) {
+  if (!cardId) return null;
+  const parts = String(cardId).split('_');
+  return (parts.length >= 2 && /^\d{6}$/.test(parts[1])) ? parts[1] : null;
+}
+
+function lookupStockName(code) {
+  if (!code || !window.CHAINS) return null;
+  for (const chainId in window.CHAINS) {
+    const chain = window.CHAINS[chainId];
+    if (!chain) continue;
+    const segs = chain.segments || [];
+    for (const seg of segs) {
+      const m = (seg.stocks || []).find(s => s.code === code);
+      if (m) return m.name;
+    }
+    if (chain.midstream && Array.isArray(chain.midstream.stocks)) {
+      const m = chain.midstream.stocks.find(s => s.code === code);
+      if (m) return m.name;
+    }
+  }
+  return null;
+}
+
+function lookupCloseLatest(code) {
+  if (!code || !window.PCB_AUTO || !window.PCB_AUTO.valuations) return null;
+  const v = window.PCB_AUTO.valuations[code];
+  if (v && typeof v.closeLatest === 'number') return v.closeLatest;
+  return null;
+}
+
+function computeOpenPositions(trades) {
+  // 按 code 聚合 → FIFO 配对 buy→sell → 剩余 buy 即当前持仓
+  const buckets = {};
+  (trades || []).forEach(t => {
+    const code = parseCodeFromCardId(t.cardId);
+    if (!code) return;                                            // fallback：无 code 不计入持仓
+    if (!buckets[code]) buckets[code] = { code, buys: [], sells: [] };
+    if (t.side === 'buy') buckets[code].buys.push(t);
+    else if (t.side === 'sell') buckets[code].sells.push(t);
+  });
+
+  const positions = [];
+  Object.keys(buckets).forEach(code => {
+    const { buys, sells } = buckets[code];
+    // 按 createdAt 升序（FIFO 配对）
+    buys.sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
+    sells.sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
+    // 卖出消耗买入
+    let bIdx = 0, bRemain = (buys[0] && buys[0].qty) || 0;
+    sells.forEach(s => {
+      let sellRemain = s.qty || 0;
+      while (sellRemain > 0 && bIdx < buys.length) {
+        if (bRemain <= 0) { bIdx++; bRemain = (buys[bIdx] && buys[bIdx].qty) || 0; continue; }
+        const consume = Math.min(sellRemain, bRemain);
+        sellRemain -= consume;
+        bRemain -= consume;
+        if (bRemain <= 0) { bIdx++; bRemain = (buys[bIdx] && buys[bIdx].qty) || 0; }
+      }
+    });
+    // 剩余 buy 即当前持仓
+    let totalQty = 0, totalCost = 0;
+    for (let i = bIdx; i < buys.length; i++) {
+      const b = buys[i];
+      const q = (i === bIdx ? bRemain : (b.qty || 0));
+      if (q > 0) {
+        totalQty += q;
+        totalCost += q * (b.price || 0);
+      }
+    }
+    if (totalQty <= 0) return;                                    // 已全部平仓·不显示
+
+    const avgCost = totalCost / totalQty;
+    const currentPrice = lookupCloseLatest(code);
+    const pnlAbs = (currentPrice !== null) ? (currentPrice - avgCost) * totalQty : null;
+    const pnlPct = (currentPrice !== null && avgCost > 0) ? ((currentPrice - avgCost) / avgCost * 100) : null;
+    positions.push({
+      code,
+      name: lookupStockName(code) || code,
+      qty: totalQty,
+      avgCost,
+      currentPrice,
+      pnlAbs,
+      pnlPct
+    });
+  });
+  // 按 code 升序
+  positions.sort((a, b) => String(a.code).localeCompare(String(b.code)));
+  return positions;
+}
+
+function computeRealizedPnL(trades) {
+  // FIFO 配对 buy→sell · 卖出价 - 买入价 × 配对股数
+  const buckets = {};
+  (trades || []).forEach(t => {
+    const code = parseCodeFromCardId(t.cardId);
+    if (!code) return;
+    if (!buckets[code]) buckets[code] = { buys: [], sells: [] };
+    if (t.side === 'buy') buckets[code].buys.push(t);
+    else if (t.side === 'sell') buckets[code].sells.push(t);
+  });
+  let totalRealized = 0;
+  Object.keys(buckets).forEach(code => {
+    const { buys, sells } = buckets[code];
+    buys.sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
+    sells.sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
+    let bIdx = 0, bRemain = (buys[0] && buys[0].qty) || 0;
+    sells.forEach(s => {
+      let sellRemain = s.qty || 0;
+      while (sellRemain > 0 && bIdx < buys.length) {
+        if (bRemain <= 0) { bIdx++; bRemain = (buys[bIdx] && buys[bIdx].qty) || 0; continue; }
+        const consume = Math.min(sellRemain, bRemain);
+        totalRealized += ((s.price || 0) - (buys[bIdx].price || 0)) * consume;
+        sellRemain -= consume;
+        bRemain -= consume;
+        if (bRemain <= 0) { bIdx++; bRemain = (buys[bIdx] && buys[bIdx].qty) || 0; }
+      }
+    });
+  });
+  return totalRealized;
 }
 
 // ==================== 交易日志渲染（升级五） ====================
@@ -2769,6 +2947,53 @@ function renderTrades() {
   h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">❌ 冲动</div><div style="font-size:24px;font-weight:700;color:var(--red);">${impulse} 笔 (${impRate}%)</div></div>`;
   h += `</div>`;
 
+  // ★ commit 4.22：当前持仓 + 累计盈亏（trade 流聚合·不写 myPositions 独立 key）
+  //   聚合规则：按 stock code（从 cardId 解析 `pcb_XXXXXX_xxx`）→ FIFO 配对 buy→sell
+  //   浮动盈亏：当前持仓 × (当前价 - 持仓均价)·当前价读 window.PCB_AUTO.valuations[code].closeLatest
+  //   fallback：cardId 无 code 段 / 当前价缺失 → 浮动盈亏显示「—」
+  (function renderPortfolioPnL() {
+    const positions = computeOpenPositions(trades);                 // { code, qty, avgCost, currentPrice, pnlPct }
+    const totalRealized = computeRealizedPnL(trades);               // 已实现盈亏（卖出→对应买入配对差）
+    const totalFloat = positions.reduce((s, p) => s + (p.pnlAbs || 0), 0);  // 浮动盈亏汇总
+    const totalPnL = totalRealized + totalFloat;
+
+    // ─── 卡 1：当前持仓 ───
+    h += `<div class="card" style="padding:20px;margin-bottom:14px;">`;
+    h += `<div class="card-header" style="font-size:15px;">💰 当前持仓 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（按标的聚合未平仓记录 · 当前价实时读取）</span></div>`;
+    if (!positions.length) {
+      h += `<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;">📭 当前无未平仓持仓。</div>`;
+    } else {
+      h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-top:10px;">`;
+      h += `<colgroup><col style="width:18%"><col style="width:18%"><col style="width:16%"><col style="width:16%"><col style="width:16%"><col style="width:16%"></colgroup>`;
+      h += `<thead><tr><th>代码</th><th>简称</th><th style="text-align:right;">持仓数量</th><th style="text-align:right;">持仓均价</th><th style="text-align:right;">当前价</th><th style="text-align:right;">浮动盈亏</th></tr></thead><tbody>`;
+      positions.forEach(p => {
+        const pnlCls = p.pnlAbs === null ? 'tg-gray'
+          : p.pnlAbs >= 0 ? 'tg-green' : 'tg-extreme';
+        const pnlStr = p.pnlAbs === null ? '—'
+          : (p.pnlAbs >= 0 ? '+' : '') + p.pnlAbs.toFixed(0) + ' 元 (' + (p.pnlPct >= 0 ? '+' : '') + p.pnlPct.toFixed(2) + '%)';
+        h += `<tr>`;
+        h += `<td><code>${p.code}</code></td>`;
+        h += `<td>${p.name||'—'}</td>`;
+        h += `<td style="text-align:right;">${p.qty}</td>`;
+        h += `<td style="text-align:right;">${p.avgCost !== null ? p.avgCost.toFixed(2) + ' 元' : '—'}</td>`;
+        h += `<td style="text-align:right;">${p.currentPrice !== null ? p.currentPrice.toFixed(2) + ' 元' : '—'}</td>`;
+        h += `<td style="text-align:right;"><span class="tag ${pnlCls}" style="font-size:10px;">${pnlStr}</span></td>`;
+        h += `</tr>`;
+      });
+      h += `</tbody></table></div>`;
+    }
+    h += `</div>`;
+
+    // ─── 卡 2：累计盈亏 ───
+    const fmtYuan = (n) => (n === null || n === undefined) ? '—' : (n >= 0 ? '+' : '') + n.toFixed(0) + ' 元';
+    const totalCls = totalPnL > 0 ? 'var(--green)' : totalPnL < 0 ? 'var(--red)' : 'var(--muted)';
+    h += `<div class="card" style="padding:20px;margin-bottom:18px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;">`;
+    h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">已实现盈亏（已平仓）</div><div style="font-size:22px;font-weight:700;color:${totalRealized >= 0 ? 'var(--green)' : 'var(--red)'};">${fmtYuan(totalRealized)}</div></div>`;
+    h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">浮动盈亏（未平仓）</div><div style="font-size:22px;font-weight:700;color:${totalFloat >= 0 ? 'var(--green)' : 'var(--red)'};">${fmtYuan(totalFloat)}</div></div>`;
+    h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">累计总盈亏</div><div style="font-size:24px;font-weight:700;color:${totalCls};">${fmtYuan(totalPnL)}</div></div>`;
+    h += `</div>`;
+  })();
+
   // 行内展开表单
   h += `<div class="card" style="padding:20px;margin-bottom:18px;">`;
   h += `<div class="card-header" style="font-size:15px;"><button onclick="toggleNewTradeForm()" style="padding:6px 14px;background:var(--accent);color:#0f1117;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">+ 新建交易记录</button></div>`;
@@ -2780,6 +3005,16 @@ function renderTrades() {
   h += `<label style="cursor:pointer;font-size:13px;"><input type="radio" name="t_side" value="sell" /> 🔴 卖出</label></div>`;
   h += formField('t_price', '价格（元/股）', '如 50.5');
   h += formField('t_qty', '数量（股）', '如 100');
+  // ★ commit 4.22：触发信号下拉（信号 A/B/C / 减仓 / 清仓 / 手动）
+  h += `<div style="margin-bottom:10px;"><label style="display:block;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">触发信号（commit 4.22）</label>`;
+  h += `<select id="t_triggerSignal" name="t_triggerSignal" style="width:100%;padding:7px 10px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:4px;font-size:13px;">`;
+  h += `<option value="手动" selected>手动</option>`;
+  h += `<option value="A">信号 A</option>`;
+  h += `<option value="B">信号 B</option>`;
+  h += `<option value="C">信号 C · 卡口回调</option>`;
+  h += `<option value="减仓">减仓信号</option>`;
+  h += `<option value="清仓">清仓信号</option>`;
+  h += `</select></div>`;
   h += formField('t_note', '一句话想法', '');
 
   // 两个大按钮：守纪律 / 冲动
@@ -2822,14 +3057,19 @@ function renderTrades() {
       h += `🔍 当前筛选下没有交易记录。</div>`;
     }
   } else {
-    h += `<div class="tbl-scroll"><table class="stock-tbl trade-table" style="font-size:12px;"><colgroup><col style="width:8%"><col style="width:16%"><col style="width:8%"><col style="width:10%"><col style="width:10%"><col style="width:12%"><col style="width:10%"><col style="width:18%"><col style="width:8%"></colgroup><thead><tr>`;
-    h += `<th>日期</th><th>标的</th><th>方向</th><th style="text-align:right;">价格</th><th style="text-align:right;">数量</th><th style="text-align:right;">金额</th><th>守纪律</th><th>备注</th><th style="width:60px;">操作</th>`;
+    h += `<div class="tbl-scroll"><table class="stock-tbl trade-table" style="font-size:12px;"><colgroup><col style="width:8%"><col style="width:14%"><col style="width:7%"><col style="width:9%"><col style="width:8%"><col style="width:10%"><col style="width:9%"><col style="width:9%"><col style="width:18%"><col style="width:8%"></colgroup><thead><tr>`;
+    h += `<th>日期</th><th>标的</th><th>方向</th><th style="text-align:right;">价格</th><th style="text-align:right;">数量</th><th style="text-align:right;">金额</th><th>守纪律</th><th>触发信号</th><th>备注</th><th style="width:60px;">操作</th>`;
     h += `</tr></thead><tbody>`;
     display.forEach(t => {
       const sideCls = t.side === 'buy' ? 'tg-green' : 'tg-extreme';
       const sideTxt = t.side === 'buy' ? '🟢 买' : '🔴 卖';
       const discCls = t.followedPlan ? 'tg-green' : 'tg-extreme';
       const discTxt = t.followedPlan ? '✅ 守纪律' : '❌ 冲动';
+      const trig = t.triggerSignal || '手动';
+      const trigCls = trig === 'A' || trig === 'B' || trig === 'C' ? 'tg-green'
+        : trig === '减仓' ? 'tg-mid'
+        : trig === '清仓' ? 'tg-extreme'
+        : 'tg-gray';
       const rowBg = t.followedPlan === false ? 'background:rgba(246,70,93,0.06);' : '';
       h += `<tr style="${rowBg}">`;
       h += `<td>${t.date || '—'}</td>`;
@@ -2839,6 +3079,7 @@ function renderTrades() {
       h += `<td style="text-align:right;">${t.qty || '—'}</td>`;
       h += `<td style="text-align:right;font-weight:600;">${t.amount ? t.amount.toFixed(0) : '—'}</td>`;
       h += `<td><span class="tag ${discCls}" style="font-size:10px;cursor:help;" title="${t.breakReason || ''}">${discTxt}</span></td>`;
+      h += `<td><span class="tag ${trigCls}" style="font-size:10px;">${trig}</span></td>`;
       h += `<td style="font-size:11px;max-width:200px;">${t.note || ''}${t.breakReason ? `<div style="color:var(--red);font-size:10px;margin-top:2px;">原因：${t.breakReason}</div>` : ''}</td>`;
       h += `<td><button onclick="removeTrade('${t.id}')" style="padding:2px 8px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button></td>`;
       h += `</tr>`;
@@ -2901,7 +3142,8 @@ function saveNewTrade() {
     amount: amount,
     followedPlan: followedPlan,
     breakReason: followedPlan ? '' : breakReason,
-    note: get('t_note')
+    note: get('t_note'),
+    triggerSignal: get('t_triggerSignal') || '手动'   // ★ commit 4.22
   };
   addTrade(trade);
   renderTrades();
