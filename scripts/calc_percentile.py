@@ -1,15 +1,16 @@
 """
 scripts/calc_percentile.py
 ★ 阶段三 commit 3.2：numpy 算 PE 分位（不拉网络·只读 pcb.auto.js）
+★ commit 4.12：扩展 3 条自动 flag 规则（lastHistDate 过期 / pePercentile 极端高 / 单源 PE 数据）
 
 输入：data/pcb.auto.js（commit 3.1.2 生成的 38 只 pe_history 序列）
 输出：每个 stock 加 4 个字段 · 写回 pcb.auto.js
   · pePercentile (5年窗口·当前 pe_ttm 在历史中的百分位·0-100)
   · entryZone: {p30, p70}（pe_history 的 30%/70% 分位·"当前 PE 跌到多少可关注"参考）
   · fromHigh_pe (pe_history max 的回落幅度·负数·近似非价格·commit 3.5 再补 close)
-  · flag (异常标注·⚠️PE异常高/极低/历史<1y)
+  · flag (异常标注·⚠️PE异常高/极低/历史<1y/数据过期/分位极端高/单源PE)
 
-按 plan §4.3 派生字段 + §6.4 双源降级标注：
+按 plan §4.3 派生字段 + §6.4 双源降级标注 + commit 4.12 自动规则：
 - 不拉网络（commit 3.1.2 已存 pe_history 进 pcb.auto.js）
 - adata 双源校验跳过（adata.get_core_index 是季度财报·不是日频 PE-TTM·无法直接校验 baostock 日频 peTTM）
 - 改用 pe_history 内部一致性校验（commit 3.2 不严格双源）
@@ -20,12 +21,21 @@ scripts/calc_percentile.py
 - 极端值 pe_ttm>500 标 ⚠️PE异常高·可能失真（用户指令）
 - 亏损股 pe_ttm=null：pePercentile=null / entryZone 保留历史分位参考 / fromHigh_pe=null
 - 不静默用估算覆盖（§6.8 数据准确度优先）
+- commit 4.12：3 条自动 flag（数据过期/分位极端高/单源）· 不覆盖已有 flag·用 ' · ' 拼接
 """
 import re
 import sys
 import json
+from datetime import date
 from pathlib import Path
 import numpy as np
+
+# ★ commit 4.12：Windows GBK stdout 不能 print ⚠️ 等 emoji，强制 utf-8
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
+except Exception:
+    pass
 
 ROOT = Path(__file__).resolve().parent.parent
 AUTO_JS = ROOT / 'data' / 'pcb.auto.js'
@@ -36,6 +46,9 @@ EXTREME_PE_LOW = 10          # pe_ttm < 10 标 ⚠️PE极低
 ENTRY_ZONE_PCTL_LOW = 30     # 30% 分位
 ENTRY_ZONE_PCTL_HIGH = 70    # 70% 分位
 WIN_HISTORY_MIN = 252        # 1 年（≈ 252 个交易日）· 历史<1y 标 ⚠️分位可能失真
+HISTORY_STALE_DAYS = 60      # ★ commit 4.12：lastHistDate 距今 > 60 天 → 数据过期
+EXTREME_PCTL = 99            # ★ commit 4.12：pePercentile >= 99% → 历史最贵区间
+TODAY = date.today()         # ★ commit 4.12：脚本运行日期（计算距今天数）
 
 
 def load_valuations():
@@ -65,10 +78,27 @@ def calc_stock_percentile(code, val):
     pe_ttm = val.get('pe_ttm')
     history = val.get('pe_history', [])
 
+    # ★ commit 4.12：辅助函数 - 计算 lastHistDate 距今天数
+    def _last_hist_age_days():
+        if not history or not history[-1].get('date'):
+            return None
+        try:
+            last_date = date.fromisoformat(history[-1]['date'])
+            return (TODAY - last_date).days
+        except (ValueError, TypeError):
+            return None
+
     # 1) 亏损股分支（pe_ttm=None）：分位/回落 null· entryZone 保留历史参考
     if pe_ttm is None:
+        # ★ commit 4.12：亏损股 flag 加入「数据过期」检测（与历史<1y 拼接）
+        # ★ commit 4.12：亏损股无 PE 数据，不加单源规则（PE 单源只对有效 PE 股）
+        flag_extra = []
+        age_days = _last_hist_age_days()
+        if age_days is not None and age_days > HISTORY_STALE_DAYS:
+            flag_extra.append(f'⚠️数据过期·历史停止更新({age_days}天前)')
         if len(history) >= WIN_HISTORY_MIN:
             pes = np.array([h['pe'] for h in history])
+            base_flag = '⚠️亏损股·pe_ttm=null·历史分位保留参考'
             return {
                 'pePercentile': None,   # 当前亏损·无意义
                 'entryZone': {
@@ -76,14 +106,15 @@ def calc_stock_percentile(code, val):
                     'p70': round(float(np.percentile(pes, ENTRY_ZONE_PCTL_HIGH)), 2)
                 },
                 'fromHigh_pe': None,
-                'flag': '⚠️亏损股·pe_ttm=null·历史分位保留参考'
+                'flag': ' · '.join([base_flag] + flag_extra) if flag_extra else base_flag
             }
         else:
+            base_flag = f'⚠️亏损股·历史<1y({len(history)}条)'
             return {
                 'pePercentile': None,
                 'entryZone': None,
                 'fromHigh_pe': None,
-                'flag': f'⚠️亏损股·历史<1y({len(history)}条)'
+                'flag': ' · '.join([base_flag] + flag_extra) if flag_extra else base_flag
             }
 
     # 2) 正常股分支
@@ -108,7 +139,7 @@ def calc_stock_percentile(code, val):
     max_pe = float(pes.max())
     from_high_pe = round((pe_ttm - max_pe) / max_pe, 4)
 
-    # flags 检测
+    # flags 检测（原有 3 条 + commit 4.12 新增 3 条 · 用 ' · ' 拼接不覆盖）
     flags = []
     if pe_ttm > EXTREME_PE_HIGH:
         flags.append('⚠️PE异常高·可能失真')
@@ -116,6 +147,15 @@ def calc_stock_percentile(code, val):
         flags.append('⚠️PE极低·可能数据异常')
     if len(history) < WIN_HISTORY_MIN:
         flags.append(f'⚠️历史<1y({len(history)}条)·分位可能失真')
+    # ★ commit 4.12 规则 1：lastHistDate 距今 > 60 天 → 数据过期
+    age_days = _last_hist_age_days()
+    if age_days is not None and age_days > HISTORY_STALE_DAYS:
+        flags.append(f'⚠️数据过期·历史停止更新({age_days}天前)')
+    # ★ commit 4.12 规则 2：pePercentile >= 99% → 历史最贵区间
+    if pe_pctile >= EXTREME_PCTL:
+        flags.append(f'⚠️分位极端高·历史最贵区间({pe_pctile}%)')
+    # ★ commit 4.12 规则 3：所有有效 PE 股（pe_ttm 有值）都标单源 PE 数据
+    flags.append('⚠️单源PE数据(baostock)')
 
     return {
         'pePercentile': pe_pctile,
@@ -164,7 +204,7 @@ def inject_to_auto_js(results):
     # 更新 _meta.note
     text = re.sub(
         r"note: '★ [^']+',",
-        "note: '★ 阶段三 commit 3.2：numpy 算 pePercentile/entryZone/fromHigh_pe（不拉网络·基于 commit 3.1.2 pe_history 序列）',",
+        "note: '★ 阶段三 commit 3.2 + commit 4.12：numpy 算 pePercentile/entryZone/fromHigh_pe · 3 条自动 flag(数据过期/分位极端高/单源PE)· 不拉网络·基于 commit 3.1.2 pe_history 序列',",
         text, count=1
     )
 
@@ -217,6 +257,14 @@ def main():
     print(f'fromHigh_pe 有值: {from_high_ok} / {len(results)}')
     print(f'pe_ttm > {EXTREME_PE_HIGH} 异常: {extreme_high} 只')
     print(f'历史<1y（分位可能失真）: {history_short} 只')
+    # ★ commit 4.12：3 条新规则统计
+    stale_count = sum(1 for code, r in results.items() if r['flag'] and '数据过期' in r['flag'])
+    extreme_pctl_count = sum(1 for r in results.values() if r['flag'] and '分位极端高' in r['flag'])
+    single_source_count = sum(1 for r in results.values() if r['flag'] and '单源PE数据' in r['flag'])
+    print(f'★ commit 4.12：')
+    print(f'  数据过期（距今 > {HISTORY_STALE_DAYS} 天）: {stale_count} 只')
+    print(f'  分位极端高（≥ {EXTREME_PCTL}%）: {extreme_pctl_count} 只')
+    print(f'  单源PE数据（baostock）: {single_source_count} 只')
     print()
 
     # 4) 5 只卡口抽样
