@@ -1447,6 +1447,7 @@ function renderChain(chainId) {
   h += `<div class="section-title" onclick="toggleSection('meta')"><span class="num num-mid">②</span> ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
 
+  // TODO commit 4.9: referenceChokepoints 数据缺失·13 条赛道均无该字段·渲染层已就绪(line 1456-1464)·等 pcb.manual.js 数据注入后自动生效
   if (d.referenceChokepoints && d.referenceChokepoints.length > 0) {
     h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--purple);background:rgba(168,85,247,0.04);">`;
     h += `<h4 style="margin-bottom:8px;font-size:15px;color:var(--purple);">🌐 卡脖子参考（非 A 股·不可投）</h4>`;
@@ -2065,7 +2066,10 @@ function renderChain(chainId) {
   if (d.midstream && d.midstream.stocks.length > 0) {
     const midNum = d.id === 'semi' ? '⑦' : '⑦';
     const midTitle = d.id === 'pcb' ? '中游 — PCB 制造' : d.id === 'ai-server' ? '中游 — AI服务器整机' : d.id === 'autonomous-driving' ? '中游 — Tier1/整车集成' : '中游环节';
-    h += `<div class="section" id="section-midstream"><div class="section-title"><span class="num num-mid">${midNum}</span> ${midTitle}</div>`;
+    // ★ commit 4.9：midstream section 加折叠（默认展开，可点标题收起）
+    h += `<div class="section collapsible" data-key="midstream" id="section-midstream">`;
+    h += `<div class="section-title" onclick="toggleSection('midstream')"><span class="num num-mid">${midNum}</span> ${midTitle}<span class="collapse-arrow">▼</span></div>`;
+    h += `<div class="section-body">`;
     h += `<div class="section-desc">${d.midstream.description}</div>`;
     const midSegTitle = d.id === 'pcb' ? '🏭 PCB 制造 — 充分竞争，但龙头强者恒强' : d.id === 'ai-server' ? '🏭 AI服务器整机制造 — ODM/OEM充分竞争' : d.id === 'autonomous-driving' ? '🚗 Tier1/整车集成 — 格局分散' : d.id === 'cpo' ? '📡 光模块制造 — 龙头强势但非寡头' : '🏭 ' + d.name + '中游 — 充分竞争';
     h += `<div class="segment-card"><div class="seg-title">${midSegTitle}</div>`;
@@ -2078,7 +2082,8 @@ function renderChain(chainId) {
     d.midstream.stocks.forEach(s => {
       h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:13px;">${s.logic || s.note || ''}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
     });
-    h += `</tbody></table></div></div>`;
+    h += `</tbody></table></div></div>`;  // segment-card
+    h += `</div></div>`;  // section-body + section (commit 4.9 折叠)
   }
 
   // Section 5/6: Four Questions (新顺序：⑧ 物理卡口四问筛选，默认折叠)
