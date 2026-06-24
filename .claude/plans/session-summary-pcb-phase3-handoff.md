@@ -1,8 +1,8 @@
 # PCB 产业链看板 · 阶段三 + 阶段四 + 阶段五 Handoff 会话摘要
 
-> **HEAD**: `7d32670`（commit 4.12·3 条自动 ⚠️ flag 规则）
-> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）/ `0aecae0`（阶段三 3.5 末）/ `c403f12`（阶段三 3.4.1 末）/ `91f1a59`（commit 4.0）/ `888fdc8`（commit 4.5）/ `fa8d7f5`（commit 4.6）/ `2386e7b`（commit 4.7 修复）/ `7d8e036`（commit 4.8）/ `ede2e52`（commit 4.9）/ `7d32670`（commit 4.12）
-> **前置规则**: CLAUDE.md §6 全部纪律 + §6.8 数据准确度优先 + §6.9 双重检查 + §6.10 三重验证 + §7 数据自查纪律
+> **HEAD**: `7ac0c7d`（commit 4.13·单源核实 301511 德福科技 HVLP5）
+> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）/ `0aecae0`（阶段三 3.5 末）/ `c403f12`（阶段三 3.4.1 末）/ `91f1a59`（commit 4.0）/ `888fdc8`（commit 4.5）/ `fa8d7f5`（commit 4.6）/ `2386e7b`（commit 4.7 修复）/ `7d8e036`（commit 4.8）/ `ede2e52`（commit 4.9）/ `7d32670`（commit 4.12）/ `7ac0c7d`（commit 4.13）
+> **前置规则**: CLAUDE.md §6 全部纪律 + §6.8 数据准确度优先 + §6.9 双重检查 + §6.10 三重验证 + §7 数据自查纪律 + verify-single-source skill
 
 ---
 
@@ -53,24 +53,35 @@
 | **4.10** | **⚠️ git history 中丢失（reset 丢弃）· 代码改动已合并到后续 commit** | **5 需求合并（删刷新指令 + 删 pin/unpin + 数据截止重定位 + changelog 过滤 + git 接口 + fallback）** | **⚠️ hash 丢失** |
 | **4.11** | **⚠️ git history 中丢失（reset 丢弃）· 代码改动已合并到后续 commit** | **chokepoint 002916/600183 补全 + 注释清理 + segments[6] 设计问题报告 + CSS 溢出修复** | **⚠️ hash 丢失** |
 | **4.12** | **`7d32670`** | **3 条自动 ⚠️ flag 规则（数据过期 / 分位极端高 / 单源PE）+ GBK stdout fix + _meta.note 更新** | **✅** |
+| **4.13** | **`7ac0c7d`** | **301511 德福科技 HVLP5 ⚠️单源→✅双源核实（兴业证券·2026-05-16）· 按 verify-single-source skill 流程** | **✅** |
 
-**🎉 阶段 A（结构重组）+ 阶段 B（视觉收敛）+ 产业链图景可视化（横向流图）+ 字体统一 + 折叠增强 + 自动 ⚠️ 规则 全部完成 ✅**
+**🎉 阶段 A（结构重组）+ 阶段 B（视觉收敛）+ 产业链图景可视化（横向流图）+ 字体统一 + 折叠增强 + 自动 ⚠️ 规则 + 单源核实流程 全部完成 ✅**
 
 ---
 
-## 6. 下一阶段待办 · commit 4.13
+## 6. 下一阶段待办 · commit 4.14
 
-### 6.1 commit 4.13 · 删除 segments[6]「AI PCB 制造」段（与 midstream 100% 重叠）
+### 6.1 commit 4.13 ✅ 已完成
 
-**问题根因**（commit 4.11 维度 6 检查发现）：
+- ✅ 删除 segments[6]（commit 4.11 选 B 暂缓方案·后续 commit 4.14 一起处理流图关联 supplyGap + 删除 segments[6]）
+
+### 6.2 commit 4.14 · 流图关联 supplyGap + 删除 segments[6]
+
+**两大目标**：
+
+#### A. 流图关联 supplyGap
+- 当前问题：横向流图（commit 4.7 默认视图）的节点显示「环节名称 + 缺口率」但与 `CHAINS.pcb.supplyGap[]` 数组无关联
+- 目标：流图节点 `item.gapRate` 自动从 supplyGap 读取（按 segment 名称匹配），缺数据时降级显示
+- 涉及：`pcb.js` line 680-685 `gapRate()` 函数（已有逻辑）+ index.html 流图渲染 line 1816 处
+- 数据验证：3 条 supplyGap（M9 树脂 / Q布 / HVLP4 铜箔）需与 3 个 chokePoints（东材 / 菲利华 / 铜冠）一一对应
+
+#### B. 删除 segments[6]「AI PCB 制造」段（与 midstream 100% 重叠）
 - `pcb.segments[6]` 5 只（沪电/胜宏/景旺/东山/鹏鼎）100% 与 `pcb.midstream.stocks` 重叠
 - segments[6] 命名「AI PCB 制造(中游)」明说自己是中游，却放在 segments 数组（应为上游材料/设备明细）
 - midstream 字段本就是中游的法定位置
 - 双重计算导致 segments.stocks 总数 = 34（去重后实际 29 只 segments 上游 + 5 只中游）
 
-**修复方案**：删除 `pcb.segments[6]` 让 midstream 独占中游 10 只。
-
-**commit 4.13 预估工作**：
+**修复方案**：
 1. 改 pcb.js 删除 segments[6]（硬约束允许·commit 4.11 已放开）
 2. 改 fourQuestions.segments[4] 引用（line 520 的 segments[4] 不是 segments[6]·需核实）
 3. 改 segments[6] 移除后 treeMap 等其他渲染点的引用
@@ -78,8 +89,9 @@
 5. 验证 midstream 路径单独显示 10 只中游企业
 6. 更新 segments.stocks 总数 = 29（= 4+5+5+5+5+5，去除 segments[6] 的 5 只）
 
-**预估 commit 数**：1（pcb.js 单文件修改）
-**预估 token**：~30k
+**预估 commit 数**：1（pcb.js + index.html 双文件）
+**预估 token**：~50k
+**风险点**：segments[6] 删除会牵涉 treeMap 渲染 + fourQuestions 4-问视图 + supplyGap rate 排序
 
 ---
 
