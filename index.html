@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jack唐的投研看板</title>
 <link rel="icon" href="data:," />
-<!-- ★ B1 数字排版：JetBrains Mono（仅数字/代码用，正文系统字体；离线/file:// 场景自动降级到 ui-monospace/Menlo/Consolas） -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- commit 4.8：删 Google Fonts JetBrains Mono 外部依赖（4 行 link/preconnect）— 全站统一单字体栈 -->
 <style>
   :root {
     --bg: #0f1117; --card: #1a1d27; --card2: #1f2233; --border: #2a2d3a;
@@ -19,7 +16,8 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; min-height: 100vh; display: flex; }
+  /* ★ commit 4.8 字体统一：单字体栈 + 字号/字重/颜色分 5 档层级 · 不引入外部字体 */
+  body { font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; display: flex; }
   .container { max-width: 100%; margin: 0; padding: 20px 32px; }
 
   /* Sidebar */
@@ -180,7 +178,7 @@
   .stock-tbl tbody td { padding: 11px 14px; border-bottom: 1px solid rgba(42,45,58,0.5); word-break: break-word; overflow-wrap: anywhere; }
   .trade-table tbody td { word-break: break-word; overflow-wrap: anywhere; }   /* 升级 1.4：交易日志长字段换行 */
   .stock-tbl .s-name { font-weight: 500; font-size: 16px; }   /* ★ commit 4.6：股票名称 14→16px / 600→500 */
-  .stock-tbl .s-code { color: var(--muted); font-size: 12px; font-family: "SF Mono", monospace; }
+  .stock-tbl .s-code { color: var(--muted); font-size: 12px; }   /* commit 4.8：删 font-family */
   .rank-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; font-size: 12px; font-weight: 700; background: rgba(240,185,11,0.1); color: var(--accent); }
 
   .tag { display: inline-block; font-size: 12px; padding: 3px 9px; border-radius: 4px; font-weight: 600; }
@@ -208,7 +206,7 @@
   /* 升级 1.4：rank 改为 h3 内部 inline block（彻底消除与 verify-overall 徽章的 z-index 冲突） */
   .choke-card .rank { display: inline-block; background: var(--accent); color: #000; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; margin-right: 10px; vertical-align: middle; }
   .choke-card h3 { font-size: 24px; font-weight: 600; margin-bottom: 4px; }   /* ★ commit 4.6：标题 22→24px / 700→600 */
-  .choke-card .code { font-size: 11px; color: var(--muted); margin-bottom: 12px; font-family: monospace; }   /* ★ commit 4.6：注释 13→11px */
+  .choke-card .code { font-size: 11px; color: var(--muted); margin-bottom: 12px; }   /* ★ commit 4.6：注释 13→11px · commit 4.8：删 font-family */
   .choke-card .seg { font-size: 12px; color: var(--accent); margin-bottom: 12px; font-weight: 600; }
   .choke-card .logic { font-size: 13px; line-height: 1.8; color: var(--text); margin-bottom: 14px; word-break: break-word; overflow-wrap: anywhere; }
   .choke-card .tags { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -353,11 +351,6 @@
    * 纯视觉层：0 业务改动 / 0 新增 class（CSS 靶向已有 class）/ 离线自动降级
    * ============================================================ */
 
-  /* 字体栈：JetBrains Mono 优先（Google Fonts 加载后），失败降级到系统等宽 */
-  :root {
-    --font-mono: 'JetBrains Mono', 'Roboto Mono', ui-monospace, 'SF Mono', 'Menlo', 'Consolas', monospace;
-  }
-
   /* (1) tabular-nums：让任何含数字的位置纵向对齐（OpenType 特性，对系统字体也生效）
    *     覆盖：所有表格 cell + overview 卡 + valuation 行 + 四问表 + 周期阶段 + sup 角标 + 星级评级 + barrier 徽章 + 排名 */
   .stock-tbl td, .stock-tbl th,
@@ -373,21 +366,15 @@
     font-feature-settings: 'tnum' 1;   /* 老浏览器兜底 */
   }
 
-  /* (2) 纯数字/代码字段用等宽字体（不污染中文标签）
-   *     覆盖：overview 主数值（如 ~$958 亿）/ 股票代码列 / 排名数字 / 既有用 monospace 写在 inline style 的位置 */
+  /* (2) 纯数字/代码字段 — commit 4.8 删 font-family（继承 body 单字体栈） */
   .overview-item .value,
   .stock-tbl .s-code, .stock-tbl td.s-code,
   .rank-num,
   .change-badge {
-    font-family: var(--font-mono);
+    /* font-family: inherit (默认) */
   }
 
-  /* (3) inline style 里写了 font-family: monospace 的位置（升级九 STEP 2B / 3 模板字符串里）→ 全部统一到 var(--font-mono)
-   *     用 attribute selector 覆盖即可，不需改 JS 模板 */
-  [style*="monospace"], [style*="font-family: 'Consolas'"], [style*="font-family:'Consolas'"] {
-    font-family: var(--font-mono) !important;
-    font-variant-numeric: tabular-nums;
-  }
+  /* (3) commit 4.8 删：[style*="monospace"] 全局选择器（不再需要 — 全部继承 body 单字体栈） */
 
   /* ============================================================
    * ★ B2 配色收敛（2026-06-13）—— 去"彩虹"，金+灰阶分层级
@@ -445,11 +432,7 @@
     vertical-align: middle;
     line-height: 1.4;
     white-space: nowrap;
-    /* ★ B3 hotfix：显式 system + emoji 字体栈，覆盖 B1 给父元素 .overview-item .value 设的 var(--font-mono)
-       JetBrains Mono 等专用等宽字体不含 emoji 字形，会让 🟢🔵⚪🆪 显示成乱码（"芽蘭"等）；
-       这里强制用系统字体+各平台 emoji 回退，保证 4 个 tier 图标正确显示 */
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif,
-                 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Twemoji Mozilla' !important;
+    /* commit 4.8：font-family 删（继承 body 单字体栈 · 包含 emoji 兜底） */
     font-variant-numeric: normal !important;
   }
   .src-chip.t-primary  { color: var(--green);       border-color: rgba(14, 203, 129, 0.30); background: rgba(14, 203, 129, 0.08); }
@@ -487,7 +470,7 @@
   .section::before {
     content: 'SECTION';
     display: block;
-    font-family: var(--font-mono);
+    /* font-family: inherit (commit 4.8 删 var(--font-mono)) */
     font-size: 9px;
     letter-spacing: 2.5px;
     color: var(--muted);
@@ -1097,7 +1080,7 @@ function renderChain(chainId) {
   // ★ 升级九 STEP 4 小步 1：容错 guard — 数据未加载时显示提示而非白屏（之前是 if (!d) return; 静默 return）
   if (!d) {
     if (container) container.innerHTML = `<div class="card" style="padding:32px;text-align:center;border-left:3px solid var(--red);margin-top:20px;">
-      <h3 style="margin-bottom:14px;color:var(--red);font-size:18px;">⚠️ 该赛道数据加载失败：<code style="font-family:monospace;font-size:16px;background:var(--card2);padding:2px 8px;border-radius:4px;">${chainId}</code></h3>
+      <h3 style="margin-bottom:14px;color:var(--red);font-size:18px;">⚠️ 该赛道数据加载失败：<code style="font-size:16px;background:var(--card2);padding:2px 8px;border-radius:4px;">${chainId}</code></h3>
       <p style="color:var(--muted);font-size:13px;line-height:1.9;">可能原因：<code>data/${chainId}.js</code> 文件 404 / 网络中断 / JS 语法错误。<br>
       <strong style="color:var(--text);">其它赛道照常运行</strong>（独立 &lt;script&gt; 互不连坐 — 升级九 STEP 4 的容错收益）。<br><br>
       试试：<a href="#pcb" style="color:var(--accent);">🔌 回到 PCB</a> · <a href="#arena" style="color:var(--accent);">🏟️ 赛道擂台</a> · <a href="#cards" style="color:var(--accent);">📋 决策卡片库</a><br><br>
@@ -1134,7 +1117,7 @@ function renderChain(chainId) {
       bars += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:11px;line-height:1.4;">`;
       bars += `<span style="width:68px;color:var(--muted);flex-shrink:0;">${meta.name || d6.key}${sourceTierBadge(d6.tier, d6.src)}</span>`;
       bars += `<div style="flex:1;min-width:50px;height:4px;background:var(--card2);border-radius:2px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${barColor};"></div></div>`;
-      bars += `<span style="width:42px;text-align:right;font-family:monospace;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend, d6.score)}</span>`;
+      bars += `<span style="width:42px;text-align:right;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend, d6.score)}</span>`;
       bars += `</div>`;
     });
     return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;">${summaryRow}<div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}${s.valAsOf?`<div style="margin-top:4px;font-size:10px;color:var(--barrier-low);text-align:right;" title="估值判断时点">📅 截至 ${s.valAsOf.slice(5)}</div>`:''}</div></details>`;
@@ -1191,7 +1174,7 @@ function renderChain(chainId) {
       let anchor = 'middle';
       if (a === -30 || a === 30) anchor = 'start';
       else if (a === 150 || a === 210) anchor = 'end';
-      labels += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="var(--muted)" font-size="${fontSize}" font-weight="600" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',system-ui,sans-serif;">${labelTexts[i]}</text>`;
+      labels += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="var(--muted)" font-size="${fontSize}" font-weight="600">${labelTexts[i]}</text>`;
     });
     return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" style="display:block;overflow:visible;flex-shrink:0;" aria-label="六维雷达图">${grid}${axes}${dataPolygon}${dots}${labels}</svg>`;
   }
@@ -1547,7 +1530,7 @@ function renderChain(chainId) {
       if (d6.reason)   h += `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);"><strong>本赛道判断：</strong>${d6.reason}</div>`;
       if (d6.evidence) h += `<div style="margin-top:3px;color:var(--muted);font-size:10px;">📎 ${d6.evidence}${d6.flag?' '+d6.flag:''}</div>`;
       h += `</div></details></span>`;
-      h += `<span style="font-family:monospace;color:var(--text);">${d6.score}/5 ${arrowD(d6.trend, d6.score)}</span>`;
+      h += `<span style="color:var(--text);">${d6.score}/5 ${arrowD(d6.trend, d6.score)}</span>`;
       h += `</div>`;
       h += `<div style="height:6px;background:var(--card2);border-radius:3px;overflow:hidden;">`;
       h += `<div style="width:${pct}%;height:100%;background:${barColor};transition:width .3s;"></div>`;
@@ -2512,9 +2495,9 @@ function renderTrades() {
       h += `<td>${t.date || '—'}</td>`;
       h += `<td class="s-name">${t.cardName || (t.cardId ? `[${t.cardId}]` : '—')}<div class="s-code">${t.cardId || ''}</div></td>`;
       h += `<td><span class="tag ${sideCls}" style="font-size:10px;">${sideTxt}</span></td>`;
-      h += `<td style="text-align:right;font-family:monospace;">${t.price ? t.price.toFixed(2) : '—'}</td>`;
-      h += `<td style="text-align:right;font-family:monospace;">${t.qty || '—'}</td>`;
-      h += `<td style="text-align:right;font-family:monospace;font-weight:600;">${t.amount ? t.amount.toFixed(0) : '—'}</td>`;
+      h += `<td style="text-align:right;">${t.price ? t.price.toFixed(2) : '—'}</td>`;
+      h += `<td style="text-align:right;">${t.qty || '—'}</td>`;
+      h += `<td style="text-align:right;font-weight:600;">${t.amount ? t.amount.toFixed(0) : '—'}</td>`;
       h += `<td><span class="tag ${discCls}" style="font-size:10px;cursor:help;" title="${t.breakReason || ''}">${discTxt}</span></td>`;
       h += `<td style="font-size:11px;max-width:200px;">${t.note || ''}${t.breakReason ? `<div style="color:var(--red);font-size:10px;margin-top:2px;">原因：${t.breakReason}</div>` : ''}</td>`;
       h += `<td><button onclick="removeTrade('${t.id}')" style="padding:2px 8px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button></td>`;
@@ -2895,11 +2878,11 @@ function renderArena() {
         h += `<td style="text-align:center;color:var(--barrier-low);">—</td>`;
       } else {
         const color = s >= 4 ? 'var(--green)' : s >= 3 ? 'var(--barrier-high)' : s >= 2 ? 'var(--barrier-mid)' : 'var(--red)';
-        h += `<td style="text-align:center;color:${color};font-weight:600;font-family:monospace;">${s}</td>`;
+        h += `<td style="text-align:center;color:${color};font-weight:600;">${s}</td>`;
       }
     });
     if (r.hasP) {
-      h += `<td style="font-family:monospace;font-weight:700;"><span style="color:var(--accent);font-size:16px;">${r.ltScore}</span><span style="color:var(--muted);font-size:11px;">/100</span> ${r.ltTier}${r.ltRisk?' <span style="color:var(--red);font-size:10px;" title="安全垫不足：估值或壁垒≤1，已封顶 60">⚠</span>':''}</td>`;
+      h += `<td style="font-weight:700;"><span style="color:var(--accent);font-size:16px;">${r.ltScore}</span><span style="color:var(--muted);font-size:11px;">/100</span> ${r.ltTier}${r.ltRisk?' <span style="color:var(--red);font-size:10px;" title="安全垫不足：估值或壁垒≤1，已封顶 60">⚠</span>':''}</td>`;
     } else {
       h += `<td style="color:var(--muted);font-size:11px;">六维待回填</td>`;
     }
@@ -3097,13 +3080,13 @@ function renderStockArena() {
     h += `<td class="s-name">${r.name}${r.inconsistent?' <span style="color:var(--red);font-size:10px;cursor:help;" title="此股在多个赛道中 dims6 不一致">⚠️跨链不一致</span>':''}</td>`;
     h += `<td style="font-size:12px;">${r.chains}</td>`;
     h += `<td style="font-size:12px;">${r.segs}</td>`;
-    h += `<td style="font-family:monospace;font-weight:700;"><span style="color:var(--accent);font-size:15px;">${r.fit.score}</span><span style="color:var(--muted);font-size:10px;">/100</span> <span class="tag ${fitCls}" style="font-size:10px;">${r.fit.tier}</span>${r.fit.risk?' <span style="color:var(--red);font-size:10px;" title="安全垫不足（估值或壁垒≤1）已封顶 60">⚠</span>':''}</td>`;
+    h += `<td style="font-weight:700;"><span style="color:var(--accent);font-size:15px;">${r.fit.score}</span><span style="color:var(--muted);font-size:10px;">/100</span> <span class="tag ${fitCls}" style="font-size:10px;">${r.fit.tier}</span>${r.fit.risk?' <span style="color:var(--red);font-size:10px;" title="安全垫不足（估值或壁垒≤1）已封顶 60">⚠</span>':''}</td>`;
     h += `<td style="text-align:center;"><span class="tag ${bCls}" style="font-size:10px;">${r.barrier}</span></td>`;
     ['durability','visibility','valuation','barrier'].forEach(k => {
       const d = r.dims6.find(x => x.key === k);
       const sc = d ? d.score : 0;
       const c = sc >= 4 ? 'var(--green)' : sc >= 3 ? 'var(--barrier-high)' : sc >= 2 ? 'var(--barrier-mid)' : 'var(--red)';
-      h += `<td style="text-align:center;color:${c};font-weight:600;font-family:monospace;">${sc}</td>`;
+      h += `<td style="text-align:center;color:${c};font-weight:600;">${sc}</td>`;
     });
     h += `<td>${miniBar}</td>`;
     h += `</tr>`;
@@ -3594,7 +3577,7 @@ function showRefreshModal(chainId) {
     </div>
     <div style="margin-bottom:14px;">
       <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text);">📋 指令预览（只读，可手动选中复制）：</div>
-      <textarea id="refresh-prompt-text" readonly style="width:100%;min-height:280px;padding:12px;background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:6px;font-family:'Consolas','Monaco',monospace;font-size:12px;line-height:1.6;resize:vertical;"></textarea>
+      <textarea id="refresh-prompt-text" readonly style="width:100%;min-height:280px;padding:12px;background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:12px;line-height:1.6;resize:vertical;"></textarea>
     </div>
     <div style="display:flex;gap:10px;justify-content:flex-end;">
       <button onclick="closeRefreshModal()" style="background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px 18px;font-size:13px;cursor:pointer;">取消</button>
