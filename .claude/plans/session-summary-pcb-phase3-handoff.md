@@ -1,7 +1,7 @@
 # PCB 产业链看板 · 阶段三 + 阶段四 + 阶段五 Handoff 会话摘要
 
-> **HEAD**: `2e7589e`（commit 4.14·5 项修改合并）
-> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）/ `0aecae0`（阶段三 3.5 末）/ `c403f12`（阶段三 3.4.1 末）/ `91f1a59`（commit 4.0）/ `888fdc8`（commit 4.5）/ `fa8d7f5`（commit 4.6）/ `2386e7b`（commit 4.7 修复）/ `7d8e036`（commit 4.8）/ `ede2e52`（commit 4.9）/ `7d32670`（commit 4.12）/ `7ac0c7d`（commit 4.13 单源核实）/ `2095a2f`（commit 4.13 流图+segments[6]）/ `2e7589e`（commit 4.14）
+> **HEAD**: `64154c1`（commit 4.20·下游需求传导模块）
+> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）/ `0aecae0`（阶段三 3.5 末）/ `c403f12`（阶段三 3.4.1 末）/ `91f1a59`（commit 4.0）/ `888fdc8`（commit 4.5）/ `fa8d7f5`（commit 4.6）/ `2386e7b`（commit 4.7 修复）/ `7d8e036`（commit 4.8）/ `ede2e52`（commit 4.9）/ `7d32670`（commit 4.12）/ `7ac0c7d`（commit 4.13 单源核实）/ `2095a2f`（commit 4.13 流图+segments[6]）/ `2e7589e`（commit 4.14）/ `697a4fc`（commit 4.15）/ `84f22d2`（commit 4.16）/ `5703a34`（commit 4.17）/ `bdc79bf`（commit 4.18 修复版）/ `0e2bc96`（PE 上限文案 fix）/ `167f9ab`（commit 4.19）/ `64154c1`（commit 4.20）
 > **前置规则**: CLAUDE.md §6 全部纪律 + §6.8 数据准确度优先 + §6.9 双重检查 + §6.10 三重验证 + §7 数据自查纪律 + verify-single-source skill
 
 ---
@@ -56,8 +56,15 @@
 | **4.13** | **`7ac0c7d`** | **301511 德福科技 HVLP5 ⚠️单源→✅双源核实（兴业证券·2026-05-16）· 按 verify-single-source skill 流程** | **✅** |
 | **4.13'** | **`2095a2f`** | **流图关联 supplyGap（4 级 fallback 匹配 v4·双向单字重叠）+ 删除 segments[6]「AI PCB 制造(中游)」段（与 midstream 100% 重叠）+ 匹配算法修复（避免 CCL 误匹配）** | **✅** |
 | **4.14** | **`2e7589e`** | **5 项修改合并：① 数据过期 flag 重写（近30天无有效PE>0）+ ② 688183/300476 特别 flag + ③ 8 只 growthAdj peAbsMax 60→120 + ④ close 数据更新（37/37）+ ⑤ peAbsMax 规范加模板** | **✅** |
+| **4.15** | **`697a4fc`** | **fetch_volume_history.py 拉 37 只 volume+turn 5y 日频（baostock 单源·每只 3 次重试·37/37 成功·总计 42706 行）· 注入 pcb.auto.js 新字段 volume_history** | **✅** |
+| **4.16** | **`84f22d2`** | **calc_signal_c.py 算 4 字段信号 C 基础数据（volRatio5d + maxPctl30d/60d/90d）· 37 只注入·34/37 有值（3 亏损股 null）** | **✅** |
+| **4.17** | **`5703a34`** | **信号 C 完整逻辑（条件 A 相对回调 + 条件 B 绝对分位 + 10 条排除规则 + 仓位建议 + caution 模式）· bug 修复（条件 A 漏 pctlDrop≤-15pp 检查导致 300395 误命中·修复后 0 命中）** | **✅** |
+| **4.18** | **`bdc79bf`** | **减仓/清仓信号（持仓管理）· 修复版：删 trendFlat 误杀（5 只误命中→0）+ 10 个变量中文注释 + CLAUDE.md §9 中文化规范（24 条字段对照表+5 条规则·永久生效）· 减仓命中 8→3** | **✅** |
+| **4.18 fix** | **`0e2bc96`** | **买入信号 A/B 监测·成长赛道通道 PE 上限显示具体数值（按赛道设定→PE上限120倍）· 2 处替换** | **✅** |
+| **4.19** | **`167f9ab`** | **信号 C + 持仓管理接入前端（① section 内 2 个新 card·0 CSS 增量·复用现有 .tag/.card/.stock-tbl 调色板）** | **✅** |
+| **4.20** | **`64154c1`** | **下游需求传导模块（4 下游 CAGR 多源核实 + AI 服务器价值量倍数 + 传导系数待补充）· pcb.js 注入 demandChainMeta + index.html ⑤ section + 来源折叠明细** | **✅** |
 
-**🎉 阶段 A（结构重组）+ 阶段 B（视觉收敛）+ 产业链图景可视化（横向流图 + supplyGap 关联）+ 字体统一 + 折叠增强 + 自动 ⚠️ 规则 + 单源核实流程 + segments 去重 + 数据治理强化 全部完成 ✅**
+**🎉 阶段 A（结构重组）+ 阶段 B（视觉收敛）+ 产业链图景可视化（横向流图 + supplyGap 关联）+ 字体统一 + 折叠增强 + 自动 ⚠️ 规则 + 单源核实流程 + segments 去重 + 数据治理强化 + 信号 C 流水线（基础数据+完整逻辑+前端展示）+ 减仓/清仓信号 + 报告输出中文化规范 + 下游需求传导 全部完成 ✅**
 
 ---
 
@@ -77,6 +84,15 @@
 - supplyGap 数据扩展（增加 ABF 膜 / BT 载板 等其他 3 个 chokePoints 对应的缺口数据）
 - 002916 深南电路 ⚠️单源待核 待 verify-single-source skill 处理
 - **300395 菲利华 close 数据源问题（commit 4.14 残留）**：baostock 近 1 年 0 行 close · stock_basic 字段全空 · PE 数据正常（1252 条）· 当前 closeLatest=127.35 是历史值 · 后续 commit 需解决：① 切换数据源（同花顺/雪球）② 打 ⚠️陈旧 flag ③ 删除 closeLatest 字段
+
+### 6.3 阶段五 commit 4.15-4.20 遗留待办（暂缓·需新字段）
+
+| # | 待办 | 原因 | 实装方案 |
+|---|---|---|---|
+| 1 | **减仓 3（trendFlat）** | pcb.manual.js 只有当前 trend · 无历史 trend 序列 · 当前简化逻辑会误杀本来就是 flat 的标的 | 在 pcb.manual.js 加 `trendHistory` 字段（历史 trend 数组）才能判断「从 up 变 flat」|
+| 2 | **清仓 1（barrierDrop）** | pcb.manual.js 只有当前 barrier · 无历史 barrier 序列 · 当前不触发（防误杀）| 在 pcb.manual.js 加 `barrierHistory` 字段（历史 barrier 数组）|
+| 3 | **传导系数（elasticCoefficient）** | 「下游 X% → 上游 PCB 需求 Y%」的弹性系数无第三方权威源 | 需券商研报 / 行业历史数据 · 当前 pcb.js 已设 `conductionTBD: true` · 底部 `⏳` 提示用户 |
+| 4 | **300395 菲利华 close 数据陈旧** | baostock 近 1 年 0 行 close · stock_basic 字段全空 · 当前 closeLatest=127.35 是历史值 | ① 切换数据源（同花顺/雪球）② 打 ⚠️陈旧 flag ③ 删除 closeLatest 字段 |
 
 ---
 
@@ -277,7 +293,7 @@ git reset --hard 192ee85   # 完全回滚（阶段一二三都不要）
 | 阶段二末 commit | `4fe4fba` |
 | 阶段三 3.5 末 commit | `0aecae0` |
 | 阶段三 3.4.1 末 commit | `c403f12` |
-| **阶段四 4.0 末 commit（HEAD）** | **`91f1a59`** |
+| **阶段五 4.20 末 commit（HEAD）** | **`64154c1`** |
 | 拉数脚本 | `d:\乌龟\产业链全景\scripts\refresh_pcb_valuation.py` |
 | 分位脚本 | `d:\乌龟\产业链全景\scripts\calc_percentile.py` |
 | close 脚本 | `d:\乌龟\产业链全景\scripts\fetch_close_history.py` |
