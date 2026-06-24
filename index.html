@@ -15,6 +15,7 @@
     --text: #e1e4eb; --muted: #8b8fa3; --accent: #f0b90b;
     --green: #0ecb81; --red: #f6465d; --blue: #3b82f6; --purple: #a855f7;
     --barrier-extreme: #f6465d; --barrier-high: #f97316; --barrier-mid: #eab308; --barrier-low: #6b7280;
+    /* ★ commit 4.6：4 档语义色（tag 系统限定使用）— 绿=买入/低估/趋势向上；红=风险/高估/亏损；黄橙=待核/中性；灰=注释/次要 */
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -39,14 +40,14 @@
   .main-area { flex: 1; min-width: 0; }
 
   /* Sections */
-  .section { margin-bottom: 44px; scroll-margin-top: 70px; }
+  .section { margin-bottom: 56px; scroll-margin-top: 70px; }   /* ★ commit 4.6：section 间距 44→56 */
   .section-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
   .section-title .num { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; font-size: 15px; font-weight: 700; }
   .section-desc { color: var(--muted); font-size: 13px; margin-bottom: 22px; margin-left: 44px; }
   .num-plain{background:rgba(59,130,246,0.15);color:var(--blue)}.num-macro{background:rgba(168,85,247,0.15);color:var(--purple)}.num-chain{background:rgba(240,185,11,0.15);color:var(--accent)}.num-up{background:rgba(246,70,93,0.15);color:var(--red)}.num-mid{background:rgba(249,115,22,0.15);color:var(--barrier-high)}.num-ser{background:rgba(168,85,247,0.15);color:var(--purple)}.num-result{background:rgba(14,203,129,0.15);color:var(--green)}
 
   /* Cards */
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 18px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 24px; }   /* ★ commit 4.6：card 间距 18→24 */
   .card-header { font-size: 17px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
   /* Plain intro */
@@ -59,10 +60,10 @@
   .highlight-box { background: rgba(240,185,11,0.05); border-left: 3px solid var(--accent); padding: 14px 18px; border-radius: 0 8px 8px 0; font-size: 13px; margin-top: 14px; line-height: 1.8; }
 
   /* Overview */
-  .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }   /* ★ commit 4.6：grid gap 14→24 */
   .overview-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; }
   .overview-item .label { font-size: 11px; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 8px; }
-  .overview-item .value { font-size: 20px; font-weight: 700; }
+  .overview-item .value { font-size: 24px; font-weight: 500; }   /* ★ commit 4.6：关键数字 20→24px / 700→500 */
 
   /* Tree */
   .tree-wrapper { overflow-x: auto; padding: 30px 0; }
@@ -124,8 +125,9 @@
   .legend-bar .dot { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
 
   /* Segment card */
-  .segment-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+  .segment-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 24px; }   /* ★ commit 4.6：segment 间距 20→24 */
   .segment-card .seg-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .segment-card .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px; }   /* ★ commit 4.6：info-grid gap 12→16 */
   .segment-card .seg-meta { font-size: 12px; color: var(--muted); margin-bottom: 16px; display: flex; gap: 20px; flex-wrap: wrap; }
   .segment-card h4 { font-size: 14px; font-weight: 600; color: var(--text); margin: 18px 0 10px; padding-left: 10px; border-left: 3px solid var(--border); }
   .segment-card .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 16px; }
@@ -140,12 +142,13 @@
   .stock-tbl thead th { text-align: left; padding: 11px 14px; border-bottom: 2px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 0.5px; background: var(--card2); }
   .stock-tbl tbody td { padding: 11px 14px; border-bottom: 1px solid rgba(42,45,58,0.5); word-break: break-word; overflow-wrap: anywhere; }
   .trade-table tbody td { word-break: break-word; overflow-wrap: anywhere; }   /* 升级 1.4：交易日志长字段换行 */
-  .stock-tbl .s-name { font-weight: 600; font-size: 14px; }
+  .stock-tbl .s-name { font-weight: 500; font-size: 16px; }   /* ★ commit 4.6：股票名称 14→16px / 600→500 */
   .stock-tbl .s-code { color: var(--muted); font-size: 12px; font-family: "SF Mono", monospace; }
   .rank-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; font-size: 12px; font-weight: 700; background: rgba(240,185,11,0.1); color: var(--accent); }
 
-  .tag { display: inline-block; font-size: 10px; padding: 3px 9px; border-radius: 4px; font-weight: 600; }
-  .tg-extreme{background:rgba(246,70,93,0.15);color:var(--red)}.tg-high{background:rgba(249,115,22,0.15);color:var(--barrier-high)}.tg-mid{background:rgba(234,179,8,0.15);color:var(--barrier-mid)}.tg-green{background:rgba(14,203,129,0.15);color:var(--green)}.tg-blue{background:rgba(59,130,246,0.15);color:var(--blue)}.tg-gray{background:rgba(107,114,128,0.12);color:var(--barrier-low)}
+  .tag { display: inline-block; font-size: 12px; padding: 3px 9px; border-radius: 4px; font-weight: 600; }
+  /* ★ commit 4.6：tag 字号 10→12，4 档语义色固定（蓝已统一为黄 tg-mid · 4 档：绿/红/黄橙/灰）*/
+  .tg-extreme{background:rgba(246,70,93,0.15);color:var(--red)}.tg-high{background:rgba(249,115,22,0.15);color:var(--barrier-high)}.tg-mid{background:rgba(234,179,8,0.15);color:var(--barrier-mid)}.tg-green{background:rgba(14,203,129,0.15);color:var(--green)}.tg-blue{background:rgba(234,179,8,0.15);color:var(--barrier-mid)}.tg-gray{background:rgba(107,114,128,0.12);color:var(--barrier-low)}
 
   /* Four question table */
   .fourq-wrap { overflow-x: auto; }
@@ -163,12 +166,12 @@
   .s3{color:var(--accent)}.s2{color:var(--barrier-mid)}
 
   /* Choke cards */
-  .choke-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; min-width: 0; }
+  .choke-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; min-width: 0; }   /* ★ commit 4.6：choke-grid gap 18→24 */
   .choke-card { background: var(--card); border: 1px solid rgba(240,185,11,0.35); border-radius: 12px; padding: 24px; position: relative; box-shadow: 0 0 24px rgba(240,185,11,0.06); min-width: 0; overflow: hidden; }
   /* 升级 1.4：rank 改为 h3 内部 inline block（彻底消除与 verify-overall 徽章的 z-index 冲突） */
   .choke-card .rank { display: inline-block; background: var(--accent); color: #000; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; margin-right: 10px; vertical-align: middle; }
-  .choke-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-  .choke-card .code { font-size: 13px; color: var(--muted); margin-bottom: 12px; font-family: monospace; }
+  .choke-card h3 { font-size: 24px; font-weight: 600; margin-bottom: 4px; }   /* ★ commit 4.6：标题 22→24px / 700→600 */
+  .choke-card .code { font-size: 11px; color: var(--muted); margin-bottom: 12px; font-family: monospace; }   /* ★ commit 4.6：注释 13→11px */
   .choke-card .seg { font-size: 12px; color: var(--accent); margin-bottom: 12px; font-weight: 600; }
   .choke-card .logic { font-size: 13px; line-height: 1.8; color: var(--text); margin-bottom: 14px; word-break: break-word; overflow-wrap: anywhere; }
   .choke-card .tags { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -1208,8 +1211,18 @@ function renderChain(chainId) {
     h += `<div class="code">${c.code}</div>`;
     h += `<div class="seg">🔒 ${c.segment}</div>`;
     const _logicText = c.logic || '';
-    if (_logicText.length > 80) {
-      h += `<div class="logic"><span class="choke-long">${_logicText}</span><span class="choke-long-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=(this.previousElementSibling.classList.contains('expanded')?'📕 收起':'📖 展开');">📖 展开</span></div>`;
+    // ★ commit 4.6：核心逻辑默认显示第一句（按 . 分割 ≤40 字），点 📖 展开全文
+    const _stripHtml = (s) => s.replace(/<[^>]*>/g, '').trim();
+    const _firstSentence = (txt) => {
+      const plain = _stripHtml(txt);
+      const m = plain.match(/^[^。．.；;]+[。．.；;]/);
+      const head = m ? m[0] : plain;
+      return head.length > 40 ? head.slice(0, 40) + '…' : head;
+    };
+    if (_stripHtml(_logicText).length > 40) {
+      h += `<div class="logic"><div style="font-size:13px;line-height:1.8;color:var(--text);margin-bottom:8px;">${_firstSentence(_logicText)}</div>`;
+      h += `<span class="choke-long" style="font-size:12px;color:var(--muted);line-height:1.7;">${_logicText}</span>`;
+      h += `<span class="choke-long-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=(this.previousElementSibling.classList.contains('expanded')?'📕 收起':'📖 展开全文');">📖 展开全文</span></div>`;
     } else {
       h += `<div class="logic">${_logicText}</div>`;
     }
@@ -1249,13 +1262,42 @@ function renderChain(chainId) {
       }
     }
     h += `<div class="tags">`;
-    (c.tags || []).forEach(t => {
-      h += `<span class="tag ${t.includes('缺口')||t.includes('垄断')||t.includes('替代')||t.includes('寡头')||t.includes('唯一')||t.includes('70%')||t.includes('81%')?'tg-extreme':t.includes('刚通过')||t.includes('认证')||t.includes('替换')?'tg-blue':'tg-green'}">${t}</span>`;
-    });
+    // ★ commit 4.6：标签精简为 3 个（壁垒强度 + 趋势 + PE 状态）— 其他详细标签移入下方"📑 详细标签"折叠区
+    // 标签 1: 壁垒强度（来自 c.strength ★★★/★★☆/★☆☆）
+    if (c.strength) {
+      const sCls = c.strength.indexOf('★★★') === 0 ? 'tg-green' : c.strength.indexOf('★★') === 0 ? 'tg-high' : c.strength.indexOf('★') === 0 ? 'tg-mid' : 'tg-gray';
+      h += `<span class="tag ${sCls}" style="font-size:12px;" title="壁垒强度评级">${c.strength}</span>`;
+    }
+    // 标签 2: 趋势（从 segments/midstream 找同名 stock 的 trend）
+    let trendVal = null;
+    const findStock = (arr) => { const m = (arr || []).find(s => s.code === c.code); if (m && m.trend) return m.trend; return null; };
+    if (d.segments) d.segments.forEach(seg => { if (!trendVal) trendVal = findStock(seg.stocks); });
+    if (!trendVal && d.midstream) trendVal = findStock(d.midstream.stocks);
+    if (trendVal) {
+      const tCls = trendVal === 'up' ? 'tg-green' : trendVal === 'down' ? 'tg-extreme' : 'tg-gray';
+      const tTxt = trendVal === 'up' ? '⬆ 趋势向上' : trendVal === 'down' ? '⬇ 趋势承压' : '➖ 趋势平稳';
+      h += `<span class="tag ${tCls}" style="font-size:12px;">${tTxt}</span>`;
+    }
+    // 标签 3: PE 状态（从 c.valuation.pePercentile 算 — 仅 PCB/commercial-aero/hbm 有 valuation 字段）
+    if (c.valuation && typeof c.valuation.pePercentile === 'number') {
+      const p = c.valuation.pePercentile;
+      const pCls = p >= 80 ? 'tg-extreme' : p >= 50 ? 'tg-mid' : 'tg-green';
+      const pTxt = p >= 80 ? '估值高位' : p >= 50 ? '估值中位' : '估值低位';
+      h += `<span class="tag ${pCls}" style="font-size:12px;">${pTxt} ${p.toFixed(1)}%</span>`;
+    }
     h += `</div>`;
     h += `<div style="margin-top:14px;">`;
     h += `<button onclick="addToDecisionCard('${chainId}','${c.code}')" style="padding:6px 14px;background:var(--card2);border:1px solid var(--accent);border-radius:6px;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;">📌 加入决策卡片</button>`;
     h += `</div>`;
+    // ★ commit 4.6：详细 c.tags 移入"📑 详细标签"折叠区（精简后主视图只留 3 个固定 tag）
+    if (c.tags && c.tags.length) {
+      h += `<details style="margin-top:10px;"><summary style="cursor:pointer;font-size:11px;color:var(--muted);font-weight:600;padding:4px 0;">📑 详细标签 (${c.tags.length} 项 — 点击展开)</summary>`;
+      h += `<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">`;
+      c.tags.forEach(t => {
+        h += `<span class="tag tg-gray" style="font-size:11px;">${t}</span>`;
+      });
+      h += `</div></details>`;
+    }
     if (c.verification && c.verification.items && c.verification.items.length) {
       h += `<details style="margin-top:14px;"><summary style="cursor:pointer;font-size:12px;color:var(--muted);font-weight:600;padding:6px 0;">🔍 卡口验证 (${c.verification.items.length} 项 — 点击展开)</summary>`;
       h += `<div style="margin-top:10px;display:flex;flex-direction:column;gap:8px;">`;
