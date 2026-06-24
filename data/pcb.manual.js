@@ -353,4 +353,10 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     });
   }
 
+  // ★ commit 4.17：信号 C 全局市场风险档位（normal/caution/extreme）
+  //   · normal: 默认档·按标准阈值触发信号 C
+  //   · caution: 所有分位阈值 +10pp · 仓位建议降一档
+  //   · extreme: 禁止触发任何信号 C（市场极端风险）
+  MANUAL.marketRisk = 'normal';
+
 })(window.PCB_MANUAL);
