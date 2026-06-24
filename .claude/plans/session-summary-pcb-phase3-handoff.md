@@ -1,7 +1,7 @@
 # PCB 产业链看板 · 阶段三 + 阶段四 + 阶段五 Handoff 会话摘要
 
-> **HEAD**: `2095a2f`（commit 4.13·流图关联 supplyGap + 删除 segments[6]）
-> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）/ `0aecae0`（阶段三 3.5 末）/ `c403f12`（阶段三 3.4.1 末）/ `91f1a59`（commit 4.0）/ `888fdc8`（commit 4.5）/ `fa8d7f5`（commit 4.6）/ `2386e7b`（commit 4.7 修复）/ `7d8e036`（commit 4.8）/ `ede2e52`（commit 4.9）/ `7d32670`（commit 4.12）/ `7ac0c7d`（commit 4.13 单源核实）/ `2095a2f`（commit 4.13 流图+segments[6]）
+> **HEAD**: `2e7589e`（commit 4.14·5 项修改合并）
+> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）/ `0aecae0`（阶段三 3.5 末）/ `c403f12`（阶段三 3.4.1 末）/ `91f1a59`（commit 4.0）/ `888fdc8`（commit 4.5）/ `fa8d7f5`（commit 4.6）/ `2386e7b`（commit 4.7 修复）/ `7d8e036`（commit 4.8）/ `ede2e52`（commit 4.9）/ `7d32670`（commit 4.12）/ `7ac0c7d`（commit 4.13 单源核实）/ `2095a2f`（commit 4.13 流图+segments[6]）/ `2e7589e`（commit 4.14）
 > **前置规则**: CLAUDE.md §6 全部纪律 + §6.8 数据准确度优先 + §6.9 双重检查 + §6.10 三重验证 + §7 数据自查纪律 + verify-single-source skill
 
 ---
@@ -55,8 +55,9 @@
 | **4.12** | **`7d32670`** | **3 条自动 ⚠️ flag 规则（数据过期 / 分位极端高 / 单源PE）+ GBK stdout fix + _meta.note 更新** | **✅** |
 | **4.13** | **`7ac0c7d`** | **301511 德福科技 HVLP5 ⚠️单源→✅双源核实（兴业证券·2026-05-16）· 按 verify-single-source skill 流程** | **✅** |
 | **4.13'** | **`2095a2f`** | **流图关联 supplyGap（4 级 fallback 匹配 v4·双向单字重叠）+ 删除 segments[6]「AI PCB 制造(中游)」段（与 midstream 100% 重叠）+ 匹配算法修复（避免 CCL 误匹配）** | **✅** |
+| **4.14** | **`2e7589e`** | **5 项修改合并：① 数据过期 flag 重写（近30天无有效PE>0）+ ② 688183/300476 特别 flag + ③ 8 只 growthAdj peAbsMax 60→120 + ④ close 数据更新（37/37）+ ⑤ peAbsMax 规范加模板** | **✅** |
 
-**🎉 阶段 A（结构重组）+ 阶段 B（视觉收敛）+ 产业链图景可视化（横向流图 + supplyGap 关联）+ 字体统一 + 折叠增强 + 自动 ⚠️ 规则 + 单源核实流程 + segments 去重 全部完成 ✅**
+**🎉 阶段 A（结构重组）+ 阶段 B（视觉收敛）+ 产业链图景可视化（横向流图 + supplyGap 关联）+ 字体统一 + 折叠增强 + 自动 ⚠️ 规则 + 单源核实流程 + segments 去重 + 数据治理强化 全部完成 ✅**
 
 ---
 
@@ -75,6 +76,7 @@
 - segments.stocks 命名清理（如「电子树脂(碳氢/PPO)」改为「M9 碳氢树脂」与 supplyGap.segment 一致，简化匹配算法）
 - supplyGap 数据扩展（增加 ABF 膜 / BT 载板 等其他 3 个 chokePoints 对应的缺口数据）
 - 002916 深南电路 ⚠️单源待核 待 verify-single-source skill 处理
+- **300395 菲利华 close 数据源问题（commit 4.14 残留）**：baostock 近 1 年 0 行 close · stock_basic 字段全空 · PE 数据正常（1252 条）· 当前 closeLatest=127.35 是历史值 · 后续 commit 需解决：① 切换数据源（同花顺/雪球）② 打 ⚠️陈旧 flag ③ 删除 closeLatest 字段
 
 ---
 
