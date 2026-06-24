@@ -86,6 +86,43 @@
     0%, 100% { box-shadow: 0 0 16px rgba(240,185,11,0.18); }
     50% { box-shadow: 0 0 28px rgba(240,185,11,0.35); }
   }
+  /* ===== commit 4.7 产业链流图 ===== */
+  .flow-toggle-bar { display:flex; gap:8px; align-items:center; padding:8px 12px; background:rgba(240,185,11,0.05); border:1px solid var(--border); border-radius:8px; margin-bottom:14px; font-size:12px; }
+  .flow-toggle-bar .toggle-lbl { color:var(--muted); }
+  .flow-toggle-btn { background:var(--card); color:var(--text); border:1px solid var(--border); padding:4px 12px; border-radius:6px; font-size:12px; cursor:pointer; transition:all 0.2s; }
+  .flow-toggle-btn:hover { border-color:var(--accent); }
+  .flow-toggle-btn.active { background:var(--accent); color:#000; border-color:var(--accent); font-weight:600; }
+  .flow-canvas { display:flex; align-items:stretch; gap:0; padding:16px 8px; overflow-x:auto; background:linear-gradient(135deg, rgba(240,185,11,0.03) 0%, transparent 100%); border-radius:8px; }
+  .flow-col { flex:1; min-width:180px; display:flex; flex-direction:column; gap:10px; padding:0 6px; }
+  .flow-col-title { font-size:11px; font-weight:700; color:var(--muted); text-align:center; padding:6px 0; letter-spacing:0.5px; border-bottom:1px solid var(--border); margin-bottom:4px; }
+  .flow-col-title.up { color:var(--barrier-high); }
+  .flow-col-title.mid { color:var(--blue); }
+  .flow-col-title.down { color:var(--green); }
+  .flow-col-title.side { color:var(--purple); }
+  .flow-arrow { display:flex; align-items:center; justify-content:center; min-width:32px; color:var(--muted); font-size:20px; flex-shrink:0; }
+  .flow-arrow::before { content:'→'; }
+  .flow-arrow.down::before { content:'↓'; }
+  .flow-node { padding:10px 12px; border-radius:8px; border:1.5px solid var(--border); background:var(--card); cursor:pointer; transition:all 0.2s; position:relative; font-size:12px; }
+  .flow-node:hover { transform:translateY(-1px); box-shadow:0 3px 12px rgba(0,0,0,0.25); }
+  .flow-node.b-extreme { border-color:var(--barrier-extreme); background:linear-gradient(135deg, rgba(246,70,93,0.08) 0%, var(--card) 100%); }
+  .flow-node.b-high { border-color:var(--barrier-high); background:linear-gradient(135deg, rgba(249,115,22,0.08) 0%, var(--card) 100%); }
+  .flow-node.b-mid { border-color:var(--barrier-mid); background:linear-gradient(135deg, rgba(234,179,8,0.06) 0%, var(--card) 100%); }
+  .flow-node.b-low { border-color:var(--barrier-low); }
+  .flow-node-name { font-weight:600; font-size:13px; color:var(--text); margin-bottom:4px; display:flex; align-items:center; gap:4px; }
+  .flow-node-choke { position:absolute; top:-6px; right:-6px; background:var(--barrier-extreme); color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:10px; box-shadow:0 0 8px rgba(246,70,93,0.5); }
+  .flow-node-gap { font-size:11px; color:var(--barrier-extreme); font-weight:600; margin-top:4px; }
+  .flow-node-stocks { font-size:11px; color:var(--muted); margin-top:4px; line-height:1.5; }
+  .flow-node-stocks .choke-stock { color:var(--accent); font-weight:600; }
+  .flow-node-expand { display:none; margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); }
+  .flow-node.expanded .flow-node-expand { display:block; }
+  .flow-node-expand table { width:100%; border-collapse:collapse; font-size:11px; }
+  .flow-node-expand table td { padding:3px 4px; border-bottom:1px solid rgba(42,45,58,0.4); }
+  .flow-node-expand table td.rank { width:18px; color:var(--muted); }
+  .flow-node-expand table td.code { width:50px; color:var(--muted); }
+  .flow-node-expand table td.badge { width:50px; text-align:right; }
+  .flow-node-meta { display:flex; justify-content:space-between; align-items:center; font-size:10px; color:var(--muted); margin-top:6px; }
+  .flow-node-meta .expand-hint { color:var(--accent); }
+  @media (max-width:900px) { .flow-canvas { flex-direction:column; } .flow-arrow { transform:rotate(90deg); } .flow-col { min-width:auto; } }
   /* 数据更新高亮 */
   mark.updated { background: rgba(14,203,129,0.2); color: var(--green); padding: 1px 4px; border-radius: 3px; font-weight: 600; }
   .change-badge { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 3px; margin-left: 3px; }
@@ -1671,9 +1708,22 @@ function renderChain(chainId) {
 
   if (isNewTreeMapSchema) {
     // ==================== 升级七：5 列横向布局（pcb 试点）====================
+    // ★ commit 4.7：横向流图模式（默认）+ 5 列列表模式（切换）— 封装到 IIFE 供两处复用
+    const flowViewKey = 'pcb_treemap_view_' + d.id;
+    const _currentView = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem(flowViewKey)) || 'flow';
+
     h += `<div class="section" id="section-treemap"><div class="section-title"><span class="num num-chain">${sec2Label}</span> 全产业链树状图 · 横向 5 列布局</div>`;
     h += `<div class="section-desc">5 列从左到右：上游材料 → 上游设备 → 中游(制造) → 下游(需求) → 侧枝。每张 sub-card 配 3-5 家代表公司（按壁垒排序）。</div>`;
     h += `<div class="card">`;
+    // ★ commit 4.7：视图切换条（流图 / 列表）
+    h += `<div class="flow-toggle-bar">`;
+    h += `<span class="toggle-lbl">视图：</span>`;
+    // ★ commit 4.7 修复(2026-06-24)：原 onclick 通过 window.location.hash 中转触发 hashchange，
+    //   但 hashchange listener 有 `if (hash !== currentChain) route()` guard，中转回 #pcb 时被 guard 吃掉 → 切换失效。
+    //   修复：写入 sessionStorage 后直接调 renderChain('${d.id}') 重渲染，不绕 hash。
+    h += `<button class="flow-toggle-btn ${_currentView==='flow'?'active':''}" onclick="(function(k,id){try{sessionStorage.setItem(k,'flow');}catch(e){}if(typeof renderChain==='function'){renderChain(id);}}('${flowViewKey}','${d.id}'))">🌊 流图视图</button>`;
+    h += `<button class="flow-toggle-btn ${_currentView==='list'?'active':''}" onclick="(function(k,id){try{sessionStorage.setItem(k,'list');}catch(e){}if(typeof renderChain==='function'){renderChain(id);}}('${flowViewKey}','${d.id}'))">📋 列表视图</button>`;
+    h += `</div>`;
     // sticky 图例
     h += `<div class="tree-legend-sticky">`;
     h += `<span><span class="dot" style="background:var(--barrier-extreme);"></span>极高(全球≤3家)</span>`;
@@ -1682,15 +1732,6 @@ function renderChain(chainId) {
     h += `<span><span class="dot" style="background:var(--barrier-low);"></span>低(充分竞争)</span>`;
     h += `<span>🔒=物理卡口</span>`;
     h += `</div>`;
-    // 5 列 grid
-    h += `<div class="tree-grid">`;
-    const cols = [
-      { key: 'materials',     title: '上游材料' },
-      { key: 'equipment',     title: '上游设备' },
-      { key: 'midstream',     title: '中游(制造)' },
-      { key: 'downstream',    title: '下游(需求)' },
-      { key: 'sideBranches',  title: '侧枝' }
-    ];
     // ★ 升级九 STEP 2+ bug 修复(2026-06-15):barrier 归一化 — 兼容数字(液冷 1-5)/中文(极高/高/中/低)/英文(extreme/high/mid/low)/'—' 4 种格式
     //   历史 bug:液冷 JS 用数字 barrier,渲染层 barrierClassMap 等按英文 key 查找 → 全部 fallback 'b-low' 显低
     function barrierNorm(b) {
@@ -1706,46 +1747,105 @@ function renderChain(chainId) {
     const barrierClassMap = { '极高':'b-extreme', '高':'b-high', '中':'b-mid', '低':'b-low' };
     const barrierLabelMap = { '极高':'极高', '高':'高', '中':'中', '低':'低' };
     const barrierBadgeMap = { '极高':'badge-ex', '高':'badge-hi', '中':'badge-mi', '低':'badge-lo' };
-    cols.forEach(col => {
-      const items = (d.treeMap[col.key] || []).slice().sort((a, b) => (barrierOrder[barrierNorm(a.barrier)] ?? 9) - (barrierOrder[barrierNorm(b.barrier)] ?? 9));
-      h += `<div class="tree-col">`;
-      h += `<div class="tree-col-title">${col.title} <span class="tree-col-count">(${items.length})</span></div>`;
-      items.forEach(item => {
-        const bNorm = barrierNorm(item.barrier);
-        const bCls = barrierClassMap[bNorm] || 'b-low';
-        const bLbl = bNorm || '待核';
-        const bBg = barrierBadgeMap[bNorm] || 'badge-lo';
-        const chokeBadge = item.choke ? ' <span class="badge-b badge-ex">🔒 卡口</span>' : '';
-        // 找公司数据：sourceSegment 优先 → segments[].stocks[]；否则 inline companies[]
-        // ★ 升级九 STEP 2+ bug 修复(2026-06-15):sourceSegment 优先按 s.name 匹配,失败时按 s.name.includes(sourceSegment) 模糊匹配,再 fallback sub-card.companies
-        let companies = [];
-        if (item.sourceSegment) {
-          const seg = (d.segments || []).find(s => s.name === item.sourceSegment)
-                   || (d.segments || []).find(s => s.name.includes(item.sourceSegment) || item.sourceSegment.includes(s.name));
-          if (seg && seg.stocks && seg.stocks.length) {
-            companies = seg.stocks.slice(0, 5).map(s => ({ name: s.name, code: s.code, position: s.position, barrier: s.barrier }));
+    // 节点数据共享 helper（流图 + 列表 都用）
+    function _buildFlowNode(item, idx) {
+      const bNorm = barrierNorm(item.barrier);
+      const bCls = barrierClassMap[bNorm] || 'b-low';
+      const bLbl = bNorm || '待核';
+      const bBg = barrierBadgeMap[bNorm] || 'badge-lo';
+      const isChoke = !!item.choke;
+      let companies = [];
+      if (item.sourceSegment) {
+        const seg = (d.segments || []).find(s => s.name === item.sourceSegment)
+                 || (d.segments || []).find(s => s.name.includes(item.sourceSegment) || item.sourceSegment.includes(s.name));
+        if (seg && seg.stocks && seg.stocks.length) {
+          companies = seg.stocks.slice(0, 5).map(s => ({ name: s.name, code: s.code, position: s.position, barrier: s.barrier }));
+        }
+      }
+      if (!companies.length && item.companies && item.companies.length) {
+        companies = item.companies.slice(0, 5);
+      }
+      return { bNorm, bCls, bLbl, bBg, isChoke, companies, idx };
+    }
+    const cols = [
+      { key: 'materials',     title: '上游材料',   cls:'up' },
+      { key: 'equipment',     title: '上游设备',   cls:'up' },
+      { key: 'midstream',     title: '中游(制造)', cls:'mid' },
+      { key: 'downstream',    title: '下游(需求)', cls:'down' },
+      { key: 'sideBranches',  title: '侧枝',       cls:'side' }
+    ];
+    const _flowData = cols.map(col => ({
+      col,
+      items: (d.treeMap[col.key] || []).slice().sort((a, b) => (barrierOrder[barrierNorm(a.barrier)] ?? 9) - (barrierOrder[barrierNorm(b.barrier)] ?? 9))
+    }));
+    if (_currentView === 'flow') {
+      // ==================== commit 4.7：横向流图（默认）====================
+      h += `<div class="flow-canvas">`;
+      _flowData.forEach((colData, ci) => {
+        if (ci > 0) {
+          const isLastToMid = ci === _flowData.length - 1;
+          h += `<div class="flow-arrow ${isLastToMid?'down':''}"></div>`;
+        }
+        h += `<div class="flow-col">`;
+        h += `<div class="flow-col-title ${colData.col.cls}">${colData.col.title} (${colData.items.length})</div>`;
+        colData.items.forEach((item, ii) => {
+          const nd = _buildFlowNode(item, ii);
+          const gapTxt = (typeof item.gapRate === 'number') ? `缺口 ${item.gapRate > 0 ? '-' : '+'}${Math.abs(item.gapRate).toFixed(0)}%` : '';
+          const top2 = nd.companies.slice(0, 2);
+          h += `<div class="flow-node ${nd.bCls}" onclick="this.classList.toggle('expanded')" title="点击展开完整标的列表">`;
+          if (nd.isChoke) h += `<div class="flow-node-choke">🔒 卡口</div>`;
+          h += `<div class="flow-node-name">${item.name}</div>`;
+          if (gapTxt) h += `<div class="flow-node-gap">${gapTxt}</div>`;
+          if (top2.length) {
+            h += `<div class="flow-node-stocks">`;
+            top2.forEach(c => {
+              const isChokeStock = d.chokePoints && d.chokePoints.some(cp => cp.code === c.code);
+              h += `<span class="${isChokeStock?'choke-stock':''}">${c.name}</span> · `;
+            });
+            h += `</div>`;
           }
-        }
-        if (!companies.length && item.companies && item.companies.length) {
-          companies = item.companies.slice(0, 5);
-        }
-        h += `<div class="tree-sub-card ${bCls}">`;
-        h += `<div class="tree-sub-header"><strong>${item.name}</strong> <span class="badge-b ${bBg}">${bLbl}</span>${chokeBadge}</div>`;
-        if (item.note) h += `<div class="tree-sub-note">${item.note}</div>`;
-        if (companies.length) {
-          h += `<table class="tree-sub-mini-tbl"><tbody>`;
-          companies.forEach((c, i) => {
-            h += `<tr><td class="rank-num">${i+1}</td><td class="s-name" style="font-size:11px;">${c.name}</td><td class="s-code" style="font-size:11px;">${c.code || '—'}</td><td style="font-size:11px;color:var(--muted);">${barrierNorm(c.barrier) || ''}</td></tr>`;
-          });
-          h += `</tbody></table>`;
-        } else {
-          h += `<div class="tree-sub-empty">（暂无代表公司）</div>`;
-        }
+          // 展开区
+          if (nd.companies.length) {
+            h += `<div class="flow-node-expand"><table><tbody>`;
+            nd.companies.forEach((c, i) => {
+              const cn = barrierNorm(c.barrier) || '';
+              h += `<tr><td class="rank">${i+1}</td><td>${c.name}</td><td class="code">${c.code||'—'}</td><td class="badge" style="color:var(--muted);font-size:10px;">${cn}</td></tr>`;
+            });
+            h += `</tbody></table></div>`;
+          }
+          h += `<div class="flow-node-meta"><span>壁垒:${nd.bLbl}</span><span class="expand-hint">${nd.companies.length}只 ▾</span></div>`;
+          h += `</div>`;
+        });
         h += `</div>`;
       });
-      h += `</div>`;  // tree-col
-    });
-    h += `</div>`;  // tree-grid
+      h += `</div>`;  // flow-canvas
+    } else {
+      // ==================== 升级七：5 列横向布局（切换后）====================
+      h += `<div class="tree-grid">`;
+      _flowData.forEach(colData => {
+        h += `<div class="tree-col">`;
+        h += `<div class="tree-col-title">${colData.col.title} <span class="tree-col-count">(${colData.items.length})</span></div>`;
+        colData.items.forEach(item => {
+          const nd = _buildFlowNode(item);
+          const chokeBadge = nd.isChoke ? ' <span class="badge-b badge-ex">🔒 卡口</span>' : '';
+          h += `<div class="tree-sub-card ${nd.bCls}">`;
+          h += `<div class="tree-sub-header"><strong>${item.name}</strong> <span class="badge-b ${nd.bBg}">${nd.bLbl}</span>${chokeBadge}</div>`;
+          if (item.note) h += `<div class="tree-sub-note">${item.note}</div>`;
+          if (nd.companies.length) {
+            h += `<table class="tree-sub-mini-tbl"><tbody>`;
+            nd.companies.forEach((c, i) => {
+              h += `<tr><td class="rank-num">${i+1}</td><td class="s-name" style="font-size:11px;">${c.name}</td><td class="s-code" style="font-size:11px;">${c.code || '—'}</td><td style="font-size:11px;color:var(--muted);">${barrierNorm(c.barrier) || ''}</td></tr>`;
+            });
+            h += `</tbody></table>`;
+          } else {
+            h += `<div class="tree-sub-empty">（暂无代表公司）</div>`;
+          }
+          h += `</div>`;
+        });
+        h += `</div>`;
+      });
+      h += `</div>`;  // tree-grid
+    }
     h += `</div></div>`;  // card + section
   } else {
     // ==================== 旧 schema：纵向 5 段布局（其它 11 条赛道 + AI全产业链 fallback）====================
