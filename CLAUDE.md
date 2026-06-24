@@ -513,3 +513,58 @@ Phase 10 半导体设备 R2-1 → R2-2 → R2-3 → R2-4 累计 4 轮重出。CC
 模板涵盖：适用场景（新增 vs 刷新）/ 3 文件结构（manual + auto + 合并层）/ 3 脚本复用方法 / growthAdj 名单决策标准 / 新增 10 步 checklist / 刷新 6 步 checklist / §7.2 自查报告格式 / 紧急回滚命令。
 
 **触发时机**：用户说"新增 XX 产业链" / "刷新 XX 链" / 周一手动触发 🔄 按钮 / 阶段交界验收时。
+
+## §9 报告输出中文化规范（永久生效 · 2026-06-24 立）
+
+所有数据自查报告（§7.2 格式）和交付报告的输出内容，
+涉及以下字段名时**必须使用中文说明**，不得直接输出英文字段名。
+
+### 常用字段对照表
+
+| 英文字段 | 中文说明 |
+|---|---|
+| `fromHigh` | 距前高回落幅度 |
+| `pePercentile` | PE历史分位 |
+| `pe_ttm` | 市盈率(TTM) |
+| `volRatio5d` | 近5日/60日量比 |
+| `maxPctl30d/60d/90d` | 近30/60/90天分位最高值 |
+| `reduceSignal` | 减仓建议 |
+| `exitSignal` | 清仓建议 |
+| `triggeredList` | 命中标的列表 |
+| `holdingMeta` | 持仓管理信号 |
+| `signalCMeta` | 信号C汇总 |
+| `entryZone` | 买入区间 |
+| `closeLatest` | 最新收盘价 |
+| `closeHigh5y` | 5年最高价 |
+| `baostockStamp` | baostock版本 |
+| `asOf` | 数据截止日期 |
+| `flag` | 数据标注 |
+| `barrier` | 壁垒等级 |
+| `trend` | 景气趋势 |
+| `investable` | 可投资性 |
+| `region` | 地区 |
+| `segments` | 产业链环节 |
+| `midstream` | 中游 |
+| `chokePoints` | 卡口标的 |
+| `signalMeta` | 信号汇总 |
+
+### 规则
+
+1. 报告正文里出现字段值时，格式为「中文说明=值」
+   - ✅ 正确：「距前高回落幅度=0（创新高）」
+   - ❌ 错误：「fromHigh=0」
+2. 代码注释里保留英文（用户看不到）
+3. 新增字段时同步更新此对照表
+4. 报告里列出标的时，格式：
+   - ✅ 正确：「中国巨石 600176：距前高回落幅度=0（创新高）· PE历史分位=99%+」
+   - ❌ 错误：「中国巨石 600176：fromHigh=0 · pePercentile=99%」
+5. **待核实项里的 Console 查询路径**：中文说明（含预期值）在前，英文命令在后，格式：中文说明（预期值）：英文命令
+   - ✅ 正确：「减仓命中数（应为 3）：CHAINS.pcb.holdingMeta.stats.reduce_count」
+   - ✅ 正确：「5 只核心卡口命中标的列表（应为空）：CHAINS.pcb.holdingMeta.triggeredList」
+   - ❌ 错误：「CHAINS.pcb.holdingMeta.stats.reduce_count = 3」
+   - ❌ 错误：「reduce_count: 3（应为空）」
+
+### 适用范围
+
+所有赛道（PCB/HBM/光模块/半导体设备/液冷/光芯片/低空经济/商业航天等）· 永久生效。
+
