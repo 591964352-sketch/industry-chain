@@ -745,7 +745,7 @@ function initSectionStates() {
 // ==================== 升级九 · 景气六维框架（全站共享基础设施） ====================
 // 依据：景气六维_SOP试水样板_PCB.md（v3 · 2026-06-12）
 // STEP 1：只新增 3 个全站共享对象，不动任何赛道数据/渲染，页面零可见变化
-// 所有六维评分均为 🆪 AI 主观判断，cron 不刷顶部"数据截止"日期
+// 所有六维评分均为 🆪 AI 主观判断，周一定时任务不刷顶部"数据截止"日期
 
 // —— 6 维定义+标尺+依据（全站一份；渲染时供 ⓘ tooltip 展开 define/scale/basis）—— 样板 §2.1 原文
 const PROSPERITY_META = {
@@ -1510,7 +1510,7 @@ function renderChain(chainId) {
     const lt = (typeof computeLtFit === 'function') ? computeLtFit(p) : null;
     h += `<div class="card" style="padding:20px;margin-top:18px;border-left:3px solid var(--accent);">`;
     h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">`;
-    h += `<span>🆪 景气六维 — 长线适配度<span style="color:var(--muted);font-size:11px;margin-left:8px;font-weight:400;">（AI 主观判断 · 权重全站统一 · 横向可比 · cron 不刷数据截止日）</span></span>`;
+    h += `<span>🆪 景气六维 — 长线适配度<span style="color:var(--muted);font-size:11px;margin-left:8px;font-weight:400;">（AI 主观判断 · 权重全站统一 · 横向可比 · 周一定时任务不刷数据截止日）</span></span>`;
     if (lt) {
       h += `<span style="font-size:13px;">综合 <strong style="color:var(--accent);font-size:18px;">${lt.score}</strong>/100 ${lt.tier}${lt.risk?' <span style="color:var(--red);font-size:11px;">⚠安全垫不足</span>':''}</span>`;
     }
@@ -1718,6 +1718,7 @@ function renderChain(chainId) {
     h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描总数</div>`;
     h += `<div style="font-size:18px;font-weight:600;color:var(--accent);">${scannedTotal} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `<div style="font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4;">扫描全部 38 只 PCB 标的（含中游+上游）· 与买入信号 A/B 的 37 不同口径</div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">被排除总数</div>`;
@@ -1795,6 +1796,7 @@ function renderChain(chainId) {
     // 减仓清单
     if (reduceList.length > 0) {
       h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📋 减仓清单（${reduceList.length} 只）</div>`;
+      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 本模块扫描全部 38 只 PCB 标的，不限于核心卡口 3 只。</div>`;
       h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
       h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:200px;">减仓原因</th><th>建议操作</th></tr></thead><tbody>`;
       reduceList.forEach(s => {
@@ -2036,6 +2038,14 @@ function renderChain(chainId) {
           h += `<div class="tree-sub-card ${nd.bCls}">`;
           h += `<div class="tree-sub-header"><strong>${item.name}</strong> <span class="badge-b ${nd.bBg}">${nd.bLbl}</span>${chokeBadge}</div>`;
           if (item.note) h += `<div class="tree-sub-note">${item.note}</div>`;
+          // ★ commit 4.21：卡口节点统一标注「缺口率」维度（与 pcb.js supplyGap[].rate 对齐）
+          //   三个 choke 材料：电子树脂(63%) / Q 布(>40%) / HVLP4 铜箔(~23%)
+          if (nd.isChoke && item.sourceSegment && d.supplyGap && d.supplyGap.length) {
+            const gap = d.supplyGap.find(g => item.sourceSegment.indexOf(g.segment) >= 0 || (item.name && item.name.indexOf(g.segment) >= 0));
+            if (gap && gap.rate) {
+              h += `<div style="margin-top:6px;font-size:11px;padding:3px 8px;background:rgba(246,70,93,0.12);border-radius:4px;color:var(--red);font-weight:600;display:inline-block;">📊 缺口率: <strong>${gap.rate}</strong> · 数据来源: pcb.js supplyGap[${d.supplyGap.indexOf(gap)}]</div>`;
+            }
+          }
           if (nd.companies.length) {
             h += `<table class="tree-sub-mini-tbl"><tbody>`;
             nd.companies.forEach((c, i) => {
@@ -3152,7 +3162,7 @@ function renderArena() {
   h += `<span onclick="switchArenaTab('sector')" style="cursor:pointer;padding:8px 18px;font-size:13px;border-bottom:2px solid ${_s.tab==='sector'?'var(--accent)':'transparent'};color:${_s.tab==='sector'?'var(--accent)':'var(--muted)'};font-weight:${_s.tab==='sector'?'600':'400'};transition:color .2s;">📊 赛道榜</span>`;
   h += `<span onclick="switchArenaTab('stock')" style="cursor:pointer;padding:8px 18px;font-size:13px;border-bottom:2px solid ${_s.tab==='stock'?'var(--accent)':'transparent'};color:${_s.tab==='stock'?'var(--accent)':'var(--muted)'};font-weight:${_s.tab==='stock'?'600':'400'};transition:color .2s;">📈 个股榜</span>`;
   h += `</div>`;
-  h += `<div class="section-desc">所有赛道按景气六维综合分横向排序；点列头切换排序，顶部按板块/层级筛选。综合分 = Σ(score/5 × 权重) × 100（权重：持续 0.25 / 兑现 0.25 / 估值 0.20 / 供需 0.12 / 壁垒 0.10 / 政策 0.08）；估值或壁垒 ≤1 触发安全垫门控（封顶 60 + ⚠风险）。🆪 AI 主观判断，cron 不刷顶部"数据截止"日期。</div>`;
+  h += `<div class="section-desc">所有赛道按景气六维综合分横向排序；点列头切换排序，顶部按板块/层级筛选。综合分 = Σ(score/5 × 权重) × 100（权重：持续 0.25 / 兑现 0.25 / 估值 0.20 / 供需 0.12 / 壁垒 0.10 / 政策 0.08）；估值或壁垒 ≤1 触发安全垫门控（封顶 60 + ⚠风险）。🆪 AI 主观判断，周一定时任务不刷顶部"数据截止"日期。</div>`;
 
   // 筛选条
   h += `<div class="card" style="padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:13px;">`;
