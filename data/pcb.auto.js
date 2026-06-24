@@ -21,7 +21,7 @@ window.PCB_AUTO = {
     baostockVersion: '00.9.20',
     akshareVersion: null,
     window: '5y (2021-06-23 ~ 2026-06-23)',
-    note: '★ 阶段三 commit 3.2 + commit 4.12：numpy 算 pePercentile/entryZone/fromHigh_pe · 3 条自动 flag(数据过期/分位极端高/单源PE)· 不拉网络·基于 commit 3.1.2 pe_history 序列',
+    note: '★ 阶段三 commit 3.5：真实价格 fromHigh + close 字段·baostock query_history_k_data_plus（替代 commit 3.2 fromHigh_pe PE 近似）',
     sourceFlag: '⚠️单源(akshare缺失·adata非PE历史接口)',
     stats: {
       success: 34,
@@ -581,7 +581,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 96.28,
       entryZone: {p30: 33.12, p70: 40.34},
-      fromHigh_pe: -0.1113,
+      fromHigh: -0.1113,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 182.9,
+      closeHigh5y: 205.8,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 96.28,
+      entryZone: {p30: 33.12, p70: 40.34},
+      fromHigh: -0.1113,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 182.9,
+      closeHigh5y: 205.8,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -1815,7 +1825,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.75,
       entryZone: {p30: 11.66, p70: 20.09},
-      fromHigh_pe: -0.0892,
+      fromHigh: -0.0892,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 76.8,
+      closeHigh5y: 84.32,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.75%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.75,
+      entryZone: {p30: 11.66, p70: 20.09},
+      fromHigh: -0.0892,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 76.8,
+      closeHigh5y: 84.32,
+
       flag: "⚠️分位极端高·历史最贵区间(99.75%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -3049,7 +3069,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.34,
       entryZone: {p30: 18.67, p70: 29.56},
-      fromHigh_pe: -0.0779,
+      fromHigh: -0.0659,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 255.02,
+      closeHigh5y: 273.0,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.34%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.34,
+      entryZone: {p30: 18.67, p70: 29.56},
+      fromHigh: -0.0659,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 255.02,
+      closeHigh5y: 273.0,
+
       flag: "⚠️分位极端高·历史最贵区间(99.34%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -3920,7 +3950,17 @@ window.PCB_AUTO = {
       flag: "⚠️PE异常高·可能失真",
             pePercentile: 99.76,
       entryZone: {p30: 31.43, p70: 78.56},
-      fromHigh_pe: -0.0901,
+      fromHigh: -0.0901,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 48.5,
+      closeHigh5y: 53.3,
+
+      flag: "⚠️PE异常高·可能失真 · ⚠️分位极端高·历史最贵区间(99.76%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.76,
+      entryZone: {p30: 31.43, p70: 78.56},
+      fromHigh: -0.0901,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 48.5,
+      closeHigh5y: 53.3,
+
       flag: "⚠️PE异常高·可能失真 · ⚠️分位极端高·历史最贵区间(99.76%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -5154,7 +5194,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 97.61,
       entryZone: {p30: 11.24, p70: 17.08},
-      fromHigh_pe: -0.1499,
+      fromHigh: -0.148,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 11.4,
+      closeHigh5y: 13.38,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 97.61,
+      entryZone: {p30: 11.24, p70: 17.08},
+      fromHigh: -0.148,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 11.4,
+      closeHigh5y: 13.38,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -6388,7 +6438,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.5,
       entryZone: {p30: 24.39, p70: 33.65},
-      fromHigh_pe: -0.0636,
+      fromHigh: -0.0636,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 138.5,
+      closeHigh5y: 147.9,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.5%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.5,
+      entryZone: {p30: 24.39, p70: 33.65},
+      fromHigh: -0.0636,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 138.5,
+      closeHigh5y: 147.9,
+
       flag: "⚠️分位极端高·历史最贵区间(99.5%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -7500,7 +7560,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 68.04,
       entryZone: {p30: 34.37, p70: 173.56},
-      fromHigh_pe: -0.718,
+      fromHigh: -0.0489,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 108.64,
+      closeHigh5y: 114.22,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 68.04,
+      entryZone: {p30: 34.37, p70: 173.56},
+      fromHigh: -0.0489,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 108.64,
+      closeHigh5y: 114.22,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -8734,7 +8804,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.83,
       entryZone: {p30: 19.61, p70: 30.82},
-      fromHigh_pe: -0.0406,
+      fromHigh: -0.0406,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 67.19,
+      closeHigh5y: 70.03,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.83%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.83,
+      entryZone: {p30: 19.61, p70: 30.82},
+      fromHigh: -0.0406,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 67.19,
+      closeHigh5y: 70.03,
+
       flag: "⚠️分位极端高·历史最贵区间(99.83%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -9968,7 +10048,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.75,
       entryZone: {p30: 27.29, p70: 37.82},
-      fromHigh_pe: -0.0685,
+      fromHigh: -0.0685,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 426.0,
+      closeHigh5y: 457.34,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.75%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.75,
+      entryZone: {p30: 27.29, p70: 37.82},
+      fromHigh: -0.0685,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 426.0,
+      closeHigh5y: 457.34,
+
       flag: "⚠️分位极端高·历史最贵区间(99.75%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -11202,7 +11292,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.01,
       entryZone: {p30: 15.44, p70: 27.39},
-      fromHigh_pe: -0.1084,
+      fromHigh: -0.1084,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 106.91,
+      closeHigh5y: 119.91,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.01%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.01,
+      entryZone: {p30: 15.44, p70: 27.39},
+      fromHigh: -0.1084,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 106.91,
+      closeHigh5y: 119.91,
+
       flag: "⚠️分位极端高·历史最贵区间(99.01%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -12436,7 +12536,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 95.87,
       entryZone: {p30: 47.98, p70: 66.56},
-      fromHigh_pe: -0.1813,
+      fromHigh: -0.1592,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 127.35,
+      closeHigh5y: 151.46,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 95.87,
+      entryZone: {p30: 47.98, p70: 66.56},
+      fromHigh: -0.1592,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 127.35,
+      closeHigh5y: 151.46,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -13670,8 +13780,18 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 90.17,
       entryZone: {p30: 25.57, p70: 44.73},
-      fromHigh_pe: -0.3598,
+      fromHigh: -0.1393,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 338.2,
+      closeHigh5y: 392.95,
+
       flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 90.17,
+      entryZone: {p30: 25.57, p70: 44.73},
+      fromHigh: -0.1393,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 338.2,
+      closeHigh5y: 392.95,
+
+      flag: "⚠️单源PE数据(baostock) · ⚠️分位与同花顺存在口径差异(baostock vs 同花顺约8%偏差)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
@@ -14904,7 +15024,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 76.55,
       entryZone: {p30: 56.23, p70: 404.32},
-      fromHigh_pe: -0.8072,
+      fromHigh: -0.0004,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 23.04,
+      closeHigh5y: 23.05,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 76.55,
+      entryZone: {p30: 56.23, p70: 404.32},
+      fromHigh: -0.0004,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 23.04,
+      closeHigh5y: 23.05,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -15573,7 +15703,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 80.5,
       entryZone: {p30: 17.76, p70: 36.42},
-      fromHigh_pe: -0.8052,
+      fromHigh: -0.0969,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 57.78,
+      closeHigh5y: 63.98,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 80.5,
+      entryZone: {p30: 17.76, p70: 36.42},
+      fromHigh: -0.0969,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 57.78,
+      closeHigh5y: 63.98,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -16642,7 +16782,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 100.0,
       entryZone: {p30: 49.97, p70: 87.91},
-      fromHigh_pe: 0.0,
+      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 346.44,
+      closeHigh5y: 346.44,
+
+      flag: "⚠️分位极端高·历史最贵区间(100.0%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 100.0,
+      entryZone: {p30: 49.97, p70: 87.91},
+      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 346.44,
+      closeHigh5y: 346.44,
+
       flag: "⚠️分位极端高·历史最贵区间(100.0%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -17366,7 +17516,17 @@ window.PCB_AUTO = {
       flag: "⚠️PE异常高·可能失真",
             pePercentile: 82.88,
       entryZone: {p30: 36.23, p70: 219.74},
-      fromHigh_pe: -0.8584,
+      fromHigh: -0.1409,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 171.81,
+      closeHigh5y: 200.0,
+
+      flag: "⚠️PE异常高·可能失真 · ⚠️单源PE数据(baostock)",
+            pePercentile: 82.88,
+      entryZone: {p30: 36.23, p70: 219.74},
+      fromHigh: -0.1409,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 171.81,
+      closeHigh5y: 200.0,
+
       flag: "⚠️PE异常高·可能失真 · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -18256,7 +18416,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.88,
       entryZone: {p30: 37.58, p70: 50.87},
-      fromHigh_pe: -0.0904,
+      fromHigh: -0.0904,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 600.0,
+      closeHigh5y: 659.6,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.88%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.88,
+      entryZone: {p30: 37.58, p70: 50.87},
+      fromHigh: -0.0904,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 600.0,
+      closeHigh5y: 659.6,
+
       flag: "⚠️分位极端高·历史最贵区间(99.88%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -18606,7 +18776,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 60.86,
       entryZone: {p30: 52.22, p70: 772.42},
-      fromHigh_pe: -0.7691,
+      fromHigh: -0.1742,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 140.08,
+      closeHigh5y: 169.63,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 60.86,
+      entryZone: {p30: 52.22, p70: 772.42},
+      fromHigh: -0.1742,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 140.08,
+      closeHigh5y: 169.63,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -19321,8 +19501,18 @@ window.PCB_AUTO = {
       flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考",
             pePercentile: null,
       entryZone: {p30: 42.74, p70: 77.84},
-      fromHigh_pe: null,
+      fromHigh: -0.3729,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 15.44,
+      closeHigh5y: 24.6222,
+
       flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️数据过期·历史停止更新(786天前)",
+            pePercentile: null,
+      entryZone: {p30: 42.74, p70: 77.84},
+      fromHigh: -0.3729,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 15.44,
+      closeHigh5y: 24.6222,
+
+      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️持续亏损·近786天无有效PE数据",
             source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
@@ -20555,7 +20745,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 100.0,
       entryZone: {p30: 10.4, p70: 19.02},
-      fromHigh_pe: 0.0,
+      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 58.93,
+      closeHigh5y: 58.93,
+
+      flag: "⚠️分位极端高·历史最贵区间(100.0%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 100.0,
+      entryZone: {p30: 10.4, p70: 19.02},
+      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 58.93,
+      closeHigh5y: 58.93,
+
       flag: "⚠️分位极端高·历史最贵区间(100.0%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -21789,7 +21989,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.67,
       entryZone: {p30: 25.03, p70: 36.26},
-      fromHigh_pe: -0.0901,
+      fromHigh: -0.0901,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 167.87,
+      closeHigh5y: 184.5,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.67%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.67,
+      entryZone: {p30: 25.03, p70: 36.26},
+      fromHigh: -0.0901,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 167.87,
+      closeHigh5y: 184.5,
+
       flag: "⚠️分位极端高·历史最贵区间(99.67%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -23023,7 +23233,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.75,
       entryZone: {p30: 28.29, p70: 44.54},
-      fromHigh_pe: -0.1,
+      fromHigh: -0.1,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 71.85,
+      closeHigh5y: 79.83,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.75%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.75,
+      entryZone: {p30: 28.29, p70: 44.54},
+      fromHigh: -0.1,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 71.85,
+      closeHigh5y: 79.83,
+
       flag: "⚠️分位极端高·历史最贵区间(99.75%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -24257,7 +24477,17 @@ window.PCB_AUTO = {
       flag: "⚠️PE异常高·可能失真",
             pePercentile: 99.83,
       entryZone: {p30: 15.84, p70: 103.89},
-      fromHigh_pe: -0.0998,
+      fromHigh: -0.0998,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 23.35,
+      closeHigh5y: 25.94,
+
+      flag: "⚠️PE异常高·可能失真 · ⚠️分位极端高·历史最贵区间(99.83%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.83,
+      entryZone: {p30: 15.84, p70: 103.89},
+      fromHigh: -0.0998,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 23.35,
+      closeHigh5y: 25.94,
+
       flag: "⚠️PE异常高·可能失真 · ⚠️分位极端高·历史最贵区间(99.83%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -24783,7 +25013,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 96.62,
       entryZone: {p30: 19.45, p70: 37.5},
-      fromHigh_pe: -0.1206,
+      fromHigh: -0.0706,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 231.6,
+      closeHigh5y: 249.19,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 96.62,
+      entryZone: {p30: 19.45, p70: 37.5},
+      fromHigh: -0.0706,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 231.6,
+      closeHigh5y: 249.19,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -26017,7 +26257,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 97.36,
       entryZone: {p30: 19.43, p70: 26.29},
-      fromHigh_pe: -0.1662,
+      fromHigh: -0.1662,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 72.96,
+      closeHigh5y: 87.5,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 97.36,
+      entryZone: {p30: 19.43, p70: 26.29},
+      fromHigh: -0.1662,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 72.96,
+      closeHigh5y: 87.5,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -26849,7 +27099,17 @@ window.PCB_AUTO = {
       flag: "⚠️PE异常高·可能失真",
             pePercentile: 99.51,
       entryZone: {p30: 67.11, p70: 207.51},
-      fromHigh_pe: -0.0575,
+      fromHigh: -0.0575,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 247.9,
+      closeHigh5y: 263.01,
+
+      flag: "⚠️PE异常高·可能失真 · ⚠️分位极端高·历史最贵区间(99.51%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.51,
+      entryZone: {p30: 67.11, p70: 207.51},
+      fromHigh: -0.0575,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 247.9,
+      closeHigh5y: 263.01,
+
       flag: "⚠️PE异常高·可能失真 · ⚠️分位极端高·历史最贵区间(99.51%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -28083,7 +28343,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 76.71,
       entryZone: {p30: 6.2, p70: 24.19},
-      fromHigh_pe: -0.6204,
+      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 15.47,
+      closeHigh5y: 15.47,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 76.71,
+      entryZone: {p30: 6.2, p70: 24.19},
+      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 15.47,
+      closeHigh5y: 15.47,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -29317,7 +29587,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 89.35,
       entryZone: {p30: 42.02, p70: 64.91},
-      fromHigh_pe: -0.3578,
+      fromHigh: -0.0339,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 70.2,
+      closeHigh5y: 72.6636,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 89.35,
+      entryZone: {p30: 42.02, p70: 64.91},
+      fromHigh: -0.0339,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 70.2,
+      closeHigh5y: 72.6636,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -30551,7 +30831,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 97.11,
       entryZone: {p30: 24.1, p70: 37.21},
-      fromHigh_pe: -0.2365,
+      fromHigh: -0.2531,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 52.53,
+      closeHigh5y: 70.3278,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 97.11,
+      entryZone: {p30: 24.1, p70: 37.21},
+      fromHigh: -0.2531,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 52.53,
+      closeHigh5y: 70.3278,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -31265,8 +31555,18 @@ window.PCB_AUTO = {
       flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考",
             pePercentile: null,
       entryZone: {p30: 26.19, p70: 128.38},
-      fromHigh_pe: null,
+      fromHigh: -0.0223,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 28.01,
+      closeHigh5y: 28.65,
+
       flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️数据过期·历史停止更新(789天前)",
+            pePercentile: null,
+      entryZone: {p30: 26.19, p70: 128.38},
+      fromHigh: -0.0223,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 28.01,
+      closeHigh5y: 28.65,
+
+      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️持续亏损·近789天无有效PE数据",
             source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
@@ -32127,8 +32427,18 @@ window.PCB_AUTO = {
       flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考",
             pePercentile: null,
       entryZone: {p30: 10.66, p70: 20.33},
-      fromHigh_pe: null,
+      fromHigh: -0.1923,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 21.0,
+      closeHigh5y: 26.0,
+
       flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️数据过期·历史停止更新(77天前)",
+            pePercentile: null,
+      entryZone: {p30: 10.66, p70: 20.33},
+      fromHigh: -0.1923,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 21.0,
+      closeHigh5y: 26.0,
+
+      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️持续亏损·近77天无有效PE数据",
             source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
@@ -33327,7 +33637,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.66,
       entryZone: {p30: 22.85, p70: 27.51},
-      fromHigh_pe: -0.1,
+      fromHigh: -0.1,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 66.17,
+      closeHigh5y: 73.52,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.66%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.66,
+      entryZone: {p30: 22.85, p70: 27.51},
+      fromHigh: -0.1,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 66.17,
+      closeHigh5y: 73.52,
+
       flag: "⚠️分位极端高·历史最贵区间(99.66%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -34518,8 +34838,18 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 59.5,
       entryZone: {p30: 39.96, p70: 79.3},
-      fromHigh_pe: -0.9855,
+      fromHigh: -0.101,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 126.82,
+      closeHigh5y: 141.07,
+
       flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 59.5,
+      entryZone: {p30: 39.96, p70: 79.3},
+      fromHigh: -0.101,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 126.82,
+      closeHigh5y: 141.07,
+
+      flag: "⚠️单源PE数据(baostock) · ⚠️历史含极端PE(2024业绩暴跌·83天PE>1000)·分位参考价值有限",
             source: {
         pe: 'baostock.query_history_k_data_plus',
         verify: null,
@@ -35752,7 +36082,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.83,
       entryZone: {p30: 41.59, p70: 49.2},
-      fromHigh_pe: -0.1233,
+      fromHigh: -0.1233,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 238.93,
+      closeHigh5y: 272.54,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.83%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.83,
+      entryZone: {p30: 41.59, p70: 49.2},
+      fromHigh: -0.1233,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 238.93,
+      closeHigh5y: 272.54,
+
       flag: "⚠️分位极端高·历史最贵区间(99.83%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -36543,7 +36883,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 88.93,
       entryZone: {p30: 28.61, p70: 74.67},
-      fromHigh_pe: -0.5471,
+      fromHigh: -0.5085,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 42.77,
+      closeHigh5y: 87.0254,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 88.93,
+      entryZone: {p30: 28.61, p70: 74.67},
+      fromHigh: -0.5085,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 42.77,
+      closeHigh5y: 87.0254,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -37777,7 +38127,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 99.67,
       entryZone: {p30: 55.8, p70: 77.98},
-      fromHigh_pe: -0.0779,
+      fromHigh: -0.0779,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 462.89,
+      closeHigh5y: 502.0,
+
+      flag: "⚠️分位极端高·历史最贵区间(99.67%) · ⚠️单源PE数据(baostock)",
+            pePercentile: 99.67,
+      entryZone: {p30: 55.8, p70: 77.98},
+      fromHigh: -0.0779,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 462.89,
+      closeHigh5y: 502.0,
+
       flag: "⚠️分位极端高·历史最贵区间(99.67%) · ⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',
@@ -39011,7 +39371,17 @@ window.PCB_AUTO = {
       flag: null,
             pePercentile: 89.6,
       entryZone: {p30: 63.04, p70: 118.87},
-      fromHigh_pe: -0.3094,
+      fromHigh: -0.1138,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 89.9,
+      closeHigh5y: 101.45,
+
+      flag: "⚠️单源PE数据(baostock)",
+            pePercentile: 89.6,
+      entryZone: {p30: 63.04, p70: 118.87},
+      fromHigh: -0.1138,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 89.9,
+      closeHigh5y: 101.45,
+
       flag: "⚠️单源PE数据(baostock)",
             source: {
         pe: 'baostock.query_history_k_data_plus',

@@ -88,14 +88,48 @@ def calc_stock_percentile(code, val):
         except (ValueError, TypeError):
             return None
 
+    # ★ commit 4.14：辅助函数 - 最近30天是否有有效 PE>0 数据
+    def _has_recent_valid_pe(days=30):
+        if not history:
+            return False
+        try:
+            cutoff = (TODAY - __import__('datetime').timedelta(days=days)).isoformat()
+        except Exception:
+            return False
+        # 取最近 30 天内（含 cutoff 之后）的所有 pe，看是否有 >0
+        for h in reversed(history):
+            if h.get('date', '') < cutoff:
+                return False  # 已超出窗口
+            try:
+                pe_val = float(h.get('pe', 0) or 0)
+                if pe_val > 0:
+                    return True
+            except (ValueError, TypeError):
+                continue
+        return False
+
     # 1) 亏损股分支（pe_ttm=None）：分位/回落 null· entryZone 保留历史参考
     if pe_ttm is None:
-        # ★ commit 4.12：亏损股 flag 加入「数据过期」检测（与历史<1y 拼接）
-        # ★ commit 4.12：亏损股无 PE 数据，不加单源规则（PE 单源只对有效 PE 股）
+        # ★ commit 4.14：数据过期 flag 重写·触发条件改为「近30天无有效 PE>0 数据」
+        #   原条件「lastHistDate 距今 > 60 天」对 600110/603936 误报（baostock 实际未停·只是 PE 为负）
+        #   新条件检查最近 30 天是否有任何有效 PE>0 数据
         flag_extra = []
-        age_days = _last_hist_age_days()
-        if age_days is not None and age_days > HISTORY_STALE_DAYS:
-            flag_extra.append(f'⚠️数据过期·历史停止更新({age_days}天前)')
+        if not _has_recent_valid_pe(30):
+            # 进一步查最近一次有效 PE>0 的天数（用于显示「近 X 天」）
+            last_valid_date = None
+            for h in reversed(history):
+                try:
+                    pe_val = float(h.get('pe', 0) or 0)
+                    if pe_val > 0:
+                        last_valid_date = h['date']
+                        break
+                except (ValueError, TypeError):
+                    continue
+            days_no_valid = (TODAY - date.fromisoformat(last_valid_date)).days if last_valid_date else None
+            if days_no_valid is not None:
+                flag_extra.append(f'⚠️持续亏损·近{days_no_valid}天无有效PE数据')
+            else:
+                flag_extra.append(f'⚠️持续亏损·无历史有效PE数据')
         if len(history) >= WIN_HISTORY_MIN:
             pes = np.array([h['pe'] for h in history])
             base_flag = '⚠️亏损股·pe_ttm=null·历史分位保留参考'
@@ -156,6 +190,14 @@ def calc_stock_percentile(code, val):
         flags.append(f'⚠️分位极端高·历史最贵区间({pe_pctile}%)')
     # ★ commit 4.12 规则 3：所有有效 PE 股（pe_ttm 有值）都标单源 PE 数据
     flags.append('⚠️单源PE数据(baostock)')
+    # ★ commit 4.14 规则 4：688183 生益电子历史含极端 PE（2024 业绩暴跌·83 天 PE>1000）→ 分位参考价值有限
+    if code == '688183':
+        extreme_pe_days = int((pes > 1000).sum())
+        if extreme_pe_days > 0:
+            flags.append(f'⚠️历史含极端PE(2024业绩暴跌·{extreme_pe_days}天PE>1000)·分位参考价值有限')
+    # ★ commit 4.14 规则 5：300476 胜宏科技分位与同花顺存在口径差异（baostock vs 同花顺约8%偏差）
+    if code == '300476':
+        flags.append('⚠️分位与同花顺存在口径差异(baostock vs 同花顺约8%偏差)')
 
     return {
         'pePercentile': pe_pctile,

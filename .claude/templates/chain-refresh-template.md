@@ -1,6 +1,6 @@
 # 产业链刷新模板（Chain Refresh Template · 阶段四 commit 4.4 模板化）
 
-> **适用版本**：v1（2026-06-24 · 阶段四 commit 4.4 立）
+> **适用版本**：v2（2026-06-24 · 阶段五 commit 4.14 加 §4.1 peAbsMax 设置规范）
 > **前置规则**：[CLAUDE.md §6](../../CLAUDE.md) 数据治理铁律 + §6.8 数据准确度优先 + §6.9 双重检查 + §6.10 三重验证 + §7 数据自查纪律
 > **基线**：[data/pcb.js](../../data/pcb.js) + [data/pcb.manual.js](../../data/pcb.manual.js) + [data/pcb.auto.js](../../data/pcb.auto.js) + [scripts/refresh_pcb_valuation.py](../../scripts/refresh_pcb_valuation.py) + [scripts/calc_percentile.py](../../scripts/calc_percentile.py) + [scripts/fetch_close_history.py](../../scripts/fetch_close_history.py)
 
@@ -140,14 +140,31 @@ python scripts/fetch_close_history.py
 
 ## 4. growthAdj 名单决策标准
 
-### 4.1 按赛道类型给 peAbsMax
+### 4.1 peAbsMax 设置规范（★ commit 4.14 新增）
 
-| 赛道类型 | peAbsMax | 适用场景 |
+**原则**：`peAbsMax` = 赛道合理 PE 区间上限的 **1.3-1.5 倍**
+
+**按赛道类型设置**（刷新或新增产业链时按此表设，**不统一用 120**）：
+
+| 赛道类型 | peAbsMax | 说明 |
 |---|---|---|
-| **AI 硬件**（PCB / 服务器 / 散热 / 光模块）| **60** | AI 产业链中游制造，PE 普遍 80-200 · growthAdj 通道放宽至 70% 分位 |
-| **AI 半导体**（设备 / 材料 / EDA）| **80** | AI 产业链上游核心环节，国产替代溢价高 · growthAdj 通道放宽至 70% 分位 |
-| **AI 软件 / 平台 / 应用** | **120** | AI 产业链下游应用，PS 估值法 · growthAdj 通道放宽至 70% 分位 |
-| **传统链**（消费 / 化工 / 建材）| 不入选 | growthAdj 通道仅服务 AI 暴露度 ≥ 中 的标的 |
+| **PCB / AI 硬件**（中游制造·服务器·光模块·散热）| **120** | PCB 阶段三 commit 4.14 从 60 上调 → 120（PE 普遍 80-200 · 卡口极端高估股被信号逻辑排除）|
+| **AI 半导体设备 / 材料**（EDA / 光刻 / 薄膜沉积 / 抛光）| **160** | 国产替代溢价高 + 营收基数低 → PE 弹性大 |
+| **AI 软件 / 平台 / 应用**（SaaS / 模型 API / 行业大模型）| **300** | PS 估值法 · 利润率为负时 PE 无意义 |
+| **传统制造**（消费 / 化工 / 建材 / 机械）| **60** | PE 区间窄（10-40）· 放宽意义不大 |
+
+**设置流程**：
+1. 刷新产业链时，先看该赛道最近 1 年的 PE 中位数 × 1.3-1.5 = 候选 peAbsMax
+2. 与上表「赛道类型」行对照，取较大值
+3. 写入 `MANUAL.stocks[code].peAbsMax` 字段（每个 stock 独立值）
+4. 写入前必须 commit message 说明 peAbsMax 取值依据
+
+**反例（不推荐）**：
+- ❌ 所有赛道统一 120（PCB 卡口股与软件股共用 = 误判率上升）
+- ❌ 所有赛道统一 60（PCB 卡口股 PE 普遍 100+ · 永不触发 growthAdj）
+- ❌ 完全沿用上一版不调整（市场 PE 区间会变化）
+
+
 
 ### 4.2 入选条件（必须同时满足）
 
@@ -279,6 +296,7 @@ git push --force-with-lease
 | 版本 | 日期 | commit | 改动 |
 |---|---|---|---|
 | v1 | 2026-06-24 | 阶段四 commit 4.4 | 初版 · 8 节（适用场景 / 文件结构 / 脚本复用 / growthAdj 决策 / 新增 checklist / 刷新 checklist / 自查报告 / 紧急回滚）|
+| v2 | 2026-06-24 | 阶段五 commit 4.14 | §4.1 peAbsMax 设置规范重写（PCB 120 / 半导体设备 160 / 软件 300 / 传统 60）· 原则 = 赛道合理 PE 上限的 1.3-1.5 倍 |
 
 ---
 
