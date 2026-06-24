@@ -1,7 +1,7 @@
 # PCB 产业链看板 · 阶段三 + 阶段四 + 阶段五 Handoff 会话摘要
 
-> **HEAD**: `64154c1`（commit 4.20·下游需求传导模块）
-> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）/ `0aecae0`（阶段三 3.5 末）/ `c403f12`（阶段三 3.4.1 末）/ `91f1a59`（commit 4.0）/ `888fdc8`（commit 4.5）/ `fa8d7f5`（commit 4.6）/ `2386e7b`（commit 4.7 修复）/ `7d8e036`（commit 4.8）/ `ede2e52`（commit 4.9）/ `7d32670`（commit 4.12）/ `7ac0c7d`（commit 4.13 单源核实）/ `2095a2f`（commit 4.13 流图+segments[6]）/ `2e7589e`（commit 4.14）/ `697a4fc`（commit 4.15）/ `84f22d2`（commit 4.16）/ `5703a34`（commit 4.17）/ `bdc79bf`（commit 4.18 修复版）/ `0e2bc96`（PE 上限文案 fix）/ `167f9ab`（commit 4.19）/ `64154c1`（commit 4.20）
+> **HEAD**: `c545e5d`（commit 4.22·交易日志扩展为「交易+持仓+盈亏」一体化）
+> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）/ `0aecae0`（阶段三 3.5 末）/ `c403f12`（阶段三 3.4.1 末）/ `91f1a59`（commit 4.0）/ `888fdc8`（commit 4.5）/ `fa8d7f5`（commit 4.6）/ `2386e7b`（commit 4.7 修复）/ `7d8e036`（commit 4.8）/ `ede2e52`（commit 4.9）/ `7d32670`（commit 4.12）/ `7ac0c7d`（commit 4.13 单源核实）/ `2095a2f`（commit 4.13 流图+segments[6]）/ `2e7589e`（commit 4.14）/ `697a4fc`（commit 4.15）/ `84f22d2`（commit 4.16）/ `5703a34`（commit 4.17）/ `bdc79bf`（commit 4.18 修复版）/ `0e2bc96`（PE 上限文案 fix）/ `167f9ab`（commit 4.19）/ `64154c1`（commit 4.20）/ `3b6a3e7`（commit 4.21·估值动态读 auto 层）/ `c545e5d`（commit 4.22·交易日志扩展）
 > **前置规则**: CLAUDE.md §6 全部纪律 + §6.8 数据准确度优先 + §6.9 双重检查 + §6.10 三重验证 + §7 数据自查纪律 + verify-single-source skill
 
 ---
@@ -63,6 +63,8 @@
 | **4.18 fix** | **`0e2bc96`** | **买入信号 A/B 监测·成长赛道通道 PE 上限显示具体数值（按赛道设定→PE上限120倍）· 2 处替换** | **✅** |
 | **4.19** | **`167f9ab`** | **信号 C + 持仓管理接入前端（① section 内 2 个新 card·0 CSS 增量·复用现有 .tag/.card/.stock-tbl 调色板）** | **✅** |
 | **4.20** | **`64154c1`** | **下游需求传导模块（4 下游 CAGR 多源核实 + AI 服务器价值量倍数 + 传导系数待补充）· pcb.js 注入 demandChainMeta + index.html ⑤ section + 来源折叠明细** | **✅** |
+| **4.21** | **`3b6a3e7`** | **fix：① pcb.js prosperity.valuation.dim 硬编码数字→动态读 PCB_AUTO.valuations[601208/300395/002916]·新增 injectProsperityValuation IIFE + verdict.valuationLive 数组 ② index.html 信号C扫描总数副文案「38 只·与A/B的37不同口径」 ③ 持仓管理减仓清单注脚「不限于核心卡口3只」 ④ 流图 3 个 choke 节点统一加「📊 缺口率」标签（实时映射 supplyGap[].rate）⑤ cron→周一定时任务（4 处）** | **✅** |
+| **4.22** | **`c545e5d`** | **feat：交易日志扩展为「交易+持仓+盈亏」一体化·addTrade 新字段 triggerSignal/pnlRealized/positionAvgCost·computeOpenPositions + computeRealizedPnL（FIFO 配对）+ 当前价读 PCB_AUTO.valuations[code].closeLatest·#trades 顶部新增「💰 当前持仓」卡 + 「📊 累计盈亏」卡 + 表单 triggerSignal 下拉 + 表 10 列「触发信号」+ 3 处联动按钮（信号C/减仓/清仓→prefillTrade）·commit 4.21 后 2 处文案精简（触发信号选项 / 当前持仓副标题）** | **✅** |
 
 **🎉 阶段 A（结构重组）+ 阶段 B（视觉收敛）+ 产业链图景可视化（横向流图 + supplyGap 关联）+ 字体统一 + 折叠增强 + 自动 ⚠️ 规则 + 单源核实流程 + segments 去重 + 数据治理强化 + 信号 C 流水线（基础数据+完整逻辑+前端展示）+ 减仓/清仓信号 + 报告输出中文化规范 + 下游需求传导 全部完成 ✅**
 
@@ -294,6 +296,8 @@ git reset --hard 192ee85   # 完全回滚（阶段一二三都不要）
 | 阶段三 3.5 末 commit | `0aecae0` |
 | 阶段三 3.4.1 末 commit | `c403f12` |
 | **阶段五 4.20 末 commit（HEAD）** | **`64154c1`** |
+| **阶段五 4.21 末 commit** | **`3b6a3e7`** | |
+| **阶段五 4.22 末 commit（HEAD）** | **`c545e5d`** |
 | 拉数脚本 | `d:\乌龟\产业链全景\scripts\refresh_pcb_valuation.py` |
 | 分位脚本 | `d:\乌龟\产业链全景\scripts\calc_percentile.py` |
 | close 脚本 | `d:\乌龟\产业链全景\scripts\fetch_close_history.py` |
