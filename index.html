@@ -172,6 +172,9 @@
 
   /* Stock table */
   .stock-tbl { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 14px; table-layout: fixed; }
+  /* ★ commit 4.11 修复：stock-tbl 长 logic（如生益科技 346 字）溢出红框问题
+     table-layout: fixed + td word-wrap: break-word → 长字符串（含中文）换行而不撑爆列宽 */
+  .stock-tbl td { word-wrap: break-word; overflow-wrap: anywhere; }
   .stock-tbl td .tag { white-space: nowrap; }   /* 升级：壁垒评级/四问命中 tag 不换行 */
   .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .stock-tbl thead th { text-align: left; padding: 11px 14px; border-bottom: 2px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 0.5px; background: var(--card2); }
@@ -518,49 +521,7 @@
   .sidebar-nav .nav-item[data-chain].dragging { opacity: 0.4; cursor: grabbing; }
   .sidebar-nav .nav-item[data-chain].drag-over-top { border-top: 2px solid var(--accent); }
   .sidebar-nav .nav-item[data-chain].drag-over-bottom { border-bottom: 2px solid var(--accent); }
-  /* 📌 置顶按钮：复用 .nav-refresh 视觉（透明背景 + 小号字），但用金色高亮置顶态 */
-  .sidebar-nav .pin-btn {
-    float: right;
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    font-size: 10px;
-    cursor: pointer;
-    padding: 0 4px;
-    line-height: 1;
-    margin-top: 2px;
-  }
-  .sidebar-nav .pin-btn:hover { color: var(--accent); }
-  .sidebar-nav .nav-item.pinned .pin-btn { color: var(--accent); }
-  /* 置顶项视觉强化：左侧金边 + 极淡金底 */
-  .sidebar-nav .nav-item.pinned {
-    border-left-color: var(--accent) !important;
-    background: rgba(240, 185, 11, 0.06);
-  }
-  /* 置顶分组容器 */
-  .sidebar-nav .pinned-section { display: none; padding-bottom: 4px; }
-  .sidebar-nav .pinned-section.has-pinned { display: block; }
-  .sidebar-nav .pinned-section .pinned-title {
-    padding: 8px 20px 4px;
-    font-size: 11px;
-    color: var(--accent);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    border-top: 1px solid var(--border);
-    margin-top: 2px;
-  }
-  /* 重置按钮 */
-  .sidebar-nav .sidebar-reset {
-    display: block;
-    padding: 6px 20px;
-    font-size: 11px;
-    color: var(--muted);
-    cursor: pointer;
-    text-align: center;
-    border-top: 1px solid var(--border);
-    margin-top: 4px;
-  }
-  .sidebar-nav .sidebar-reset:hover { color: var(--accent); }
+  /* commit 4.10：删 pin-btn / pinned / pinned-section / sidebar-reset 全部 CSS（保留拖拽 cursor） */
 
   /* ============================================================
    * ★ 阶段 A commit 4.5：结构重组 + 折叠 + 顶部锚点
@@ -633,9 +594,6 @@
             style="padding:6px 10px;background:var(--accent);color:#0f1117;border:none;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;line-height:1;">+</button>
   </div>
   <div class="sidebar-nav" id="nav-list">
-    <div class="pinned-section" id="pinned-section">
-      <div class="pinned-title">📌 已置顶</div>
-    </div>
     <span class="nav-item active" data-chain="pcb" onclick="switchChain('pcb')">🔌 PCB 印制电路板</span>
     <span class="nav-item" data-chain="semi" onclick="switchChain('semi')">💻 半导体</span>
     <span class="nav-item" data-chain="ai-server" onclick="switchChain('ai-server')">🖥️ AI服务器</span>
@@ -661,7 +619,6 @@
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 我的决策</span>
     <span class="nav-item" data-chain="cards" onclick="window.location.hash='cards'">📋 决策卡片库</span>
     <span class="nav-item" data-chain="trades" onclick="window.location.hash='trades'">📒 交易日志</span>
-    <span class="sidebar-reset" onclick="resetSidebarOrder()">↺ 重置侧栏顺序</span>
   </div>
 </nav>
 
@@ -669,7 +626,7 @@
 <div class="main-area">
   <div class="header">
     <h1>Jack唐的投研看板</h1>
-    <p class="subtitle">从宏观到微观，用物理约束当筛子，挖出产业链"河道收窄处"的寡头瓶颈 · <span style="color:var(--accent);font-weight:600;">数据截止：2026-06-11</span></p>
+    <p class="subtitle">从宏观到微观，用物理约束当筛子，挖出产业链"河道收窄处"的寡头瓶颈</p>
   </div>
   <div class="container" id="chain-content"></div>
 </div>
@@ -735,7 +692,7 @@ const LS_KEYS = {
   customChains: 'myCustomChains',   // ★ 升级六：侧栏"+ 新建空模板赛道"
   sidebarCollapsed: 'sidebarCollapsed',  // ★ 升级八 Step 2：侧栏折叠状态
   sidebarOrder: 'mySidebarOrder',        // ★ 侧栏拖拽：用户排序后的 [code1, code2, ...]
-  sidebarPinned: 'mySidebarPinned',      // ★ 侧栏置顶：置顶的 [code1, code2, ...]
+  // commit 4.10：删 sidebarPinned LS key（置顶功能移除）
   sidebarMainCount: 'mySidebarMainCount' // ★ v3(2026-06-18):主赛道应有项数(由 persistSidebarOrder 在首次 persist 时记下,后续恢复时按这个数划分主赛道/折叠)
 };
 
@@ -1202,15 +1159,30 @@ function renderChain(chainId) {
   const hasSocratic = !!d.socraticInquiry;
   const sec0Label = hasSocratic ? '①' : '⓪';
   const sec0Title = d.id === 'ai-full-chain' ? '第一性原理 — AI 算力的物理拆解' : `白话解读：${d.name}是什么？`;
-  // ★ 新增功能：chain header 右上角 🔄 生成刷新指令按钮（ai-full-chain 元赛道不加；arena/cards/trades 不走 renderChain，本来就没有）
-  const refreshBtn = d.id !== 'ai-full-chain'
-    ? ` <button onclick="showRefreshModal('${d.id}')" title="弹出刷新指令模态框（范围三选一），生成可一键复制到 Claude Code 的指令" style="margin-left:auto;background:var(--accent);color:#0f1117;border:none;border-radius:6px;padding:6px 14px;font-weight:600;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">🔄 生成刷新指令</button>`
-    : '';
+  // ★ commit 4.10：删 chain header 🔄 生成刷新指令按钮（refreshBtn 变量不再需要）
   // ★ 阶段 A commit 4.5：顶部锚点 + ① 卡口结论段（chokePoints 主体）
   // 新顺序：① 卡口结论+买入信号 → ② ⑥后段(折叠) → ③ 景气+周期+宏观 → ④ 树状图 → ⑤ 白话(折叠) → ⑥ 上游深度(折叠) → ⑦ 中游 → ⑧ 四问(折叠)
 
   // 顶部锚点栏
   h += renderQuickNav();
+
+  // ★ commit 4.10：数据截止模块（移到各产业链内部，quick-nav 正下方 + 卡口结论之前）
+  // 读 PCB_AUTO._meta.asOf / .baostockVersion（仅 PCB 有 auto.js；其他赛道显示「待更新」）
+  h += `<div style="font-size:11px;color:var(--muted);padding:6px 10px;margin:8px 0 14px;background:rgba(240,185,11,0.04);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;display:flex;flex-wrap:wrap;gap:8px 14px;">`;
+  if (d.id === 'pcb' && typeof PCB_AUTO !== 'undefined' && PCB_AUTO && PCB_AUTO._meta) {
+    const asOf = PCB_AUTO._meta.asOf || '待更新';
+    const baostockVersion = PCB_AUTO._meta.baostockVersion || '未知';
+    const note = PCB_AUTO._meta.note || '';
+    h += `<span>📅 <strong style="color:var(--accent);">数据截止：${asOf}</strong></span>`;
+    h += `<span>🔌 <strong>数据源：</strong>baostock v${baostockVersion}</span>`;
+    h += `<span>🕐 <strong>上次刷新：</strong>${asOf}</span>`;
+    if (note) h += `<span style="color:var(--muted);">· ${note}</span>`;
+  } else {
+    h += `<span>📅 <strong style="color:var(--accent);">数据截止：待更新</strong></span>`;
+    h += `<span>· 数据源：—</span>`;
+    h += `<span>· 上次刷新：—</span>`;
+  }
+  h += `</div>`;
 
   // ① 卡口结论（chokePoints 主体）
   h += `<div class="section" id="section-choke">`;
@@ -1447,17 +1419,49 @@ function renderChain(chainId) {
   h += `<div class="section-title" onclick="toggleSection('meta')"><span class="num num-mid">②</span> ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
 
-  // TODO commit 4.9: referenceChokepoints 数据缺失·13 条赛道均无该字段·渲染层已就绪(line 1456-1464)·等 pcb.manual.js 数据注入后自动生效
+  // ★ commit 4.10 修复：referenceChokepoints 渲染（中文名 + 数组换行兼容）
+  //   - 数据从 pcb.manual.js 注入（commit 2.3+），pcb.js 内 IIFE 会加载
+  //   - replacementCode 支持单值（如 '301217'）或数组（如 ['301217', '603186']）
+  //   - 中文名查找路径：segments.stocks[] → chokePoints[] → fallback 显示代码
   if (d.referenceChokepoints && d.referenceChokepoints.length > 0) {
+    // 构造 code → name 查表（segments 全部段 + chokePoints）
+    const _nameByCode = {};
+    (d.segments || []).forEach(seg => {
+      (seg.stocks || []).forEach(s => {
+        if (s.code && s.name) _nameByCode[String(s.code)] = s.name;
+      });
+    });
+    (d.chokePoints || []).forEach(cp => {
+      if (cp.code && cp.name) _nameByCode[String(cp.code)] = cp.name;
+    });
+
     h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--purple);background:rgba(168,85,247,0.04);">`;
     h += `<h4 style="margin-bottom:8px;font-size:15px;color:var(--purple);">🌐 卡脖子参考（非 A 股·不可投）</h4>`;
     h += `<div style="font-size:12px;color:var(--muted);margin-bottom:14px;">下列主体为<strong>非 A 股</strong>卡脖子材料/设备商——<strong>不在估值管线</strong>，仅作"国内替代标的"映射参考。点击表格中"A 股替代标的"列链回对应 A 股可投标的。</div>`;
     h += `<table class="stock-tbl"><colgroup><col style="width:24%"><col style="width:12%"><col style="width:32%"><col style="width:32%"></colgroup><thead><tr><th>国外主体</th><th>地区</th><th>卡脖子环节</th><th>A 股替代标的</th></tr></thead><tbody>`;
     d.referenceChokepoints.forEach(rp => {
-      const isReplacable = rp.replacementCode && rp.replacementCode !== '—';
-      const replCell = isReplacable
-        ? `<a href="#stock-${rp.replacementCode}" onclick="window.location.hash='stock-${rp.replacementCode}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${rp.replacementCode}</a>`
-        : `<span style="color:var(--muted);">—</span>`;
+      // 标准化 replacementCode 为数组（单值 → [单值]）
+      const rawCode = rp.replacementCode;
+      const codes = Array.isArray(rawCode) ? rawCode : (rawCode && rawCode !== '—' ? [rawCode] : []);
+      const isReplacable = codes.length > 0;
+      let replCell;
+      if (!isReplacable) {
+        replCell = `<span style="color:var(--muted);">—</span>`;
+      } else if (codes.length === 1) {
+        // 单值：一行显示「中文名 + 代码」
+        const c = String(codes[0]);
+        const name = _nameByCode[c] || '';
+        const display = name ? `${name} ${c}` : c;
+        replCell = `<a href="#stock-${c}" onclick="window.location.hash='stock-${c}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${display}</a>`;
+      } else {
+        // 数组：每家换行
+        replCell = codes.map(c => {
+          const cs = String(c);
+          const name = _nameByCode[cs] || '';
+          const display = name ? `${name} ${cs}` : cs;
+          return `<div style="line-height:1.7;"><a href="#stock-${cs}" onclick="window.location.hash='stock-${cs}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${display}</a></div>`;
+        }).join('');
+      }
       h += `<tr>`;
       h += `<td style="font-weight:600;">${rp.name}</td>`;
       h += `<td><span class="tag tg-blue" style="font-size:10px;">${rp.region}</span></td>`;
@@ -1774,7 +1778,58 @@ function renderChain(chainId) {
         h += `<div class="flow-col-title ${colData.col.cls}">${colData.col.title} (${colData.items.length})</div>`;
         colData.items.forEach((item, ii) => {
           const nd = _buildFlowNode(item, ii);
-          const gapTxt = (typeof item.gapRate === 'number') ? `缺口 ${item.gapRate > 0 ? '-' : '+'}${Math.abs(item.gapRate).toFixed(0)}%` : '';
+          // ★ commit 4.14 任务A：从 d.supplyGap[] 实时算 gapRate（与 pcb.js gapRate() 一致逻辑）
+          //   - supplyGap 数组的 segment 字段包含关系匹配（如「M9碳氢树脂」⊆item.name）
+          //   - 匹配到则下方显示「缺口 -XX%」（红色）+ 展开时显示需求/产能/缺口量/瓶颈
+          //   - 匹配不到则静默（与现状一致·不显示）
+          const _supGap = (d.supplyGap && Array.isArray(d.supplyGap)) ? d.supplyGap : [];
+          let _gapRate = null;
+          let _gapMatch = null;
+          if (item.name) {
+            for (const g of _supGap) {
+              if (!g || !g.segment || g.rate == null) continue;
+              // ★ commit 4.13 修复 v3：4 级 fallback 匹配（避免误匹配 CCL→HVLP4 铜箔等大宗材料）
+              //   例：item.name='电子树脂(碳氢/PPO)' ↔ supplyGap.segment='M9碳氢树脂'
+              //   1. 直接 includes 双向（item.name vs supplyGap.segment）
+              //   2. 去括号+标点 + 双向 includes（'电子树脂碳氢PPO' vs 'M9碳氢树脂'）
+              //   3. 提取 segment 的 ≥1 字中文字符（'M9碳氢树脂' → 碳/氢/树/脂 4 单字）
+              //      + item.name 中文字符集
+              //      匹配条件：segment 中 ≥50% 单字在 item.name 中出现 + 反向 item.name ≥40% 也在 segment
+              //      （避免 CCL「覆铜板」误匹配 HVLP4 铜箔——只有「铜」1 字重叠 <50%）
+              //   4. 兜底：segment 任何 ≥2 字连续子串命中 item.name
+              const _stripNoise = (s) => s.replace(/[（()\/·•]/g, ' ').replace(/\s+/g, '');
+              const _in = _stripNoise(item.name);
+              const _sg = _stripNoise(g.segment);
+              let _hit = _in.includes(_sg) || _sg.includes(_in);
+              if (!_hit) {
+                // 双向单字重叠：segment 中 ≥50% 单字在 item.name + 反向 item.name 中 ≥40% 单字在 segment
+                const _sgChars = (_sg.match(/[一-龥]/g) || []);
+                const _inChars = (_in.match(/[一-龥]/g) || []);
+                if (_sgChars.length > 0 && _inChars.length > 0) {
+                  const _sgHitCount = _sgChars.filter(c => _inChars.includes(c)).length;
+                  const _inHitCount = _inChars.filter(c => _sgChars.includes(c)).length;
+                  if (_sgHitCount / _sgChars.length >= 0.5 && _inHitCount / _inChars.length >= 0.4) {
+                    _hit = true;
+                  }
+                }
+              }
+              if (!_hit) {
+                // 兜底：segment 任何 ≥2 字连续子串命中 item.name
+                const _substrs = [];
+                for (let i = 0; i < _sg.length - 1; i++) {
+                  _substrs.push(_sg.substr(i, 2));
+                }
+                _hit = _substrs.some(s => s.length === 2 && _in.includes(s));
+              }
+              if (_hit) {
+                const n = parseFloat(String(g.rate).replace(/[^\d.]/g, ''));
+                _gapRate = isNaN(n) ? null : n;
+                _gapMatch = g;
+                break;
+              }
+            }
+          }
+          const gapTxt = (_gapRate !== null && _gapRate > 0) ? `缺口 ${_gapRate > 0 ? '-' : '+'}${Math.abs(_gapRate).toFixed(0)}%` : '';
           const top2 = nd.companies.slice(0, 2);
           h += `<div class="flow-node ${nd.bCls}" onclick="this.classList.toggle('expanded')" title="点击展开完整标的列表">`;
           if (nd.isChoke) h += `<div class="flow-node-choke">🔒 卡口</div>`;
@@ -1788,14 +1843,31 @@ function renderChain(chainId) {
             });
             h += `</div>`;
           }
-          // 展开区
-          if (nd.companies.length) {
-            h += `<div class="flow-node-expand"><table><tbody>`;
-            nd.companies.forEach((c, i) => {
-              const cn = barrierNorm(c.barrier) || '';
-              h += `<tr><td class="rank">${i+1}</td><td>${c.name}</td><td class="code">${c.code||'—'}</td><td class="badge" style="color:var(--muted);font-size:10px;">${cn}</td></tr>`;
-            });
-            h += `</tbody></table></div>`;
+          // 展开区（★ commit 4.14：supplyGap 完整数据 / 标的列表 二合一）
+          if (_gapMatch || nd.companies.length) {
+            h += `<div class="flow-node-expand">`;
+            // supplyGap 详情（红色高亮卡口环节）
+            if (_gapMatch) {
+              h += `<div style="padding:6px 8px;margin-bottom:8px;background:rgba(246,70,93,0.08);border-left:3px solid var(--barrier-extreme);border-radius:0 4px 4px 0;font-size:11px;line-height:1.7;">`;
+              h += `<div style="font-weight:600;color:var(--barrier-extreme);margin-bottom:4px;">📊 供需缺口（来源：${_gapMatch.tier||'broker'}）</div>`;
+              if (_gapMatch.demand)  h += `<div>需求: <strong>${_gapMatch.demand}</strong></div>`;
+              if (_gapMatch.capacity) h += `<div>产能: <strong>${_gapMatch.capacity}</strong></div>`;
+              if (_gapMatch.gap)     h += `<div>缺口量: <strong>${_gapMatch.gap}</strong></div>`;
+              if (_gapMatch.rate)    h += `<div>缺口率: <strong>${_gapMatch.rate}</strong></div>`;
+              if (_gapMatch.bottleneck) h += `<div style="margin-top:4px;color:var(--muted);">瓶颈: ${_gapMatch.bottleneck}</div>`;
+              if (_gapMatch.src)     h += `<div style="color:var(--muted);font-size:10px;margin-top:2px;">来源: ${_gapMatch.src}</div>`;
+              h += `</div>`;
+            }
+            // 标的列表（保留原功能）
+            if (nd.companies.length) {
+              h += `<table><tbody>`;
+              nd.companies.forEach((c, i) => {
+                const cn = barrierNorm(c.barrier) || '';
+                h += `<tr><td class="rank">${i+1}</td><td>${c.name}</td><td class="code">${c.code||'—'}</td><td class="badge" style="color:var(--muted);font-size:10px;">${cn}</td></tr>`;
+              });
+              h += `</tbody></table>`;
+            }
+            h += `</div>`;
           }
           h += `<div class="flow-node-meta"><span>壁垒:${nd.bLbl}</span><span class="expand-hint">${nd.companies.length}只 ▾</span></div>`;
           h += `</div>`;
@@ -1952,7 +2024,7 @@ function renderChain(chainId) {
 
   // ⑤ 白话解读（plainIntro 包装为默认折叠 section）— 阶段 A：移到 ④ 树状图之后
   h += `<div class="section collapsible collapsed" data-key="plain" id="section-plain">`;
-  h += `<div class="section-title" onclick="toggleSection('plain')"><span class="num num-plain">⑤</span> ${sec0Title}${refreshBtn}<span class="collapse-arrow">▼</span></div>`;
+  h += `<div class="section-title" onclick="toggleSection('plain')"><span class="num num-plain">⑤</span> ${sec0Title}<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
   h += `<div class="plain-box"><div class="analogy">${d.icon} ${d.plainIntro.analogy}</div>`;
   d.plainIntro.paragraphs.forEach(p => h += `<p>${p}</p>`);
@@ -2223,38 +2295,70 @@ function toggleChangelog() {
 
 function renderChangelog() {
   const now = new Date();
-  const recentChanges = CHANGELOG.filter(c => {
+  // ★ commit 4.10 修复：过滤当前赛道的 changelog（按 c.sector === currentChain）
+  //  当切换产业链时只显示该赛道的变更记录
+  const chainFilter = (typeof currentChain === 'string' && currentChain !== 'cards' && currentChain !== 'trades' && currentChain !== 'arena') ? currentChain : null;
+
+  // ★ commit 4.10 修复：优先使用 git 接口拉的 changelog（window.__CHANGELOG_FROM_GIT__）
+  //  接口无响应或失败时 → fallback 到内置 CHANGELOG 数组
+  const dataSource = (window.__CHANGELOG_FROM_GIT__ && window.__CHANGELOG_FROM_GIT__.length)
+    ? window.__CHANGELOG_FROM_GIT__.map(c => ({ date: c.date, sector: chainFilter || 'system', desc: c.message, old: '', new: '', pct: 'NEW', hash: c.hash }))
+    : CHANGELOG;
+
+  // ★ commit 4.10 修复：放宽时间窗 7 天 → 30 天
+  //   原因：内置 CHANGELOG 是用户手动维护的历史快照（不应被 7 天过滤掉，否则最近 PCB 变更 06-12 看不到）
+  //   git 接口路径也用 30 天（避免一次显示过多 commit）
+  const WINDOW_DAYS = 30;
+  const recentChanges = dataSource.filter(c => {
     const d = new Date(c.date);
-    return (now - d) / (1000 * 60 * 60 * 24) <= 7;
+    const within = (now - d) / (1000 * 60 * 60 * 24) <= WINDOW_DAYS;
+    if (chainFilter && c.sector !== 'system') {
+      return within && c.sector === chainFilter;
+    }
+    return within;
   });
 
   const list = document.getElementById('changelog-list');
   const count = document.getElementById('cl-count');
   const badge = document.getElementById('cl-badge');
   const toggle = document.getElementById('cl-toggle');
+  const panel = document.getElementById('changelog-panel');
 
   count.textContent = recentChanges.length;
   badge.textContent = recentChanges.length;
 
   if (recentChanges.length === 0) {
-    list.innerHTML = '<div style="padding:16px;color:var(--muted);font-size:12px;text-align:center;">近7天无变更</div>';
-    toggle.classList.add('hidden');
-    document.getElementById('changelog-panel').classList.add('collapsed');
+    const emptyMsg = chainFilter ? `「${chainFilter}」赛道暂无近 ${WINDOW_DAYS} 天数据变更` : `近 ${WINDOW_DAYS} 天无变更`;
+    list.innerHTML = `<div style="padding:16px;color:var(--muted);font-size:12px;text-align:center;">${emptyMsg}</div>`;
+    // ★ commit 4.10 修复：fallback 路径下仍保留 toggle 可见 + 面板默认展开
+    //   用户反馈"数据变更面板消失"，原因：toggle.hidden 永远不解除 → 面板无法打开
+    if (!window.__CHANGELOG_FROM_GIT__ || !window.__CHANGELOG_FROM_GIT__.length) {
+      // fallback 路径：始终保留 toggle + 面板
+      toggle.classList.remove('hidden');
+      panel.classList.remove('collapsed');
+    } else {
+      toggle.classList.add('hidden');
+      panel.classList.add('collapsed');
+    }
     return;
   }
+
+  toggle.classList.remove('hidden');
+  panel.classList.remove('collapsed');
 
   toggle.classList.remove('hidden');
   document.getElementById('changelog-panel').classList.remove('collapsed');
 
   list.innerHTML = recentChanges.map(c => {
-    const dir = c.pct.startsWith('+') ? 'up' : 'down';
+    // ★ commit 4.10：git 来源 pct=NEW（非 up/down）→ dir=null；内置 CHANGELOG 按 pct 字符判断
+    const dir = c.pct === 'NEW' ? null : (c.pct.startsWith('+') ? 'up' : 'down');
     const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'power-semi' ? '功率半导/SiC' : c.sector === 'semi-equipment' ? '半导体设备' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'optical-module' ? '光模块' : c.sector === 'optical-chip' ? '光芯片' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'liquid-cooling' ? '液冷' : c.sector === 'ai-full-chain' ? 'AI全产业链' : c.sector === 'system' ? '系统升级' : c.sector;
     const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'power-semi' ? '#f6465d' : c.sector === 'semi-equipment' ? '#7c3aed' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'optical-module' ? '#06b6d4' : c.sector === 'optical-chip' ? '#0891b2' : c.sector === 'optical' ? '#06b6d4' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'liquid-cooling' ? 'var(--blue)' : c.sector === 'ai-full-chain' ? 'var(--accent)' : c.sector === 'system' ? '#3b82f6' : 'var(--muted)';
     return `<div class="changelog-item" onclick="switchChain('${c.sector}')">
       <div class="cl-date">${c.date}</div>
       <div class="cl-sector" style="color:${sectorColor};">${sectorName}</div>
       <div class="cl-desc">${c.desc}</div>
-      <div class="cl-change">${c.old} → <strong>${c.new}</strong> <span class="change-badge ${dir}">${c.pct}</span></div>
+      <div class="cl-change">${c.old ? `${c.old} → <strong>${c.new}</strong>` : (c.hash ? `<code style="font-size:10px;color:var(--muted);">${c.hash.slice(0, 7)}</code>` : '')} ${dir ? `<span class="change-badge ${dir}">${c.pct}</span>` : ''}</div>
     </div>`;
   }).join('');
 }
@@ -3151,13 +3255,11 @@ function toggleSidebarChains() {
 // ★ 升级十一 · 侧栏拖拽调整顺序 + 置顶
 // ============================================================
 // 持久化键：LS_KEYS.sidebarOrder(mySidebarOrder) 存 [code1,code2,...] 用户排序后的 nav-item code 列表
-//           LS_KEYS.sidebarPinned(mySidebarPinned) 存 [code1,code2,...] 置顶的 code 列表
 // 约束：分隔行(无 data-chain)、nav-toggle、pinned-section、折叠容器本身 不可拖
 //       折叠容器内 8 项只允许在折叠容器内重排(同 parent 拖拽,不跨容器)
 function loadSidebarOrder() { return LS.get(LS_KEYS.sidebarOrder, null); }
 function saveSidebarOrder(arr) { LS.set(LS_KEYS.sidebarOrder, arr); }
-function loadSidebarPinned() { return LS.get(LS_KEYS.sidebarPinned, []); }
-function saveSidebarPinned(arr) { LS.set(LS_KEYS.sidebarPinned, arr); }
+// commit 4.10：删 loadSidebarPinned/saveSidebarPinned（置顶功能移除）
 
 // v2(2026-06-18):persistSidebarOrder 改为完整 DOM 顺序保存
 // 原算法按 parent 分组保存(saved 是 5+8 两组),与 HTML 期望不符;改为单一完整序列保存(支持跨容器拖拽)
@@ -3285,114 +3387,7 @@ function applySidebarOrder() {
   updateSidebarCount();
 }
 
-// 置顶切换
-function togglePin(code) {
-  let pinned = loadSidebarPinned();
-  if (!Array.isArray(pinned)) pinned = [];   // 防御：LS 被外部弄成 null 时不抛 TypeError
-  if (pinned.includes(code)) {
-    pinned = pinned.filter(c => c !== code);
-  } else {
-    pinned.push(code);
-  }
-  saveSidebarPinned(pinned);
-  applySidebarPinned();
-}
-
-// 应用置顶：diff 模式 + 归位重排
-// 设计要点：
-//   - 每条 nav-item 在 attachToNavItem 时记下 data-original-parent-id + data-original-sibling-codes
-//   - 取消置顶的项：先 appendChild 回原 parent 末尾(简单稳定)
-//   - 然后用"原兄弟列表"找锚点 + insertBefore 把该项挪回原位置
-//   - 用 children 数组手动遍历找锚点(避免 querySelector 边角)
-//   - 新置顶的项：appendChild 到 #pinned-section
-function applySidebarPinned() {
-  const navList = document.getElementById('nav-list');
-  const pinnedSection = document.getElementById('pinned-section');
-  if (!navList || !pinnedSection) return;
-
-  const pinnedRaw = loadSidebarPinned();
-  const pinnedList = Array.isArray(pinnedRaw) ? pinnedRaw : [];
-
-  // 1) 取消置顶的项:appendChild 到原 parent 末尾(简单稳定) + 用 children 数组找锚点挪回原位置
-  Array.from(pinnedSection.querySelectorAll('.nav-item[data-chain]')).forEach(item => {
-    if (pinnedList.includes(item.dataset.chain)) return;
-    const origParentId = item.dataset.originalParentId;
-    const origParent = (origParentId && origParentId !== 'pinned-section') ? document.getElementById(origParentId) : null;
-    const targetParent = origParent || navList;
-    // 先 appendChild 到 targetParent 末尾(简单稳定)
-    targetParent.appendChild(item);
-    // 然后用原兄弟列表找锚点,挪回原位置
-    const origCodes = (item.dataset.originalSiblingCodes || '').split(',').filter(Boolean);
-    const cIdx = origCodes.indexOf(item.dataset.chain);
-    let anchor = null;
-    if (cIdx > 0) {
-      // 从 c 之前往前往后找第一个还在 targetParent 内的 .nav-item[data-chain] 作为锚点
-      for (let i = cIdx - 1; i >= 0; i--) {
-        const targetCode = origCodes[i];
-        // 遍历 targetParent.children 找 targetCode(避免 querySelector 边角)
-        for (let j = 0; j < targetParent.children.length; j++) {
-          const ch = targetParent.children[j];
-          if (ch === item) continue;  // 跳过自己
-          if (ch.dataset && ch.dataset.chain === targetCode) {
-            anchor = ch;
-            break;
-          }
-        }
-        if (anchor) break;
-      }
-    }
-    if (anchor) {
-      // 把 item 挪到 anchor 之后(找 anchor 后面那个兄弟作为 refChild)
-      let refNode = null;
-      for (let k = 0; k < targetParent.children.length; k++) {
-        if (targetParent.children[k] === anchor) {
-          refNode = targetParent.children[k + 1] || null;
-          break;
-        }
-      }
-      targetParent.insertBefore(item, refNode);  // refNode 为 null 时 = appendChild(末尾)
-    } else {
-      // fallback:item 是 origCodes 列表中第一项 / 前面所有项都被置顶走了
-      // → 找 targetParent 内"非 item 的第一个 .nav-item[data-chain]",把 item 插到它之前
-      let firstNavItem = null;
-      for (let j = 0; j < targetParent.children.length; j++) {
-        const ch = targetParent.children[j];
-        if (ch === item) continue;
-        if (ch.classList && ch.classList.contains('nav-item') && ch.dataset && ch.dataset.chain) {
-          firstNavItem = ch;
-          break;
-        }
-      }
-      if (firstNavItem) {
-        targetParent.insertBefore(item, firstNavItem);
-      }
-      // 找不到 firstNavItem(targetParent 内除了 item 没其他 nav-item)→ item 留在末尾,可接受
-    }
-    item.classList.remove('pinned');
-  });
-
-  // 2) 新置顶的项(在 LS 中但不在 #pinned-section 中)→ 挪到 #pinned-section
-  pinnedList.forEach(code => {
-    if (pinnedSection.querySelector(`.nav-item[data-chain="${code}"]`)) return;  // 已经在
-    const item = navList.querySelector(`.nav-item[data-chain="${code}"]`);
-    if (item) {
-      item.classList.add('pinned');
-      pinnedSection.appendChild(item);
-    }
-  });
-
-  // 3) 显示/隐藏
-  pinnedSection.classList.toggle('has-pinned', pinnedList.length > 0);
-}
-
-// 重置顺序：清空 LS 拖拽+置顶,刷新页面
-function resetSidebarOrder() {
-  if (!confirm('确定重置侧栏顺序到默认?\n将清空拖拽顺序和置顶状态,刷新页面后生效。')) return;
-  LS.set(LS_KEYS.sidebarOrder, null);
-  LS.set(LS_KEYS.sidebarPinned, []);
-  location.reload();
-}
-
+// commit 4.10：删置顶 + 重置相关 JS（togglePin / applySidebarPinned / resetSidebarOrder / loadSidebarPinned / saveSidebarPinned）— 保留拖拽 initSidebarDnd
 // === HTML5 拖拽（原生,无外部库） ===
 let _draggedItem = null;
 function onDragStart(e) {
@@ -3459,18 +3454,10 @@ function initSidebarDnd() {
       const sibCodes = Array.from(parent.querySelectorAll(':scope > .nav-item[data-chain]')).map(s => s.dataset.chain);
       item.dataset.originalSiblingCodes = sibCodes.join(',');
     }
-    // 1) 追加 📌 pin 按钮
-    if (!item.querySelector('.pin-btn')) {
-      const pinBtn = document.createElement('button');
-      pinBtn.className = 'pin-btn';
-      pinBtn.textContent = '📌';
-      pinBtn.title = '置顶/取消置顶';
-      pinBtn.onclick = (e) => { e.stopPropagation(); togglePin(code); };
-      item.appendChild(pinBtn);
-    }
-    // 2) nav-toggle 不可拖(它是折叠触发器)
+    // commit 4.10：删 pin 按钮创建逻辑
+    // 1) nav-toggle 不可拖(它是折叠触发器)
     if (item.classList.contains('nav-toggle')) return;
-    // 3) 绑 draggable + 5 个拖拽事件
+    // 2) 绑 draggable + 5 个拖拽事件
     item.setAttribute('draggable', 'true');
     item.addEventListener('dragstart', onDragStart);
     item.addEventListener('dragend', onDragEnd);
@@ -3498,189 +3485,15 @@ function initSidebarDnd() {
   observer.observe(navList, { childList: true, subtree: true });
 }
 
-// 初始化入口(应用 LS 中保存的顺序+置顶,然后启动拖拽)
+// 初始化入口(应用 LS 中保存的顺序,然后启动拖拽)
 (function initSidebarDndAndPin() {
-  applySidebarOrder();   // 先恢复顺序(置顶恢复在顺序恢复之后,以免顺序恢复把置顶项位置改乱)
-  applySidebarPinned();  // 再恢复置顶
+  applySidebarOrder();   // 先恢复顺序
+  // commit 4.10：删 applySidebarPinned() 调用（置顶功能移除）
   initSidebarDnd();      // 最后绑拖拽事件
 })();
 
-// ===== 升级八 Step 3：刷新按钮 = 一键复制该赛道标准更新指令 =====
-function copyRefreshPrompt(chainId) {
-  const d = CHAINS[chainId];
-  if (!d) return;
-  const text = `请按仓库 .claude/skills/serenity/SKILL.md 里的《新赛道 SOP》和「PCB 赛道同款格式」，重新联网研究并全量更新 CHAINS.${chainId}（${d.name}）的全部数据：
-1) 广泛多源检索（券商研报观点、公司公告/财报、行业协会、Prismark/TrendForce/Yole/CPCA 等），关键数据 ≥2-3 个独立信源交叉验证；只摘取事实与数据，严禁复制研报/文章原文（版权）；每项关键数据标注来源+时点；AI 主观估算标 🆪。
-2) 保持与 PCB 赛道完全一致的结构：overview 8-9 卡 / treeMap 五列且每子卡含占比+来源 / 每个 segment ≥5 股且按壁垒降序 / 个股 position 含市占率 / trend 徽章(up/down/flat) / midstream ≥10 股 / 三大卡口配 valuation(pePercentile)+verification(4项) / supplyGap。
-3) 用新数据替换该赛道现有 CHAINS.${chainId} 数据块，不动其它赛道；index.html 与 产业链全景.html 字节同步；node -e 语法自检；逐条对照 S1-S8+避坑清单；改完报告等我确认，不要自动 commit。`;
-
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(
-      () => showToast(`已复制《${d.name}》刷新指令，粘贴到 Claude Code 执行`),
-      () => fallbackCopy(text, d.name)
-    );
-  } else {
-    fallbackCopy(text, d.name);
-  }
-}
-
-function fallbackCopy(text, name) {
-  window.prompt('请手动复制：', text);
-  showToast(`手动复制《${name}》刷新指令`);
-}
-
-// ==================== 刷新指令模态（chain header 🔄 按钮，范围三选一） ====================
-// 静态页无法调起 CC，本功能只生成填好的指令、供用户一键复制并手动粘到 Claude Code。
-// 不依赖网络、不引入任何库；模态 HTML 动态创建，按钮/选项复用 var(--*) 调色板与现有 .card / .toast。
-
-const REFRESH_SCOPES = {
-  full:        { label: '全量刷新', cn: '全量刷新（真实数据 + 六维都刷）',                                 fields: '真实数据(overview/treeMap/segments/midstream/fourQuestions/chokePoints/supplyGap/methodologyNotes/cyclePosition) + 六维(meta+prosperity+每股dims6)', refreshDate: true,  flagNote: '真实数据变化才刷顶部"数据截止"日期；六维评分标 🆪 不刷' },
-  prosperity:  { label: '只刷六维', cn: '只刷六维（prosperity + dims6，🆪，禁止刷"数据截止"日期）',  fields: 'meta(updatedAt) + prosperity(6 dims + verdict) + 每只 stock 的 dims6 + dims6Note',                                                                          refreshDate: false, flagNote: '六维全部标 🆪 AI 主观判断；严禁刷顶部"数据截止"日期（仅 meta.updatedAt 改为今日）' },
-  financial:   { label: '只刷财报数据', cn: '只刷财报数据（segments 财报/市占/supplyGap/valuation，允许刷"数据截止"日期）', fields: 'overview(财报/市占数字) + segments[].stocks[].logic/position(财报/市占) + supplyGap + chokePoints[].valuation(PE/分位/毛利率)',           refreshDate: true,  flagNote: '允许刷顶部"数据截止"日期为今日；不动六维评分' }
-};
-
-function showRefreshModal(chainId) {
-  const d = CHAINS[chainId];
-  if (!d) return;
-  // 若已存在则先移除（避免重复弹）
-  const existing = document.getElementById('refresh-modal');
-  if (existing) existing.remove();
-
-  // 顶部日期：从 Header 里抓（不修改、仅展示）
-  const headerEl = document.querySelector('.subtitle');
-  const headerDateMatch = headerEl && headerEl.textContent.match(/数据截止：([\d-]+)/);
-  const headerDate = headerDateMatch ? headerDateMatch[1] : '未知';
-
-  const modal = document.createElement('div');
-  modal.id = 'refresh-modal';
-  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
-  modal.addEventListener('click', e => { if (e.target === modal) closeRefreshModal(); });
-
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.style.cssText = 'max-width:780px;width:100%;max-height:90vh;overflow-y:auto;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);';
-
-  let scopesHtml = '';
-  Object.keys(REFRESH_SCOPES).forEach((key, i) => {
-    const sc = REFRESH_SCOPES[key];
-    const checked = i === 0 ? 'checked' : '';
-    scopesHtml += `<label style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;background:var(--card2);border-radius:6px;cursor:pointer;font-size:13px;line-height:1.6;"><input type="radio" name="refresh-scope" value="${key}" ${checked} onchange="onRefreshScopeChange('${chainId}')" style="margin-top:3px;flex-shrink:0;"><span><strong style="color:var(--text);">${sc.label}</strong><br><span style="color:var(--muted);font-size:12px;">${sc.cn.replace(sc.label + '（', '（').replace(/）$/, '）').slice(1, -1)}</span></span></label>`;
-  });
-
-  card.innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-      <h3 style="margin:0;font-size:18px;color:var(--accent);">🔄 生成刷新指令 — ${d.icon || ''} ${d.name}</h3>
-      <button onclick="closeRefreshModal()" style="background:transparent;border:none;color:var(--muted);font-size:24px;cursor:pointer;line-height:1;padding:0 4px;">×</button>
-    </div>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.7;">
-      静态页无法直接调起 Claude Code。本功能只生成一段填好的指令，请复制后手动粘到 Claude Code 让 Agent 跑。<br>
-      <strong>当前赛道</strong>：<code style="color:var(--accent);">${d.id}</code> · meta.updatedAt: <code>${(d.meta && d.meta.updatedAt) || '未填'}</code> · Header 数据截止: <code>${headerDate}</code>
-    </div>
-    <div style="margin-bottom:14px;">
-      <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text);">选择刷新范围：</div>
-      <div style="display:flex;flex-direction:column;gap:6px;">${scopesHtml}</div>
-    </div>
-    <div style="margin-bottom:14px;">
-      <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text);">📋 指令预览（只读，可手动选中复制）：</div>
-      <textarea id="refresh-prompt-text" readonly style="width:100%;min-height:280px;padding:12px;background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:12px;line-height:1.6;resize:vertical;"></textarea>
-    </div>
-    <div style="display:flex;gap:10px;justify-content:flex-end;">
-      <button onclick="closeRefreshModal()" style="background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px 18px;font-size:13px;cursor:pointer;">取消</button>
-      <button onclick="copyRefreshFromModal('${chainId}')" style="background:var(--accent);color:#0f1117;border:none;border-radius:6px;padding:8px 18px;font-weight:600;font-size:13px;cursor:pointer;">📋 复制指令</button>
-    </div>
-  `;
-  modal.appendChild(card);
-  document.body.appendChild(modal);
-  // 初始填充指令文本
-  onRefreshScopeChange(chainId);
-}
-
-function closeRefreshModal() {
-  const modal = document.getElementById('refresh-modal');
-  if (modal) modal.remove();
-}
-
-function onRefreshScopeChange(chainId) {
-  const sel = document.querySelector('input[name="refresh-scope"]:checked');
-  const scope = sel ? sel.value : 'full';
-  const text = buildRefreshPrompt(chainId, scope);
-  const ta = document.getElementById('refresh-prompt-text');
-  if (ta) ta.value = text;
-}
-
-function buildRefreshPrompt(chainId, scope) {
-  const d = CHAINS[chainId];
-  if (!d) return '';
-  const sc = REFRESH_SCOPES[scope] || REFRESH_SCOPES.full;
-  const headerEl = document.querySelector('.subtitle');
-  const headerDateMatch = headerEl && headerEl.textContent.match(/数据截止：([\d-]+)/);
-  const headerDate = headerDateMatch ? headerDateMatch[1] : '未知';
-  const metaDate = (d.meta && d.meta.updatedAt) || '未填';
-
-  return `按《单链复制工单》刷新 ${d.name}（id=${d.id}）这一条赛道，范围=${sc.cn}。
-
-📋 当前状态：
-- chain id: ${d.id}
-- chain name: ${d.name}
-- meta.updatedAt: ${metaDate}
-- Header 数据截止: ${headerDate}
-- 数据文件: data/${d.id}.js
-
-🎯 七步工单：
-1. 研究取证（≥5 次 WebSearch 交叉验证 + 抓 20-30 篇研报全文，关键数据 ≥2-3 独立信源印证）
-2. 四问校验（对照现有 fourQuestions[]，必要时更新四大物理追问）
-3. 更新 ${sc.fields}
-4. 注入 data/${d.id}.js（升级九 STEP 4 后路径；保持 IIFE + window.CHAINS 包装结构不变）
-5. 三处必改（按本场景实际只需 1 处：CHANGELOG 加 1 条；data/${d.id}.js 已存在 / DATA_MANIFEST 数组已含 '${d.id}' / 侧栏 nav-item 已有，这 3 处不动）
-6. 双校验：
-   - node -e "global.window={};require('./data/${d.id}.js');const c=global.window.CHAINS.${d.id};console.log(c?'OK '+c.name:'FAIL');"
-   - node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script>\\s*\\n\\s*\\/\\/ ={5,}\\n\\/\\/ DATA LAYER[\\s\\S]+?<\\/script>/);const code=m[0].replace(/^<script>/,'').replace(/<\\/script>$/,'');try{new Function(code);console.log('OK',code.length,'chars');}catch(e){console.log('ERR',e.message);}"
-   - 浏览器抽查 3 个 anchor（segments 表格 / treeMap / chokePoints）
-   - 注意：升级九 STEP 4-2 后 产业链全景.html 是 16 行跳转页，不再 diff -q
-7. 擂台核对：进 #arena 看 ${d.name} 行综合分${sc.refreshDate ? '及其它数据变化' : '（六维分变化）'}
-
-📐 硬性要求：
-- 字段密度对齐 PCB 黄金范例（data/pcb.js）
-- barrier 降序不破（每段 stocks 按 极高→高→中高→中→低 排）
-- 每只 stock.position 含市占率/排名硬定位；logic 含可核查依据
-- ${sc.flagNote}
-- 注入前过 P1-P7（个股 dims6.barrier 必须等于 barrier 映射分：极高5/高4/中高3/中2/低1）+ S1-S10 全套硬标准 + 《避坑清单》13 条
-- 同一只票若在全站 STOCK_REGISTRY 中已注册（跨链 canonical），需校验六维一致性，不一致 console.warn
-
-📊 范围说明（${sc.label}）：
-${sc.cn}
-- 改动字段：${sc.fields}
-- 数据截止日期：${sc.refreshDate ? '✅ 允许刷到今日（真实数据变化）' : '❌ 严禁刷（仅 meta.updatedAt 改为今日）'}
-
-🚦 流程纪律：
-- 只做这一条赛道，不动其它 12 条
-- 改完报告改动清单（列每个改动文件 + 改动行数 + 关键字段 diff 摘要）+ 该条擂台综合分（computeLtFit 实算）
-- 等用户显式说"通过"再 git commit；不主动 commit，不主动开下一条
-- commit message 中文，描述内容层面变化（改了哪些字段、新增哪些个股 dims6）
-
-立即开始 Step 1。
-`;
-}
-
-function copyRefreshFromModal(chainId) {
-  const d = CHAINS[chainId];
-  if (!d) return;
-  const ta = document.getElementById('refresh-prompt-text');
-  if (!ta) return;
-  const text = ta.value;
-
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(
-      () => { showToast('已复制，去 CC 粘贴'); closeRefreshModal(); },
-      () => { ta.select(); showToast('clipboard 不可用，已选中文本，请 Ctrl+C 手动复制'); }
-    );
-  } else {
-    // file:// 等 clipboard 不可用场景，回退为自动选中
-    ta.select();
-    ta.setSelectionRange(0, text.length);
-    showToast('clipboard 不可用，已选中文本，请 Ctrl+C 手动复制');
-  }
-}
+// ===== commit 4.10：删除 chain header 🔄 生成刷新指令按钮 + 模态 + copyRefreshPrompt 全套 =====
+// 旧位置（已删）：line 3505-3680（原 copyRefreshPrompt + REFRESH_SCOPES + showRefreshModal + closeRefreshModal + onRefreshScopeChange + buildRefreshPrompt + copyRefreshFromModal）
 
 function showToast(msg) {
   let toast = document.getElementById('toast');
@@ -3695,9 +3508,32 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
-function init() {
+// ===== commit 4.10：changelog 优先从 git log 拉（scripts/changelog_server.py 提供 /api/changelog）=====
+//  接口不可用（生产环境无 git / 端口 8769 未启动）→ fallback 到内置 CHANGELOG 数组
+async function fetchChangelogFromGit(chain) {
+  try {
+    const url = '/api/changelog?chain=' + encodeURIComponent(chain || 'all');
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 1500);  // 1.5s 超时（接口无响应立刻 fallback）
+    const resp = await fetch(url, { signal: ctrl.signal });
+    clearTimeout(t);
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.commits || [];
+  } catch (e) {
+    // 接口不可用（fetch 失败 / 超时 / CORS）→ 返回 null 触发 fallback
+    return null;
+  }
+}
+
+async function init() {
   loadAllCustomChains();   // ★ 升级六：复活 localStorage 里的自定义赛道
   route();
+  // ★ commit 4.10：先尝试从 git 接口拉 changelog，失败则用内置 CHANGELOG 渲染
+  const gitCommits = await fetchChangelogFromGit(currentChain || 'pcb');
+  if (gitCommits && gitCommits.length) {
+    window.__CHANGELOG_FROM_GIT__ = gitCommits;
+  }
   renderChangelog();
 }
 window.addEventListener('DOMContentLoaded', init);
