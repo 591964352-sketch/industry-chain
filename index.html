@@ -1687,6 +1687,155 @@ function renderChain(chainId) {
     }
     h += `</div>`;
   }
+
+  // ★ 阶段五 commit 4.19：信号 C 监测 card（在 ① section 内·紧跟 A/B 监测之后）
+  //   读取 CHAINS.pcb.signalCMeta（commit 4.17 注入）
+  //   显示 4 统计 + 命中表格 + 阈值说明
+  if (d.signalCMeta && d.signalCMeta.stats) {
+    const sc = d.signalCMeta;
+    const scs = sc.stats;
+    const sct = sc.config || {};
+    const triggeredTotal = scs.triggered_total || 0;
+    const triggeredA = scs.triggered_A || 0;
+    const triggeredB = scs.triggered_B || 0;
+    const totalExcludedC = Object.values(scs.excluded || {}).reduce((a, b) => a + (b || 0), 0);
+    // 扫描总数 = 触发命中 + 被排除
+    const scannedTotal = triggeredTotal + totalExcludedC;
+
+    h += `<div class="card" style="padding:20px;margin-top:14px;">`;
+    h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">📡 信号 C 监测 · <span style="color:var(--accent);">卡口回调进场</span></div>`;
+
+    // 4 统计数字
+    h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
+    h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">条件 A 命中（相对回调）</div>`;
+    h += `<div style="font-size:18px;font-weight:600;color:${triggeredA>0?'var(--green)':'var(--muted)'};">${triggeredA} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `</div>`;
+    h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">条件 B 命中（绝对分位）</div>`;
+    h += `<div style="font-size:18px;font-weight:600;color:${triggeredB>0?'var(--green)':'var(--muted)'};">${triggeredB} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `</div>`;
+    h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描总数</div>`;
+    h += `<div style="font-size:18px;font-weight:600;color:var(--accent);">${scannedTotal} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `</div>`;
+    h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">被排除总数</div>`;
+    h += `<div style="font-size:18px;font-weight:600;color:var(--barrier-low);">${totalExcludedC} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `</div>`;
+    h += `</div>`;
+
+    if (triggeredTotal === 0) {
+      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--barrier-mid);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
+      h += `💡 当前 ${d.name} 板块 PE 处于历史高位，暂无回调进场机会。`;
+      h += `<br><span style="color:var(--muted);">条件 A 需要：</span>PE 分位从高点回落 ≥ 15 个百分点 + 股价回撤 ≥ 15% + 缩量`;
+      h += `<br><span style="color:var(--muted);">条件 B 需要：</span>PE 分位 &lt; 60%（成长赛道）或 &lt; 50%（普通）+ 股价回撤 ≥ 10% + 缩量`;
+      h += `</div>`;
+    } else {
+      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📌 命中股票列表（${triggeredTotal} 只）</div>`;
+      h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:12px;">`;
+      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:80px;">触发条件</th><th style="width:110px;">距前高回落幅度</th><th style="width:90px;">PE历史分位</th><th style="width:110px;">近5日/60日量比</th><th style="width:160px;">仓位建议</th></tr></thead><tbody>`;
+      (sc.triggeredList || []).forEach(s => {
+        const condTag = (s.conditions || '').split('+').map(c =>
+          c === 'A'
+            ? '<span class="tag tg-green" style="font-size:10px;">A</span>'
+            : '<span class="tag tg-high" style="font-size:10px;">B</span>'
+        ).join(' ');
+        const fromHighStr = s.fromHigh !== null && s.fromHigh !== undefined
+          ? (s.fromHigh * 100).toFixed(1) + '%' : '—';
+        // 距前高回落越深越偏蓝绿（-30% 深）；越浅（-5%）偏红
+        const fromHighCls = s.fromHigh === null || s.fromHigh === undefined ? 'tg-gray'
+          : s.fromHigh <= -0.25 ? 'tg-green' : s.fromHigh <= -0.15 ? 'tg-mid' : 'tg-extreme';
+        const volRatioStr = s.volRatio5d !== null && s.volRatio5d !== undefined
+          ? s.volRatio5d.toFixed(2) : '—';
+        const volRatioCls = s.volRatio5d === null || s.volRatio5d === undefined ? 'tg-gray'
+          : s.volRatio5d <= 0.8 ? 'tg-green' : s.volRatio5d <= 1.2 ? 'tg-mid' : 'tg-extreme';
+        h += `<tr>`;
+        h += `<td><code>${s.code}</code></td>`;
+        h += `<td>${s.name||'—'}</td>`;
+        h += `<td>${condTag}</td>`;
+        h += `<td><span class="tag ${fromHighCls}" style="font-size:10px;">${fromHighStr}</span></td>`;
+        h += `<td><span class="tag ${s.pctlDrop !== null && s.pctlDrop !== undefined && s.pctlDrop <= -15 ? 'tg-green' : 'tg-mid'}" style="font-size:10px;">${s.pctlDrop !== null && s.pctlDrop !== undefined ? s.pctlDrop.toFixed(1)+'pp' : '—'}</span></td>`;
+        h += `<td><span class="tag ${volRatioCls}" style="font-size:10px;">${volRatioStr}</span></td>`;
+        h += `<td style="font-size:11px;">${s.position||'—'}</td>`;
+        h += `</tr>`;
+      });
+      h += `</tbody></table></div>`;
+    }
+    h += `</div>`;
+  }
+
+  // ★ 阶段五 commit 4.19：持仓管理信号 card（在 ① section 内·紧跟信号 C 之后）
+  //   读取 CHAINS.pcb.holdingMeta（commit 4.18 注入）
+  //   显示 2 统计 + 减仓/清仓清单 + 无信号说明
+  if (d.holdingMeta && d.holdingMeta.stats) {
+    const hm = d.holdingMeta;
+    const hms = hm.stats;
+    const reduceCount = hms.reduce_count || 0;
+    const exitCount = hms.exit_count || 0;
+    const triggeredList = hm.triggeredList || [];
+    const reduceList = triggeredList.filter(s => s.reduceSignal);
+    const exitList = triggeredList.filter(s => s.exitSignal);
+
+    h += `<div class="card" style="padding:20px;margin-top:14px;">`;
+    h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">🔔 持仓管理 · <span style="color:var(--accent);">减仓/清仓信号</span></div>`;
+
+    // 2 统计数字
+    h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
+    h += `<div style="flex:1;min-width:160px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">需减仓</div>`;
+    h += `<div style="font-size:18px;font-weight:600;color:${reduceCount>0?'var(--barrier-high)':'var(--green)'};">${reduceCount} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `</div>`;
+    h += `<div style="flex:1;min-width:160px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">需清仓</div>`;
+    h += `<div style="font-size:18px;font-weight:600;color:${exitCount>0?'var(--red)':'var(--green)'};">${exitCount} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `</div>`;
+    h += `</div>`;
+
+    // 减仓清单
+    if (reduceList.length > 0) {
+      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📋 减仓清单（${reduceList.length} 只）</div>`;
+      h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
+      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:200px;">减仓原因</th><th>建议操作</th></tr></thead><tbody>`;
+      reduceList.forEach(s => {
+        // 减仓原因高亮（金色/橙色）
+        h += `<tr>`;
+        h += `<td><code>${s.code}</code></td>`;
+        h += `<td>${s.name||'—'}</td>`;
+        h += `<td><span class="tag tg-mid" style="font-size:10px;">${s.reduceReason||'—'}</span></td>`;
+        h += `<td style="font-size:11px;color:var(--barrier-high);">${s.reduceSignal||'—'}</td>`;
+        h += `</tr>`;
+      });
+      h += `</tbody></table></div>`;
+    }
+
+    // 清仓清单
+    if (exitList.length > 0) {
+      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🚨 清仓清单（${exitList.length} 只 · 红色高亮）</div>`;
+      h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
+      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th>清仓原因</th></tr></thead><tbody>`;
+      exitList.forEach(s => {
+        h += `<tr style="background:rgba(246,70,93,0.08);">`;
+        h += `<td><code>${s.code}</code></td>`;
+        h += `<td style="color:var(--red);font-weight:600;">${s.name||'—'}</td>`;
+        h += `<td><span class="tag tg-extreme" style="font-size:10px;">${s.exitReason||'—'}</span> <span style="font-size:11px;color:var(--red);">${s.exitSignal||'—'}</span></td>`;
+        h += `</tr>`;
+      });
+      h += `</tbody></table></div>`;
+    }
+
+    // 无信号
+    if (reduceCount === 0 && exitCount === 0) {
+      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--green);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:4px;">`;
+      h += `✅ 当前持仓状态正常，无需调整。`;
+      h += `<br><span style="color:var(--muted);">减仓触发：PE 历史分位重回 99%+ 且距前高 ≤ -5% / 或放量拉升（量比 &gt; 2.0）</span>`;
+      h += `<br><span style="color:var(--muted);">清仓触发：卡口壁垒降级（暂缓）/ 景气趋势转向 / 系统性风险</span>`;
+      h += `</div>`;
+    }
+
+    h += `</div>`;
+  }
+
   h += `</div>`;
 
   // Section 2/3: Tree Map (新顺序：④ 产业链树状图)
