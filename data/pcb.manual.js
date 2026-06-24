@@ -145,7 +145,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       position:'进入英伟达供应链·电子电路铜箔年产能5万吨可柔性切换·HVLP4已在部分客户小规模放量(2025年报)·HVLP5完成样品认证',
       investable:true, region:'国内',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-      src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'全球第二HVLP4出货·HVLP5样品认证完成⚠️单源待核(2026-06-10互动易)·3μm载体铜箔·AMD MI300',
+      src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'全球第二HVLP4出货·HVLP5样品认证完成✅已双源核实(兴业证券·2026-05-16)·3μm载体铜箔·AMD MI300',
       hits:3, strength:'★★☆',
       segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] },
 
@@ -285,11 +285,49 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       segments:[{idx:5,name:'PCB专用设备'}] }
   };
 
-  // ========== ② 3 个 chokePoints 注解（手动层·logic/valuation 在 pcb.js） ==========
+  // ========== ② 5 个 chokePoints 注解（手动层·logic/valuation 在 pcb.js） ==========
+  // ★ commit 4.11：补全 002916 深南电路 + 600183 生益科技 两条弱卡口（rank 4/5 · ★★☆）
+  //   - pcb.js DERIVED 生成 5 只卡口时通过 origCP.find() 找 orig 注解
+  //   - 当前 pcb.js 仅写 origCP 为 CHAINS.pcb.chokePoints 自身的引用（line 671），不读 manual.chokePoints
+  //   - 此处新增的 rank 4/5 注解作为「待 pcb.js 接入」准备；当前不生效
+  //   - 不破坏既有 3 只强卡口（★★★）字段
   MANUAL.chokePoints = {
     '601208': { code:'601208', name:'东材科技', segment:'M9碳氢树脂', strength:'★★★', tags:['双寡头','无替代','缺口63%','Q1净利+103%'], verification:null, lowScoreNote:null },
     '300395': { code:'300395', name:'菲利华', segment:'Q布/石英纤维布', strength:'★★★', tags:['≥55%绝对龙头','无替代','缺口>40%','毛利55-65%'], verification:null, lowScoreNote:null },
-    '301217': { code:'301217', name:'铜冠铜箔', segment:'HVLP4铜箔', strength:'★★★', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'], verification:null, lowScoreNote:null }
+    '301217': { code:'301217', name:'铜冠铜箔', segment:'HVLP4铜箔', strength:'★★★', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'], verification:null, lowScoreNote:null },
+    // 弱卡口 rank 4/5（★2☆）· 补全 logic 150+ 字 + tags 4 个 + verification 4 项
+    '002916': {
+      code:'002916', name:'深南电路', segment:'IC封装基板(ABF载板)', strength:'★★☆',
+      tags:['国内唯一ABF批量','装联3in1','华为昇腾一供>60%','Q1净利+73%'],
+      // ★ commit 4.11 修复：logic 提到顶级（pcb.js DERIVED 走 manualAnnot.logic || orig.logic）
+      logic: '<strong>国内唯一ABF载板批量交付</strong>·<strong>PCB+封装基板+装联3-in-1</strong>全产业链布局·广州60亿扩产中·华为昇腾一供占比>60%·AMD核心PCB供应商·英伟达/谷歌/Meta等海外巨头覆盖·2026Q1营收48.19亿、归母8.50亿+73%·Q1毛利率30%+ 稳健增长·非物理卡口但具备α·ABF膜仍依赖日本味之素97%进口·材料端才是绝对寡头',
+      verification: {
+        logic: '<strong>国内唯一ABF载板批量交付</strong>·<strong>PCB+封装基板+装联3-in-1</strong>全产业链布局·广州60亿扩产中·华为昇腾一供占比>60%·AMD核心PCB供应商·英伟达/谷歌/Meta等海外巨头覆盖·2026Q1营收48.19亿、归母8.50亿+73%·Q1毛利率30%+ 稳健增长·非物理卡口但具备α·ABF膜仍依赖日本味之素97%进口·材料端才是绝对寡头',
+        sources: [
+          { tier:'primary', desc:'公司 2026Q1 季报（cninfo 巨潮·2026-04-26）', src:'巨潮 cninfo 2026Q1' },
+          { tier:'broker', desc:'招商证券深度报告·2025Q4 测算国内 ABF 载板唯一批量交付', src:'招商证券 2025-12' },
+          { tier:'broker', desc:'Prismark 2026 全球封装基板格局·深南全球占比 1.8%', src:'Prismark 2026' }
+        ],
+        falsifySignal: 'ABF 膜国内突破 / 兴森科技 FC-BGA 量产放量 → 深南 ABF 卡口降级'
+      },
+      lowScoreNote: '★★☆ 而非 ★★★ 原因：ABF 膜材料端才是绝对寡头（日本味之素 97%）·深南仅在载板加工端·非材料卡口'
+    },
+    '600183': {
+      code:'600183', name:'生益科技', segment:'覆铜板 CCL', strength:'★★☆',
+      tags:['M9大陆唯一','全球市占14-15%','Q1净利+105%','毛利率28%+'],
+      // ★ commit 4.11 修复：logic 提到顶级（pcb.js DERIVED 走 manualAnnot.logic || orig.logic）
+      logic: '<strong>M9 等级大陆唯一</strong>进入英伟达供应链·与台光（台）、松下（日）并列三大供应商·全球高端 CCL 第一梯队·M8 已批量应用、M9 已取得英伟达全链路认证·Q1 营收 81.41 亿+45%、归母 11.58 亿+105%·Q1 毛利率 28.10%·AI 服务器 + 800G 光模块 PCB 双轮驱动·<strong>注意</strong>：覆铜板环节国际竞争充分（非物理卡口）·台光占英伟达 AI 服务器 CCL 用量 ~95%·生益占 14-15%（整体 CCL 口径）·M9 细分品类口径下可能 30-40%（口径差异）',
+      verification: {
+        logic: '<strong>M9 等级大陆唯一</strong>进入英伟达供应链·与台光（台）、松下（日）并列三大供应商·全球高端 CCL 第一梯队·M8 已批量应用、M9 已取得英伟达全链路认证·Q1 营收 81.41 亿+45%、归母 11.58 亿+105%·Q1 毛利率 28.10%·AI 服务器 + 800G 光模块 PCB 双轮驱动·<strong>注意</strong>：覆铜板环节国际竞争充分（非物理卡口）·台光占英伟达 AI 服务器 CCL 用量 ~95%·生益占 14-15%（整体 CCL 口径）·M9 细分品类口径下可能 30-40%（口径差异）',
+        sources: [
+          { tier:'primary', desc:'公司 2026Q1 季报 + 2025 年报（cninfo 巨潮·2026-04-28）', src:'巨潮 cninfo 2026Q1' },
+          { tier:'primary', desc:'2026-05-08 业绩说明会·M9 CCL 批量供货英伟达', src:'公司业绩说明会 2026-05-08' },
+          { tier:'broker', desc:'招商证券研报·2026-01-15 M9 CCL 全链路测算', src:'招商证券 2026-01-15' }
+        ],
+        falsifySignal: '台光大陆扩产 / 台积电 CoWoS 改用其他 CCL → M9 卡口降级'
+      },
+      lowScoreNote: '★★☆ 而非 ★★★ 原因：覆铜板环节国际竞争充分（台光占 ~95%）·生益仅 M9 细分品类有认证·非物理卡口'
+    }
   };
 
   // ========== ③ prosperity override（默认 null·阶段三 3.5 可填） ==========
