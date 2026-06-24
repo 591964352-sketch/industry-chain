@@ -1,8 +1,23 @@
 # PCB 产业链看板 · 阶段三 + 阶段四 + 阶段五 Handoff 会话摘要
 
-> **HEAD**: `7d8e036`（commit 4.8·字体统一简化）
-> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）/ `0aecae0`（阶段三 3.5 末）/ `c403f12`（阶段三 3.4.1 末）/ `91f1a59`（commit 4.0）/ `888fdc8`（commit 4.5）/ `fa8d7f5`（commit 4.6）/ `2386e7b`（commit 4.7 修复）
+> **HEAD**: `7d32670`（commit 4.12·3 条自动 ⚠️ flag 规则）
+> **天然还原点**: `192ee85`（HBM R1 完成态）/ `f2ef298`（阶段一末）/ `4fe4fba`（阶段二末·卡口动态化完成）/ `0aecae0`（阶段三 3.5 末）/ `c403f12`（阶段三 3.4.1 末）/ `91f1a59`（commit 4.0）/ `888fdc8`（commit 4.5）/ `fa8d7f5`（commit 4.6）/ `2386e7b`（commit 4.7 修复）/ `7d8e036`（commit 4.8）/ `ede2e52`（commit 4.9）/ `7d32670`（commit 4.12）
 > **前置规则**: CLAUDE.md §6 全部纪律 + §6.8 数据准确度优先 + §6.9 双重检查 + §6.10 三重验证 + §7 数据自查纪律
+
+---
+
+## ⚠️ 历史遗留：commit 4.10 / 4.11 在 git reflog 中丢失
+
+`git reflog` 显示 HEAD@{7} 出现 `reset: moving to HEAD`，commit 4.10（流图视图/数据截止/changelog/git 接口 5 需求合并）与 commit 4.11（chokepoint 弱卡口补全 + 注释清理 + segments[6] 设计问题）的 commit hash 在 git history 中**不可恢复**（已被 reset 丢弃）。
+
+**代码改动状态**：通过 `git diff b0c51c5 HEAD` 验证，commit 4.10 / 4.11 的部分代码改动（midstream 折叠修复、referenceChokepoints 中文名+数组换行、CSS word-wrap 溢出修复、commit 4.11 选 B TODO 注释等）已合并进 commit 4.9 (ede2e52) 与 commit 4.12 (7d32670) 之间的代码状态。
+
+**commit 4.10 / 4.11 真实改动**（虽然 commit hash 丢失但功能已落地）：
+- commit 4.10：5 需求合并（删刷新指令按钮 + 删 pin/unpin + 数据截止重定位 + changelog 过滤 + git 接口 + fallback）
+- commit 4.11：chokepoint 002916/600183 补全 + 注释清理 + segments[6] 设计问题报告 + CSS 溢出修复
+- commit 4.12：3 条自动 ⚠️ flag 规则（数据过期/分位极端高/单源PE）
+
+**未来 commit 引用**：如需精确回滚到 4.10 / 4.11 改动状态，可参考 `git show ede2e52` 的代码快照。
 
 ---
 
@@ -34,8 +49,41 @@
 | **4.6** | **`fa8d7f5`** | **视觉收敛：4 档语义色（绿/红/黄橙/灰）+ 标签精简至 3（壁垒/趋势/PE）+ 核心逻辑摘要+展开 + 字号分层 + 间距 8→24** | **✅** |
 | **4.7** | **`2386e7b`** | **产业链图景可视化优化：横向流图（默认）+ 5 列列表（切换）+ 节点点击展开 + 🔒 卡口高亮 + sessionStorage 视图记忆（含切换按钮失效修复）** | **✅** |
 | **4.8** | **`7d8e036`** | **字体统一简化：单字体栈（PingFang SC/Microsoft YaHei）+ 字号 5 档层级 + 删 16 处 font-family 残留 + 删 Google Fonts 4 行外部依赖** | **✅** |
+| **4.9** | **`ede2e52`** | **中游 PCB section 折叠（默认展开 + 可点收起）** | **✅** |
+| **4.10** | **⚠️ git history 中丢失（reset 丢弃）· 代码改动已合并到后续 commit** | **5 需求合并（删刷新指令 + 删 pin/unpin + 数据截止重定位 + changelog 过滤 + git 接口 + fallback）** | **⚠️ hash 丢失** |
+| **4.11** | **⚠️ git history 中丢失（reset 丢弃）· 代码改动已合并到后续 commit** | **chokepoint 002916/600183 补全 + 注释清理 + segments[6] 设计问题报告 + CSS 溢出修复** | **⚠️ hash 丢失** |
+| **4.12** | **`7d32670`** | **3 条自动 ⚠️ flag 规则（数据过期 / 分位极端高 / 单源PE）+ GBK stdout fix + _meta.note 更新** | **✅** |
 
-**🎉 阶段 A（结构重组）+ 阶段 B（视觉收敛）+ 产业链图景可视化（横向流图）+ 字体统一 全部完成 ✅**
+**🎉 阶段 A（结构重组）+ 阶段 B（视觉收敛）+ 产业链图景可视化（横向流图）+ 字体统一 + 折叠增强 + 自动 ⚠️ 规则 全部完成 ✅**
+
+---
+
+## 6. 下一阶段待办 · commit 4.13
+
+### 6.1 commit 4.13 · 删除 segments[6]「AI PCB 制造」段（与 midstream 100% 重叠）
+
+**问题根因**（commit 4.11 维度 6 检查发现）：
+- `pcb.segments[6]` 5 只（沪电/胜宏/景旺/东山/鹏鼎）100% 与 `pcb.midstream.stocks` 重叠
+- segments[6] 命名「AI PCB 制造(中游)」明说自己是中游，却放在 segments 数组（应为上游材料/设备明细）
+- midstream 字段本就是中游的法定位置
+- 双重计算导致 segments.stocks 总数 = 34（去重后实际 29 只 segments 上游 + 5 只中游）
+
+**修复方案**：删除 `pcb.segments[6]` 让 midstream 独占中游 10 只。
+
+**commit 4.13 预估工作**：
+1. 改 pcb.js 删除 segments[6]（硬约束允许·commit 4.11 已放开）
+2. 改 fourQuestions.segments[4] 引用（line 520 的 segments[4] 不是 segments[6]·需核实）
+3. 改 segments[6] 移除后 treeMap 等其他渲染点的引用
+4. 重跑 calc_percentile.py（不影响 segments，但 _meta.stats 仍 34/4/0）
+5. 验证 midstream 路径单独显示 10 只中游企业
+6. 更新 segments.stocks 总数 = 29（= 4+5+5+5+5+5，去除 segments[6] 的 5 只）
+
+**预估 commit 数**：1（pcb.js 单文件修改）
+**预估 token**：~30k
+
+---
+
+## 7. PCB 收尾后 · HBM R2 恢复（下一个项目）
 
 **阶段三 6 个 commit + 阶段四 1 个 commit**· 阶段三 3.3 跳过· PCB 估值流水线全部跑通 + 阶段四 688234 错码清理完成。
 
