@@ -983,115 +983,165 @@ function renderStopLossPlan(holdings) {
 //          industry (from MANUAL.macro.5 维度) + sentiment (from marketRisk) + technical (from c.valuation.fromHigh)
 function renderDecisionScoreCard(holdings) {
   if (!holdings || !holdings.length) return '';
-  const fw = (window.PCB_MANUAL && window.PCB_MANUAL.decisionFramework) || null;
-  const dims = fw ? fw.dimensions : null;
   const macro = (window.PCB_MANUAL && window.PCB_MANUAL.macro) || null;
   const marketRisk = (window.PCB_MANUAL && window.PCB_MANUAL.marketRisk) || 'normal';
 
-  // 遍历每只持仓算综合分
-  let perHoldingScores = [];
-  holdings.forEach(s => {
-    const manualStock = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[s.code]) || null;
-    const f = manualStock && manualStock.fundamentals;
-    // 从 CHAINS 找 valuation（cross-chain 300442/300223 在 CHAINS.pcb 中可能没 valuation）
-    const chainsStock = (window.CHAINS && window.CHAINS.pcb && window.CHAINS.pcb.segments || []).flatMap(seg => seg.stocks || []).find(x => x.code === s.code);
-    const v = chainsStock && chainsStock.valuation;
+  // ★ commit 4.46：拆分为「基本面评级」+「估值风险」两个独立模块（不互相抵消）
+  //   模块一：基本面评级（不含估值）· 4 维度：基本面 + 景气度 + 情绪 + 技术面
+  //   模块二：估值风险（单独展示）· PE 分位 → 风险等级
 
+  // ──────── 模块一 · 基本面评级（不含估值）────────
+  function calcFundamentalRating(f, macro, marketRisk) {
+    // 评分维度不含 PE / fromHigh / pePercentile
     let score = 0;
     const detail = [];
+    if (!f) return { score, detail, available: false };
 
-    // 1) fundamental: grossMarginTrend=down → -10 · scissorGap=danger → -15
-    if (f) {
-      if (f.grossMarginTrend === 'down') { score -= 10; detail.push({ k: 'fundamental', v: '毛利率趋势 ↓', pts: -10 }); }
-      if (f.scissorGap === 'danger') { score -= 15; detail.push({ k: 'fundamental', v: '剪刀差=danger', pts: -15 }); }
-      if (f.grossMarginTrend === 'up') { detail.push({ k: 'fundamental', v: '毛利率趋势 ↑', pts: 0 }); }
-    } else {
-      detail.push({ k: 'fundamental', v: '暂无数据', pts: 0 });
+    // 正面加分
+    if (typeof f.netProfitGrowth === 'number') {
+      if (f.netProfitGrowth > 100) { score += 25; detail.push({ v: `净利 +${f.netProfitGrowth.toFixed(0)}% > 100%`, pts: +25 }); }
+      else if (f.netProfitGrowth > 50) { score += 15; detail.push({ v: `净利 +${f.netProfitGrowth.toFixed(0)}% > 50%`, pts: +15 }); }
     }
-
-    // 2) valuation: pePercentile>95 → -20 · >99 → -30
-    if (v && typeof v.pePercentile === 'number') {
-      const p = v.pePercentile;
-      if (p > 99) { score -= 30; detail.push({ k: 'valuation', v: `PE 分位 ${p.toFixed(1)}% > 99%`, pts: -30 }); }
-      else if (p > 95) { score -= 20; detail.push({ k: 'valuation', v: `PE 分位 ${p.toFixed(1)}% > 95%`, pts: -20 }); }
-      else { detail.push({ k: 'valuation', v: `PE 分位 ${p.toFixed(1)}%`, pts: 0 }); }
-    } else {
-      detail.push({ k: 'valuation', v: '暂无数据', pts: 0 });
+    if (f.grossMarginTrend === 'up') { score += 10; detail.push({ v: '毛利率趋势 ↑', pts: +10 }); }
+    if (typeof f.revenueGrowth === 'number' && f.revenueGrowth > 30) {
+      score += 10; detail.push({ v: `营收 +${f.revenueGrowth.toFixed(0)}% > 30%`, pts: +10 });
     }
-
-    // 3) industry: macro 中 negative 影响维度每个 → -10
+    if (f.fcfPositive === true) {
+      score += 5; detail.push({ v: 'FCF+', pts: +5 });
+    }
+    // 景气度（macro）
+    if (macro && macro.aiServerDemand && macro.aiServerDemand.trend === 'strong') {
+      score += 10; detail.push({ v: 'AI 服务器需求 strong', pts: +10 });
+    }
+    // 情绪
+    if (marketRisk === 'caution') { score -= 5; detail.push({ v: '市场风险 caution', pts: -5 }); }
+    else if (marketRisk === 'extreme') { score -= 15; detail.push({ v: '市场风险 extreme', pts: -15 }); }
+    // 技术面（从 CHAINS 拿 fromHigh）
+    // 注意: fromHigh 由调用方传入（不在 f 里）
+    // 负面扣分
+    if (f.grossMarginTrend === 'down') { score -= 10; detail.push({ v: '毛利率趋势 ↓', pts: -10 }); }
+    if (f.scissorGap === 'danger') { score -= 15; detail.push({ v: '剪刀差=danger', pts: -15 }); }
+    // 行业景气负向（macro）
     if (macro) {
       let negCount = 0;
       ['copperFoilPrice','glassFiberPrice','aiServerDemand','autoElecDemand','pcbUtilRate'].forEach(k => {
         if (macro[k] && macro[k].impact === 'negative') negCount++;
       });
-      if (negCount > 0) { score -= (10 * negCount); detail.push({ k: 'industry', v: `${negCount} 维度负向`, pts: -10 * negCount }); }
-      else { detail.push({ k: 'industry', v: '全维度正/中性', pts: 0 }); }
-    } else {
-      detail.push({ k: 'industry', v: '暂无 macro', pts: 0 });
+      if (negCount > 0) { score -= (10 * negCount); detail.push({ v: `${negCount} 维度负向`, pts: -10 * negCount }); }
+    }
+    return { score, detail, available: true };
+  }
+
+  // 基本面评级 → 颜色 + 标签
+  function ratingForScore(sc) {
+    if (sc > 20) return { txt: '🟢 基本面强劲·建议持有', color: 'var(--green)', cls: 'tg-green' };
+    if (sc >= 5) return { txt: '🟡 基本面稳健·持有观察', color: 'var(--accent)', cls: 'tg-mid' };
+    if (sc >= -10) return { txt: '🟠 基本面走弱·建议减仓', color: 'var(--accent)', cls: 'tg-mid' };
+    return { txt: '🔴 基本面恶化·建议清仓', color: 'var(--red)', cls: 'tg-extreme' };
+  }
+
+  // ──────── 模块二 · 估值风险（独立展示）────────
+  function calcValuationRisk(pePercentile) {
+    if (typeof pePercentile !== 'number') return { available: false };
+    const p = pePercentile;
+    if (p > 99) return { available: true, score: p, txt: '🔴 极高估值风险', desc: `PE 分位 ${p.toFixed(2)}% (历史最贵区间)`, color: 'var(--red)', cls: 'tg-extreme' };
+    if (p > 95) return { available: true, score: p, txt: '🟠 高估值风险',   desc: `PE 分位 ${p.toFixed(2)}%`, color: 'var(--red)', cls: 'tg-extreme' };
+    if (p > 80) return { available: true, score: p, txt: '🟡 估值偏高',     desc: `PE 分位 ${p.toFixed(2)}%`, color: 'var(--accent)', cls: 'tg-mid' };
+    return { available: true, score: p, txt: '🟢 估值合理', desc: `PE 分位 ${p.toFixed(2)}%`, color: 'var(--green)', cls: 'tg-green' };
+  }
+
+  // 遍历每只持仓算两个独立模块
+  let perHoldingResults = [];
+  holdings.forEach(s => {
+    const manualStock = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[s.code]) || null;
+    const f = manualStock && manualStock.fundamentals;
+    // valuation: cross-chain 持仓可能没 entry
+    const chainsStock = (window.CHAINS && window.CHAINS.pcb && window.CHAINS.pcb.segments || []).flatMap(seg => seg.stocks || []).find(x => x.code === s.code);
+    const v = chainsStock && chainsStock.valuation;
+
+    // 模块一：基本面评级
+    const fundamental = calcFundamentalRating(f, macro, marketRisk);
+    // 技术面额外加分（fromHigh 来自 CHAINS valuation）
+    if (v && typeof v.fromHigh === 'number' && v.fromHigh < -0.15) {
+      fundamental.score -= 8;
+      fundamental.detail.push({ v: `距前高 ${(v.fromHigh*100).toFixed(1)}% < -15%`, pts: -8 });
     }
 
-    // 4) sentiment: marketRisk=caution → -5 · extreme → -15
-    if (marketRisk === 'extreme') { score -= 15; detail.push({ k: 'sentiment', v: '系统性极端', pts: -15 }); }
-    else if (marketRisk === 'caution') { score -= 5; detail.push({ k: 'sentiment', v: '系统性谨慎', pts: -5 }); }
-    else { detail.push({ k: 'sentiment', v: '系统性正常', pts: 0 }); }
+    // 模块二：估值风险
+    const valuation = calcValuationRisk(v && typeof v.pePercentile === 'number' ? v.pePercentile : null);
 
-    // 5) technical: fromHigh < -0.15 → -10
-    if (v && typeof v.fromHigh === 'number' && v.fromHigh < -0.15) { score -= 10; detail.push({ k: 'technical', v: `距前高 ${(v.fromHigh*100).toFixed(1)}% < -15%`, pts: -10 }); }
-    else if (v && typeof v.fromHigh === 'number') { detail.push({ k: 'technical', v: `距前高 ${(v.fromHigh*100).toFixed(1)}%`, pts: 0 }); }
-    else { detail.push({ k: 'technical', v: '暂无数据', pts: 0 }); }
-
-    perHoldingScores.push({ code: s.code, name: s.name, score, detail });
+    perHoldingResults.push({
+      code: s.code,
+      name: s.name,
+      fundamental,
+      valuation
+    });
   });
 
-  // 操作建议（基于总分）
-  const actionForScore = (sc) => {
-    if (sc > -10) return { txt: '✅ 持有', color: 'var(--green)' };
-    if (sc >= -25) return { txt: '⚠️ 减仓第一档', color: 'var(--accent)' };
-    if (sc >= -40) return { txt: '⚠️ 减仓第二档', color: 'var(--red)' };
-    return { txt: '🚨 清仓', color: 'var(--red)' };
-  };
+  // 顶部说明（两个模块独立）
+  const ruleSummary = `
+    <div style="margin-bottom:12px;padding:10px 12px;background:var(--card);border-radius:4px;font-size:11px;color:var(--text);line-height:1.8;">
+      <strong style="color:var(--accent);">📋 评分架构（commit 4.46 拆分）</strong><br>
+      <strong>模块一 · 基本面评级</strong>（不含估值）：总分 &gt; 20 → 🟢 强劲 · 5~20 → 🟡 稳健 · -10~5 → 🟠 走弱 · &lt; -10 → 🔴 恶化<br>
+      <strong>模块二 · 估值风险</strong>（独立展示）：PE &gt; 99% → 🔴 极高 · &gt; 95% → 🟠 高 · &gt; 80% → 🟡 偏高 · ≤ 80% → 🟢 合理
+    </div>
+  `;
 
   let rows = '';
-  perHoldingScores.forEach(h => {
-    const a = actionForScore(h.score);
+  perHoldingResults.forEach(h => {
+    // 模块一评级
+    const fundRating = h.fundamental.available ? ratingForScore(h.fundamental.score) : { txt: '暂无数据·建议人工判断', color: 'var(--muted)', cls: 'tg-gray' };
+    // 模块二估值
+    const valRating = h.valuation.available ? h.valuation : { txt: '暂无数据', color: 'var(--muted)', cls: 'tg-gray', desc: 'cross-chain 持仓无 PE 分位数据' };
+
+    // 基础分显示（仅当数据可用）
+    const fundScoreHtml = h.fundamental.available
+      ? `<span style="font-weight:700;font-size:13px;color:${fundRating.color};">${h.fundamental.score >= 0 ? '+' : ''}${h.fundamental.score}</span>`
+      : `<span style="color:var(--muted);font-size:11px;">—</span>`;
+    const valScoreHtml = h.valuation.available
+      ? `<span style="font-weight:700;font-size:13px;color:${valRating.color};">${h.valuation.score.toFixed(1)}%</span>`
+      : `<span style="color:var(--muted);font-size:11px;">—</span>`;
+
+    // 扣分明细（仅当数据可用）
+    const detailHtml = h.fundamental.available && h.fundamental.detail.length
+      ? `<div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:10px;color:var(--muted);line-height:1.6;">${h.fundamental.detail.map(d => `<span style="margin-right:10px;">${d.v}${d.pts !== 0 ? ` <span style="color:${d.pts < 0 ? 'var(--red)' : 'var(--green)'};font-weight:600;">${d.pts > 0 ? '+' : ''}${d.pts}</span>` : ''}</span>`).join('')}</div>`
+      : '';
+
     rows += `
-      <div style="margin-bottom:10px;padding:8px 10px;background:var(--card);border-radius:4px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-          <span style="font-size:12px;font-weight:600;color:var(--text);">${h.code} ${h.name}</span>
-          <span style="display:flex;gap:6px;align-items:center;">
-            <span style="font-size:11px;color:var(--muted);">总分</span>
-            <span style="font-weight:700;font-size:14px;color:${h.score > -10 ? 'var(--green)' : h.score > -25 ? 'var(--accent)' : 'var(--red)'};">${h.score}</span>
-            <span class="tag" style="font-size:10px;color:${a.color};border:1px solid ${a.color};">${a.txt}</span>
-          </span>
+      <div style="margin-bottom:12px;padding:10px 12px;background:var(--card);border-radius:6px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:600;color:var(--text);">${h.code} ${h.name}</span>
         </div>
-        <div style="font-size:10px;color:var(--muted);line-height:1.6;">${h.detail.map(d => `<span style="margin-right:10px;"><span style="color:var(--accent);">${d.k}</span>: ${d.v}${d.pts !== 0 ? ` <span style="color:${d.pts < 0 ? 'var(--red)' : 'var(--green)'};font-weight:600;">${d.pts}</span>` : ''}</span>`).join('')}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
+          <div style="padding:8px 10px;background:rgba(0,0,0,0.18);border-radius:4px;border-left:3px solid ${fundRating.color};">
+            <div style="color:var(--muted);font-size:10px;margin-bottom:4px;">基本面评级（不含估值）</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+              ${fundScoreHtml}
+              <span class="tag ${fundRating.cls}" style="font-size:10px;">${fundRating.txt}</span>
+            </div>
+          </div>
+          <div style="padding:8px 10px;background:rgba(0,0,0,0.18);border-radius:4px;border-left:3px solid ${valRating.color};">
+            <div style="color:var(--muted);font-size:10px;margin-bottom:4px;">估值风险（独立）</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+              ${valScoreHtml}
+              <span class="tag ${valRating.cls}" style="font-size:10px;">${valRating.txt}</span>
+            </div>
+            <div style="font-size:10px;color:var(--muted);">${valRating.desc || ''}</div>
+          </div>
+        </div>
+        ${detailHtml}
       </div>
     `;
   });
-
-  // 顶部权重说明
-  let dimSummary = '';
-  if (dims) {
-    dimSummary = `<div style="margin-bottom:12px;font-size:11px;color:var(--muted);line-height:1.7;">权重：${Object.keys(dims).map(k => `${dims[k].weight > 0 ? `<span style="color:var(--accent);">${dims[k].weight}%</span> ${k}` : ''}`).filter(Boolean).join(' · ')}</div>`;
-  }
-  // 顶部规则
-  const ruleSummary = `
-    <div style="margin-bottom:12px;padding:8px 10px;background:var(--card);border-radius:4px;font-size:11px;color:var(--muted);line-height:1.7;">
-      <strong style="color:var(--accent);">📋 操作规则：</strong>
-      总分 &gt; -10 → 持有 · -10~-25 → 减仓第一档 · -25~-40 → 减仓第二档 · &lt; -40 → 清仓
-    </div>
-  `;
 
   return `
     <details style="background:var(--card2);border-radius:6px;padding:10px 12px;margin-top:10px;border-left:3px solid var(--purple);">
       <summary style="cursor:pointer;list-style:none;outline:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--accent);">
         <span>⚖️ 综合评分</span>
-        <span style="color:var(--muted);font-weight:400;font-size:11px;">（5 维度加权 · 默认折叠）</span>
+        <span style="color:var(--muted);font-weight:400;font-size:11px;">（双模块独立·基本面评级 + 估值风险 · 默认折叠）</span>
         <span style="color:var(--muted);margin-left:auto;font-size:10px;font-weight:400;">▾ 展开</span>
       </summary>
       <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);">
-        ${dimSummary}
         ${ruleSummary}
         ${rows}
       </div>
