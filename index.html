@@ -1926,16 +1926,28 @@ function renderChain(chainId) {
 
     // 减仓清单
     if (reduceList.length > 0) {
-      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📋 减仓清单（${reduceList.length} 只）</div>`;
-      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 本模块扫描全部 38 只 PCB 标的，不限于核心卡口 3 只。</div>`;
+      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📋 减仓清单（${reduceList.length} 只 · 动态判断）</div>`;
+      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 本模块扫描全部 38 只 PCB 标的，不限于核心卡口 3 只。减仓规则（pcb.js 实装）：① PE ≥ 99% + 距前高 ≤ -5% ② 放量拉升 volRatio5d > 2.0 ③ trend 从 up 变 flat（commit 4.18 暂缓·trendHistory 字段已就位待启用）</div>`;
       h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
-      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:180px;">减仓原因</th><th>建议操作</th><th style="width:90px;">联动</th></tr></thead><tbody>`;
+      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:160px;">减仓原因</th><th style="width:200px;">趋势史（trendHistory）</th><th>建议操作</th><th style="width:90px;">联动</th></tr></thead><tbody>`;
       reduceList.forEach(s => {
         // 减仓原因高亮（金色/橙色）
+        const manual = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[s.code]) || null;
+        const hist = (manual && manual.trendHistory) || [];
+        // 趋势史迷你显示：最近 3 个节点 · 颜色按 trend
+        const trendColor = t => t === 'up' ? 'tg-green' : t === 'down' ? 'tg-extreme' : 'tg-mid';
+        let histStr = '—';
+        if (hist.length > 0) {
+          histStr = hist.slice(0, 3).map(h => {
+            const dateShort = (h.date || '').slice(5);  // MM-DD
+            return `<span class="tag ${trendColor(h.trend)}" style="font-size:9px;margin-right:2px;">${dateShort}:${h.trend}</span>`;
+          }).join(' ');
+        }
         h += `<tr>`;
         h += `<td><code>${s.code}</code></td>`;
         h += `<td>${s.name||'—'}</td>`;
         h += `<td><span class="tag tg-mid" style="font-size:10px;">${s.reduceReason||'—'}</span></td>`;
+        h += `<td style="font-size:10px;line-height:1.5;">${histStr}</td>`;
         h += `<td style="font-size:11px;color:var(--barrier-high);">${s.reduceSignal||'—'}</td>`;
         // ★ commit 4.22：减仓清单 → 「📝记录减仓」按钮（预填 side='sell' + triggerSignal='减仓'）
         h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'减仓'})" style="padding:3px 8px;background:var(--barrier-high);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录减仓</button></td>`;
@@ -1944,17 +1956,47 @@ function renderChain(chainId) {
       h += `</tbody></table></div>`;
     }
 
-    // 清仓清单
-    if (exitList.length > 0) {
-      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🚨 清仓清单（${exitList.length} 只 · 红色高亮）</div>`;
+    // 清仓清单（commit 4.18 暂缓 + commit 4.28 trendHistory 启用）
+    //   触发条件：① barrier 从极高降级（暂缓）② trend = down ③ marketRisk = extreme
+    //   commit 4.28 新增：动态检测 stock.trendHistory 最新一项 trend = down → 加入清仓清单顶部
+    const trendDownList = [];
+    if (window.PCB_MANUAL && window.PCB_MANUAL.stocks) {
+      Object.keys(window.PCB_MANUAL.stocks).forEach(code => {
+        const stk = window.PCB_MANUAL.stocks[code];
+        if (!stk || !stk.trendHistory || stk.trendHistory.length === 0) return;
+        const latest = stk.trendHistory[0];
+        if (latest && latest.trend === 'down') {
+          trendDownList.push({
+            code: code,
+            name: stk.name || code,
+            exitReason: 'trendHistory→down',
+            exitSignal: `🔴立即清仓·趋势转向（${latest.date || '?'}：${latest.note || '最近一次 trend 评估转为 down'}）`,
+            trendHistory: stk.trendHistory
+          });
+        }
+      });
+    }
+    const totalExitList = [...trendDownList, ...exitList];   // ★ commit 4.28：trendDown 在前 + 原有 exitList
+    if (totalExitList.length > 0) {
+      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🚨 清仓清单（${totalExitList.length} 只 · 红色高亮 · 动态判断）</div>`;
+      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 清仓规则（pcb.js + commit 4.28）：① trend 从 up/flat 变 down（trendHistory 动态检测）② 卡口壁垒降级（暂缓）③ 系统性风险 marketRisk=extreme</div>`;
       h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
-      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th>清仓原因</th><th style="width:90px;">联动</th></tr></thead><tbody>`;
-      exitList.forEach(s => {
+      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:160px;">清仓原因</th><th style="width:240px;">趋势史（trendHistory）</th><th style="width:90px;">联动</th></tr></thead><tbody>`;
+      totalExitList.forEach(s => {
+        const trendColor = t => t === 'up' ? 'tg-green' : t === 'down' ? 'tg-extreme' : 'tg-mid';
+        let histStr = '—';
+        const hist = s.trendHistory || [];
+        if (hist.length > 0) {
+          histStr = hist.slice(0, 3).map(h => {
+            const dateShort = (h.date || '').slice(5);
+            return `<span class="tag ${trendColor(h.trend)}" style="font-size:9px;margin-right:2px;">${dateShort}:${h.trend}</span>`;
+          }).join(' ');
+        }
         h += `<tr style="background:rgba(246,70,93,0.08);">`;
         h += `<td><code>${s.code}</code></td>`;
         h += `<td style="color:var(--red);font-weight:600;">${s.name||'—'}</td>`;
         h += `<td><span class="tag tg-extreme" style="font-size:10px;">${s.exitReason||'—'}</span> <span style="font-size:11px;color:var(--red);">${s.exitSignal||'—'}</span></td>`;
-        // ★ commit 4.22：清仓清单 → 「📝记录清仓」按钮（预填 side='sell' + triggerSignal='清仓'）
+        h += `<td style="font-size:10px;line-height:1.5;">${histStr}</td>`;
         h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'清仓'})" style="padding:3px 8px;background:var(--red);color:#fff;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录清仓</button></td>`;
         h += `</tr>`;
       });

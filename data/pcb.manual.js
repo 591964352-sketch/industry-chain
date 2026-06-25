@@ -74,6 +74,13 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       dims6:[{key:'durability',score:3,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-04-26', trend:'up', trendNote:'向高端HDI/多层切换',
+      // ★ commit 4.28：trendHistory 字段（历史 trend 数组·commit 4.18 减仓3 / 清仓1 实装前置）
+      //   用途：判断 trend 从 up 变 down（清仓触发）· 数组按日期降序·最新在前
+      trendHistory: [
+        { date: '2026-04-26', trend: 'up',   note: '向高端HDI/多层切换·AI暴露弱' },
+        { date: '2026-05-20', trend: 'flat', note: 'Q2业绩走平·高端HDI验证延后' },
+        { date: '2026-06-15', trend: 'down', note: 'Q2预告同比下滑·HDI验证未达预期' }
+      ],
       segments:[{idx:'midstream',name:'中游'}] },
 
     '002916': { code:'002916', name:'深南电路', rank:1, barrier:'极高', tier:'primary',
