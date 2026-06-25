@@ -689,6 +689,7 @@ const LS_KEYS = {
   verify: (chainId, code) => `verify_${chainId}_${code}`,
   cards: 'myCards',
   trades: 'myTrades',
+  signalHistory: 'mySignalHistory',  // ★ commit 4.26：信号 C 触发历史
   customChains: 'myCustomChains',   // ★ 升级六：侧栏"+ 新建空模板赛道"
   sidebarCollapsed: 'sidebarCollapsed',  // ★ 升级八 Step 2：侧栏折叠状态
   sidebarOrder: 'mySidebarOrder',        // ★ 侧栏拖拽：用户排序后的 [code1, code2, ...]
@@ -1760,7 +1761,11 @@ function renderChain(chainId) {
         h += `<td><span class="tag ${volRatioCls}" style="font-size:10px;">${volRatioStr}</span></td>`;
         h += `<td style="font-size:11px;">${s.position||'—'}</td>`;
         // ★ commit 4.22：信号 C 命中行 → 「📝记录买入」按钮（预填 triggerSignal='C'）
-        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'buy',triggerSignal:'C'})" style="padding:3px 8px;background:var(--green);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录买入</button></td>`;
+        h += `<td><div style="display:flex;gap:4px;flex-wrap:wrap;">`;
+        h += `<button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'buy',triggerSignal:'C'})" style="padding:3px 8px;background:var(--green);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录买入</button>`;
+        // ★ commit 4.26：信号 C 命中行 → 「📜记录触发」按钮（写入 localStorage 触发历史）
+        h += `<button onclick="recordSignalTrigger({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',conditions:'${s.conditions||'C'}',pePercentile:${s.pePercentile!==null&&s.pePercentile!==undefined?s.pePercentile:'null'},fromHigh:${s.fromHigh!==null&&s.fromHigh!==undefined?s.fromHigh:'null'},volRatio5d:${s.volRatio5d!==null&&s.volRatio5d!==undefined?s.volRatio5d:'null'},pctlDrop:${s.pctlDrop!==null&&s.pctlDrop!==undefined?s.pctlDrop:'null'},position:'${(s.position||'').replace(/'/g, "\\'")}'});alert('已记录 ' + '${s.code}' + ' ' + '${(s.name||'').replace(/'/g, "\\'")}' + ' 信号C触发到历史 · 刷新页面查看');" style="padding:3px 8px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📜记录触发</button>`;
+        h += `</div></td>`;
         h += `</tr>`;
       });
       h += `</tbody></table></div>`;
@@ -1856,6 +1861,39 @@ function renderChain(chainId) {
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
+
+    // ★ commit 4.26：信号 C 触发历史（localStorage · 累积复盘数据）
+    const history = LS.get(LS_KEYS.signalHistory, []);
+    h += `<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">`;
+    h += `<div style="font-size:13px;font-weight:600;margin-bottom:10px;">📜 信号 C 触发历史 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（localStorage · mySignalHistory · ${history.length} 条）</span></div>`;
+    if (history.length === 0) {
+      h += `<div style="padding:18px;text-align:center;color:var(--muted);font-size:13px;background:var(--card2);border-radius:6px;">📭 暂无触发记录。点击上方命中行的「📜记录触发」按钮写入历史。</div>`;
+    } else {
+      h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;">`;
+      h += `<colgroup><col style="width:90px"><col style="width:60px"><col><col style="width:60px"><col style="width:90px"><col style="width:90px"><col style="width:80px"><col style="width:60px"></colgroup>`;
+      h += `<thead><tr><th>记录日期</th><th>代码</th><th>简称</th><th>触发条件</th><th>PE历史分位</th><th>距前高回落幅度</th><th>近5日/60日量比</th><th>操作</th></tr></thead><tbody>`;
+      history.forEach(entry => {
+        const pctlStr = entry.pePercentile !== null && entry.pePercentile !== undefined ? entry.pePercentile.toFixed(2) + '%' : '—';
+        const fromHighStr = entry.fromHigh !== null && entry.fromHigh !== undefined ? (entry.fromHigh * 100).toFixed(1) + '%' : '—';
+        const volStr = entry.volRatio5d !== null && entry.volRatio5d !== undefined ? entry.volRatio5d.toFixed(2) : '—';
+        const condTag = (entry.conditions || 'C').split('+').map(c =>
+          c === 'A' ? '<span class="tag tg-green" style="font-size:10px;">A</span>'
+          : '<span class="tag tg-high" style="font-size:10px;">B</span>'
+        ).join(' ');
+        h += `<tr>`;
+        h += `<td>${entry.recordedAt || '—'}</td>`;
+        h += `<td><code>${entry.code || '—'}</code></td>`;
+        h += `<td>${entry.name || '—'}</td>`;
+        h += `<td>${condTag}</td>`;
+        h += `<td><span class="tag tg-mid" style="font-size:10px;">${pctlStr}</span></td>`;
+        h += `<td><span class="tag tg-mid" style="font-size:10px;">${fromHighStr}</span></td>`;
+        h += `<td><span class="tag tg-mid" style="font-size:10px;">${volStr}</span></td>`;
+        h += `<td><button onclick="removeSignalTrigger('${entry.id}')" style="padding:2px 8px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button></td>`;
+        h += `</tr>`;
+      });
+      h += `</tbody></table></div>`;
+    }
+    h += `</div>`;
     h += `</div>`;
   }
 
@@ -2818,6 +2856,93 @@ function toggleCardStatus(id) {
 // ==================== 交易日志业务函数（升级五） ====================
 function loadTrades() { return LS.get(LS_KEYS.trades, []); }
 function saveTrades(arr) { LS.set(LS_KEYS.trades, arr); }
+
+// ============================================================
+// ★ commit 4.26：信号 C 触发历史（localStorage · 累积复盘数据）
+//   记录字段：{id, code, name, conditions, pePercentile, fromHigh,
+//              volRatio5d, pctlDrop, position, recordedAt, asOf}
+//   用户路径：信号 C 命中行「📜记录触发」按钮 → 写入当前触发状态
+// ============================================================
+function loadSignalHistory() { return LS.get(LS_KEYS.signalHistory, []); }
+function saveSignalHistory(arr) { LS.set(LS_KEYS.signalHistory, arr); }
+
+function recordSignalTrigger(signalData) {
+  // signalData = {code, name, conditions, pePercentile, fromHigh, volRatio5d, pctlDrop, position}
+  const all = loadSignalHistory();
+  const today = new Date().toISOString().slice(0, 10);
+  const entry = {
+    id: `sigC_${signalData.code}_${Date.now()}`,
+    code: signalData.code,
+    name: signalData.name || '—',
+    conditions: signalData.conditions || 'C',
+    pePercentile: signalData.pePercentile !== null && signalData.pePercentile !== undefined ? signalData.pePercentile : null,
+    fromHigh: signalData.fromHigh !== null && signalData.fromHigh !== undefined ? signalData.fromHigh : null,
+    volRatio5d: signalData.volRatio5d !== null && signalData.volRatio5d !== undefined ? signalData.volRatio5d : null,
+    pctlDrop: signalData.pctlDrop !== null && signalData.pctlDrop !== undefined ? signalData.pctlDrop : null,
+    position: signalData.position || '',
+    recordedAt: today,
+    asOf: '2026-06-24'
+  };
+  // 同一 stock + 同日：覆盖（去重）
+  const idx = all.findIndex(e => e.code === entry.code && e.recordedAt === entry.recordedAt);
+  if (idx >= 0) {
+    all[idx] = entry;                                         // 覆盖
+  } else {
+    all.unshift(entry);                                       // 新增置顶
+  }
+  saveSignalHistory(all);
+  return entry;
+}
+
+function removeSignalTrigger(id) {
+  if (!confirm('确定删除这条信号触发记录吗？')) return;
+  saveSignalHistory(loadSignalHistory().filter(e => e.id !== id));
+  renderSignalTriggerHistory();                               // 局部刷新
+}
+
+// ============================================================
+// ★ commit 4.26：渲染信号 C 触发历史列表
+//   数据源：localStorage 'mySignalHistory'
+//   字段：recordedAt / code / name / conditions / pePercentile / fromHigh / volRatio5d
+//   空数据：显示「📭 暂无触发记录」
+// ============================================================
+function renderSignalTriggerHistory() {
+  const container = document.getElementById('signal-trigger-history');
+  if (!container) return;
+  const history = loadSignalHistory();
+  let h = '';
+  h += `<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">`;
+  h += `<div class="card-header" style="font-size:14px;margin-bottom:10px;">📜 信号 C 触发历史 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（localStorage · mySignalHistory · ${history.length} 条）</span></div>`;
+  if (history.length === 0) {
+    h += `<div style="padding:18px;text-align:center;color:var(--muted);font-size:13px;background:var(--card2);border-radius:6px;">📭 暂无触发记录。点击信号 C 命中行的「📜记录触发」按钮记录。</div>`;
+  } else {
+    h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;">`;
+    h += `<colgroup><col style="width:90px"><col style="width:60px"><col><col style="width:60px"><col style="width:90px"><col style="width:90px"><col style="width:80px"><col style="width:60px"></colgroup>`;
+    h += `<thead><tr><th>记录日期</th><th>代码</th><th>简称</th><th>触发条件</th><th>PE历史分位</th><th>距前高回落幅度</th><th>近5日/60日量比</th><th style="width:60px;">操作</th></tr></thead><tbody>`;
+    history.forEach(entry => {
+      const pctlStr = entry.pePercentile !== null && entry.pePercentile !== undefined ? entry.pePercentile.toFixed(2) + '%' : '—';
+      const fromHighStr = entry.fromHigh !== null && entry.fromHigh !== undefined ? (entry.fromHigh * 100).toFixed(1) + '%' : '—';
+      const volStr = entry.volRatio5d !== null && entry.volRatio5d !== undefined ? entry.volRatio5d.toFixed(2) : '—';
+      const condTag = (entry.conditions || 'C').split('+').map(c =>
+        c === 'A' ? '<span class="tag tg-green" style="font-size:10px;">A</span>'
+        : '<span class="tag tg-high" style="font-size:10px;">B</span>'
+      ).join(' ');
+      h += `<tr>`;
+      h += `<td>${entry.recordedAt || '—'}</td>`;
+      h += `<td><code>${entry.code || '—'}</code></td>`;
+      h += `<td>${entry.name || '—'}</td>`;
+      h += `<td>${condTag}</td>`;
+      h += `<td><span class="tag tg-mid" style="font-size:10px;">${pctlStr}</span></td>`;
+      h += `<td><span class="tag tg-mid" style="font-size:10px;">${fromHighStr}</span></td>`;
+      h += `<td><span class="tag tg-mid" style="font-size:10px;">${volStr}</span></td>`;
+      h += `<td><button onclick="removeSignalTrigger('${entry.id}')" style="padding:2px 8px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button></td>`;
+      h += `</tr>`;
+    });
+    h += `</tbody></table></div>`;
+  }
+  h += `</div>`;
+  container.innerHTML = h;
+}
 
 function addTrade(trade) {
   const all = loadTrades();
