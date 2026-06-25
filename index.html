@@ -918,8 +918,8 @@ function formatFromHigh(v) {
 // 数据源: data/pcb.manual.js 的 fundamentals 字段（commit 4.38 fetch_fundamentals.py 注入）
 // 展示位置: stock 卡片估值 sub-section 之后 · 标签区之前
 // ★ commit 4.45：止损计划渲染（3 档止损 + 触发条件 + 行动）
+//   ★ commit 4.47：剥离非 PCB 持仓后·仅 601208 一只
 //   数据源: 601208 读 PCB_MANUAL.stocks[code].riskMetrics.stopLossTier1/2/3
-//          300442/300223 读 HOLDING_NOTES[i].localRiskMetrics.stopLossTier1/2/3
 function renderStopLossPlan(holdings) {
   if (!holdings || !holdings.length) return '';
   const fw = (window.PCB_MANUAL && window.PCB_MANUAL.decisionFramework) || null;
@@ -1611,9 +1611,10 @@ function renderChain(chainId) {
   h += `<div class="section-desc">经过六步下钻+四问筛选，最终确认的物理卡口标的。</div>`;
   h += `<div class="choke-grid" style="margin-bottom:24px;">`;
 
-  // ★ commit 4.41：默认展开名单（持仓 3 只 + 减仓信号触发 stock）
+  // ★ commit 4.41：默认展开名单（持仓 + 减仓信号触发 stock）
+  //   ★ commit 4.47：剥离非 PCB 持仓后·只剩 601208 东材科技一只持仓
   //   持仓名单硬编码（HOLDING_NOTES 与下方持仓说明一致）· 减仓名单从 signalCMeta 触发列表算
-  const HOLDING_CODES_DEFAULT_OPEN = new Set(['601208', '300442', '300223']);
+  const HOLDING_CODES_DEFAULT_OPEN = new Set(['601208']);
   const reduceTriggeredCodes = new Set();
   if (d.signalCMeta && d.signalCMeta.stats && Array.isArray(d.signalCMeta.stats.triggeredList)) {
     d.signalCMeta.stats.triggeredList.forEach(s => {
@@ -2480,49 +2481,19 @@ function renderChain(chainId) {
       h += `</div>`;
     }
 
-    // ★ commit 4.27：当前持仓 · 背景说明（硬编码 3 只 · 不依赖扫描逻辑）
-    //   来源：今日（2026-06-24）关键决策记录 · 持仓跨链·含 PCB/AI 算力/存储芯片
-    //   与减仓/清仓清单独立——3 只持仓均"持有中"·背景说明给出决策依据
-    // ★ commit 4.42：300442/300223 不在 pcb.manual.js MANUAL.stocks 中 → riskMetrics 用本地数据 fallback
+    // ★ commit 4.27：当前持仓 · 背景说明（硬编码 1 只 · 不依赖扫描逻辑）
+    //   来源：今日（2026-06-24）关键决策记录 · 持仓 601208 东材科技
+    //   与减仓/清仓清单独立——持仓均"持有中"·背景说明给出决策依据
+    // ★ commit 4.47：剥离非 PCB 持仓（300442 润泽科技 / 300223 北京君正 cross-chain 持仓已剔除）
     const HOLDING_NOTES = [
       { code: '601208', name: '东材科技', status: '持有',
         segment: 'PCB · M9 碳氢树脂',
         note: 'PE 高位（99.75% 分位）· 注意减仓信号（信号 C 距离显示已覆盖）',
-        color: 'var(--barrier-high)' },
-      { code: '300442', name: '润泽科技', status: '持有',
-        segment: 'AI 算力 · IDC',
-        note: '逻辑成立 · 止损线 75 元',
-        color: 'var(--accent)',
-        localRiskMetrics: {   // 300442 本地风险数据（pcb.manual.js 无 entry）
-          stopLoss: 75.0,
-          stopLossReason: '跌破关键支撑·逻辑不成立',
-          reentryCondition: 'IDC 扩产数据确认 + 估值回落',
-          concentrationRisk: 'medium',
-          note: '止损线明确·逻辑成立则持有',
-          // ★ commit 4.45：分档止损计划（3 档）
-          stopLossTier1: { price: 83.0, action: '减仓20%', trigger: '跌破近期支撑' },
-          stopLossTier2: { price: 75.0, action: '再减仓30%', trigger: '跌破关键支撑' },
-          stopLossTier3: { price: null, action: '清仓', trigger: 'IDC 扩产停滞 + 现金流恶化' }
-        } },
-      { code: '300223', name: '北京君正', status: '持有',
-        segment: '存储芯片 · DRAM/Flash',
-        note: '最强标的 · 季度毛利率连续两季下滑需关注',
-        color: 'var(--green)',
-        localRiskMetrics: {   // 300223 本地风险数据
-          stopLoss: null,
-          stopLossReason: '季度毛利率连续下滑超 3 季 → 考虑离场',
-          reentryCondition: '毛利率企稳 + 新产品放量',
-          concentrationRisk: 'medium',
-          note: '最强标的但需关注毛利率趋势',
-          // ★ commit 4.45：分档止损计划（3 档）
-          stopLossTier1: { price: null, action: '减仓20%', trigger: '季度毛利率连续两季环比下滑' },
-          stopLossTier2: { price: null, action: '再减仓30%', trigger: '毛利率下滑超 3 季 + 营收增速转负' },
-          stopLossTier3: { price: null, action: '清仓', trigger: '存储周期反转确认 + 业绩指引下调' }
-        } }
+        color: 'var(--barrier-high)' }
     ];
     h += `<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">`;
-    h += `<div style="font-size:13px;font-weight:600;margin-bottom:10px;">📋 当前持仓 · 背景说明 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（3 只硬编码 · 跨链·2026-06-24 决策）</span></div>`;
-    h += `<div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 说明：与上方减仓/清仓清单独立——3 只持仓均"持有中"，背景说明给出决策依据。cross-chain 持仓（PCB + AI 算力 IDC + 存储芯片）。</div>`;
+    h += `<div style="font-size:13px;font-weight:600;margin-bottom:10px;">📋 当前持仓 · 背景说明 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（1 只硬编码 · PCB · 2026-06-24 决策）</span></div>`;
+    h += `<div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 说明：与上方减仓/清仓清单独立——持仓 601208 东材科技"持有中"，背景说明给出决策依据。</div>`;
     h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;">`;
     h += `<colgroup><col style="width:60px"><col style="width:90px"><col style="width:80px"><col style="width:160px"><col><col style="width:110px"></colgroup>`;
     h += `<thead><tr><th>代码</th><th>简称</th><th>状态</th><th>板块定位</th><th>决策依据（背景说明）</th><th>联动</th></tr></thead><tbody>`;
@@ -2546,7 +2517,6 @@ function renderChain(chainId) {
 
     // ★ commit 4.42：风险量化层 · 每只持仓一行 · 默认折叠 · summary 显示止损价+集中度
     //   数据源: 601208 读 PCB_MANUAL.stocks[code].riskMetrics（pcb.manual.js 注入）
-    //          300442/300223 读 HOLDING_NOTES[i].localRiskMetrics（pcb.manual.js 无 entry）
     h += `<div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);">`;
     h += `<div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;">⚠️ 风险量化 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:6px;">（止损价 + 再入场条件 + 集中度风险 · 默认折叠）</span></div>`;
     HOLDING_NOTES.forEach(s => {
