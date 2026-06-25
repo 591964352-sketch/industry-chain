@@ -966,14 +966,20 @@ function renderFundamentalsBlock(code) {
       ? '<span style="color:var(--accent);font-weight:600;">⚠️ 现金流为负</span>'
       : '<span style="color:var(--muted);">—</span>';
 
-  // ⑥ 数据期 + 数据来源（akshare⚪单源待核）
+  // ⑥ 数据期 + 数据来源（akshare⚪单源待核）— 改动3：移入基本面质量折叠区内
   const asOfHtml = `<span style="color:var(--barrier-low);font-size:10px;" title="${f.source || 'akshare'}">${f.asOf} · akshare⚪单源待核</span>`;
 
-  // 排版：3 列网格（ROE / 毛利率 / 营收净利同比 + 剪刀差 + FCF）
+  // ★ commit 4.41：默认折叠 · summary 显示最关键 2 个数字（ROE + 毛利率）
   return `
-    <div style="background:var(--card2);border-radius:6px;padding:10px 12px;margin-bottom:12px;border-left:3px solid var(--blue);">
-      <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:0.5px;">📊 基本面质量</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px;">
+    <details style="background:var(--card2);border-radius:6px;padding:6px 10px;margin-bottom:10px;border-left:3px solid var(--blue);">
+      <summary style="cursor:pointer;list-style:none;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:0.3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;outline:none;">
+        <span>📊 基本面质量</span>
+        <span style="font-weight:600;color:${roeCls};">ROE ${roeTxt}</span>
+        <span style="color:var(--muted);font-weight:400;">·</span>
+        <span style="font-weight:600;color:${gmColor};">毛利 ${gmTxt}${gmArrow}</span>
+        <span style="color:var(--muted);font-weight:400;margin-left:auto;">▾ 展开详情</span>
+      </summary>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);">
         <div>
           <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">ROE</div>
           <div style="color:${roeCls};font-weight:600;font-size:13px;">${roeTxt}</div>
@@ -999,7 +1005,97 @@ function renderFundamentalsBlock(code) {
           <div>${asOfHtml}</div>
         </div>
       </div>
-    </div>
+    </details>
+  `;
+}
+
+// ★ commit 4.40：产业链景气度仪表盘（读取 PCB_MANUAL.macro 全局块）
+// 数据源: data/pcb.manual.js MANUAL.macro 字段（commit 4.40 新增）
+// 展示位置: PCB 赛道总览 banner · 所有 stock 卡片之前
+// 降级: macro 字段不存在或不包含 5 维度时不渲染（不报错）
+function renderMacroDashboard() {
+  // 读取 PCB_MANUAL.macro（注意：仅 PCB 赛道手动层有 macro 字段，其他赛道走降级）
+  const macro = (window.PCB_MANUAL && window.PCB_MANUAL.macro) || null;
+  if (!macro || !macro.copperFoilPrice) {
+    return '';   // 降级：不显示仪表盘
+  }
+
+  // 5 维度配置（顺序 + 图标 + 名称）
+  const DIM_LIST = [
+    { key: 'copperFoilPrice',  icon: '🔩', name: '铜箔价格',     positiveTrends: ['falling'] },
+    { key: 'glassFiberPrice',  icon: '🧵', name: '玻纤布价格',   positiveTrends: ['falling'] },
+    { key: 'aiServerDemand',   icon: '🤖', name: 'AI 服务器需求', positiveTrends: ['strong'] },
+    { key: 'autoElecDemand',   icon: '🚗', name: '汽车电子需求', positiveTrends: ['strong'] },
+    { key: 'pcbUtilRate',      icon: '🏭', name: 'PCB 产能利用率', positiveTrends: ['high'] }
+  ];
+
+  // trend → 颜色分级
+  // 强正向 (strong/rising/high) → 绿色
+  // 平稳 (stable/normal)        → 黄色
+  // 弱反向 (weak/falling/low)   → 红色
+  function trendColor(trend) {
+    if (['strong', 'rising', 'high'].indexOf(trend) >= 0) return 'var(--green)';
+    if (['stable', 'normal'].indexOf(trend) >= 0) return 'var(--accent)';
+    if (['weak', 'falling', 'low'].indexOf(trend) >= 0) return 'var(--red)';
+    return 'var(--muted)';
+  }
+  // trend → 中文标签
+  function trendLabel(trend) {
+    return ({
+      'strong': '🔥 强劲', 'rising': '↗ 上涨', 'high': '⚡ 满载',
+      'stable': '➖ 平稳', 'normal': '➖ 正常',
+      'weak': '⬇ 疲软', 'falling': '↘ 下行', 'low': '📉 偏低'
+    })[trend] || trend;
+  }
+  // impact → 颜色
+  function impactColor(impact) {
+    if (impact === 'positive') return 'var(--green)';
+    if (impact === 'negative') return 'var(--red)';
+    return 'var(--muted)';
+  }
+
+  // 5 维度行
+  let rows = '';
+  DIM_LIST.forEach(dim => {
+    const d = macro[dim.key];
+    if (!d) return;
+    const tc = trendColor(d.trend);
+    const ic = impactColor(d.impact);
+    rows += `
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px dashed var(--border);font-size:12px;">
+        <span style="font-size:14px;flex-shrink:0;">${dim.icon}</span>
+        <span style="width:96px;color:var(--text);font-weight:600;flex-shrink:0;">${dim.name}</span>
+        <span style="color:${tc};font-weight:600;min-width:64px;">${trendLabel(d.trend)}</span>
+        <span style="flex:1;color:var(--muted);font-size:11px;line-height:1.5;">${d.note || ''}</span>
+        <span style="color:${ic};font-size:10px;font-weight:600;flex-shrink:0;" title="对 PCB 链影响">${d.impact === 'positive' ? '↑ 正向' : d.impact === 'negative' ? '↓ 负向' : '— 中性'}</span>
+      </div>
+    `;
+  });
+
+  // 底部 summary + asOf
+  const summaryHtml = macro.summary
+    ? `<div style="margin-top:10px;padding:8px 10px;background:rgba(240,185,11,0.06);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:11px;color:var(--text);line-height:1.6;">📝 ${macro.summary}</div>`
+    : '';
+  const asOfHtml = macro.asOf
+    ? `<span style="color:var(--barrier-low);font-size:10px;" title="产业链景气度数据期">📅 ${macro.asOf}${macro.updatedBy ? ' · ' + macro.updatedBy : ''}</span>`
+    : '';
+
+  // ★ commit 4.41：默认只显示 summary · 5 维度折叠展开（详情面板）
+  return `
+    <details style="background:var(--card2);border-radius:8px;padding:14px 16px;margin-bottom:18px;border-left:3px solid var(--accent);">
+      <summary style="cursor:pointer;list-style:none;outline:none;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+        <div style="font-size:14px;font-weight:700;color:var(--accent);letter-spacing:0.5px;display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
+          <span>🌡️ 产业链景气度</span>
+          <span style="font-size:12px;font-weight:500;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${macro.summary ? macro.summary.split('·')[0].trim() : 'PCB 全链宏观快照'}</span>
+          <span style="color:var(--muted);font-size:11px;font-weight:400;flex-shrink:0;">▾ 展开 5 维度</span>
+        </div>
+        <div>${asOfHtml}</div>
+      </summary>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--border);">
+        <div>${rows}</div>
+        ${summaryHtml}
+      </div>
+    </details>
   `;
 }
 
@@ -1136,6 +1232,9 @@ function renderChain(chainId) {
     return;
   }
   let h = '';
+
+  // ★ commit 4.40：产业链景气度仪表盘（PCB 赛道顶部 banner · 所有 stock 卡片之前）
+  h += renderMacroDashboard();
 
   // ===== 升级 B：个股趋势徽章（绿/红/灰，复用 .tag .tg-* 零 CSS 增量） =====
   function trendBadge(t, note) {
@@ -1279,10 +1378,54 @@ function renderChain(chainId) {
   h += `<div class="section-title"><span class="num num-result">①</span> 卡口结论 — 物理卡口最终输出</div>`;
   h += `<div class="section-desc">经过六步下钻+四问筛选，最终确认的物理卡口标的。</div>`;
   h += `<div class="choke-grid" style="margin-bottom:24px;">`;
+
+  // ★ commit 4.41：默认展开名单（持仓 3 只 + 减仓信号触发 stock）
+  //   持仓名单硬编码（HOLDING_NOTES 与下方持仓说明一致）· 减仓名单从 signalCMeta 触发列表算
+  const HOLDING_CODES_DEFAULT_OPEN = new Set(['601208', '300442', '300223']);
+  const reduceTriggeredCodes = new Set();
+  if (d.signalCMeta && d.signalCMeta.stats && Array.isArray(d.signalCMeta.stats.triggeredList)) {
+    d.signalCMeta.stats.triggeredList.forEach(s => {
+      if (s && s.code && s.reduceSignal) reduceTriggeredCodes.add(s.code);
+    });
+  }
+  const defaultOpenCodes = new Set([...HOLDING_CODES_DEFAULT_OPEN, ...reduceTriggeredCodes]);
+
   d.chokePoints.forEach((c, i) => {
     const medals = ['🥇','🥈','🥉'];
+    const _isOpen = defaultOpenCodes.has(c.code);
+    // ★ commit 4.41：summary 行显示最关键摘要（code+名称+段位+壁垒+PE分位+趋势）
+    let _sumPct = '';
+    if (c.valuation && typeof c.valuation.pePercentile === 'number') {
+      const _p = c.valuation.pePercentile;
+      const _pCls = _p >= 80 ? 'tg-extreme' : _p >= 50 ? 'tg-mid' : 'tg-green';
+      _sumPct = `<span class="tag ${_pCls}" style="font-size:10px;margin-left:6px;">PE分位 ${_p.toFixed(0)}%</span>`;
+    }
+    let _sumTrend = '';
+    const _findTrend = (arr) => { const m = (arr || []).find(s => s.code === c.code); if (m && m.trend) return m.trend; return null; };
+    let _trendVal = null;
+    if (d.segments) d.segments.forEach(seg => { if (!_trendVal) _trendVal = _findTrend(seg.stocks); });
+    if (!_trendVal && d.midstream) _trendVal = _findTrend(d.midstream.stocks);
+    if (_trendVal) {
+      const _tCls = _trendVal === 'up' ? 'tg-green' : _trendVal === 'down' ? 'tg-extreme' : 'tg-gray';
+      const _tTxt = _trendVal === 'up' ? '⬆' : _trendVal === 'down' ? '⬇' : '➖';
+      _sumTrend = `<span class="tag ${_tCls}" style="font-size:10px;margin-left:4px;" title="趋势">${_tTxt}</span>`;
+    }
+    const _sumTags = (c.strength || '') + _sumPct + _sumTrend;
+    // 持仓 / 减仓信号徽章（用于 summary 行标记「为什么默认展开」）
+    let _openReason = '';
+    if (HOLDING_CODES_DEFAULT_OPEN.has(c.code)) _openReason = '<span class="tag tg-extreme" style="font-size:10px;margin-left:6px;" title="commit 4.27 持仓名单">📌 持仓</span>';
+    else if (reduceTriggeredCodes.has(c.code)) _openReason = '<span class="tag tg-mid" style="font-size:10px;margin-left:6px;" title="信号 C 减仓触发">⚠️ 减仓</span>';
+
     h += `<div class="choke-card">`;
-    h += `<h3><span class="rank">${medals[i]||'#'+(i+1)} 优先级 ${i+1}</span>${c.name}</h3>`;
+    // ★ commit 4.41：整只 stock 卡片用 <details> 包裹 · 持仓/减仓 stock 默认展开
+    h += `<details${_isOpen ? ' open' : ''}>`;
+    h += `<summary style="list-style:none;cursor:pointer;outline:none;padding:0;">`;
+    h += `<h3 style="display:inline;"><span class="rank">${medals[i]||'#'+(i+1)} 优先级 ${i+1}</span>${c.name} <span style="font-size:11px;color:var(--muted);font-weight:400;">${c.code}</span>${_openReason}</h3>`;
+    h += `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;font-size:11px;">`;
+    h += `<span style="color:var(--muted);">🔒 ${c.segment}</span>`;
+    h += _sumTags;
+    h += `<span style="color:var(--muted);margin-left:auto;font-size:10px;">▾ 展开详情</span>`;
+    h += `</div></summary>`;
     if (c.verification && c.verification.items && c.verification.items.length) {
       const all = collectVerifyStatuses(chainId, c.code, c.verification.items);
       const ov = computeOverallStatus(all);
@@ -1406,6 +1549,8 @@ function renderChain(chainId) {
       }
       h += `</details>`;
     }
+    // ★ commit 4.41：关闭 <details> 包裹（持仓/减仓 stock 默认展开·其余折叠）
+    h += `</details>`;
     h += `</div>`;
   });
   h += `</div>`;  // ① section-content 闭合（choke-grid 之后）
