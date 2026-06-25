@@ -317,21 +317,35 @@ def main():
         print(f'  {code} · close={r.get("closeLatest")} · high_5y={r.get("closeHigh5y")} · fromHigh={r.get("fromHigh")}')
     print()
 
-    # 4) 注入回 pcb.auto.js（改名 fromHigh_pe → fromHigh + 加 close 字段 + 删除 fromHigh_pe）
-    print('注入回 pcb.auto.js（字段改名 fromHigh_pe → fromHigh + 删除 fromHigh_pe）...')
+    # 4) 注入回 pcb.auto.js（commit 4.32：方案 A · 整文件 in-place 替换 fromHigh/closeLatest/closeHigh5y 值）
+    # 关键改进：commit 4.32 首次跑崩在「anchor + block_tail 切片」· 300395 块因含 volume_history/pe_history
+    #           数组（1200+ 行）→ fromHigh 距 anchor 124k 字符·超出 50000 上限·永远走 fallback 插入路径
+    # 本次改用：整文件 subn + 单个 stock code 作锚点限定·3 行独立替换（互不影响位置）
+    print('注入回 pcb.auto.js（commit 4.32：整文件 in-place 替换 fromHigh/closeLatest/closeHigh5y 值）...')
     text = AUTO_JS.read_text(encoding='utf-8')
     injected = 0
+    fallback_inserted = 0   # 旧版（无三行）走插入路径的次数·commit 4.32 不会触发（防御保留）
     for code, r in results.items():
-        # 匹配: 'code': { ...      fromHigh_pe: 数值/null,
-        # ★ commit 3.5 修 bug：删 fromHigh_pe 整行（包括 \n），插入 fromHigh + close 字段
-        pattern = re.compile(
-            rf"(    '{re.escape(code)}': \{{)([\s\S]*?)(      fromHigh_pe: [^,\n]+,)",
+        code_re = re.escape(code)
+        # 路径 1：fromHigh 行存在 → 整文件单次 subn · 用 stock code 作锚点限定
+        # 正则：(    'code': {  ……  fromHigh: 旧值,) · 抓 2 组（prefix / oldvalue）
+        #         ↑ [\s\S]*? 允许跨多行（含 volume_history / pe_history 数组）·非贪婪
+        fromhigh_pat = re.compile(
+            rf"(    '{code_re}': \{{[\s\S]*?^      fromHigh: )([^,\n]+)(,)",
             re.MULTILINE
         )
-        def replacer(match):
-            head, mid, tail = match.group(1), match.group(2), match.group(3)
-            # tail 格式: '      fromHigh_pe: 数值,'
-            # 删掉整个 fromHigh_pe 行（前缀 6 空格 + fromHigh_pe: ...）
+        new_fromhigh_val = str(r['fromHigh']) if r['fromHigh'] is not None else 'null'
+        text, n_fh = fromhigh_pat.subn(rf"\g<1>{new_fromhigh_val}\g<3>", text, count=1)
+        if n_fh == 0:
+            # 路径 2 fallback（旧版防御）：fromHigh 不存在 → 在 stock 块末尾插入 3 行
+            next_stock_re = re.compile(r"^    '\d{6}': \{", re.MULTILINE)
+            # 找 'code': { 起点
+            anchor = re.search(rf"^    '{code_re}': \{{$", text, re.MULTILINE)
+            if not anchor:
+                print(f'  ⚠️ 未匹配 {code}（找不到 stock 块）')
+                continue
+            ns = next_stock_re.search(text, anchor.end())
+            block_end = ns.start() if ns else len(text)
             new_lines = []
             if r['fromHigh'] is not None:
                 new_lines.append(f"      fromHigh: {r['fromHigh']},  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）")
@@ -339,12 +353,20 @@ def main():
                 new_lines.append(f"      fromHigh: null,  // ⚠️ close 数据缺失")
             new_lines.append(f"      closeLatest: {r['closeLatest'] if r['closeLatest'] is not None else 'null'},")
             new_lines.append(f"      closeHigh5y: {r['closeHigh5y'] if r['closeHigh5y'] is not None else 'null'},")
-            return head + mid + '\n'.join(new_lines) + '\n'
-        text, n = pattern.subn(replacer, text, count=1)
-        if n > 0:
+            text = text[:block_end] + '\n'.join(new_lines) + '\n' + text[block_end:]
+            fallback_inserted += 1
             injected += 1
-        else:
-            print(f'  ⚠️ 未匹配 {code}（可能格式变了）')
+            print(f'  ℹ️ {code} fromHigh 不存在·走插入路径（fallback {fallback_inserted}）')
+            continue
+        # closeLatest / closeHigh5y 同样用 stock code 锚点限定（不必先找 fromHigh 位置）
+        for fld, new_val in [('closeLatest', r['closeLatest']), ('closeHigh5y', r['closeHigh5y'])]:
+            fld_pat = re.compile(
+                rf"(    '{code_re}': \{{[\s\S]*?^      {fld}: )([^,\n]+)(,)",
+                re.MULTILINE
+            )
+            new_str = str(new_val) if new_val is not None else 'null'
+            text, _ = fld_pat.subn(rf"\g<1>{new_str}\g<3>", text, count=1)
+        injected += 1
 
     # 更新 _meta.note
     text = re.sub(
@@ -354,7 +376,7 @@ def main():
     )
 
     AUTO_JS.write_text(text, encoding='utf-8')
-    print(f'✓ 注入完成（{injected}/{len(codes)}）')
+    print(f'✓ 注入完成（{injected}/{len(codes)} · fallback 插入 {fallback_inserted}）')
 
     return results
 

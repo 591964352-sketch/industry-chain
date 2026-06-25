@@ -21,7 +21,7 @@ window.PCB_AUTO = {
     baostockVersion: '00.9.20',
     akshareVersion: null,
     window: '5y (2021-06-23 ~ 2026-06-23)',
-    note: '★ 阶段三 commit 3.5 + 阶段五 commit 4.15/4.16：pePercentile/entryZone/fromHigh_pe + close + volume_history 字段 + 4 个信号 C 字段（volRatio5d/maxPctl30d/60d/90d）· 不拉网络·基于 commit 4.15 volume_history + commit 3.1.2 pe_history 序列',
+    note: '★ 阶段三 commit 3.5：真实价格 fromHigh + close 字段·阶段五 commit 4.29 多源降级（baostock 主源 + akshare 降级 + manual override 兜底）',
     sourceFlag: '⚠️单源(akshare缺失·adata非PE历史接口)',
     stats: {
       success: 34,
@@ -25124,7 +25124,7 @@ window.PCB_AUTO = {
       closeLatest: 127.35,
       closeHigh5y: 151.46,
 
-      flag: "⚠️单源PE数据(baostock) · ⚠️close数据陈旧(baostock近1年无数据)·fromHigh参考价值有限",
+      flag: "⚠️单源PE数据(baostock)",
             volRatio5d: 1.2476,  // ★ commit 4.16：5日均量/60日均量（不足60天为null）
       maxPctl30d: 99.83,  // ★ commit 4.16：近30天pePercentile最大值
       maxPctl60d: 99.83,  // ★ commit 4.16：近60天pePercentile最大值
@@ -40339,7 +40339,7 @@ window.PCB_AUTO = {
       closeLatest: 15.44,
       closeHigh5y: 24.6222,
 
-      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️持续亏损·近786天无有效PE数据",
+      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️持续亏损·近787天无有效PE数据",
             volRatio5d: 1.0192,  // ★ commit 4.16：5日均量/60日均量（不足60天为null）
       maxPctl30d: null,  // ★ commit 4.16：近30天pePercentile最大值
       maxPctl60d: null,  // ★ commit 4.16：近60天pePercentile最大值
@@ -65645,7 +65645,7 @@ window.PCB_AUTO = {
       closeLatest: 28.01,
       closeHigh5y: 28.65,
 
-      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️持续亏损·近789天无有效PE数据",
+      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️持续亏损·近790天无有效PE数据",
             volRatio5d: 1.1601,  // ★ commit 4.16：5日均量/60日均量（不足60天为null）
       maxPctl30d: null,  // ★ commit 4.16：近30天pePercentile最大值
       maxPctl60d: null,  // ★ commit 4.16：近60天pePercentile最大值
@@ -67722,7 +67722,7 @@ window.PCB_AUTO = {
       closeLatest: 21.0,
       closeHigh5y: 26.0,
 
-      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️持续亏损·近77天无有效PE数据",
+      flag: "⚠️亏损股·pe_ttm=null·历史分位保留参考 · ⚠️持续亏损·近78天无有效PE数据",
             volRatio5d: 1.2315,  // ★ commit 4.16：5日均量/60日均量（不足60天为null）
       maxPctl30d: null,  // ★ commit 4.16：近30天pePercentile最大值
       maxPctl60d: null,  // ★ commit 4.16：近60天pePercentile最大值
