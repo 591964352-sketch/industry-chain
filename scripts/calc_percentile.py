@@ -286,7 +286,7 @@ def inject_to_auto_js(results):
     # 更新 _meta.note
     text = re.sub(
         r"note: '★ [^']+',",
-        "note: '★ 阶段三 commit 3.2 + commit 4.12：numpy 算 pePercentile/entryZone/fromHigh_pe · 3 条自动 flag(数据过期/分位极端高/单源PE)· 不拉网络·基于 commit 3.1.2 pe_history 序列',",
+        "note: '★ 阶段三 commit 3.5 + 阶段五 commit 4.15/4.16/4.29：pePercentile/entryZone/fromHigh_pe + close + volume_history 字段 + 4 个信号 C 字段（volRatio5d/maxPctl30d/60d/90d）· 不拉网络·基于 commit 4.15 volume_history + commit 3.1.2 pe_history 序列',",
         text, count=1
     )
 

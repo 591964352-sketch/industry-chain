@@ -103,7 +103,9 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:1,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'2026Q1/2025年报', valAsOf:'2026-06-22', trend:'up', trendNote:'英伟达全额预购2026年600-700万米Q布',
       hits:4, strength:'★★★',
-      segments:[{idx:2,name:'玻纤布/Q布（石英纤维布）'}], growthAdj:true, peAbsMax:120 },
+      segments:[{idx:2,name:'玻纤布/Q布（石英纤维布）'}], growthAdj:true, peAbsMax:120,
+      // ★ commit 4.33：closeOverride（用户人工核实 from 同花顺/东方财富 2026-06-25）
+      closeOverride: { closeLatest: 133.55, closeHigh5y: 151.46, src: 'manual_ths', asOf: '2026-06-25' } },
 
     '300476': { code:'300476', name:'胜宏科技', rank:2, barrier:'高', tier:'primary',
       position:'英伟达显卡PCB全球份额约50%(一供,Prismark 2026);GB300 OAM子板核心供应商;2025年AI业务营收83.4亿(占比43%、同比+11倍、毛利率40-45%),在手订单饱满排至2026年底',

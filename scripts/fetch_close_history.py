@@ -220,11 +220,17 @@ def main():
     print(f'✓ 加载 {len(valuations)} 只 stock')
     print()
 
-    # 2) baostock login
-    lg = bs.login()
-    if lg.error_code != '0':
-        raise RuntimeError(f'❌ baostock login 失败')
-    print(f'✓ baostock login')
+    # 2) baostock login（commit 4.33：login 失败不再 raise·降级到 akshare/manual override 路径）
+    baostock_available = False
+    try:
+        lg = bs.login()
+        if lg.error_code != '0':
+            print(f'⚠️ baostock login 失败（{lg.error_msg[:60]}）· 降级到 akshare / manual override')
+        else:
+            baostock_available = True
+            print(f'✓ baostock login')
+    except Exception as e:
+        print(f'⚠️ baostock login 异常（{type(e).__name__}: {str(e)[:60]}）· 降级到 akshare / manual override')
     print()
 
     # 3) 拉每只 close（commit 4.29：多源降级 + manual override）
@@ -296,7 +302,11 @@ def main():
             results[code] = {'closeLatest': None, 'closeHigh5y': None, 'fromHigh': None, 'source': None, 'flag': f'⚠️拉取失败:{type(e).__name__}'}
             print(f'  [{i:2d}/{len(codes)}] {code} · ❌ FAILED: {str(e)[:80]}')
 
-    bs.logout()
+    if baostock_available:
+        try:
+            bs.logout()
+        except Exception:
+            pass   # commit 4.33：login 已失败时 logout 也可能异常·静默
     print()
     print(f'========================================')
     print(f'摘要')
@@ -371,7 +381,7 @@ def main():
     # 更新 _meta.note
     text = re.sub(
         r"note: '★ [^']+',",
-        "note: '★ 阶段三 commit 3.5：真实价格 fromHigh + close 字段·阶段五 commit 4.29 多源降级（baostock 主源 + akshare 降级 + manual override 兜底）',",
+        "note: '★ 阶段三 commit 3.5 + 阶段五 commit 4.15/4.16/4.29：pePercentile/entryZone/fromHigh_pe + close + volume_history 字段 + 4 个信号 C 字段（volRatio5d/maxPctl30d/60d/90d）· 不拉网络·基于 commit 4.15 volume_history + commit 3.1.2 pe_history 序列',",
         text, count=1
     )
 

@@ -21,7 +21,7 @@ window.PCB_AUTO = {
     baostockVersion: '00.9.20',
     akshareVersion: null,
     window: '5y (2021-06-23 ~ 2026-06-23)',
-    note: '★ 阶段三 commit 3.5：真实价格 fromHigh + close 字段·阶段五 commit 4.29 多源降级（baostock 主源 + akshare 降级 + manual override 兜底）',
+    note: '★ 阶段三 commit 3.5 + 阶段五 commit 4.15/4.16/4.29：pePercentile/entryZone/fromHigh_pe + close + volume_history 字段 + 4 个信号 C 字段（volRatio5d/maxPctl30d/60d/90d）· 不拉网络·基于 commit 4.15 volume_history + commit 3.1.2 pe_history 序列',
     sourceFlag: '⚠️单源(akshare缺失·adata非PE历史接口)',
     stats: {
       success: 34,
@@ -25120,8 +25120,8 @@ window.PCB_AUTO = {
 
             pePercentile: 95.87,
       entryZone: {p30: 47.98, p70: 66.56},
-      fromHigh: -0.1592,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 127.35,
+      fromHigh: -0.1182,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
+      closeLatest: 133.55,
       closeHigh5y: 151.46,
 
       flag: "⚠️单源PE数据(baostock)",
