@@ -35,7 +35,8 @@ AUTO_JS = ROOT / 'data' / 'pcb.auto.js'
 
 # 8 个字段名
 FIELDS = ['pePercentile', 'entryZone', 'fromHigh_pe', 'flag',
-          'volRatio5d', 'maxPctl30d', 'maxPctl60d', 'maxPctl90d']
+          'volRatio5d', 'maxPctl30d', 'maxPctl60d', 'maxPctl90d',
+          'closeLatest', 'closeHigh5y', 'fromHigh']   # ★ commit 4.30：补 close 3 字段
 
 # 数组型字段（需要按完整块删除）
 ARRAY_FIELDS = ['volume_history', 'pe_history']

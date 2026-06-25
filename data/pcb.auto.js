@@ -1111,13 +1111,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 77.7243},
       {date: "2026-06-23", pe: 74.0019}
     ],
-      fromHigh: -0.1113,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 182.9,
-      closeHigh5y: 205.8,
 
-      fromHigh: -0.1113,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 182.9,
-      closeHigh5y: 205.8,
 
             pePercentile: 96.28,
       entryZone: {p30: 33.12, p70: 40.34},
@@ -3566,13 +3560,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 72.0777},
       {date: "2026-06-23", pe: 65.6495}
     ],
-      fromHigh: -0.0892,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 76.8,
-      closeHigh5y: 84.32,
 
-      fromHigh: -0.0892,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 76.8,
-      closeHigh5y: 84.32,
 
             pePercentile: 99.75,
       entryZone: {p30: 11.66, p70: 20.09},
@@ -6021,13 +6009,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 242.9009},
       {date: "2026-06-23", pe: 228.958}
     ],
-      fromHigh: -0.0659,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 255.02,
-      closeHigh5y: 273.0,
 
-      fromHigh: -0.0659,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 255.02,
-      closeHigh5y: 273.0,
 
             pePercentile: 99.34,
       entryZone: {p30: 18.67, p70: 29.56},
@@ -8113,13 +8095,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 627.7278},
       {date: "2026-06-23", pe: 571.197}
     ],
-      fromHigh: -0.0901,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 48.5,
-      closeHigh5y: 53.3,
 
-      fromHigh: -0.0901,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 48.5,
-      closeHigh5y: 53.3,
 
             pePercentile: 99.76,
       entryZone: {p30: 31.43, p70: 78.56},
@@ -10568,13 +10544,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 38.1984},
       {date: "2026-06-23", pe: 39.1955}
     ],
-      fromHigh: -0.148,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 11.4,
-      closeHigh5y: 13.38,
 
-      fromHigh: -0.148,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 11.4,
-      closeHigh5y: 13.38,
 
             pePercentile: 97.61,
       entryZone: {p30: 11.24, p70: 17.08},
@@ -13023,13 +12993,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 64.9786},
       {date: "2026-06-23", pe: 61.9547}
     ],
-      fromHigh: -0.0636,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 138.5,
-      closeHigh5y: 147.9,
 
-      fromHigh: -0.0636,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 138.5,
-      closeHigh5y: 147.9,
 
             pePercentile: 99.5,
       entryZone: {p30: 24.39, p70: 33.65},
@@ -15356,13 +15320,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 173.5134},
       {date: "2026-06-23", pe: 165.0368}
     ],
-      fromHigh: -0.0489,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 108.64,
-      closeHigh5y: 114.22,
 
-      fromHigh: -0.0489,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 108.64,
-      closeHigh5y: 114.22,
 
             pePercentile: 68.04,
       entryZone: {p30: 34.37, p70: 173.56},
@@ -17811,13 +17769,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 99.8632},
       {date: "2026-06-23", pe: 100.0717}
     ],
-      fromHigh: -0.0406,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 67.19,
-      closeHigh5y: 70.03,
 
-      fromHigh: -0.0406,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 67.19,
-      closeHigh5y: 70.03,
 
             pePercentile: 99.83,
       entryZone: {p30: 19.61, p70: 30.82},
@@ -20266,13 +20218,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 85.7127},
       {date: "2026-06-23", pe: 79.8391}
     ],
-      fromHigh: -0.0685,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 426.0,
-      closeHigh5y: 457.34,
 
-      fromHigh: -0.0685,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 426.0,
-      closeHigh5y: 457.34,
 
             pePercentile: 99.75,
       entryZone: {p30: 27.29, p70: 37.82},
@@ -22721,13 +22667,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 70.5357},
       {date: "2026-06-23", pe: 66.7401}
     ],
-      fromHigh: -0.1084,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 106.91,
-      closeHigh5y: 119.91,
 
-      fromHigh: -0.1084,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 106.91,
-      closeHigh5y: 119.91,
 
             pePercentile: 99.01,
       entryZone: {p30: 15.44, p70: 27.39},
@@ -25176,13 +25116,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 150.8492},
       {date: "2026-06-23", pe: 138.9558}
     ],
-      fromHigh: -0.1592,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 127.35,
-      closeHigh5y: 151.46,
 
-      fromHigh: -0.1592,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 127.35,
-      closeHigh5y: 151.46,
 
             pePercentile: 95.87,
       entryZone: {p30: 47.98, p70: 66.56},
@@ -27631,13 +27565,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 76.7366},
       {date: "2026-06-23", pe: 71.0244}
     ],
-      fromHigh: -0.1393,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 338.2,
-      closeHigh5y: 392.95,
 
-      fromHigh: -0.1393,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 338.2,
-      closeHigh5y: 392.95,
 
             pePercentile: 90.17,
       entryZone: {p30: 25.57, p70: 44.73},
@@ -30086,13 +30014,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 434.5242},
       {date: "2026-06-23", pe: 434.3357}
     ],
-      fromHigh: -0.0004,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 23.04,
-      closeHigh5y: 23.05,
 
-      fromHigh: -0.0004,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 23.04,
-      closeHigh5y: 23.05,
 
             pePercentile: 76.55,
       entryZone: {p30: 56.23, p70: 404.32},
@@ -31775,13 +31697,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 144.0735},
       {date: "2026-06-23", pe: 134.2672}
     ],
-      fromHigh: -0.0969,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 57.78,
-      closeHigh5y: 63.98,
 
-      fromHigh: -0.0969,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 57.78,
-      closeHigh5y: 63.98,
 
             pePercentile: 80.5,
       entryZone: {p30: 17.76, p70: 36.42},
@@ -33900,13 +33816,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 160.8619},
       {date: "2026-06-23", pe: 164.4117}
     ],
-      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 346.44,
-      closeHigh5y: 346.44,
 
-      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 346.44,
-      closeHigh5y: 346.44,
 
             pePercentile: 100.0,
       entryZone: {p30: 49.97, p70: 87.91},
@@ -35697,13 +35607,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 991.8179},
       {date: "2026-06-23", pe: 867.1971}
     ],
-      fromHigh: -0.1409,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 171.81,
-      closeHigh5y: 200.0,
 
-      fromHigh: -0.1409,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 171.81,
-      closeHigh5y: 200.0,
 
             pePercentile: 82.88,
       entryZone: {p30: 36.23, p70: 219.74},
@@ -37464,13 +37368,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 436.546},
       {date: "2026-06-23", pe: 397.1007}
     ],
-      fromHigh: -0.0904,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 600.0,
-      closeHigh5y: 659.6,
 
-      fromHigh: -0.0904,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 600.0,
-      closeHigh5y: 659.6,
 
             pePercentile: 99.88,
       entryZone: {p30: 37.58, p70: 50.87},
@@ -38511,13 +38409,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 428.2719},
       {date: "2026-06-23", pe: 365.5394}
     ],
-      fromHigh: -0.1742,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 140.08,
-      closeHigh5y: 169.63,
 
-      fromHigh: -0.1742,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 140.08,
-      closeHigh5y: 169.63,
 
             pePercentile: 60.86,
       entryZone: {p30: 52.22, p70: 772.42},
@@ -40439,13 +40331,7 @@ window.PCB_AUTO = {
       {date: "2024-04-26", pe: 273.6708},
       {date: "2024-04-29", pe: 292.8533}
     ],
-      fromHigh: -0.3729,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 15.44,
-      closeHigh5y: 24.6222,
 
-      fromHigh: -0.3729,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 15.44,
-      closeHigh5y: 24.6222,
 
             pePercentile: null,
       entryZone: {p30: 42.74, p70: 77.84},
@@ -42894,13 +42780,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 61.1437},
       {date: "2026-06-23", pe: 61.7197}
     ],
-      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 58.93,
-      closeHigh5y: 58.93,
 
-      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 58.93,
-      closeHigh5y: 58.93,
 
             pePercentile: 100.0,
       entryZone: {p30: 10.4, p70: 19.02},
@@ -45349,13 +45229,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 114.0839},
       {date: "2026-06-23", pe: 103.8009}
     ],
-      fromHigh: -0.0901,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 167.87,
-      closeHigh5y: 184.5,
 
-      fromHigh: -0.0901,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 167.87,
-      closeHigh5y: 184.5,
 
             pePercentile: 99.67,
       entryZone: {p30: 25.03, p70: 36.26},
@@ -47804,13 +47678,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 211.9979},
       {date: "2026-06-23", pe: 190.8061}
     ],
-      fromHigh: -0.1,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 71.85,
-      closeHigh5y: 79.83,
 
-      fromHigh: -0.1,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 71.85,
-      closeHigh5y: 79.83,
 
             pePercentile: 99.75,
       entryZone: {p30: 28.29, p70: 44.54},
@@ -50259,13 +50127,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 1001.1375},
       {date: "2026-06-23", pe: 901.1781}
     ],
-      fromHigh: -0.0998,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 23.35,
-      closeHigh5y: 25.94,
 
-      fromHigh: -0.0998,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 23.35,
-      closeHigh5y: 25.94,
 
             pePercentile: 99.83,
       entryZone: {p30: 15.84, p70: 103.89},
@@ -52006,13 +51868,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 135.0832},
       {date: "2026-06-23", pe: 125.5478}
     ],
-      fromHigh: -0.0706,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 231.6,
-      closeHigh5y: 249.19,
 
-      fromHigh: -0.0706,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 231.6,
-      closeHigh5y: 249.19,
 
             pePercentile: 96.62,
       entryZone: {p30: 19.45, p70: 37.5},
@@ -54461,13 +54317,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 66.2347},
       {date: "2026-06-23", pe: 63.0955}
     ],
-      fromHigh: -0.1662,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 72.96,
-      closeHigh5y: 87.5,
 
-      fromHigh: -0.1662,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 72.96,
-      closeHigh5y: 87.5,
 
             pePercentile: 97.36,
       entryZone: {p30: 19.43, p70: 26.29},
@@ -56514,13 +56364,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 764.3351},
       {date: "2026-06-23", pe: 720.4238}
     ],
-      fromHigh: -0.0575,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 247.9,
-      closeHigh5y: 263.01,
 
-      fromHigh: -0.0575,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 247.9,
-      closeHigh5y: 263.01,
 
             pePercentile: 99.51,
       entryZone: {p30: 67.11, p70: 207.51},
@@ -58969,13 +58813,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 25.7438},
       {date: "2026-06-23", pe: 26.4623}
     ],
-      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 15.47,
-      closeHigh5y: 15.47,
 
-      fromHigh: 0.0,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 15.47,
-      closeHigh5y: 15.47,
 
             pePercentile: 76.71,
       entryZone: {p30: 6.2, p70: 24.19},
@@ -61424,13 +61262,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 72.8718},
       {date: "2026-06-23", pe: 73.9676}
     ],
-      fromHigh: -0.0339,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 70.2,
-      closeHigh5y: 72.6636,
 
-      fromHigh: -0.0339,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 70.2,
-      closeHigh5y: 72.6636,
 
             pePercentile: 89.35,
       entryZone: {p30: 42.02, p70: 64.91},
@@ -63876,13 +63708,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 74.5319},
       {date: "2026-06-23", pe: 70.001}
     ],
-      fromHigh: -0.2531,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 52.53,
-      closeHigh5y: 70.3278,
 
-      fromHigh: -0.2531,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 52.53,
-      closeHigh5y: 70.3278,
 
             pePercentile: 97.11,
       entryZone: {p30: 24.1, p70: 37.21},
@@ -65811,13 +65637,7 @@ window.PCB_AUTO = {
       {date: "2024-04-25", pe: 881.1831},
       {date: "2024-04-26", pe: 913.7748}
     ],
-      fromHigh: -0.0223,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 28.01,
-      closeHigh5y: 28.65,
 
-      fromHigh: -0.0223,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 28.01,
-      closeHigh5y: 28.65,
 
             pePercentile: null,
       entryZone: {p30: 26.19, p70: 128.38},
@@ -67894,13 +67714,7 @@ window.PCB_AUTO = {
       {date: "2026-04-07", pe: 482.4295},
       {date: "2026-04-08", pe: 500.6836}
     ],
-      fromHigh: -0.1923,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 21.0,
-      closeHigh5y: 26.0,
 
-      fromHigh: -0.1923,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 21.0,
-      closeHigh5y: 26.0,
 
             pePercentile: null,
       entryZone: {p30: 10.66, p70: 20.33},
@@ -70281,13 +70095,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 63.6798},
       {date: "2026-06-23", pe: 57.3135}
     ],
-      fromHigh: -0.1,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 66.17,
-      closeHigh5y: 73.52,
 
-      fromHigh: -0.1,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 66.17,
-      closeHigh5y: 73.52,
 
             pePercentile: 99.66,
       entryZone: {p30: 22.85, p70: 27.51},
@@ -72693,13 +72501,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 65.5372},
       {date: "2026-06-23", pe: 61.841}
     ],
-      fromHigh: -0.101,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 126.82,
-      closeHigh5y: 141.07,
 
-      fromHigh: -0.101,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 126.82,
-      closeHigh5y: 141.07,
 
             pePercentile: 59.5,
       entryZone: {p30: 39.96, p70: 79.3},
@@ -75148,13 +74950,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 218.4611},
       {date: "2026-06-23", pe: 191.5202}
     ],
-      fromHigh: -0.1233,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 238.93,
-      closeHigh5y: 272.54,
 
-      fromHigh: -0.1233,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 238.93,
-      closeHigh5y: 272.54,
 
             pePercentile: 99.83,
       entryZone: {p30: 41.59, p70: 49.2},
@@ -77160,13 +76956,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 203.8998},
       {date: "2026-06-23", pe: 184.3719}
     ],
-      fromHigh: -0.5085,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 42.77,
-      closeHigh5y: 87.0254,
 
-      fromHigh: -0.5085,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 42.77,
-      closeHigh5y: 87.0254,
 
             pePercentile: 88.93,
       entryZone: {p30: 28.61, p70: 74.67},
@@ -79615,13 +79405,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 185.5616},
       {date: "2026-06-23", pe: 176.0136}
     ],
-      fromHigh: -0.0779,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 462.89,
-      closeHigh5y: 502.0,
 
-      fromHigh: -0.0779,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 462.89,
-      closeHigh5y: 502.0,
 
             pePercentile: 99.67,
       entryZone: {p30: 55.8, p70: 77.98},
@@ -82070,13 +81854,7 @@ window.PCB_AUTO = {
       {date: "2026-06-22", pe: 193.5774},
       {date: "2026-06-23", pe: 180.9568}
     ],
-      fromHigh: -0.1138,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 89.9,
-      closeHigh5y: 101.45,
 
-      fromHigh: -0.1138,  // ★ commit 3.5：真实价格回落（替代 commit 3.2 fromHigh_pe 近似）
-      closeLatest: 89.9,
-      closeHigh5y: 101.45,
 
             pePercentile: 89.6,
       entryZone: {p30: 63.04, p70: 118.87},
