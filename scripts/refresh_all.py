@@ -3,38 +3,40 @@
 scripts/refresh_all.py
 ★ commit 4.23：一键刷新脚本（按顺序调用所有刷新/计算脚本）
 ★ commit 4.36：在 5 步之前加 Step 0 校验 stock code-name 一致性
+★ commit 4.38：在 Step 5 后加 Step 6 拉取基本面数据注入 pcb.manual.js
 
-调用顺序（6 步）：
+调用顺序（7 步）：
   Step 0. scripts/validate_stock_codes.py  —— akshare 校验 pcb.manual.js stock code-name 一致性（阻断式）
   1. scripts/refresh_pcb_valuation.py      —— baostock 拉 PE 历史（5y 日频）
   2. scripts/calc_percentile.py             —— numpy 算 PE 分位（不拉网络）
   3. scripts/fetch_close_history.py         —— baostock 拉 close 历史 + fromHigh
   4. scripts/fetch_volume_history.py        —— baostock 拉 volume + turn 5y 日频
   5. scripts/calc_signal_c.py               —— 量比 + 近 N 天分位最大值（不拉网络）
+  6. scripts/fetch_fundamentals.py          —— akshare 拉 ROE/毛利/营收/净利同比/FCF 注入 pcb.manual.js
 
 行为规范：
-  · 每步完成后打印进度「[OK] Step X/6 完成：xxx.py」
+  · 每步完成后打印进度「[OK] Step X/7 完成：xxx.py」
   · 任何一步失败（非零 exit code / exception）→ 立即停止并打印错误，不继续下一步
   · 最后输出总耗时（秒 + 分钟）
   · 支持命令行参数：
-      --skip-fetch    跳过步骤 1/3/4（网络拉取）· 只跑步骤 2/5（本地计算）
+      --skip-fetch    跳过步骤 1/3/4/6（网络拉取）· 只跑步骤 2/5（本地计算）
                       用于数据已是最新时快速重算分位 + 信号 C
       --skip-validate 跳过 Step 0（紧急情况下用 · 已确认 pcb.manual.js 干净）
       --help          显示帮助
 
-硬约束（commit 4.23 + 4.36）：
+硬约束（commit 4.23 + 4.36 + 4.38）：
   · 只新建本脚本文件，不改任何 data/ 数据文件
-  · 不修改 6 个被调用脚本
+  · 不修改 7 个被调用脚本
   · 失败立即终止·不静默吞错·不强行继续
 
 ⚠️ 副作用说明：
-  · 本脚本端到端执行 6 个子脚本，运行后会刷新 data/pcb.auto.js
-    （calc_percentile.py / calc_signal_c.py 都会写回 4 个新字段）
-    这是预期行为 —— 用户跑本脚本就是为了一键刷新数据
+  · 本脚本端到端执行 7 个子脚本，运行后会刷新 data/pcb.auto.js（PE/分位/close/volume/C 信号）
+    + data/pcb.manual.js（fundamentals 字段）—— 这是预期行为，用户跑本脚本就是为了一键刷新数据
   · commit 4.23 同步修复了两个写入脚本的幂等性 bug（calc_percentile.py /
     calc_signal_c.py 之前会重复跑追加字段·现已改为「已存在则覆盖更新」）
   · commit 4.36 加 Step 0 校验：防止 pcb.manual.js 里的 stock code-name 错位
     注入估值时按 code 拉数据，name 写错 → 数据错位 / 假数据伪装
+  · commit 4.38 加 Step 6 拉取基本面：commit 4.38 用花括号深度跟踪防注入错位
   · 如需跳过 Step 0（紧急情况），使用 --skip-validate
   · 如需跳过网络拉取只重算本地数据，使用 --skip-fetch
 """
@@ -59,7 +61,7 @@ if sys.platform == 'win32':
 SCRIPT_DIR = Path(__file__).resolve().parent         # scripts/
 PROJECT_ROOT = SCRIPT_DIR.parent                      # 项目根目录 d:\乌龟\产业链全景\
 
-# 6 个被调用脚本（按用户指定顺序）
+# 7 个被调用脚本（按用户指定顺序）
 STEPS = [
     ('validate_stock_codes.py',  'akshare 校验 pcb.manual.js stock code-name 一致性（阻断式）'),
     ('refresh_pcb_valuation.py', 'baostock 拉 PE 历史（5y 日频）'),
@@ -67,10 +69,11 @@ STEPS = [
     ('fetch_close_history.py',   'baostock 拉 close 历史 + fromHigh'),
     ('fetch_volume_history.py',  'baostock 拉 volume + turn 5y 日频'),
     ('calc_signal_c.py',         '量比 + 近 N 天分位最大值（不拉网络）'),
+    ('fetch_fundamentals.py',    'akshare 拉 ROE/毛利/营收净利同比/FCF 注入 pcb.manual.js'),
 ]
 
-# --skip-fetch 跳过的步骤索引（0-based）：refresh_pcb_valuation / fetch_close_history / fetch_volume_history
-SKIP_FETCH_INDICES = {1, 3, 4}
+# --skip-fetch 跳过的步骤索引（0-based）：refresh_pcb_valuation / fetch_close_history / fetch_volume_history / fetch_fundamentals
+SKIP_FETCH_INDICES = {1, 3, 4, 6}
 
 # --skip-validate 跳过的步骤索引（0-based）：validate_stock_codes
 SKIP_VALIDATE_INDICES = {0}
@@ -117,9 +120,9 @@ def run_step(idx_1based, script_name, description, work_dir, total=TOTAL_STEPS):
 
 def main():
     parser = argparse.ArgumentParser(
-        description='一键刷新 PCB 链路全部数据（6 步顺序执行）',
-        epilog='示例：python scripts/refresh_all.py                    # 全量刷新（6 步含 Step 0 校验）\n'
-               '      python scripts/refresh_all.py --skip-fetch        # 跳过网络·只跑本地计算（4 步）\n'
+        description='一键刷新 PCB 链路全部数据（7 步顺序执行）',
+        epilog='示例：python scripts/refresh_all.py                    # 全量刷新（7 步含 Step 0 校验 + Step 6 基本面）\n'
+               '      python scripts/refresh_all.py --skip-fetch        # 跳过网络·只跑本地计算（3 步）\n'
                '      python scripts/refresh_all.py --skip-validate    # 跳过 Step 0 校验（紧急情况）\n'
                '      python scripts/refresh_all.py --skip-fetch --skip-validate   # 组合：只跑 2/5 计算步',
         formatter_class=argparse.RawDescriptionHelpFormatter
@@ -127,7 +130,7 @@ def main():
     parser.add_argument(
         '--skip-fetch',
         action='store_true',
-        help='跳过网络拉取（步骤 1/3/4 重编号后 = 2/4/5）·只跑本地计算（步骤 2/5 重编号后 = 3/6）'
+        help='跳过网络拉取（步骤 1/3/4/6 = 拉取 PE/close/volume/fundamentals）· 只跑本地计算（步骤 2/5）'
     )
     parser.add_argument(
         '--skip-validate',
