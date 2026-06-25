@@ -2043,7 +2043,11 @@ function renderChain(chainId) {
       h += `<td style="font-size:11px;color:${s.color};">${s.segment}</td>`;
       h += `<td style="font-size:11px;line-height:1.5;color:var(--text);">${s.note}</td>`;
       // ★ commit 4.27：每只持仓加「📝记录」按钮（跳到交易日志表单预填）
-      h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${s.name}',side:'buy',triggerSignal:'手动'})" style="padding:3px 8px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录</button></td>`;
+      // ★ commit 4.31：再加「+ 趋势」按钮（弹 3 字段表单·复制到剪贴板）
+      h += `<td><div style="display:flex;gap:4px;flex-wrap:wrap;">`;
+      h += `<button onclick="prefillTrade({code:'${s.code}',name:'${s.name}',side:'buy',triggerSignal:'手动'})" style="padding:3px 8px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录</button>`;
+      h += `<button onclick="trendEntry('${s.code}','${s.name}')" style="padding:3px 8px;background:var(--green);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">+ 趋势</button>`;
+      h += `</div></td>`;
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
@@ -3086,6 +3090,62 @@ function lookupCardName(cardId) {
   if (!cardId) return '';
   const c = loadCards().find(x => x.id === cardId);
   return c ? c.name : '';
+}
+
+// ★ commit 4.31：trendHistory 快速录入入口
+//   用 3 次 prompt 顺序输入 date/trend/note · 复制到剪贴板 + alert
+//   输出格式对齐 pcb.manual.js 的 trendHistory 数组元素结构
+function trendEntry(code, name) {
+  // 1. 输入日期（默认今天）
+  const today = new Date().toISOString().slice(0, 10);
+  const date = prompt(`📝 ${code} ${name}\n\n第 1/3 步 · 输入日期（YYYY-MM-DD）`, today);
+  if (!date) { alert('已取消'); return; }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    alert('日期格式错误·需 YYYY-MM-DD'); return;
+  }
+  // 2. 输入趋势（up / flat / down）
+  const trendRaw = prompt(`📝 ${code} ${name}\n\n第 2/3 步 · 输入趋势：\n  up   = 景气向上\n  flat = 景气持平\n  down = 景气向下`, 'flat');
+  if (!trendRaw) { alert('已取消'); return; }
+  const trend = trendRaw.toLowerCase().trim();
+  if (!['up','flat','down'].includes(trend)) {
+    alert('趋势必须为 up / flat / down 之一'); return;
+  }
+  // 3. 输入备注
+  const note = prompt(`📝 ${code} ${name}\n\n第 3/3 步 · 输入备注（≤40 字）`, '');
+  if (note === null) { alert('已取消'); return; }
+  if (note.length > 40) {
+    if (!confirm(`备注超过 40 字（${note.length} 字）· 是否仍要继续？`)) return;
+  }
+  // 4. 构造文本（对齐 pcb.manual.js trendHistory 元素结构）
+  const text = `{ date: '${date}', trend: '${trend}', note: '${note}' }`;
+  // 5. 复制到剪贴板（fallback：textarea 方案）
+  let copied = false;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        alert(`✅ 已复制！\n\n${text}\n\n请粘贴到 pcb.manual.js 的 '${code}' stock 块内 trendHistory 数组的开头（最新在前）· 粘贴后保存并刷新浏览器。`);
+      },
+      (err) => { alert(`⚠️ 剪贴板复制失败：${err}· 请手动复制：\n\n${text}`); }
+    );
+    copied = true;
+  } else {
+    // Fallback：textarea + execCommand
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      copied = document.execCommand('copy');
+    } catch (e) { copied = false; }
+    document.body.removeChild(ta);
+  }
+  if (!copied) {
+    alert(`⚠️ 剪贴板复制失败· 请手动复制以下文本：\n\n${text}`);
+  } else {
+    alert(`✅ 已复制！\n\n${text}\n\n请粘贴到 pcb.manual.js 的 '${code}' stock 块内 trendHistory 数组的开头（最新在前）· 粘贴后保存并刷新浏览器。`);
+  }
 }
 
 // ============================================================
