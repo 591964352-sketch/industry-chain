@@ -1970,6 +1970,43 @@ function renderChain(chainId) {
       h += `</div>`;
     }
 
+    // ★ commit 4.27：当前持仓 · 背景说明（硬编码 3 只 · 不依赖扫描逻辑）
+    //   来源：今日（2026-06-24）关键决策记录 · 持仓跨链·含 PCB/AI 算力/存储芯片
+    //   与减仓/清仓清单独立——3 只持仓均"持有中"·背景说明给出决策依据
+    const HOLDING_NOTES = [
+      { code: '601208', name: '东材科技', status: '持有',
+        segment: 'PCB · M9 碳氢树脂',
+        note: 'PE 高位（99.75% 分位）· 注意减仓信号（信号 C 距离显示已覆盖）',
+        color: 'var(--barrier-high)' },
+      { code: '300442', name: '润泽科技', status: '持有',
+        segment: 'AI 算力 · IDC',
+        note: '逻辑成立 · 止损线 75 元',
+        color: 'var(--accent)' },
+      { code: '300223', name: '北京君正', status: '持有',
+        segment: '存储芯片 · DRAM/Flash',
+        note: '最强标的 · 季度毛利率连续两季下滑需关注',
+        color: 'var(--green)' }
+    ];
+    h += `<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">`;
+    h += `<div style="font-size:13px;font-weight:600;margin-bottom:10px;">📋 当前持仓 · 背景说明 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（3 只硬编码 · 跨链·2026-06-24 决策）</span></div>`;
+    h += `<div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 说明：与上方减仓/清仓清单独立——3 只持仓均"持有中"，背景说明给出决策依据。cross-chain 持仓（PCB + AI 算力 IDC + 存储芯片）。</div>`;
+    h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;">`;
+    h += `<colgroup><col style="width:60px"><col style="width:90px"><col style="width:80px"><col style="width:160px"><col><col style="width:110px"></colgroup>`;
+    h += `<thead><tr><th>代码</th><th>简称</th><th>状态</th><th>板块定位</th><th>决策依据（背景说明）</th><th>联动</th></tr></thead><tbody>`;
+    HOLDING_NOTES.forEach(s => {
+      h += `<tr>`;
+      h += `<td><code>${s.code}</code></td>`;
+      h += `<td>${s.name}</td>`;
+      h += `<td><span class="tag tg-mid" style="font-size:10px;font-weight:600;">${s.status}</span></td>`;
+      h += `<td style="font-size:11px;color:${s.color};">${s.segment}</td>`;
+      h += `<td style="font-size:11px;line-height:1.5;color:var(--text);">${s.note}</td>`;
+      // ★ commit 4.27：每只持仓加「📝记录」按钮（跳到交易日志表单预填）
+      h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${s.name}',side:'buy',triggerSignal:'手动'})" style="padding:3px 8px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录</button></td>`;
+      h += `</tr>`;
+    });
+    h += `</tbody></table></div>`;
+    h += `</div>`;
+
     h += `</div>`;
   }
 
