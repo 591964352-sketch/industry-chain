@@ -1,8 +1,8 @@
 # 产业链刷新模板（Chain Refresh Template · 阶段四 commit 4.4 模板化）
 
-> **适用版本**：v3（2026-06-24 · 阶段五 commit 4.24 加 fetch_volume_history + calc_signal_c + refresh_all 一键入口）
+> **适用版本**：v4（2026-06-25 · 阶段五 commit 4.36 加 Step 0 stock code-name 校验 + validate_stock_codes.py + refresh_all.py 集成 + --skip-validate 参数）
 > **前置规则**：[CLAUDE.md §6](../../CLAUDE.md) 数据治理铁律 + §6.8 数据准确度优先 + §6.9 双重检查 + §6.10 三重验证 + §7 数据自查纪律
-> **基线**：[data/pcb.js](../../data/pcb.js) + [data/pcb.manual.js](../../data/pcb.manual.js) + [data/pcb.auto.js](../../data/pcb.auto.js) + [scripts/refresh_pcb_valuation.py](../../scripts/refresh_pcb_valuation.py) + [scripts/calc_percentile.py](../../scripts/calc_percentile.py) + [scripts/fetch_close_history.py](../../scripts/fetch_close_history.py) + [scripts/fetch_volume_history.py](../../scripts/fetch_volume_history.py) + [scripts/calc_signal_c.py](../../scripts/calc_signal_c.py) + [scripts/refresh_all.py](../../scripts/refresh_all.py)
+> **基线**：[data/pcb.js](../../data/pcb.js) + [data/pcb.manual.js](../../data/pcb.manual.js) + [data/pcb.auto.js](../../data/pcb.auto.js) + [scripts/validate_stock_codes.py](../../scripts/validate_stock_codes.py) + [scripts/refresh_pcb_valuation.py](../../scripts/refresh_pcb_valuation.py) + [scripts/calc_percentile.py](../../scripts/calc_percentile.py) + [scripts/fetch_close_history.py](../../scripts/fetch_close_history.py) + [scripts/fetch_volume_history.py](../../scripts/fetch_volume_history.py) + [scripts/calc_signal_c.py](../../scripts/calc_signal_c.py) + [scripts/refresh_all.py](../../scripts/refresh_all.py)
 
 ---
 
@@ -124,6 +124,9 @@ python scripts/calc_percentile.py
 ### 3.4 执行顺序
 
 ```bash
+# 0) ★ commit 4.36 新增：stock code-name 一致性校验（akshare · ~10 秒）· 阻断式
+python scripts/validate_stock_codes.py
+
 # 1) 拉 pe_ttm + pe_history（baostock · ~3 分钟）
 python scripts/refresh_xxx_valuation.py
 
@@ -140,7 +143,31 @@ python scripts/fetch_volume_history.py
 python scripts/calc_signal_c.py
 ```
 
-**五步串行**：必须按顺序，因 ② 依赖 ① 的 pe_history，③ 不依赖 ①② 但 commit 3.5 起要覆盖 commit 3.2 的 fromHigh_pe 占位字段，⑤ 依赖 ① 的 pe_history + ④ 的 volume_history。
+**六步串行**：必须按顺序，因 ② 依赖 ① 的 pe_history，③ 不依赖 ①② 但 commit 3.5 起要覆盖 commit 3.2 的 fromHigh_pe 占位字段，⑤ 依赖 ① 的 pe_history + ④ 的 volume_history。
+
+**★ Step 0 校验（commit 4.36 · 强制前置）**：
+
+| 项 | 说明 |
+|---|---|
+| **做什么** | 用 akshare.stock_info_a_code_name() 拉 A 股全量 5529 只 (code, name) 映射 · 对比 pcb.manual.js 的 (code, name) 是否一致 |
+| **拦截条件** | 任何 1 只 stock code-name 不一致（如 002443 写「金洲精工」但 A 股 002443 实为「金洲管道」）→ exit 1 |
+| **覆盖场景** | (a) name 错位（最常见）(b) code 错位（code 在 akshare 全量中找不到 · 多为退市/暂停/虚构）(c) 同名异 code 警告（非阻断） |
+| **降级路径** | `--warn-only` 只打印警告不阻断（CI 监测场景） |
+| **跳过路径** | `python scripts/refresh_all.py --skip-validate` 紧急跳过（不推荐） |
+
+**为什么必要（commit 4.35 教训）**：
+
+- pcb.manual.js 历史出现过 code-name 错位：'002443':{name:'金洲精工'}（实际 002443 是金洲管道）· '603519':{name:'南亚新材'}（实际 603519 是神马电力）
+- 注入估值时按 code 拉 baostock 数据，name 与 code 不匹配 → 数据错位 / 假数据伪装
+- Step 0 校验是「数据进入自动层前的最后一道闸」· 防 commit 4.35 类型 bug 重演
+
+### 3.4.1 校验失败时的修复流程
+
+1. 跑 `python scripts/validate_stock_codes.py` 看具体哪几只 stock 错位
+2. 人工核对真实 A 股 code-name（同花顺 / 巨潮 / akshare）
+3. 修正 `data/pcb.manual.js` 的 code 或 name
+4. 重跑校验 → 确认全部 PASS
+5. 继续后续 5 步
 
 ### 3.5 `fetch_volume_history.py`（拉 volume + turn 5y 历史）
 
@@ -158,24 +185,34 @@ python scripts/calc_signal_c.py
 
 写入 `xxx.auto.js.valuations[code]` · 供 `xxx.js` 的信号 C 监测调用。
 
-### 3.7 `refresh_all.py`（★ commit 4.23 新增 · 一键执行全链路）
+### 3.7 `refresh_all.py`（★ commit 4.23 + 4.36 · 一键执行全链路）
 
-**入口脚本**：按顺序调用上述 5 个脚本，**用户首选**：
+**入口脚本**：按顺序调用上述 6 个脚本（含 Step 0 校验），**用户首选**：
 
 ```bash
-# 完整 5 步（网络 + 计算）
+# 完整 6 步（Step 0 校验 + 网络 + 计算）
 python scripts/refresh_all.py
 
 # 跳过网络拉取（步骤 1/3/4）· 只跑本地计算（步骤 2/5）· 数据已是最新时快速重算
 python scripts/refresh_all.py --skip-fetch
+
+# 跳过 Step 0 校验（紧急情况用 · 已确认 pcb.manual.js 干净）
+python scripts/refresh_all.py --skip-validate
+
+# 组合：跳过网络 + 跳过校验（只跑 calc_percentile + calc_signal_c 两个本地计算步）
+python scripts/refresh_all.py --skip-fetch --skip-validate
 ```
 
 **行为规范**：
-- 每步完成后打印进度「✅ Step X/5 完成：xxx.py」
+- 每步完成后打印进度「[OK] Step X/6 完成：xxx.py」
 - 任何一步失败（非零 exit code / exception）→ 立即停止并打印错误，不继续下一步
 - 最后输出总耗时（秒 + 分钟）
 
-**副作用**：本脚本端到端执行 5 个子脚本，运行后会刷新 `data/xxx.auto.js`（这是预期行为）。如需跳过网络拉取只重算本地数据，使用 `--skip-fetch`。
+**副作用**：本脚本端到端执行 6 个子脚本，运行后会刷新 `data/xxx.auto.js`（这是预期行为）。如需：
+- 跳过网络拉取只重算本地数据 → `--skip-fetch`
+- 跳过 Step 0 校验（紧急情况）→ `--skip-validate`
+
+**Step 0 失败处理**：validate_stock_codes.py 任何 1 只 stock code-name 不一致 → 立即 exit 1 → refresh_all.py 终止后续 5 步。需要先修正 `data/pcb.manual.js` 后重跑。
 
 ---
 
@@ -237,6 +274,7 @@ python scripts/refresh_all.py --skip-fetch
 
 | # | 步骤 | 文件 / 命令 | 验证 |
 |---|---|---|---|
+| **0** | **★ commit 4.36 新增：stock code-name 校验**（新增 stock 写完 manual.js 后立即跑） | `python scripts/validate_stock_codes.py` | 全部 stock PASS · exit 0 |
 | 1 | 建 `data/xxx.manual.js` | 复制 `pcb.manual.js` 结构 · 填新赛道 stock | node 解析出 N 只 stock code |
 | 2 | 建 `data/xxx.auto.js` | 空壳 `valuations = {}; _meta = {asOf, stats: {success:0}}` | node 加载不报错 |
 | 3 | 建 `data/xxx.js` | 复制 `pcb.js` 结构 · 改 `CHAIN_ID` 为 `xxx` | node 加载输出 OK |
@@ -250,7 +288,16 @@ python scripts/refresh_all.py --skip-fetch
 | 11 | index.html 注册新赛道 | DATA_MANIFEST 数组加 `'xxx'` + 侧栏 `<div class="sidebar-nav">` 加 `<span class="nav-item" data-chain="xxx" onclick="switchChain('xxx')">` + CHANGELOG 加一条 + sectorName/sectorColor 加新 id | 浏览器 hash `#xxx` 能进入新赛道 |
 | 12 | 输出数据自查报告 | `=== 数据自查报告 · [commit 编号] ===` 4 节格式 | §7.2 完整输出 |
 
-**替代方案（★ commit 4.23）**：步骤 4-8 可用 `python scripts/refresh_all.py` 一键执行全链路（5 步顺序 + 失败立即停止 + 总耗时打印）。`--skip-fetch` 跳过网络拉取（1/3/4 步）· 只跑本地计算（2/5 步）· 用于数据已是最新时快速重算分位 + 信号 C。
+**★ Step 0 前置校验说明（commit 4.36）**：
+
+- **新增 stock 必须先通过 validate 才能写入 manual.js** —— 反例：直接写 `xxx.manual.js` 的 38 只 stock，commit 后才跑 validate 发现 5 只 code-name 错位 → 必须 revert 重新写
+- **流程**：手动核对每只 stock 的真实 code 和 name（同花顺 / 巨潮 / akshare 三方核对）→ 写入 manual.js → 立即跑 `validate_stock_codes.py` → 全部 PASS 才能 commit
+- **失败处理**：发现错位 → 修正 manual.js → 重跑 validate → PASS → commit
+- **常见错位**：code 写错位数（如 6 位写成 5 位）/ name 写印象名（公司更名前的旧名）/ code 误用 ETF 或港股代码
+
+**替代方案（★ commit 4.23 + 4.36）**：步骤 4-8 可用 `python scripts/refresh_all.py` 一键执行全链路（**6 步顺序**含 Step 0 校验 + 失败立即停止 + 总耗时打印）。
+- `--skip-fetch` 跳过网络拉取（1/3/4 步）· 只跑本地计算（2/5 步）· 用于数据已是最新时快速重算分位 + 信号 C
+- `--skip-validate` 跳过 Step 0 校验（**紧急情况用** · 已确认 pcb.manual.js 干净）
 
 **预检（步骤 1 前必做）**：
 - 跑 `.claude/plans/tools/pcb-pre-flight-check.js` 查 stock 状态（退市 / ST / 暂停上市）
@@ -270,6 +317,7 @@ python scripts/refresh_all.py --skip-fetch
 
 | # | 步骤 | 命令 / 工具 | 验证 |
 |---|---|---|---|
+| **0** | **★ commit 4.36 新增：stock code-name 校验**（refresh 前必跑 · 防止新加 stock 的 code-name 错位污染数据）| `python scripts/validate_stock_codes.py` | 全部 stock PASS · exit 0 |
 | 1 | 跑 `refresh_xxx_valuation.py` | 覆盖 `xxx.auto.js` 的 `valuations.pe_ttm + pe_history` | stats.success = 实际成功数 · 失败列表为空 |
 | 2 | 跑 `calc_percentile.py` | 覆盖 `pePercentile + entryZone` | 全部 stock 有 2 字段（亏损股 pePercentile=null）|
 | 3 | 跑 `fetch_close_history.py` | 覆盖 `fromHigh + closeLatest + closeHigh5y` | 全部 stock 有 3 字段 |
@@ -279,7 +327,20 @@ python scripts/refresh_all.py --skip-fetch
 | 7 | 检查 PE 异常高 | 列出 `pe_ttm > 500` 或 `flag 含 "PE异常高"` 的 stock 名单 | 异常 PE 需到同花顺 / 巨潮核对 |
 | 8 | 输出数据自查报告 | §7.2 4 节格式 | 报告归档到 commit message |
 
-**替代方案（★ commit 4.23）**：步骤 1-5 可用 `python scripts/refresh_all.py` 一键执行全链路（5 步顺序 + 失败立即停止 + 总耗时打印）。`--skip-fetch` 跳过网络拉取（1/3/4 步）· 只跑本地计算（2/5 步）· 用于数据已是最新时快速重算分位 + 信号 C。
+**★ Step 0 前置校验说明（commit 4.36）**：
+
+- **刷新前必跑 Step 0** —— 防止新增 / 修改 stock 后出现 code-name 错位污染 pcb.auto.js
+- **特别场景**：刷新时新加 stock（如 PCB 新增东财新覆盖标的）→ 必须先在 pcb.manual.js 加 stock → 跑 validate → PASS → 才能进 Step 1
+- **批量刷新流程**：
+  1. 收集新一周 stock 列表（豆包 / DeepSeek 返回）
+  2. 人工核对每只 stock 的真实 code-name（同花顺 / 巨潮 / akshare）
+  3. 写入 / 修正 `pcb.manual.js`
+  4. **Step 0**: `python scripts/validate_stock_codes.py` → 全部 PASS
+  5. Step 1-5: `python scripts/refresh_all.py`（自动跑 Step 0 校验 + 5 步刷新）
+
+**替代方案（★ commit 4.23 + 4.36）**：步骤 1-5 可用 `python scripts/refresh_all.py` 一键执行全链路（**6 步顺序**含 Step 0 校验 + 失败立即停止 + 总耗时打印）。
+- `--skip-fetch` 跳过网络拉取（1/3/4 步）· 只跑本地计算（2/5 步）· 用于数据已是最新时快速重算分位 + 信号 C
+- `--skip-validate` 跳过 Step 0 校验（**紧急情况用** · 已确认 pcb.manual.js 干净）
 
 **刷新策略（§6.4 手动刷新纪律）**：
 - 每次只动被刷新的字段；硬数据变化才更新对应"数据截止"日期；🆪 主观判断刷新**不动**数据截止日
@@ -348,6 +409,7 @@ git push --force-with-lease
 | v1 | 2026-06-24 | 阶段四 commit 4.4 | 初版 · 8 节（适用场景 / 文件结构 / 脚本复用 / growthAdj 决策 / 新增 checklist / 刷新 checklist / 自查报告 / 紧急回滚）|
 | v2 | 2026-06-24 | 阶段五 commit 4.14 | §4.1 peAbsMax 设置规范重写（PCB 120 / 半导体设备 160 / 软件 300 / 传统 60）· 原则 = 赛道合理 PE 上限的 1.3-1.5 倍 |
 | v3 | 2026-06-24 | 阶段五 commit 4.24 | §3.4 补 4/5 步（fetch_volume_history + calc_signal_c）· 新增 §3.5/§3.6 介绍新脚本 · 新增 §3.7 refresh_all.py 一键入口 + --skip-fetch 说明 · §5 新增 checklist 补 7/8 步 · §6 刷新 checklist 补 4/5 步（6 步→8 步）· §10 加 3 个新文件关联 |
+| v4 | 2026-06-25 | 阶段五 commit 4.36 | 新增 §3.4 Step 0 stock code-name 校验（akshare · 阻断式）· 新增 §3.4.1 校验失败修复流程 · §3.7 refresh_all.py 加 Step 0 集成 + --skip-validate 参数（5 步→6 步）· §5 新增 checklist 加 Step 0 前置校验说明 + 「新增 stock 必须先通过 validate」约束 · §6 刷新 checklist 加 Step 0 前置校验说明 + 批量刷新流程 · §10 加 validate_stock_codes.py 关联 |
 
 ---
 
@@ -360,7 +422,8 @@ git push --force-with-lease
 | PCB 手动层（37 只 stock 范本）| [`data/pcb.manual.js`](../../data/pcb.manual.js) |
 | PCB 自动层（37 只 stock 估值范本）| [`data/pcb.auto.js`](../../data/pcb.auto.js) |
 | PCB 合并层（injectValuation + deriveSignal 范本）| [`data/pcb.js`](../../data/pcb.js) |
-| **一键刷新入口**（★ commit 4.23）| [`scripts/refresh_all.py`](../../scripts/refresh_all.py) |
+| **一键刷新入口**（★ commit 4.23 + 4.36 加 Step 0 校验）| [`scripts/refresh_all.py`](../../scripts/refresh_all.py) |
+| **★ stock code-name 校验脚本**（commit 4.36 新增 · Step 0 阻断式）| [`scripts/validate_stock_codes.py`](../../scripts/validate_stock_codes.py) |
 | 拉 pe_ttm + pe_history 脚本 | [`scripts/refresh_pcb_valuation.py`](../../scripts/refresh_pcb_valuation.py) |
 | 算分位 + 买入区间脚本 | [`scripts/calc_percentile.py`](../../scripts/calc_percentile.py) |
 | 拉 close 5y 算 fromHigh 脚本 | [`scripts/fetch_close_history.py`](../../scripts/fetch_close_history.py) |
