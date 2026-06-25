@@ -3275,9 +3275,13 @@ function recordSignalTrigger(signalData) {
     recordedAt: today,
     asOf: '2026-06-24'
   };
+  // ★ commit 4.43：收益率回填字段（默认 null · status=open 持仓中）
+  entry.returns = { d30: null, d60: null, d90: null, status: 'open' };
   // 同一 stock + 同日：覆盖（去重）
   const idx = all.findIndex(e => e.code === entry.code && e.recordedAt === entry.recordedAt);
   if (idx >= 0) {
+    // 保留旧 returns（如果新 trigger 是同日重复触发 → 不清空用户的收益率回填）
+    if (all[idx].returns) entry.returns = all[idx].returns;
     all[idx] = entry;                                         // 覆盖
   } else {
     all.unshift(entry);                                       // 新增置顶
@@ -3305,12 +3309,16 @@ function renderSignalTriggerHistory() {
   let h = '';
   h += `<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">`;
   h += `<div class="card-header" style="font-size:14px;margin-bottom:10px;">📜 信号 C 触发历史 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（localStorage · mySignalHistory · ${history.length} 条）</span></div>`;
+
+  // ★ commit 4.43：胜率统计卡片（在历史表上方）
+  h += renderSignalWinRateStats(history);
+
   if (history.length === 0) {
     h += `<div style="padding:18px;text-align:center;color:var(--muted);font-size:13px;background:var(--card2);border-radius:6px;">📭 暂无触发记录。点击信号 C 命中行的「📜记录触发」按钮记录。</div>`;
   } else {
     h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;">`;
-    h += `<colgroup><col style="width:90px"><col style="width:60px"><col><col style="width:60px"><col style="width:90px"><col style="width:90px"><col style="width:80px"><col style="width:60px"></colgroup>`;
-    h += `<thead><tr><th>记录日期</th><th>代码</th><th>简称</th><th>触发条件</th><th>PE历史分位</th><th>距前高回落幅度</th><th>近5日/60日量比</th><th style="width:60px;">操作</th></tr></thead><tbody>`;
+    h += `<colgroup><col style="width:90px"><col style="width:60px"><col><col style="width:60px"><col style="width:90px"><col style="width:90px"><col style="width:80px"><col style="width:150px"><col style="width:70px"><col style="width:100px"></colgroup>`;
+    h += `<thead><tr><th>记录日期</th><th>代码</th><th>简称</th><th>触发条件</th><th>PE历史分位</th><th>距前高回落幅度</th><th>近5日/60日量比</th><th>收益率（30/60/90天）</th><th>状态</th><th>操作</th></tr></thead><tbody>`;
     history.forEach(entry => {
       const pctlStr = entry.pePercentile !== null && entry.pePercentile !== undefined ? entry.pePercentile.toFixed(2) + '%' : '—';
       const fromHighStr = entry.fromHigh !== null && entry.fromHigh !== undefined ? (entry.fromHigh * 100).toFixed(1) + '%' : '—';
@@ -3319,6 +3327,21 @@ function renderSignalTriggerHistory() {
         c === 'A' ? '<span class="tag tg-green" style="font-size:10px;">A</span>'
         : '<span class="tag tg-high" style="font-size:10px;">B</span>'
       ).join(' ');
+
+      // ★ commit 4.43：收益率回填字段（向后兼容 · 旧记录无 returns 字段显示「—」）
+      const r = entry.returns || null;
+      const fmtRet = v => (typeof v === 'number') ? (v >= 0 ? '+' : '') + v.toFixed(1) + '%' : '—';
+      const d30 = r ? fmtRet(r.d30) : '—';
+      const d60 = r ? fmtRet(r.d60) : '—';
+      const d90 = r ? fmtRet(r.d90) : '—';
+      const retHtml = `<span style="color:${(typeof (r && r.d30) === 'number') ? (r.d30 >= 0 ? 'var(--green)' : 'var(--red)') : 'var(--muted)'};">${d30}</span> / <span style="color:${(typeof (r && r.d60) === 'number') ? (r.d60 >= 0 ? 'var(--green)' : 'var(--red)') : 'var(--muted)'};">${d60}</span> / <span style="color:${(typeof (r && r.d90) === 'number') ? (r.d90 >= 0 ? 'var(--green)' : 'var(--red)') : 'var(--muted)'};">${d90}</span>`;
+
+      // ★ commit 4.43：status 徽章（open/closed/pending）
+      const status = (r && r.status) || 'pending';
+      const stCls = status === 'closed' ? 'tg-green' : status === 'open' ? 'tg-mid' : 'tg-gray';
+      const stIcon = status === 'closed' ? '🟢' : status === 'open' ? '🔵' : '🟡';
+      const stTxt = status === 'closed' ? '已了结' : status === 'open' ? '持仓中' : '待回填';
+
       h += `<tr>`;
       h += `<td>${entry.recordedAt || '—'}</td>`;
       h += `<td><code>${entry.code || '—'}</code></td>`;
@@ -3327,13 +3350,137 @@ function renderSignalTriggerHistory() {
       h += `<td><span class="tag tg-mid" style="font-size:10px;">${pctlStr}</span></td>`;
       h += `<td><span class="tag tg-mid" style="font-size:10px;">${fromHighStr}</span></td>`;
       h += `<td><span class="tag tg-mid" style="font-size:10px;">${volStr}</span></td>`;
-      h += `<td><button onclick="removeSignalTrigger('${entry.id}')" style="padding:2px 8px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button></td>`;
+      h += `<td style="font-size:11px;line-height:1.5;">${retHtml}</td>`;
+      h += `<td><span class="tag ${stCls}" style="font-size:10px;">${stIcon} ${stTxt}</span></td>`;
+      h += `<td><div style="display:flex;gap:4px;flex-wrap:wrap;">`;
+      h += `<button onclick="fillSignalReturns('${entry.id}')" style="padding:2px 6px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:3px;font-size:10px;cursor:pointer;">📝回填</button>`;
+      h += `<button onclick="removeSignalTrigger('${entry.id}')" style="padding:2px 6px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button>`;
+      h += `</div></td>`;
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
   }
   h += `</div>`;
   container.innerHTML = h;
+}
+
+// ★ commit 4.43：胜率统计卡片（基于 signalHistory 累积的 returns 字段）
+//   数据不足时（<10 次触发）显示「累积 10 次触发后统计更有意义」提示
+function renderSignalWinRateStats(history) {
+  // 1) 状态分类
+  let totalCount = history.length;
+  let openCount = 0, closedCount = 0, pendingCount = 0;
+  history.forEach(e => {
+    const status = (e.returns && e.returns.status) || 'pending';
+    if (status === 'open') openCount++;
+    else if (status === 'closed') closedCount++;
+    else pendingCount++;
+  });
+
+  // 2) 30 天胜率统计（仅算 closed 且 d30 有值的样本）
+  let closed30Count = 0, win30Count = 0, sum30 = 0;
+  let max30 = -Infinity, min30 = Infinity;
+  history.forEach(e => {
+    if (!e.returns || e.returns.status !== 'closed') return;
+    if (typeof e.returns.d30 !== 'number') return;
+    const r30 = e.returns.d30;
+    closed30Count++;
+    sum30 += r30;
+    if (r30 > 0) win30Count++;
+    if (r30 > max30) max30 = r30;
+    if (r30 < min30) min30 = r30;
+  });
+
+  const winRate30 = closed30Count > 0 ? (win30Count / closed30Count * 100) : null;
+  const avg30 = closed30Count > 0 ? (sum30 / closed30Count) : null;
+  const fmtPct = v => (v === null || !isFinite(v)) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+  const fmtPctSign = (v, suffix) => {
+    if (v === null || !isFinite(v)) return '—';
+    const sign = v >= 0 ? '+' : '';
+    return sign + v.toFixed(1) + '%' + (suffix || '');
+  };
+  // 数据不足提示阈值：累积 < 10 次触发 → 提示「累积 10 次后更有意义」
+  const hintThreshold = 10;
+  const insufficientHint = totalCount < hintThreshold
+    ? `<div style="margin-top:10px;padding:8px 12px;background:rgba(240,185,11,0.08);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:11px;color:var(--text);line-height:1.6;">💡 累积 <strong>${hintThreshold}</strong> 次触发后统计更有意义（当前 ${totalCount} 次）</div>`
+    : '';
+
+  return `
+    <div style="background:var(--card2);border-radius:8px;padding:12px 14px;margin-bottom:14px;border-left:3px solid var(--green);">
+      <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;letter-spacing:0.3px;">📊 胜率统计 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:6px;">（30 天收益率 · 基于已了结信号回填）</span></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px;">
+        <div>
+          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">总触发 / 已了结 / 持仓中</div>
+          <div style="font-weight:600;font-size:14px;color:var(--text);">${totalCount} <span style="font-size:11px;color:var(--muted);font-weight:400;">/ ${closedCount} / ${openCount}</span></div>
+        </div>
+        <div>
+          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">30 天胜率（d30 &gt; 0）</div>
+          <div style="font-weight:600;font-size:14px;color:${(winRate30 === null) ? 'var(--muted)' : (winRate30 >= 50 ? 'var(--green)' : 'var(--red)')};">${winRate30 === null ? '—' : winRate30.toFixed(1) + '%'}</div>
+        </div>
+        <div>
+          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">平均 30 天收益率</div>
+          <div style="font-weight:600;font-size:14px;color:${(avg30 === null) ? 'var(--muted)' : (avg30 >= 0 ? 'var(--green)' : 'var(--red)')};">${fmtPct(avg30)}</div>
+        </div>
+        <div>
+          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">最大单次收益</div>
+          <div style="font-weight:600;font-size:14px;color:${(max30 === -Infinity) ? 'var(--muted)' : 'var(--green)'};">${max30 === -Infinity ? '—' : fmtPct(max30)}</div>
+        </div>
+        <div>
+          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">最大单次亏损</div>
+          <div style="font-weight:600;font-size:14px;color:${(min30 === Infinity) ? 'var(--muted)' : 'var(--red)'};">${min30 === Infinity ? '—' : fmtPct(min30)}</div>
+        </div>
+        <div>
+          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">30 天已了结样本数</div>
+          <div style="font-weight:600;font-size:14px;color:var(--text);">${closed30Count} <span style="font-size:10px;color:var(--muted);font-weight:400;">条</span></div>
+        </div>
+      </div>
+      ${insufficientHint}
+    </div>
+  `;
+}
+
+// ★ commit 4.43：收益率回填函数（4 个 prompt 顺序输入 + 写回 localStorage）
+//   触发时机：信号 C 触发历史表的「📝回填」按钮
+//   输入字段：d30/d60/d90（百分比数字·null 表示留空）+ status（open/closed/pending）
+function fillSignalReturns(id) {
+  const all = loadSignalHistory();
+  const idx = all.findIndex(e => e.id === id);
+  if (idx < 0) { alert('未找到该记录'); return; }
+  const e = all[idx];
+  const r = e.returns || { d30: null, d60: null, d90: null, status: 'open' };
+
+  // 1) d30 输入
+  const d30Raw = prompt(`📝 ${e.code} ${e.name} · 收益率回填\n\n第 1/4 步 · 30 天涨跌幅（%·可空）\n  例：+15.5 或 -8.2 或留空`, r.d30 === null || r.d30 === undefined ? '' : String(r.d30));
+  if (d30Raw === null) { alert('已取消'); return; }
+  const d30 = d30Raw.trim() === '' ? null : parseFloat(d30Raw);
+  if (d30 !== null && isNaN(d30)) { alert('d30 必须为数字或留空'); return; }
+
+  // 2) d60 输入
+  const d60Raw = prompt(`📝 ${e.code} ${e.name} · 收益率回填\n\n第 2/4 步 · 60 天涨跌幅（%·可空）`, r.d60 === null || r.d60 === undefined ? '' : String(r.d60));
+  if (d60Raw === null) { alert('已取消'); return; }
+  const d60 = d60Raw.trim() === '' ? null : parseFloat(d60Raw);
+  if (d60 !== null && isNaN(d60)) { alert('d60 必须为数字或留空'); return; }
+
+  // 3) d90 输入
+  const d90Raw = prompt(`📝 ${e.code} ${e.name} · 收益率回填\n\n第 3/4 步 · 90 天涨跌幅（%·可空）`, r.d90 === null || r.d90 === undefined ? '' : String(r.d90));
+  if (d90Raw === null) { alert('已取消'); return; }
+  const d90 = d90Raw.trim() === '' ? null : parseFloat(d90Raw);
+  if (d90 !== null && isNaN(d90)) { alert('d90 必须为数字或留空'); return; }
+
+  // 4) status 输入
+  const statusRaw = prompt(`📝 ${e.code} ${e.name} · 收益率回填\n\n第 4/4 步 · 状态：\n  open    = 持仓中\n  closed  = 已了结（计入胜率统计）\n  pending = 待回填（不计入胜率）`, r.status || 'open');
+  if (statusRaw === null) { alert('已取消'); return; }
+  const status = statusRaw.toLowerCase().trim();
+  if (!['open', 'closed', 'pending'].includes(status)) {
+    alert('状态必须为 open / closed / pending 之一'); return;
+  }
+
+  // 写回
+  e.returns = { d30: d30, d60: d60, d90: d90, status: status };
+  all[idx] = e;
+  saveSignalHistory(all);
+  alert(`✅ 已回填 ${e.code} ${e.name} · d30=${d30 === null ? '—' : d30 + '%'} d60=${d60 === null ? '—' : d60 + '%'} d90=${d90 === null ? '—' : d90 + '%'} status=${status}`);
+  renderSignalTriggerHistory();                                  // 局部刷新
 }
 
 function addTrade(trade) {
