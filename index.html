@@ -1765,6 +1765,97 @@ function renderChain(chainId) {
       });
       h += `</tbody></table></div>`;
     }
+
+    // ★ commit 4.25：信号 C 距离显示（3 维度距离 + 总距离）
+    //   数据来源：window.PCB_AUTO.valuations[code] · 阈值与 pcb.js SIGNAL_C 同步
+    //     PCTL_PCTL_RECOVER_A = 15  · FROM_HIGH_A = -0.15  · VOL_RATIO_MAX = 1.5
+    //   距离逻辑（>0=还差多远；≤0=已触发）：
+    //     ① PE 回调距离 = 15 - (maxPctl90d - pePercentile)   · 触发条件 pctlDrop ≤ -15pp
+    //     ② 股价回撤距离 = -0.15 - fromHigh                  · 触发条件 fromHigh ≤ -15%
+    //     ③ 缩量距离 = 1.5 - volRatio5d                       · 触发条件 volRatio5d ≤ 1.5
+    //   扫描池：全部 38 只 PCB stock（含中游+上游）+ 5 只核心卡口
+    //   排序：按总距离（3 个距离的最小值）升序 · 最接近触发的在前
+    h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-top:16px;margin-bottom:4px;">📏 信号 C 距离显示（38 只扫描池 · 按总距离升序 · 越小越接近触发）</div>`;
+    h += `<div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.5;">阈值：PE 回调 ≥ 15pp · 股价回撤 ≥ 15% · 缩量 volRatio5d ≤ 1.5 · 全部满足才触发信号 C 条件 A</div>`;
+    const distStocks = [];   // [{code, name, distPctl, distFromHigh, distVol, totalDist}]
+    // 收集所有 stock code（含 segments + midstream）
+    const allStocksForDist = [];
+    (d.segments || []).forEach(seg => {
+      (seg.stocks || []).forEach(s => {
+        if (s && s.code) allStocksForDist.push({ code: s.code, name: s.name });
+      });
+    });
+    if (d.midstream && d.midstream.stocks) {
+      d.midstream.stocks.forEach(s => {
+        if (s && s.code) allStocksForDist.push({ code: s.code, name: s.name });
+      });
+    }
+    const valMap = (window.PCB_AUTO && window.PCB_AUTO.valuations) || {};
+    allStocksForDist.forEach(s => {
+      const v = valMap[s.code];
+      if (!v) return;                                          // 无 auto 数据跳过
+      const pePercentile = v.pePercentile;
+      const maxPctl90d = v.maxPctl90d;
+      const fromHigh = v.fromHigh;
+      const volRatio5d = v.volRatio5d;
+      // 计算 3 维度距离
+      let distPctl = null;
+      if (pePercentile !== null && pePercentile !== undefined && maxPctl90d !== null && maxPctl90d !== undefined) {
+        const pctlDrop = pePercentile - maxPctl90d;
+        distPctl = 15 - (-pctlDrop);                            // = 15 + pctlDrop（>0 还差）
+      }
+      let distFromHigh = null;
+      if (fromHigh !== null && fromHigh !== undefined) {
+        distFromHigh = -0.15 - fromHigh;                       // >0 还差
+      }
+      let distVol = null;
+      if (volRatio5d !== null && volRatio5d !== undefined) {
+        distVol = 1.5 - volRatio5d;                            // >0 还差
+      }
+      // 总距离 = 3 个距离的最小值（最接近触发的维度）
+      const dists = [distPctl, distFromHigh, distVol].filter(d => d !== null && !isNaN(d));
+      const totalDist = dists.length === 3 ? Math.min(...dists) : (dists.length > 0 ? Math.max(...dists) : null);
+      distStocks.push({ code: s.code, name: s.name, distPctl, distFromHigh, distVol, totalDist, pePercentile, fromHigh, volRatio5d });
+    });
+    // 排序：总距离升序（null 排最后）
+    distStocks.sort((a, b) => {
+      if (a.totalDist === null && b.totalDist === null) return 0;
+      if (a.totalDist === null) return 1;
+      if (b.totalDist === null) return -1;
+      return a.totalDist - b.totalDist;
+    });
+    // 渲染距离表（前 20 只 + 显示「全部 38 只」可滚动）
+    h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;">`;
+    h += `<colgroup><col style="width:60px"><col><col style="width:120px"><col style="width:120px"><col style="width:110px"><col style="width:90px"></colgroup>`;
+    h += `<thead><tr><th>代码</th><th>简称</th><th>① PE回调距离</th><th>② 股价回撤距离</th><th>③ 缩量距离</th><th>总距离</th></tr></thead><tbody>`;
+    distStocks.forEach(s => {
+      const cellOrDash = (val, digits, suffix, threshold) => {
+        if (val === null || val === undefined || isNaN(val)) return `<span class="tag tg-gray" style="font-size:10px;">—</span>`;
+        if (val <= 0) return `<span class="tag tg-green" style="font-size:10px;">✓ 已触发</span>`;
+        const cls = val < threshold * 0.3 ? 'tg-green' : val < threshold * 0.7 ? 'tg-mid' : 'tg-extreme';
+        return `<span class="tag ${cls}" style="font-size:10px;">还差 ${val.toFixed(digits)}${suffix}</span>`;
+      };
+      const distPctlCell = cellOrDash(s.distPctl, 1, 'pp', 15);
+      const distFromHighCell = cellOrDash(s.distFromHigh, 1, '%', 15);
+      const distVolCell = cellOrDash(s.distVol, 2, '', 1.5);
+      let totalCell;
+      if (s.totalDist === null || s.totalDist === undefined) {
+        totalCell = `<span class="tag tg-gray" style="font-size:10px;">—</span>`;
+      } else if (s.totalDist <= 0) {
+        totalCell = `<span class="tag tg-green" style="font-size:10px;">✓ 已触发</span>`;
+      } else {
+        totalCell = `<strong style="color:var(--accent);">${s.totalDist.toFixed(2)}</strong>`;
+      }
+      h += `<tr>`;
+      h += `<td><code>${s.code}</code></td>`;
+      h += `<td>${s.name || '—'}</td>`;
+      h += `<td>${distPctlCell}</td>`;
+      h += `<td>${distFromHighCell}</td>`;
+      h += `<td>${distVolCell}</td>`;
+      h += `<td>${totalCell}</td>`;
+      h += `</tr>`;
+    });
+    h += `</tbody></table></div>`;
     h += `</div>`;
   }
 
