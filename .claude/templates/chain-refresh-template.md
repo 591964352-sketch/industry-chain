@@ -1,6 +1,6 @@
 # 产业链刷新模板（Chain Refresh Template · 阶段四 commit 4.4 模板化）
 
-> **适用版本**：v4（2026-06-25 · 阶段五 commit 4.36 加 Step 0 stock code-name 校验 + validate_stock_codes.py + refresh_all.py 集成 + --skip-validate 参数）
+> **适用版本**：v5（2026-06-25 · 阶段五 commit 4.37 新增 §8「新增 stock 标准流程（三步缺一不可）」+ §8/§9/§10 重编号）
 > **前置规则**：[CLAUDE.md §6](../../CLAUDE.md) 数据治理铁律 + §6.8 数据准确度优先 + §6.9 双重检查 + §6.10 三重验证 + §7 数据自查纪律
 > **基线**：[data/pcb.js](../../data/pcb.js) + [data/pcb.manual.js](../../data/pcb.manual.js) + [data/pcb.auto.js](../../data/pcb.auto.js) + [scripts/validate_stock_codes.py](../../scripts/validate_stock_codes.py) + [scripts/refresh_pcb_valuation.py](../../scripts/refresh_pcb_valuation.py) + [scripts/calc_percentile.py](../../scripts/calc_percentile.py) + [scripts/fetch_close_history.py](../../scripts/fetch_close_history.py) + [scripts/fetch_volume_history.py](../../scripts/fetch_volume_history.py) + [scripts/calc_signal_c.py](../../scripts/calc_signal_c.py) + [scripts/refresh_all.py](../../scripts/refresh_all.py)
 
@@ -379,7 +379,106 @@ python scripts/refresh_all.py --skip-fetch --skip-validate
 
 ---
 
-## 8. 紧急回滚命令格式
+## 8. 新增 stock 标准流程（三步缺一不可 · commit 4.37 立）
+
+> **背景**：commit 4.35 教训——pcb.manual.js 历史上出现过 code-name 错位问题（不匹配真实 A 股），必须按「巨潮确认 → validate 通过 → 三重核验」三步走，杜绝凭印象写 stock code / name。
+
+### Step 1 · 巨潮确认（cninfo.com.cn · primary 一手）
+
+**目的**：在写入 pcb.manual.js 之前，先在巨潮资讯（cninfo.com.cn）确认新 stock 的真实 code 和 name。
+
+**操作**：
+
+1. 在 [cninfo.com.cn](http://www.cninfo.com.cn) 「证券搜索」框输入 **stock code**（6 位数字）
+   - 命中公司全称 → 记录公司全称
+   - 未命中 → 此 code 不存在 A 股，**立即停止**（不要尝试猜测 name）
+2. 反向操作：输入**公司名**（如「东材科技」）→ 确认返回的 code 与你手上的一致
+   - 一致 → 继续
+   - 不一致 → **以巨潮返回的 code 为准**（你手上的 code 可能记错 / 印象名）
+
+**判定标准**：
+- ✅ 双向（code → name / name → code）都匹配 → 进入 Step 2
+- ❌ 任一不匹配 → 立即修正记忆中的 code/name → 重新跑 Step 1
+
+**反例（commit 4.35 教训）**：
+- ❌ 凭印象写 `002443: { name: '金洲精工' }` → 巨潮 002443 实为「金洲管道」(管道公司)
+- ❌ 凭印象写 `603519: { name: '南亚新材' }` → 巨潮 603519 实为「神马电力」(电力公司)
+- ✅ 真实南亚新材 code = `688519`（688 开头是科创板）
+
+### Step 2 · validate 通过（commit 4.36 · 强制阻断）
+
+**目的**：将新 stock 写入 pcb.manual.js 后，立即跑 validate_stock_codes.py 做机器校验。
+
+**操作**：
+
+```bash
+# 写入 pcb.manual.js 后立即跑：
+python scripts/validate_stock_codes.py
+```
+
+**判定标准**：
+- ✅ 全部 `[PASS]` → 进入 Step 3
+- ❌ 任一 `[FAIL]` → **立即修正 pcb.manual.js**（按错误提示比对真实 A 股）→ 重跑 validate → 全部 PASS
+
+**集成路径**：跑 `python scripts/refresh_all.py` 时，Step 0 自动跑 validate · 失败 exit 1 阻断后续 5 步。但**手动校验优于依赖自动化**——任何新增 / 修改 stock 后**先跑一次**再 commit。
+
+### Step 3 · 三重核验（§6.11 硬约束）
+
+**目的**：确认新 stock 不仅 code-name 一致，还要确实属于本产业链。
+
+| 核验项 | 检查内容 | 失败处理 |
+|---|---|---|
+| **code 校验** | pcb.manual.js 里 stock code = Step 1 巨潮确认的 code | 不一致 → 修正 manual.js |
+| **name 校验** | pcb.manual.js 里 stock name = 巨潮确认的 name | 不一致 → 修正 manual.js |
+| **业务归属校验** | 该 stock 主营 = 本产业链核心业务（如 PCB 链必须是 PCB/CCL/载板/设备/材料厂）· 不是凑数 / 概念票 | 不属于 → 移到 segments 末尾并标 ⚠️"非主营 / 概念性持仓"（按 §6.5 不计入 stock 总数）|
+
+**业务归属校验的具体动作**：
+
+1. 查公司主营收入结构（公司年报「分行业 / 分产品」段）· 占比 ≥30% 才算本赛道主营
+2. 查卡口评级（`barrier` = `极高` / `高` / `中` / `低`）· 不达标的 stock 应放 segments 末尾
+3. 防止「持有 XX 公司 10% 股权的园区开发商」类概念票混入
+4. 防止「封测代工厂」算作「封测设备厂」类错分类
+
+### 违反后果（commit 4.35 案例）
+
+| 失败模式 | 后果 | 修复成本 |
+|---|---|---|
+| code-name 错位（Step 1/2 跳过） | baostock 按错位 code 拉估值 → 假数据伪装成真数据 | **整块删除 stock + 重做基本面注入**（commit 4.35 做了 14 行删除）|
+| 业务归属错（Step 3 跳过）| 注入估值时按 code 拉数据，但 stock 与赛道无关 → 信号扫描污染 + 完整度虚高 | **从 segments 移到末尾 + 移除 growthAdj 资格** + 自查报告列缺陷 |
+| 三步全跳过 | 提交后立即被 validate 阻断（commit 4.36 Step 0）· 必须 revert 整个 commit | **revert commit + 重新走三步**（约 30 分钟）|
+
+### 三步流程速查图
+
+```
+         巨潮 (cninfo.com.cn)
+              ↓
+   Step 1 双向核对 (code→name / name→code)
+              ↓
+         写入 pcb.manual.js
+              ↓
+   Step 2 validate_stock_codes.py
+              ↓
+         全部 PASS？
+            ↓ Yes                       ↓ No
+   Step 3 三重核验 (code/name/业务)   立即修正 → 重跑 validate
+              ↓
+         三项全过？
+            ↓ Yes                       ↓ No
+         commit 提交 ✅                  移到 segments 末尾 + 标 ⚠️
+```
+
+### 与其他章节的关联
+
+- **§3.4 Step 0 校验**：refresh_all.py 集成版（自动化）
+- **§3.4.1 校验失败修复流程**：单步修复指引
+- **§5 新增产业链 checklist**：在「步骤 1 建 pcb.manual.js」前**先走 §8 三步**
+- **§6 刷新已有产业链 checklist**：在「批量刷新流程第 3 步写入/修正 pcb.manual.js」后**必走 §8 三步**
+- **CLAUDE.md §6.10 三重验证**：三重核验是 §6.10 在「新增 stock」场景的具体化
+- **CLAUDE.md §6.11 11 条硬约束**：豆包 / DeepSeek / Gemini 返回新 stock 时**强制走 §8 三步**
+
+---
+
+## 9. 紧急回滚命令格式
 
 ```bash
 # 保留到指定 commit（<hash> = git log --oneline 第一列的 7 位 hash）
@@ -402,7 +501,7 @@ git push --force-with-lease
 
 ---
 
-## 9. 模板更新记录
+## 10. 模板更新记录
 
 | 版本 | 日期 | commit | 改动 |
 |---|---|---|---|
@@ -410,10 +509,11 @@ git push --force-with-lease
 | v2 | 2026-06-24 | 阶段五 commit 4.14 | §4.1 peAbsMax 设置规范重写（PCB 120 / 半导体设备 160 / 软件 300 / 传统 60）· 原则 = 赛道合理 PE 上限的 1.3-1.5 倍 |
 | v3 | 2026-06-24 | 阶段五 commit 4.24 | §3.4 补 4/5 步（fetch_volume_history + calc_signal_c）· 新增 §3.5/§3.6 介绍新脚本 · 新增 §3.7 refresh_all.py 一键入口 + --skip-fetch 说明 · §5 新增 checklist 补 7/8 步 · §6 刷新 checklist 补 4/5 步（6 步→8 步）· §10 加 3 个新文件关联 |
 | v4 | 2026-06-25 | 阶段五 commit 4.36 | 新增 §3.4 Step 0 stock code-name 校验（akshare · 阻断式）· 新增 §3.4.1 校验失败修复流程 · §3.7 refresh_all.py 加 Step 0 集成 + --skip-validate 参数（5 步→6 步）· §5 新增 checklist 加 Step 0 前置校验说明 + 「新增 stock 必须先通过 validate」约束 · §6 刷新 checklist 加 Step 0 前置校验说明 + 批量刷新流程 · §10 加 validate_stock_codes.py 关联 |
+| v5 | 2026-06-25 | 阶段五 commit 4.37 | 新增 §8「新增 stock 标准流程（三步缺一不可）」· Step 1 巨潮确认 + Step 2 validate 通过 + Step 3 三重核验（code/name/业务归属）· 违反后果表（commit 4.35 案例）· 速查图 · §8→§9 §9→§10 §10→§11 重编号 |
 
 ---
 
-## 10. 关联文件清单
+## 11. 关联文件清单
 
 | 角色 | 路径 |
 |---|---|
