@@ -208,40 +208,80 @@ def calc_stock_percentile(code, val):
 
 
 def inject_to_auto_js(results):
-    """用正则替换 pcb.auto.js·给每个 stock 的 valuation 块加新字段。
-    匹配模式：'code': { ... source: { → 在 source 前插入 pePercentile/entryZone/fromHigh_pe/flag
+    """用正则替换 pcb.auto.js·给每个 stock 的 valuation 块加/覆盖新字段。
+
+    ★ commit 4.23 幂等性修复：
+      - 写入前先检测 4 个字段（pePercentile/entryZone/fromHigh_pe/flag）是否已存在
+      - 已存在 → 原地覆盖更新（不追加）
+      - 不存在 → 在 source 前插入（原始行为）
+      - 重复跑两次后 pcb.auto.js 行数不变
     """
     text = AUTO_JS.read_text(encoding='utf-8')
 
+    # 4 个字段名（与 pcb.auto.js 字面量一致）
+    FIELDS = ['pePercentile', 'entryZone', 'fromHigh_pe', 'flag']
+
     for code, r in results.items():
-        # 匹配 '  600183': { ...\n      source: {
-        # 注意：pcb.auto.js 中 stock code 是字符串字面量（带单引号）
+        # 匹配 '  600183': { ...\n      source: {（注：pcb.auto.js 中 stock code 是字符串字面量带单引号）
         pattern = re.compile(
             rf"(    '{re.escape(code)}': \{{)([\s\S]*?)(      source: \{{)",
             re.MULTILINE
         )
-        def replacer(match):
-            head, mid, tail = match.group(1), match.group(2), match.group(3)
-            new_lines = []
-            # pePercentile
-            new_lines.append(f"      pePercentile: {r['pePercentile'] if r['pePercentile'] is not None else 'null'},")
-            # entryZone
-            if r['entryZone'] is not None:
-                new_lines.append(f"      entryZone: {{p30: {r['entryZone']['p30']}, p70: {r['entryZone']['p70']}}},")
-            else:
-                new_lines.append("      entryZone: null,")
-            # fromHigh_pe
-            new_lines.append(f"      fromHigh_pe: {r['fromHigh_pe'] if r['fromHigh_pe'] is not None else 'null'},")
-            # flag (无异常时显式 null 而非不写·保证字段完整一致)
-            if r.get('flag'):
-                flag_safe = r['flag'].replace('\\', '\\\\').replace('"', '\\"')
-                new_lines.append(f'      flag: "{flag_safe}",')
-            else:
-                new_lines.append("      flag: null,")
-            return head + mid + '\n'.join(new_lines) + '\n      ' + tail
-        text, n = pattern.subn(replacer, text, count=1)
-        if n == 0:
+        m = pattern.search(text)
+        if not m:
             print(f'  ⚠️ 未匹配 {code}（可能格式变了）')
+            continue
+
+        head, mid, tail = m.group(1), m.group(2), m.group(3)
+        block = mid  # code 块内（不含 head/tail）
+
+        # ★ commit 4.23：检测 4 个字段是否已存在
+        # 已存在的字段：原地覆盖；不存在的字段：在 source 前插入
+        existing_fields = {}
+        for fld in FIELDS:
+            # 匹配 "      fldName: ..."（到行尾或逗号）
+            fpat = re.compile(rf"^      {fld}: (.*?)(?=,\s*$|,)", re.MULTILINE)
+            fmatch = fpat.search(block)
+            if fmatch:
+                existing_fields[fld] = (fmatch.start(), fmatch.end())
+
+        # 构造新字段值（不依赖 raw JS 文本·直接构造新行）
+        new_field_lines = {}    # fld -> 构造的 JS 行（无尾部换行）
+        new_field_lines['pePercentile'] = f"      pePercentile: {r['pePercentile'] if r['pePercentile'] is not None else 'null'},"
+        if r['entryZone'] is not None:
+            new_field_lines['entryZone'] = f"      entryZone: {{p30: {r['entryZone']['p30']}, p70: {r['entryZone']['p70']}}},"
+        else:
+            new_field_lines['entryZone'] = "      entryZone: null,"
+        new_field_lines['fromHigh_pe'] = f"      fromHigh_pe: {r['fromHigh_pe'] if r['fromHigh_pe'] is not None else 'null'},"
+        if r.get('flag'):
+            flag_safe = r['flag'].replace('\\', '\\\\').replace('"', '\\"')
+            new_field_lines['flag'] = f'      flag: "{flag_safe}",'
+        else:
+            new_field_lines['flag'] = "      flag: null,"
+
+        if existing_fields:
+            # ★ 全部覆盖：逐字段替换（field name + content 不变·只换 value 部分）
+            # 在 mid 内部按 start 倒序替换·避免偏移
+            sorted_existing = sorted(existing_fields.items(), key=lambda kv: kv[1][0], reverse=True)
+            new_mid = block
+            for fld, (s, e) in sorted_existing:
+                # 找原行（包括尾部换行）
+                line_end = new_mid.find('\n', e)
+                if line_end == -1:
+                    line_end = len(new_mid)
+                else:
+                    line_end += 1   # 包含换行符
+                # 替换整行
+                # 注意：field name 保留（防止误改），但 content 替换
+                # 原行可能是 "      pePercentile: 99.75," 之类，新行同前缀换 value
+                # 用新的 new_field_lines[fld] 直接整行替换
+                new_mid = new_mid[:s] + new_field_lines[fld] + '\n' + new_mid[line_end:]
+            text = text[:m.start(2)] + new_mid + text[m.end(2):]
+        else:
+            # 原始路径：4 个字段都不存在 → 在 source 前插入
+            insert_lines = list(new_field_lines.values())
+            new_mid = block + '\n'.join(insert_lines) + '\n      '
+            text = text[:m.start(2)] + new_mid + text[m.end(2):]
 
     # 更新 _meta.note
     text = re.sub(

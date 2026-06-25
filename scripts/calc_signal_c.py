@@ -124,32 +124,69 @@ def calc_stock_signal_c(code, val):
 
 
 def inject_to_auto_js(results):
-    """用正则替换 pcb.auto.js·给每个 stock 的 valuation 块加 4 个新字段。
-    匹配模式：'code': { ...\n      source: { → 在 source 前插入 volRatio5d + maxPctl30d/60d/90d
+    """用正则替换 pcb.auto.js·给每个 stock 的 valuation 块加/覆盖 4 个新字段。
+
+    ★ commit 4.23 幂等性修复：
+      - 写入前先检测 4 个字段（volRatio5d + maxPctl30d/60d/90d）是否已存在
+      - 已存在 → 原地覆盖更新（不追加）
+      - 不存在 → 在 source 前插入（原始行为）
+      - 重复跑两次后 pcb.auto.js 行数不变
     """
     text = AUTO_JS.read_text(encoding='utf-8')
 
     injected = 0
+    # 4 个字段名（与 pcb.auto.js 字面量一致）
+    FIELDS = ['volRatio5d', 'maxPctl30d', 'maxPctl60d', 'maxPctl90d']
+
     for code, r in results.items():
         # 注意：pcb.auto.js 中 stock code 是字符串字面量（带单引号）
         pattern = re.compile(
             rf"(    '{re.escape(code)}': \{{)([\s\S]*?)(      source: \{{)",
             re.MULTILINE
         )
-        def replacer(match):
-            head, mid, tail = match.group(1), match.group(2), match.group(3)
-            new_lines = []
-            # volRatio5d
-            new_lines.append(f"      volRatio5d: {r['volRatio5d'] if r['volRatio5d'] is not None else 'null'},  // ★ commit 4.16：5日均量/60日均量（不足60天为null）")
-            # maxPctl30d/60d/90d
-            for w in PCTL_WINDOWS:
-                new_lines.append(f"      maxPctl{w}d: {r[f'maxPctl{w}d'] if r[f'maxPctl{w}d'] is not None else 'null'},  // ★ commit 4.16：近{w}天pePercentile最大值")
-            return head + mid + '\n'.join(new_lines) + '\n      ' + tail
-        text, n = pattern.subn(replacer, text, count=1)
-        if n > 0:
+        m = pattern.search(text)
+        if not m:
+            print(f'  ⚠️ 未匹配 {code}（可能格式变了）')
+            continue
+
+        head, mid, tail = m.group(1), m.group(2), m.group(3)
+        block = mid
+
+        # ★ commit 4.23：检测 4 个字段是否已存在
+        existing_fields = {}
+        for fld in FIELDS:
+            # 匹配 "      fldName: ..."（含尾部逗号）
+            fpat = re.compile(rf"^      {fld}: (.*?)(?=,\s*$|,)", re.MULTILINE)
+            fmatch = fpat.search(block)
+            if fmatch:
+                existing_fields[fld] = (fmatch.start(), fmatch.end())
+
+        # 构造新字段值
+        new_field_lines = {}
+        new_field_lines['volRatio5d'] = f"      volRatio5d: {r['volRatio5d'] if r['volRatio5d'] is not None else 'null'},  // ★ commit 4.16：5日均量/60日均量（不足60天为null）"
+        for w in PCTL_WINDOWS:
+            key = f'maxPctl{w}d'
+            new_field_lines[key] = f"      {key}: {r[key] if r[key] is not None else 'null'},  // ★ commit 4.16：近{w}天pePercentile最大值"
+
+        if existing_fields:
+            # ★ 全部覆盖：逐字段替换·按 start 倒序（避免偏移）
+            sorted_existing = sorted(existing_fields.items(), key=lambda kv: kv[1][0], reverse=True)
+            new_mid = block
+            for fld, (s, e) in sorted_existing:
+                line_end = new_mid.find('\n', e)
+                if line_end == -1:
+                    line_end = len(new_mid)
+                else:
+                    line_end += 1   # 包含换行符
+                new_mid = new_mid[:s] + new_field_lines[fld] + '\n' + new_mid[line_end:]
+            text = text[:m.start(2)] + new_mid + text[m.end(2):]
             injected += 1
         else:
-            print(f'  ⚠️ 未匹配 {code}（可能格式变了）')
+            # 原始路径：4 个字段都不存在 → 在 source 前插入
+            insert_lines = list(new_field_lines.values())
+            new_mid = block + '\n'.join(insert_lines) + '\n      '
+            text = text[:m.start(2)] + new_mid + text[m.end(2):]
+            injected += 1
 
     # 更新 _meta.note
     text = re.sub(
