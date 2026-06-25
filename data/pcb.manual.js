@@ -639,6 +639,10 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         reentryCondition: 'PE 分位回落至 60% 以下 + 信号 C 触发',
         concentrationRisk: 'medium',
         note: 'PE 高位·信号 C 距触发近·注意减仓',
+        // ★ commit 4.45：分档止损计划（3 档）
+        stopLossTier1: { price: 70.0, action: '减仓20%·锁利', trigger: 'PE 分位跌破 90%' },
+        stopLossTier2: { price: 64.0, action: '再减仓30%', trigger: 'PE 分位跌破 80% + 信号 C 触发' },
+        stopLossTier3: { price: null, action: '清仓', trigger: '基本面逻辑破坏·M9 树脂订单丢失' },
       },
 },
 
@@ -1159,6 +1163,47 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       impact: 'positive'
     },
     summary: 'AI需求强劲·铜箔涨价是主要压制因素·整体景气偏正面'
+  };
+
+  // ★ commit 4.45：多维度止损决策框架（decisionFramework 全局块）
+  //   · 3 档止损规则（tier1/tier2/tier3）· 每档含 threshold/action/note
+  //   · 5 维度权重（fundamental 35 + valuation 25 + industry 20 + sentiment 10 + technical 10 = 100）
+  //   · 仓位管理规则（单只上限 35% / 最小现金 5%）
+  //   · 加仓/减仓触发条件（双条件 + 多条件组合）
+  //   · 前端渲染：index.html renderDecisionFramework() 在风险量化卡片下方
+  //   · 维护人：manual（人工季度更新）
+  MANUAL.decisionFramework = {
+    asOf: '2026-06',
+    stopLossRules: {
+      tier1: {
+        threshold: '单只亏损超15%',
+        action: '减仓20%',
+        note: '第一档减仓·观察逻辑是否破坏'
+      },
+      tier2: {
+        threshold: '单只亏损超25%',
+        action: '再减仓30%',
+        note: '第二档减仓·重新评估持仓逻辑'
+      },
+      tier3: {
+        threshold: '逻辑完全破坏',
+        action: '清仓',
+        note: '清仓条件：核心逻辑不成立·非单纯价格触发'
+      }
+    },
+    dimensions: {
+      fundamental: { weight: 35, desc: '基本面逻辑·毛利率趋势·营收净利增速' },
+      valuation:   { weight: 25, desc: 'PE分位·距历史高点·相对同行估值' },
+      industry:    { weight: 20, desc: '行业景气度·上游原材料价格·产能利用率' },
+      sentiment:   { weight: 10, desc: '市场情绪·资金流向·北向资金' },
+      technical:   { weight: 10, desc: '技术面辅助·支撑位·均线·成交量' }
+    },
+    positionRules: {
+      maxSinglePosition: 35,
+      minCash: 5,
+      addPositionCondition: '信号C触发+景气度正面+估值合理',
+      reducePositionCondition: 'PE极端高位+景气度转弱+技术面走坏任意两项'
+    }
   };
 
 })(window.PCB_MANUAL);

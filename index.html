@@ -917,6 +917,188 @@ function formatFromHigh(v) {
 // ★ commit 4.39：基本面质量层渲染（读取 PCB_MANUAL.stocks[code].fundamentals）
 // 数据源: data/pcb.manual.js 的 fundamentals 字段（commit 4.38 fetch_fundamentals.py 注入）
 // 展示位置: stock 卡片估值 sub-section 之后 · 标签区之前
+// ★ commit 4.45：止损计划渲染（3 档止损 + 触发条件 + 行动）
+//   数据源: 601208 读 PCB_MANUAL.stocks[code].riskMetrics.stopLossTier1/2/3
+//          300442/300223 读 HOLDING_NOTES[i].localRiskMetrics.stopLossTier1/2/3
+function renderStopLossPlan(holdings) {
+  if (!holdings || !holdings.length) return '';
+  const fw = (window.PCB_MANUAL && window.PCB_MANUAL.decisionFramework) || null;
+  const rules = fw ? fw.stopLossRules : null;
+
+  // 渲染每只持仓的 3 档止损详情（紧凑表格）
+  let rows = '';
+  holdings.forEach(s => {
+    const manualRisk = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[s.code] && window.PCB_MANUAL.stocks[s.code].riskMetrics) || null;
+    const r = manualRisk || s.localRiskMetrics || null;
+    if (!r) return;
+    const t1 = r.stopLossTier1, t2 = r.stopLossTier2, t3 = r.stopLossTier3;
+    if (!t1 && !t2 && !t3) return;
+    const tierCell = (t, idx) => {
+      if (!t) return '<span style="color:var(--muted);font-size:10px;">—</span>';
+      const priceTxt = (typeof t.price === 'number') ? `<strong style="color:var(--text);font-size:13px;">${t.price.toFixed(2)} 元</strong>` : '<span style="color:var(--muted);">待定</span>';
+      const tierColors = ['var(--green)', 'var(--accent)', 'var(--red)'];
+      return `<div style="padding:6px 8px;background:rgba(0,0,0,0.18);border-radius:4px;border-left:3px solid ${tierColors[idx]};">${priceTxt}<div style="font-size:10px;color:${tierColors[idx]};margin-top:2px;font-weight:600;">${t.action}</div><div style="font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4;">${t.trigger || ''}</div></div>`;
+    };
+    rows += `
+      <div style="margin-bottom:10px;">
+        <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px;">${s.code} ${s.name}</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:11px;">
+          ${tierCell(t1, 0)}${tierCell(t2, 1)}${tierCell(t3, 2)}
+        </div>
+      </div>
+    `;
+  });
+
+  if (!rows) return '';
+
+  // 顶部通用规则（来自 decisionFramework）
+  let ruleSummary = '';
+  if (rules) {
+    ruleSummary = `
+      <div style="margin-bottom:12px;padding:8px 10px;background:var(--card);border-radius:4px;font-size:11px;color:var(--muted);line-height:1.7;">
+        <strong style="color:var(--accent);">📋 全局规则：</strong>
+        Tier1 = ${rules.tier1.threshold} → ${rules.tier1.action} · Tier2 = ${rules.tier2.threshold} → ${rules.tier2.action} · Tier3 = ${rules.tier3.threshold} → ${rules.tier3.action}
+      </div>
+    `;
+  }
+
+  return `
+    <details style="background:var(--card2);border-radius:6px;padding:10px 12px;margin-top:12px;border-left:3px solid var(--green);">
+      <summary style="cursor:pointer;list-style:none;outline:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--accent);">
+        <span>📐 止损计划</span>
+        <span style="color:var(--muted);font-weight:400;font-size:11px;">（3 档止损 · 默认折叠）</span>
+        <span style="color:var(--muted);margin-left:auto;font-size:10px;font-weight:400;">▾ 展开</span>
+      </summary>
+      <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);">
+        ${ruleSummary}
+        ${rows}
+      </div>
+    </details>
+  `;
+}
+
+// ★ commit 4.45：综合评分（5 维度状态 + 加权得分 + 操作建议）
+//   算法: fundamental + valuation + industry + sentiment + technical 各按规则扣分
+//   数据源: fundamentals (from MANUAL.stocks[code].fundamentals) + valuation (from c.valuation.pePercentile) +
+//          industry (from MANUAL.macro.5 维度) + sentiment (from marketRisk) + technical (from c.valuation.fromHigh)
+function renderDecisionScoreCard(holdings) {
+  if (!holdings || !holdings.length) return '';
+  const fw = (window.PCB_MANUAL && window.PCB_MANUAL.decisionFramework) || null;
+  const dims = fw ? fw.dimensions : null;
+  const macro = (window.PCB_MANUAL && window.PCB_MANUAL.macro) || null;
+  const marketRisk = (window.PCB_MANUAL && window.PCB_MANUAL.marketRisk) || 'normal';
+
+  // 遍历每只持仓算综合分
+  let perHoldingScores = [];
+  holdings.forEach(s => {
+    const manualStock = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[s.code]) || null;
+    const f = manualStock && manualStock.fundamentals;
+    // 从 CHAINS 找 valuation（cross-chain 300442/300223 在 CHAINS.pcb 中可能没 valuation）
+    const chainsStock = (window.CHAINS && window.CHAINS.pcb && window.CHAINS.pcb.segments || []).flatMap(seg => seg.stocks || []).find(x => x.code === s.code);
+    const v = chainsStock && chainsStock.valuation;
+
+    let score = 0;
+    const detail = [];
+
+    // 1) fundamental: grossMarginTrend=down → -10 · scissorGap=danger → -15
+    if (f) {
+      if (f.grossMarginTrend === 'down') { score -= 10; detail.push({ k: 'fundamental', v: '毛利率趋势 ↓', pts: -10 }); }
+      if (f.scissorGap === 'danger') { score -= 15; detail.push({ k: 'fundamental', v: '剪刀差=danger', pts: -15 }); }
+      if (f.grossMarginTrend === 'up') { detail.push({ k: 'fundamental', v: '毛利率趋势 ↑', pts: 0 }); }
+    } else {
+      detail.push({ k: 'fundamental', v: '暂无数据', pts: 0 });
+    }
+
+    // 2) valuation: pePercentile>95 → -20 · >99 → -30
+    if (v && typeof v.pePercentile === 'number') {
+      const p = v.pePercentile;
+      if (p > 99) { score -= 30; detail.push({ k: 'valuation', v: `PE 分位 ${p.toFixed(1)}% > 99%`, pts: -30 }); }
+      else if (p > 95) { score -= 20; detail.push({ k: 'valuation', v: `PE 分位 ${p.toFixed(1)}% > 95%`, pts: -20 }); }
+      else { detail.push({ k: 'valuation', v: `PE 分位 ${p.toFixed(1)}%`, pts: 0 }); }
+    } else {
+      detail.push({ k: 'valuation', v: '暂无数据', pts: 0 });
+    }
+
+    // 3) industry: macro 中 negative 影响维度每个 → -10
+    if (macro) {
+      let negCount = 0;
+      ['copperFoilPrice','glassFiberPrice','aiServerDemand','autoElecDemand','pcbUtilRate'].forEach(k => {
+        if (macro[k] && macro[k].impact === 'negative') negCount++;
+      });
+      if (negCount > 0) { score -= (10 * negCount); detail.push({ k: 'industry', v: `${negCount} 维度负向`, pts: -10 * negCount }); }
+      else { detail.push({ k: 'industry', v: '全维度正/中性', pts: 0 }); }
+    } else {
+      detail.push({ k: 'industry', v: '暂无 macro', pts: 0 });
+    }
+
+    // 4) sentiment: marketRisk=caution → -5 · extreme → -15
+    if (marketRisk === 'extreme') { score -= 15; detail.push({ k: 'sentiment', v: '系统性极端', pts: -15 }); }
+    else if (marketRisk === 'caution') { score -= 5; detail.push({ k: 'sentiment', v: '系统性谨慎', pts: -5 }); }
+    else { detail.push({ k: 'sentiment', v: '系统性正常', pts: 0 }); }
+
+    // 5) technical: fromHigh < -0.15 → -10
+    if (v && typeof v.fromHigh === 'number' && v.fromHigh < -0.15) { score -= 10; detail.push({ k: 'technical', v: `距前高 ${(v.fromHigh*100).toFixed(1)}% < -15%`, pts: -10 }); }
+    else if (v && typeof v.fromHigh === 'number') { detail.push({ k: 'technical', v: `距前高 ${(v.fromHigh*100).toFixed(1)}%`, pts: 0 }); }
+    else { detail.push({ k: 'technical', v: '暂无数据', pts: 0 }); }
+
+    perHoldingScores.push({ code: s.code, name: s.name, score, detail });
+  });
+
+  // 操作建议（基于总分）
+  const actionForScore = (sc) => {
+    if (sc > -10) return { txt: '✅ 持有', color: 'var(--green)' };
+    if (sc >= -25) return { txt: '⚠️ 减仓第一档', color: 'var(--accent)' };
+    if (sc >= -40) return { txt: '⚠️ 减仓第二档', color: 'var(--red)' };
+    return { txt: '🚨 清仓', color: 'var(--red)' };
+  };
+
+  let rows = '';
+  perHoldingScores.forEach(h => {
+    const a = actionForScore(h.score);
+    rows += `
+      <div style="margin-bottom:10px;padding:8px 10px;background:var(--card);border-radius:4px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:12px;font-weight:600;color:var(--text);">${h.code} ${h.name}</span>
+          <span style="display:flex;gap:6px;align-items:center;">
+            <span style="font-size:11px;color:var(--muted);">总分</span>
+            <span style="font-weight:700;font-size:14px;color:${h.score > -10 ? 'var(--green)' : h.score > -25 ? 'var(--accent)' : 'var(--red)'};">${h.score}</span>
+            <span class="tag" style="font-size:10px;color:${a.color};border:1px solid ${a.color};">${a.txt}</span>
+          </span>
+        </div>
+        <div style="font-size:10px;color:var(--muted);line-height:1.6;">${h.detail.map(d => `<span style="margin-right:10px;"><span style="color:var(--accent);">${d.k}</span>: ${d.v}${d.pts !== 0 ? ` <span style="color:${d.pts < 0 ? 'var(--red)' : 'var(--green)'};font-weight:600;">${d.pts}</span>` : ''}</span>`).join('')}</div>
+      </div>
+    `;
+  });
+
+  // 顶部权重说明
+  let dimSummary = '';
+  if (dims) {
+    dimSummary = `<div style="margin-bottom:12px;font-size:11px;color:var(--muted);line-height:1.7;">权重：${Object.keys(dims).map(k => `${dims[k].weight > 0 ? `<span style="color:var(--accent);">${dims[k].weight}%</span> ${k}` : ''}`).filter(Boolean).join(' · ')}</div>`;
+  }
+  // 顶部规则
+  const ruleSummary = `
+    <div style="margin-bottom:12px;padding:8px 10px;background:var(--card);border-radius:4px;font-size:11px;color:var(--muted);line-height:1.7;">
+      <strong style="color:var(--accent);">📋 操作规则：</strong>
+      总分 &gt; -10 → 持有 · -10~-25 → 减仓第一档 · -25~-40 → 减仓第二档 · &lt; -40 → 清仓
+    </div>
+  `;
+
+  return `
+    <details style="background:var(--card2);border-radius:6px;padding:10px 12px;margin-top:10px;border-left:3px solid var(--purple);">
+      <summary style="cursor:pointer;list-style:none;outline:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--accent);">
+        <span>⚖️ 综合评分</span>
+        <span style="color:var(--muted);font-weight:400;font-size:11px;">（5 维度加权 · 默认折叠）</span>
+        <span style="color:var(--muted);margin-left:auto;font-size:10px;font-weight:400;">▾ 展开</span>
+      </summary>
+      <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);">
+        ${dimSummary}
+        ${ruleSummary}
+        ${rows}
+      </div>
+    </details>
+  `;
+}
+
 function renderFundamentalsBlock(code) {
   // 读取 PCB_MANUAL 层的 fundamentals（注意：手动层独立于 CHAINS.segments）
   const stock = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[code]) || null;
@@ -2266,7 +2448,11 @@ function renderChain(chainId) {
           stopLossReason: '跌破关键支撑·逻辑不成立',
           reentryCondition: 'IDC 扩产数据确认 + 估值回落',
           concentrationRisk: 'medium',
-          note: '止损线明确·逻辑成立则持有'
+          note: '止损线明确·逻辑成立则持有',
+          // ★ commit 4.45：分档止损计划（3 档）
+          stopLossTier1: { price: 83.0, action: '减仓20%', trigger: '跌破近期支撑' },
+          stopLossTier2: { price: 75.0, action: '再减仓30%', trigger: '跌破关键支撑' },
+          stopLossTier3: { price: null, action: '清仓', trigger: 'IDC 扩产停滞 + 现金流恶化' }
         } },
       { code: '300223', name: '北京君正', status: '持有',
         segment: '存储芯片 · DRAM/Flash',
@@ -2277,7 +2463,11 @@ function renderChain(chainId) {
           stopLossReason: '季度毛利率连续下滑超 3 季 → 考虑离场',
           reentryCondition: '毛利率企稳 + 新产品放量',
           concentrationRisk: 'medium',
-          note: '最强标的但需关注毛利率趋势'
+          note: '最强标的但需关注毛利率趋势',
+          // ★ commit 4.45：分档止损计划（3 档）
+          stopLossTier1: { price: null, action: '减仓20%', trigger: '季度毛利率连续两季环比下滑' },
+          stopLossTier2: { price: null, action: '再减仓30%', trigger: '毛利率下滑超 3 季 + 营收增速转负' },
+          stopLossTier3: { price: null, action: '清仓', trigger: '存储周期反转确认 + 业绩指引下调' }
         } }
     ];
     h += `<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">`;
@@ -2361,6 +2551,12 @@ function renderChain(chainId) {
       h += `</div></details>`;
     });
     h += `</div>`;
+
+    // ★ commit 4.45：止损计划（默认折叠 · 3 档止损 + 触发条件 + 行动）
+    h += renderStopLossPlan(HOLDING_NOTES);
+
+    // ★ commit 4.45：综合评分（默认折叠 · 5 维度状态 + 加权得分 + 操作建议）
+    h += renderDecisionScoreCard(HOLDING_NOTES);
 
     h += `</div>`;
   }
