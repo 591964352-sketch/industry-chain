@@ -1,8 +1,8 @@
 # 产业链刷新模板（Chain Refresh Template · 阶段四 commit 4.4 模板化）
 
-> **适用版本**：v2（2026-06-24 · 阶段五 commit 4.14 加 §4.1 peAbsMax 设置规范）
+> **适用版本**：v3（2026-06-24 · 阶段五 commit 4.24 加 fetch_volume_history + calc_signal_c + refresh_all 一键入口）
 > **前置规则**：[CLAUDE.md §6](../../CLAUDE.md) 数据治理铁律 + §6.8 数据准确度优先 + §6.9 双重检查 + §6.10 三重验证 + §7 数据自查纪律
-> **基线**：[data/pcb.js](../../data/pcb.js) + [data/pcb.manual.js](../../data/pcb.manual.js) + [data/pcb.auto.js](../../data/pcb.auto.js) + [scripts/refresh_pcb_valuation.py](../../scripts/refresh_pcb_valuation.py) + [scripts/calc_percentile.py](../../scripts/calc_percentile.py) + [scripts/fetch_close_history.py](../../scripts/fetch_close_history.py)
+> **基线**：[data/pcb.js](../../data/pcb.js) + [data/pcb.manual.js](../../data/pcb.manual.js) + [data/pcb.auto.js](../../data/pcb.auto.js) + [scripts/refresh_pcb_valuation.py](../../scripts/refresh_pcb_valuation.py) + [scripts/calc_percentile.py](../../scripts/calc_percentile.py) + [scripts/fetch_close_history.py](../../scripts/fetch_close_history.py) + [scripts/fetch_volume_history.py](../../scripts/fetch_volume_history.py) + [scripts/calc_signal_c.py](../../scripts/calc_signal_c.py) + [scripts/refresh_all.py](../../scripts/refresh_all.py)
 
 ---
 
@@ -132,9 +132,50 @@ python scripts/calc_percentile.py
 
 # 3) 拉 close 历史 + 算 fromHigh（baostock · ~3 分钟）
 python scripts/fetch_close_history.py
+
+# 4) 拉 volume + turn 5y 历史（baostock · ~3 分钟）— 阶段五 commit 4.15
+python scripts/fetch_volume_history.py
+
+# 5) 算信号 C 基础字段（volRatio5d + maxPctl30d/60d/90d）— 阶段五 commit 4.16
+python scripts/calc_signal_c.py
 ```
 
-**三步串行**：必须按顺序，因 ② 依赖 ① 的 pe_history，③ 不依赖 ①② 但 commit 3.5 起要覆盖 commit 3.2 的 fromHigh_pe 占位字段。
+**五步串行**：必须按顺序，因 ② 依赖 ① 的 pe_history，③ 不依赖 ①② 但 commit 3.5 起要覆盖 commit 3.2 的 fromHigh_pe 占位字段，⑤ 依赖 ① 的 pe_history + ④ 的 volume_history。
+
+### 3.5 `fetch_volume_history.py`（拉 volume + turn 5y 历史）
+
+**直接复用，不改任何代码**。
+
+**commit 4.15 引入**：baostock 单源拉 37 只 stock 的 volume + turn 5y 日频（每只 ~1000+ 行）· 注入 `xxx.auto.js.valuations[code].volume_history` 字段。**信号 C 基础数据**——`calc_signal_c.py` 用 volume_history 算 volRatio5d（5 日均量 / 60 日均量）。
+
+### 3.6 `calc_signal_c.py`（算 volRatio5d + maxPctl30d/60d/90d）
+
+**直接复用，不改任何代码**。
+
+**commit 4.16 引入**：基于 commit 4.15 的 volume_history + commit 3.1.2 的 pe_history 算 4 个字段：
+- `volRatio5d`（5 日均量 / 60 日均量 · 不足 60 天返回 null）
+- `maxPctl30d/60d/90d`（近 N 天内每个 pe 在全历史中的分位的最大值）
+
+写入 `xxx.auto.js.valuations[code]` · 供 `xxx.js` 的信号 C 监测调用。
+
+### 3.7 `refresh_all.py`（★ commit 4.23 新增 · 一键执行全链路）
+
+**入口脚本**：按顺序调用上述 5 个脚本，**用户首选**：
+
+```bash
+# 完整 5 步（网络 + 计算）
+python scripts/refresh_all.py
+
+# 跳过网络拉取（步骤 1/3/4）· 只跑本地计算（步骤 2/5）· 数据已是最新时快速重算
+python scripts/refresh_all.py --skip-fetch
+```
+
+**行为规范**：
+- 每步完成后打印进度「✅ Step X/5 完成：xxx.py」
+- 任何一步失败（非零 exit code / exception）→ 立即停止并打印错误，不继续下一步
+- 最后输出总耗时（秒 + 分钟）
+
+**副作用**：本脚本端到端执行 5 个子脚本，运行后会刷新 `data/xxx.auto.js`（这是预期行为）。如需跳过网络拉取只重算本地数据，使用 `--skip-fetch`。
 
 ---
 
@@ -202,10 +243,14 @@ python scripts/fetch_close_history.py
 | 4 | 跑 `refresh_xxx_valuation.py` | 拉 pe_ttm + pe_history | AUTO_JS 出现 N 只 valuations |
 | 5 | 跑 `calc_percentile.py` | 算分位 + 买入区间 | 全部 stock 出现 pePercentile + entryZone |
 | 6 | 跑 `fetch_close_history.py` | 算 fromHigh | 全部 stock 出现 fromHigh + closeLatest + closeHigh5y |
-| 7 | 填 growthAdj 名单 | `xxx.manual.js` 加 `growthAdj: true` + `peAbsMax: 60/80/120` | 入选 stock 在信号扫描时被识别为 growthAdj 通道 |
-| 8 | 确认信号逻辑 | `xxx.js` 直接复用 `deriveSignal`（不写新逻辑） | signalMeta.stats.excluded.noBar 正确分类 |
-| 9 | index.html 注册新赛道 | DATA_MANIFEST 数组加 `'xxx'` + 侧栏 `<div class="sidebar-nav">` 加 `<span class="nav-item" data-chain="xxx" onclick="switchChain('xxx')">` + CHANGELOG 加一条 + sectorName/sectorColor 加新 id | 浏览器 hash `#xxx` 能进入新赛道 |
-| 10 | 输出数据自查报告 | `=== 数据自查报告 · [commit 编号] ===` 4 节格式 | §7.2 完整输出 |
+| 7 | 跑 `fetch_volume_history.py` | 拉 volume + turn 5y | 全部 stock 出现 volume_history 数组 |
+| 8 | 跑 `calc_signal_c.py` | 算信号 C 4 字段 | 全部 stock 出现 volRatio5d + maxPctl30d/60d/90d |
+| 9 | 填 growthAdj 名单 | `xxx.manual.js` 加 `growthAdj: true` + `peAbsMax: 60/80/120` | 入选 stock 在信号扫描时被识别为 growthAdj 通道 |
+| 10 | 确认信号逻辑 | `xxx.js` 直接复用 `deriveSignal`（不写新逻辑） | signalMeta.stats.excluded.noBar 正确分类 |
+| 11 | index.html 注册新赛道 | DATA_MANIFEST 数组加 `'xxx'` + 侧栏 `<div class="sidebar-nav">` 加 `<span class="nav-item" data-chain="xxx" onclick="switchChain('xxx')">` + CHANGELOG 加一条 + sectorName/sectorColor 加新 id | 浏览器 hash `#xxx` 能进入新赛道 |
+| 12 | 输出数据自查报告 | `=== 数据自查报告 · [commit 编号] ===` 4 节格式 | §7.2 完整输出 |
+
+**替代方案（★ commit 4.23）**：步骤 4-8 可用 `python scripts/refresh_all.py` 一键执行全链路（5 步顺序 + 失败立即停止 + 总耗时打印）。`--skip-fetch` 跳过网络拉取（1/3/4 步）· 只跑本地计算（2/5 步）· 用于数据已是最新时快速重算分位 + 信号 C。
 
 **预检（步骤 1 前必做）**：
 - 跑 `.claude/plans/tools/pcb-pre-flight-check.js` 查 stock 状态（退市 / ST / 暂停上市）
@@ -221,20 +266,25 @@ python scripts/fetch_close_history.py
 
 ---
 
-## 6. 刷新已有产业链 checklist（6 步）
+## 6. 刷新已有产业链 checklist（8 步）
 
 | # | 步骤 | 命令 / 工具 | 验证 |
 |---|---|---|---|
 | 1 | 跑 `refresh_xxx_valuation.py` | 覆盖 `xxx.auto.js` 的 `valuations.pe_ttm + pe_history` | stats.success = 实际成功数 · 失败列表为空 |
 | 2 | 跑 `calc_percentile.py` | 覆盖 `pePercentile + entryZone` | 全部 stock 有 2 字段（亏损股 pePercentile=null）|
 | 3 | 跑 `fetch_close_history.py` | 覆盖 `fromHigh + closeLatest + closeHigh5y` | 全部 stock 有 3 字段 |
-| 4 | 检查亏损股 | 列出 `pe_ttm === null` 的 stock 名单 · 对比上一稳定版本是否变化 | 新增亏损股需更新 §7 自查报告【已知错误/异常】|
-| 5 | 检查 PE 异常高 | 列出 `pe_ttm > 500` 或 `flag 含 "PE异常高"` 的 stock 名单 | 异常 PE 需到同花顺 / 巨潮核对 |
-| 6 | 输出数据自查报告 | §7.2 4 节格式 | 报告归档到 commit message |
+| 4 | 跑 `fetch_volume_history.py` | 覆盖 `volume_history` 数组 | 全部 stock 出现 volume_history（37 只各 ~1100 行）|
+| 5 | 跑 `calc_signal_c.py` | 覆盖 `volRatio5d + maxPctl30d/60d/90d` | 全部 stock 有 4 字段（亏损股 volRatio5d=null）|
+| 6 | 检查亏损股 | 列出 `pe_ttm === null` 的 stock 名单 · 对比上一稳定版本是否变化 | 新增亏损股需更新 §7 自查报告【已知错误/异常】|
+| 7 | 检查 PE 异常高 | 列出 `pe_ttm > 500` 或 `flag 含 "PE异常高"` 的 stock 名单 | 异常 PE 需到同花顺 / 巨潮核对 |
+| 8 | 输出数据自查报告 | §7.2 4 节格式 | 报告归档到 commit message |
+
+**替代方案（★ commit 4.23）**：步骤 1-5 可用 `python scripts/refresh_all.py` 一键执行全链路（5 步顺序 + 失败立即停止 + 总耗时打印）。`--skip-fetch` 跳过网络拉取（1/3/4 步）· 只跑本地计算（2/5 步）· 用于数据已是最新时快速重算分位 + 信号 C。
 
 **刷新策略（§6.4 手动刷新纪律）**：
 - 每次只动被刷新的字段；硬数据变化才更新对应"数据截止"日期；🆪 主观判断刷新**不动**数据截止日
 - 刷新若因联网失败未取到新数 → 保留旧值 + 标"截至 X 日 待更新"，不得假装已刷新、不得用估算覆盖真实数据
+- commit 4.23 同步修复 `calc_percentile.py` / `calc_signal_c.py` 幂等性 bug（重复跑不再追加字段）
 
 ---
 
@@ -297,6 +347,7 @@ git push --force-with-lease
 |---|---|---|---|
 | v1 | 2026-06-24 | 阶段四 commit 4.4 | 初版 · 8 节（适用场景 / 文件结构 / 脚本复用 / growthAdj 决策 / 新增 checklist / 刷新 checklist / 自查报告 / 紧急回滚）|
 | v2 | 2026-06-24 | 阶段五 commit 4.14 | §4.1 peAbsMax 设置规范重写（PCB 120 / 半导体设备 160 / 软件 300 / 传统 60）· 原则 = 赛道合理 PE 上限的 1.3-1.5 倍 |
+| v3 | 2026-06-24 | 阶段五 commit 4.24 | §3.4 补 4/5 步（fetch_volume_history + calc_signal_c）· 新增 §3.5/§3.6 介绍新脚本 · 新增 §3.7 refresh_all.py 一键入口 + --skip-fetch 说明 · §5 新增 checklist 补 7/8 步 · §6 刷新 checklist 补 4/5 步（6 步→8 步）· §10 加 3 个新文件关联 |
 
 ---
 
@@ -309,8 +360,12 @@ git push --force-with-lease
 | PCB 手动层（37 只 stock 范本）| [`data/pcb.manual.js`](../../data/pcb.manual.js) |
 | PCB 自动层（37 只 stock 估值范本）| [`data/pcb.auto.js`](../../data/pcb.auto.js) |
 | PCB 合并层（injectValuation + deriveSignal 范本）| [`data/pcb.js`](../../data/pcb.js) |
+| **一键刷新入口**（★ commit 4.23）| [`scripts/refresh_all.py`](../../scripts/refresh_all.py) |
 | 拉 pe_ttm + pe_history 脚本 | [`scripts/refresh_pcb_valuation.py`](../../scripts/refresh_pcb_valuation.py) |
 | 算分位 + 买入区间脚本 | [`scripts/calc_percentile.py`](../../scripts/calc_percentile.py) |
 | 拉 close 5y 算 fromHigh 脚本 | [`scripts/fetch_close_history.py`](../../scripts/fetch_close_history.py) |
+| **拉 volume + turn 5y 脚本**（★ commit 4.15）| [`scripts/fetch_volume_history.py`](../../scripts/fetch_volume_history.py) |
+| **算信号 C 4 字段脚本**（★ commit 4.16）| [`scripts/calc_signal_c.py`](../../scripts/calc_signal_c.py) |
+| **pcb.auto.js 一次性清理脚本**（★ commit 4.23）| [`scripts/cleanup_pcb_auto_duplicates.py`](../../scripts/cleanup_pcb_auto_duplicates.py) |
 | 上市状态预检工具 | [`.claude/plans/tools/pcb-pre-flight-check.js`](../plans/tools/pcb-pre-flight-check.js) |
 | 豆包返回幻觉筛查工具 | [`.claude/plans/tools/pcb-hallucination-screen.js`](../plans/tools/pcb-hallucination-screen.js) |
