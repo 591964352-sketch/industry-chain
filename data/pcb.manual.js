@@ -48,13 +48,6 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'FCBGA Rubin 200批量供货·双AI巨头·台积电BT载板验证·寒武纪壁仞量产·Q1+157%',
       segments:[{idx:4,name:'IC封装基板（ABF载板）'}] },
 
-    '002443': { code:'002443', name:'金洲精工', rank:5, barrier:'中', tier:'primary',
-      position:'PCB钻针全球第二·全球PCB微钻市占20.8%',
-      investable:true, region:'国内',
-      dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:2,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
-      src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'钻针全球第二20.8%·0.02mm沪电·30倍径胜宏景旺·3年长期协议·Q1+76%',
-      segments:[{idx:5,name:'PCB专用设备'}] },
-
     '002463': { code:'002463', name:'沪电股份', rank:1, barrier:'高', tier:'primary',
       position:'GB200/GB300 交换机及高多层板核心供应商之一，与景旺电子等共同供应（非独家）；78 层 M9 正交背板已通过英伟达认证并量产',
       investable:true, region:'国内',
@@ -215,13 +208,6 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'4μm GB300全球唯一·黄石10亿米2027Q2·3μm验证中',
       hits:3, strength:'★★☆',
       segments:[{idx:2,name:'玻纤布/Q布（石英纤维布）'}] },
-
-    '603519': { code:'603519', name:'南亚新材', rank:3, barrier:'高', tier:'primary',
-      position:'刚性CCL全球前10·大陆第三(Prismark·2023年度)·M8量产M9测试中',
-      investable:true, region:'国内',
-      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:4,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-      src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'M7已量产·M8验证中·M9在研',
-      segments:[{idx:0,name:'覆铜板 CCL'}] },
 
     '603650': { code:'603650', name:'彤程新材', rank:5, barrier:'中', tier:'primary',
       position:'电子级酚醛树脂·对标SABIC PPO',
