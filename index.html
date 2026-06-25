@@ -2251,6 +2251,7 @@ function renderChain(chainId) {
     // ★ commit 4.27：当前持仓 · 背景说明（硬编码 3 只 · 不依赖扫描逻辑）
     //   来源：今日（2026-06-24）关键决策记录 · 持仓跨链·含 PCB/AI 算力/存储芯片
     //   与减仓/清仓清单独立——3 只持仓均"持有中"·背景说明给出决策依据
+    // ★ commit 4.42：300442/300223 不在 pcb.manual.js MANUAL.stocks 中 → riskMetrics 用本地数据 fallback
     const HOLDING_NOTES = [
       { code: '601208', name: '东材科技', status: '持有',
         segment: 'PCB · M9 碳氢树脂',
@@ -2259,11 +2260,25 @@ function renderChain(chainId) {
       { code: '300442', name: '润泽科技', status: '持有',
         segment: 'AI 算力 · IDC',
         note: '逻辑成立 · 止损线 75 元',
-        color: 'var(--accent)' },
+        color: 'var(--accent)',
+        localRiskMetrics: {   // 300442 本地风险数据（pcb.manual.js 无 entry）
+          stopLoss: 75.0,
+          stopLossReason: '跌破关键支撑·逻辑不成立',
+          reentryCondition: 'IDC 扩产数据确认 + 估值回落',
+          concentrationRisk: 'medium',
+          note: '止损线明确·逻辑成立则持有'
+        } },
       { code: '300223', name: '北京君正', status: '持有',
         segment: '存储芯片 · DRAM/Flash',
         note: '最强标的 · 季度毛利率连续两季下滑需关注',
-        color: 'var(--green)' }
+        color: 'var(--green)',
+        localRiskMetrics: {   // 300223 本地风险数据
+          stopLoss: null,
+          stopLossReason: '季度毛利率连续下滑超 3 季 → 考虑离场',
+          reentryCondition: '毛利率企稳 + 新产品放量',
+          concentrationRisk: 'medium',
+          note: '最强标的但需关注毛利率趋势'
+        } }
     ];
     h += `<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">`;
     h += `<div style="font-size:13px;font-weight:600;margin-bottom:10px;">📋 当前持仓 · 背景说明 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（3 只硬编码 · 跨链·2026-06-24 决策）</span></div>`;
@@ -2287,6 +2302,64 @@ function renderChain(chainId) {
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
+    h += `</div>`;
+
+    // ★ commit 4.42：风险量化层 · 每只持仓一行 · 默认折叠 · summary 显示止损价+集中度
+    //   数据源: 601208 读 PCB_MANUAL.stocks[code].riskMetrics（pcb.manual.js 注入）
+    //          300442/300223 读 HOLDING_NOTES[i].localRiskMetrics（pcb.manual.js 无 entry）
+    h += `<div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);">`;
+    h += `<div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;">⚠️ 风险量化 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:6px;">（止损价 + 再入场条件 + 集中度风险 · 默认折叠）</span></div>`;
+    HOLDING_NOTES.forEach(s => {
+      // 合并数据源: 优先 MANUAL.stocks[code].riskMetrics → fallback 到 localRiskMetrics
+      const manualRisk = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[s.code] && window.PCB_MANUAL.stocks[s.code].riskMetrics) || null;
+      const r = manualRisk || s.localRiskMetrics || null;
+      if (!r) return;
+      // 集中度颜色
+      const cr = r.concentrationRisk || 'low';
+      const crIcon = cr === 'high' ? '🔴' : cr === 'medium' ? '🟡' : '🟢';
+      const crColor = cr === 'high' ? 'var(--red)' : cr === 'medium' ? 'var(--accent)' : 'var(--green)';
+      // 止损价标签
+      const stopTxt = (typeof r.stopLoss === 'number') ? `止损 ${r.stopLoss}元` : (r.stopLossReason ? '止损待定' : '无止损');
+      // summary 行（commit 4.41 风格 · 一行关键摘要）
+      h += `<details style="background:var(--card2);border-radius:6px;padding:6px 10px;margin-bottom:8px;border-left:3px solid var(--accent);">`;
+      h += `<summary style="cursor:pointer;list-style:none;outline:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;">`;
+      h += `<span style="font-weight:700;color:var(--accent);">⚠️ ${s.code} ${s.name}</span>`;
+      h += `<span style="font-size:11px;color:var(--muted);">·</span>`;
+      h += `<span style="font-weight:600;color:${(typeof r.stopLoss === 'number') ? 'var(--text)' : 'var(--muted)'};">${stopTxt}</span>`;
+      h += `<span style="font-size:11px;color:var(--muted);">·</span>`;
+      h += `<span style="color:${crColor};font-weight:600;">${crIcon} 集中度${cr === 'high' ? '高' : cr === 'medium' ? '中' : '低'}</span>`;
+      h += `<span style="color:var(--muted);margin-left:auto;font-size:10px;">▾ 展开详情</span>`;
+      h += `</summary>`;
+      // 详情面板（4 字段 · grid 布局）
+      h += `<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-size:12px;">`;
+      // 止损价
+      h += `<div>`;
+      h += `<div style="color:var(--muted);font-size:10px;margin-bottom:2px;">止损价</div>`;
+      if (typeof r.stopLoss === 'number') {
+        h += `<div style="font-weight:600;color:var(--text);font-size:14px;">${r.stopLoss.toFixed(2)} 元</div>`;
+        h += `<div style="color:var(--muted);font-size:10px;margin-top:2px;">${r.stopLossReason || ''}</div>`;
+      } else {
+        h += `<div style="color:var(--muted);font-weight:600;">待定</div>`;
+        h += `<div style="color:var(--muted);font-size:10px;margin-top:2px;">${r.stopLossReason || ''}</div>`;
+      }
+      h += `</div>`;
+      // 再入场条件
+      h += `<div>`;
+      h += `<div style="color:var(--muted);font-size:10px;margin-bottom:2px;">再入场条件</div>`;
+      h += `<div style="font-size:11px;line-height:1.5;color:var(--text);">${r.reentryCondition || '—'}</div>`;
+      h += `</div>`;
+      // 集中度风险
+      h += `<div>`;
+      h += `<div style="color:var(--muted);font-size:10px;margin-bottom:2px;">集中度风险</div>`;
+      h += `<div style="color:${crColor};font-weight:600;font-size:13px;">${crIcon} ${cr === 'high' ? '高（建议减仓）' : cr === 'medium' ? '中（建议关注）' : '低'}</div>`;
+      h += `</div>`;
+      // note
+      h += `<div>`;
+      h += `<div style="color:var(--muted);font-size:10px;margin-bottom:2px;">决策依据</div>`;
+      h += `<div style="font-size:11px;line-height:1.5;color:var(--text);">${r.note || '—'}</div>`;
+      h += `</div>`;
+      h += `</div></details>`;
+    });
     h += `</div>`;
 
     h += `</div>`;

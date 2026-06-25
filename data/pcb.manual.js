@@ -38,6 +38,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 21.78% · 毛利 36.93% · 营收/净利同比 +71.4%/+63.3% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '002080': { code:'002080', name:'中材科技', rank:3, barrier:'中', tier:'primary',
@@ -57,6 +66,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'ok',
         note: 'ROE 9.93% · 毛利 20.94% · 营收/净利同比 +24.5%/+40.1% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -78,6 +96,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 19.61% · 毛利 19.33% · 营收/净利同比 +52.7%/+143.5% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '002436': { code:'002436', name:'兴森科技', rank:2, barrier:'高', tier:'primary',
@@ -97,6 +124,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'ok',
         note: 'ROE 1.4% · 毛利 19.17% · 营收/净利同比 +15.1%/+100.0% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -118,6 +154,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 29.59% · 毛利 35.63% · 营收/净利同比 +53.9%/+62.9% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '002636': { code:'002636', name:'金安国纪', rank:4, barrier:'中', tier:'primary',
@@ -137,6 +182,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'ok',
         note: 'ROE 21.17% · 毛利 26.44% · 营收/净利同比 +31.4%/+763.9% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -165,6 +219,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 1.58% · 毛利 20.92% · 营收/净利同比 +12.8%/-84.5% · FCF- · 剪刀差=danger',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '002916': { code:'002916', name:'深南电路', rank:1, barrier:'极高', tier:'primary',
@@ -185,6 +248,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 18.8% · 毛利 29.17% · 营收/净利同比 +37.9%/+73.0% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '002938': { code:'002938', name:'鹏鼎控股', rank:5, barrier:'高', tier:'primary',
@@ -204,6 +276,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'ok',
         note: 'ROE 5.34% · 毛利 22.95% · 营收/净利同比 -1.2%/-5.2% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -228,6 +309,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 12.02% · 毛利 50.74% · 营收/净利同比 +53.0%/+36.8% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '300476': { code:'300476', name:'胜宏科技', rank:2, barrier:'高', tier:'primary',
@@ -247,6 +337,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'ok',
         note: 'ROE 29.61% · 毛利 34.46% · 营收/净利同比 +28.0%/+39.9% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -268,6 +367,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 1.08% · 毛利 25.26% · 营收/净利同比 -4.4%/-60.7% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '301150': { code:'301150', name:'中一科技', rank:5, barrier:'中', tier:'primary',
@@ -288,6 +396,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 7.72% · 毛利 8.91% · 营收/净利同比 +43.9%/+2297.1% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '301200': { code:'301200', name:'大族数控', rank:2, barrier:'高', tier:'primary',
@@ -307,6 +424,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'ok',
         note: 'ROE 11.53% · 毛利 33.12% · 营收/净利同比 +103.7%/+176.5% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -329,6 +455,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 7.73% · 毛利 8.79% · 营收/净利同比 +32.0%/+2138.2% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '301377': { code:'301377', name:'鼎泰高科', rank:1, barrier:'高', tier:'primary',
@@ -348,6 +483,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'ok',
         note: 'ROE 35.92% · 毛利 53.25% · 营收/净利同比 +92.3%/+259.0% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -370,6 +514,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 14.17% · 毛利 9.11% · 营收/净利同比 +73.5%/+708.9% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '600110': { code:'600110', name:'诺德股份', rank:3, barrier:'中', tier:'primary',
@@ -389,6 +542,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'ok',
         note: 'ROE 2.84% · 毛利 11.71% · 营收/净利同比 +80.4%/+206.4% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -410,6 +572,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 15.7% · 毛利 39.64% · 营收/净利同比 +17.9%/+73.5% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '600183': { code:'600183', name:'生益科技', rank:1, barrier:'极高', tier:'primary',
@@ -429,6 +600,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'ok',
         note: 'ROE 25.84% · 毛利 28.1% · 营收/净利同比 +45.1%/+105.5% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -451,6 +631,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 12.28% · 毛利 17.13% · 营收/净利同比 +27.2%/+103.3% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: 64.0,
+        stopLossReason: 'PE 回落至 50% 分位以下',
+        maxDrawdown5y: null,
+        reentryCondition: 'PE 分位回落至 60% 以下 + 信号 C 触发',
+        concentrationRisk: 'medium',
+        note: 'PE 高位·信号 C 距触发近·注意减仓',
+      },
 },
 
     '603002': { code:'603002', name:'宏昌电子', rank:4, barrier:'中', tier:'primary',
@@ -470,6 +659,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'danger',
         note: 'ROE 0.05% · 毛利 4.87% · 营收/净利同比 +76.8%/-92.7% · FCF- · 剪刀差=danger',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -491,6 +689,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 5.28% · 毛利 12.02% · 营收/净利同比 +19.8%/+68.0% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '603228': { code:'603228', name:'景旺电子', rank:4, barrier:'中', tier:'primary',
@@ -510,6 +717,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'danger',
         note: 'ROE 7.0% · 毛利 18.76% · 营收/净利同比 +16.4%/-28.4% · FCF- · 剪刀差=danger',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -532,6 +748,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 20.24% · 毛利 55.65% · 营收/净利同比 +79.7%/+354.2% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '603650': { code:'603650', name:'彤程新材', rank:5, barrier:'中', tier:'primary',
@@ -551,6 +776,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'warn',
         note: 'ROE 16.88% · 毛利 22.21% · 营收/净利同比 +22.5%/+13.8% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -572,6 +806,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 2.25% · 毛利 13.54% · 营收/净利同比 +8.6%/-79.6% · FCF+ · 剪刀差=danger',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '603936': { code:'603936', name:'博敏电子', rank:5, barrier:'中', tier:'primary',
@@ -591,6 +834,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'warn',
         note: 'ROE -1.01% · 毛利 15.5% · 营收/净利同比 -0.6%/-139.7% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -612,6 +864,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 1.55% · 毛利 14.48% · 营收/净利同比 +39.1%/+15.4% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '605589': { code:'605589', name:'圣泉集团', rank:2, barrier:'高', tier:'primary',
@@ -631,6 +892,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'danger',
         note: 'ROE 6.5% · 毛利 26.25% · 营收/净利同比 +8.6%/-14.2% · FCF- · 剪刀差=danger',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -652,6 +922,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 29.02% · 毛利 35.21% · 营收/净利同比 +52.6%/+122.2% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '688300': { code:'688300', name:'联瑞新材', rank:4, barrier:'中', tier:'primary',
@@ -671,6 +950,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'warn',
         note: 'ROE 15.66% · 毛利 40.02% · 营收/净利同比 +23.2%/+13.6% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 },
 
@@ -692,6 +980,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 5.95% · 毛利 7.48% · 营收/净利同比 +73.9%/+392.8% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '688630': { code:'688630', name:'芯碁微装', rank:3, barrier:'高', tier:'primary',
@@ -712,6 +1009,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         note: 'ROE 17.92% · 毛利 40.94% · 营收/净利同比 +112.5%/+109.0% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 },
 
     '688700': { code:'688700', name:'东威科技', rank:4, barrier:'中', tier:'primary',
@@ -731,6 +1037,15 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         scissorGap: 'ok',
         note: 'ROE 9.44% · 毛利 37.25% · 营收/净利同比 +44.5%/+160.6% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
+      },
+
+      riskMetrics: {
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
       },
 }
   };
@@ -808,5 +1123,42 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
   //   · caution: 所有分位阈值 +10pp · 仓位建议降一档
   //   · extreme: 禁止触发任何信号 C（市场极端风险）
   MANUAL.marketRisk = 'normal';
+
+  // ★ commit 4.40：产业链景气度仪表盘（macro 全局块）
+  //   · 5 个景气维度：铜箔价格 / 玻纤价格 / AI 服务器需求 / 汽车电子需求 / PCB 产能利用率
+  //   · 每维度 3 字段：trend (rising/stable/falling/strong/stable/weak/high/normal/low) + note + impact (positive/neutral/negative)
+  //   · 前端渲染：index.html renderMacroDashboard() 在 PCB 赛道顶部显示
+  //   · 降级：macro 字段不存在时不渲染（不报错）
+  //   · 维护人：manual（人工季度更新·硬数据从 akshare / 巨潮核实后填）
+  MANUAL.macro = {
+    asOf: '2026-06',
+    updatedBy: 'manual',
+    copperFoilPrice: {
+      trend: 'rising',
+      note: '铜箔价格持续上涨·压制中游PCB毛利率',
+      impact: 'negative'
+    },
+    glassFiberPrice: {
+      trend: 'falling',
+      note: '玻纤布价格下行·CCL原材料成本改善',
+      impact: 'positive'
+    },
+    aiServerDemand: {
+      trend: 'strong',
+      note: 'AI算力需求持续景气·GB300/H100订单饱满',
+      impact: 'positive'
+    },
+    autoElecDemand: {
+      trend: 'stable',
+      note: '汽车电子需求平稳·车载PCB温和增长',
+      impact: 'neutral'
+    },
+    pcbUtilRate: {
+      trend: 'high',
+      note: '高端AI板产能利用率满载·普通板偏低',
+      impact: 'positive'
+    },
+    summary: 'AI需求强劲·铜箔涨价是主要压制因素·整体景气偏正面'
+  };
 
 })(window.PCB_MANUAL);
