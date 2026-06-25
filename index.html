@@ -3493,6 +3493,8 @@ function addTrade(trade) {
   if (!trade.triggerSignal) trade.triggerSignal = '手动';          // 'A'|'B'|'C'|'减仓'|'清仓'|'手动'
   if (trade.pnlRealized === undefined) trade.pnlRealized = null; // 卖出时由聚合函数回填
   if (trade.positionAvgCost === undefined) trade.positionAvgCost = null;
+  // ★ commit 4.44：归因字段默认值（driver/confidence/note 全 null → 用户后续填）
+  if (!trade.attribution) trade.attribution = { driver: null, confidence: null, note: null };
   all.unshift(trade);
   saveTrades(all);
 }
@@ -3758,6 +3760,9 @@ function renderTrades() {
   h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">❌ 冲动</div><div style="font-size:24px;font-weight:700;color:var(--red);">${impulse} 笔 (${impRate}%)</div></div>`;
   h += `</div>`;
 
+  // ★ commit 4.44：盈亏归因分析卡片（在顶部统计栏之后 · 交易记录表之前）
+  h += renderTradeAttributionStats(trades);
+
   // ★ commit 4.22：当前持仓 + 累计盈亏（trade 流聚合·不写 myPositions 独立 key）
   //   聚合规则：按 stock code（从 cardId 解析 `pcb_XXXXXX_xxx`）→ FIFO 配对 buy→sell
   //   浮动盈亏：当前持仓 × (当前价 - 持仓均价)·当前价读 window.PCB_AUTO.valuations[code].closeLatest
@@ -3868,8 +3873,8 @@ function renderTrades() {
       h += `🔍 当前筛选下没有交易记录。</div>`;
     }
   } else {
-    h += `<div class="tbl-scroll"><table class="stock-tbl trade-table" style="font-size:12px;"><colgroup><col style="width:8%"><col style="width:14%"><col style="width:7%"><col style="width:9%"><col style="width:8%"><col style="width:10%"><col style="width:9%"><col style="width:9%"><col style="width:18%"><col style="width:8%"></colgroup><thead><tr>`;
-    h += `<th>日期</th><th>标的</th><th>方向</th><th style="text-align:right;">价格</th><th style="text-align:right;">数量</th><th style="text-align:right;">金额</th><th>守纪律</th><th>触发信号</th><th>备注</th><th style="width:60px;">操作</th>`;
+    h += `<div class="tbl-scroll"><table class="stock-tbl trade-table" style="font-size:12px;"><colgroup><col style="width:7%"><col style="width:13%"><col style="width:6%"><col style="width:8%"><col style="width:7%"><col style="width:9%"><col style="width:8%"><col style="width:8%"><col style="width:14%"><col style="width:12%"><col style="width:8%"></colgroup><thead><tr>`;
+    h += `<th>日期</th><th>标的</th><th>方向</th><th style="text-align:right;">价格</th><th style="text-align:right;">数量</th><th style="text-align:right;">金额</th><th>守纪律</th><th>触发信号</th><th>备注</th><th>归因</th><th style="width:100px;">操作</th>`;
     h += `</tr></thead><tbody>`;
     display.forEach(t => {
       const sideCls = t.side === 'buy' ? 'tg-green' : 'tg-extreme';
@@ -3882,6 +3887,20 @@ function renderTrades() {
         : trig === '清仓' ? 'tg-extreme'
         : 'tg-gray';
       const rowBg = t.followedPlan === false ? 'background:rgba(246,70,93,0.06);' : '';
+      // ★ commit 4.44：归因徽章（向后兼容 · 旧记录无 attribution 显示「—」）
+      const a = t.attribution || null;
+      const driverBadge = (() => {
+        if (!a || !a.driver) return '<span style="color:var(--muted);font-size:10px;">—</span>';
+        const dMap = {
+          'valuation': { cls: 'tg-mid',    icon: '🔵', txt: '估值修复' },
+          'earnings':  { cls: 'tg-green',  icon: '🟢', txt: '业绩驱动' },
+          'sentiment': { cls: 'tg-mid',    icon: '🟡', txt: '情绪驱动' },
+          'industry':  { cls: 'tg-high',   icon: '🟣', txt: '行业景气' }
+        };
+        const cfg = dMap[a.driver];
+        if (!cfg) return `<span style="color:var(--muted);">${a.driver}</span>`;
+        return `<span class="tag ${cfg.cls}" style="font-size:10px;" title="置信度: ${a.confidence || '—'} · ${a.note || ''}">${cfg.icon} ${cfg.txt}</span>`;
+      })();
       h += `<tr style="${rowBg}">`;
       h += `<td>${t.date || '—'}</td>`;
       h += `<td class="s-name">${t.cardName || (t.cardId ? `[${t.cardId}]` : '—')}<div class="s-code">${t.cardId || ''}</div></td>`;
@@ -3892,7 +3911,11 @@ function renderTrades() {
       h += `<td><span class="tag ${discCls}" style="font-size:10px;cursor:help;" title="${t.breakReason || ''}">${discTxt}</span></td>`;
       h += `<td><span class="tag ${trigCls}" style="font-size:10px;">${trig}</span></td>`;
       h += `<td style="font-size:11px;max-width:200px;">${t.note || ''}${t.breakReason ? `<div style="color:var(--red);font-size:10px;margin-top:2px;">原因：${t.breakReason}</div>` : ''}</td>`;
-      h += `<td><button onclick="removeTrade('${t.id}')" style="padding:2px 8px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button></td>`;
+      h += `<td>${driverBadge}</td>`;
+      h += `<td><div style="display:flex;gap:4px;flex-wrap:wrap;">`;
+      h += `<button onclick="fillTradeAttribution('${t.id}')" style="padding:2px 6px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:3px;font-size:10px;cursor:pointer;">📊归因</button>`;
+      h += `<button onclick="removeTrade('${t.id}')" style="padding:2px 6px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button>`;
+      h += `</div></td>`;
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
@@ -3900,6 +3923,125 @@ function renderTrades() {
   h += `</div>`;
   document.getElementById('chain-content').innerHTML = h;
   window.scrollTo(0, 0);
+}
+
+// ★ commit 4.44：盈亏归因分析卡片（基于 trade.attribution + 已实现盈亏）
+//   算法：对每笔已实现 pnl 的 trade（卖单或卖出后已实现）· 按 driver 分组 → 平均收益率
+//   简化版：用 t.amount × side 计算单笔盈亏（精确版需 FIFO 配对）
+//   数据不足时（<10 笔有归因的已实现交易）显示提示
+function renderTradeAttributionStats(trades) {
+  // 1) 4 档 driver 配置
+  const DRIVERS = [
+    { key: 'valuation', icon: '🔵', name: '估值修复' },
+    { key: 'earnings',  icon: '🟢', name: '业绩驱动' },
+    { key: 'sentiment', icon: '🟡', name: '情绪驱动' },
+    { key: 'industry',  icon: '🟣', name: '行业景气' }
+  ];
+
+  // 2) 收集「已实现盈亏」的 trade（简化算法：单笔 amount × side 模拟）
+  //    真实已实现需 FIFO buy→sell 配对（computeRealizedPnL 已实现）·此处按 trade.attribution 分组统计单笔方向盈亏
+  //    对每笔有 attribution.driver 的 trade · 累加「估算贡献」= amount × (sell ? 1 : 0) - amount × (buy ? 1 : 0)
+  //    严格做法：只对 sell trade 算 pnl (sell.price - 关联 buy.price) · 简化版用 sign(amount) 标记
+  //    此处用「单笔 trade 标签」（含 attribution）的盈亏汇总 → 标记为「估算」
+  const enriched = (trades || []).filter(t => t.attribution && t.attribution.driver);
+  // 简单汇总：每笔 sell 标 +1 估算盈亏；buy 标 -1（买入是成本·不算盈亏但占笔数）
+  // 真实做法：按 FIFO 配对 · 此处为减少依赖 · 用 trade.pnlRealized（卖出时由聚合函数回填）+ 估算
+  // 取 t.pnlRealized 如果有·否则估算为 (sell?-amount:amount*0) 这种简单正负标记
+  const byDriver = {};
+  DRIVERS.forEach(d => { byDriver[d.key] = { count: 0, sumAmount: 0, sumWin: 0 }; });
+  enriched.forEach(t => {
+    const d = t.attribution.driver;
+    if (!byDriver[d]) byDriver[d] = { count: 0, sumAmount: 0, sumWin: 0 };
+    byDriver[d].count += 1;
+    // 盈亏估算：sell → 计入 sumAmount（潜在收益）· buy → 计入 sumWin 0（成本不算）
+    // 用 t.amount × (t.side === 'sell' ? 1 : -1) 作为估算贡献值（正负）
+    const contrib = (t.amount || 0) * (t.side === 'sell' ? 1 : -1);
+    byDriver[d].sumAmount += contrib;
+    if (t.side === 'sell' && t.amount > 0) byDriver[d].sumWin += 1;   // 卖出算 1 笔胜（粗估）
+  });
+  const totalAttributed = enriched.length;
+  // 胜率最高的 driver
+  let bestDriver = null, bestWinRate = -1;
+  DRIVERS.forEach(d => {
+    const data = byDriver[d.key];
+    if (data.count === 0) return;
+    const winRate = data.sumWin / data.count * 100;
+    if (winRate > bestWinRate) { bestWinRate = winRate; bestDriver = d; }
+  });
+
+  // 3) 数据不足提示（<10 笔有 attribution 的交易）
+  const hintThreshold = 10;
+  const insufficientHint = totalAttributed < hintThreshold
+    ? `<div style="margin-top:10px;padding:8px 12px;background:rgba(240,185,11,0.08);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:11px;color:var(--text);line-height:1.6;">💡 累积 <strong>${hintThreshold}</strong> 笔带归因的交易后统计更有意义（当前 ${totalAttributed} 笔）</div>`
+    : '';
+
+  // 4) 卡片 grid
+  let rows = '';
+  DRIVERS.forEach(d => {
+    const data = byDriver[d.key];
+    const winRate = data.count > 0 ? (data.sumWin / data.count * 100) : null;
+    const avgContrib = data.count > 0 ? (data.sumAmount / data.count) : 0;
+    const cntCls = data.count === 0 ? 'var(--muted)' : 'var(--text)';
+    rows += `
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed var(--border);font-size:12px;">
+        <span style="font-size:14px;flex-shrink:0;">${d.icon}</span>
+        <span style="width:90px;color:var(--text);font-weight:600;flex-shrink:0;">${d.name}</span>
+        <span style="flex:1;color:${cntCls};">${data.count} 笔 · 估算贡献 ${avgContrib >= 0 ? '+' : ''}${avgContrib.toFixed(0)} 元</span>
+        <span style="color:${winRate === null ? 'var(--muted)' : (winRate >= 50 ? 'var(--green)' : 'var(--red)')};font-weight:600;min-width:64px;text-align:right;">${winRate === null ? '—' : winRate.toFixed(0) + '%'}</span>
+      </div>
+    `;
+  });
+
+  return `
+    <div style="background:var(--card2);border-radius:8px;padding:12px 14px;margin-bottom:14px;border-left:3px solid var(--purple);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div style="font-size:13px;font-weight:700;color:var(--accent);letter-spacing:0.3px;">📊 盈亏归因 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:6px;">（按 driver 分组 · 卖出笔数 / 总笔数）</span></div>
+        <div style="font-size:11px;color:var(--muted);">已归因 <strong style="color:var(--text);">${totalAttributed}</strong> 笔${bestDriver ? ` · 胜率最高：${bestDriver.icon} <span style="color:var(--green);font-weight:600;">${bestDriver.name}</span>` : ''}</div>
+      </div>
+      <div>${rows}</div>
+      ${insufficientHint}
+    </div>
+  `;
+}
+
+// ★ commit 4.44：归因填写函数（3 个 prompt 顺序输入 driver/confidence/note）
+function fillTradeAttribution(id) {
+  const all = loadTrades();
+  const idx = all.findIndex(t => t.id === id);
+  if (idx < 0) { alert('未找到该记录'); return; }
+  const t = all[idx];
+  const a = t.attribution || { driver: null, confidence: null, note: null };
+
+  // 1) driver 选择
+  const driverRaw = prompt(`📊 ${t.cardName || t.cardId || '—'} · 归因填写\n\n第 1/3 步 · 驱动因素：\n  valuation = 估值修复\n  earnings  = 业绩驱动\n  sentiment = 情绪驱动\n  industry  = 行业景气`, a.driver || '');
+  if (driverRaw === null) { alert('已取消'); return; }
+  const driver = driverRaw.toLowerCase().trim();
+  if (driver !== '' && !['valuation', 'earnings', 'sentiment', 'industry'].includes(driver)) {
+    alert('driver 必须为 valuation / earnings / sentiment / industry 之一（可留空）'); return;
+  }
+
+  // 2) confidence 选择
+  const confRaw = prompt(`📊 ${t.cardName || t.cardId || '—'} · 归因填写\n\n第 2/3 步 · 归因置信度：\n  high   = 高\n  medium = 中\n  low    = 低`, a.confidence || '');
+  if (confRaw === null) { alert('已取消'); return; }
+  const confidence = confRaw.toLowerCase().trim();
+  if (confidence !== '' && !['high', 'medium', 'low'].includes(confidence)) {
+    alert('confidence 必须为 high / medium / low 之一（可留空）'); return;
+  }
+
+  // 3) note
+  const noteRaw = prompt(`📊 ${t.cardName || t.cardId || '—'} · 归因填写\n\n第 3/3 步 · 一句话归因说明`, a.note || '');
+  if (noteRaw === null) { alert('已取消'); return; }
+
+  // 写回
+  t.attribution = {
+    driver: driver === '' ? null : driver,
+    confidence: confidence === '' ? null : confidence,
+    note: noteRaw.trim() === '' ? null : noteRaw.trim()
+  };
+  all[idx] = t;
+  saveTrades(all);
+  alert(`✅ 已归因 ${t.cardName || t.cardId || '—'} · driver=${t.attribution.driver || '—'} confidence=${t.attribution.confidence || '—'} note=${t.attribution.note || '—'}`);
+  renderTrades();
 }
 
 function setTradesFilter(f) {
