@@ -914,6 +914,95 @@ function formatFromHigh(v) {
   return null;
 }
 
+// ★ commit 4.39：基本面质量层渲染（读取 PCB_MANUAL.stocks[code].fundamentals）
+// 数据源: data/pcb.manual.js 的 fundamentals 字段（commit 4.38 fetch_fundamentals.py 注入）
+// 展示位置: stock 卡片估值 sub-section 之后 · 标签区之前
+function renderFundamentalsBlock(code) {
+  // 读取 PCB_MANUAL 层的 fundamentals（注意：手动层独立于 CHAINS.segments）
+  const stock = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[code]) || null;
+  const f = stock && stock.fundamentals;
+  if (!f || !f.asOf) {
+    // 降级处理：fundamentals 字段不存在或全 null
+    return `<div style="font-size:11px;color:var(--muted);padding:6px 10px;background:var(--card2);border-radius:4px;margin-bottom:10px;">📊 基本面数据待补充</div>`;
+  }
+
+  // ① ROE 颜色分级
+  let roeCls = 'var(--muted)', roeTxt = '—';
+  if (typeof f.roe === 'number') {
+    roeTxt = f.roe.toFixed(2) + '%';
+    if (f.roe >= 15) roeCls = 'var(--green)';
+    else if (f.roe >= 8) roeCls = 'var(--accent)';   // 黄色 = 一般
+    else roeCls = 'var(--red)';
+  }
+
+  // ② 毛利率 + 趋势箭头
+  let gmArrow = '→', gmColor = 'var(--muted)';
+  if (f.grossMarginTrend === 'up') { gmArrow = '↑'; gmColor = 'var(--green)'; }
+  else if (f.grossMarginTrend === 'down') { gmArrow = '↓'; gmColor = 'var(--red)'; }
+  const gmTxt = typeof f.grossMargin === 'number' ? f.grossMargin.toFixed(2) + '%' : '—';
+
+  // ③ 营收/净利同比
+  const fmtYoY = (v) => {
+    if (typeof v !== 'number') return { txt: '—', color: 'var(--muted)', star: false };
+    const color = v >= 0 ? 'var(--green)' : 'var(--red)';
+    const star = Math.abs(v) >= 100 ? ' ★' : '';
+    return { txt: (v >= 0 ? '+' : '') + v.toFixed(1) + '%' + star, color, star };
+  };
+  const revG = fmtYoY(f.revenueGrowth);
+  const npG = fmtYoY(f.netProfitGrowth);
+
+  // ④ 剪刀差预警
+  let scissorHtml = '';
+  if (f.scissorGap === 'warn') {
+    scissorHtml = '<span class="tag tg-mid" style="font-size:10px;margin-left:6px;" title="净利增速 < 营收增速 - 5pp · 增收不增利信号">🟡 利润增速落后营收</span>';
+  } else if (f.scissorGap === 'danger') {
+    scissorHtml = '<span class="tag tg-extreme" style="font-size:10px;margin-left:6px;" title="净利增速 < 0 且营收增速 > 0 · 增收不增利严重">🔴 增收不增利</span>';
+  }  // ok 不显示
+
+  // ⑤ FCF 状态
+  const fcfHtml = f.fcfPositive === true
+    ? '<span style="color:var(--green);font-weight:600;">✅ 现金流健康</span>'
+    : f.fcfPositive === false
+      ? '<span style="color:var(--accent);font-weight:600;">⚠️ 现金流为负</span>'
+      : '<span style="color:var(--muted);">—</span>';
+
+  // ⑥ 数据期 + 数据来源（akshare⚪单源待核）
+  const asOfHtml = `<span style="color:var(--barrier-low);font-size:10px;" title="${f.source || 'akshare'}">${f.asOf} · akshare⚪单源待核</span>`;
+
+  // 排版：3 列网格（ROE / 毛利率 / 营收净利同比 + 剪刀差 + FCF）
+  return `
+    <div style="background:var(--card2);border-radius:6px;padding:10px 12px;margin-bottom:12px;border-left:3px solid var(--blue);">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:0.5px;">📊 基本面质量</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px;">
+        <div>
+          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">ROE</div>
+          <div style="color:${roeCls};font-weight:600;font-size:13px;">${roeTxt}</div>
+        </div>
+        <div>
+          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">毛利率 ${gmArrow}</div>
+          <div style="color:${gmColor};font-weight:600;font-size:13px;">${gmTxt}</div>
+        </div>
+        <div>
+          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">FCF</div>
+          <div style="font-size:11px;">${fcfHtml}</div>
+        </div>
+        <div style="grid-column:1 / span 2;">
+          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">营收同比 / 净利同比${scissorHtml}</div>
+          <div style="font-size:12px;">
+            <span style="color:${revG.color};font-weight:600;">营收 ${revG.txt}</span>
+            <span style="color:var(--muted);margin:0 4px;">/</span>
+            <span style="color:${npG.color};font-weight:600;">净利 ${npG.txt}</span>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">数据期</div>
+          <div>${asOfHtml}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function addToDecisionCard(chainId, code) {
   const all = loadCards();
   if (all.some(c => c.chain === chainId && c.code === code)) {
@@ -1254,6 +1343,8 @@ function renderChain(chainId) {
         h += `<div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:14px;padding-left:10px;border-left:2px solid var(--card2);">📝 ${c.valuation.note}</div>`;
       }
     }
+    // ★ commit 4.39：基本面质量层（PE 分位之后 · 标签区之前）
+    h += renderFundamentalsBlock(c.code);
     h += `<div class="tags">`;
     // ★ commit 4.6：标签精简为 3 个（壁垒强度 + 趋势 + PE 状态）— 其他详细标签移入下方"📑 详细标签"折叠区
     // 标签 1: 壁垒强度（来自 c.strength ★★★/★★☆/★☆☆）
