@@ -5,6 +5,7 @@ screenshot_check.py · 页面视觉截图
 截图输出到：screenshots/check_YYYYMMDD_HHMMSS/
 
 ★ commit 4.50：增加 section_signal_top3.png（卡口结论区 · 紧跟 Hero 底部 · 含 TOP3 预告 + 头 1-2 张 choke card）
+★ commit 4.51：增加 section_treemap.png（④树状图 ⑤需求传导 默认折叠态 · 2 个 section 标题）
 ★ commit 4.52 遗 留：mobile_hero.png height: 300→400px（4 行 Hero 完整捕获）
 """
 
@@ -56,6 +57,19 @@ async def take_screenshots():
         await page.set_viewport_size({"width": 1440, "height": 900})
         await page.screenshot(path=out_dir / "section_signal_top3.png",
                              clip={"x":230, "y":hero_bottom, "width":1210, "height":500})
+
+        # 5. ★ commit 4.51：树状图 section 截图（④⑤ 默认折叠态 · 2 个 section 标题各 ~50px）
+        await page.evaluate("document.querySelector('#section-treemap').scrollIntoView({block:'start'})")
+        await page.wait_for_timeout(300)
+        treemap_top = await page.evaluate("""
+          () => {
+            const el = document.querySelector('#section-treemap');
+            if (el) return el.getBoundingClientRect().top;
+            return 0;
+          }
+        """)
+        await page.screenshot(path=out_dir / "section_treemap.png",
+                             clip={"x":230, "y":treemap_top, "width":1210, "height":200})
 
         await browser.close()
 
