@@ -33,7 +33,7 @@
   /* Header */
   .header { text-align: center; padding: 12px 32px; margin-bottom: 0; background: transparent; border-bottom: 1px solid var(--border-dim); }
   .header h1 { font-size: 16px; font-weight: 800; }
-  .header .subtitle { font-size: 12px; color: var(--color-muted); }
+  .header .subtitle { font-size: 14px; color: var(--text); opacity: 0.8; }
 
   /* Main content area */
   .main-area { flex: 1; min-width: 0; padding-right: 20px; transition: padding-right 0.3s ease; }
@@ -1949,7 +1949,7 @@ function renderChain(chainId) {
   h += renderHeroBanner(chainId);
 
   // ★ commit 4.75 bug 修复：treeMap 移到第一层（Hero 后）· 见上方 renderHeroBanner 之后
-  const sec2Label = _hasSocratic ? '④' : '④';
+  const sec2Label = _hasSocratic ? '②' : '②';
   // ★ 升级七：新 schema 检测（downstream 是 array → pcb 试点）→ 用横向 5 列
   const isNewTreeMapSchema = Array.isArray(d.treeMap.downstream);
 
@@ -1960,7 +1960,8 @@ function renderChain(chainId) {
     const _currentView = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem(flowViewKey)) || 'flow';
 
     h += `<div class="section" data-key="treemap" id="section-treemap"><div class="section-title" onclick="toggleSection('treemap')"><span class="num num-chain">${sec2Label}</span> 全产业链树状图 · 横向 5 列布局<span class="collapse-arrow">▼</span></div>`;
-    h += `<div class="section-desc">5 列从左到右：上游材料 → 上游设备 → 中游(制造) → 下游(需求) → 侧枝。每张 sub-card 配 3-5 家代表公司（按壁垒排序）。</div>`;
+    // ★ commit 4.76 修复：section-desc 默认折叠为 details（只保留标题可见·详情按需展开）
+    h += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-muted);font-size:11px;list-style:none;outline:none;">📋 查看布局说明</summary><div class="section-desc" style="margin-top:6px;">5 列从左到右：上游材料 → 上游设备 → 中游(制造) → 下游(需求) → 侧枝。每张 sub-card 配 3-5 家代表公司（按壁垒排序）。</div></details>`;
     h += `<div class="card">`;
     // ★ commit 4.7：视图切换条（流图 / 列表）
     h += `<div class="flow-toggle-bar">`;
@@ -2245,7 +2246,8 @@ function renderChain(chainId) {
   } else {
     // ==================== 旧 schema：纵向 5 段布局（其它 11 条赛道 + AI全产业链 fallback）====================
     h += `<div class="section" data-key="treemap" id="section-treemap"><div class="section-title" onclick="toggleSection('treemap')"><span class="num num-chain">${sec2Label}</span> 全产业链树状图<span class="collapse-arrow">▼</span></div>`;
-    h += `<div class="section-desc">颜色越深=壁垒越高=越可能藏有卡口。🔒=已识别物理卡口。</div>`;
+    // ★ commit 4.76 修复：section-desc 默认折叠为 details
+    h += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-muted);font-size:11px;list-style:none;outline:none;">📋 查看布局说明</summary><div class="section-desc" style="margin-top:6px;">颜色越深=壁垒越高=越可能藏有卡口。🔒=已识别物理卡口。</div></details>`;
     h += `<div class="card"><div class="tree-wrapper"><div class="tree">`;
     // Downstream
     h += `<div class="tree-level-label">▼ 下游应用（需求端）</div>`;
@@ -2963,23 +2965,22 @@ function renderChain(chainId) {
     h += `</div>`;
 
     if (thr) {
-      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🎯 信号阈值</div>`;
-
-      h += `<div style="padding:12px 16px;background:var(--card2);border-radius:6px;margin-bottom:8px;border-left:3px solid var(--accent);">`;
-      h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">普通通道</div>`;
-      h += `<div style="display:grid;grid-template-columns:80px 1fr;gap:6px 12px;font-size:12px;color:var(--text);line-height:1.8;">`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">信号 A</div><div style="white-space:nowrap;overflow-x:auto;">壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_A}% · 趋势向上</div>`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">信号 B</div><div style="white-space:nowrap;overflow-x:auto;">命中可投卡口 · PE分位&lt;${thr.PE_PCTL_B}% · 趋势非向下</div>`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">PE上限</div><div style="white-space:nowrap;">否</div>`;
-      h += `</div></div>`;
-
-      h += `<div style="padding:12px 16px;background:var(--card2);border-radius:6px;margin-bottom:14px;border-left:3px solid var(--color-warn);">`;
-      h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">成长赛道通道 <span style="font-size:10px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
-      h += `<div style="display:grid;grid-template-columns:80px 1fr;gap:6px 12px;font-size:12px;color:var(--text);line-height:1.8;">`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">信号 A</div><div style="white-space:nowrap;overflow-x:auto;">壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">信号 B</div><div style="white-space:nowrap;overflow-x:auto;">命中可投卡口 · PE分位&lt;${thr.PE_PCTL_GROWTH_B}% · PE&lt;PE上限 · 趋势非向下</div>`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">PE上限</div><div style="white-space:nowrap;">是（PE上限120倍）</div>`;
-      h += `</div></div>`;
+      // ★ commit 4.76 修复：信号阈值详情默认折叠（不展开·只保留"查看信号触发条件"摘要）
+      h += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-data);font-size:12px;font-weight:600;list-style:none;outline:none;">🎯 查看信号触发条件</summary>`;
+      h += `<div style="margin-top:8px;padding:10px 14px;background:var(--card2);border-radius:6px;border-left:3px solid var(--accent);font-size:12px;color:var(--text);line-height:1.7;">`;
+      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">普通通道</div>`;
+      h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:8px;">`;
+      h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_A}% · 趋势向上</div>`;
+      h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_B}% · 趋势非向下</div>`;
+      h += `<div>PE上限</div><div>否</div>`;
+      h += `</div>`;
+      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">成长赛道通道 <span style="font-size:10px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
+      h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;">`;
+      h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
+      h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_GROWTH_B}% · PE&lt;PE上限 · 趋势非向下</div>`;
+      h += `<div>PE上限</div><div>是（PE上限120倍）</div>`;
+      h += `</div>`;
+      h += `</div></details>`;
     }
 
     if (totalHits === 0) {
@@ -2999,7 +3000,7 @@ function renderChain(chainId) {
         h += `<tr>`;
         h += `<td><code>${h2.code}</code></td>`;
         h += `<td>${h2.name||'—'}</td>`;
-        h += `<td>${h2.segName||'—'}</td>`;
+        h += `<td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;" title="${h2.segName||''}">${h2.segName||'—'}</td>`;
         h += `<td>${h2.barrier||'—'}</td>`;
         h += `<td>${h2.channel==='growthAdj'?'成长赛道':(h2.channel||'—')}</td>`;
         h += `<td>${sigs.join(' ')}</td>`;
@@ -3236,25 +3237,24 @@ function renderChain(chainId) {
     h += `</div>`;
 
     if (thr) {
-      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🎯 信号阈值</div>`;
-
+      // ★ commit 4.76 修复：信号阈值详情默认折叠
+      h += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-data);font-size:12px;font-weight:600;list-style:none;outline:none;">🎯 查看信号触发条件</summary>`;
+      h += `<div style="margin-top:8px;padding:10px 14px;background:var(--card2);border-radius:6px;border-left:3px solid var(--accent);font-size:12px;color:var(--text);line-height:1.7;">`;
       // 普通通道
-      h += `<div style="padding:12px 16px;background:var(--card2);border-radius:6px;margin-bottom:8px;border-left:3px solid var(--accent);">`;
-      h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">普通通道</div>`;
-      h += `<div style="display:grid;grid-template-columns:80px 1fr;gap:6px 12px;font-size:12px;color:var(--text);line-height:1.8;">`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">信号 A</div><div style="white-space:nowrap;overflow-x:auto;">壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_A}% · 趋势向上</div>`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">信号 B</div><div style="white-space:nowrap;overflow-x:auto;">命中可投卡口 · PE分位&lt;${thr.PE_PCTL_B}% · 趋势非向下</div>`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">PE上限</div><div style="white-space:nowrap;">否</div>`;
-      h += `</div></div>`;
-
+      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">普通通道</div>`;
+      h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:8px;">`;
+      h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_A}% · 趋势向上</div>`;
+      h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_B}% · 趋势非向下</div>`;
+      h += `<div>PE上限</div><div>否</div>`;
+      h += `</div>`;
       // 成长赛道通道
-      h += `<div style="padding:12px 16px;background:var(--card2);border-radius:6px;margin-bottom:14px;border-left:3px solid var(--color-warn);">`;
-      h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">成长赛道通道 <span style="font-size:10px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
-      h += `<div style="display:grid;grid-template-columns:80px 1fr;gap:6px 12px;font-size:12px;color:var(--text);line-height:1.8;">`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">信号 A</div><div style="white-space:nowrap;overflow-x:auto;">壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">信号 B</div><div style="white-space:nowrap;overflow-x:auto;">命中可投卡口 · PE分位&lt;${thr.PE_PCTL_GROWTH_B}% · PE&lt;PE上限 · 趋势非向下</div>`;
-      h += `<div style="color:var(--muted);white-space:nowrap;">PE上限</div><div style="white-space:nowrap;">是（PE上限120倍）</div>`;
-      h += `</div></div>`;
+      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">成长赛道通道 <span style="font-size:10px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
+      h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;">`;
+      h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
+      h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_GROWTH_B}% · PE&lt;PE上限 · 趋势非向下</div>`;
+      h += `<div>PE上限</div><div>是（PE上限120倍）</div>`;
+      h += `</div>`;
+      h += `</div></details>`;
     }
 
     // 命中列表 / 0 命中说明
@@ -3275,7 +3275,7 @@ function renderChain(chainId) {
         h += `<tr>`;
         h += `<td><code>${h2.code}</code></td>`;
         h += `<td>${h2.name||'—'}</td>`;
-        h += `<td>${h2.segName||'—'}</td>`;
+        h += `<td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;" title="${h2.segName||''}">${h2.segName||'—'}</td>`;
         h += `<td>${h2.barrier||'—'}</td>`;
         h += `<td>${h2.channel==='growthAdj'?'成长赛道':(h2.channel||'—')}</td>`;
         h += `<td>${sigs.join(' ')}</td>`;
@@ -3386,7 +3386,7 @@ function renderChain(chainId) {
     // 渲染距离表（前 20 只 + 显示「全部 38 只」可滚动）
     h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;table-layout:fixed;word-break:keep-all;">`;
     // ★ commit 4.75 bug 修复：简称列宽 90px（避免中文被竖排挤压）+ table-layout:fixed + word-break:keep-all
-    h += `<colgroup><col style="width:60px"><col style="width:90px"><col style="width:120px"><col style="width:120px"><col style="width:110px"><col style="width:90px"></colgroup>`;
+    h += `<colgroup><col style="width:70px"><col style="width:90px"><col style="width:120px"><col style="width:120px"><col style="width:110px"><col style="width:90px"></colgroup>`;
     h += `<thead><tr><th>代码</th><th>简称</th><th>① PE回调距离</th><th>② 股价回撤距离</th><th>③ 缩量距离</th><th>总距离</th></tr></thead><tbody>`;
     distStocks.forEach(s => {
       const cellOrDash = (val, digits, suffix, threshold) => {
