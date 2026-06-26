@@ -1794,6 +1794,115 @@ function switchChain(chainId) {
   document.getElementById('chain-content').scrollIntoView({ behavior: 'smooth' });
 }
 
+// ★ commit 4.66：基本面质量横向排名榜（综合排名 / 段位龙头 / 风险预警 三视图）
+//   持仓管理 → 基本面质量 → 信号触发  3 段递进（位于 SECTION ① 持仓管理下方、信号C TOP3 之前）
+//   综合分计算复用 computeStockFit（不重写权重）· 零新增 CSS 类（全部复用 .card/.flow-toggle-bar/.stock-tbl/.tag/.tg-*）
+function renderStockRankingPanel(chainId) {
+  const d = CHAINS[chainId];
+  if (!d) return '';
+  // 收集所有 stock + dims6 综合分
+  const allStocks = [];
+  (d.segments || []).forEach(seg => {
+    (seg.stocks || []).forEach(s => {
+      const fit = computeStockFit(s.dims6);
+      if (fit) allStocks.push({ ...s, segmentName: seg.name, choke: !!seg.choke, fit });
+    });
+  });
+  if (d.midstream && d.midstream.stocks) {
+    d.midstream.stocks.forEach(s => {
+      const fit = computeStockFit(s.dims6);
+      if (fit) allStocks.push({ ...s, segmentName: '中游 PCB 制造', choke: false, fit });
+    });
+  }
+  if (allStocks.length === 0) return '';   // ★ 降级：无 dims6 数据静默 return
+
+  // 排序：综合分降序
+  allStocks.sort((a, b) => b.fit.score - a.fit.score);
+  const top10 = allStocks.slice(0, 10);
+
+  // 档位/壁垒颜色助手
+  const tierCls = tier => tier.indexOf('🟢') === 0 ? 'tg-green' : tier.indexOf('🟡') === 0 ? 'tg-mid' : 'tg-extreme';
+  const barrierCls = b => { const n = b === '极高' ? 'tg-extreme' : b === '高' ? 'tg-high' : b === '中' ? 'tg-mid' : 'tg-gray'; return n; };
+  const scoreColor = s => s >= 75 ? 'var(--color-bull)' : s >= 55 ? 'var(--color-warn)' : 'var(--color-risk)';
+
+  let h = '';
+  h += `<div class="card" style="padding:20px;margin-top:18px;">`;
+  h += `<div class="card-header" style="font-size:15px;margin-bottom:12px;">📊 基本面质量横向排名 · <span style="color:var(--accent);">${allStocks.length} 只 stock 长线适配分</span></div>`;
+
+  // Tab 切换条（3 tab）
+  h += `<div class="flow-toggle-bar" style="margin-bottom:14px;">`;
+  h += `<span class="toggle-lbl">视图：</span>`;
+  h += `<button class="flow-toggle-btn active" id="rankTab1Btn" onclick="(function(){var b1=document.getElementById('rankTab1'),b2=document.getElementById('rankTab2'),b3=document.getElementById('rankTab3');if(b1)b1.style.display='';if(b2)b2.style.display='none';if(b3)b3.style.display='none';document.getElementById('rankTab1Btn').classList.add('active');document.getElementById('rankTab2Btn').classList.remove('active');document.getElementById('rankTab3Btn').classList.remove('active');})();">🏆 综合排名 TOP10</button>`;
+  h += `<button class="flow-toggle-btn" id="rankTab2Btn" onclick="(function(){var b1=document.getElementById('rankTab1'),b2=document.getElementById('rankTab2'),b3=document.getElementById('rankTab3');if(b1)b1.style.display='none';if(b2)b2.style.display='';if(b3)b3.style.display='none';document.getElementById('rankTab1Btn').classList.remove('active');document.getElementById('rankTab2Btn').classList.add('active');document.getElementById('rankTab3Btn').classList.remove('active');})();">🎯 段位龙头</button>`;
+  const riskCount = allStocks.filter(s => s.fit.risk).length;
+  h += `<button class="flow-toggle-btn" id="rankTab3Btn" onclick="(function(){var b1=document.getElementById('rankTab1'),b2=document.getElementById('rankTab2'),b3=document.getElementById('rankTab3');if(b1)b1.style.display='none';if(b2)b2.style.display='none';if(b3)b3.style.display='';document.getElementById('rankTab1Btn').classList.remove('active');document.getElementById('rankTab2Btn').classList.remove('active');document.getElementById('rankTab3Btn').classList.add('active');})();">⚠️ 风险预警 (${riskCount})</button>`;
+  h += `</div>`;
+
+  // ===== Tab1: 综合排名 TOP10 =====
+  h += `<div id="rankTab1">`;
+  h += `<table class="stock-tbl" style="font-size:12px;"><colgroup><col style="width:8%"><col style="width:18%"><col style="width:9%"><col style="width:30%"><col style="width:12%"><col style="width:13%"><col style="width:10%"></colgroup>`;
+  h += `<thead><tr><th>#</th><th>个股</th><th>代码</th><th>段位</th><th>综合分</th><th>档位</th><th>壁垒</th></tr></thead><tbody>`;
+  top10.forEach((s, i) => {
+    h += `<tr><td><span class="rank-num">${i + 1}</span></td>`;
+    h += `<td class="s-name">${s.name}</td>`;
+    h += `<td class="s-code">${s.code}</td>`;
+    h += `<td style="font-size:11px;color:var(--muted);">${s.segmentName}${s.choke ? ' 🔒' : ''}</td>`;
+    h += `<td style="font-weight:700;color:${scoreColor(s.fit.score)};">${s.fit.score}</td>`;
+    h += `<td><span class="tag ${tierCls(s.fit.tier)}" style="font-size:10px;">${s.fit.tier}</span></td>`;
+    h += `<td><span class="tag ${barrierCls(s.barrier)}" style="font-size:10px;">${s.barrier || '—'}</span></td>`;
+    h += `</tr>`;
+  });
+  h += `</tbody></table></div>`;
+
+  // ===== Tab2: 段位龙头（每 segment 取综合分第一） =====
+  const segmentGroups = {};
+  allStocks.forEach(s => {
+    if (!segmentGroups[s.segmentName] || s.fit.score > segmentGroups[s.segmentName].fit.score) {
+      segmentGroups[s.segmentName] = s;
+    }
+  });
+  h += `<div id="rankTab2" style="display:none;">`;
+  h += `<table class="stock-tbl" style="font-size:12px;"><colgroup><col style="width:35%"><col style="width:15%"><col style="width:20%"><col style="width:15%"><col style="width:15%"></colgroup>`;
+  h += `<thead><tr><th>段位</th><th>代码</th><th>龙头</th><th>综合分</th><th>档位</th></tr></thead><tbody>`;
+  Object.entries(segmentGroups).forEach(([segName, s]) => {
+    h += `<tr><td style="font-size:11px;color:var(--text);font-weight:500;">${segName}${s.choke ? ' 🔒' : ''}</td>`;
+    h += `<td class="s-code">${s.code}</td>`;
+    h += `<td class="s-name">${s.name}</td>`;
+    h += `<td style="font-weight:700;color:${scoreColor(s.fit.score)};">${s.fit.score}</td>`;
+    h += `<td><span class="tag ${tierCls(s.fit.tier)}" style="font-size:10px;">${s.fit.tier}</span></td>`;
+    h += `</tr>`;
+  });
+  h += `</tbody></table></div>`;
+
+  // ===== Tab3: 风险预警（risk:true 的 stock） =====
+  const riskStocks = allStocks.filter(s => s.fit.risk);
+  h += `<div id="rankTab3" style="display:none;">`;
+  if (riskStocks.length === 0) {
+    h += `<div style="padding:16px;background:var(--card2);border-left:3px solid var(--color-bull);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;">✅ 当前所有 stock 综合分无 risk 门控触发——估值和壁垒均 ≥2。</div>`;
+  } else {
+    h += `<div style="padding:8px 12px;margin-bottom:10px;background:rgba(248,81,73,0.08);border-left:3px solid var(--color-risk);border-radius:0 4px 4px 0;font-size:12px;color:var(--color-risk);font-weight:600;">⚠️ 以下 ${riskStocks.length} 只 stock 估值或壁垒 ≤1，综合分被封顶 60 + 标 risk——基本面存在结构性短板</div>`;
+    h += `<table class="stock-tbl" style="font-size:12px;"><colgroup><col style="width:8%"><col style="width:18%"><col style="width:9%"><col style="width:30%"><col style="width:12%"><col style="width:13%"><col style="width:10%"></colgroup>`;
+    h += `<thead><tr><th>#</th><th>个股</th><th>代码</th><th>段位</th><th>综合分</th><th>档位</th><th>短板维度</th></tr></thead><tbody>`;
+    riskStocks.forEach((s, i) => {
+      const weakDims = s.dims6.filter(d => d.score <= 1).map(d => d.key);
+      const weakText = weakDims.length > 0 ? weakDims.join('+') : '—';
+      h += `<tr><td><span class="rank-num">${i + 1}</span></td>`;
+      h += `<td class="s-name" style="color:var(--color-risk);">${s.name}</td>`;
+      h += `<td class="s-code">${s.code}</td>`;
+      h += `<td style="font-size:11px;color:var(--muted);">${s.segmentName}</td>`;
+      h += `<td style="font-weight:700;color:var(--color-risk);">${s.fit.score}</td>`;
+      h += `<td><span class="tag tg-extreme" style="font-size:10px;">${s.fit.tier}</span></td>`;
+      h += `<td style="font-size:11px;color:var(--color-risk);font-weight:600;">${weakText}</td>`;
+      h += `</tr>`;
+    });
+    h += `</tbody></table>`;
+  }
+  h += `</div>`;  // rankTab3 闭合
+
+  h += `</div>`;  // 卡片闭合
+  return h;
+}
+
 function renderChain(chainId) {
   const d = CHAINS[chainId];
   const container = document.getElementById('chain-content');
@@ -2188,6 +2297,10 @@ function renderChain(chainId) {
 
     h += `</div>`;
   }
+
+  // ★ commit 4.66：基本面质量横向排名榜（综合排名 / 段位龙头 / 风险预警 三视图）
+  //   位于持仓管理下方、信号C TOP3 之前——形成 持仓风险 → 基本面质量 → 信号触发  3 段递进
+  h += renderStockRankingPanel(chainId);
 
   // ★ commit 4.50：信号C TOP3 独立化（即将触发 TOP3 · 总距离最小 3 只 · 紧跟 section 标题）
   h += renderSignalCTopList(chainId);
