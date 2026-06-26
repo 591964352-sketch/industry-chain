@@ -35,7 +35,9 @@
   .header h1 { font-size: 20px; font-weight: 800; }
 
   /* Main content area */
-  .main-area { flex: 1; min-width: 0; }
+  .main-area { flex: 1; min-width: 0; padding-right: 20px; transition: padding-right 0.3s ease; }
+  /* ★ commit 4.65：浮动变更面板展开时主内容区让出 200px（避免遮挡核心逻辑列） */
+  .main-area.changelog-open { padding-right: 220px; }
 
   /* Sections */
   .section { margin-bottom: 56px; scroll-margin-top: 70px; }   /* ★ commit 4.6：section 间距 44→56 */
@@ -248,6 +250,8 @@
     .sidebar-nav .nav-item { font-size: 11px; padding: 6px 10px; border-left: none; border-radius: 6px; white-space: nowrap; }
     .sidebar-nav .nav-item.active { border-left: none; background: rgba(240,185,11,0.15); }
     .main-area { width: 100%; }
+    /* ★ commit 4.65：移动端面板 display:none → 不预留 padding-right */
+    .main-area, .main-area.changelog-open { padding-right: 12px !important; }
     .container { padding: 10px 12px; }
     .header { padding: 20px 12px 18px; }
     .header h1 { font-size: 16px; }
@@ -3458,7 +3462,9 @@ function renderChain(chainId) {
     h += `<div class="section-body">`;
     h += `<div class="section-desc">${d.midstream.description}</div>`;
     const midSegTitle = d.id === 'pcb' ? '🏭 PCB 制造 — 充分竞争，但龙头强者恒强' : d.id === 'ai-server' ? '🏭 AI服务器整机制造 — ODM/OEM充分竞争' : d.id === 'autonomous-driving' ? '🚗 Tier1/整车集成 — 格局分散' : d.id === 'cpo' ? '📡 光模块制造 — 龙头强势但非寡头' : '🏭 ' + d.name + '中游 — 充分竞争';
-    h += `<div class="segment-card"><div class="seg-title">${midSegTitle}</div>`;
+    // ★ commit 4.65：中游精简视图标注（上游 7 列含「定位」+「四问命中」，中游 5 列无·视觉差异说明）
+    const midStreamNote = ' <span style="font-size:11px;color:var(--muted);font-weight:500;">⬇ 精简视图（总览层·无段位细分）</span>';
+    h += `<div class="segment-card"><div class="seg-title">${midSegTitle}${midStreamNote}</div>`;
     if (d.id === 'pcb') {
       h += `<div class="seg-meta"><span>全球厂商: <strong>>100家</strong></span><span>CR5: <strong><30%</strong></span><span>A股上市: <strong>30+家</strong></span><span>卡口判定: <span class="tag tg-gray">无物理卡口</span></span></div>`;
     } else {
@@ -3611,6 +3617,21 @@ function toggleChangelog() {
   const toggle = document.getElementById('cl-toggle');
   panel.classList.toggle('collapsed');
   toggle.classList.toggle('hidden');
+  // ★ commit 4.65：面板状态变化时同步主内容区 padding-right
+  syncChangelogPadding();
+}
+
+// ★ commit 4.65：浮动变更面板状态同步到主内容区 padding-right
+//   解决面板展开时遮挡核心逻辑列的问题（200px 重叠）
+function syncChangelogPadding() {
+  const panel = document.getElementById('changelog-panel');
+  const main = document.querySelector('.main-area');
+  if (!panel || !main) return;
+  if (panel.classList.contains('collapsed')) {
+    main.classList.remove('changelog-open');
+  } else {
+    main.classList.add('changelog-open');
+  }
 }
 
 function renderChangelog() {
@@ -3668,6 +3689,8 @@ function renderChangelog() {
 
   toggle.classList.remove('hidden');
   document.getElementById('changelog-panel').classList.remove('collapsed');
+  // ★ commit 4.65：页面初始化时同步主内容区 padding（避免初次渲染时面板遮挡）
+  syncChangelogPadding();
 
   list.innerHTML = recentChanges.map(c => {
     // ★ commit 4.10：git 来源 pct=NEW（非 up/down）→ dir=null；内置 CHANGELOG 按 pct 字符判断
