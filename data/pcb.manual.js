@@ -80,10 +80,10 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 },
 
-    '002384': { code:'002384', name:'东山精密', rank:3, barrier:'中', tier:'primary',
-      position:'边缘AI设备PCB全球第一(2025市占26.9%)·全球PCB前3(市占4.2%)·FPC软板全球第二(市占24.5%)·含光模块业务(索尔思光电 IDM 国内唯一 200G EML)',
+    '002384': { code:'002384', name:'东山精密', rank:3, barrier:'极高', tier:'primary',
+      position:'边缘AI设备PCB全球第一(2025市占26.9%)·全球PCB前3(市占4.2%)·FPC软板全球第二(市占24.5%)·含光模块业务(索尔思光电 IDM 国内唯一 200G EML)+ FPC全球第二·苹果/特斯拉/英伟达三大认证·全球唯一光模块+AI PCB双能力',
       investable:true, region:'国内',
-      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
+      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'2026Q1/2025年报+Prismark', valAsOf:'2026-06-22', trend:'up', trendNote:'28层GB200+32层GB300·1.6T光模块·Meta自研背板·Rubin样品·Q1+143%',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}] ,
       fundamentals: {
@@ -947,10 +947,10 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 },
 
-    '688183': { code:'688183', name:'生益电子', rank:6, barrier:'高', tier:'primary',
-      position:'AI服务器PCB黑马·生益科技子公司',
+    '688183': { code:'688183', name:'生益电子', rank:6, barrier:'极高', tier:'primary',
+      position:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证',
       investable:true, region:'国内',
-      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
+      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'净利+5倍',
       segments:[{idx:'midstream',name:'中游'}] ,
       fundamentals: {
