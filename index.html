@@ -11,7 +11,7 @@
     --bg: #0f1117; --card: #1a1d27; --card2: #1f2233; --border: #2a2d3a;
     --text: #e1e4eb; --muted: #8b8fa3; --accent: #f0b90b;
     --green: #0ecb81; --red: #f6465d; --blue: #3b82f6; --purple: #a855f7;
-    --barrier-extreme: #f6465d; --barrier-high: #f97316; --barrier-mid: #eab308; --barrier-low: #6b7280;
+    --color-bull:#3fb950; --color-warn:#d29922; --color-risk:#f85149; --color-data:#58a6ff; --color-signal:#bc8cff; --color-muted:#8b949e; --bg-base:#0d1117; --bg-card:#161b22; --bg-hover:#1c2128; --border-dim:#30363d;
     /* ★ commit 4.6：4 档语义色（tag 系统限定使用）— 绿=买入/低估/趋势向上；红=风险/高估/亏损；黄橙=待核/中性；灰=注释/次要 */
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,7 +22,7 @@
 
   /* Sidebar */
   .sidebar { width: 230px; min-width: 230px; height: 100vh; position: sticky; top: 0; background: var(--card); border-right: 1px solid var(--border); padding: 20px 0; overflow-y: auto; display: flex; flex-direction: column; z-index: 100; }
-  .sidebar-title { font-size: 17px; font-weight: 800; padding: 8px 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 8px; color: var(--text); letter-spacing: 1px; }
+  .sidebar-title { font-size: 16px; font-weight: 800; padding: 8px 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 8px; color: var(--text); letter-spacing: 1px; }
   .sidebar-nav { flex: 1; overflow-y: auto; padding: 4px 0; }
   .sidebar-nav .nav-item { display: block; padding: 10px 20px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; transition: all 0.15s; }
   .sidebar-nav .nav-item:hover { color: var(--text); background: rgba(240,185,11,0.04); border-left-color: rgba(240,185,11,0.3); }
@@ -32,21 +32,21 @@
 
   /* Header */
   .header { text-align: center; padding: 48px 24px 36px; margin-bottom: 24px; background: linear-gradient(180deg, rgba(240,185,11,0.05) 0%, transparent 100%); border-bottom: 1px solid var(--border); }
-  .header h1 { font-size: 32px; font-weight: 800; }
+  .header h1 { font-size: 20px; font-weight: 800; }
 
   /* Main content area */
   .main-area { flex: 1; min-width: 0; }
 
   /* Sections */
   .section { margin-bottom: 56px; scroll-margin-top: 70px; }   /* ★ commit 4.6：section 间距 44→56 */
-  .section-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .section-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
   .section-title .num { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; font-size: 15px; font-weight: 700; }
   .section-desc { color: var(--muted); font-size: 13px; margin-bottom: 22px; margin-left: 44px; }
-  .num-plain{background:rgba(59,130,246,0.15);color:var(--blue)}.num-macro{background:rgba(168,85,247,0.15);color:var(--purple)}.num-chain{background:rgba(240,185,11,0.15);color:var(--accent)}.num-up{background:rgba(246,70,93,0.15);color:var(--red)}.num-mid{background:rgba(249,115,22,0.15);color:var(--barrier-high)}.num-ser{background:rgba(168,85,247,0.15);color:var(--purple)}.num-result{background:rgba(14,203,129,0.15);color:var(--green)}
+  .num-plain{background:rgba(59,130,246,0.15);color:var(--blue)}.num-macro{background:rgba(168,85,247,0.15);color:var(--purple)}.num-chain{background:rgba(240,185,11,0.15);color:var(--accent)}.num-up{background:rgba(246,70,93,0.15);color:var(--red)}.num-mid{background:rgba(210,153,34,0.15);color:var(--color-warn)}.num-ser{background:rgba(168,85,247,0.15);color:var(--purple)}.num-result{background:rgba(14,203,129,0.15);color:var(--green)}
 
   /* Cards */
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 24px; }   /* ★ commit 4.6：card 间距 18→24 */
-  .card-header { font-size: 17px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .card-header { font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
   /* Plain intro */
   .plain-box { background: linear-gradient(135deg, rgba(59,130,246,0.05) 0%, rgba(168,85,247,0.03) 100%); border: 1px solid rgba(59,130,246,0.18); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
@@ -61,7 +61,7 @@
   .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }   /* ★ commit 4.6：grid gap 14→24 */
   .overview-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; }
   .overview-item .label { font-size: 11px; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 8px; }
-  .overview-item .value { font-size: 24px; font-weight: 500; }   /* ★ commit 4.6：关键数字 20→24px / 700→500 */
+  .overview-item .value { font-size: 20px; font-weight: 500; }   /* ★ commit 4.6：关键数字 20→24px / 700→500 */
 
   /* Tree */
   .tree-wrapper { overflow-x: auto; padding: 30px 0; }
@@ -74,11 +74,11 @@
   .tree-hline { height: 2px; background: var(--border); margin: 0 auto; border-radius: 2px; }
   .tree-sub-node { padding: 9px 18px; border-radius: 8px; font-size: 12px; font-weight: 500; border: 1.5px solid var(--border); background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%); text-align: center; transition: all 0.2s; }
   .tree-sub-node:hover { transform: translateY(-1px); box-shadow: 0 3px 12px rgba(0,0,0,0.2); }
-  .b-extreme { border-color: var(--barrier-extreme) !important; box-shadow: 0 0 16px rgba(246,70,93,0.18); }
-  .b-extreme:hover { box-shadow: 0 0 24px rgba(246,70,93,0.28); }
-  .b-high { border-color: var(--barrier-high) !important; }
-  .b-mid { border-color: var(--barrier-mid) !important; }
-  .b-low { border-color: var(--barrier-low) !important; }
+  .b-extreme { border-color: var(--color-risk) !important; box-shadow: 0 0 16px rgba(248,81,73,0.18); }
+  .b-extreme:hover { box-shadow: 0 0 24px rgba(248,81,73,0.28); }
+  .b-high { border-color: var(--color-warn) !important; }
+  .b-mid { border-color: var(--color-data) !important; }
+  .b-low { border-color: var(--color-muted) !important; }
   .b-choke { border-color: var(--accent) !important; box-shadow: 0 0 20px rgba(240,185,11,0.25); animation: chokeGlow 2.5s ease-in-out infinite; }
   @keyframes chokeGlow {
     0%, 100% { box-shadow: 0 0 16px rgba(240,185,11,0.18); }
@@ -93,7 +93,7 @@
   .flow-canvas { display:flex; align-items:stretch; gap:0; padding:16px 8px; overflow-x:auto; background:linear-gradient(135deg, rgba(240,185,11,0.03) 0%, transparent 100%); border-radius:8px; }
   .flow-col { flex:1; min-width:180px; display:flex; flex-direction:column; gap:10px; padding:0 6px; }
   .flow-col-title { font-size:11px; font-weight:700; color:var(--muted); text-align:center; padding:6px 0; letter-spacing:0.5px; border-bottom:1px solid var(--border); margin-bottom:4px; }
-  .flow-col-title.up { color:var(--barrier-high); }
+  .flow-col-title.up { color:var(--color-bull); }
   .flow-col-title.mid { color:var(--blue); }
   .flow-col-title.down { color:var(--green); }
   .flow-col-title.side { color:var(--purple); }
@@ -102,13 +102,13 @@
   .flow-arrow.down::before { content:'↓'; }
   .flow-node { padding:10px 12px; border-radius:8px; border:1.5px solid var(--border); background:var(--card); cursor:pointer; transition:all 0.2s; position:relative; font-size:12px; }
   .flow-node:hover { transform:translateY(-1px); box-shadow:0 3px 12px rgba(0,0,0,0.25); }
-  .flow-node.b-extreme { border-color:var(--barrier-extreme); background:linear-gradient(135deg, rgba(246,70,93,0.08) 0%, var(--card) 100%); }
-  .flow-node.b-high { border-color:var(--barrier-high); background:linear-gradient(135deg, rgba(249,115,22,0.08) 0%, var(--card) 100%); }
-  .flow-node.b-mid { border-color:var(--barrier-mid); background:linear-gradient(135deg, rgba(234,179,8,0.06) 0%, var(--card) 100%); }
-  .flow-node.b-low { border-color:var(--barrier-low); }
+  .flow-node.b-extreme { border-color:var(--color-risk); background:linear-gradient(135deg, rgba(248,81,73,0.08) 0%, var(--card) 100%); }
+  .flow-node.b-high { border-color:var(--color-warn); background:linear-gradient(135deg, rgba(210,153,34,0.08) 0%, var(--card) 100%); }
+  .flow-node.b-mid { border-color:var(--color-data); background:linear-gradient(135deg, rgba(88,166,255,0.06) 0%, var(--card) 100%); }
+  .flow-node.b-low { border-color:var(--color-muted); }
   .flow-node-name { font-weight:600; font-size:13px; color:var(--text); margin-bottom:4px; display:flex; align-items:center; gap:4px; }
-  .flow-node-choke { position:absolute; top:-6px; right:-6px; background:var(--barrier-extreme); color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:10px; box-shadow:0 0 8px rgba(246,70,93,0.5); }
-  .flow-node-gap { font-size:11px; color:var(--barrier-extreme); font-weight:600; margin-top:4px; }
+  .flow-node-choke { position:absolute; top:-6px; right:-6px; background:var(--color-risk); color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:10px; box-shadow:0 0 8px rgba(248,81,73,0.5); }
+  .flow-node-gap { font-size:11px; color:var(--color-risk); font-weight:600; margin-top:4px; }
   .flow-node-stocks { font-size:11px; color:var(--muted); margin-top:4px; line-height:1.5; }
   .flow-node-stocks .choke-stock { color:var(--accent); font-weight:600; }
   .flow-node-expand { display:none; margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); }
@@ -131,7 +131,7 @@
   .freshness-bar { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); padding: 6px 0; }
   .freshness-dot { width: 8px; height: 8px; border-radius: 50%; }
   .freshness-dot.fresh { background: var(--green); box-shadow: 0 0 6px rgba(14,203,129,0.5); }
-  .freshness-dot.stale { background: var(--barrier-high); }
+  .freshness-dot.stale { background: var(--color-warn); }
   /* 右侧浮动变更面板 */
   .changelog-panel { position: fixed; right: 0; top: 80px; width: 280px; max-height: 70vh; background: var(--card); border: 1px solid var(--border); border-right: none; border-radius: 12px 0 0 12px; box-shadow: -4px 4px 24px rgba(0,0,0,0.4); z-index: 200; overflow-y: auto; transition: transform 0.3s ease; }
   .changelog-panel.collapsed { transform: translateX(260px); }
@@ -151,17 +151,17 @@
   .cl-toggle.hidden { transform: translateX(300px); }
   .cl-toggle .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; animation: chokeGlow 2s ease-in-out infinite; margin-right: 4px; }
   .badge-b { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; margin-left: 4px; }
-  .badge-ex { background: rgba(246,70,93,0.15); color: var(--barrier-extreme); }
-  .badge-hi { background: rgba(249,115,22,0.15); color: var(--barrier-high); }
-  .badge-mi { background: rgba(234,179,8,0.15); color: var(--barrier-mid); }
-  .badge-lo { background: rgba(107,114,128,0.15); color: var(--barrier-low); }
+  .badge-ex { background: rgba(248,81,73,0.15); color: var(--color-risk); }
+  .badge-hi { background: rgba(210,153,34,0.15); color: var(--color-warn); }
+  .badge-mi { background: rgba(88,166,255,0.15); color: var(--color-data); }
+  .badge-lo { background: rgba(139,148,158,0.15); color: var(--color-muted); }
   .legend-bar { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-top: 18px; font-size: 12px; color: var(--muted); }
   .legend-bar span { display: flex; align-items: center; gap: 5px; }
   .legend-bar .dot { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
 
   /* Segment card */
   .segment-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 24px; }   /* ★ commit 4.6：segment 间距 20→24 */
-  .segment-card .seg-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .segment-card .seg-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
   .segment-card .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px; }   /* ★ commit 4.6：info-grid gap 12→16 */
   .segment-card .seg-meta { font-size: 12px; color: var(--muted); margin-bottom: 16px; display: flex; gap: 20px; flex-wrap: wrap; }
   .segment-card h4 { font-size: 14px; font-weight: 600; color: var(--text); margin: 18px 0 10px; padding-left: 10px; border-left: 3px solid var(--border); }
@@ -186,7 +186,7 @@
 
   .tag { display: inline-block; font-size: 12px; padding: 3px 9px; border-radius: 4px; font-weight: 600; }
   /* ★ commit 4.6：tag 字号 10→12，4 档语义色固定（蓝已统一为黄 tg-mid · 4 档：绿/红/黄橙/灰）*/
-  .tg-extreme{background:rgba(246,70,93,0.15);color:var(--red)}.tg-high{background:rgba(249,115,22,0.15);color:var(--barrier-high)}.tg-mid{background:rgba(234,179,8,0.15);color:var(--barrier-mid)}.tg-green{background:rgba(14,203,129,0.15);color:var(--green)}.tg-blue{background:rgba(234,179,8,0.15);color:var(--barrier-mid)}.tg-gray{background:rgba(107,114,128,0.12);color:var(--barrier-low)}
+  .tg-extreme{background:rgba(248,81,73,0.15);color:var(--color-risk)}.tg-high{background:rgba(210,153,34,0.15);color:var(--color-warn)}.tg-mid{background:rgba(88,166,255,0.15);color:var(--color-data)}.tg-green{background:rgba(63,185,80,0.15);color:var(--color-bull)}.tg-blue{background:rgba(88,166,255,0.15);color:var(--color-data)}.tg-gray{background:rgba(139,148,158,0.12);color:var(--color-muted)}
 
   /* Four question table */
   .fourq-wrap { overflow-x: auto; }
@@ -199,16 +199,16 @@
   .fourq-tbl .fail { color: var(--red); font-weight: 700; font-size: 14px; }
   .fourq-tbl .seg-div td { background: rgba(168,85,247,0.05); color: var(--purple); font-weight: 700; font-size: 12px; text-align: left !important; padding: 12px 8px; border-bottom: 1px solid rgba(168,85,247,0.15); }
   .hit-dot { display: inline-block; width: 28px; height: 28px; line-height: 28px; border-radius: 50%; font-weight: 700; font-size: 13px; }
-  .h4{background:rgba(14,203,129,0.15);color:var(--green)}.h3{background:rgba(234,179,8,0.15);color:var(--barrier-mid)}.h2{background:rgba(107,114,128,0.12);color:var(--muted)}.h1{background:rgba(107,114,128,0.1);color:var(--barrier-low)}.h0{background:rgba(246,70,93,0.08);color:var(--red)}
+  .h4{background:rgba(63,185,80,0.15);color:var(--color-bull)}.h3{background:rgba(88,166,255,0.15);color:var(--color-data)}.h2{background:rgba(139,148,158,0.12);color:var(--color-muted)}.h1{background:rgba(139,148,158,0.1);color:var(--color-muted)}.h0{background:rgba(248,81,73,0.08);color:var(--color-risk)}
   .stars { font-size: 14px; letter-spacing: 1px; }
-  .s3{color:var(--accent)}.s2{color:var(--barrier-mid)}
+  .s3{color:var(--accent)}.s2{color:var(--color-data)}
 
   /* Choke cards */
   .choke-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; min-width: 0; }   /* ★ commit 4.6：choke-grid gap 18→24 */
   .choke-card { background: var(--card); border: 1px solid rgba(240,185,11,0.35); border-radius: 12px; padding: 24px; position: relative; box-shadow: 0 0 24px rgba(240,185,11,0.06); min-width: 0; overflow: hidden; }
   /* 升级 1.4：rank 改为 h3 内部 inline block（彻底消除与 verify-overall 徽章的 z-index 冲突） */
   .choke-card .rank { display: inline-block; background: var(--accent); color: #000; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; margin-right: 10px; vertical-align: middle; }
-  .choke-card h3 { font-size: 24px; font-weight: 600; margin-bottom: 4px; }   /* ★ commit 4.6：标题 22→24px / 700→600 */
+  .choke-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }   /* ★ commit 4.6：标题 22→24px / 700→600 */
   .choke-card .code { font-size: 11px; color: var(--muted); margin-bottom: 12px; }   /* ★ commit 4.6：注释 13→11px · commit 4.8：删 font-family */
   .choke-card .seg { font-size: 12px; color: var(--accent); margin-bottom: 12px; font-weight: 600; }
   .choke-card .logic { font-size: 13px; line-height: 1.8; color: var(--text); margin-bottom: 14px; word-break: break-word; overflow-wrap: anywhere; }
@@ -242,15 +242,15 @@
     .main-area { width: 100%; }
     .container { padding: 10px 12px; }
     .header { padding: 20px 12px 18px; }
-    .header h1 { font-size: 19px; }
+    .header h1 { font-size: 16px; }
     .header .subtitle { font-size: 12px; }
     .overview-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
     .overview-item { padding: 12px 10px; }
     .overview-item .value { font-size: 16px; }
     .choke-grid { grid-template-columns: 1fr; }
     .choke-card { padding: 16px; }
-    .choke-card h3 { font-size: 18px; }
-    .section-title { font-size: 17px; }
+    .choke-card h3 { font-size: 16px; }
+    .section-title { font-size: 16px; }
     .section { margin-bottom: 28px; }
     .card { padding: 14px; }
     .segment-card { padding: 16px; }
@@ -287,7 +287,7 @@
   /* Small phone: <= 480px */
   @media (max-width: 480px) {
     .sidebar-nav .nav-item { font-size: 10px; padding: 5px 7px; }
-    .header h1 { font-size: 17px; }
+    .header h1 { font-size: 16px; }
     .overview-grid { grid-template-columns: 1fr 1fr; gap: 5px; }
     .overview-item { padding: 8px 6px; }
     .overview-item .value { font-size: 13px; }
@@ -312,11 +312,11 @@
   .tree-legend-sticky { position: sticky; top: 0; z-index: 5; background: var(--card); padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; font-size: 11px; color: var(--muted); }
   .tree-legend-sticky span { display: flex; align-items: center; gap: 5px; }
   .tree-legend-sticky .dot { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
-  .tree-sub-card { padding: 10px 12px; background: var(--card2); border-radius: 8px; border-left: 3px solid var(--barrier-low); transition: all 0.2s; }
+  .tree-sub-card { padding: 10px 12px; background: var(--card2); border-radius: 8px; border-left: 3px solid var(--color-muted); transition: all 0.2s; }
   .tree-sub-card:hover { transform: translateY(-1px); box-shadow: 0 3px 12px rgba(0,0,0,0.2); }
-  .tree-sub-card.b-extreme { border-left-color: var(--barrier-extreme); }
-  .tree-sub-card.b-high { border-left-color: var(--barrier-high); }
-  .tree-sub-card.b-mid { border-left-color: var(--barrier-mid); }
+  .tree-sub-card.b-extreme { border-left-color: var(--color-risk); }
+  .tree-sub-card.b-high { border-left-color: var(--color-warn); }
+  .tree-sub-card.b-mid { border-left-color: var(--color-data); }
   .tree-sub-header { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; font-size: 12px; }
   .tree-sub-note { font-size: 10.5px; color: var(--muted); line-height: 1.5; margin: 4px 0 6px; }
   .tree-sub-mini-tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
@@ -407,7 +407,7 @@
 
   /* (B2-3) 决策卡片库装饰性橙色 → 金（警示语义保留，但避开与 barrier-high 同色混淆）
    *        L1375 "买入即写死"提示 / L1455 "卖出条件"label 都是装饰橙，与 barrier-high 无语义关系 */
-  [style*="border-left:3px solid var(--barrier-high)"][style*="rgba(249,115,22"] {
+  [style*="border-left:3px solid var(--color-warn)"][style*="rgba(210,153,34"] {
     background: rgba(240, 185, 11, 0.10) !important;
     border-left-color: var(--accent) !important;
     color: var(--accent) !important;
@@ -441,7 +441,7 @@
   .src-chip.t-primary  { color: var(--green);       border-color: rgba(14, 203, 129, 0.30); background: rgba(14, 203, 129, 0.08); }
   .src-chip.t-broker   { color: var(--blue);        border-color: rgba(59, 130, 246, 0.30); background: rgba(59, 130, 246, 0.08); }
   .src-chip.t-media    { color: var(--muted);       border-color: rgba(139, 143, 163, 0.30); background: rgba(139, 143, 163, 0.08); }
-  .src-chip.t-estimate { color: var(--barrier-mid); border-color: rgba(234, 179, 8, 0.30); background: rgba(234, 179, 8, 0.08); }
+  .src-chip.t-estimate { color: var(--color-warn); border-color: rgba(210, 153, 34, 0.30); background: rgba(210, 153, 34, 0.08); }
   /* hover 加深背景一档，强化"可悬浮看来源"的可发现性 */
   .src-chip.t-primary:hover  { background: rgba(14, 203, 129, 0.18); }
   .src-chip.t-broker:hover   { background: rgba(59, 130, 246, 0.18); }
@@ -844,7 +844,7 @@ const SOURCE_TIERS = {
   primary:  { icon:'🟢', label:'一手',  color:'var(--green)',       desc:'财报/公告/交易所一手数据' },
   broker:   { icon:'🔵', label:'券商',  color:'var(--blue)',        desc:'券商研报/Prismark/行业协会' },
   media:    { icon:'⚪', label:'存疑',  color:'var(--muted)',       desc:'自媒体/财富号（仅此单一来源，待核）' },
-  estimate: { icon:'🆪', label:'推断',  color:'var(--barrier-mid)', desc:'AI 主观推断（如六维评分）' }
+  estimate: { icon:'🆪', label:'推断',  color:'var(--color-warn)', desc:'AI 主观推断（如六维评分）' }
 };
 
 // 角标助手：item.tier 缺省时返回空字符串，不影响既有数据点的渲染（向后兼容）
@@ -1199,7 +1199,7 @@ function renderFundamentalsBlock(code) {
       : '<span style="color:var(--muted);">—</span>';
 
   // ⑥ 数据期 + 数据来源（akshare⚪单源待核）— 改动3：移入基本面质量折叠区内
-  const asOfHtml = `<span style="color:var(--barrier-low);font-size:10px;" title="${f.source || 'akshare'}">${f.asOf} · akshare⚪单源待核</span>`;
+  const asOfHtml = `<span style="color:var(--color-muted);font-size:10px;" title="${f.source || 'akshare'}">${f.asOf} · akshare⚪单源待核</span>`;
 
   // ★ commit 4.41：默认折叠 · summary 显示最关键 2 个数字（ROE + 毛利率）
   return `
@@ -1309,7 +1309,7 @@ function renderMacroDashboard() {
     ? `<div style="margin-top:10px;padding:8px 10px;background:rgba(240,185,11,0.06);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:11px;color:var(--text);line-height:1.6;">📝 ${macro.summary}</div>`
     : '';
   const asOfHtml = macro.asOf
-    ? `<span style="color:var(--barrier-low);font-size:10px;" title="产业链景气度数据期">📅 ${macro.asOf}${macro.updatedBy ? ' · ' + macro.updatedBy : ''}</span>`
+    ? `<span style="color:var(--color-muted);font-size:10px;" title="产业链景气度数据期">📅 ${macro.asOf}${macro.updatedBy ? ' · ' + macro.updatedBy : ''}</span>`
     : '';
 
   // ★ commit 4.41：默认只显示 summary · 5 维度折叠展开（详情面板）
@@ -1455,7 +1455,7 @@ function renderChain(chainId) {
   // ★ 升级九 STEP 4 小步 1：容错 guard — 数据未加载时显示提示而非白屏（之前是 if (!d) return; 静默 return）
   if (!d) {
     if (container) container.innerHTML = `<div class="card" style="padding:32px;text-align:center;border-left:3px solid var(--red);margin-top:20px;">
-      <h3 style="margin-bottom:14px;color:var(--red);font-size:18px;">⚠️ 该赛道数据加载失败：<code style="font-size:16px;background:var(--card2);padding:2px 8px;border-radius:4px;">${chainId}</code></h3>
+      <h3 style="margin-bottom:14px;color:var(--red);font-size:16px;">⚠️ 该赛道数据加载失败：<code style="font-size:16px;background:var(--card2);padding:2px 8px;border-radius:4px;">${chainId}</code></h3>
       <p style="color:var(--muted);font-size:13px;line-height:1.9;">可能原因：<code>data/${chainId}.js</code> 文件 404 / 网络中断 / JS 语法错误。<br>
       <strong style="color:var(--text);">其它赛道照常运行</strong>（独立 &lt;script&gt; 互不连坐 — 升级九 STEP 4 的容错收益）。<br><br>
       试试：<a href="#pcb" style="color:var(--accent);">🔌 回到 PCB</a> · <a href="#arena" style="color:var(--accent);">🏟️ 赛道擂台</a> · <a href="#cards" style="color:var(--accent);">📋 决策卡片库</a><br><br>
@@ -1491,14 +1491,14 @@ function renderChain(chainId) {
     s.dims6.forEach(d6 => {
       const meta = META[d6.key] || {};
       const pct = Math.max(0, Math.min(100, (d6.score/5)*100));
-      const barColor = d6.score >= 4 ? 'var(--green)' : d6.score >= 3 ? 'var(--barrier-high)' : d6.score >= 2 ? 'var(--barrier-mid)' : 'var(--red)';
+      const barColor = d6.score >= 4 ? 'var(--green)' : d6.score >= 3 ? 'var(--color-warn)' : d6.score >= 2 ? 'var(--color-data)' : 'var(--red)';
       bars += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:11px;line-height:1.4;">`;
       bars += `<span style="width:68px;color:var(--muted);flex-shrink:0;">${meta.name || d6.key}${sourceTierBadge(d6.tier, d6.src)}</span>`;
       bars += `<div style="flex:1;min-width:50px;height:4px;background:var(--card2);border-radius:2px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${barColor};"></div></div>`;
       bars += `<span style="width:42px;text-align:right;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend, d6.score)}</span>`;
       bars += `</div>`;
     });
-    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;">${summaryRow}<div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}${s.valAsOf?`<div style="margin-top:4px;font-size:10px;color:var(--barrier-low);text-align:right;" title="估值判断时点">📅 截至 ${s.valAsOf.slice(5)}</div>`:''}</div></details>`;
+    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;">${summaryRow}<div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}${s.valAsOf?`<div style="margin-top:4px;font-size:10px;color:var(--color-muted);text-align:right;" title="估值判断时点">📅 截至 ${s.valAsOf.slice(5)}</div>`:''}</div></details>`;
   }
 
   // ===== ★ B4 六维雷达图（纯内联 SVG，0 依赖，复用 var(--accent) 金色描边+半透明填充）=====
@@ -1707,7 +1707,7 @@ function renderChain(chainId) {
       const fh = formatFromHigh(c.valuation.fromHigh);
       if (fh) parts.push(fh);
       h += `<div class="valuation" style="font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">`;
-      h += `<span>${parts.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}${c.valuation.asOf?` <span style="color:var(--barrier-low);font-size:10px;" title="估值/PE 截至日">📅 ${c.valuation.asOf}</span>`:''}</span>`;
+      h += `<span>${parts.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}${c.valuation.asOf?` <span style="color:var(--color-muted);font-size:10px;" title="估值/PE 截至日">📅 ${c.valuation.asOf}</span>`:''}</span>`;
       if (p !== null) {
         h += `<span class="tag ${cls}" style="font-size:10px;">${band} ${p.toFixed(1)}%分位</span>`;
       }
@@ -1818,19 +1818,19 @@ function renderChain(chainId) {
     h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
     h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">A 信号命中（壁垒高 + PE分位&lt;阈值 + 趋势向上）</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:${(st.A_total||0)>0?'var(--green)':'var(--muted)'};">${st.A_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.A_normal||0} · 成长赛道 ${st.A_growthAdj||0}）</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:${(st.A_total||0)>0?'var(--green)':'var(--muted)'};">${st.A_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.A_normal||0} · 成长赛道 ${st.A_growthAdj||0}）</span></div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">B 信号命中（命中卡口 + PE分位&lt;阈值 + 趋势非向下）</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:${(st.B_total||0)>0?'var(--green)':'var(--muted)'};">${st.B_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.B_normal||0} · 成长赛道 ${st.B_growthAdj||0}）</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:${(st.B_total||0)>0?'var(--green)':'var(--muted)'};">${st.B_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.B_normal||0} · 成长赛道 ${st.B_growthAdj||0}）</span></div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">基线可投卡口</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:var(--accent);">${sm.chokepointCodesCount||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:var(--accent);">${sm.chokepointCodesCount||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描被排除</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:var(--barrier-low);">${totalExcluded} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:var(--color-muted);">${totalExcluded} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
     h += `</div>`;
     h += `</div>`;
 
@@ -1845,7 +1845,7 @@ function renderChain(chainId) {
       h += `<div style="color:var(--muted);white-space:nowrap;">PE上限</div><div style="white-space:nowrap;">否</div>`;
       h += `</div></div>`;
 
-      h += `<div style="padding:12px 16px;background:var(--card2);border-radius:6px;margin-bottom:14px;border-left:3px solid var(--barrier-high);">`;
+      h += `<div style="padding:12px 16px;background:var(--card2);border-radius:6px;margin-bottom:14px;border-left:3px solid var(--color-warn);">`;
       h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">成长赛道通道 <span style="font-size:10px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
       h += `<div style="display:grid;grid-template-columns:80px 1fr;gap:6px 12px;font-size:12px;color:var(--text);line-height:1.8;">`;
       h += `<div style="color:var(--muted);white-space:nowrap;">信号 A</div><div style="white-space:nowrap;overflow-x:auto;">壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
@@ -1855,7 +1855,7 @@ function renderChain(chainId) {
     }
 
     if (totalHits === 0) {
-      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--barrier-mid);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
+      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--color-data);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
       h += `💡 当前 ${d.name} 板块暂无信号命中。`;
       h += `<br>主因：板块 PE 普遍处于历史高位，PE 分位回落至 50% 以下时将自动出现推荐标的。</div>`;
     } else {
@@ -1975,14 +1975,14 @@ function renderChain(chainId) {
   if (d.prosperity && d.prosperity.dims && d.prosperity.dims.length === 6) {
     const p = d.prosperity;
     const META = (typeof PROSPERITY_META !== 'undefined') ? PROSPERITY_META : {};
-    // ★ 调优 B：高分 flat 调色 — score≥4 flat 用 var(--barrier-high) 金 / 其余 flat 仍 muted 灰
+    // ★ 调优 B：高分 flat 调色 — score≥4 flat 用 var(--color-warn) 金 / 其余 flat 仍 muted 灰
     const arrowD = (t, sc) => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : '<span style="color:var(--muted);">→</span>';
     const lt = (typeof computeLtFit === 'function') ? computeLtFit(p) : null;
     h += `<div class="card" style="padding:20px;margin-top:18px;border-left:3px solid var(--accent);">`;
     h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">`;
     h += `<span>🆪 景气六维 — 长线适配度<span style="color:var(--muted);font-size:11px;margin-left:8px;font-weight:400;">（AI 主观判断 · 权重全站统一 · 横向可比 · 周一定时任务不刷数据截止日）</span></span>`;
     if (lt) {
-      h += `<span style="font-size:13px;">综合 <strong style="color:var(--accent);font-size:18px;">${lt.score}</strong>/100 ${lt.tier}${lt.risk?' <span style="color:var(--red);font-size:11px;">⚠安全垫不足</span>':''}</span>`;
+      h += `<span style="font-size:13px;">综合 <strong style="color:var(--accent);font-size:16px;">${lt.score}</strong>/100 ${lt.tier}${lt.risk?' <span style="color:var(--red);font-size:11px;">⚠安全垫不足</span>':''}</span>`;
     }
     h += `</div>`;
     // ★ B4：两列布局 — 左 mini-bar，右 SVG 六维雷达（移动端 .prosperity-radar-wrap 自动 display:none）
@@ -1991,7 +1991,7 @@ function renderChain(chainId) {
     p.dims.forEach(d6 => {
       const meta = META[d6.key] || {};
       const pct = Math.max(0, Math.min(100, (d6.score/5)*100));
-      const barColor = d6.score >= 4 ? 'var(--green)' : d6.score >= 3 ? 'var(--barrier-high)' : d6.score >= 2 ? 'var(--barrier-mid)' : 'var(--red)';
+      const barColor = d6.score >= 4 ? 'var(--green)' : d6.score >= 3 ? 'var(--color-warn)' : d6.score >= 2 ? 'var(--color-data)' : 'var(--red)';
       const scaleText = meta.scale ? Object.entries(meta.scale).map(([k,v])=>`<strong>${k}</strong>=${v}`).join('；') : '';
       h += `<div style="margin-bottom:10px;">`;
       h += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;font-size:13px;">`;
@@ -2041,7 +2041,7 @@ function renderChain(chainId) {
       let bg = 'var(--card2)', fg = 'var(--muted)';
       if (isCurrent) {
         if (s.key === 'recovery')      { bg = 'var(--green)';          fg = '#0f1117'; }
-        else if (s.key === 'boom')     { bg = 'var(--barrier-high)';   fg = '#0f1117'; }
+        else if (s.key === 'boom')     { bg = 'var(--color-warn)';   fg = '#0f1117'; }
         else if (s.key === 'peak')     { bg = 'rgba(246,70,93,0.4)';   fg = '#fff'; }
         else if (s.key === 'decline')  { bg = 'rgba(246,70,93,0.85)';  fg = '#fff'; }
       }
@@ -2090,19 +2090,19 @@ function renderChain(chainId) {
     h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
     h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">A 信号命中（壁垒高 + PE分位&lt;阈值 + 趋势向上）</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:${(st.A_total||0)>0?'var(--green)':'var(--muted)'};">${st.A_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.A_normal||0} · 成长赛道 ${st.A_growthAdj||0}）</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:${(st.A_total||0)>0?'var(--green)':'var(--muted)'};">${st.A_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.A_normal||0} · 成长赛道 ${st.A_growthAdj||0}）</span></div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">B 信号命中（命中卡口 + PE分位&lt;阈值 + 趋势非向下）</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:${(st.B_total||0)>0?'var(--green)':'var(--muted)'};">${st.B_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.B_normal||0} · 成长赛道 ${st.B_growthAdj||0}）</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:${(st.B_total||0)>0?'var(--green)':'var(--muted)'};">${st.B_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.B_normal||0} · 成长赛道 ${st.B_growthAdj||0}）</span></div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">基线可投卡口</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:var(--accent);">${sm.chokepointCodesCount||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:var(--accent);">${sm.chokepointCodesCount||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描被排除</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:var(--barrier-low);">${totalExcluded} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:var(--color-muted);">${totalExcluded} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
     h += `</div>`;
     h += `</div>`;
 
@@ -2119,7 +2119,7 @@ function renderChain(chainId) {
       h += `</div></div>`;
 
       // 成长赛道通道
-      h += `<div style="padding:12px 16px;background:var(--card2);border-radius:6px;margin-bottom:14px;border-left:3px solid var(--barrier-high);">`;
+      h += `<div style="padding:12px 16px;background:var(--card2);border-radius:6px;margin-bottom:14px;border-left:3px solid var(--color-warn);">`;
       h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">成长赛道通道 <span style="font-size:10px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
       h += `<div style="display:grid;grid-template-columns:80px 1fr;gap:6px 12px;font-size:12px;color:var(--text);line-height:1.8;">`;
       h += `<div style="color:var(--muted);white-space:nowrap;">信号 A</div><div style="white-space:nowrap;overflow-x:auto;">壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
@@ -2130,7 +2130,7 @@ function renderChain(chainId) {
 
     // 命中列表 / 0 命中说明
     if (totalHits === 0) {
-      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--barrier-mid);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
+      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--color-data);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
       h += `💡 当前 ${d.name} 板块暂无信号命中。`;
       h += `<br>主因：板块 PE 普遍处于历史高位，PE 分位回落至 50% 以下时将自动出现推荐标的。</div>`;
     } else {
@@ -2179,25 +2179,25 @@ function renderChain(chainId) {
     h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
     h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">条件 A 命中（相对回调）</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:${triggeredA>0?'var(--green)':'var(--muted)'};">${triggeredA} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:${triggeredA>0?'var(--green)':'var(--muted)'};">${triggeredA} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">条件 B 命中（绝对分位）</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:${triggeredB>0?'var(--green)':'var(--muted)'};">${triggeredB} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:${triggeredB>0?'var(--green)':'var(--muted)'};">${triggeredB} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描总数</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:var(--accent);">${scannedTotal} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:var(--accent);">${scannedTotal} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
     h += `<div style="font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4;">扫描全部 38 只 PCB 标的（含中游+上游）· 与买入信号 A/B 的 37 不同口径</div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">被排除总数</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:var(--barrier-low);">${totalExcludedC} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:var(--color-muted);">${totalExcludedC} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
     h += `</div>`;
     h += `</div>`;
 
     if (triggeredTotal === 0) {
-      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--barrier-mid);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
+      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--color-data);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
       h += `💡 当前 ${d.name} 板块 PE 处于历史高位，暂无回调进场机会。`;
       h += `<br><span style="color:var(--muted);">条件 A 需要：</span>PE 分位从高点回落 ≥ 15 个百分点 + 股价回撤 ≥ 15% + 缩量`;
       h += `<br><span style="color:var(--muted);">条件 B 需要：</span>PE 分位 &lt; 60%（成长赛道）或 &lt; 50%（普通）+ 股价回撤 ≥ 10% + 缩量`;
@@ -2385,11 +2385,11 @@ function renderChain(chainId) {
     h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
     h += `<div style="flex:1;min-width:160px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">需减仓</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:${reduceCount>0?'var(--barrier-high)':'var(--green)'};">${reduceCount} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:${reduceCount>0?'var(--color-warn)':'var(--green)'};">${reduceCount} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:160px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">需清仓</div>`;
-    h += `<div style="font-size:18px;font-weight:600;color:${exitCount>0?'var(--red)':'var(--green)'};">${exitCount} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:${exitCount>0?'var(--red)':'var(--green)'};">${exitCount} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
     h += `</div>`;
     h += `</div>`;
 
@@ -2417,9 +2417,9 @@ function renderChain(chainId) {
         h += `<td>${s.name||'—'}</td>`;
         h += `<td><span class="tag tg-mid" style="font-size:10px;">${s.reduceReason||'—'}</span></td>`;
         h += `<td style="font-size:10px;line-height:1.5;">${histStr}</td>`;
-        h += `<td style="font-size:11px;color:var(--barrier-high);">${s.reduceSignal||'—'}</td>`;
+        h += `<td style="font-size:11px;color:var(--color-warn);">${s.reduceSignal||'—'}</td>`;
         // ★ commit 4.22：减仓清单 → 「📝记录减仓」按钮（预填 side='sell' + triggerSignal='减仓'）
-        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'减仓'})" style="padding:3px 8px;background:var(--barrier-high);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录减仓</button></td>`;
+        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'减仓'})" style="padding:3px 8px;background:var(--color-warn);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录减仓</button></td>`;
         h += `</tr>`;
       });
       h += `</tbody></table></div>`;
@@ -2489,7 +2489,7 @@ function renderChain(chainId) {
       { code: '601208', name: '东材科技', status: '持有',
         segment: 'PCB · M9 碳氢树脂',
         note: 'PE 高位（99.75% 分位）· 注意减仓信号（信号 C 距离显示已覆盖）',
-        color: 'var(--barrier-high)' }
+        color: 'var(--color-warn)' }
     ];
     h += `<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">`;
     h += `<div style="font-size:13px;font-weight:600;margin-bottom:10px;">📋 当前持仓 · 背景说明 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（1 只硬编码 · PCB · 2026-06-24 决策）</span></div>`;
@@ -2608,10 +2608,10 @@ function renderChain(chainId) {
     h += `</div>`;
     // sticky 图例
     h += `<div class="tree-legend-sticky">`;
-    h += `<span><span class="dot" style="background:var(--barrier-extreme);"></span>极高(全球≤3家)</span>`;
-    h += `<span><span class="dot" style="background:var(--barrier-high);"></span>高(认证1-2年)</span>`;
-    h += `<span><span class="dot" style="background:var(--barrier-mid);"></span>中(国产突破)</span>`;
-    h += `<span><span class="dot" style="background:var(--barrier-low);"></span>低(充分竞争)</span>`;
+    h += `<span><span class="dot" style="background:var(--color-risk);"></span>极高(全球≤3家)</span>`;
+    h += `<span><span class="dot" style="background:var(--color-warn);"></span>高(认证1-2年)</span>`;
+    h += `<span><span class="dot" style="background:var(--color-data);"></span>中(国产突破)</span>`;
+    h += `<span><span class="dot" style="background:var(--color-muted);"></span>低(充分竞争)</span>`;
     h += `<span>🔒=物理卡口</span>`;
     h += `</div>`;
     // ★ 升级九 STEP 2+ bug 修复(2026-06-15):barrier 归一化 — 兼容数字(液冷 1-5)/中文(极高/高/中/低)/英文(extreme/high/mid/low)/'—' 4 种格式
@@ -2742,8 +2742,8 @@ function renderChain(chainId) {
             h += `<div class="flow-node-expand">`;
             // supplyGap 详情（红色高亮卡口环节）
             if (_gapMatch) {
-              h += `<div style="padding:6px 8px;margin-bottom:8px;background:rgba(246,70,93,0.08);border-left:3px solid var(--barrier-extreme);border-radius:0 4px 4px 0;font-size:11px;line-height:1.7;">`;
-              h += `<div style="font-weight:600;color:var(--barrier-extreme);margin-bottom:4px;">📊 供需缺口（来源：${_gapMatch.tier||'broker'}）</div>`;
+              h += `<div style="padding:6px 8px;margin-bottom:8px;background:rgba(248,81,73,0.08);border-left:3px solid var(--color-risk);border-radius:0 4px 4px 0;font-size:11px;line-height:1.7;">`;
+              h += `<div style="font-weight:600;color:var(--color-risk);margin-bottom:4px;">📊 供需缺口（来源：${_gapMatch.tier||'broker'}）</div>`;
               if (_gapMatch.demand)  h += `<div>需求: <strong>${_gapMatch.demand}</strong></div>`;
               if (_gapMatch.capacity) h += `<div>产能: <strong>${_gapMatch.capacity}</strong></div>`;
               if (_gapMatch.gap)     h += `<div>缺口量: <strong>${_gapMatch.gap}</strong></div>`;
@@ -2831,7 +2831,7 @@ function renderChain(chainId) {
       // CAGR 区间
       h += `<div style="margin-bottom:6px;">`;
       h += `<div style="font-size:11px;color:var(--muted);margin-bottom:2px;">CAGR（2025-2028）<span style="color:var(--muted);">· ${tierBadge}</span></div>`;
-      h += `<div style="font-size:18px;font-weight:600;"><span class="tag ${cagrCls}" style="font-size:14px;">${seg.cagrRange}</span></div>`;
+      h += `<div style="font-size:16px;font-weight:600;"><span class="tag ${cagrCls}" style="font-size:14px;">${seg.cagrRange}</span></div>`;
       h += `</div>`;
       // 价值量倍数（仅 AI 服务器）
       if (seg.valueMult) {
@@ -2871,7 +2871,7 @@ function renderChain(chainId) {
 
     // 传导系数待补充说明
     if (dcm.conductionTBD) {
-      h += `<div style="padding:10px 14px;background:rgba(240,185,11,0.05);border-left:3px solid var(--barrier-mid);border-radius:0 6px 6px 0;font-size:12px;color:var(--text);line-height:1.7;margin-top:14px;">`;
+      h += `<div style="padding:10px 14px;background:rgba(240,185,11,0.05);border-left:3px solid var(--color-data);border-radius:0 6px 6px 0;font-size:12px;color:var(--text);line-height:1.7;margin-top:14px;">`;
       h += `⏳ <strong>传导系数待补充</strong>：${dcm.conductionNote || '下游 X% → 上游 PCB 需求 Y% 的弹性系数未实装'}`;
       h += `</div>`;
     }
@@ -2972,10 +2972,10 @@ function renderChain(chainId) {
   }
   h += `</div></div>`;
   h += `<div class="legend-bar">`;
-  h += `<span><span class="dot" style="background:var(--barrier-extreme);"></span>极高壁垒—全球≤3家量产</span>`;
-  h += `<span><span class="dot" style="background:var(--barrier-high);"></span>高壁垒—认证周期1-2年</span>`;
-  h += `<span><span class="dot" style="background:var(--barrier-mid);"></span>中壁垒—有国产突破</span>`;
-  h += `<span><span class="dot" style="background:var(--barrier-low);"></span>低壁垒—充分竞争</span>`;
+  h += `<span><span class="dot" style="background:var(--color-risk);"></span>极高壁垒—全球≤3家量产</span>`;
+  h += `<span><span class="dot" style="background:var(--color-warn);"></span>高壁垒—认证周期1-2年</span>`;
+  h += `<span><span class="dot" style="background:var(--color-data);"></span>中壁垒—有国产突破</span>`;
+  h += `<span><span class="dot" style="background:var(--color-muted);"></span>低壁垒—充分竞争</span>`;
   h += `<span>🔒=物理卡口</span>`;
   h += `</div></div></div>`;
   }  // 关闭 } else { 旧 schema 分支
@@ -3074,7 +3074,7 @@ function renderChain(chainId) {
         if (s.hits !== null && s.hits !== undefined) {
           h += `<td><span class="stars ${s.strength==='★★★'?'s3':'s2'}">${s.strength}</span></td>`;
         } else {
-          h += `<td style="color:var(--barrier-low);font-size:11px;">—</td>`;
+          h += `<td style="color:var(--color-muted);font-size:11px;">—</td>`;
         }
       }
       h += `<td style="font-size:13px;">${s.logic || '<span style="color:var(--muted);">—</span>'}${stockDims6Badge(s)}${stockFitBadge(s)}</td>`;
@@ -3154,7 +3154,7 @@ function renderChain(chainId) {
         h += `<td>${s.q4 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q4note+'</span>' : ''}</td>`;
         const hCls = s.hits === 4 ? 'h4' : s.hits === 3 ? 'h3' : s.hits === 2 ? 'h2' : s.hits === 1 ? 'h1' : 'h0';
         h += `<td><span class="hit-dot ${hCls}">${s.hits}</span></td>`;
-        h += `<td>${s.strength ? '<span class="stars '+(s.strength==='★★★'?'s3':'s2')+'">'+s.strength+'</span>' : '<span style="color:var(--barrier-low);">不通过</span>'}</td>`;
+        h += `<td>${s.strength ? '<span class="stars '+(s.strength==='★★★'?'s3':'s2')+'">'+s.strength+'</span>' : '<span style="color:var(--color-muted);">不通过</span>'}</td>`;
         h += `</tr>`;
       });
     } else {
@@ -3165,7 +3165,7 @@ function renderChain(chainId) {
       h += `<td style="font-size:11px;color:var(--muted);">— 段级 4 问 —</td>`;
       h += `<td colspan="4" style="font-size:12px;line-height:1.6;text-align:left;"><div><strong>①</strong> ${seg.q1||'—'}</div><div><strong>②</strong> ${seg.q2||'—'}</div><div><strong>③</strong> ${seg.q3||'—'}</div><div><strong>④</strong> ${seg.q4||'—'}</div></td>`;
       h += `<td><span class="hit-dot ${hCls}">${seg.hits!=null?seg.hits:'—'}</span></td>`;
-      h += `<td>${seg.strength ? '<span class="stars '+(seg.strength==='★★★'?'s3':'s2')+'">'+seg.strength+'</span>' : '<span style="color:var(--barrier-low);">—</span>'}</td>`;
+      h += `<td>${seg.strength ? '<span class="stars '+(seg.strength==='★★★'?'s3':'s2')+'">'+seg.strength+'</span>' : '<span style="color:var(--color-muted);">—</span>'}</td>`;
       h += `</tr>`;
     }
   });
@@ -3358,7 +3358,7 @@ function renderCards() {
   h += formField('grossMargin', '毛利率', '如 50%+');
   h += formField('valuationNote', '估值一句话判断', '');
   h += formField('buyLogic', '买入逻辑（什么情况下我错了）', '');
-  h += `<div style="margin-bottom:10px;padding:8px 12px;background:rgba(249,115,22,0.15);border-left:3px solid var(--barrier-high);border-radius:0 4px 4px 0;font-size:11px;color:var(--barrier-high);font-weight:600;">⚠️ 买入即写死，盘中不许改</div>`;
+  h += `<div style="margin-bottom:10px;padding:8px 12px;background:rgba(210,153,34,0.15);border-left:3px solid var(--color-warn);border-radius:0 4px 4px 0;font-size:11px;color:var(--color-warn);font-weight:600;">⚠️ 买入即写死，盘中不许改</div>`;
   h += formField('sellConditions', '卖出条件', '触发什么信号就撤');
   h += formField('chokeBreakSignal', '卡口什么情况下松动→我就撤', '');
   h += formField('trackSignals', '要跟踪的信号（逗号分隔）', '信号1, 信号2, 信号3');
@@ -3430,7 +3430,7 @@ function renderCardItem(card) {
   const statusTxt = card.status === 'holding' ? '🟢 持仓中' : card.status === 'closed' ? '⚫ 已结案' : '🟡 观察中';
   let h = `<div class="choke-card" style="border-color:var(--border);">`;
   h += `<div class="rank" style="background:var(--card2);color:var(--muted);">${done}/4</div>`;
-  h += `<h3 style="font-size:18px;">${card.name} <span style="font-size:12px;color:var(--muted);font-weight:400;">${card.code}</span></h3>`;
+  h += `<h3 style="font-size:16px;">${card.name} <span style="font-size:12px;color:var(--muted);font-weight:400;">${card.code}</span></h3>`;
   h += `<div class="code">${card.chainName || card.chain} · ${card.segment || '—'}</div>`;
   h += `<div class="seg" style="color:var(--muted);">阶段完成度: ${done}/4</div>`;
   h += `<div style="margin-top:8px;"><span class="tag ${statusCls}" style="font-size:10px;">${statusTxt}</span>`;
@@ -3438,7 +3438,7 @@ function renderCardItem(card) {
   h += `</div>`;
   if (card.whyWatch) h += `<div class="logic" style="margin-top:10px;font-size:12px;"><strong>关注理由：</strong>${card.whyWatch}</div>`;
   if (card.buyLogic) h += `<div class="logic" style="font-size:12px;"><strong>买入逻辑：</strong>${card.buyLogic}</div>`;
-  if (card.sellConditions) h += `<div class="logic" style="font-size:12px;color:var(--barrier-high);"><strong>卖出条件：</strong>${card.sellConditions}</div>`;
+  if (card.sellConditions) h += `<div class="logic" style="font-size:12px;color:var(--color-warn);"><strong>卖出条件：</strong>${card.sellConditions}</div>`;
   if (card.trackSignals && card.trackSignals.length) {
     h += `<div style="font-size:11px;color:var(--muted);margin-top:6px;">🔍 跟踪：${card.trackSignals.join(' / ')}</div>`;
   }
@@ -3971,9 +3971,9 @@ function renderTrades() {
   const discRate = total ? Math.round(disciplined / total * 100) : 0;
   const impRate = total ? Math.round(impulse / total * 100) : 0;
   h += `<div class="card" style="padding:20px;margin-bottom:18px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;">`;
-  h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">总交易</div><div style="font-size:24px;font-weight:700;color:var(--accent);">${total} 笔</div></div>`;
-  h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">✅ 守纪律</div><div style="font-size:24px;font-weight:700;color:var(--green);">${disciplined} 笔 (${discRate}%)</div></div>`;
-  h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">❌ 冲动</div><div style="font-size:24px;font-weight:700;color:var(--red);">${impulse} 笔 (${impRate}%)</div></div>`;
+  h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">总交易</div><div style="font-size:20px;font-weight:700;color:var(--accent);">${total} 笔</div></div>`;
+  h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">✅ 守纪律</div><div style="font-size:20px;font-weight:700;color:var(--green);">${disciplined} 笔 (${discRate}%)</div></div>`;
+  h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">❌ 冲动</div><div style="font-size:20px;font-weight:700;color:var(--red);">${impulse} 笔 (${impRate}%)</div></div>`;
   h += `</div>`;
 
   // ★ commit 4.44：盈亏归因分析卡片（在顶部统计栏之后 · 交易记录表之前）
@@ -4020,9 +4020,9 @@ function renderTrades() {
     const fmtYuan = (n) => (n === null || n === undefined) ? '—' : (n >= 0 ? '+' : '') + n.toFixed(0) + ' 元';
     const totalCls = totalPnL > 0 ? 'var(--green)' : totalPnL < 0 ? 'var(--red)' : 'var(--muted)';
     h += `<div class="card" style="padding:20px;margin-bottom:18px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;">`;
-    h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">已实现盈亏（已平仓）</div><div style="font-size:22px;font-weight:700;color:${totalRealized >= 0 ? 'var(--green)' : 'var(--red)'};">${fmtYuan(totalRealized)}</div></div>`;
-    h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">浮动盈亏（未平仓）</div><div style="font-size:22px;font-weight:700;color:${totalFloat >= 0 ? 'var(--green)' : 'var(--red)'};">${fmtYuan(totalFloat)}</div></div>`;
-    h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">累计总盈亏</div><div style="font-size:24px;font-weight:700;color:${totalCls};">${fmtYuan(totalPnL)}</div></div>`;
+    h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">已实现盈亏（已平仓）</div><div style="font-size:20px;font-weight:700;color:${totalRealized >= 0 ? 'var(--green)' : 'var(--red)'};">${fmtYuan(totalRealized)}</div></div>`;
+    h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">浮动盈亏（未平仓）</div><div style="font-size:20px;font-weight:700;color:${totalFloat >= 0 ? 'var(--green)' : 'var(--red)'};">${fmtYuan(totalFloat)}</div></div>`;
+    h += `<div style="flex:1;min-width:120px;"><div style="font-size:11px;color:var(--muted);font-weight:600;">累计总盈亏</div><div style="font-size:20px;font-weight:700;color:${totalCls};">${fmtYuan(totalPnL)}</div></div>`;
     h += `</div>`;
   })();
 
@@ -4626,9 +4626,9 @@ function renderArena() {
     ['durability','visibility','policy','supply','valuation','barrier'].forEach(k => {
       const s = r.d[k];
       if (s === undefined) {
-        h += `<td style="text-align:center;color:var(--barrier-low);">—</td>`;
+        h += `<td style="text-align:center;color:var(--color-muted);">—</td>`;
       } else {
-        const color = s >= 4 ? 'var(--green)' : s >= 3 ? 'var(--barrier-high)' : s >= 2 ? 'var(--barrier-mid)' : 'var(--red)';
+        const color = s >= 4 ? 'var(--green)' : s >= 3 ? 'var(--color-warn)' : s >= 2 ? 'var(--color-data)' : 'var(--red)';
         h += `<td style="text-align:center;color:${color};font-weight:600;">${s}</td>`;
       }
     });
@@ -4821,7 +4821,7 @@ function renderStockArena() {
     order.forEach(k => {
       const d = r.dims6.find(x => x.key === k);
       const sc = d ? d.score : 0;
-      const c = sc >= 4 ? 'var(--green)' : sc >= 3 ? 'var(--barrier-high)' : sc >= 2 ? 'var(--barrier-mid)' : 'var(--red)';
+      const c = sc >= 4 ? 'var(--green)' : sc >= 3 ? 'var(--color-warn)' : sc >= 2 ? 'var(--color-data)' : 'var(--red)';
       const w = Math.max(8, sc * 4); // 1→8, 2→8(min), 3→12, 4→16, 5→20, weight 视觉感
       miniBar += `<div title="${k}=${sc}/5" style="flex:1;background:${c};"></div>`;
     });
@@ -4836,7 +4836,7 @@ function renderStockArena() {
     ['durability','visibility','valuation','barrier'].forEach(k => {
       const d = r.dims6.find(x => x.key === k);
       const sc = d ? d.score : 0;
-      const c = sc >= 4 ? 'var(--green)' : sc >= 3 ? 'var(--barrier-high)' : sc >= 2 ? 'var(--barrier-mid)' : 'var(--red)';
+      const c = sc >= 4 ? 'var(--green)' : sc >= 3 ? 'var(--color-warn)' : sc >= 2 ? 'var(--color-data)' : 'var(--red)';
       h += `<td style="text-align:center;color:${c};font-weight:600;">${sc}</td>`;
     });
     h += `<td>${miniBar}</td>`;
