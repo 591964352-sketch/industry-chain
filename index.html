@@ -1498,14 +1498,11 @@ function renderMacroDashboard() {
   ];
 
   // trend → 颜色分级
-  // 强正向 (strong/rising/high) → 绿色
-  // 平稳 (stable/normal)        → 黄色
-  // 弱反向 (weak/falling/low)   → 红色
+  // ★ commit 4.55：trend 列去色·统一灰色·避免与 impact 列（同语义色）视觉冲突
+  //   趋势方向由 trendLabel 文字箭头表达（↑/↓/→/⚡ 等）·颜色判断完全交给 impact 列
+  //   例：trend='rising' + impact='negative' → "↑ 上涨"(灰) + "↓ 负向"(红) 用户一眼看清"虽然涨但对 PCB 是负向"
   function trendColor(trend) {
-    if (['strong', 'rising', 'high'].indexOf(trend) >= 0) return 'var(--green)';
-    if (['stable', 'normal'].indexOf(trend) >= 0) return 'var(--accent)';
-    if (['weak', 'falling', 'low'].indexOf(trend) >= 0) return 'var(--red)';
-    return 'var(--muted)';
+    return 'var(--color-muted)';
   }
   // trend → 中文标签
   function trendLabel(trend) {
