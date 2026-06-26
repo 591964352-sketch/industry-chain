@@ -176,6 +176,14 @@
      table-layout: fixed + td word-wrap: break-word → 长字符串（含中文）换行而不撑爆列宽 */
   .stock-tbl td { word-wrap: break-word; overflow-wrap: anywhere; }
   .stock-tbl td .tag { white-space: nowrap; }   /* 升级：壁垒评级/四问命中 tag 不换行 */
+  /* ★ commit 4.64：logic 列折叠机制（details/summary 样式 + 折叠态行高压缩） */
+  .stock-tbl details.logic-collapse { margin: 0; }
+  .stock-tbl details.logic-collapse > summary { padding: 2px 0; }
+  .stock-tbl details.logic-collapse > summary:hover { color: var(--accent); }
+  .stock-tbl details.logic-collapse > summary::-webkit-details-marker { display: none; }
+  .stock-tbl details.logic-collapse[open] > summary { margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px dashed var(--border); }
+  /* 强制隐藏非 summary 子元素（折叠态）—— td 内 details 浏览器未自动隐藏 div */
+  .stock-tbl details.logic-collapse:not([open]) > div { display: none; }
   .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .stock-tbl thead th { text-align: left; padding: 11px 14px; border-bottom: 2px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 0.5px; background: var(--card2); }
   .stock-tbl tbody td { padding: 11px 14px; border-bottom: 1px solid rgba(42,45,58,0.5); word-break: break-word; overflow-wrap: anywhere; }
@@ -873,6 +881,21 @@ function sourceTierBadge(tier, src) {
   const safeSrc = src ? String(src).replace(/"/g, '&quot;') : '';
   const titleAttr = safeSrc ? ` title="${t.desc} — ${safeSrc}"` : ` title="${t.desc}"`;
   return ` <sup class="src-chip t-${tier}"${titleAttr}>${t.icon}${t.label}</sup>`;
+}
+
+// ★ commit 4.64：logic 字段截断函数（句号截断 + 200 字兜底）
+//   设计要点：① 短文（≤200字）不截断保留完整 ② 长文在 200 字内找第一个句号/分号
+//   ③ 句号位置太靠前（<30 字）则兜底 200 字硬切（避免截出"几个字 + 。"）
+//   ④ 返回 {summary, full, truncated} 三元组，调用方按需渲染
+function truncateLogic(text) {
+  if (!text) return { summary: '', full: '', truncated: false };
+  const full = String(text);
+  if (full.length <= 200) return { summary: full, full, truncated: false };
+  const head = full.slice(0, 200);
+  const m = head.search(/[。；]/);
+  // 句号位置在 30~200 之间才算有效（避免"5个字+"。"被错认为截断点）
+  if (m > 30) return { summary: full.slice(0, m + 1), full, truncated: true };
+  return { summary: head + '...', full, truncated: true };
 }
 
 // 验证状态推导
@@ -3365,16 +3388,17 @@ function renderChain(chainId) {
       h += `</div>`;
     }
     h += `<h4>A股标的 — 按壁垒高低排序</h4>`;
-    h += `<table class="stock-tbl"><colgroup><col style="width:5%"><col style="width:18%"><col style="width:9%"><col style="width:18%"><col style="width:11%">`;
-    if (seg.stocks.some(s => s.hits !== null)) h += `<col style="width:11%">`;
-    h += `<col style="width:28%"></col></colgroup><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th>`;
+    // ★ commit 4.64 C：上游 6 segments 列宽调整（5/18/9/18/11/11/28 → 3/16/8/15/10/10/47）
+    h += `<table class="stock-tbl"><colgroup><col style="width:3%"><col style="width:16%"><col style="width:8%"><col style="width:15%"><col style="width:10%">`;
+    if (seg.stocks.some(s => s.hits !== null)) h += `<col style="width:10%">`;
+    h += `<col style="width:47%"></col></colgroup><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th>`;
     if (seg.stocks.some(s => s.hits !== null)) h += `<th>四问命中</th>`;
     h += `<th>核心逻辑</th></tr></thead><tbody>`;
     seg.stocks.forEach(s => {
       h += `<tr${s.code?` id="stock-${s.code}"`:''}>`;
       h += `<td><span class="rank-num">${s.rank}</span></td>`;
       h += `<td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td>`;
-      h += `<td style="font-size:13px;">${s.position || '<span style="color:var(--muted);">—</span>'}</td>`;
+      h += `<td style="font-size:12px;line-height:1.45;"><div style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;">${s.position || '<span style="color:var(--muted);">—</span>'}</div></td>`;
       h += `<td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td>`;
       if (seg.stocks.some(x => x.hits !== null)) {
         if (s.hits !== null && s.hits !== undefined) {
@@ -3383,7 +3407,12 @@ function renderChain(chainId) {
           h += `<td style="color:var(--color-muted);font-size:11px;">—</td>`;
         }
       }
-      h += `<td style="font-size:13px;">${s.logic || '<span style="color:var(--muted);">—</span>'}${stockDims6Badge(s)}${stockFitBadge(s)}</td>`;
+      // ★ commit 4.64 A：logic 列句号截断 + details 折叠
+      const _trunc = truncateLogic(s.logic || '');
+      const _logicCell = _trunc.truncated
+        ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:10px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
+        : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
+      h += `<td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}</td>`;
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
@@ -3405,9 +3434,14 @@ function renderChain(chainId) {
         seg.globalLandscape.forEach(g => h += `<div class="info-item"><div class="lbl">${g.lbl}</div><div class="val" style="color:var(--accent);">${g.val}</div><div style="font-size:11px;color:var(--muted);">${g.note}</div></div>`);
         h += `</div>`;
       }
-      h += `<h4>A股标的</h4><table class="stock-tbl"><colgroup><col style="width:5%"><col style="width:18%"><col style="width:9%"><col style="width:18%"><col style="width:11%"><col style="width:39%"></colgroup><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
+      h += `<h4>A股标的</h4><table class="stock-tbl"><colgroup><col style="width:4%"><col style="width:16%"><col style="width:8%"><col style="width:15%"><col style="width:10%"><col style="width:47%"></colgroup><thead><tr><th>#</th><th>个股</th><th>代码</th><th>定位</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
       seg.stocks.forEach(s => {
-        h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:13px;">${s.logic}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
+        // ★ commit 4.64 A+C：logic 列句号截断 + 47% 列宽 + details 折叠
+        const _trunc = truncateLogic(s.logic);
+        const _logicCell = _trunc.truncated
+          ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:10px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
+          : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
+        h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
       });
       h += `</tbody></table></div>`;
     });
@@ -3430,9 +3464,15 @@ function renderChain(chainId) {
     } else {
       h += `<div class="seg-meta"><span>卡口判定: <span class="tag tg-gray">不构成物理卡口</span></span></div>`;
     }
-    h += `<table class="stock-tbl"><colgroup><col style="width:5%"><col style="width:22%"><col style="width:9%"><col style="width:14%"><col style="width:50%"></colgroup><thead><tr><th>#</th><th>个股</th><th>代码</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
+    h += `<table class="stock-tbl"><colgroup><col style="width:4%"><col style="width:18%"><col style="width:8%"><col style="width:12%"><col style="width:58%"></colgroup><thead><tr><th>#</th><th>个股</th><th>代码</th><th>壁垒评级</th><th>核心逻辑</th></tr></thead><tbody>`;
     d.midstream.stocks.forEach(s => {
-      h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:13px;">${s.logic || s.note || ''}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
+      // ★ commit 4.64 A+C：logic 列句号截断 + 58% 列宽 + details 折叠
+      const _logicText = s.logic || s.note || '';
+      const _trunc = truncateLogic(_logicText);
+      const _logicCell = _trunc.truncated
+        ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:10px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
+        : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
+      h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
     });
     h += `</tbody></table></div></div>`;  // segment-card
     h += `</div></div>`;  // section-body + section (commit 4.9 折叠)
