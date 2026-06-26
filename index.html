@@ -2848,6 +2848,19 @@ function renderChain(chainId) {
       h += `<div style="color:var(--muted);font-size:10px;margin-bottom:2px;">决策依据</div>`;
       h += `<div style="font-size:11px;line-height:1.5;color:var(--text);">${r.note || '—'}</div>`;
       h += `</div>`;
+      // ★ commit 4.61：reduceSignal 风险警示渲染（4.56 写入字段·4.61 才在 UI 展示）
+      if (r.reduceSignal === true) {
+        const ar = r.activeReduce || null;
+        h += `<div style="margin-top:12px;padding:10px 12px;border-left:3px solid var(--color-risk);background:rgba(248,81,73,0.08);border-radius:0 4px 4px 0;">`;
+        h += `<div style="font-size:13px;font-weight:700;color:var(--color-risk);margin-bottom:6px;">⚠️ 减仓信号触发</div>`;
+        h += `<div style="font-size:11px;color:var(--text);line-height:1.6;margin-bottom:6px;"><strong>原因：</strong>${r.reduceReason || '—'}</div>`;
+        if (ar) {
+          h += `<div style="font-size:11px;color:var(--text);line-height:1.6;margin-bottom:6px;"><strong>建议：</strong>${ar.suggestedRatio || '—'} · ${ar.reason || ''}</div>`;
+          if (ar.suggestedPrice) h += `<div style="font-size:11px;color:var(--muted);"><strong>建议价位：</strong>${ar.suggestedPrice} 元</div>`;
+        }
+        if (r.dataAsOf) h += `<div style="font-size:10px;color:var(--color-muted);margin-top:6px;text-align:right;">数据截止：${r.dataAsOf}</div>`;
+        h += `</div>`;
+      }
       h += `</div></details>`;
     });
     h += `</div>`;
