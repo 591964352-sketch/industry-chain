@@ -178,17 +178,47 @@ def compute_fundamentals(code, stmts):
     rev_growth = float(p_curr['TOTAL_OPERATE_INCOME_YOY']) if pd.notna(p_curr['TOTAL_OPERATE_INCOME_YOY']) else None
     np_growth = float(p_curr['PARENT_NETPROFIT_YOY']) if pd.notna(p_curr['PARENT_NETPROFIT_YOY']) else None
 
-    # 4) ROE（★ commit 4.58：优先 ROEJQ 加权·季报口径 · 降级用年化近似）
+    # 4) ROE（★ commit 4.59：优先 2025 年报全年口径 · 降级 ROEJQ · 降级年化近似）
     equity = float(b_curr['TOTAL_PARENT_EQUITY']) if pd.notna(b_curr['TOTAL_PARENT_EQUITY']) else None
     roe = None
-    roe_source = None   # 标识 ROE 来源（'ROEJQ' / 'approx' / None）· 用于 note 标注
-    # ★ commit 4.58：优先从 akshare 利润表取 ROEJQ 字段（加权平均·季报披露口径·与同花顺/巨潮 F10 一致）
-    if 'ROEJQ' in profit.columns:
-        roe_jq = float(p_curr['ROEJQ']) if pd.notna(p_curr['ROEJQ']) else None
-        if roe_jq is not None and -100 < roe_jq < 100:
-            roe = round(roe_jq, 2)
+    roe_source = None   # 标识 ROE 来源（'annual' / 'ROEJQ' / 'approx' / None）· 用于 note 标注
+
+    # ★ commit 4.59：找 2025 年报数据（profit + balance）
+    annual_profit = None
+    annual_balance = None
+    for _i in range(len(profit)):
+        _row = profit.iloc[_i]
+        _row_date = pd.Timestamp(_row['REPORT_DATE'])
+        if _row_date.year == 2025 and str(_row['REPORT_TYPE']) == '年报':
+            annual_profit = _row
+            break
+    for _j in range(len(balance)):
+        _brow = balance.iloc[_j]
+        _brow_date = pd.Timestamp(_brow['REPORT_DATE'])
+        if _brow_date.year == 2025 and str(_brow['REPORT_TYPE']) == '年报':
+            annual_balance = _brow
+            break
+
+    # ★ commit 4.59：优先用 2025 年报全年口径（与巨潮/同花顺 F10 公告一致）
+    if annual_profit is not None and annual_balance is not None:
+        _annual_net = float(annual_profit['PARENT_NETPROFIT']) if pd.notna(annual_profit['PARENT_NETPROFIT']) else None
+        _annual_eq = float(annual_balance['TOTAL_PARENT_EQUITY']) if pd.notna(annual_balance['TOTAL_PARENT_EQUITY']) else None
+        if _annual_net is not None and _annual_eq and _annual_eq > 0:
+            roe = round((_annual_net / _annual_eq) * 100, 2)
+            roe_source = 'annual'
+
+    # ★ commit 4.59：新增 roeQuarterly 字段（单季 ROE，不年化·真实反映当季盈利能力）
+    roe_quarterly = None
+    if net_profit is not None and equity and equity > 0:
+        roe_quarterly = round((net_profit / equity) * 100, 2)
+
+    # ★ 降级 1：ROEJQ 字段（commit 4.58 保留·若未来 akshare 升级支持）
+    if roe is None and 'ROEJQ' in profit.columns:
+        _roe_jq = float(p_curr['ROEJQ']) if pd.notna(p_curr['ROEJQ']) else None
+        if _roe_jq is not None and -100 < _roe_jq < 100:
+            roe = round(_roe_jq, 2)
             roe_source = 'ROEJQ'
-    # ★ 降级：ROEJQ 缺失或异常时用年化近似（旧版逻辑）
+    # ★ 降级 2：年化近似（commit 4.38 旧版逻辑·最后兜底）
     if roe is None:
         if net_profit is not None and equity and equity > 0:
             roe = round((net_profit * 4 / equity) * 100, 2)
@@ -245,8 +275,15 @@ def compute_fundamentals(code, stmts):
     # 8) 一句话 note（基于关键指标自动生成）
     note_parts = []
     if roe is not None:
-        # ★ commit 4.58：降级标注（ROE 近似值时追加）
-        roe_note = f'ROE {roe}%' + ('（近似值）' if roe_source == 'approx' else '')
+        # ★ commit 4.59：年报口径 / 近似值标注
+        if roe_source == 'annual':
+            roe_note = f'ROE(年报) {roe}%'
+        elif roe_source == 'approx':
+            roe_note = f'ROE(近似) {roe}%'
+        elif roe_source == 'ROEJQ':
+            roe_note = f'ROE(加权) {roe}%'
+        else:
+            roe_note = f'ROE {roe}%'
         note_parts.append(roe_note)
     if gross_margin is not None:
         note_parts.append(f'毛利 {gross_margin}%')
@@ -273,6 +310,7 @@ def compute_fundamentals(code, stmts):
     return {
         'asOf': as_of_label,
         'roe': roe,
+        'roeQuarterly': roe_quarterly,   # ★ commit 4.59：单季 ROE·不年化
         'grossMargin': gross_margin,
         'grossMarginTrend': gross_margin_trend,
         'revenueGrowth': rev_growth,
@@ -354,9 +392,9 @@ def inject_fundamentals(code, fundamentals):
     """
     text = MANUAL_JS.read_text(encoding='utf-8')
 
-    # 构造新值（10 字段 · 内部缩进 8 空格 · 外层 6 空格）
+    # 构造新值（11 字段 · ★ commit 4.59 加 roeQuarterly）
     inner_lines = []
-    for k in ['asOf', 'roe', 'grossMargin', 'grossMarginTrend', 'revenueGrowth', 'netProfitGrowth', 'fcfPositive', 'scissorGap', 'note', 'source']:
+    for k in ['asOf', 'roe', 'roeQuarterly', 'grossMargin', 'grossMarginTrend', 'revenueGrowth', 'netProfitGrowth', 'fcfPositive', 'scissorGap', 'note', 'source']:
         v = fundamentals.get(k)
         inner_lines.append(f"        {k}: {_format_value(v)},")
     fund_block_inner = '{\n' + '\n'.join(inner_lines) + '\n      }'
