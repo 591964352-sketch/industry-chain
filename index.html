@@ -1444,7 +1444,8 @@ function computeDistStocks(d) {
 //     ③ distStocks 全 null → 「距离数据待刷新」提示（不假装有数据）
 //     ④ distStocks 为空 → ''（无 38 只扫描池）
 // ★ commit 4.57：信号 C 历史回放面板（5 年窗口 · ⚠️非实盘记录）
-//   数据源：CHAINS.pcb.signalCHistory（commit 4.57 注入）
+// ★ commit 4.67：历史回放参数放宽（与实时 SIGNAL_C 分离·仅研究用）
+//   数据源：CHAINS.pcb.signalCHistory（commit 4.57 注入，4.67 重跑脚本注入）
 //   降级：无 signalCHistory 或 totalRuns=0 时静默不渲染或显示「无触发记录」提示
 function renderSignalCHistoryPanel(chainId) {
   const d = CHAINS[chainId];
@@ -1458,6 +1459,7 @@ function renderSignalCHistoryPanel(chainId) {
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
         <span style="font-size:14px;font-weight:600;color:var(--text);">📊 信号 C 历史回放</span>
         <span style="font-size:10px;padding:2px 6px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;font-weight:600;">⚠️历史回放·非实盘记录</span>
+        <span style="font-size:10px;padding:2px 6px;background:rgba(240,185,11,0.15);color:var(--accent);border-radius:3px;font-weight:600;">研究参数·比实时信号宽松</span>
       </div>
       <div style="font-size:11px;color:var(--color-muted);line-height:1.6;">5 年窗口（2021-06-23 ~ 2026-06-23）内 37 只 PCB 标的 <strong style="color:var(--color-warn);">无触发记录</strong>——信号 C 触发条件严格（A OR B 均需多子条件 AND + 5 项硬性排除），5 年内 PCB 板块未同时满足严格回调条件。<strong>这不代表策略失效</strong>，仅说明严格条件下的样本稀疏。</div>
     </div>`;
@@ -1492,10 +1494,11 @@ function renderSignalCHistoryPanel(chainId) {
   }).join('');
 
   return `
-    <div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-warn);">
+    <div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-warn);max-height:400px;overflow-y:auto;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
         <span style="font-size:14px;font-weight:600;color:var(--text);">📊 信号 C 历史回放</span>
         <span style="font-size:10px;padding:2px 6px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;font-weight:600;">⚠️历史回放·非实盘记录·仅供研究参考</span>
+        <span style="font-size:10px;padding:2px 6px;background:rgba(240,185,11,0.15);color:var(--accent);border-radius:3px;font-weight:600;">研究参数·比实时信号宽松</span>
         <span style="font-size:10px;color:var(--color-muted);">5 年窗口 · ${sh.runs.length} 条触发</span>
       </div>
       ${statCard}
