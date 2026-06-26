@@ -1,19 +1,24 @@
 """
 scripts/calc_signal_c_history.py
 ★ commit 4.57：信号 C 5 年历史回放
+★ commit 4.67：历史回放参数放宽（与实时信号 SIGNAL_C 分离·仅研究用）
 
 输入：pcb.auto.js pe_history + pcb.close_history.js close_history + pcb.auto.js volume_history + pcb.manual.js stock 元数据
 输出：注入到 pcb.js 的 CHAINS.pcb.signalCHistory 全局块
 
-触发条件（★ 必须与实时 signalCMeta 一致 · data/pcb.js L865-959）：
+★ commit 4.67：历史回放研究参数（比实时信号 SIGNAL_C 更宽松）
+  目的：增加历史样本量·研究胜率规律
+  注意：此参数仅用于历史回放·不影响 pcb.js SIGNAL_C 实时触发逻辑
+
+触发条件（★ 4.67 历史研究参数 · 与实时信号不同）：
   条件 A（4 子条件 AND）：
-    ① pctlDrop ≤ -15pp (pePercentile - maxPctl90d)
-    ② barrier === '极高'
-    ③ fromHigh ≤ -15%
+    ① pctlDrop ≤ -10pp (pePercentile - maxPctl90d)        # 4.67 放宽：-15 → -10
+    ② barrier ∈ {'极高', '高'}                              # 4.67 放宽：'极高' → ['极高', '高']
+    ③ fromHigh ≤ -10%                                       # 4.67 放宽：-15% → -10%
     ④ volRatio5d ≤ 1.5
   条件 B（5 子条件 AND）：
-    ① pePercentile < 60 (growthAdj) 或 < 50 (普通)
-    ② fromHigh ≤ -10%
+    ① pePercentile < 75 (growthAdj) 或 < 65 (普通)            # 4.67 放宽：60/50 → 75/65
+    ② fromHigh ≤ -8%                                        # 4.67 放宽：-10% → -8%
     ③ volRatio5d ≤ 1.5
     ④ barrier ∈ {'极高', '高'}
     ⑤ trend !== 'down'
@@ -35,13 +40,15 @@ MANUAL_JS = ROOT / 'data' / 'pcb.manual.js'
 CLOSE_JS = ROOT / 'data' / 'pcb.close_history.js'
 PCB_JS = ROOT / 'data' / 'pcb.js'
 
-# ★ 必须与 pcb.js SIGNAL_C 一致
-PCTL_DROP_A = 15            # A: pctlDrop ≤ -15pp
-FROM_HIGH_A = -0.15         # A: fromHigh ≤ -15%
-FROM_HIGH_B = -0.10         # B: fromHigh ≤ -10%
-VOL_RATIO_MAX = 1.5         # 共用
-PCTL_GROWTH_B = 60          # B: growthAdj pePercentile 上限
-PCTL_NORMAL_B = 50          # B: 普通 pePercentile 上限
+# ★ commit 4.67：历史回放研究参数（比实时信号 SIGNAL_C 宽松）
+#   实时信号阈值见 pcb.js SIGNAL_C（L867-876），不动
+#   此处放宽目的：增加历史样本量·研究胜率规律·不影响 pcb.js 实时触发逻辑
+PCTL_DROP_A = 10            # A: pctlDrop ≤ -10pp （4.67 放宽：15 → 10）
+FROM_HIGH_A = -0.10         # A: fromHigh ≤ -10% （4.67 放宽：-0.15 → -0.10）
+FROM_HIGH_B = -0.08         # B: fromHigh ≤ -8% （4.67 放宽：-0.10 → -0.08）
+VOL_RATIO_MAX = 1.5         # 共用（保持）
+PCTL_GROWTH_B = 75          # B: growthAdj pePercentile 上限 （4.67 放宽：60 → 75）
+PCTL_NORMAL_B = 65          # B: 普通 pePercentile 上限 （4.67 放宽：50 → 65）
 HOLDING_DAYS = [30, 60, 90]
 WIN_HISTORY_MIN = 252       # 与 calc_percentile.py 一致
 
@@ -145,7 +152,7 @@ def check_excluded(val, manual_stock):
     return None  # 不被排除
 
 
-def check_signal_c(val, manual_stock, target_date):
+def check_signal_c(val, manual_stock, target_date, close_history=None):
     """检查 target_date 是否触发信号 C（A OR B）"""
     # 硬性排除
     excluded = check_excluded(val, manual_stock)
@@ -163,7 +170,9 @@ def check_signal_c(val, manual_stock, target_date):
         return {'excluded': 'pctl_insufficient'}
     pctl_drop = pctl - max_pctl  # 注意：pctl_drop ≤ -15 触发 → pctl - maxPctl ≤ -15
 
-    from_high = calc_from_high(val.get('close_history', []) or val.get('_close_history', []), target_date)
+    # ★ commit 4.67 bug 修复：close_history 通过参数传入（之前从 val 取永远 None）
+    ch = close_history if close_history is not None else val.get('close_history', [])
+    from_high = calc_from_high(ch, target_date)
     if from_high is None:
         return {'excluded': 'close_no_data'}
 
@@ -175,9 +184,9 @@ def check_signal_c(val, manual_stock, target_date):
     trend = manual_stock.get('trend', '')
     is_growth_adj = manual_stock.get('growthAdj', False)
 
-    # 条件 A：4 子条件 AND
+    # 条件 A：4 子条件 AND ★ commit 4.67 barrier 放宽到 ['极高', '高']
     hit_a = (pctl_drop <= -PCTL_DROP_A
-             and barrier == '极高'
+             and barrier in ('极高', '高')
              and from_high <= FROM_HIGH_A
              and vol_ratio <= VOL_RATIO_MAX)
 
@@ -222,7 +231,7 @@ def replay_stock(code, val, manual_stock, close_history):
     trade_dates = sorted(set(h['date'] for h in close_history))
     runs = []
     for date in trade_dates:
-        result = check_signal_c(val, manual_stock, date)
+        result = check_signal_c(val, manual_stock, date, close_history)
         if not result.get('hit'): continue
         entry_price = next((h['close'] for h in close_history if h['date'] == date), None)
         if entry_price is None: continue
@@ -272,11 +281,31 @@ def calc_win_stats(runs):
 
 
 def inject_to_pcb_js(signalCHistory):
-    """注入到 pcb.js CHAINS.pcb.signalCHistory（在 signalCMeta 之后）"""
+    """注入到 pcb.js CHAINS.pcb.signalCHistory（替换现有块·不重复追加）
+
+    ★ commit 4.67 修复：原版每次运行都在 signalCMeta 后追加新 signalCHistory 块
+    导致 pcb.js 累积 4 个重复块·本次改为：先删旧块（如果有）→ 再在 signalCMeta 后插入
+    """
     text = PCB_JS.read_text(encoding='utf-8')
-    pattern = re.compile(r"(  CHAINS\.pcb\.signalCMeta = \{[\s\S]*?\n  \};)", re.MULTILINE)
-    m = pattern.search(text)
-    if not m: raise RuntimeError('未找到 signalCMeta 块·注入失败')
+
+    # 1) 定位 signalCMeta 块（注入锚点）
+    cm_pattern = re.compile(r"(  CHAINS\.pcb\.signalCMeta = \{[\s\S]*?\n  \};)", re.MULTILINE)
+    cm_match = cm_pattern.search(text)
+    if not cm_match:
+        raise RuntimeError('未找到 signalCMeta 块·注入失败')
+
+    # 2) 删除现有 signalCHistory 块（幂等性·防重复）
+    #    模式：从 signalCMeta 块结尾到下一个 `  };` 顶层缩进结束·匹配整个 signalCHistory 块
+    hist_pattern = re.compile(r"\n+  CHAINS\.pcb\.signalCHistory = \{[\s\S]*?\n  \};", re.MULTILINE)
+    text_no_hist = hist_pattern.sub('', text)
+    hist_removed = hist_pattern.findall(text)
+    if hist_removed:
+        print(f'  ↻ 删除 {len(hist_removed)} 个旧 signalCHistory 块（幂等性保护）')
+
+    # 3) 在 signalCMeta 块后插入新块（用清理后的文本重新定位）
+    cm_match_new = cm_pattern.search(text_no_hist)
+    if not cm_match_new:
+        raise RuntimeError('清理旧块后 signalCMeta 块丢失（异常）')
 
     new_block = f"""
   CHAINS.pcb.signalCHistory = {{
@@ -292,10 +321,10 @@ def inject_to_pcb_js(signalCHistory):
     }},
     runs: {json.dumps(signalCHistory['runs'], ensure_ascii=False)},
     stats: {json.dumps(signalCHistory['stats'], ensure_ascii=False)},
-    note: '★ commit 4.57：信号 C 5 年历史回放·触发条件与实时 signalCMeta 一致 (A OR B) · 所有记录 flag ⚠️历史回放·非真实记录 · §6.2 红线不写入 pcb.manual.js'
+    note: '★ commit 4.67：历史回放参数放宽（pctlDrop 15→10·barrier 极高→极高/高·fromHigh -15%→-10%·pePctl 60/50→75/65）·仅研究用·不影响 pcb.js SIGNAL_C 实时逻辑'
   }};"""
-    text = text[:m.end()] + new_block + text[m.end():]
-    PCB_JS.write_text(text, encoding='utf-8')
+    final_text = text_no_hist[:cm_match_new.end()] + new_block + text_no_hist[cm_match_new.end():]
+    PCB_JS.write_text(final_text, encoding='utf-8')
 
 
 def main():
