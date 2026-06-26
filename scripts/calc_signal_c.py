@@ -21,6 +21,13 @@ import sys
 import json
 from pathlib import Path
 
+# ★ commit 4.54：Windows GBK stdout 不能 print ✓ 等 emoji，强制 utf-8（与 calc_percentile.py 一致）
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
+except Exception:
+    pass
+
 
 ROOT = Path(__file__).resolve().parent.parent
 AUTO_JS = ROOT / 'data' / 'pcb.auto.js'
@@ -81,8 +88,13 @@ def calc_max_pctl_window(pe_history, pe_ttm, window_days):
     if pe_ttm is None or not pe_history:
         return None
 
-    # 提取全部历史 pe
-    all_pes = [h['pe'] for h in pe_history if h.get('pe') is not None]
+    # ★ commit 4.54：3y 窗口过滤（与 calc_percentile.py 一致·maxPctl 内部"全历史"也同步改）
+    from datetime import datetime, timedelta
+    _window_start_c = (datetime.today() - timedelta(days=3 * 365)).strftime('%Y-%m-%d')
+    all_pes = [h['pe'] for h in pe_history
+               if h.get('pe') is not None and h.get('date', '') >= _window_start_c]
+    if len(all_pes) == 0:
+        all_pes = [h['pe'] for h in pe_history if h.get('pe') is not None]   # 降级：3y 内无有效 PE·用全量
     if not all_pes:
         return None
 
