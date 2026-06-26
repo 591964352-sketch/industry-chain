@@ -1143,9 +1143,9 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       impact: 'negative'
     },
     glassFiberPrice: {
-      trend: 'falling',
-      note: '玻纤布价格下行·CCL原材料成本改善',
-      impact: 'positive'
+      trend: 'rising',
+      note: '玻纤布价格持续上涨·CCL成本压力加大',
+      impact: 'negative'
     },
     aiServerDemand: {
       trend: 'strong',
@@ -1162,7 +1162,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       note: '高端AI板产能利用率满载·普通板偏低',
       impact: 'positive'
     },
-    summary: 'AI需求强劲·铜箔涨价是主要压制因素·整体景气偏正面'
+    summary: 'AI需求强劲·铜箔+玻纤布双涨压制中游毛利率·整体景气偏正面但成本压力加大'
   };
 
   // ★ commit 4.45：多维度止损决策框架（decisionFramework 全局块）

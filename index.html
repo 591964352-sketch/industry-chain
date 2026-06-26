@@ -1443,6 +1443,10 @@ function renderSignalCTopList(chainId) {
                     : '<span class="tag tg-mid" style="font-size:9px;padding:1px 5px;">B</span>'
         ).join(' ')
       : '<span class="tag tg-gray" style="font-size:9px;padding:1px 5px;">未触发</span>';
+    // ★ commit 4.53：估值极高警示标签（totalDist≤0 数学达标 + PE分位≥95 → 警示）
+    const valWarn = (s.totalDist !== null && s.totalDist <= 0 && s.pePercentile !== null && s.pePercentile >= 95)
+      ? '<span style="font-size:9px;padding:1px 5px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;">估值极高</span>'
+      : '';
     const totalCls = s.totalDist <= 0 ? 'var(--color-bull)'
                     : s.totalDist < 5 ? 'var(--color-warn)' : 'var(--color-data)';
     const totalStr = s.totalDist !== null && s.totalDist !== undefined
@@ -1454,6 +1458,7 @@ function renderSignalCTopList(chainId) {
     cards += `<code style="font-size:13px;font-weight:700;color:var(--text);">${s.code}</code>`;
     cards += `<span style="font-size:11px;color:var(--color-muted);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${s.name||'—'}</span>`;
     cards += condTag;
+    cards += valWarn;
     cards += `</div>`;
     cards += `<div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px;">`;
     cards += `<strong style="font-size:16px;font-weight:700;color:${totalCls};">${totalStr}</strong>`;
@@ -1466,7 +1471,7 @@ function renderSignalCTopList(chainId) {
     <div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-data);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
         <span style="font-size:14px;font-weight:600;color:var(--text);">🎯 距离最近 TOP3</span>
-        <span style="font-size:10px;color:var(--color-muted);">按总距离升序 · 越小越接近触发条件（距离≤0=数学达标·与触发列表严格定义不同）</span>
+        <span style="font-size:11px;color:var(--color-muted);">按总距离升序·距离≤0不代表买入机会·需结合估值判断</span>
         <span style="flex:1;"></span>
         <a href="#section-signal-c" style="font-size:10px;color:var(--color-data);text-decoration:none;">查看全部 38 只 →</a>
       </div>
