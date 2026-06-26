@@ -35,7 +35,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 63.3108327851,
         fcfPositive: false,
         scissorGap: 'warn',
-        note: 'ROE 21.78% · 毛利 36.93% · 营收/净利同比 +71.4%/+63.3% · FCF- · 剪刀差=warn',
+        note: 'ROE 21.78%（近似值） · 毛利 36.93% · 营收/净利同比 +71.4%/+63.3% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -64,7 +64,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 40.1476583361,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 9.93% · 毛利 20.94% · 营收/净利同比 +24.5%/+40.1% · FCF-',
+        note: 'ROE 9.93%（近似值） · 毛利 20.94% · 营收/净利同比 +24.5%/+40.1% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -93,7 +93,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 143.4710316978,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 19.61% · 毛利 19.33% · 营收/净利同比 +52.7%/+143.5% · FCF-',
+        note: 'ROE 19.61%（近似值） · 毛利 19.33% · 营收/净利同比 +52.7%/+143.5% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -122,7 +122,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 99.9980401046,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 1.4% · 毛利 19.17% · 营收/净利同比 +15.1%/+100.0% · FCF-',
+        note: 'ROE 1.4%（近似值） · 毛利 19.17% · 营收/净利同比 +15.1%/+100.0% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -151,7 +151,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 62.9033090551,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 29.59% · 毛利 35.63% · 营收/净利同比 +53.9%/+62.9% · FCF-',
+        note: 'ROE 29.59%（近似值） · 毛利 35.63% · 营收/净利同比 +53.9%/+62.9% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -180,7 +180,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 763.9095741537,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 21.17% · 毛利 26.44% · 营收/净利同比 +31.4%/+763.9% · FCF-',
+        note: 'ROE 21.17%（近似值） · 毛利 26.44% · 营收/净利同比 +31.4%/+763.9% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -216,7 +216,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: -84.4576232377,
         fcfPositive: false,
         scissorGap: 'danger',
-        note: 'ROE 1.58% · 毛利 20.92% · 营收/净利同比 +12.8%/-84.5% · FCF- · 剪刀差=danger',
+        note: 'ROE 1.58%（近似值） · 毛利 20.92% · 营收/净利同比 +12.8%/-84.5% · FCF- · 剪刀差=danger',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -245,7 +245,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 73.0051768665,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 18.8% · 毛利 29.17% · 营收/净利同比 +37.9%/+73.0% · FCF-',
+        note: 'ROE 18.8%（近似值） · 毛利 29.17% · 营收/净利同比 +37.9%/+73.0% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -274,7 +274,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: -5.2067473714,
         fcfPositive: true,
         scissorGap: 'ok',
-        note: 'ROE 5.34% · 毛利 22.95% · 营收/净利同比 -1.2%/-5.2% · FCF+',
+        note: 'ROE 5.34%（近似值） · 毛利 22.95% · 营收/净利同比 -1.2%/-5.2% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -306,7 +306,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 36.7657517536,
         fcfPositive: false,
         scissorGap: 'warn',
-        note: 'ROE 12.02% · 毛利 50.74% · 营收/净利同比 +53.0%/+36.8% · FCF- · 剪刀差=warn',
+        note: 'ROE 12.02%（近似值） · 毛利 50.74% · 营收/净利同比 +53.0%/+36.8% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -335,7 +335,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 39.9479988532,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 29.61% · 毛利 34.46% · 营收/净利同比 +28.0%/+39.9% · FCF-',
+        note: 'ROE 29.61%（近似值） · 毛利 34.46% · 营收/净利同比 +28.0%/+39.9% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -364,7 +364,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: -60.7321119872,
         fcfPositive: false,
         scissorGap: 'warn',
-        note: 'ROE 1.08% · 毛利 25.26% · 营收/净利同比 -4.4%/-60.7% · FCF- · 剪刀差=warn',
+        note: 'ROE 1.08%（近似值） · 毛利 25.26% · 营收/净利同比 -4.4%/-60.7% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -393,7 +393,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 2297.114047105,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 7.72% · 毛利 8.91% · 营收/净利同比 +43.9%/+2297.1% · FCF-',
+        note: 'ROE 7.72%（近似值） · 毛利 8.91% · 营收/净利同比 +43.9%/+2297.1% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -422,7 +422,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 176.5335032298,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 11.53% · 毛利 33.12% · 营收/净利同比 +103.7%/+176.5% · FCF-',
+        note: 'ROE 11.53%（近似值） · 毛利 33.12% · 营收/净利同比 +103.7%/+176.5% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -452,7 +452,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 2138.1733925372,
         fcfPositive: true,
         scissorGap: 'ok',
-        note: 'ROE 7.73% · 毛利 8.79% · 营收/净利同比 +32.0%/+2138.2% · FCF+',
+        note: 'ROE 7.73%（近似值） · 毛利 8.79% · 营收/净利同比 +32.0%/+2138.2% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -481,7 +481,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 258.9961984317,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 35.92% · 毛利 53.25% · 营收/净利同比 +92.3%/+259.0% · FCF-',
+        note: 'ROE 35.92%（近似值） · 毛利 53.25% · 营收/净利同比 +92.3%/+259.0% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -511,7 +511,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 708.9005010114,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 14.17% · 毛利 9.11% · 营收/净利同比 +73.5%/+708.9% · FCF-',
+        note: 'ROE 14.17%（近似值） · 毛利 9.11% · 营收/净利同比 +73.5%/+708.9% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -540,7 +540,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 206.4170836895,
         fcfPositive: true,
         scissorGap: 'ok',
-        note: 'ROE 2.84% · 毛利 11.71% · 营收/净利同比 +80.4%/+206.4% · FCF+',
+        note: 'ROE 2.84%（近似值） · 毛利 11.71% · 营收/净利同比 +80.4%/+206.4% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -569,7 +569,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 73.483103134,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 15.7% · 毛利 39.64% · 营收/净利同比 +17.9%/+73.5% · FCF-',
+        note: 'ROE 15.7%（近似值） · 毛利 39.64% · 营收/净利同比 +17.9%/+73.5% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -598,7 +598,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 105.4723584166,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 25.84% · 毛利 28.1% · 营收/净利同比 +45.1%/+105.5% · FCF-',
+        note: 'ROE 25.84%（近似值） · 毛利 28.1% · 营收/净利同比 +45.1%/+105.5% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -628,7 +628,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 103.3497196787,
         fcfPositive: true,
         scissorGap: 'ok',
-        note: 'ROE 12.28% · 毛利 17.13% · 营收/净利同比 +27.2%/+103.3% · FCF+',
+        note: 'ROE 12.28%（近似值） · 毛利 17.13% · 营收/净利同比 +27.2%/+103.3% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -670,7 +670,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: -92.742256465,
         fcfPositive: false,
         scissorGap: 'danger',
-        note: 'ROE 0.05% · 毛利 4.87% · 营收/净利同比 +76.8%/-92.7% · FCF- · 剪刀差=danger',
+        note: 'ROE 0.05%（近似值） · 毛利 4.87% · 营收/净利同比 +76.8%/-92.7% · FCF- · 剪刀差=danger',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -699,7 +699,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 68.0437664349,
         fcfPositive: true,
         scissorGap: 'ok',
-        note: 'ROE 5.28% · 毛利 12.02% · 营收/净利同比 +19.8%/+68.0% · FCF+',
+        note: 'ROE 5.28%（近似值） · 毛利 12.02% · 营收/净利同比 +19.8%/+68.0% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -728,7 +728,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: -28.3653870595,
         fcfPositive: false,
         scissorGap: 'danger',
-        note: 'ROE 7.0% · 毛利 18.76% · 营收/净利同比 +16.4%/-28.4% · FCF- · 剪刀差=danger',
+        note: 'ROE 7.0%（近似值） · 毛利 18.76% · 营收/净利同比 +16.4%/-28.4% · FCF- · 剪刀差=danger',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -758,7 +758,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 354.2155876336,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 20.24% · 毛利 55.65% · 营收/净利同比 +79.7%/+354.2% · FCF-',
+        note: 'ROE 20.24%（近似值） · 毛利 55.65% · 营收/净利同比 +79.7%/+354.2% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -787,7 +787,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 13.8325194968,
         fcfPositive: false,
         scissorGap: 'warn',
-        note: 'ROE 16.88% · 毛利 22.21% · 营收/净利同比 +22.5%/+13.8% · FCF- · 剪刀差=warn',
+        note: 'ROE 16.88%（近似值） · 毛利 22.21% · 营收/净利同比 +22.5%/+13.8% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -816,7 +816,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: -79.6311474747,
         fcfPositive: true,
         scissorGap: 'danger',
-        note: 'ROE 2.25% · 毛利 13.54% · 营收/净利同比 +8.6%/-79.6% · FCF+ · 剪刀差=danger',
+        note: 'ROE 2.25%（近似值） · 毛利 13.54% · 营收/净利同比 +8.6%/-79.6% · FCF+ · 剪刀差=danger',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -845,7 +845,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: -139.7204306854,
         fcfPositive: false,
         scissorGap: 'warn',
-        note: 'ROE -1.01% · 毛利 15.5% · 营收/净利同比 -0.6%/-139.7% · FCF- · 剪刀差=warn',
+        note: 'ROE -1.01%（近似值） · 毛利 15.5% · 营收/净利同比 -0.6%/-139.7% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -874,7 +874,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 15.433232545,
         fcfPositive: false,
         scissorGap: 'warn',
-        note: 'ROE 1.55% · 毛利 14.48% · 营收/净利同比 +39.1%/+15.4% · FCF- · 剪刀差=warn',
+        note: 'ROE 1.55%（近似值） · 毛利 14.48% · 营收/净利同比 +39.1%/+15.4% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -903,7 +903,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: -14.2060313699,
         fcfPositive: false,
         scissorGap: 'danger',
-        note: 'ROE 6.5% · 毛利 26.25% · 营收/净利同比 +8.6%/-14.2% · FCF- · 剪刀差=danger',
+        note: 'ROE 6.5%（近似值） · 毛利 26.25% · 营收/净利同比 +8.6%/-14.2% · FCF- · 剪刀差=danger',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -932,7 +932,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 122.155999892,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 29.02% · 毛利 35.21% · 营收/净利同比 +52.6%/+122.2% · FCF-',
+        note: 'ROE 29.02%（近似值） · 毛利 35.21% · 营收/净利同比 +52.6%/+122.2% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -961,7 +961,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 13.6407582209,
         fcfPositive: false,
         scissorGap: 'warn',
-        note: 'ROE 15.66% · 毛利 40.02% · 营收/净利同比 +23.2%/+13.6% · FCF- · 剪刀差=warn',
+        note: 'ROE 15.66%（近似值） · 毛利 40.02% · 营收/净利同比 +23.2%/+13.6% · FCF- · 剪刀差=warn',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -990,7 +990,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 392.7737398734,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 5.95% · 毛利 7.48% · 营收/净利同比 +73.9%/+392.8% · FCF-',
+        note: 'ROE 5.95%（近似值） · 毛利 7.48% · 营收/净利同比 +73.9%/+392.8% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -1019,7 +1019,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 108.9826061237,
         fcfPositive: true,
         scissorGap: 'ok',
-        note: 'ROE 17.92% · 毛利 40.94% · 营收/净利同比 +112.5%/+109.0% · FCF+',
+        note: 'ROE 17.92%（近似值） · 毛利 40.94% · 营收/净利同比 +112.5%/+109.0% · FCF+',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 
@@ -1048,7 +1048,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         netProfitGrowth: 160.5918885762,
         fcfPositive: false,
         scissorGap: 'ok',
-        note: 'ROE 9.44% · 毛利 37.25% · 营收/净利同比 +44.5%/+160.6% · FCF-',
+        note: 'ROE 9.44%（近似值） · 毛利 37.25% · 营收/净利同比 +44.5%/+160.6% · FCF-',
         source: 'akshare(stock_profit_sheet_by_report_em + stock_balance_sheet_by_report_em + stock_cash_flow_sheet_by_report_em)',
       },
 

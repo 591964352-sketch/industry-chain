@@ -18,8 +18,8 @@ scripts/fetch_fundamentals.py
        → 现金流量表（NETCASH_OPERATE 经营现金流 / NETCASH_INVEST 投资现金流）
 
 派生字段计算口径（避免引入估值主观判断）：
-  · ROE（加权 · 年化近似）= 当季归母净利 × 4 / 最新归母净资产 × 100
-       注意：真正的加权 ROE 是按月加权 · 此处简化为"年化单季"
+  · ROE（★ commit 4.58）优先 akshare 利润表 ROEJQ 字段（加权平均·季报披露口径·与同花顺/巨潮 F10 一致）·
+    降级用年化近似（当季归母净利 × 4 / 最新归母净资产 × 100）· 降级时在 note 标注 "（近似值）"
   · 毛利率（%）= (营收 - 营业成本) / 营收 × 100
   · 营收同比（%）= TOTAL_OPERATE_INCOME_YOY（接口直接给）
   · 净利同比（%）= PARENT_NETPROFIT_YOY（接口直接给）
@@ -178,12 +178,21 @@ def compute_fundamentals(code, stmts):
     rev_growth = float(p_curr['TOTAL_OPERATE_INCOME_YOY']) if pd.notna(p_curr['TOTAL_OPERATE_INCOME_YOY']) else None
     np_growth = float(p_curr['PARENT_NETPROFIT_YOY']) if pd.notna(p_curr['PARENT_NETPROFIT_YOY']) else None
 
-    # 4) 归母净资产 → ROE（年化近似）
+    # 4) ROE（★ commit 4.58：优先 ROEJQ 加权·季报口径 · 降级用年化近似）
     equity = float(b_curr['TOTAL_PARENT_EQUITY']) if pd.notna(b_curr['TOTAL_PARENT_EQUITY']) else None
     roe = None
-    if net_profit is not None and equity and equity > 0:
-        # 简化年化: 当季 × 4 · 实际加权 ROE 在 ROEJQ 字段 · 但 601208 接口数据滞后 · 此处用近似
-        roe = round((net_profit * 4 / equity) * 100, 2)
+    roe_source = None   # 标识 ROE 来源（'ROEJQ' / 'approx' / None）· 用于 note 标注
+    # ★ commit 4.58：优先从 akshare 利润表取 ROEJQ 字段（加权平均·季报披露口径·与同花顺/巨潮 F10 一致）
+    if 'ROEJQ' in profit.columns:
+        roe_jq = float(p_curr['ROEJQ']) if pd.notna(p_curr['ROEJQ']) else None
+        if roe_jq is not None and -100 < roe_jq < 100:
+            roe = round(roe_jq, 2)
+            roe_source = 'ROEJQ'
+    # ★ 降级：ROEJQ 缺失或异常时用年化近似（旧版逻辑）
+    if roe is None:
+        if net_profit is not None and equity and equity > 0:
+            roe = round((net_profit * 4 / equity) * 100, 2)
+            roe_source = 'approx'
 
     # 5) 自由现金流 FCF = 经营 + 投资
     op_cf = float(c_curr['NETCASH_OPERATE']) if pd.notna(c_curr['NETCASH_OPERATE']) else None
@@ -236,7 +245,9 @@ def compute_fundamentals(code, stmts):
     # 8) 一句话 note（基于关键指标自动生成）
     note_parts = []
     if roe is not None:
-        note_parts.append(f'ROE {roe}%')
+        # ★ commit 4.58：降级标注（ROE 近似值时追加）
+        roe_note = f'ROE {roe}%' + ('（近似值）' if roe_source == 'approx' else '')
+        note_parts.append(roe_note)
     if gross_margin is not None:
         note_parts.append(f'毛利 {gross_margin}%')
     if rev_growth is not None and np_growth is not None:
