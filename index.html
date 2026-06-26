@@ -2508,7 +2508,26 @@ function renderChain(chainId) {
     const reduceList = triggeredList.filter(s => s.reduceSignal);
     const exitList = triggeredList.filter(s => s.exitSignal);
 
-    h += `<div class="card" style="padding:20px;margin-top:0;">`;
+    // ★ commit 4.78：用户没有任何持仓时 → 显示空状态提示，不渲染减仓/清仓清单
+    //   防 38 只 PCB stock 全集误触发减仓信号的根因方案
+    if (!hm.hasOpenPosition) {
+      h += `<div class="card" style="padding:24px;margin-top:0;text-align:center;">`;
+      h += `<div style="font-size:16px;color:var(--color-muted);margin-bottom:10px;">📭 暂无持仓记录</div>`;
+      h += `<div style="font-size:13px;color:var(--muted);line-height:1.7;max-width:540px;margin:0 auto;">`;
+      h += `减仓/清仓信号只在用户<strong style="color:var(--accent);">实际持仓</strong>的 stock 上触发。`;
+      h += `<br>请到 <a href="#trades" onclick="event.preventDefault();renderTrades();" style="color:var(--accent);text-decoration:none;font-weight:600;">📒 交易日志</a> 记录买入操作后，刷新本页即可看到持仓风险监控。`;
+      h += `</div>`;
+      h += `<div style="margin-top:14px;font-size:11px;color:var(--muted);">`;
+      h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">💡 扫描池：38 只 PCB stock</span>`;
+      h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">🔒 仅用户持仓触发</span>`;
+      h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">📊 FIFO 配对</span>`;
+      h += `</div>`;
+      h += `</div>`;
+      // ★ commit 4.78：保持 section-holding 关闭结构对称
+      h += `</div>`;
+    } else {
+      // 原有持仓渲染逻辑（继续）
+      h += `<div class="card" style="padding:20px;margin-top:0;">`;
     // ★ commit 4.75 bug 修复：去掉重复 card-header（持仓管理 section-title 已显示）
     // h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">🔔 持仓管理 · <span style="color:var(--accent);">减仓/清仓信号</span></div>`;
 
@@ -2523,7 +2542,7 @@ function renderChain(chainId) {
     // 减仓清单
     if (reduceList.length > 0) {
       h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📋 减仓清单（${reduceList.length} 只 · 动态判断）</div>`;
-      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 本模块扫描全部 38 只 PCB 标的，不限于核心卡口 3 只。`;
+      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">✅ 本模块仅对用户实际持仓的 stock 触发减仓信号（FIFO 配对）`;
       h += `<details style="display:inline;margin-left:6px;"><summary style="display:inline;cursor:pointer;color:var(--color-data);font-size:11px;list-style:none;">查看减仓规则 ▾</summary>`;
       h += `<div style="margin-top:6px;padding:8px 12px;background:var(--card2);border-radius:4px;font-size:11px;color:var(--muted);line-height:1.6;">① PE ≥ 99% + 距前高 ≤ -5% ② 放量拉升 volRatio5d > 2.0 ③ trend 从 up 变 flat（commit 4.18 暂缓·trendHistory 字段已就位待启用）</div>`;
       h += `</details></div>`;
@@ -2725,6 +2744,7 @@ function renderChain(chainId) {
     h += renderDecisionScoreCard(HOLDING_NOTES);
 
     h += `</div>`;
+    }
   }
   // 关闭 section-holding（持仓管理 section · 默认展开）
 
