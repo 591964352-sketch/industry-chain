@@ -1323,6 +1323,138 @@ function renderHeroBanner(chainId) {
   `;
 }
 
+// ★ commit 4.50：信号C距离计算·提取自原 L2335-2381 内联代码·2 处复用（TOP3 + 距离表）
+//   输入：d = CHAINS[chainId]
+//   输出：按 totalDist 升序排列的 distStocks 数组（null 排最后）
+//   依赖：window.PCB_AUTO.valuations[code]（PCB 专用 · 其他赛道无 signalCMeta 时早返）
+//   阈值与 pcb.js SIGNAL_C 同步：PCTL_DROP_A=15 / FROM_HIGH_A=-0.15 / VOL_RATIO_MAX=1.5
+function computeDistStocks(d) {
+  const distStocks = [];
+  const allStocksForDist = [];
+  (d.segments || []).forEach(seg => {
+    (seg.stocks || []).forEach(s => {
+      if (s && s.code) allStocksForDist.push({ code: s.code, name: s.name });
+    });
+  });
+  if (d.midstream && d.midstream.stocks) {
+    d.midstream.stocks.forEach(s => {
+      if (s && s.code) allStocksForDist.push({ code: s.code, name: s.name });
+    });
+  }
+  const valMap = (window.PCB_AUTO && window.PCB_AUTO.valuations) || {};
+  allStocksForDist.forEach(s => {
+    const v = valMap[s.code];
+    if (!v) return;
+    const pePercentile = v.pePercentile;
+    const maxPctl90d = v.maxPctl90d;
+    const fromHigh = v.fromHigh;
+    const volRatio5d = v.volRatio5d;
+    let distPctl = null;
+    if (pePercentile !== null && pePercentile !== undefined && maxPctl90d !== null && maxPctl90d !== undefined) {
+      const pctlDrop = pePercentile - maxPctl90d;
+      distPctl = 15 - (-pctlDrop);
+    }
+    let distFromHigh = null;
+    if (fromHigh !== null && fromHigh !== undefined) {
+      distFromHigh = -0.15 - fromHigh;
+    }
+    let distVol = null;
+    if (volRatio5d !== null && volRatio5d !== undefined) {
+      distVol = 1.5 - volRatio5d;
+    }
+    const dists = [distPctl, distFromHigh, distVol].filter(dd => dd !== null && !isNaN(dd));
+    const totalDist = dists.length === 3 ? Math.min(...dists) : (dists.length > 0 ? Math.max(...dists) : null);
+    distStocks.push({ code: s.code, name: s.name, distPctl, distFromHigh, distVol, totalDist, pePercentile, fromHigh, volRatio5d });
+  });
+  distStocks.sort((a, b) => {
+    if (a.totalDist === null && b.totalDist === null) return 0;
+    if (a.totalDist === null) return 1;
+    if (b.totalDist === null) return -1;
+    return a.totalDist - b.totalDist;
+  });
+  return distStocks;
+}
+
+// ★ commit 4.50：信号C TOP3 独立化·① section 顶部子卡（视觉压缩版 · 目标 ≤150px）
+//   数据源：CHAINS[chainId].signalCMeta（仅 PCB 有 · 其他 12 赛道无此字段·降级静默不渲染）
+//   排序：B 决策·按 totalDist 升序·取前 3（即将触发·最接近进场机会）
+//   形态：横向 3 列紧凑卡 · ≈140px · 复用现有 .card/.tag/.tg-* 调色板
+//   降级 4 处：
+//     ① !d → ''
+//     ② !d.signalCMeta → ''（其他 12 赛道）
+//     ③ distStocks 全 null → 「距离数据待刷新」提示（不假装有数据）
+//     ④ distStocks 为空 → ''（无 38 只扫描池）
+function renderSignalCTopList(chainId) {
+  const d = CHAINS[chainId];
+  if (!d) return '';                                                          // 降级 ①
+  if (!d.signalCMeta) return '';                                              // 降级 ②·其他赛道
+  const distStocks = computeDistStocks(d);
+  if (distStocks.length === 0) return '';                                     // 降级 ④
+  const top3 = distStocks.slice(0, 3);
+  const allNull = top3.every(s => s.totalDist === null);
+  if (allNull) {                                                              // 降级 ③
+    return `<div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-data);">
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;">🎯 距离最近 TOP3</div>
+      <div style="font-size:11px;color:var(--color-muted);line-height:1.6;">💡 距离数据待刷新（PCB_AUTO.valuations 尚未拉取）· 数据到齐后此处将自动展示距离最近 3 只 stock。</div>
+    </div>`;
+  }
+  // 计算「最接近触发的维度」文案
+  const dimLabel = (s) => {
+    if (s.distPctl === null && s.distFromHigh === null && s.distVol === null) return '数据缺失';
+    if (s.totalDist <= 0) return `总距离 ${s.totalDist.toFixed(2)}（条件达标）`;
+    const dims = [];
+    if (s.distPctl !== null) dims.push({ name: 'PE 回调差', val: s.distPctl, unit: 'pp', threshold: 15 });
+    if (s.distFromHigh !== null) dims.push({ name: '股价回撤差', val: s.distFromHigh, unit: '%', threshold: 15 });
+    if (s.distVol !== null) dims.push({ name: '缩量差', val: s.distVol, unit: '', threshold: 1.5 });
+    dims.sort((a, b) => a.val - b.val);
+    return `最接近：${dims[0].name} ${dims[0].val.toFixed(1)}${dims[0].unit}`;
+  };
+  // A/B tag（来自 triggeredList 匹配）
+  const triggeredMap = {};
+  (d.signalCMeta.stats.triggeredList || []).forEach(t => { if (t.code) triggeredMap[t.code] = t; });
+  // 3 列卡片（视觉压缩：medal→#N · padding 10/12 · totalDist 16px · gap 8px）
+  let cards = '';
+  top3.forEach((s, i) => {
+    const triggered = triggeredMap[s.code];
+    const condTag = triggered && triggered.conditions
+      ? (triggered.conditions || '').split('+').map(c =>
+          c === 'A' ? '<span class="tag tg-green" style="font-size:9px;padding:1px 5px;">A</span>'
+                    : '<span class="tag tg-mid" style="font-size:9px;padding:1px 5px;">B</span>'
+        ).join(' ')
+      : '<span class="tag tg-gray" style="font-size:9px;padding:1px 5px;">未触发</span>';
+    const totalCls = s.totalDist <= 0 ? 'var(--color-bull)'
+                    : s.totalDist < 5 ? 'var(--color-warn)' : 'var(--color-data)';
+    const totalStr = s.totalDist !== null && s.totalDist !== undefined
+      ? (s.totalDist <= 0 ? '≤0' : s.totalDist.toFixed(2))
+      : '—';
+    cards += `<div class="card" style="flex:1;min-width:0;padding:10px 12px;background:var(--bg-card);border-left:3px solid ${totalCls};">`;
+    cards += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">`;
+    cards += `<span style="font-size:11px;color:var(--color-muted);font-weight:700;">#${i+1}</span>`;
+    cards += `<code style="font-size:13px;font-weight:700;color:var(--text);">${s.code}</code>`;
+    cards += `<span style="font-size:11px;color:var(--color-muted);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${s.name||'—'}</span>`;
+    cards += condTag;
+    cards += `</div>`;
+    cards += `<div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px;">`;
+    cards += `<strong style="font-size:16px;font-weight:700;color:${totalCls};">${totalStr}</strong>`;
+    cards += `<span style="font-size:10px;color:var(--color-muted);">总距离</span>`;
+    cards += `</div>`;
+    cards += `<div style="font-size:10px;color:var(--color-muted);line-height:1.5;">${dimLabel(s)}</div>`;
+    cards += `</div>`;
+  });
+  return `
+    <div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-data);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+        <span style="font-size:14px;font-weight:600;color:var(--text);">🎯 距离最近 TOP3</span>
+        <span style="font-size:10px;color:var(--color-muted);">按总距离升序 · 越小越接近触发条件</span>
+        <span style="flex:1;"></span>
+        <a href="#section-signal-c" style="font-size:10px;color:var(--color-data);text-decoration:none;">查看全部 38 只 →</a>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${cards}
+      </div>
+    </div>`;
+}
+
 function renderMacroDashboard() {
   // 读取 PCB_MANUAL.macro（注意：仅 PCB 赛道手动层有 macro 字段，其他赛道走降级）
   const macro = (window.PCB_MANUAL && window.PCB_MANUAL.macro) || null;
@@ -1690,6 +1822,8 @@ function renderChain(chainId) {
   h += `<div class="section" id="section-choke">`;
   h += `<div class="section-title"><span class="num num-result">①</span> 卡口结论 — 物理卡口最终输出</div>`;
   h += `<div class="section-desc">经过六步下钻+四问筛选，最终确认的物理卡口标的。</div>`;
+  // ★ commit 4.50：信号C TOP3 独立化（即将触发 TOP3 · 总距离最小 3 只 · 紧跟 section 标题）
+  h += renderSignalCTopList(chainId);
   h += `<div class="choke-grid" style="margin-bottom:24px;">`;
 
   // ★ commit 4.41：默认展开名单（持仓 + 减仓信号触发 stock）
@@ -2332,53 +2466,8 @@ function renderChain(chainId) {
     //   排序：按总距离（3 个距离的最小值）升序 · 最接近触发的在前
     h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-top:16px;margin-bottom:4px;">📏 信号 C 距离显示（38 只扫描池 · 按总距离升序 · 越小越接近触发）</div>`;
     h += `<div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.5;">阈值：PE 回调 ≥ 15pp · 股价回撤 ≥ 15% · 缩量 volRatio5d ≤ 1.5 · 全部满足才触发信号 C 条件 A</div>`;
-    const distStocks = [];   // [{code, name, distPctl, distFromHigh, distVol, totalDist}]
-    // 收集所有 stock code（含 segments + midstream）
-    const allStocksForDist = [];
-    (d.segments || []).forEach(seg => {
-      (seg.stocks || []).forEach(s => {
-        if (s && s.code) allStocksForDist.push({ code: s.code, name: s.name });
-      });
-    });
-    if (d.midstream && d.midstream.stocks) {
-      d.midstream.stocks.forEach(s => {
-        if (s && s.code) allStocksForDist.push({ code: s.code, name: s.name });
-      });
-    }
-    const valMap = (window.PCB_AUTO && window.PCB_AUTO.valuations) || {};
-    allStocksForDist.forEach(s => {
-      const v = valMap[s.code];
-      if (!v) return;                                          // 无 auto 数据跳过
-      const pePercentile = v.pePercentile;
-      const maxPctl90d = v.maxPctl90d;
-      const fromHigh = v.fromHigh;
-      const volRatio5d = v.volRatio5d;
-      // 计算 3 维度距离
-      let distPctl = null;
-      if (pePercentile !== null && pePercentile !== undefined && maxPctl90d !== null && maxPctl90d !== undefined) {
-        const pctlDrop = pePercentile - maxPctl90d;
-        distPctl = 15 - (-pctlDrop);                            // = 15 + pctlDrop（>0 还差）
-      }
-      let distFromHigh = null;
-      if (fromHigh !== null && fromHigh !== undefined) {
-        distFromHigh = -0.15 - fromHigh;                       // >0 还差
-      }
-      let distVol = null;
-      if (volRatio5d !== null && volRatio5d !== undefined) {
-        distVol = 1.5 - volRatio5d;                            // >0 还差
-      }
-      // 总距离 = 3 个距离的最小值（最接近触发的维度）
-      const dists = [distPctl, distFromHigh, distVol].filter(d => d !== null && !isNaN(d));
-      const totalDist = dists.length === 3 ? Math.min(...dists) : (dists.length > 0 ? Math.max(...dists) : null);
-      distStocks.push({ code: s.code, name: s.name, distPctl, distFromHigh, distVol, totalDist, pePercentile, fromHigh, volRatio5d });
-    });
-    // 排序：总距离升序（null 排最后）
-    distStocks.sort((a, b) => {
-      if (a.totalDist === null && b.totalDist === null) return 0;
-      if (a.totalDist === null) return 1;
-      if (b.totalDist === null) return -1;
-      return a.totalDist - b.totalDist;
-    });
+    // ★ commit 4.50：distStocks 计算提取为 computeDistStocks(d) 内部函数·复用避免 38 只循环+sort 重复
+    const distStocks = computeDistStocks(d);
     // 渲染距离表（前 20 只 + 显示「全部 38 只」可滚动）
     h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;">`;
     h += `<colgroup><col style="width:60px"><col><col style="width:120px"><col style="width:120px"><col style="width:110px"><col style="width:90px"></colgroup>`;
