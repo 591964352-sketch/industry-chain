@@ -225,6 +225,9 @@
   .choke-card .seg { font-size: 12px; color: var(--accent); margin-bottom: 12px; font-weight: 600; }
   .choke-card .logic { font-size: 13px; line-height: 1.8; color: var(--text); margin-bottom: 14px; word-break: break-word; overflow-wrap: anywhere; }
   .choke-card .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  /* ★ commit 4.77 修复3：下游需求传导数据来源明细默认折叠（点击 choke-summary 切换 .open）*/
+  .choke-detail { display: none; padding: 12px 16px; }
+  .choke-card.open > .choke-detail { display: block; }
   /* ★ 升级 1.3：卡口长字段折叠 + 防溢出 */
   .choke-card .valuation { min-width: 0; }
   .choke-card .valuation > span { word-break: break-word; overflow-wrap: anywhere; }
@@ -663,7 +666,8 @@
 </div>
 
 <!-- ===== 变更面板 ===== -->
-<button class="cl-toggle hidden" id="cl-toggle" onclick="toggleChangelog()" title="查看数据变更">
+<!-- ★ commit 4.77 修复2：去掉 hidden 默认 class · 让按钮始终显示（关闭时按钮可见·点击重新打开面板）-->
+<button class="cl-toggle" id="cl-toggle" onclick="toggleChangelog()" title="查看数据变更">
   <span class="pulse"></span>📋 <span id="cl-count">0</span> 项变更
 </button>
 <div class="changelog-panel collapsed" id="changelog-panel">
@@ -1334,7 +1338,7 @@ function renderHeroBanner(chainId) {
   // ── 2. analogy 通俗一句话 ──
   const intro = d.plainIntro || {};
   const analogyHtml = intro.analogy
-    ? `<div style="font-size:13px;color:var(--text);line-height:1.5;margin-bottom:6px;font-weight:500;">${intro.analogy}</div>`
+    ? `<div style="font-size:13px;color:var(--text);opacity:0.7;line-height:1.5;margin-bottom:6px;font-weight:500;">${intro.analogy}</div>`
     : '';
 
   // ── 3. cyclePosition 周期位置（黄条）──
@@ -1945,6 +1949,21 @@ function renderChain(chainId) {
   const _sec0Label = _hasSocratic ? '①' : '⓪';
   const _sec0Title = d.id === 'ai-full-chain' ? '第一性原理 — AI 算力的物理拆解' : `白话解读：${d.name}是什么？`;
 
+  // ★ commit 4.77 调整2：数据截止模块移到页面最顶部（Hero Banner 之前）
+  // 单行布局 · 11px · var(--color-muted) · 紧贴页面顶部
+  h += `<div style="font-size:11px;color:var(--color-muted);padding:4px 10px;margin:0 0 8px;background:rgba(240,185,11,0.04);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;">`;
+  if (d.id === 'pcb' && typeof PCB_AUTO !== 'undefined' && PCB_AUTO && PCB_AUTO._meta) {
+    const asOf = PCB_AUTO._meta.asOf || '待更新';
+    const baostockVersion = PCB_AUTO._meta.baostockVersion || '未知';
+    h += `<span>📅 数据截止：<strong style="color:var(--accent);">${asOf}</strong></span>`;
+    h += `<span>🔌 数据源：baostock v${baostockVersion}</span>`;
+    h += `<span>🕐 上次刷新：${asOf}</span>`;
+  } else {
+    h += `<span>📅 数据截止：<strong style="color:var(--accent);">待更新</strong></span>`;
+    h += `<span>· 数据源：—</span>`;
+    h += `<span>· 上次刷新：—</span>`;
+  }
+  h += `</div>`;
   // ★ commit 4.49：Hero Banner（四屏结构第一屏 · 4 行紧凑布局）
   h += renderHeroBanner(chainId);
 
@@ -1959,7 +1978,7 @@ function renderChain(chainId) {
     const flowViewKey = 'pcb_treemap_view_' + d.id;
     const _currentView = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem(flowViewKey)) || 'flow';
 
-    h += `<div class="section" data-key="treemap" id="section-treemap"><div class="section-title" onclick="toggleSection('treemap')"><span class="num num-chain">${sec2Label}</span> 全产业链树状图 · 横向 5 列布局<span class="collapse-arrow">▼</span></div>`;
+    h += `<div class="section" data-key="treemap" id="section-treemap"><div class="section-title" onclick="toggleSection('treemap')"><span class="num num-chain">${sec2Label}</span> 产业链全图 — 从上游材料到下游应用<span class="collapse-arrow">▼</span></div>`;
     // ★ commit 4.76 修复：section-desc 默认折叠为 details（只保留标题可见·详情按需展开）
     h += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-muted);font-size:11px;list-style:none;outline:none;">📋 查看布局说明</summary><div class="section-desc" style="margin-top:6px;">5 列从左到右：上游材料 → 上游设备 → 中游(制造) → 下游(需求) → 侧枝。每张 sub-card 配 3-5 家代表公司（按壁垒排序）。</div></details>`;
     h += `<div class="card">`;
@@ -2214,7 +2233,7 @@ function renderChain(chainId) {
     h += `</div>`;
 
     // 来源明细（折叠）
-    h += `<div class="choke-card" style="margin-top:8px;">`;
+    h += `<div class="choke-card" style="margin-top:8px;">`;  // ★ commit 4.77：默认折叠（CSS 控制）
     h += `<div class="choke-summary" onclick="this.parentElement.classList.toggle('open')"><span>📚 数据来源明细（${(dcm.segments||[]).reduce((a,s)=>a+s.cagrSrc.length+(s.valueMultSrc?s.valueMultSrc.length:0),0)} 条）</span><span class="choke-arrow">▸</span></div>`;
     h += `<div class="choke-detail">`;
     (dcm.segments || []).forEach(seg => {
@@ -2470,22 +2489,7 @@ function renderChain(chainId) {
   // 顶部锚点栏
   h += renderQuickNav();
 
-  // ★ commit 4.10：数据截止模块（移到各产业链内部，quick-nav 正下方 + 卡口结论之前）
-  // 读 PCB_AUTO._meta.asOf / .baostockVersion（仅 PCB 有 auto.js；其他赛道显示「待更新」）
-  h += `<div style="font-size:11px;color:var(--muted);padding:6px 10px;margin:8px 0 14px;background:rgba(240,185,11,0.04);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;display:flex;flex-wrap:wrap;gap:8px 14px;">`;
-  if (d.id === 'pcb' && typeof PCB_AUTO !== 'undefined' && PCB_AUTO && PCB_AUTO._meta) {
-    const asOf = PCB_AUTO._meta.asOf || '待更新';
-    const baostockVersion = PCB_AUTO._meta.baostockVersion || '未知';
-    const note = PCB_AUTO._meta.note || '';
-    h += `<span>📅 <strong style="color:var(--accent);">数据截止：${asOf}</strong></span>`;
-    h += `<span>🔌 <strong>数据源：</strong>baostock v${baostockVersion}</span>`;
-    h += `<span>🕐 <strong>上次刷新：</strong>${asOf}</span>`;
-  } else {
-    h += `<span>📅 <strong style="color:var(--accent);">数据截止：待更新</strong></span>`;
-    h += `<span>· 数据源：—</span>`;
-    h += `<span>· 上次刷新：—</span>`;
-  }
-  h += `</div>`;
+
 
   // ★ commit 4.75：第四层·持仓管理（默认展开 · 不折叠 · 用户进 PCB 页第一时间看持仓风险）
   h += `<div class="section" id="section-holding">`;
@@ -2545,7 +2549,7 @@ function renderChain(chainId) {
         h += `<td style="font-size:10px;line-height:1.5;">${histStr}</td>`;
         h += `<td style="font-size:11px;color:var(--color-warn);">${s.reduceSignal||'—'}</td>`;
         // ★ commit 4.22：减仓清单 → 「📝记录减仓」按钮（预填 side='sell' + triggerSignal='减仓'）
-        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'减仓'})" style="padding:3px 8px;background:var(--color-warn);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录减仓</button></td>`;
+        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'减仓'})" style="padding:3px 8px;background:var(--color-warn);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;min-width:64px;">📝记录减仓</button></td>`;
         h += `</tr>`;
       });
       h += `</tbody></table></div>`;
