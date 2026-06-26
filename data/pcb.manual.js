@@ -145,7 +145,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       dims6:[{key:'durability',score:5,trend:'up',reason:'AI 算力结构性上行+GB300/Rubin 持续放量;沪电为英伟达 H100/H200 提供 22-26 层高多层板,H200 UBB 主板份额超 70%(截至 2025),泰国工厂 2025.10 投产承接 GB300 订单,延续性极强 → 5'},{key:'visibility',score:5,trend:'up',reason:'26Q1 营收 62.14 亿+53.91%,归母 12.42 亿+62.9%,AI 营收占比升至~60%,英伟达份额>50%;2025 净利 38.22 亿+47.74%;业绩兑现极强,趋势向上 → 5'},{key:'policy',score:3,trend:'flat',reason:'AI capex 市场驱动+IC 载板 02 专项+大基金二期关联,政策中性偏顺风;制造端政策驱动有限,趋势走平 → 3'},{key:'supply',score:4,trend:'up',reason:'与景旺电子等共同供应 GB200 服务器 UBB 基板/PCB 组件(非独家);AI 算力高多层板扩产潮直接利好,趋势向上 → 4'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 62.91 倍/3 年分位 90.48%(asOf 2026-06-16),估值偏高,趋势向下(性价比恶化);扣分项为估值高位,需控买点 → 2'},{key:'barrier',score:5,trend:'flat',reason:'78 层 M9 全球独家量产（broker 华泰 2026-05-25）+GB200/GB300 全系认证+AI 板良率 92-98%+全球仅沪电与日本 Ibiden 通过认证(后者未量产),壁垒极高;豆包 2026-06-26 确认 → 5'}],
       src:'2026Q1/2025年报+券商研报', valAsOf:'2026-06-22', trend:'up', trendNote:'GB200 22层量产·GB300 112G/224G背板·Rubin+233%·AMD扩产·谷歌TPU v5·Meta自研背板验证·Q1+78%',
-      segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}], growthAdj:true, peAbsMax:120 ,
+      segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}], growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
         roe: 25.29,
@@ -242,7 +242,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'20层ABF GB200量产·28层Rubin批量·M10样品⚠️单源待核(2026-05-26互动易)·英伟达+AMD双AI·谷歌TPU4 FC-BGA·Q1+86%',
-      segments:[{idx:4,name:'IC封装基板（ABF载板）'},{idx:'midstream',name:'中游'}], growthAdj:true, peAbsMax:120 ,
+      segments:[{idx:4,name:'IC封装基板（ABF载板）'},{idx:'midstream',name:'中游'}], growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
         roe: 19.1,
@@ -303,7 +303,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:1,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'2026Q1/2025年报', valAsOf:'2026-06-22', trend:'up', trendNote:'英伟达全额预购2026年600-700万米Q布',
       hits:4, strength:'★★★',
-      segments:[{idx:2,name:'玻纤布/Q布（石英纤维布）'}], growthAdj:true, peAbsMax:120,
+      segments:[{idx:2,name:'玻纤布/Q布（石英纤维布）'}], growthAdj:true,
       // ★ commit 4.33：closeOverride（用户人工核实 from 同花顺/东方财富 2026-06-25）
       closeOverride: { closeLatest: 133.55, closeHigh5y: 151.46, src: 'manual_ths', asOf: '2026-06-25' } ,
       fundamentals: {
@@ -335,7 +335,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       dims6:[{key:'durability',score:5,trend:'up',reason:'AI 算力结构性上行+GB300 持续放量;胜宏供应 GB300 OAM 五阶 HDI 板,单板价值量提升 30%+;数据中心 PCB 占比近 50%,延续性极强 → 5'},{key:'visibility',score:5,trend:'up',reason:'2025 净利 43.12 亿+273.52%(A 股 PCB 首位),26Q1 营收 55.19 亿+28%,净利 12.88 亿+40%;英伟达 Tier1·显卡 PCB 全球~50%(Prismark 2026),业绩弹性极强,趋势向上 → 5'},{key:'policy',score:3,trend:'flat',reason:'AI capex 市场驱动+IC 载板 02 专项关联,政策中性偏顺风;制造端政策驱动有限,趋势走平 → 3'},{key:'supply',score:4,trend:'up',reason:'2025Q1 英伟达订单占比超 70%(历史参考),AI 高多层板扩产潮直接利好;趋势向上 → 4'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 74.65 倍/3 年分位 95.98%(asOf 2026-06-16),估值高位,趋势向下(性价比恶化);扣分项为估值最贵,需控买点 → 2'},{key:'barrier',score:5,trend:'flat',reason:'英伟达 Tier1+GB300 OAM 子板核心+显卡 PCB 全球~50%(Prismark)+100+ 层技术储备/70 层量产+AI 占比 43.20%(巨潮 2025 年报),壁垒极高;豆包 2026-06-26 确认 → 5'}],
       src:'2026Q1/2025年报+Prismark', valAsOf:'2026-06-22', trend:'up', trendNote:'GB300 OAM核心·显卡PCB全球50%·谷歌微软ASIC·字节阿里云·Q1 15.2亿',
-      segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}], growthAdj:true, peAbsMax:120 ,
+      segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}], growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
         roe: 25.95,
@@ -456,7 +456,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'up',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'GB200/GB300 HVLP4量产·深南长期协议·HVLP5样品',
       hits:4, strength:'★★★',
-      segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] ,
+      segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] , growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
         roe: 1.16,
@@ -486,7 +486,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'钻针全球第一28.9%·0.01mm沪电深南·80倍径验证·HBM样品·Q1+96%',
-      segments:[{idx:5,name:'PCB专用设备'}], growthAdj:true, peAbsMax:120 ,
+      segments:[{idx:5,name:'PCB专用设备'}], growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
         roe: 16.37,
@@ -517,7 +517,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'全球第二HVLP4出货·HVLP5样品认证完成✅已双源核实(兴业证券·2026-05-16)·3μm载体铜箔·AMD MI300',
       hits:3, strength:'★★☆',
-      segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] ,
+      segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] , growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
         roe: 2.75,
@@ -607,7 +607,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'M9 GB200/GB300批量·AMD MI300·谷歌TPU 78层',
-      segments:[{idx:0,name:'覆铜板 CCL'}], growthAdj:true, peAbsMax:120 ,
+      segments:[{idx:0,name:'覆铜板 CCL'}], growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
         roe: 19.94,
@@ -638,7 +638,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'M9 GB300量产·M10验证中·台光独家',
       hits:4, strength:'★★★',
-      segments:[{idx:1,name:'电子树脂（碳氢树脂/PPO）'}], growthAdj:true, peAbsMax:120 ,
+      segments:[{idx:1,name:'电子树脂（碳氢树脂/PPO）'}], growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
         roe: 4.72,
@@ -1012,7 +1012,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'2026Q1季报(2026-04-27)+新浪财经2026-04-29', valAsOf:'2026-06-22', trend:'up', trendNote:'A股第三HVLP4小批量·生益试样1亿·Q1+392.77%',
-      segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] ,
+      segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] , growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
         roe: 0.82,
@@ -1042,7 +1042,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'LDI全球第一18.8%·3-4μm胜宏·ABF载板深南量产·英伟达1.5亿·兴森华正新增·Q2批量交付',
-      segments:[{idx:5,name:'PCB专用设备'}], growthAdj:true, peAbsMax:120 ,
+      segments:[{idx:5,name:'PCB专用设备'}], growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
         roe: 12.56,
