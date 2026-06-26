@@ -670,10 +670,11 @@
   // 让浏览器忽略旧缓存、走新版。下次 commit 同时同步这行。
   // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写) / v2=20260614 (新增 optical 骨架) / v3=20260615 (新增 liquid-cooling 骨架) / v4=20260616 (新增 optical-chip 骨架) / v5=20260618 (液冷链 A 类注入 36 只 + 4 只 PE 失真) / v6=20260618c (液冷链第3轮注入 4 模块 + G8 4 项不达标) / v7=20260618d (Phase 1 验证:巨化 1 只 Gemini 联网 position broker 注入) / v8=20260618e (Phase 1 验证:英维克/永贵 position + 永贵降级 ★★★→★★☆ + supplyGap[0] src PFAS 法规) / v9=20260618f (Phase 2 完成·49 项 G8 达标·30 只 stock position 联网核实 + 16 sub-card note 占比补 + 2 overview 卡 + supplyGap[1] CDU 4 项 + meta.status 改 active) / v10=20260618g (Phase 3 双跑试点完成·DeepSeek 5/5 vs Gemini 3 Pro 0/5·5 只 ⚪media 单源升级双源:高澜🟢primary + 申菱🔵broker + 中科曙光🔵broker + 浪潮🔵broker + 工业富联🔵broker) / v11=20260618h (Phase 4 全量 42 项 DeepSeek 智能搜索完成·6 项 ✅ 升级双源 + 12 项 ⚠️ 部分找到 + 24 项 ❌ 维持稀缺区·包含 14 只 stock position + 3 sub-card note + 1 supplyGap demand + 1 overview 氟化液市场规模 + 汉威科技反向证据降级) / v12=20260618i (Phase 5 单项深挖完成·10 项 DeepSeek 智能搜索核实·5 项升级:4 stock 部分项(川环/中石/飞荣达/数据港)+ 1 sub-card B1 液冷数据中心冲突解决(480 亿=产业规模赛迪顾问 vs 149.4 亿=基础设施 IDC)+ supplyGap[1] CDU capacity/gap/rate 验证全球研究均不提供产能数据(行业真实缺口)) / v13=20260618j (Phase 6 最后清仓完成·13 项 stock 全部处理完毕·barrier 全部合理化:6 只 barrier 1(芯原/四方/海容/中颖/雪迪龙/精测 几乎无液冷关联)+ 7 只 barrier 2(天赐/多氟多/昊华氟化液主业占比>72% 液冷<2% + 奥飞/博威/双良/华工数据存在但未拆分)·数据治理闭环) / v14=20260618k (Phase 7 全量 24 项最后清仓完成·A 8 只 midstream 全部升级(曙光 58.8%/浪潮 45%/申菱赛迪+国金)+ B 9 个 sub-card 升级(CDU 30-40%/液冷板 40-45%/UQD 15-20%/TrendForce HPC 8%/储能 92.7% 渗透等)+ C 反推法补 CDU capacity 厂商碎片数据(英维克 50 万套/CoolIT 多吉瓦/Asetek 10 万台)·液冷链数据治理终章) / v15=20260618l (Phase 8 行业协会专项突破·7/8 项找到·A 4 个 sub-card 升级含 CDU 内部成本拆解首次出现(泵 22-40%/换热器 15-25%/阀门 10-15%)+ 一次侧 vs 二次侧价值(冷板式一次侧 20-30%/二次侧 70-80%)+ B rate 20-25% 缺口率首次量化+ C 联想 Neptune 8 万套/工业富联液冷营收 300 亿同比+200%) / v16=20260619a (Phase 9 PCB 短板补充·34 只 stock 补 tier 标记:🟢primary 6/🔵broker 21/⚪media 6/🆪estimate 1·首次数据治理精度与液冷链对齐·pcb.js 35 只 stock ②待补 = 0·8 阶段同步高数据精度)
 // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写) / v2=20260614 (新增 optical 骨架) / v3=20260615 (新增 liquid-cooling 骨架) / v4=20260616 (新增 optical-chip 骨架) / v5=20260618 (液冷链 A 类注入 36 只 + 4 只 PE 失真) / v6=20260618c (液冷链第3轮注入 4 模块 + G8 4 项不达标) / v7=20260618d (Phase 1 验证:巨化 1 只 Gemini 联网 position broker 注入) / v8=20260618e (Phase 1 验证:英维克/永贵 position + 永贵降级 ★★★→★★☆ + supplyGap[0] src PFAS 法规) / v9=20260618f (Phase 2 完成·49 项 G8 达标·30 只 stock position 联网核实 + 16 sub-card note 占比补 + 2 overview 卡 + supplyGap[1] CDU 4 项 + meta.status 改 active) / v10=20260618g (Phase 3 双跑试点完成·DeepSeek 5/5 vs Gemini 3 Pro 0/5·5 只 ⚪media 单源升级双源:高澜🟢primary + 申菱🔵broker + 中科曙光🔵broker + 浪潮🔵broker + 工业富联🔵broker) / v11=20260618h (Phase 4 全量 42 项 DeepSeek 智能搜索完成·6 项 ✅ 升级双源 + 12 项 ⚠️ 部分找到 + 24 项 ❌ 维持稀缺区·包含 14 只 stock position + 3 sub-card note + 1 supplyGap demand + 1 overview 氟化液市场规模 + 汉威科技反向证据降级) / v12=20260618i (Phase 5 单项深挖完成·10 项 DeepSeek 智能搜索核实·5 项升级:4 stock 部分项(川环/中石/飞荣达/数据港)+ 1 sub-card B1 液冷数据中心冲突解决(480 亿=产业规模赛迪顾问 vs 149.4 亿=基础设施 IDC)+ supplyGap[1] CDU capacity/gap/rate 验证全球研究均不提供产能数据(行业真实缺口)) / v13=20260618j (Phase 6 最后清仓完成·13 项 stock 全部处理完毕·barrier 全部合理化:6 只 barrier 1(芯原/四方/海容/中颖/雪迪龙/精测 几乎无液冷关联)+ 7 只 barrier 2(天赐/多氟多/昊华氟化液主业占比>72% 液冷<2% + 奥飞/博威/双良/华工数据存在但未拆分)·数据治理闭环) / v14=20260618k (Phase 7 全量 24 项最后清仓完成·A 8 只 midstream 全部升级(曙光 58.8%/浪潮 45%/申菱赛迪+国金)+ B 9 个 sub-card 升级(CDU 30-40%/液冷板 40-45%/UQD 15-20%/TrendForce HPC 8%/储能 92.7% 渗透等)+ C 反推法补 CDU capacity 厂商碎片数据(英维克 50 万套/CoolIT 多吉瓦/Asetek 10 万台)·液冷链数据治理终章) / v15=20260618l (Phase 8 行业协会专项突破·7/8 项找到·A 4 sub-card 升级含 CDU 内部成本拆解首次出现(泵 22-40%/换热器 15-25%/阀门 10-15%)+ 一次侧 vs 二次侧价值(冷板式一次侧 20-30%/二次侧 70-80%)+ B rate 20-25% 缺口率首次量化+ C 联想 Neptune 8 万套/工业富联液冷营收 300 亿同比+200%) / v16=20260619a (Phase 9 PCB 短板补充·34 只 stock 补 tier 标记:🟢primary 6/🔵broker 21/⚪media 6/🆪estimate 1·首次数据治理精度与液冷链对齐·pcb.js 35 只 stock ②待补 = 0·8 阶段同步高数据精度) / v17=20260619b (Phase 10 半导体设备新增·28 只 stock + 6 segments + 3 卡口(中微★★★/北方华创★★★/拓荆★★☆)+ 4 supplyGap(100%/55%/70%/60%)+ 6 维景气 + 5 列 treeMap + midstream 10 只·17 赛道数据治理精度对齐 PCB/液冷链 93%)
-  var DATA_VERSION = '?v=20260624a';
+  var DATA_VERSION = '?v=20260626a';
   var DATA_MANIFEST = [
     'pcb.manual',   // ★ 阶段二 commit 2.1：手动层（必须先于 pcb.js 加载·注入 STOCK_REGISTRY）
     'pcb.auto',     // ★ 阶段二 commit 2.2：自动层（估值字段全 null·commit 3.1+ 脚本回填）
+    'pcb.close_history', // ★ commit 4.57：信号 C 历史回放数据层（独立文件·避免 pcb.auto.js 膨胀 +55%）
     'pcb','semi','ai-server','hbm','robotics','autonomous-driving',
     'power-semi','semi-equipment','ai-apps','cpo','optical-chip','optical-module','solid-battery','low-altitude','commercial-aero',
     'liquid-cooling',
@@ -1405,6 +1406,80 @@ function computeDistStocks(d) {
 //     ② !d.signalCMeta → ''（其他 12 赛道）
 //     ③ distStocks 全 null → 「距离数据待刷新」提示（不假装有数据）
 //     ④ distStocks 为空 → ''（无 38 只扫描池）
+// ★ commit 4.57：信号 C 历史回放面板（5 年窗口 · ⚠️非实盘记录）
+//   数据源：CHAINS.pcb.signalCHistory（commit 4.57 注入）
+//   降级：无 signalCHistory 或 totalRuns=0 时静默不渲染或显示「无触发记录」提示
+function renderSignalCHistoryPanel(chainId) {
+  const d = CHAINS[chainId];
+  if (!d || !d.signalCHistory) return '';
+  const sh = d.signalCHistory;
+  const stats = sh.stats;
+
+  // 0 条触发降级显示
+  if (!stats || stats.totalRuns === 0) {
+    return `<div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-warn);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+        <span style="font-size:14px;font-weight:600;color:var(--text);">📊 信号 C 历史回放</span>
+        <span style="font-size:10px;padding:2px 6px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;font-weight:600;">⚠️历史回放·非实盘记录</span>
+      </div>
+      <div style="font-size:11px;color:var(--color-muted);line-height:1.6;">5 年窗口（2021-06-23 ~ 2026-06-23）内 37 只 PCB 标的 <strong style="color:var(--color-warn);">无触发记录</strong>——信号 C 触发条件严格（A OR B 均需多子条件 AND + 5 项硬性排除），5 年内 PCB 板块未同时满足严格回调条件。<strong>这不代表策略失效</strong>，仅说明严格条件下的样本稀疏。</div>
+    </div>`;
+  }
+
+  // 3 个胜率小卡
+  const card = (label, val) => `<div style="flex:1;min-width:100px;padding:10px;background:var(--bg-hover);border-radius:6px;">
+    <div style="font-size:10px;color:var(--color-muted);margin-bottom:2px;">${label}</div>
+    <div style="font-size:20px;font-weight:700;color:${val === null ? 'var(--muted)' : (val >= 50 ? 'var(--color-bull)' : 'var(--color-risk)')};">${val !== null ? val.toFixed(1)+'%' : '—'}</div>
+  </div>`;
+  const statCard = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+    ${card('30 天胜率', stats.winRate30)}${card('60 天胜率', stats.winRate60)}${card('90 天胜率', stats.winRate90)}
+  </div>
+  <div style="font-size:10px;color:var(--color-muted);margin-bottom:10px;line-height:1.5;">
+    总触发 <strong style="color:var(--text);">${stats.totalRuns}</strong> 条（A 触发 ${stats.triggeredByA} / B 触发 ${stats.triggeredByB}）·
+    30/60/90 天均收益 <strong>${stats.avgReturn30 !== null ? stats.avgReturn30+'%' : '—'} / ${stats.avgReturn60 !== null ? stats.avgReturn60+'%' : '—'} / ${stats.avgReturn90 !== null ? stats.avgReturn90+'%' : '—'}</strong> ·
+    最大单笔盈利 +${stats.maxWin}% / 亏损 ${stats.maxLoss}%
+  </div>`;
+
+  // 前 30 条触发明细（折叠）
+  const rows = sh.runs.slice(0, 30).map(r => {
+    const cls = v => v === null ? 'var(--muted)' : (v > 0 ? 'var(--color-bull)' : 'var(--color-risk)');
+    return `<tr>
+      <td><code style="font-size:10px;">${r.date}</code></td>
+      <td><code>${r.code}</code> ${r.name}</td>
+      <td><span style="font-size:9px;padding:1px 4px;background:var(--bg-hover);border-radius:3px;">${r.conditions}</span></td>
+      <td style="text-align:right;">${r.entryPrice}</td>
+      <td style="text-align:right;color:${cls(r.return30)};">${r.return30 !== null ? (r.return30*100).toFixed(1)+'%' : '—'}</td>
+      <td style="text-align:right;color:${cls(r.return60)};">${r.return60 !== null ? (r.return60*100).toFixed(1)+'%' : '—'}</td>
+      <td style="text-align:right;color:${cls(r.return90)};">${r.return90 !== null ? (r.return90*100).toFixed(1)+'%' : '—'}</td>
+    </tr>`;
+  }).join('');
+
+  return `
+    <div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-warn);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+        <span style="font-size:14px;font-weight:600;color:var(--text);">📊 信号 C 历史回放</span>
+        <span style="font-size:10px;padding:2px 6px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;font-weight:600;">⚠️历史回放·非实盘记录·仅供研究参考</span>
+        <span style="font-size:10px;color:var(--color-muted);">5 年窗口 · ${sh.runs.length} 条触发</span>
+      </div>
+      ${statCard}
+      <details>
+        <summary style="cursor:pointer;font-size:11px;color:var(--color-data);user-select:none;">📋 查看历史触发明细（前 30 条 · 总 ${sh.runs.length} 条）</summary>
+        <table style="width:100%;font-size:10px;margin-top:8px;border-collapse:collapse;">
+          <thead><tr style="background:var(--bg-hover);">
+            <th style="text-align:left;padding:4px;">日期</th>
+            <th style="text-align:left;padding:4px;">标的</th>
+            <th style="text-align:left;padding:4px;">条件</th>
+            <th style="text-align:right;padding:4px;">入场价</th>
+            <th style="text-align:right;padding:4px;">30 天</th>
+            <th style="text-align:right;padding:4px;">60 天</th>
+            <th style="text-align:right;padding:4px;">90 天</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </details>
+    </div>`;
+}
+
 function renderSignalCTopList(chainId) {
   const d = CHAINS[chainId];
   if (!d) return '';                                                          // 降级 ①
@@ -1847,6 +1922,8 @@ function renderChain(chainId) {
   h += `<div class="section-desc">经过六步下钻+四问筛选，最终确认的物理卡口标的。</div>`;
   // ★ commit 4.50：信号C TOP3 独立化（即将触发 TOP3 · 总距离最小 3 只 · 紧跟 section 标题）
   h += renderSignalCTopList(chainId);
+  // ★ commit 4.57：信号 C 历史回放面板（5 年窗口 · ⚠️非实盘记录）
+  h += renderSignalCHistoryPanel(chainId);
   h += `<div class="choke-grid" style="margin-bottom:24px;">`;
 
   // ★ commit 4.41：默认展开名单（持仓 + 减仓信号触发 stock）
