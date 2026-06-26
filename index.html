@@ -1176,12 +1176,22 @@ function renderFundamentalsBlock(code) {
     return `<div style="font-size:11px;color:var(--muted);padding:6px 10px;background:var(--card2);border-radius:4px;margin-bottom:10px;">📊 基本面数据待补充</div>`;
   }
 
-  // ① ROE 颜色分级
+  // ① ROE 颜色分级（★ commit 4.60：升级双指标显示·roe 年报 + roeQuarterly 单季）
   let roeCls = 'var(--muted)', roeTxt = '—';
   if (typeof f.roe === 'number') {
-    roeTxt = f.roe.toFixed(2) + '%';
+    // ★ commit 4.60：年报 ROE + 单季 ROE 双指标并列显示
+    roeTxt = f.roe.toFixed(2) + '%（年报）';
+    if (typeof f.roeQuarterly === 'number') {
+      roeTxt += ' · 单季' + f.roeQuarterly.toFixed(2) + '%';
+    }
     if (f.roe >= 15) roeCls = 'var(--green)';
     else if (f.roe >= 8) roeCls = 'var(--accent)';   // 黄色 = 一般
+    else roeCls = 'var(--red)';
+  } else if (typeof f.roeQuarterly === 'number') {
+    // ★ commit 4.60：降级——只有 roeQuarterly 没有 roe
+    roeTxt = '单季' + f.roeQuarterly.toFixed(2) + '%';
+    if (f.roeQuarterly >= 5) roeCls = 'var(--green)';
+    else if (f.roeQuarterly >= 2) roeCls = 'var(--accent)';
     else roeCls = 'var(--red)';
   }
 
