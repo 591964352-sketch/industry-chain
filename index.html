@@ -1245,6 +1245,84 @@ function renderFundamentalsBlock(code) {
 // 数据源: data/pcb.manual.js MANUAL.macro 字段（commit 4.40 新增）
 // 展示位置: PCB 赛道总览 banner · 所有 stock 卡片之前
 // 降级: macro 字段不存在或不包含 5 维度时不渲染（不报错）
+// ============================================================
+// ★ commit 4.49：Hero Banner（四屏结构第一屏）
+// 4 行紧凑布局：链标识 + 通俗一句话 + 周期位置 + 景气一句话
+// 风险等级 badge 右侧（PCB 仅 chainId 适配，通用写法支持未来其他链 MANUAL）
+// 外层 max-height:200px 兜底（4 行内容实测 ≈166px）
+// 降级 4 级：缺字段不报错，按数据完整度显示 1/2/3/4 行
+// ============================================================
+function renderHeroBanner(chainId) {
+  const d = CHAINS[chainId];
+  if (!d) return '';   // 容错：CHAINS 缺失走 renderChain guard 红色错误卡
+
+  // ── 1. 顶部：icon + name + meta 徽章 ──
+  const m = d.meta || {};
+  const sectorTag = m.sector ? `<span class="tag tg-blue" style="font-size:11px;">${m.sector}</span>` : '';
+  const tierTag   = m.tier   ? `<span class="tag tg-mid"  style="font-size:11px;">${m.tier}</span>`   : '';
+  const ltFitTag  = m.ltFit  ? `<span class="tag tg-gray" style="font-size:11px;" title="AI 估值">🆪 ${m.ltFit}</span>` : '';
+
+  // marketRisk：通用写法（PCB_MANUAL / 未来 HBM_MANUAL 等）· 缺字段 null → 不显示
+  const manualKey = chainId.toUpperCase().replace(/-/g, '_') + '_MANUAL';
+  const mr = (window[manualKey] && window[manualKey].marketRisk) || null;
+  const mrMeta = {
+    normal:  { color: 'var(--color-bull)', label: '🟢 风险：正常'  },
+    caution: { color: 'var(--color-warn)', label: '🟡 风险：警惕'  },
+    extreme: { color: 'var(--color-risk)', label: '🔴 风险：极端'  }
+  };
+  const mrTag = mr && mrMeta[mr]
+    ? `<span class="tag" style="font-size:11px;font-weight:700;color:#0f1117;background:${mrMeta[mr].color};">${mrMeta[mr].label}</span>`
+    : '';
+
+  // ── 2. analogy 通俗一句话 ──
+  const intro = d.plainIntro || {};
+  const analogyHtml = intro.analogy
+    ? `<div style="font-size:13px;color:var(--text);line-height:1.5;margin-bottom:6px;font-weight:500;">${intro.analogy}</div>`
+    : '';
+
+  // ── 3. cyclePosition 周期位置（黄条）──
+  const cp = d.cyclePosition || {};
+  const cpHtml = cp.label
+    ? `<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:rgba(210,153,34,0.06);border-left:3px solid var(--color-warn);border-radius:0 4px 4px 0;font-size:12px;color:var(--text);margin-bottom:6px;">
+         <strong style="color:var(--color-warn);">📍 周期：</strong>${cp.label}
+         <span style="color:var(--color-muted);font-size:11px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${cp.reason || ''}</span>
+       </div>`
+    : '';
+
+  // ── 4. prosperity.verdict.oneLine 景气一句话（灰底）──
+  const pv = (d.prosperity && d.prosperity.verdict) || {};
+  const oneLineHtml = pv.oneLine
+    ? `<div style="font-size:12px;color:var(--color-muted);line-height:1.5;padding:6px 8px;background:var(--bg-hover);border-radius:4px;">${pv.oneLine}</div>`
+    : '';
+
+  // ── 5. 极简降级：4 行全缺时仅显示链名 + 徽章 ──
+  if (!analogyHtml && !oneLineHtml && !cpHtml && !mrTag) {
+    return `<div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--border);max-height:200px;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span style="font-size:20px;">${d.icon || '📊'}</span>
+        <h1 style="font-size:20px;font-weight:700;color:var(--text);">${d.name || chainId}</h1>
+        ${sectorTag}${tierTag}${ltFitTag}
+      </div>
+    </div>`;
+  }
+
+  // ── 6. 完整 Hero：4 行紧凑布局（外层 max-height:200px 兜底）──
+  return `
+    <div class="card hero-banner" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-warn);max-height:200px;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+        <span style="font-size:20px;">${d.icon || '📊'}</span>
+        <h1 style="font-size:20px;font-weight:700;color:var(--text);">${d.name || chainId}</h1>
+        ${sectorTag}${tierTag}${ltFitTag}
+        <span style="flex:1;"></span>
+        ${mrTag}
+      </div>
+      ${analogyHtml}
+      ${cpHtml}
+      ${oneLineHtml}
+    </div>
+  `;
+}
+
 function renderMacroDashboard() {
   // 读取 PCB_MANUAL.macro（注意：仅 PCB 赛道手动层有 macro 字段，其他赛道走降级）
   const macro = (window.PCB_MANUAL && window.PCB_MANUAL.macro) || null;
@@ -1464,6 +1542,9 @@ function renderChain(chainId) {
     return;
   }
   let h = '';
+
+  // ★ commit 4.49：Hero Banner（四屏结构第一屏 · 4 行紧凑布局）
+  h += renderHeroBanner(chainId);
 
   // ★ commit 4.40：产业链景气度仪表盘（PCB 赛道顶部 banner · 所有 stock 卡片之前）
   h += renderMacroDashboard();
