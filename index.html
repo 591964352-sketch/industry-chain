@@ -985,10 +985,10 @@ function renderStopLossPlan(holdings) {
     const t1 = r.stopLossTier1, t2 = r.stopLossTier2, t3 = r.stopLossTier3;
     if (!t1 && !t2 && !t3) return;
     const tierCell = (t, idx) => {
-      if (!t) return '<span style="color:var(--muted);font-size:10px;">—</span>';
+      if (!t) return '<span style="color:var(--muted);font-size:11px;">—</span>';
       const priceTxt = (typeof t.price === 'number') ? `<strong style="color:var(--text);font-size:13px;">${t.price.toFixed(2)} 元</strong>` : '<span style="color:var(--muted);">待定</span>';
       const tierColors = ['var(--green)', 'var(--accent)', 'var(--red)'];
-      return `<div style="padding:6px 8px;background:rgba(0,0,0,0.18);border-radius:4px;border-left:3px solid ${tierColors[idx]};">${priceTxt}<div style="font-size:10px;color:${tierColors[idx]};margin-top:2px;font-weight:600;">${t.action}</div><div style="font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4;">${t.trigger || ''}</div></div>`;
+      return `<div style="padding:6px 8px;background:rgba(0,0,0,0.18);border-radius:4px;border-left:3px solid ${tierColors[idx]};">${priceTxt}<div style="font-size:11px;color:${tierColors[idx]};margin-top:2px;font-weight:600;">${t.action}</div><div style="font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4;">${t.trigger || ''}</div></div>`;
     };
     rows += `
       <div style="margin-bottom:10px;">
@@ -1018,7 +1018,7 @@ function renderStopLossPlan(holdings) {
       <summary style="cursor:pointer;list-style:none;outline:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--accent);">
         <span>📐 止损计划</span>
         <span style="color:var(--muted);font-weight:400;font-size:11px;">（3 档止损 · 默认折叠）</span>
-        <span style="color:var(--muted);margin-left:auto;font-size:10px;font-weight:400;">▾ 展开</span>
+        <span style="color:var(--muted);margin-left:auto;font-size:11px;font-weight:400;">▾ 展开</span>
       </summary>
       <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);">
         ${ruleSummary}
@@ -1155,7 +1155,7 @@ function renderDecisionScoreCard(holdings) {
 
     // 扣分明细（仅当数据可用）
     const detailHtml = h.fundamental.available && h.fundamental.detail.length
-      ? `<div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:10px;color:var(--muted);line-height:1.6;">${h.fundamental.detail.map(d => `<span style="margin-right:10px;">${d.v}${d.pts !== 0 ? ` <span style="color:${d.pts < 0 ? 'var(--red)' : 'var(--green)'};font-weight:600;">${d.pts > 0 ? '+' : ''}${d.pts}</span>` : ''}</span>`).join('')}</div>`
+      ? `<div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:11px;color:var(--muted);line-height:1.6;">${h.fundamental.detail.map(d => `<span style="margin-right:10px;">${d.v}${d.pts !== 0 ? ` <span style="color:${d.pts < 0 ? 'var(--red)' : 'var(--green)'};font-weight:600;">${d.pts > 0 ? '+' : ''}${d.pts}</span>` : ''}</span>`).join('')}</div>`
       : '';
 
     rows += `
@@ -1165,19 +1165,19 @@ function renderDecisionScoreCard(holdings) {
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
           <div style="padding:8px 10px;background:rgba(0,0,0,0.18);border-radius:4px;border-left:3px solid ${fundRating.color};">
-            <div style="color:var(--muted);font-size:10px;margin-bottom:4px;">基本面评级（不含估值）</div>
+            <div style="color:var(--muted);font-size:11px;margin-bottom:4px;">基本面评级（不含估值）</div>
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
               ${fundScoreHtml}
-              <span class="tag ${fundRating.cls}" style="font-size:10px;">${fundRating.txt}</span>
+              <span class="tag ${fundRating.cls}" style="font-size:11px;">${fundRating.txt}</span>
             </div>
           </div>
           <div style="padding:8px 10px;background:rgba(0,0,0,0.18);border-radius:4px;border-left:3px solid ${valRating.color};">
-            <div style="color:var(--muted);font-size:10px;margin-bottom:4px;">估值风险（独立）</div>
+            <div style="color:var(--muted);font-size:11px;margin-bottom:4px;">估值风险（独立）</div>
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
               ${valScoreHtml}
-              <span class="tag ${valRating.cls}" style="font-size:10px;">${valRating.txt}</span>
+              <span class="tag ${valRating.cls}" style="font-size:11px;">${valRating.txt}</span>
             </div>
-            <div style="font-size:10px;color:var(--muted);">${valRating.desc || ''}</div>
+            <div style="font-size:11px;color:var(--muted);">${valRating.desc || ''}</div>
           </div>
         </div>
         ${detailHtml}
@@ -1190,7 +1190,7 @@ function renderDecisionScoreCard(holdings) {
       <summary style="cursor:pointer;list-style:none;outline:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--accent);">
         <span>⚖️ 综合评分</span>
         <span style="color:var(--muted);font-weight:400;font-size:11px;">（双模块独立·基本面评级 + 估值风险 · 默认折叠）</span>
-        <span style="color:var(--muted);margin-left:auto;font-size:10px;font-weight:400;">▾ 展开</span>
+        <span style="color:var(--muted);margin-left:auto;font-size:11px;font-weight:400;">▾ 展开</span>
       </summary>
       <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);">
         ${ruleSummary}
@@ -1247,9 +1247,9 @@ function renderFundamentalsBlock(code) {
   // ④ 剪刀差预警
   let scissorHtml = '';
   if (f.scissorGap === 'warn') {
-    scissorHtml = '<span class="tag tg-mid" style="font-size:10px;margin-left:6px;" title="净利增速 < 营收增速 - 5pp · 增收不增利信号">🟡 利润增速落后营收</span>';
+    scissorHtml = '<span class="tag tg-mid" style="font-size:11px;margin-left:6px;" title="净利增速 < 营收增速 - 5pp · 增收不增利信号">🟡 利润增速落后营收</span>';
   } else if (f.scissorGap === 'danger') {
-    scissorHtml = '<span class="tag tg-extreme" style="font-size:10px;margin-left:6px;" title="净利增速 < 0 且营收增速 > 0 · 增收不增利严重">🔴 增收不增利</span>';
+    scissorHtml = '<span class="tag tg-extreme" style="font-size:11px;margin-left:6px;" title="净利增速 < 0 且营收增速 > 0 · 增收不增利严重">🔴 增收不增利</span>';
   }  // ok 不显示
 
   // ⑤ FCF 状态
@@ -1260,7 +1260,7 @@ function renderFundamentalsBlock(code) {
       : '<span style="color:var(--muted);">—</span>';
 
   // ⑥ 数据期 + 数据来源（akshare⚪单源待核）— 改动3：移入基本面质量折叠区内
-  const asOfHtml = `<span style="color:var(--color-muted);font-size:10px;" title="${f.source || 'akshare'}">${f.asOf} · akshare⚪单源待核</span>`;
+  const asOfHtml = `<span style="color:var(--color-muted);font-size:11px;" title="${f.source || 'akshare'}">${f.asOf} · akshare⚪单源待核</span>`;
 
   // ★ commit 4.41：默认折叠 · summary 显示最关键 2 个数字（ROE + 毛利率）
   return `
@@ -1274,19 +1274,19 @@ function renderFundamentalsBlock(code) {
       </summary>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);">
         <div>
-          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">ROE</div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">ROE</div>
           <div style="color:${roeCls};font-weight:600;font-size:13px;">${roeTxt}</div>
         </div>
         <div>
-          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">毛利率 ${gmArrow}</div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">毛利率 ${gmArrow}</div>
           <div style="color:${gmColor};font-weight:600;font-size:13px;">${gmTxt}</div>
         </div>
         <div>
-          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">FCF</div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">FCF</div>
           <div style="font-size:11px;">${fcfHtml}</div>
         </div>
         <div style="grid-column:1 / span 2;">
-          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">营收同比 / 净利同比${scissorHtml}</div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">营收同比 / 净利同比${scissorHtml}</div>
           <div style="font-size:12px;">
             <span style="color:${revG.color};font-weight:600;">营收 ${revG.txt}</span>
             <span style="color:var(--muted);margin:0 4px;">/</span>
@@ -1294,7 +1294,7 @@ function renderFundamentalsBlock(code) {
           </div>
         </div>
         <div style="text-align:right;">
-          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">数据期</div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">数据期</div>
           <div>${asOfHtml}</div>
         </div>
       </div>
@@ -1464,8 +1464,8 @@ function renderSignalCHistoryPanel(chainId) {
     return `<div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-muted);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
         <span style="font-size:14px;font-weight:600;color:var(--text);">📊 信号 C 历史回放</span>
-        <span style="font-size:10px;padding:2px 6px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;font-weight:600;">⚠️历史回放·非实盘记录</span>
-        <span style="font-size:10px;padding:2px 6px;background:rgba(240,185,11,0.15);color:var(--accent);border-radius:3px;font-weight:600;">研究参数·比实时信号宽松</span>
+        <span style="font-size:11px;padding:2px 6px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;font-weight:600;">⚠️历史回放·非实盘记录</span>
+        <span style="font-size:11px;padding:2px 6px;background:rgba(240,185,11,0.15);color:var(--accent);border-radius:3px;font-weight:600;">研究参数·比实时信号宽松</span>
       </div>
       <div style="font-size:11px;color:var(--color-muted);line-height:1.6;">5 年窗口（2021-06-23 ~ 2026-06-23）内 37 只 PCB 标的 <strong style="color:var(--color-warn);">无触发记录</strong>——信号 C 触发条件严格（A OR B 均需多子条件 AND + 5 项硬性排除），5 年内 PCB 板块未同时满足严格回调条件。<strong>这不代表策略失效</strong>，仅说明严格条件下的样本稀疏。</div>
     </div>`;
@@ -1473,13 +1473,13 @@ function renderSignalCHistoryPanel(chainId) {
 
   // 3 个胜率小卡
   const card = (label, val) => `<div style="flex:1;min-width:100px;padding:10px;background:var(--bg-hover);border-radius:6px;">
-    <div style="font-size:10px;color:var(--color-muted);margin-bottom:2px;">${label}</div>
+    <div style="font-size:11px;color:var(--color-muted);margin-bottom:2px;">${label}</div>
     <div style="font-size:20px;font-weight:700;color:${val === null ? 'var(--muted)' : (val >= 50 ? 'var(--color-bull)' : 'var(--color-risk)')};">${val !== null ? val.toFixed(1)+'%' : '—'}</div>
   </div>`;
   const statCard = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
     ${card('30 天胜率', stats.winRate30)}${card('60 天胜率', stats.winRate60)}${card('90 天胜率', stats.winRate90)}
   </div>
-  <div style="font-size:10px;color:var(--color-muted);margin-bottom:10px;line-height:1.5;">
+  <div style="font-size:11px;color:var(--color-muted);margin-bottom:10px;line-height:1.5;">
     总触发 <strong style="color:var(--text);">${stats.totalRuns}</strong> 条（A 触发 ${stats.triggeredByA} / B 触发 ${stats.triggeredByB}）·
     30/60/90 天均收益 <strong>${stats.avgReturn30 !== null ? stats.avgReturn30+'%' : '—'} / ${stats.avgReturn60 !== null ? stats.avgReturn60+'%' : '—'} / ${stats.avgReturn90 !== null ? stats.avgReturn90+'%' : '—'}</strong> ·
     最大单笔盈利 +${stats.maxWin}% / 亏损 ${stats.maxLoss}%
@@ -1489,9 +1489,9 @@ function renderSignalCHistoryPanel(chainId) {
   const rows = sh.runs.slice(0, 30).map(r => {
     const cls = v => v === null ? 'var(--muted)' : (v > 0 ? 'var(--color-bull)' : 'var(--color-risk)');
     return `<tr>
-      <td><code style="font-size:10px;">${r.date}</code></td>
+      <td><code style="font-size:11px;">${r.date}</code></td>
       <td><code>${r.code}</code> ${r.name}</td>
-      <td><span style="font-size:9px;padding:1px 4px;background:var(--bg-hover);border-radius:3px;">${r.conditions}</span></td>
+      <td><span style="font-size:11px;padding:1px 4px;background:var(--bg-hover);border-radius:3px;">${r.conditions}</span></td>
       <td style="text-align:right;">${r.entryPrice}</td>
       <td style="text-align:right;color:${cls(r.return30)};">${r.return30 !== null ? (r.return30*100).toFixed(1)+'%' : '—'}</td>
       <td style="text-align:right;color:${cls(r.return60)};">${r.return60 !== null ? (r.return60*100).toFixed(1)+'%' : '—'}</td>
@@ -1503,14 +1503,14 @@ function renderSignalCHistoryPanel(chainId) {
     <div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-muted);max-height:400px;overflow-y:auto;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
         <span style="font-size:14px;font-weight:600;color:var(--text);">📊 信号 C 历史回放</span>
-        <span style="font-size:10px;padding:2px 6px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;font-weight:600;">⚠️历史回放·非实盘记录·仅供研究参考</span>
-        <span style="font-size:10px;padding:2px 6px;background:rgba(240,185,11,0.15);color:var(--accent);border-radius:3px;font-weight:600;">研究参数·比实时信号宽松</span>
-        <span style="font-size:10px;color:var(--color-muted);">5 年窗口 · ${sh.runs.length} 条触发</span>
+        <span style="font-size:11px;padding:2px 6px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;font-weight:600;">⚠️历史回放·非实盘记录·仅供研究参考</span>
+        <span style="font-size:11px;padding:2px 6px;background:rgba(240,185,11,0.15);color:var(--accent);border-radius:3px;font-weight:600;">研究参数·比实时信号宽松</span>
+        <span style="font-size:11px;color:var(--color-muted);">5 年窗口 · ${sh.runs.length} 条触发</span>
       </div>
       ${statCard}
       <details>
         <summary style="cursor:pointer;font-size:11px;color:var(--color-data);user-select:none;">📋 查看历史触发明细（前 30 条 · 总 ${sh.runs.length} 条）</summary>
-        <table style="width:100%;font-size:10px;margin-top:8px;border-collapse:collapse;">
+        <table style="width:100%;font-size:11px;margin-top:8px;border-collapse:collapse;">
           <thead><tr style="background:var(--bg-hover);">
             <th style="text-align:left;padding:4px;">日期</th>
             <th style="text-align:left;padding:4px;">标的</th>
@@ -1560,13 +1560,13 @@ function renderSignalCTopList(chainId) {
     const triggered = triggeredMap[s.code];
     const condTag = triggered && triggered.conditions
       ? (triggered.conditions || '').split('+').map(c =>
-          c === 'A' ? '<span class="tag tg-green" style="font-size:9px;padding:1px 5px;">A</span>'
-                    : '<span class="tag tg-mid" style="font-size:9px;padding:1px 5px;">B</span>'
+          c === 'A' ? '<span class="tag tg-green" style="font-size:11px;padding:1px 5px;">A</span>'
+                    : '<span class="tag tg-mid" style="font-size:11px;padding:1px 5px;">B</span>'
         ).join(' ')
-      : '<span class="tag tg-gray" style="font-size:9px;padding:1px 5px;">未触发</span>';
+      : '<span class="tag tg-gray" style="font-size:11px;padding:1px 5px;">未触发</span>';
     // ★ commit 4.53：估值极高警示标签（totalDist≤0 数学达标 + PE分位≥95 → 警示）
     const valWarn = (s.totalDist !== null && s.totalDist <= 0 && s.pePercentile !== null && s.pePercentile >= 95)
-      ? '<span style="font-size:9px;padding:1px 5px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;">估值极高</span>'
+      ? '<span style="font-size:11px;padding:1px 5px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;">估值极高</span>'
       : '';
     const totalCls = s.totalDist <= 0 ? 'var(--color-bull)'
                     : s.totalDist < 5 ? 'var(--color-warn)' : 'var(--color-data)';
@@ -1583,9 +1583,9 @@ function renderSignalCTopList(chainId) {
     cards += `</div>`;
     cards += `<div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px;">`;
     cards += `<strong style="font-size:16px;font-weight:700;color:${totalCls};">${totalStr}</strong>`;
-    cards += `<span style="font-size:10px;color:var(--color-muted);">总距离</span>`;
+    cards += `<span style="font-size:11px;color:var(--color-muted);">总距离</span>`;
     cards += `</div>`;
-    cards += `<div style="font-size:10px;color:var(--color-muted);line-height:1.5;">${dimLabel(s)}</div>`;
+    cards += `<div style="font-size:11px;color:var(--color-muted);line-height:1.5;">${dimLabel(s)}</div>`;
     cards += `</div>`;
   });
   return `
@@ -1594,7 +1594,7 @@ function renderSignalCTopList(chainId) {
         <span style="font-size:14px;font-weight:600;color:var(--text);">🎯 距离最近 TOP3</span>
         <span style="font-size:11px;color:var(--color-muted);">按总距离升序·距离≤0不代表买入机会·需结合估值判断</span>
         <span style="flex:1;"></span>
-        <a href="#section-signal-c" style="font-size:10px;color:var(--color-data);text-decoration:none;">查看全部 38 只 →</a>
+        <a href="#section-signal-c" style="font-size:11px;color:var(--color-data);text-decoration:none;">查看全部 38 只 →</a>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         ${cards}
@@ -1663,7 +1663,7 @@ function renderMacroDashboard(chainId) {
         <span style="width:96px;color:var(--text);font-weight:600;flex-shrink:0;">${dim.name}</span>
         <span style="color:${tc};font-weight:600;min-width:64px;">${trendLabel(d.trend)}</span>
         <span style="flex:1;color:var(--muted);font-size:11px;line-height:1.5;">${d.note || ''}</span>
-        <span style="color:${ic};font-size:10px;font-weight:600;flex-shrink:0;" title="对 PCB 链影响">${d.impact === 'positive' ? '↑ 正向' : d.impact === 'negative' ? '↓ 负向' : '— 中性'}</span>
+        <span style="color:${ic};font-size:11px;font-weight:600;flex-shrink:0;" title="对 PCB 链影响">${d.impact === 'positive' ? '↑ 正向' : d.impact === 'negative' ? '↓ 负向' : '— 中性'}</span>
       </div>
     `;
   });
@@ -1673,12 +1673,12 @@ function renderMacroDashboard(chainId) {
     ? `<div style="margin-top:10px;padding:8px 10px;background:rgba(240,185,11,0.06);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:11px;color:var(--text);line-height:1.6;">📝 ${macro.summary}</div>`
     : '';
   const asOfHtml = macro.asOf
-    ? `<span style="color:var(--color-muted);font-size:10px;" title="产业链景气度数据期">📅 ${macro.asOf}${macro.updatedBy ? ' · ' + macro.updatedBy : ''}</span>`
+    ? `<span style="color:var(--color-muted);font-size:11px;" title="产业链景气度数据期">📅 ${macro.asOf}${macro.updatedBy ? ' · ' + macro.updatedBy : ''}</span>`
     : '';
 
   // ★ commit 4.41：默认只显示 summary · 5 维度折叠展开（详情面板）
   return `<div id="section-macro">
-    <details style="background:var(--card2);border-radius:8px;padding:14px 16px;margin-bottom:18px;border-left:3px solid var(--accent);">
+    <details style="background:var(--card2);border-radius:8px;padding:14px 16px;margin-bottom:18px;border-left:3px solid var(--accent);max-width:100%;box-sizing:border-box;overflow:hidden;">
       <summary style="cursor:pointer;list-style:none;outline:none;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
         <div style="font-size:14px;font-weight:700;color:var(--accent);letter-spacing:0.5px;display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
           <span>🌡️ 产业链景气度</span>
@@ -1873,8 +1873,8 @@ function renderStockRankingPanel(chainId) {
     h += `<td class="s-code">${s.code}</td>`;
     h += `<td style="font-size:11px;color:var(--muted);">${s.segmentName}${s.choke ? ' 🔒' : ''}</td>`;
     h += `<td style="font-weight:700;color:${scoreColor(s.fit.score)};">${s.fit.score}</td>`;
-    h += `<td><span class="tag ${tierCls(s.fit.tier)}" style="font-size:10px;">${s.fit.tier}</span></td>`;
-    h += `<td><span class="tag ${barrierCls(s.barrier)}" style="font-size:10px;">${s.barrier || '—'}</span></td>`;
+    h += `<td><span class="tag ${tierCls(s.fit.tier)}" style="font-size:11px;">${s.fit.tier}</span></td>`;
+    h += `<td><span class="tag ${barrierCls(s.barrier)}" style="font-size:11px;">${s.barrier || '—'}</span></td>`;
     h += `</tr>`;
   });
   h += `</tbody></table></div>`;
@@ -1894,7 +1894,7 @@ function renderStockRankingPanel(chainId) {
     h += `<td class="s-code">${s.code}</td>`;
     h += `<td class="s-name">${s.name}</td>`;
     h += `<td style="font-weight:700;color:${scoreColor(s.fit.score)};">${s.fit.score}</td>`;
-    h += `<td><span class="tag ${tierCls(s.fit.tier)}" style="font-size:10px;">${s.fit.tier}</span></td>`;
+    h += `<td><span class="tag ${tierCls(s.fit.tier)}" style="font-size:11px;">${s.fit.tier}</span></td>`;
     h += `</tr>`;
   });
   h += `</tbody></table></div>`;
@@ -1916,7 +1916,7 @@ function renderStockRankingPanel(chainId) {
       h += `<td class="s-code">${s.code}</td>`;
       h += `<td style="font-size:11px;color:var(--muted);">${s.segmentName}</td>`;
       h += `<td style="font-weight:700;color:var(--color-risk);">${s.fit.score}</td>`;
-      h += `<td><span class="tag tg-extreme" style="font-size:10px;">${s.fit.tier}</span></td>`;
+      h += `<td><span class="tag tg-extreme" style="font-size:11px;">${s.fit.tier}</span></td>`;
       h += `<td style="font-size:11px;color:var(--color-risk);font-weight:600;">${weakText}</td>`;
       h += `</tr>`;
     });
@@ -2134,7 +2134,7 @@ function renderChain(chainId) {
               if (_gapMatch.gap)     h += `<div>缺口量: <strong>${_gapMatch.gap}</strong></div>`;
               if (_gapMatch.rate)    h += `<div>缺口率: <strong>${_gapMatch.rate}</strong></div>`;
               if (_gapMatch.bottleneck) h += `<div style="margin-top:4px;color:var(--muted);">瓶颈: ${_gapMatch.bottleneck}</div>`;
-              if (_gapMatch.src)     h += `<div style="color:var(--muted);font-size:10px;margin-top:2px;">来源: ${_gapMatch.src}</div>`;
+              if (_gapMatch.src)     h += `<div style="color:var(--muted);font-size:11px;margin-top:2px;">来源: ${_gapMatch.src}</div>`;
               h += `</div>`;
             }
             // 标的列表（保留原功能）
@@ -2142,7 +2142,7 @@ function renderChain(chainId) {
               h += `<table><tbody>`;
               nd.companies.forEach((c, i) => {
                 const cn = barrierNorm(c.barrier) || '';
-                h += `<tr><td class="rank">${i+1}</td><td>${c.name}</td><td class="code">${c.code||'—'}</td><td class="badge" style="color:var(--muted);font-size:10px;">${cn}</td></tr>`;
+                h += `<tr><td class="rank">${i+1}</td><td>${c.name}</td><td class="code">${c.code||'—'}</td><td class="badge" style="color:var(--muted);font-size:11px;">${cn}</td></tr>`;
               });
               h += `</tbody></table>`;
             }
@@ -2223,11 +2223,11 @@ function renderChain(chainId) {
         h += `<div style="margin-bottom:6px;padding:8px 10px;background:rgba(240,185,11,0.08);border-radius:4px;">`;
         h += `<div style="font-size:11px;color:var(--muted);margin-bottom:2px;">单台 PCB 价值量倍数 <span style="color:var(--muted);">· vs 普通服务器</span></div>`;
         h += `<div style="font-size:15px;font-weight:600;color:var(--accent);">${seg.valueMultRange}</div>`;
-        h += `<div style="font-size:10px;color:var(--muted);margin-top:2px;">${seg.valueMultNote || ''}</div>`;
+        h += `<div style="font-size:11px;color:var(--muted);margin-top:2px;">${seg.valueMultNote || ''}</div>`;
         h += `</div>`;
       }
       // 来源数量
-      h += `<div style="font-size:10px;color:var(--muted);">📚 ${seg.cagrSrc.length} 源${(seg.valueMultSrc?' + '+seg.valueMultSrc.length+' 源 (价值量)':'')}</div>`;
+      h += `<div style="font-size:11px;color:var(--muted);">📚 ${seg.cagrSrc.length} 源${(seg.valueMultSrc?' + '+seg.valueMultSrc.length+' 源 (价值量)':'')}</div>`;
       h += `</div>`;
     });
     h += `</div>`;
@@ -2391,7 +2391,7 @@ function renderChain(chainId) {
     // ★ 升级 E：fold 面板顶部综合分行（复用赛道六维卡排版：综合 X/100 + 档位徽章 + ⚠安全垫）
     const f = computeStockFit(s.dims6);
     const tierCls = f.tier.indexOf('🟢')===0 ? 'tg-green' : f.tier.indexOf('🟡')===0 ? 'tg-mid' : 'tg-extreme';
-    const summaryRow = `<div style="margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--border);font-size:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">综合 <strong style="color:var(--accent);font-size:14px;">${f.score}</strong>/100 <span class="tag ${tierCls}" style="font-size:10px;">${f.tier}</span>${f.risk?' <span style="color:var(--red);font-size:10px;">⚠安全垫不足</span>':''}</div>`;
+    const summaryRow = `<div style="margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--border);font-size:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">综合 <strong style="color:var(--accent);font-size:14px;">${f.score}</strong>/100 <span class="tag ${tierCls}" style="font-size:11px;">${f.tier}</span>${f.risk?' <span style="color:var(--red);font-size:11px;">⚠安全垫不足</span>':''}</div>`;
     let bars = '';
     s.dims6.forEach(d6 => {
       const meta = META[d6.key] || {};
@@ -2403,7 +2403,7 @@ function renderChain(chainId) {
       bars += `<span style="width:42px;text-align:right;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend, d6.score)}</span>`;
       bars += `</div>`;
     });
-    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;">${summaryRow}<div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}${s.valAsOf?`<div style="margin-top:4px;font-size:10px;color:var(--color-muted);text-align:right;" title="估值判断时点">📅 截至 ${s.valAsOf.slice(5)}</div>`:''}</div></details>`;
+    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;">${summaryRow}<div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}${s.valAsOf?`<div style="margin-top:4px;font-size:11px;color:var(--color-muted);text-align:right;" title="估值判断时点">📅 截至 ${s.valAsOf.slice(5)}</div>`:''}</div></details>`;
   }
 
   // ===== ★ B4 六维雷达图（纯内联 SVG，0 依赖，复用 var(--accent) 金色描边+半透明填充）=====
@@ -2539,17 +2539,17 @@ function renderChain(chainId) {
         if (hist.length > 0) {
           histStr = hist.slice(0, 3).map(h => {
             const dateShort = (h.date || '').slice(5);  // MM-DD
-            return `<span class="tag ${trendColor(h.trend)}" style="font-size:9px;margin-right:2px;">${dateShort}:${h.trend}</span>`;
+            return `<span class="tag ${trendColor(h.trend)}" style="font-size:11px;margin-right:2px;">${dateShort}:${h.trend}</span>`;
           }).join(' ');
         }
         h += `<tr>`;
         h += `<td><code>${s.code}</code></td>`;
         h += `<td>${s.name||'—'}</td>`;
-        h += `<td><span class="tag tg-mid" style="font-size:10px;">${s.reduceReason||'—'}</span></td>`;
-        h += `<td style="font-size:10px;line-height:1.5;">${histStr}</td>`;
+        h += `<td><span class="tag tg-mid" style="font-size:11px;">${s.reduceReason||'—'}</span></td>`;
+        h += `<td style="font-size:11px;line-height:1.5;">${histStr}</td>`;
         h += `<td style="font-size:11px;color:var(--color-warn);">${s.reduceSignal||'—'}</td>`;
         // ★ commit 4.22：减仓清单 → 「📝记录减仓」按钮（预填 side='sell' + triggerSignal='减仓'）
-        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'减仓'})" style="padding:3px 8px;background:var(--color-warn);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;min-width:64px;">📝记录减仓</button></td>`;
+        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'减仓'})" style="padding:3px 8px;background:var(--color-warn);color:#0f1117;border:none;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;min-width:64px;">📝记录减仓</button></td>`;
         h += `</tr>`;
       });
       h += `</tbody></table></div>`;
@@ -2588,15 +2588,15 @@ function renderChain(chainId) {
         if (hist.length > 0) {
           histStr = hist.slice(0, 3).map(h => {
             const dateShort = (h.date || '').slice(5);
-            return `<span class="tag ${trendColor(h.trend)}" style="font-size:9px;margin-right:2px;">${dateShort}:${h.trend}</span>`;
+            return `<span class="tag ${trendColor(h.trend)}" style="font-size:11px;margin-right:2px;">${dateShort}:${h.trend}</span>`;
           }).join(' ');
         }
         h += `<tr style="background:rgba(246,70,93,0.08);">`;
         h += `<td><code>${s.code}</code></td>`;
         h += `<td style="color:var(--red);font-weight:600;">${s.name||'—'}</td>`;
-        h += `<td><span class="tag tg-extreme" style="font-size:10px;">${s.exitReason||'—'}</span> <span style="font-size:11px;color:var(--red);">${s.exitSignal||'—'}</span></td>`;
-        h += `<td style="font-size:10px;line-height:1.5;">${histStr}</td>`;
-        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'清仓'})" style="padding:3px 8px;background:var(--red);color:#fff;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录清仓</button></td>`;
+        h += `<td><span class="tag tg-extreme" style="font-size:11px;">${s.exitReason||'—'}</span> <span style="font-size:11px;color:var(--red);">${s.exitSignal||'—'}</span></td>`;
+        h += `<td style="font-size:11px;line-height:1.5;">${histStr}</td>`;
+        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'清仓'})" style="padding:3px 8px;background:var(--red);color:#fff;border:none;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;">📝记录清仓</button></td>`;
         h += `</tr>`;
       });
       h += `</tbody></table></div>`;
@@ -2624,7 +2624,7 @@ function renderChain(chainId) {
     ];
     h += `<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">`;
     h += `<div style="font-size:13px;font-weight:600;margin-bottom:10px;">📋 当前持仓 · 背景说明 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（1 只硬编码 · PCB · 2026-06-24 决策）</span></div>`;
-    h += `<div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 说明：与上方减仓/清仓清单独立——持仓 601208 东材科技"持有中"，背景说明给出决策依据。</div>`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 说明：与上方减仓/清仓清单独立——持仓 601208 东材科技"持有中"，背景说明给出决策依据。</div>`;
     h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;">`;
     h += `<colgroup><col style="width:60px"><col style="width:90px"><col style="width:80px"><col style="width:160px"><col><col style="width:110px"></colgroup>`;
     h += `<thead><tr><th>代码</th><th>简称</th><th>状态</th><th>板块定位</th><th>决策依据（背景说明）</th><th>联动</th></tr></thead><tbody>`;
@@ -2632,14 +2632,14 @@ function renderChain(chainId) {
       h += `<tr>`;
       h += `<td><code>${s.code}</code></td>`;
       h += `<td>${s.name}</td>`;
-      h += `<td><span class="tag tg-mid" style="font-size:10px;font-weight:600;">${s.status}</span></td>`;
+      h += `<td><span class="tag tg-mid" style="font-size:11px;font-weight:600;">${s.status}</span></td>`;
       h += `<td style="font-size:11px;color:${s.color};">${s.segment}</td>`;
       h += `<td style="font-size:11px;line-height:1.5;color:var(--text);">${s.note}</td>`;
       // ★ commit 4.27：每只持仓加「📝记录」按钮（跳到交易日志表单预填）
       // ★ commit 4.31：再加「+ 趋势」按钮（弹 3 字段表单·复制到剪贴板）
       h += `<td><div style="display:flex;gap:4px;flex-wrap:wrap;">`;
-      h += `<button onclick="prefillTrade({code:'${s.code}',name:'${s.name}',side:'buy',triggerSignal:'手动'})" style="padding:3px 8px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录</button>`;
-      h += `<button onclick="trendEntry('${s.code}','${s.name}')" style="padding:3px 8px;background:var(--green);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">+ 趋势</button>`;
+      h += `<button onclick="prefillTrade({code:'${s.code}',name:'${s.name}',side:'buy',triggerSignal:'手动'})" style="padding:3px 8px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;">📝记录</button>`;
+      h += `<button onclick="trendEntry('${s.code}','${s.name}')" style="padding:3px 8px;background:var(--green);color:#0f1117;border:none;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;">+ 趋势</button>`;
       h += `</div></td>`;
       h += `</tr>`;
     });
@@ -2669,34 +2669,34 @@ function renderChain(chainId) {
       h += `<span style="font-weight:600;color:${(typeof r.stopLoss === 'number') ? 'var(--text)' : 'var(--muted)'};">${stopTxt}</span>`;
       h += `<span style="font-size:11px;color:var(--muted);">·</span>`;
       h += `<span style="color:${crColor};font-weight:600;">${crIcon} 集中度${cr === 'high' ? '高' : cr === 'medium' ? '中' : '低'}</span>`;
-      h += `<span style="color:var(--muted);margin-left:auto;font-size:10px;">▾ 展开详情</span>`;
+      h += `<span style="color:var(--muted);margin-left:auto;font-size:11px;">▾ 展开详情</span>`;
       h += `</summary>`;
       // 详情面板（4 字段 · grid 布局）
       h += `<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-size:12px;">`;
       // 止损价
       h += `<div>`;
-      h += `<div style="color:var(--muted);font-size:10px;margin-bottom:2px;">止损价</div>`;
+      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">止损价</div>`;
       if (typeof r.stopLoss === 'number') {
         h += `<div style="font-weight:600;color:var(--text);font-size:14px;">${r.stopLoss.toFixed(2)} 元</div>`;
-        h += `<div style="color:var(--muted);font-size:10px;margin-top:2px;">${r.stopLossReason || ''}</div>`;
+        h += `<div style="color:var(--muted);font-size:11px;margin-top:2px;">${r.stopLossReason || ''}</div>`;
       } else {
         h += `<div style="color:var(--muted);font-weight:600;">待定</div>`;
-        h += `<div style="color:var(--muted);font-size:10px;margin-top:2px;">${r.stopLossReason || ''}</div>`;
+        h += `<div style="color:var(--muted);font-size:11px;margin-top:2px;">${r.stopLossReason || ''}</div>`;
       }
       h += `</div>`;
       // 再入场条件
       h += `<div>`;
-      h += `<div style="color:var(--muted);font-size:10px;margin-bottom:2px;">再入场条件</div>`;
+      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">再入场条件</div>`;
       h += `<div style="font-size:11px;line-height:1.5;color:var(--text);">${r.reentryCondition || '—'}</div>`;
       h += `</div>`;
       // 集中度风险
       h += `<div>`;
-      h += `<div style="color:var(--muted);font-size:10px;margin-bottom:2px;">集中度风险</div>`;
+      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">集中度风险</div>`;
       h += `<div style="color:${crColor};font-weight:600;font-size:13px;">${crIcon} ${cr === 'high' ? '高（建议减仓）' : cr === 'medium' ? '中（建议关注）' : '低'}</div>`;
       h += `</div>`;
       // note
       h += `<div>`;
-      h += `<div style="color:var(--muted);font-size:10px;margin-bottom:2px;">决策依据</div>`;
+      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">决策依据</div>`;
       h += `<div style="font-size:11px;line-height:1.5;color:var(--text);">${r.note || '—'}</div>`;
       h += `</div>`;
       // ★ commit 4.61：reduceSignal 风险警示渲染（4.56 写入字段·4.61 才在 UI 展示）
@@ -2709,7 +2709,7 @@ function renderChain(chainId) {
           h += `<div style="font-size:11px;color:var(--text);line-height:1.6;margin-bottom:6px;"><strong>建议：</strong>${ar.suggestedRatio || '—'} · ${ar.reason || ''}</div>`;
           if (ar.suggestedPrice) h += `<div style="font-size:11px;color:var(--muted);"><strong>建议价位：</strong>${ar.suggestedPrice} 元</div>`;
         }
-        if (r.dataAsOf) h += `<div style="font-size:10px;color:var(--color-muted);margin-top:6px;text-align:right;">数据截止：${r.dataAsOf}</div>`;
+        if (r.dataAsOf) h += `<div style="font-size:11px;color:var(--color-muted);margin-top:6px;text-align:right;">数据截止：${r.dataAsOf}</div>`;
         h += `</div>`;
       }
       h += `</div></details>`;
@@ -2765,7 +2765,7 @@ function renderChain(chainId) {
     if (c.valuation && typeof c.valuation.pePercentile === 'number') {
       const _p = c.valuation.pePercentile;
       const _pCls = _p >= 80 ? 'tg-extreme' : _p >= 50 ? 'tg-mid' : 'tg-green';
-      _sumPct = `<span class="tag ${_pCls}" style="font-size:10px;margin-left:6px;">PE分位 ${_p.toFixed(0)}%</span>`;
+      _sumPct = `<span class="tag ${_pCls}" style="font-size:11px;margin-left:6px;">PE分位 ${_p.toFixed(0)}%</span>`;
     }
     let _sumTrend = '';
     const _findTrend = (arr) => { const m = (arr || []).find(s => s.code === c.code); if (m && m.trend) return m.trend; return null; };
@@ -2775,13 +2775,13 @@ function renderChain(chainId) {
     if (_trendVal) {
       const _tCls = _trendVal === 'up' ? 'tg-green' : _trendVal === 'down' ? 'tg-extreme' : 'tg-gray';
       const _tTxt = _trendVal === 'up' ? '⬆' : _trendVal === 'down' ? '⬇' : '➖';
-      _sumTrend = `<span class="tag ${_tCls}" style="font-size:10px;margin-left:4px;" title="趋势">${_tTxt}</span>`;
+      _sumTrend = `<span class="tag ${_tCls}" style="font-size:11px;margin-left:4px;" title="趋势">${_tTxt}</span>`;
     }
     const _sumTags = (c.strength || '') + _sumPct + _sumTrend;
     // 持仓 / 减仓信号徽章（用于 summary 行标记「为什么默认展开」）
     let _openReason = '';
-    if (HOLDING_CODES_DEFAULT_OPEN.has(c.code)) _openReason = '<span class="tag tg-extreme" style="font-size:10px;margin-left:6px;" title="commit 4.27 持仓名单">📌 持仓</span>';
-    else if (reduceTriggeredCodes.has(c.code)) _openReason = '<span class="tag tg-mid" style="font-size:10px;margin-left:6px;" title="信号 C 减仓触发">⚠️ 减仓</span>';
+    if (HOLDING_CODES_DEFAULT_OPEN.has(c.code)) _openReason = '<span class="tag tg-extreme" style="font-size:11px;margin-left:6px;" title="commit 4.27 持仓名单">📌 持仓</span>';
+    else if (reduceTriggeredCodes.has(c.code)) _openReason = '<span class="tag tg-mid" style="font-size:11px;margin-left:6px;" title="信号 C 减仓触发">⚠️ 减仓</span>';
 
     h += `<div class="choke-card">`;
     // ★ commit 4.41：整只 stock 卡片用 <details> 包裹 · 持仓/减仓 stock 默认展开
@@ -2791,14 +2791,14 @@ function renderChain(chainId) {
     h += `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;font-size:11px;">`;
     h += `<span style="color:var(--muted);">🔒 ${c.segment}</span>`;
     h += _sumTags;
-    h += `<span style="color:var(--muted);margin-left:auto;font-size:10px;">▾ 展开详情</span>`;
+    h += `<span style="color:var(--muted);margin-left:auto;font-size:11px;">▾ 展开详情</span>`;
     h += `</div></summary>`;
     if (c.verification && c.verification.items && c.verification.items.length) {
       const all = collectVerifyStatuses(chainId, c.code, c.verification.items);
       const ov = computeOverallStatus(all);
       const ocls = ov==='verified'?'tg-green':ov==='falsified'?'tg-extreme':'tg-gray';
       const otxt = ov==='verified'?'✅ 已验证':ov==='falsified'?'❌ 已证伪':'⏳ 待验证';
-      h += `<div style="margin:6px 0 4px;"><span class="tag verify-overall ${ocls}" style="font-size:10px;">${otxt}</span></div>`;
+      h += `<div style="margin:6px 0 4px;"><span class="tag verify-overall ${ocls}" style="font-size:11px;">${otxt}</span></div>`;
     }
     h += `<div class="code">${c.code}</div>`;
     h += `<div class="seg">🔒 ${c.segment}</div>`;
@@ -2841,12 +2841,12 @@ function renderChain(chainId) {
       const fh = formatFromHigh(c.valuation.fromHigh);
       if (fh) parts.push(fh);
       h += `<div class="valuation" style="font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">`;
-      h += `<span>${parts.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}${c.valuation.asOf?` <span style="color:var(--color-muted);font-size:10px;" title="估值/PE 截至日">📅 ${c.valuation.asOf}</span>`:''}</span>`;
+      h += `<span>${parts.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}${c.valuation.asOf?` <span style="color:var(--color-muted);font-size:11px;" title="估值/PE 截至日">📅 ${c.valuation.asOf}</span>`:''}</span>`;
       if (p !== null) {
-        h += `<span class="tag ${cls}" style="font-size:10px;">${band} ${p.toFixed(1)}%分位</span>`;
+        h += `<span class="tag ${cls}" style="font-size:11px;">${band} ${p.toFixed(1)}%分位</span>`;
       }
       if (_entryOverP70) {
-        h += `<span class="tag tg-extreme" style="font-size:10px;" title="当前 PE ${c.valuation.pe_ttm.toFixed(2)} 高于买入区间上限 ${c.valuation.entryZone.p70.toFixed(2)}">⚠️ 高于 PE 上限</span>`;
+        h += `<span class="tag tg-extreme" style="font-size:11px;" title="当前 PE ${c.valuation.pe_ttm.toFixed(2)} 高于买入区间上限 ${c.valuation.entryZone.p70.toFixed(2)}">⚠️ 高于 PE 上限</span>`;
       }
       h += `</div>`;
       if (c.valuation.note) {
@@ -2903,7 +2903,7 @@ function renderChain(chainId) {
         h += `<div style="padding:10px 12px;background:var(--card2);border-radius:6px;border-left:3px solid ${accentColor};">`;
         h += `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">`;
         h += `<div style="font-size:12px;font-weight:700;color:var(--text);">📌 ${it.type}</div>`;
-        h += `<span class="tag ${cls}" style="cursor:pointer;font-size:10px;flex-shrink:0;" onclick="cycleVerifyStatus('${chainId}','${c.code}','${it.type}',this)">${txt}</span>`;
+        h += `<span class="tag ${cls}" style="cursor:pointer;font-size:11px;flex-shrink:0;" onclick="cycleVerifyStatus('${chainId}','${c.code}','${it.type}',this)">${txt}</span>`;
         h += `</div>`;
         h += `<div style="font-size:11px;line-height:1.6;margin-bottom:4px;"><span style="color:var(--muted);font-weight:600;">论断：</span>${it.claim}</div>`;
         h += `<div style="font-size:11px;line-height:1.6;margin-bottom:4px;"><span style="color:var(--muted);font-weight:600;">怎么查：</span>${it.howToCheck}</div>`;
@@ -2978,7 +2978,7 @@ function renderChain(chainId) {
       h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_B}% · 趋势非向下</div>`;
       h += `<div>PE上限</div><div>否</div>`;
       h += `</div>`;
-      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">成长赛道通道 <span style="font-size:10px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
+      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">成长赛道通道 <span style="font-size:11px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
       h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;">`;
       h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
       h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_GROWTH_B}% · PE&lt;PE上限 · 趋势非向下</div>`;
@@ -2998,8 +2998,8 @@ function renderChain(chainId) {
       h += `<thead><tr><th>代码</th><th>简称</th><th>段位</th><th>壁垒</th><th>通道</th><th>信号</th><th>趋势</th><th>PE分位</th></tr></thead><tbody>`;
       hits.forEach(h2 => {
         const sigs = [];
-        if (h2.A) sigs.push('<span class="tag tg-green" style="font-size:10px;">A</span>');
-        if (h2.B) sigs.push('<span class="tag tg-high" style="font-size:10px;">B</span>');
+        if (h2.A) sigs.push('<span class="tag tg-green" style="font-size:11px;">A</span>');
+        if (h2.B) sigs.push('<span class="tag tg-high" style="font-size:11px;">B</span>');
         const pcls = h2.pePercentile === null || h2.pePercentile === undefined ? 'tg-gray' : h2.pePercentile >= 80 ? 'tg-extreme' : h2.pePercentile >= 50 ? 'tg-mid' : 'tg-green';
         h += `<tr>`;
         h += `<td><code>${h2.code}</code></td>`;
@@ -3009,7 +3009,7 @@ function renderChain(chainId) {
         h += `<td>${h2.channel==='growthAdj'?'成长赛道':(h2.channel||'—')}</td>`;
         h += `<td>${sigs.join(' ')}</td>`;
         h += `<td>${h2.trend==='up'?'向上':h2.trend==='down'?'向下':h2.trend==='flat'?'平稳':(h2.trend||'—')}</td>`;
-        h += `<td><span class="tag ${pcls}" style="font-size:10px;">${h2.pePercentile!==null && h2.pePercentile!==undefined ? h2.pePercentile.toFixed(1)+'%' : '—'}</span></td>`;
+        h += `<td><span class="tag ${pcls}" style="font-size:11px;">${h2.pePercentile!==null && h2.pePercentile!==undefined ? h2.pePercentile.toFixed(1)+'%' : '—'}</span></td>`;
         h += `</tr>`;
       });
       h += `</tbody></table>`;
@@ -3068,7 +3068,7 @@ function renderChain(chainId) {
       }
       h += `<tr>`;
       h += `<td style="font-weight:600;">${rp.name}</td>`;
-      h += `<td><span class="tag tg-blue" style="font-size:10px;">${rp.region}</span></td>`;
+      h += `<td><span class="tag tg-blue" style="font-size:11px;">${rp.region}</span></td>`;
       h += `<td style="font-size:13px;">${rp.barrier}</td>`;
       h += `<td>${replCell}</td>`;
       h += `</tr>`;
@@ -3105,6 +3105,9 @@ function renderChain(chainId) {
   d.overview.forEach(o => {
     h += `<div class="overview-item"><div class="label">${o.label}</div><div class="value" style="${o.color?'color:'+o.color:''}">${o.value}${sourceTierBadge(o.tier, o.src)}</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">${o.note}</div></div>`;
   });
+  h += `</div>`;
+  // ★ commit 4.77 布局调整3：景气六维全宽第一行 / 周期+买入信号 1:2 第二行（信号 C 不进 grid）
+  let hRow2 = "";
   // ★ 升级九 STEP 2B：景气六维卡（可选字段，没填 prosperity 就不渲染；0 CSS 增量，全 inline 复用 var(--*) 调色板）
   if (d.prosperity && d.prosperity.dims && d.prosperity.dims.length === 6) {
     const p = d.prosperity;
@@ -3112,7 +3115,8 @@ function renderChain(chainId) {
     // ★ 调优 B：高分 flat 调色 — score≥4 flat 用 var(--color-warn) 金 / 其余 flat 仍 muted 灰
     const arrowD = (t, sc) => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : '<span style="color:var(--muted);">→</span>';
     const lt = (typeof computeLtFit === 'function') ? computeLtFit(p) : null;
-    h += `<div class="card" style="padding:20px;margin-top:18px;border-left:3px solid var(--accent);">`;
+    h += `<div style="margin-top:18px;">`;
+    h += `<div class="card" style="padding:20px;border-left:3px solid var(--accent);">`;
     h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">`;
     h += `<span>🆪 景气六维 — 长线适配度<span style="color:var(--muted);font-size:11px;margin-left:8px;font-weight:400;">（AI 主观判断 · 权重全站统一 · 横向可比 · 周一定时任务不刷数据截止日）</span></span>`;
     if (lt) {
@@ -3137,7 +3141,7 @@ function renderChain(chainId) {
       if (scaleText)   h += `<div style="margin-top:4px;"><strong>标尺：</strong>${scaleText}</div>`;
       if (meta.basis)  h += `<div style="margin-top:4px;color:var(--muted);">${meta.basis}</div>`;
       if (d6.reason)   h += `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);"><strong>本赛道判断：</strong>${d6.reason}</div>`;
-      if (d6.evidence) h += `<div style="margin-top:3px;color:var(--muted);font-size:10px;">📎 ${d6.evidence}${d6.flag?' '+d6.flag:''}</div>`;
+      if (d6.evidence) h += `<div style="margin-top:3px;color:var(--muted);font-size:11px;">📎 ${d6.evidence}${d6.flag?' '+d6.flag:''}</div>`;
       h += `</div></details></span>`;
       h += `<span style="color:var(--text);">${d6.score}/5 ${arrowD(d6.trend, d6.score)}</span>`;
       h += `</div>`;
@@ -3157,6 +3161,7 @@ function renderChain(chainId) {
       h += `</div>`;
     }
     h += `</div>`;
+    h += `</div>`;
   }
   // ★ 升级三：周期位置卡片（可选字段，没填 cyclePosition 就不渲染）
   if (d.cyclePosition && d.cyclePosition.stage) {
@@ -3167,9 +3172,9 @@ function renderChain(chainId) {
       { key:'顶部', label:'顶部' },
       { key:'下行', label:'下行' }
     ];
-    h += `<div class="card" style="padding:20px;margin-top:18px;">`;
-    h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">📍 周期位置 — <span style="color:var(--accent);">${cp.label || ''}</span></div>`;
-    h += `<div style="display:flex;gap:6px;margin-bottom:14px;">`;
+    hRow2 += `<div class="card" style="padding:20px;margin-top:0;">`;
+    hRow2 += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">📍 周期位置 — <span style="color:var(--accent);">${cp.label || ''}</span></div>`;
+    hRow2 += `<div style="display:flex;gap:6px;margin-bottom:14px;">`;
     stages.forEach(s => {
       const isCurrent = s.key === cp.stage;
       let bg = 'var(--card2)', fg = 'var(--muted)';
@@ -3179,19 +3184,19 @@ function renderChain(chainId) {
         else if (s.key === 'peak')     { bg = 'rgba(246,70,93,0.4)';   fg = '#fff'; }
         else if (s.key === 'decline')  { bg = 'rgba(246,70,93,0.85)';  fg = '#fff'; }
       }
-      h += `<div class="cycle-stage" style="background:${bg};color:${fg};font-weight:${isCurrent?700:500};">${s.label}</div>`;
+      hRow2 += `<div class="cycle-stage" style="background:${bg};color:${fg};font-weight:${isCurrent?700:500};">${s.label}</div>`;
     });
-    h += `</div>`;
+    hRow2 += `</div>`;
     if (cp.reason) {
-      h += `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;padding:10px 14px;background:var(--card2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;">💡 ${cp.reason}</div>`;
+      hRow2 += `<div style="font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;padding:10px 14px;background:var(--card2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;">💡 ${cp.reason}</div>`;
     }
     if (cp.watchSignals && cp.watchSignals.length) {
-      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🔍 关注信号（判断周期是否转向）</div>`;
-      h += `<ul style="margin:0;padding-left:20px;font-size:12px;color:var(--text);line-height:1.8;">`;
-      cp.watchSignals.forEach(sig => { h += `<li>${sig}</li>`; });
-      h += `</ul>`;
+      hRow2 += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🔍 关注信号（判断周期是否转向）</div>`;
+      hRow2 += `<ul style="margin:0;padding-left:20px;font-size:12px;color:var(--text);line-height:1.8;">`;
+      cp.watchSignals.forEach(sig => { hRow2 += `<li>${sig}</li>`; });
+      hRow2 += `</ul>`;
     }
-    h += `</div>`;
+    hRow2 += `</div>`;
   }
   // ★ 阶段四 commit 4.3：买入信号 A/B 监测 section（program-derived · commit 3.4 注入 · 读取 CHAINS.pcb.signalMeta.stats）
   if (d.signalMeta && d.signalMeta.stats) {
@@ -3218,78 +3223,78 @@ function renderChain(chainId) {
     (d.segments || []).forEach(seg => collectHits(seg.stocks, seg.name));
     if (d.midstream) collectHits(d.midstream.stocks, '中游');
 
-    h += `<div class="card" style="padding:20px;margin-top:18px;">`;
-    h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">📡 买入信号监测 — <span style="color:var(--accent);">算法推导</span></div>`;
+    hRow2 += `<div class="card" style="padding:20px;margin-top:0;">`;
+    hRow2 += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">📡 买入信号监测 — <span style="color:var(--accent);">算法推导</span></div>`;
 
-    h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
-    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">A 信号命中（壁垒高 + PE分位&lt;阈值 + 趋势向上）</div>`;
-    h += `<div style="font-size:16px;font-weight:600;color:${(st.A_total||0)>0?'var(--green)':'var(--muted)'};">${st.A_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.A_normal||0} · 成长赛道 ${st.A_growthAdj||0}）</span></div>`;
-    h += `</div>`;
-    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">B 信号命中（命中卡口 + PE分位&lt;阈值 + 趋势非向下）</div>`;
-    h += `<div style="font-size:16px;font-weight:600;color:${(st.B_total||0)>0?'var(--green)':'var(--muted)'};">${st.B_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.B_normal||0} · 成长赛道 ${st.B_growthAdj||0}）</span></div>`;
-    h += `</div>`;
-    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">基线可投卡口</div>`;
-    h += `<div style="font-size:16px;font-weight:600;color:var(--accent);">${sm.chokepointCodesCount||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
-    h += `</div>`;
-    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描被排除</div>`;
-    h += `<div style="font-size:16px;font-weight:600;color:var(--color-muted);">${totalExcluded} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
-    h += `</div>`;
-    h += `</div>`;
+    hRow2 += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
+    hRow2 += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    hRow2 += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">A 信号命中（壁垒高 + PE分位&lt;阈值 + 趋势向上）</div>`;
+    hRow2 += `<div style="font-size:16px;font-weight:600;color:${(st.A_total||0)>0?'var(--green)':'var(--muted)'};">${st.A_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.A_normal||0} · 成长赛道 ${st.A_growthAdj||0}）</span></div>`;
+    hRow2 += `</div>`;
+    hRow2 += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    hRow2 += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">B 信号命中（命中卡口 + PE分位&lt;阈值 + 趋势非向下）</div>`;
+    hRow2 += `<div style="font-size:16px;font-weight:600;color:${(st.B_total||0)>0?'var(--green)':'var(--muted)'};">${st.B_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.B_normal||0} · 成长赛道 ${st.B_growthAdj||0}）</span></div>`;
+    hRow2 += `</div>`;
+    hRow2 += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    hRow2 += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">基线可投卡口</div>`;
+    hRow2 += `<div style="font-size:16px;font-weight:600;color:var(--accent);">${sm.chokepointCodesCount||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    hRow2 += `</div>`;
+    hRow2 += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    hRow2 += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描被排除</div>`;
+    hRow2 += `<div style="font-size:16px;font-weight:600;color:var(--color-muted);">${totalExcluded} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    hRow2 += `</div>`;
+    hRow2 += `</div>`;
 
     if (thr) {
       // ★ commit 4.76 修复：信号阈值详情默认折叠
-      h += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-data);font-size:12px;font-weight:600;list-style:none;outline:none;">🎯 查看信号触发条件</summary>`;
-      h += `<div style="margin-top:8px;padding:10px 14px;background:var(--card2);border-radius:6px;border-left:3px solid var(--accent);font-size:12px;color:var(--text);line-height:1.7;">`;
+      hRow2 += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-data);font-size:12px;font-weight:600;list-style:none;outline:none;">🎯 查看信号触发条件</summary>`;
+      hRow2 += `<div style="margin-top:8px;padding:10px 14px;background:var(--card2);border-radius:6px;border-left:3px solid var(--accent);font-size:12px;color:var(--text);line-height:1.7;">`;
       // 普通通道
-      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">普通通道</div>`;
-      h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:8px;">`;
-      h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_A}% · 趋势向上</div>`;
-      h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_B}% · 趋势非向下</div>`;
-      h += `<div>PE上限</div><div>否</div>`;
-      h += `</div>`;
+      hRow2 += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">普通通道</div>`;
+      hRow2 += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:8px;">`;
+      hRow2 += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_A}% · 趋势向上</div>`;
+      hRow2 += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_B}% · 趋势非向下</div>`;
+      hRow2 += `<div>PE上限</div><div>否</div>`;
+      hRow2 += `</div>`;
       // 成长赛道通道
-      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">成长赛道通道 <span style="font-size:10px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
-      h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;">`;
-      h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
-      h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_GROWTH_B}% · PE&lt;PE上限 · 趋势非向下</div>`;
-      h += `<div>PE上限</div><div>是（PE上限120倍）</div>`;
-      h += `</div>`;
-      h += `</div></details>`;
+      hRow2 += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">成长赛道通道 <span style="font-size:11px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
+      hRow2 += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;">`;
+      hRow2 += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
+      hRow2 += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_GROWTH_B}% · PE&lt;PE上限 · 趋势非向下</div>`;
+      hRow2 += `<div>PE上限</div><div>是（PE上限120倍）</div>`;
+      hRow2 += `</div>`;
+      hRow2 += `</div></details>`;
     }
 
     // 命中列表 / 0 命中说明
     if (totalHits === 0) {
-      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--color-data);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
-      h += `💡 当前 ${d.name} 板块暂无信号命中。`;
-      h += `<br>主因：板块 PE 普遍处于历史高位，PE 分位回落至 50% 以下时将自动出现推荐标的。</div>`;
+      hRow2 += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--color-data);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
+      hRow2 += `💡 当前 ${d.name} 板块暂无信号命中。`;
+      hRow2 += `<br>主因：板块 PE 普遍处于历史高位，PE 分位回落至 50% 以下时将自动出现推荐标的。</div>`;
     } else {
-      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📌 命中股票列表（${totalHits} 只）</div>`;
-      h += `<table class="stock-tbl" style="font-size:12px;margin-bottom:12px;table-layout:fixed;word-break:keep-all;">`;
-      h += `<colgroup><col style="width:70px"><col style="width:100px"><col style="width:140px"><col style="width:80px"><col style="width:90px"><col style="width:80px"><col style="width:80px"><col style="width:100px"></colgroup>`;
-      h += `<thead><tr><th>代码</th><th>简称</th><th>段位</th><th>壁垒</th><th>通道</th><th>信号</th><th>趋势</th><th>PE分位</th></tr></thead><tbody>`;
+      hRow2 += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📌 命中股票列表（${totalHits} 只）</div>`;
+      hRow2 += `<table class="stock-tbl" style="font-size:12px;margin-bottom:12px;table-layout:fixed;word-break:keep-all;">`;
+      hRow2 += `<colgroup><col style="width:70px"><col style="width:100px"><col style="width:140px"><col style="width:80px"><col style="width:90px"><col style="width:80px"><col style="width:80px"><col style="width:100px"></colgroup>`;
+      hRow2 += `<thead><tr><th>代码</th><th>简称</th><th>段位</th><th>壁垒</th><th>通道</th><th>信号</th><th>趋势</th><th>PE分位</th></tr></thead><tbody>`;
       hits.forEach(h2 => {
         const sigs = [];
-        if (h2.A) sigs.push('<span class="tag tg-green" style="font-size:10px;">A</span>');
-        if (h2.B) sigs.push('<span class="tag tg-high" style="font-size:10px;">B</span>');
+        if (h2.A) sigs.push('<span class="tag tg-green" style="font-size:11px;">A</span>');
+        if (h2.B) sigs.push('<span class="tag tg-high" style="font-size:11px;">B</span>');
         const pcls = h2.pePercentile === null || h2.pePercentile === undefined ? 'tg-gray' : h2.pePercentile >= 80 ? 'tg-extreme' : h2.pePercentile >= 50 ? 'tg-mid' : 'tg-green';
-        h += `<tr>`;
-        h += `<td><code>${h2.code}</code></td>`;
-        h += `<td>${h2.name||'—'}</td>`;
-        h += `<td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;" title="${h2.segName||''}">${h2.segName||'—'}</td>`;
-        h += `<td>${h2.barrier||'—'}</td>`;
-        h += `<td>${h2.channel==='growthAdj'?'成长赛道':(h2.channel||'—')}</td>`;
-        h += `<td>${sigs.join(' ')}</td>`;
-        h += `<td>${h2.trend==='up'?'向上':h2.trend==='down'?'向下':h2.trend==='flat'?'平稳':(h2.trend||'—')}</td>`;
-        h += `<td><span class="tag ${pcls}" style="font-size:10px;">${h2.pePercentile!==null && h2.pePercentile!==undefined ? h2.pePercentile.toFixed(1)+'%' : '—'}</span></td>`;
-        h += `</tr>`;
+        hRow2 += `<tr>`;
+        hRow2 += `<td><code>${h2.code}</code></td>`;
+        hRow2 += `<td>${h2.name||'—'}</td>`;
+        hRow2 += `<td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;" title="${h2.segName||''}">${h2.segName||'—'}</td>`;
+        hRow2 += `<td>${h2.barrier||'—'}</td>`;
+        hRow2 += `<td>${h2.channel==='growthAdj'?'成长赛道':(h2.channel||'—')}</td>`;
+        hRow2 += `<td>${sigs.join(' ')}</td>`;
+        hRow2 += `<td>${h2.trend==='up'?'向上':h2.trend==='down'?'向下':h2.trend==='flat'?'平稳':(h2.trend||'—')}</td>`;
+        hRow2 += `<td><span class="tag ${pcls}" style="font-size:11px;">${h2.pePercentile!==null && h2.pePercentile!==undefined ? h2.pePercentile.toFixed(1)+'%' : '—'}</span></td>`;
+        hRow2 += `</tr>`;
       });
-      h += `</tbody></table>`;
+      hRow2 += `</tbody></table>`;
     }
-    h += `</div>`;
+    hRow2 += `</div>`;
   }
 
   // ★ 阶段五 commit 4.19：信号 C 监测 card（在 ① section 内·紧跟 A/B 监测之后）
@@ -3306,7 +3311,7 @@ function renderChain(chainId) {
     // 扫描总数 = 触发命中 + 被排除
     const scannedTotal = triggeredTotal + totalExcludedC;
 
-    h += `<div class="card" style="padding:20px;margin-top:14px;">`;
+    h += `<div class="card" style="padding:20px;margin-top:18px;">`;
     h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">📡 信号 C 监测 · <span style="color:var(--accent);">卡口回调进场</span></div>`;
 
     // 4 统计数字
@@ -3322,7 +3327,7 @@ function renderChain(chainId) {
     h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描总数</div>`;
     h += `<div style="font-size:16px;font-weight:600;color:var(--accent);">${scannedTotal} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
-    h += `<div style="font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4;">扫描全部 38 只 PCB 标的（含中游+上游）· 与买入信号 A/B 的 37 不同口径</div>`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;">扫描全部 38 只 PCB 标的（含中游+上游）· 与买入信号 A/B 的 37 不同口径</div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">被排除总数</div>`;
@@ -3343,8 +3348,8 @@ function renderChain(chainId) {
       (sc.triggeredList || []).forEach(s => {
         const condTag = (s.conditions || '').split('+').map(c =>
           c === 'A'
-            ? '<span class="tag tg-green" style="font-size:10px;">A</span>'
-            : '<span class="tag tg-high" style="font-size:10px;">B</span>'
+            ? '<span class="tag tg-green" style="font-size:11px;">A</span>'
+            : '<span class="tag tg-high" style="font-size:11px;">B</span>'
         ).join(' ');
         const fromHighStr = s.fromHigh !== null && s.fromHigh !== undefined
           ? (s.fromHigh * 100).toFixed(1) + '%' : '—';
@@ -3359,15 +3364,15 @@ function renderChain(chainId) {
         h += `<td><code>${s.code}</code></td>`;
         h += `<td>${s.name||'—'}</td>`;
         h += `<td>${condTag}</td>`;
-        h += `<td><span class="tag ${fromHighCls}" style="font-size:10px;">${fromHighStr}</span></td>`;
-        h += `<td><span class="tag ${s.pctlDrop !== null && s.pctlDrop !== undefined && s.pctlDrop <= -15 ? 'tg-green' : 'tg-mid'}" style="font-size:10px;">${s.pctlDrop !== null && s.pctlDrop !== undefined ? s.pctlDrop.toFixed(1)+'pp' : '—'}</span></td>`;
-        h += `<td><span class="tag ${volRatioCls}" style="font-size:10px;">${volRatioStr}</span></td>`;
+        h += `<td><span class="tag ${fromHighCls}" style="font-size:11px;">${fromHighStr}</span></td>`;
+        h += `<td><span class="tag ${s.pctlDrop !== null && s.pctlDrop !== undefined && s.pctlDrop <= -15 ? 'tg-green' : 'tg-mid'}" style="font-size:11px;">${s.pctlDrop !== null && s.pctlDrop !== undefined ? s.pctlDrop.toFixed(1)+'pp' : '—'}</span></td>`;
+        h += `<td><span class="tag ${volRatioCls}" style="font-size:11px;">${volRatioStr}</span></td>`;
         h += `<td style="font-size:11px;">${s.position||'—'}</td>`;
         // ★ commit 4.22：信号 C 命中行 → 「📝记录买入」按钮（预填 triggerSignal='C'）
         h += `<td><div style="display:flex;gap:4px;flex-wrap:wrap;">`;
-        h += `<button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'buy',triggerSignal:'C'})" style="padding:3px 8px;background:var(--green);color:#0f1117;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📝记录买入</button>`;
+        h += `<button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'buy',triggerSignal:'C'})" style="padding:3px 8px;background:var(--green);color:#0f1117;border:none;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;">📝记录买入</button>`;
         // ★ commit 4.26：信号 C 命中行 → 「📜记录触发」按钮（写入 localStorage 触发历史）
-        h += `<button onclick="recordSignalTrigger({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',conditions:'${s.conditions||'C'}',pePercentile:${s.pePercentile!==null&&s.pePercentile!==undefined?s.pePercentile:'null'},fromHigh:${s.fromHigh!==null&&s.fromHigh!==undefined?s.fromHigh:'null'},volRatio5d:${s.volRatio5d!==null&&s.volRatio5d!==undefined?s.volRatio5d:'null'},pctlDrop:${s.pctlDrop!==null&&s.pctlDrop!==undefined?s.pctlDrop:'null'},position:'${(s.position||'').replace(/'/g, "\\'")}'});alert('已记录 ' + '${s.code}' + ' ' + '${(s.name||'').replace(/'/g, "\\'")}' + ' 信号C触发到历史 · 刷新页面查看');" style="padding:3px 8px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;">📜记录触发</button>`;
+        h += `<button onclick="recordSignalTrigger({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',conditions:'${s.conditions||'C'}',pePercentile:${s.pePercentile!==null&&s.pePercentile!==undefined?s.pePercentile:'null'},fromHigh:${s.fromHigh!==null&&s.fromHigh!==undefined?s.fromHigh:'null'},volRatio5d:${s.volRatio5d!==null&&s.volRatio5d!==undefined?s.volRatio5d:'null'},pctlDrop:${s.pctlDrop!==null&&s.pctlDrop!==undefined?s.pctlDrop:'null'},position:'${(s.position||'').replace(/'/g, "\\'")}'});alert('已记录 ' + '${s.code}' + ' ' + '${(s.name||'').replace(/'/g, "\\'")}' + ' 信号C触发到历史 · 刷新页面查看');" style="padding:3px 8px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;">📜记录触发</button>`;
         h += `</div></td>`;
         h += `</tr>`;
       });
@@ -3383,10 +3388,11 @@ function renderChain(chainId) {
     //     ③ 缩量距离 = 1.5 - volRatio5d                       · 触发条件 volRatio5d ≤ 1.5
     //   扫描池：全部 38 只 PCB stock（含中游+上游）+ 5 只核心卡口
     //   排序：按总距离（3 个距离的最小值）升序 · 最接近触发的在前
-    h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-top:16px;margin-bottom:4px;">📏 信号 C 距离显示（38 只扫描池 · 按总距离升序 · 越小越接近触发）</div>`;
-    h += `<div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.5;">阈值：PE 回调 ≥ 15pp · 股价回撤 ≥ 15% · 缩量 volRatio5d ≤ 1.5 · 全部满足才触发信号 C 条件 A</div>`;
+    // ★ commit 4.77 调整3：38 只距离表默认折叠（details/summary）
     // ★ commit 4.50：distStocks 计算提取为 computeDistStocks(d) 内部函数·复用避免 38 只循环+sort 重复
     const distStocks = computeDistStocks(d);
+    h += `<details style="margin-top:16px;"><summary style="cursor:pointer;list-style:none;outline:none;font-size:12px;color:var(--color-data);font-weight:600;">📋 查看全部 ${distStocks.length} 只距离 · 按总距离升序</summary>`;
+    h += `<div style="font-size:11px;color:var(--muted);margin:8px 0;line-height:1.5;">阈值：PE 回调 ≥ 15pp · 股价回撤 ≥ 15% · 缩量 volRatio5d ≤ 1.5 · 全部满足才触发信号 C 条件 A</div>`;
     // 渲染距离表（前 20 只 + 显示「全部 38 只」可滚动）
     h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;table-layout:fixed;word-break:keep-all;">`;
     // ★ commit 4.75 bug 修复：简称列宽 90px（避免中文被竖排挤压）+ table-layout:fixed + word-break:keep-all
@@ -3394,19 +3400,19 @@ function renderChain(chainId) {
     h += `<thead><tr><th>代码</th><th>简称</th><th>① PE回调距离</th><th>② 股价回撤距离</th><th>③ 缩量距离</th><th>总距离</th></tr></thead><tbody>`;
     distStocks.forEach(s => {
       const cellOrDash = (val, digits, suffix, threshold) => {
-        if (val === null || val === undefined || isNaN(val)) return `<span class="tag tg-gray" style="font-size:10px;">—</span>`;
-        if (val <= 0) return `<span class="tag tg-green" style="font-size:10px;">✓ 已触发</span>`;
+        if (val === null || val === undefined || isNaN(val)) return `<span class="tag tg-gray" style="font-size:11px;">—</span>`;
+        if (val <= 0) return `<span class="tag tg-green" style="font-size:11px;">✓ 已触发</span>`;
         const cls = val < threshold * 0.3 ? 'tg-green' : val < threshold * 0.7 ? 'tg-mid' : 'tg-extreme';
-        return `<span class="tag ${cls}" style="font-size:10px;">还差 ${val.toFixed(digits)}${suffix}</span>`;
+        return `<span class="tag ${cls}" style="font-size:11px;">还差 ${val.toFixed(digits)}${suffix}</span>`;
       };
       const distPctlCell = cellOrDash(s.distPctl, 1, 'pp', 15);
       const distFromHighCell = cellOrDash(s.distFromHigh, 1, '%', 15);
       const distVolCell = cellOrDash(s.distVol, 2, '', 1.5);
       let totalCell;
       if (s.totalDist === null || s.totalDist === undefined) {
-        totalCell = `<span class="tag tg-gray" style="font-size:10px;">—</span>`;
+        totalCell = `<span class="tag tg-gray" style="font-size:11px;">—</span>`;
       } else if (s.totalDist <= 0) {
-        totalCell = `<span class="tag tg-green" style="font-size:10px;">✓ 已触发</span>`;
+        totalCell = `<span class="tag tg-green" style="font-size:11px;">✓ 已触发</span>`;
       } else {
         totalCell = `<strong style="color:var(--accent);">${s.totalDist.toFixed(2)}</strong>`;
       }
@@ -3420,6 +3426,7 @@ function renderChain(chainId) {
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
+    h += `</details>`;
 
     // ★ commit 4.26：信号 C 触发历史（localStorage · 累积复盘数据）
     const history = LS.get(LS_KEYS.signalHistory, []);
@@ -3436,18 +3443,18 @@ function renderChain(chainId) {
         const fromHighStr = entry.fromHigh !== null && entry.fromHigh !== undefined ? (entry.fromHigh * 100).toFixed(1) + '%' : '—';
         const volStr = entry.volRatio5d !== null && entry.volRatio5d !== undefined ? entry.volRatio5d.toFixed(2) : '—';
         const condTag = (entry.conditions || 'C').split('+').map(c =>
-          c === 'A' ? '<span class="tag tg-green" style="font-size:10px;">A</span>'
-          : '<span class="tag tg-high" style="font-size:10px;">B</span>'
+          c === 'A' ? '<span class="tag tg-green" style="font-size:11px;">A</span>'
+          : '<span class="tag tg-high" style="font-size:11px;">B</span>'
         ).join(' ');
         h += `<tr>`;
         h += `<td>${entry.recordedAt || '—'}</td>`;
         h += `<td><code>${entry.code || '—'}</code></td>`;
         h += `<td>${entry.name || '—'}</td>`;
         h += `<td>${condTag}</td>`;
-        h += `<td><span class="tag tg-mid" style="font-size:10px;">${pctlStr}</span></td>`;
-        h += `<td><span class="tag tg-mid" style="font-size:10px;">${fromHighStr}</span></td>`;
-        h += `<td><span class="tag tg-mid" style="font-size:10px;">${volStr}</span></td>`;
-        h += `<td><button onclick="removeSignalTrigger('${entry.id}')" style="padding:2px 8px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button></td>`;
+        h += `<td><span class="tag tg-mid" style="font-size:11px;">${pctlStr}</span></td>`;
+        h += `<td><span class="tag tg-mid" style="font-size:11px;">${fromHighStr}</span></td>`;
+        h += `<td><span class="tag tg-mid" style="font-size:11px;">${volStr}</span></td>`;
+        h += `<td><button onclick="removeSignalTrigger('${entry.id}')" style="padding:2px 8px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:11px;cursor:pointer;">🗑️</button></td>`;
         h += `</tr>`;
       });
       h += `</tbody></table></div>`;
@@ -3458,6 +3465,9 @@ function renderChain(chainId) {
 
   // ★ commit 4.62：持仓管理信号 card 已上移到 SECTION ① 顶部（紧跟 section 标题·在 signalC TOP3 之前）
   //   原位置（原 L2649-L2875）已删除·避免重复渲染
+
+  // ★ commit 4.77 布局调整3：景气六维 + 周期位置 + 买入信号三列并排（信号 C 不进三列·保持 h +=）
+  if (hRow2) h += `<div style="display:grid;grid-template-columns:1fr 2fr;gap:16px;margin-top:16px;align-items:start;">` + hRow2 + `</div>`;
 
   h += `</div>`;
 
@@ -3570,7 +3580,7 @@ function renderChain(chainId) {
       // ★ commit 4.64 A：logic 列句号截断 + details 折叠
       const _trunc = truncateLogic(s.logic || '');
       const _logicCell = _trunc.truncated
-        ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:10px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
+        ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:11px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
         : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
       h += `<td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}</td>`;
       h += `</tr>`;
@@ -3599,7 +3609,7 @@ function renderChain(chainId) {
         // ★ commit 4.64 A+C：logic 列句号截断 + 47% 列宽 + details 折叠
         const _trunc = truncateLogic(s.logic);
         const _logicCell = _trunc.truncated
-          ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:10px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
+          ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:11px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
           : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
         h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
       });
@@ -3632,7 +3642,7 @@ function renderChain(chainId) {
       const _logicText = s.logic || s.note || '';
       const _trunc = truncateLogic(_logicText);
       const _logicCell = _trunc.truncated
-        ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:10px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
+        ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:11px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
         : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
       h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
     });
@@ -3772,7 +3782,12 @@ function toggleChangelog() {
   const panel = document.getElementById('changelog-panel');
   const toggle = document.getElementById('cl-toggle');
   panel.classList.toggle('collapsed');
-  toggle.classList.toggle('hidden');
+  // ★ commit 4.77 修复：面板折叠时→唤醒按钮显示 / 面板展开时→唤醒按钮隐藏
+  if (panel.classList.contains('collapsed')) {
+    toggle.classList.remove('hidden');
+  } else {
+    toggle.classList.add('hidden');
+  }
   // ★ commit 4.65：面板状态变化时同步主内容区 padding-right
   syncChangelogPadding();
 }
@@ -3857,7 +3872,7 @@ function renderChangelog() {
       <div class="cl-date">${c.date}</div>
       <div class="cl-sector" style="color:${sectorColor};">${sectorName}</div>
       <div class="cl-desc">${c.desc}</div>
-      <div class="cl-change">${c.old ? `${c.old} → <strong>${c.new}</strong>` : (c.hash ? `<code style="font-size:10px;color:var(--muted);">${c.hash.slice(0, 7)}</code>` : '')} ${dir ? `<span class="change-badge ${dir}">${c.pct}</span>` : (c.pct === 'FIX' ? `<span class="change-badge fix">FIX</span>` : (c.pct === 'BRAND' ? `<span class="change-badge fix">BRAND</span>` : ''))}</div>
+      <div class="cl-change">${c.old ? `${c.old} → <strong>${c.new}</strong>` : (c.hash ? `<code style="font-size:11px;color:var(--muted);">${c.hash.slice(0, 7)}</code>` : '')} ${dir ? `<span class="change-badge ${dir}">${c.pct}</span>` : (c.pct === 'FIX' ? `<span class="change-badge fix">FIX</span>` : (c.pct === 'BRAND' ? `<span class="change-badge fix">BRAND</span>` : ''))}</div>
     </div>`;
   }).join('');
 }
@@ -3958,8 +3973,8 @@ function renderCardItem(card) {
   h += `<h3 style="font-size:16px;">${card.name} <span style="font-size:12px;color:var(--muted);font-weight:400;">${card.code}</span></h3>`;
   h += `<div class="code">${card.chainName || card.chain} · ${card.segment || '—'}</div>`;
   h += `<div class="seg" style="color:var(--muted);">阶段完成度: ${done}/4</div>`;
-  h += `<div style="margin-top:8px;"><span class="tag ${statusCls}" style="font-size:10px;">${statusTxt}</span>`;
-  if (card.strength) h += `<span class="tag tg-extreme" style="font-size:10px;margin-left:4px;">卡口 ${card.strength}</span>`;
+  h += `<div style="margin-top:8px;"><span class="tag ${statusCls}" style="font-size:11px;">${statusTxt}</span>`;
+  if (card.strength) h += `<span class="tag tg-extreme" style="font-size:11px;margin-left:4px;">卡口 ${card.strength}</span>`;
   h += `</div>`;
   if (card.whyWatch) h += `<div class="logic" style="margin-top:10px;font-size:12px;"><strong>关注理由：</strong>${card.whyWatch}</div>`;
   if (card.buyLogic) h += `<div class="logic" style="font-size:12px;"><strong>买入逻辑：</strong>${card.buyLogic}</div>`;
@@ -4065,8 +4080,8 @@ function renderSignalTriggerHistory() {
       const fromHighStr = entry.fromHigh !== null && entry.fromHigh !== undefined ? (entry.fromHigh * 100).toFixed(1) + '%' : '—';
       const volStr = entry.volRatio5d !== null && entry.volRatio5d !== undefined ? entry.volRatio5d.toFixed(2) : '—';
       const condTag = (entry.conditions || 'C').split('+').map(c =>
-        c === 'A' ? '<span class="tag tg-green" style="font-size:10px;">A</span>'
-        : '<span class="tag tg-high" style="font-size:10px;">B</span>'
+        c === 'A' ? '<span class="tag tg-green" style="font-size:11px;">A</span>'
+        : '<span class="tag tg-high" style="font-size:11px;">B</span>'
       ).join(' ');
 
       // ★ commit 4.43：收益率回填字段（向后兼容 · 旧记录无 returns 字段显示「—」）
@@ -4088,14 +4103,14 @@ function renderSignalTriggerHistory() {
       h += `<td><code>${entry.code || '—'}</code></td>`;
       h += `<td>${entry.name || '—'}</td>`;
       h += `<td>${condTag}</td>`;
-      h += `<td><span class="tag tg-mid" style="font-size:10px;">${pctlStr}</span></td>`;
-      h += `<td><span class="tag tg-mid" style="font-size:10px;">${fromHighStr}</span></td>`;
-      h += `<td><span class="tag tg-mid" style="font-size:10px;">${volStr}</span></td>`;
+      h += `<td><span class="tag tg-mid" style="font-size:11px;">${pctlStr}</span></td>`;
+      h += `<td><span class="tag tg-mid" style="font-size:11px;">${fromHighStr}</span></td>`;
+      h += `<td><span class="tag tg-mid" style="font-size:11px;">${volStr}</span></td>`;
       h += `<td style="font-size:11px;line-height:1.5;">${retHtml}</td>`;
-      h += `<td><span class="tag ${stCls}" style="font-size:10px;">${stIcon} ${stTxt}</span></td>`;
+      h += `<td><span class="tag ${stCls}" style="font-size:11px;">${stIcon} ${stTxt}</span></td>`;
       h += `<td><div style="display:flex;gap:4px;flex-wrap:wrap;">`;
-      h += `<button onclick="fillSignalReturns('${entry.id}')" style="padding:2px 6px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:3px;font-size:10px;cursor:pointer;">📝回填</button>`;
-      h += `<button onclick="removeSignalTrigger('${entry.id}')" style="padding:2px 6px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button>`;
+      h += `<button onclick="fillSignalReturns('${entry.id}')" style="padding:2px 6px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:3px;font-size:11px;cursor:pointer;">📝回填</button>`;
+      h += `<button onclick="removeSignalTrigger('${entry.id}')" style="padding:2px 6px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:11px;cursor:pointer;">🗑️</button>`;
       h += `</div></td>`;
       h += `</tr>`;
     });
@@ -4151,28 +4166,28 @@ function renderSignalWinRateStats(history) {
       <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;letter-spacing:0.3px;">📊 胜率统计 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:6px;">（30 天收益率 · 基于已了结信号回填）</span></div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px;">
         <div>
-          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">总触发 / 已了结 / 持仓中</div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">总触发 / 已了结 / 持仓中</div>
           <div style="font-weight:600;font-size:14px;color:var(--text);">${totalCount} <span style="font-size:11px;color:var(--muted);font-weight:400;">/ ${closedCount} / ${openCount}</span></div>
         </div>
         <div>
-          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">30 天胜率（d30 &gt; 0）</div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">30 天胜率（d30 &gt; 0）</div>
           <div style="font-weight:600;font-size:14px;color:${(winRate30 === null) ? 'var(--muted)' : (winRate30 >= 50 ? 'var(--green)' : 'var(--red)')};">${winRate30 === null ? '—' : winRate30.toFixed(1) + '%'}</div>
         </div>
         <div>
-          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">平均 30 天收益率</div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">平均 30 天收益率</div>
           <div style="font-weight:600;font-size:14px;color:${(avg30 === null) ? 'var(--muted)' : (avg30 >= 0 ? 'var(--green)' : 'var(--red)')};">${fmtPct(avg30)}</div>
         </div>
         <div>
-          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">最大单次收益</div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">最大单次收益</div>
           <div style="font-weight:600;font-size:14px;color:${(max30 === -Infinity) ? 'var(--muted)' : 'var(--green)'};">${max30 === -Infinity ? '—' : fmtPct(max30)}</div>
         </div>
         <div>
-          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">最大单次亏损</div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">最大单次亏损</div>
           <div style="font-weight:600;font-size:14px;color:${(min30 === Infinity) ? 'var(--muted)' : 'var(--red)'};">${min30 === Infinity ? '—' : fmtPct(min30)}</div>
         </div>
         <div>
-          <div style="color:var(--muted);font-size:10px;margin-bottom:2px;">30 天已了结样本数</div>
-          <div style="font-weight:600;font-size:14px;color:var(--text);">${closed30Count} <span style="font-size:10px;color:var(--muted);font-weight:400;">条</span></div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">30 天已了结样本数</div>
+          <div style="font-weight:600;font-size:14px;color:var(--text);">${closed30Count} <span style="font-size:11px;color:var(--muted);font-weight:400;">条</span></div>
         </div>
       </div>
       ${insufficientHint}
@@ -4534,7 +4549,7 @@ function renderTrades() {
         h += `<td style="text-align:right;">${p.qty}</td>`;
         h += `<td style="text-align:right;">${p.avgCost !== null ? p.avgCost.toFixed(2) + ' 元' : '—'}</td>`;
         h += `<td style="text-align:right;">${p.currentPrice !== null ? p.currentPrice.toFixed(2) + ' 元' : '—'}</td>`;
-        h += `<td style="text-align:right;"><span class="tag ${pnlCls}" style="font-size:10px;">${pnlStr}</span></td>`;
+        h += `<td style="text-align:right;"><span class="tag ${pnlCls}" style="font-size:11px;">${pnlStr}</span></td>`;
         h += `</tr>`;
       });
       h += `</tbody></table></div>`;
@@ -4631,7 +4646,7 @@ function renderTrades() {
       // ★ commit 4.44：归因徽章（向后兼容 · 旧记录无 attribution 显示「—」）
       const a = t.attribution || null;
       const driverBadge = (() => {
-        if (!a || !a.driver) return '<span style="color:var(--muted);font-size:10px;">—</span>';
+        if (!a || !a.driver) return '<span style="color:var(--muted);font-size:11px;">—</span>';
         const dMap = {
           'valuation': { cls: 'tg-mid',    icon: '🔵', txt: '估值修复' },
           'earnings':  { cls: 'tg-green',  icon: '🟢', txt: '业绩驱动' },
@@ -4640,22 +4655,22 @@ function renderTrades() {
         };
         const cfg = dMap[a.driver];
         if (!cfg) return `<span style="color:var(--muted);">${a.driver}</span>`;
-        return `<span class="tag ${cfg.cls}" style="font-size:10px;" title="置信度: ${a.confidence || '—'} · ${a.note || ''}">${cfg.icon} ${cfg.txt}</span>`;
+        return `<span class="tag ${cfg.cls}" style="font-size:11px;" title="置信度: ${a.confidence || '—'} · ${a.note || ''}">${cfg.icon} ${cfg.txt}</span>`;
       })();
       h += `<tr style="${rowBg}">`;
       h += `<td>${t.date || '—'}</td>`;
       h += `<td class="s-name">${t.cardName || (t.cardId ? `[${t.cardId}]` : '—')}<div class="s-code">${t.cardId || ''}</div></td>`;
-      h += `<td><span class="tag ${sideCls}" style="font-size:10px;">${sideTxt}</span></td>`;
+      h += `<td><span class="tag ${sideCls}" style="font-size:11px;">${sideTxt}</span></td>`;
       h += `<td style="text-align:right;">${t.price ? t.price.toFixed(2) : '—'}</td>`;
       h += `<td style="text-align:right;">${t.qty || '—'}</td>`;
       h += `<td style="text-align:right;font-weight:600;">${t.amount ? t.amount.toFixed(0) : '—'}</td>`;
-      h += `<td><span class="tag ${discCls}" style="font-size:10px;cursor:help;" title="${t.breakReason || ''}">${discTxt}</span></td>`;
-      h += `<td><span class="tag ${trigCls}" style="font-size:10px;">${trig}</span></td>`;
-      h += `<td style="font-size:11px;max-width:200px;">${t.note || ''}${t.breakReason ? `<div style="color:var(--red);font-size:10px;margin-top:2px;">原因：${t.breakReason}</div>` : ''}</td>`;
+      h += `<td><span class="tag ${discCls}" style="font-size:11px;cursor:help;" title="${t.breakReason || ''}">${discTxt}</span></td>`;
+      h += `<td><span class="tag ${trigCls}" style="font-size:11px;">${trig}</span></td>`;
+      h += `<td style="font-size:11px;max-width:200px;">${t.note || ''}${t.breakReason ? `<div style="color:var(--red);font-size:11px;margin-top:2px;">原因：${t.breakReason}</div>` : ''}</td>`;
       h += `<td>${driverBadge}</td>`;
       h += `<td><div style="display:flex;gap:4px;flex-wrap:wrap;">`;
-      h += `<button onclick="fillTradeAttribution('${t.id}')" style="padding:2px 6px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:3px;font-size:10px;cursor:pointer;">📊归因</button>`;
-      h += `<button onclick="removeTrade('${t.id}')" style="padding:2px 6px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:10px;cursor:pointer;">🗑️</button>`;
+      h += `<button onclick="fillTradeAttribution('${t.id}')" style="padding:2px 6px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:3px;font-size:11px;cursor:pointer;">📊归因</button>`;
+      h += `<button onclick="removeTrade('${t.id}')" style="padding:2px 6px;background:transparent;color:var(--red);border:1px solid var(--red);border-radius:3px;font-size:11px;cursor:pointer;">🗑️</button>`;
       h += `</div></td>`;
       h += `</tr>`;
     });
@@ -5115,7 +5130,7 @@ function renderArena() {
   h += `</div>`;
 
   const sortArrow = key => {
-    if (_s.sortKey !== key) return '<span style="opacity:0.3;font-size:10px;">⇅</span>';
+    if (_s.sortKey !== key) return '<span style="opacity:0.3;font-size:11px;">⇅</span>';
     return _s.sortDir === 'desc' ? '<span style="color:var(--accent);">▼</span>' : '<span style="color:var(--accent);">▲</span>';
   };
   const colHeaders = [
@@ -5158,7 +5173,7 @@ function renderArena() {
       }
     });
     if (r.hasP) {
-      h += `<td style="font-weight:700;"><span style="color:var(--accent);font-size:16px;">${r.ltScore}</span><span style="color:var(--muted);font-size:11px;">/100</span> ${r.ltTier}${r.ltRisk?' <span style="color:var(--red);font-size:10px;" title="安全垫不足：估值或壁垒≤1，已封顶 60">⚠</span>':''}</td>`;
+      h += `<td style="font-weight:700;"><span style="color:var(--accent);font-size:16px;">${r.ltScore}</span><span style="color:var(--muted);font-size:11px;">/100</span> ${r.ltTier}${r.ltRisk?' <span style="color:var(--red);font-size:11px;" title="安全垫不足：估值或壁垒≤1，已封顶 60">⚠</span>':''}</td>`;
     } else {
       h += `<td style="color:var(--muted);font-size:11px;">六维待回填</td>`;
     }
@@ -5275,7 +5290,7 @@ function renderStockArena() {
   const tierOpts = [{k:'core',l:'🟢核心'},{k:'watch',l:'🟡观察'},{k:'avoid',l:'🔴回避/等'}];
 
   // ── 6. 渲染
-  const sortArrow = key => _s.stockSortKey !== key ? '<span style="opacity:0.3;font-size:10px;">⇅</span>' : (_s.stockSortDir === 'desc' ? '<span style="color:var(--accent);">▼</span>' : '<span style="color:var(--accent);">▲</span>');
+  const sortArrow = key => _s.stockSortKey !== key ? '<span style="opacity:0.3;font-size:11px;">⇅</span>' : (_s.stockSortDir === 'desc' ? '<span style="color:var(--accent);">▼</span>' : '<span style="color:var(--accent);">▲</span>');
 
   let h = '';
   h += `<div class="section"><div class="section-title"><span class="num num-macro">🏟️</span> 擂台 — 横向比对</div>`;
@@ -5353,11 +5368,11 @@ function renderStockArena() {
     miniBar += '</div>';
     h += `<tr>`;
     h += `<td class="s-code" style="cursor:pointer;" onclick="window.location.hash='${r.primaryChainId}?stock=${r.code}'" title="跳到 ${r.chains.split(' / ')[0]} 详细页并定位此股">${r.code}</td>`;
-    h += `<td class="s-name">${r.name}${r.inconsistent?' <span style="color:var(--red);font-size:10px;cursor:help;" title="此股在多个赛道中 dims6 不一致">⚠️跨链不一致</span>':''}</td>`;
+    h += `<td class="s-name">${r.name}${r.inconsistent?' <span style="color:var(--red);font-size:11px;cursor:help;" title="此股在多个赛道中 dims6 不一致">⚠️跨链不一致</span>':''}</td>`;
     h += `<td style="font-size:12px;">${r.chains}</td>`;
     h += `<td style="font-size:12px;">${r.segs}</td>`;
-    h += `<td style="font-weight:700;"><span style="color:var(--accent);font-size:15px;">${r.fit.score}</span><span style="color:var(--muted);font-size:10px;">/100</span> <span class="tag ${fitCls}" style="font-size:10px;">${r.fit.tier}</span>${r.fit.risk?' <span style="color:var(--red);font-size:10px;" title="安全垫不足（估值或壁垒≤1）已封顶 60">⚠</span>':''}</td>`;
-    h += `<td style="text-align:center;"><span class="tag ${bCls}" style="font-size:10px;">${r.barrier}</span></td>`;
+    h += `<td style="font-weight:700;"><span style="color:var(--accent);font-size:15px;">${r.fit.score}</span><span style="color:var(--muted);font-size:11px;">/100</span> <span class="tag ${fitCls}" style="font-size:11px;">${r.fit.tier}</span>${r.fit.risk?' <span style="color:var(--red);font-size:11px;" title="安全垫不足（估值或壁垒≤1）已封顶 60">⚠</span>':''}</td>`;
+    h += `<td style="text-align:center;"><span class="tag ${bCls}" style="font-size:11px;">${r.barrier}</span></td>`;
     ['durability','visibility','valuation','barrier'].forEach(k => {
       const d = r.dims6.find(x => x.key === k);
       const sc = d ? d.score : 0;
