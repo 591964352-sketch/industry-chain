@@ -3321,15 +3321,21 @@ function renderChain(chainId) {
   d.segments.forEach(seg => {
     const borderStyle = seg.border ? 'border-color:rgba(246,70,93,0.3);' : '';
     const chokeLabel = seg.choke ? ' 🔒' : '';
+    // ★ commit 4.63 A：segment header 显示 stock 数量（灰色 11px 附属信息）
+    const stockCount = (seg.stocks && Array.isArray(seg.stocks)) ? seg.stocks.length : 0;
+    const stockLabel = stockCount > 0 ? ` <span style="font-size:11px;color:var(--muted);font-weight:500;">· ${stockCount} 只 stock</span>` : '';
     // ★ 阶段 A：每个 segment 独立折叠
     const segKey = encodeURIComponent(seg.name);
-    h += `<div class="segment-card collapsible collapsed" data-key="seg-upstream-${segKey}" style="${borderStyle}">`;
+    // ★ commit 4.63 C：choke=true 的 segment 默认展开（非 choke 仍默认折叠）
+    const collapsedClass = seg.choke ? 'segment-card collapsible' : 'segment-card collapsible collapsed';
+    h += `<div class="${collapsedClass}" data-key="seg-upstream-${segKey}" style="${borderStyle}">`;
     h += `<div class="seg-header" onclick="toggleSegment('upstream', '${segKey}')">`;
     const crLabel = seg.costRatio !== '—' ? ` — ${seg.costRatio}` : '';
     if (d.id === 'semi') {
-      h += `<div class="seg-title" style="font-size:16px;">${seg.name}${chokeLabel}</div>`;
+      // ★ commit 4.63 B：choke=true segment 标题旁加 🔒 标记（semi 分支同步处理）
+      h += `<div class="seg-title" style="font-size:16px;">${seg.name}${chokeLabel}${stockLabel}</div>`;
     } else {
-      h += `<div class="seg-title">${seg.name}${crLabel}${seg.choke ? ' 🔒' : ''}</div>`;
+      h += `<div class="seg-title">${seg.name}${crLabel}${seg.choke ? ' 🔒' : ''}${stockLabel}</div>`;
     }
     h += `<span class="collapse-arrow">▼</span>`;
     h += `</div>`;  // seg-header 闭合
