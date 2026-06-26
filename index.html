@@ -31,8 +31,9 @@
   .sidebar-nav .nav-item.coming:hover { border-left-color: transparent; background: transparent; color: var(--muted); }
 
   /* Header */
-  .header { text-align: center; padding: 48px 24px 36px; margin-bottom: 24px; background: linear-gradient(180deg, rgba(240,185,11,0.05) 0%, transparent 100%); border-bottom: 1px solid var(--border); }
-  .header h1 { font-size: 20px; font-weight: 800; }
+  .header { text-align: center; padding: 12px 32px; margin-bottom: 0; background: transparent; border-bottom: 1px solid var(--border-dim); }
+  .header h1 { font-size: 16px; font-weight: 800; }
+  .header .subtitle { font-size: 12px; color: var(--color-muted); }
 
   /* Main content area */
   .main-area { flex: 1; min-width: 0; padding-right: 20px; transition: padding-right 0.3s ease; }
@@ -128,6 +129,7 @@
   .change-badge { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 3px; margin-left: 3px; }
   .change-badge.up { background: rgba(14,203,129,0.15); color: var(--green); }
   .change-badge.down { background: rgba(246,70,93,0.15); color: var(--red); }
+  .change-badge.fix { background: rgba(139,148,158,0.12); color: var(--color-muted); }
   tr.major-change { background: rgba(240,185,11,0.06) !important; border-left: 3px solid var(--accent); }
   tr.major-change td:first-child::before { content: "⚡ "; }
   .freshness-bar { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); padding: 6px 0; }
@@ -1455,7 +1457,7 @@ function renderSignalCHistoryPanel(chainId) {
 
   // 0 条触发降级显示
   if (!stats || stats.totalRuns === 0) {
-    return `<div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-warn);">
+    return `<div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-muted);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
         <span style="font-size:14px;font-weight:600;color:var(--text);">📊 信号 C 历史回放</span>
         <span style="font-size:10px;padding:2px 6px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;font-weight:600;">⚠️历史回放·非实盘记录</span>
@@ -1494,7 +1496,7 @@ function renderSignalCHistoryPanel(chainId) {
   }).join('');
 
   return `
-    <div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-warn);max-height:400px;overflow-y:auto;">
+    <div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-muted);max-height:400px;overflow-y:auto;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
         <span style="font-size:14px;font-weight:600;color:var(--text);">📊 信号 C 历史回放</span>
         <span style="font-size:10px;padding:2px 6px;background:rgba(248,81,73,0.15);color:var(--color-risk);border-radius:3px;font-weight:600;">⚠️历史回放·非实盘记录·仅供研究参考</span>
@@ -1529,7 +1531,7 @@ function renderSignalCTopList(chainId) {
   const top3 = distStocks.slice(0, 3);
   const allNull = top3.every(s => s.totalDist === null);
   if (allNull) {                                                              // 降级 ③
-    return `<div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-data);">
+    return `<div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-signal);">
       <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;">🎯 距离最近 TOP3</div>
       <div style="font-size:11px;color:var(--color-muted);line-height:1.6;">💡 距离数据待刷新（PCB_AUTO.valuations 尚未拉取）· 数据到齐后此处将自动展示距离最近 3 只 stock。</div>
     </div>`;
@@ -1583,7 +1585,7 @@ function renderSignalCTopList(chainId) {
     cards += `</div>`;
   });
   return `
-    <div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-data);">
+    <div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--color-signal);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
         <span style="font-size:14px;font-weight:600;color:var(--text);">🎯 距离最近 TOP3</span>
         <span style="font-size:11px;color:var(--color-muted);">按总距离升序·距离≤0不代表买入机会·需结合估值判断</span>
@@ -2057,7 +2059,6 @@ function renderChain(chainId) {
     h += `<span>📅 <strong style="color:var(--accent);">数据截止：${asOf}</strong></span>`;
     h += `<span>🔌 <strong>数据源：</strong>baostock v${baostockVersion}</span>`;
     h += `<span>🕐 <strong>上次刷新：</strong>${asOf}</span>`;
-    if (note) h += `<span style="color:var(--muted);">· ${note}</span>`;
   } else {
     h += `<span>📅 <strong style="color:var(--accent);">数据截止：待更新</strong></span>`;
     h += `<span>· 数据源：—</span>`;
@@ -3185,7 +3186,7 @@ function renderChain(chainId) {
             h += `<div class="flow-node-expand">`;
             // supplyGap 详情（红色高亮卡口环节）
             if (_gapMatch) {
-              h += `<div style="padding:6px 8px;margin-bottom:8px;background:rgba(248,81,73,0.08);border-left:3px solid var(--color-risk);border-radius:0 4px 4px 0;font-size:11px;line-height:1.7;">`;
+              h += `<div style="padding:6px 8px;margin-bottom:8px;background:rgba(248,81,73,0.08);border-left:3px solid var(--color-data);border-radius:0 4px 4px 0;font-size:11px;line-height:1.7;">`;
               h += `<div style="font-weight:600;color:var(--color-risk);margin-bottom:4px;">📊 供需缺口（来源：${_gapMatch.tier||'broker'}）</div>`;
               if (_gapMatch.demand)  h += `<div>需求: <strong>${_gapMatch.demand}</strong></div>`;
               if (_gapMatch.capacity) h += `<div>产能: <strong>${_gapMatch.capacity}</strong></div>`;
@@ -3314,7 +3315,7 @@ function renderChain(chainId) {
 
     // 传导系数待补充说明
     if (dcm.conductionTBD) {
-      h += `<div style="padding:10px 14px;background:rgba(240,185,11,0.05);border-left:3px solid var(--color-data);border-radius:0 6px 6px 0;font-size:12px;color:var(--text);line-height:1.7;margin-top:14px;">`;
+      h += `<div style="padding:10px 14px;background:rgba(240,185,11,0.05);border-left:3px solid var(--color-signal);border-radius:0 6px 6px 0;font-size:12px;color:var(--text);line-height:1.7;margin-top:14px;">`;
       h += `⏳ <strong>传导系数待补充</strong>：${dcm.conductionNote || '下游 X% → 上游 PCB 需求 Y% 的弹性系数未实装'}`;
       h += `</div>`;
     }
@@ -3810,14 +3811,14 @@ function renderChangelog() {
 
   list.innerHTML = recentChanges.map(c => {
     // ★ commit 4.10：git 来源 pct=NEW（非 up/down）→ dir=null；内置 CHANGELOG 按 pct 字符判断
-    const dir = c.pct === 'NEW' ? null : (c.pct.startsWith('+') ? 'up' : 'down');
+    const dir = (c.pct === 'NEW' || c.pct === 'FIX' || c.pct === 'BRAND') ? null : (c.pct.startsWith('+') ? 'up' : 'down');
     const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'power-semi' ? '功率半导/SiC' : c.sector === 'semi-equipment' ? '半导体设备' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'optical-module' ? '光模块' : c.sector === 'optical-chip' ? '光芯片' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'liquid-cooling' ? '液冷' : c.sector === 'ai-full-chain' ? 'AI全产业链' : c.sector === 'system' ? '系统升级' : c.sector;
     const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'power-semi' ? '#f6465d' : c.sector === 'semi-equipment' ? '#7c3aed' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'optical-module' ? '#06b6d4' : c.sector === 'optical-chip' ? '#0891b2' : c.sector === 'optical' ? '#06b6d4' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'liquid-cooling' ? 'var(--blue)' : c.sector === 'ai-full-chain' ? 'var(--accent)' : c.sector === 'system' ? '#3b82f6' : 'var(--muted)';
     return `<div class="changelog-item" onclick="switchChain('${c.sector}')">
       <div class="cl-date">${c.date}</div>
       <div class="cl-sector" style="color:${sectorColor};">${sectorName}</div>
       <div class="cl-desc">${c.desc}</div>
-      <div class="cl-change">${c.old ? `${c.old} → <strong>${c.new}</strong>` : (c.hash ? `<code style="font-size:10px;color:var(--muted);">${c.hash.slice(0, 7)}</code>` : '')} ${dir ? `<span class="change-badge ${dir}">${c.pct}</span>` : ''}</div>
+      <div class="cl-change">${c.old ? `${c.old} → <strong>${c.new}</strong>` : (c.hash ? `<code style="font-size:10px;color:var(--muted);">${c.hash.slice(0, 7)}</code>` : '')} ${dir ? `<span class="change-badge ${dir}">${c.pct}</span>` : (c.pct === 'FIX' ? `<span class="change-badge fix">FIX</span>` : (c.pct === 'BRAND' ? `<span class="change-badge fix">BRAND</span>` : ''))}</div>
     </div>`;
   }).join('');
 }
