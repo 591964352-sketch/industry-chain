@@ -2086,22 +2086,21 @@ function renderChain(chainId) {
     h += `<div class="card" style="padding:20px;margin-top:14px;">`;
     h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">🔔 持仓管理 · <span style="color:var(--accent);">减仓/清仓信号</span></div>`;
 
-    // 2 统计数字
-    h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
-    h += `<div style="flex:1;min-width:160px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">需减仓</div>`;
-    h += `<div style="font-size:16px;font-weight:600;color:${reduceCount>0?'var(--color-warn)':'var(--green)'};">${reduceCount} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
-    h += `</div>`;
-    h += `<div style="flex:1;min-width:160px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">需清仓</div>`;
-    h += `<div style="font-size:16px;font-weight:600;color:${exitCount>0?'var(--red)':'var(--green)'};">${exitCount} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
-    h += `</div>`;
+    // 2 统计数字（行内紧凑 · 4.71 优化：120px → 50px · 字号 24px→20px 合 page_audit 白名单）
+    h += `<div style="display:flex;align-items:center;gap:24px;padding:8px 0;margin-bottom:12px;">`;
+    h += `<span style="font-size:13px;color:var(--color-muted);">需减仓</span>`;
+    h += `<span style="font-size:20px;font-weight:700;color:${reduceCount>0?'var(--color-risk)':'var(--color-bull)'};">${reduceCount}<span style="font-size:13px;color:var(--color-muted);font-weight:400;margin-left:4px;">只</span></span>`;
+    h += `<span style="font-size:13px;color:var(--color-muted);margin-left:16px;">需清仓</span>`;
+    h += `<span style="font-size:20px;font-weight:700;color:${exitCount>0?'var(--color-risk)':'var(--color-bull)'};">${exitCount}<span style="font-size:13px;color:var(--color-muted);font-weight:400;margin-left:4px;">只</span></span>`;
     h += `</div>`;
 
     // 减仓清单
     if (reduceList.length > 0) {
       h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📋 减仓清单（${reduceList.length} 只 · 动态判断）</div>`;
-      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 本模块扫描全部 38 只 PCB 标的，不限于核心卡口 3 只。减仓规则（pcb.js 实装）：① PE ≥ 99% + 距前高 ≤ -5% ② 放量拉升 volRatio5d > 2.0 ③ trend 从 up 变 flat（commit 4.18 暂缓·trendHistory 字段已就位待启用）</div>`;
+      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 本模块扫描全部 38 只 PCB 标的，不限于核心卡口 3 只。`;
+      h += `<details style="display:inline;margin-left:6px;"><summary style="display:inline;cursor:pointer;color:var(--color-data);font-size:11px;list-style:none;">查看减仓规则 ▾</summary>`;
+      h += `<div style="margin-top:6px;padding:8px 12px;background:var(--card2);border-radius:4px;font-size:11px;color:var(--muted);line-height:1.6;">① PE ≥ 99% + 距前高 ≤ -5% ② 放量拉升 volRatio5d > 2.0 ③ trend 从 up 变 flat（commit 4.18 暂缓·trendHistory 字段已就位待启用）</div>`;
+      h += `</details></div>`;
       h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
       h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:160px;">减仓原因</th><th style="width:200px;">趋势史（trendHistory）</th><th>建议操作</th><th style="width:90px;">联动</th></tr></thead><tbody>`;
       reduceList.forEach(s => {
