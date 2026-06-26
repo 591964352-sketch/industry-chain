@@ -826,18 +826,27 @@ const PROSPERITY_META = {
 
 // —— 长线适配度综合分内核（赛道级/个股级共用同一份权重+门控；全站权重只此一份）——
 // 输入：[{key,score},...]（必须 6 个，key 顺序不限，缺 key 按 0 计）
-// 输出：{ score:0-100整数, tier:'🟢核心'|'🟡观察'|'🔴回避/等', risk:bool }
-// 安全垫门控：估值或壁垒 ≤1 → 封顶 60 并标 risk（防"景气爆表但泡沫/无护城河"冲榜首）
+// 输出：{ score:0-100整数, tier:'🟢核心'|'🟡观察'|'🔴回避/等', risk:bool, valuationHigh:bool }
+// ★ commit 4.79 安全垫逻辑拆分：
+//   - 质地差：barrier≤1 → risk=true + 封顶 60（硬约束：护城河不在）
+//   - 时机差：valuation≤1 且 barrier≥3 → valuationHigh=true（不封顶，景气六维 verdict 单独提示）
+//   - 估值≤1 且 壁垒≤1 → 双触发，risk=true（硬约束优先）
 // 权重：durability 0.25 / visibility 0.25 / valuation 0.20 / supply 0.12 / barrier 0.10 / policy 0.08
 function computeFitFromDims(dims){
   const w = { durability:0.25, visibility:0.25, valuation:0.20, supply:0.12, barrier:0.10, policy:0.08 };
-  if (!dims || !dims.length) return { score:0, tier:'🔴回避/等', risk:false };
+  if (!dims || !dims.length) return { score:0, tier:'🔴回避/等', risk:false, valuationHigh:false };
   const s = Object.fromEntries(dims.map(d=>[d.key, d.score]));
   let score = Object.entries(w).reduce((a,[k,wk])=> a + (s[k]||0)/5*wk, 0) * 100; // 0-100
-  let risk = (s.valuation<=1 || s.barrier<=1);
+  // ★ commit 4.79：拆分风险门控
+  const barrierLow = s.barrier <= 1;       // 质地差（护城河低）
+  const valuationLow = s.valuation <= 1;   // 估值高位
+  const barrierOk = s.barrier >= 3;        // 护城河足够
+  let risk = barrierLow;                    // 硬约束只看 barrier
   if (risk) score = Math.min(score, 60);
+  // valuationHigh：估值低位但护城河还在 → 时机差（不进 risk，但前端单独提示）
+  const valuationHigh = valuationLow && barrierOk;
   let tier = score>=75 ? '🟢核心' : score>=55 ? '🟡观察' : '🔴回避/等';
-  return { score: Math.round(score), tier, risk };
+  return { score: Math.round(score), tier, risk, valuationHigh };
 }
 
 // 赛道级（prosperity.dims）— 内部转调内核，行为不变
@@ -1360,6 +1369,35 @@ function renderHeroBanner(chainId) {
     ? `<div style="font-size:12px;color:var(--color-muted);line-height:1.5;padding:6px 8px;background:var(--bg-hover);border-radius:4px;">${oneLineStr}</div>`
     : '';
 
+  // ★ commit 4.79：动态操作提示 actionHtml（基于当前信号状态）
+  //   优先级：买入信号 A/B 触发 → 信号 C 触发 → 估值高位无进场机会
+  const hasAB = d.signalMeta && d.signalMeta.stats &&
+    ((d.signalMeta.stats.A_total || 0) + (d.signalMeta.stats.B_total || 0)) > 0;
+  const hasC = d.signalCMeta && d.signalCMeta.stats &&
+    (d.signalCMeta.stats.triggered_total || 0) > 0;
+  const highValuation = d.prosperity && d.prosperity.dims &&
+    d.prosperity.dims.find(dim => dim.key === 'valuation' && dim.score <= 1);
+  let actionText = '';
+  let actionColor = '';
+  if (hasAB) {
+    actionText = '🟢 买入信号触发 · 查看命中标的';
+    actionColor = 'var(--color-bull)';
+  } else if (hasC) {
+    actionText = '🟡 信号C触发 · 有回调进场机会 · 查看距离表';
+    actionColor = 'var(--color-warn)';
+  } else if (highValuation) {
+    actionText = '🔴 当前无进场机会 · 估值处于历史高位 · 等PE分位回落至70%以下';
+    actionColor = 'var(--color-risk)';
+  }
+  const actionHtml = actionText
+    ? `<div style="font-size:12px;font-weight:600;color:${actionColor};
+         padding:5px 8px;margin-bottom:6px;
+         background:rgba(0,0,0,0.15);border-radius:4px;
+         border-left:3px solid ${actionColor};">
+         ${actionText}
+       </div>`
+    : '';
+
   // ── 5. 极简降级：4 行全缺时仅显示链名 + 徽章 ──
   if (!analogyHtml && !oneLineHtml && !cpHtml && !mrTag) {
     return `<div class="card" style="padding:12px 16px;margin-bottom:18px;border-left:3px solid var(--border);max-height:200px;overflow:hidden;">
@@ -1383,6 +1421,7 @@ function renderHeroBanner(chainId) {
       </div>
       ${analogyHtml}
       ${cpHtml}
+      ${actionHtml}
       ${oneLineHtml}
     </div>
   `;
@@ -3002,7 +3041,7 @@ function renderChain(chainId) {
       h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;">`;
       h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
       h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_GROWTH_B}% · PE&lt;PE上限 · 趋势非向下</div>`;
-      h += `<div>PE上限</div><div>是（PE上限120倍）</div>`;
+      h += `<div>PE上限</div><div>是（动态上限·取 pe_history 最高值）</div>`;
       h += `</div>`;
       h += `</div></details>`;
     }
@@ -3178,6 +3217,10 @@ function renderChain(chainId) {
       if (p.verdict.oneLine)     h += `<div>${p.verdict.oneLine}</div>`;
       if (p.verdict.longTermFit) h += `<div style="margin-top:6px;color:var(--muted);font-size:12px;"><strong>长线适配：</strong>${p.verdict.longTermFit}</div>`;
       if (p.verdict.stockHint)   h += `<div style="margin-top:6px;color:var(--muted);font-size:12px;"><strong>选股提示：</strong>${p.verdict.stockHint}</div>`;
+      // ★ commit 4.79：估值高位（valuationHigh=true）单独提示，不触发硬约束 risk
+      if (lt && lt.valuationHigh) {
+        h += `<div style="margin-top:6px;font-size:13px;color:var(--color-warn);">⚠ 估值处于历史高位 · 等待PE分位回落至成长赛道阈值（70%）以下再加仓</div>`;
+      }
       h += `</div>`;
     }
     h += `</div>`;
@@ -3281,7 +3324,7 @@ function renderChain(chainId) {
       hRow2 += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;">`;
       hRow2 += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
       hRow2 += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_GROWTH_B}% · PE&lt;PE上限 · 趋势非向下</div>`;
-      hRow2 += `<div>PE上限</div><div>是（PE上限120倍）</div>`;
+      hRow2 += `<div>PE上限</div><div>是（动态上限·取 pe_history 最高值）</div>`;
       hRow2 += `</div>`;
       hRow2 += `</div></details>`;
     }
