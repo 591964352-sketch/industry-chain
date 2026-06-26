@@ -638,11 +638,20 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         maxDrawdown5y: null,
         reentryCondition: 'PE 分位回落至 60% 以下 + 信号 C 触发',
         concentrationRisk: 'medium',
-        note: 'PE 高位·信号 C 距触发近·注意减仓',
-        // ★ commit 4.45：分档止损计划（3 档）
-        stopLossTier1: { price: 70.0, action: '减仓20%·锁利', trigger: 'PE 分位跌破 90%' },
-        stopLossTier2: { price: 64.0, action: '再减仓30%', trigger: 'PE 分位跌破 80% + 信号 C 触发' },
-        stopLossTier3: { price: null, action: '清仓', trigger: '基本面逻辑破坏·M9 树脂订单丢失' },
+        note: 'PE高位·信号C距触发近·注意减仓 · 2026-06-26触发三重风险信号',
+        // ★ commit 4.56：基于 2026-06-26 豆包查询·MA20/MA60/60日低点 价格触发分档止损（覆盖 commit 4.45 估值条件触发）
+        stopLossTier1: { price: 61.94, action: '减仓30%', trigger: '跌破MA20' },
+        stopLossTier2: { price: 47.26, action: '再减30%', trigger: '跌破MA60' },
+        stopLossTier3: { price: 44.65, action: '清仓', trigger: '跌破60日低点' },
+        // ★ commit 4.56：三重风险信号（PE高位+主力净流出+高管减持）
+        reduceSignal: true,
+        reduceReason: 'PE分位99.9%+主力5日净流出6.82亿+董事长计划减持2.25亿·三重信号叠加',
+        activeReduce: {
+          suggestedPrice: 77.58,
+          suggestedRatio: '30%',
+          reason: '董事长减持窗口6月30日开启·建议窗口前主动减仓'
+        },
+        dataAsOf: '2026-06-26',
       },
 },
 
