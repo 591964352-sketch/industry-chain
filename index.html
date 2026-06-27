@@ -2002,6 +2002,20 @@ function renderStockRankingPanel(chainId) {
 function renderChain(chainId) {
   const d = CHAINS[chainId];
   const container = document.getElementById('chain-content');
+  // ★ P0 拉取层联动：把 window.PCB_AUTO.valuations 合并到 CHAINS.pcb.segments/midstream.stocks
+  if (d && d.id === 'pcb' && window.PCB_AUTO && window.PCB_AUTO.valuations) {
+    const autoMap = window.PCB_AUTO.valuations;
+    (d.segments || []).forEach(seg => {
+      (seg.stocks || []).forEach(s => {
+        if (autoMap[s.code]) Object.assign(s, autoMap[s.code]);
+      });
+    });
+    if (d.midstream && d.midstream.stocks) {
+      d.midstream.stocks.forEach(s => {
+        if (autoMap[s.code]) Object.assign(s, autoMap[s.code]);
+      });
+    }
+  }
   // ★ 4.85b：findStock 辅助函数——根据 stock code 在 segments + midstream 中查找 stock 对象
   function findStock(d, code) {
     if (!d) return null;
@@ -3825,6 +3839,7 @@ function renderChain(chainId) {
       h += `<div style="font-size:11px;color:var(--muted);line-height:1.6;">${step.desc}</div>`;
       if (step.domestic && step.domestic !== '—') h += `<div style="font-size:11px;color:var(--color-data);margin-top:4px;">📊 国产化：${step.domestic}</div>`;
       if (step.barrierNote) h += `<div style="font-size:11px;color:var(--muted);margin-top:3px;opacity:0.8;">${step.barrierNote}</div>`;
+      h += `<div style="font-size:11px;color:var(--muted);opacity:0.6;margin-top:1px;">数据截止：${step.asOf || '2026-Q2'}</div>`;
       h += `</div>`;
       if (step.keyStocks && step.keyStocks.length > 0) {
         h += `<div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end;">`;
