@@ -2002,6 +2002,21 @@ function renderStockRankingPanel(chainId) {
 function renderChain(chainId) {
   const d = CHAINS[chainId];
   const container = document.getElementById('chain-content');
+  // ★ 4.85b：findStock 辅助函数——根据 stock code 在 segments + midstream 中查找 stock 对象
+  function findStock(d, code) {
+    if (!d) return null;
+    for (const seg of (d.segments || [])) {
+      for (const s of (seg.stocks || [])) {
+        if (String(s.code) === String(code)) return s;
+      }
+    }
+    if (d.midstream) {
+      for (const s of (d.midstream.stocks || [])) {
+        if (String(s.code) === String(code)) return s;
+      }
+    }
+    return null;
+  }
   // ★ 升级九 STEP 4 小步 1：容错 guard — 数据未加载时显示提示而非白屏（之前是 if (!d) return; 静默 return）
   if (!d) {
     if (container) container.innerHTML = `<div class="card" style="padding:32px;text-align:center;border-left:3px solid var(--red);margin-top:20px;">
@@ -3793,6 +3808,35 @@ function renderChain(chainId) {
   h += `<div class="section-body">`;
   h += `<div class="plain-box"><div class="analogy">${d.icon} ${d.plainIntro.analogy}</div>`;
   d.plainIntro.paragraphs.forEach(p => h += `<p>${p}</p>`);
+  // ★ 4.85c：chainStory 产业链故事线·10 环节可视化（紧跟 analogy+paragraphs 之后·流水账之前）
+  if (d.plainIntro && d.plainIntro.chainStory) {
+    h += `<div style="margin-top:16px;">`;
+    h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px;">🔗 产业链全景·从原材料到终端应用</div>`;
+    d.plainIntro.chainStory.forEach(step => {
+      const barrierColor = step.barrier === '极高' ? 'var(--color-risk)' :
+                           step.barrier === '高' ? 'var(--color-warn)' :
+                           step.barrier === '中' ? 'var(--color-data)' : 'var(--muted)';
+      const chokeIcon = step.choke ? '🔒 ' : '';
+      h += `<div style="display:grid;grid-template-columns:20px 1fr auto;gap:8px;align-items:start;padding:10px 12px;margin-bottom:8px;background:var(--card2);border-radius:6px;border-left:3px solid ${barrierColor};">`;
+      h += `<div style="font-size:11px;color:var(--muted);font-weight:600;padding-top:2px;">${step.step}</div>`;
+      h += `<div>`;
+      h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;">${chokeIcon}${step.name}<span style="font-size:11px;color:${barrierColor};font-weight:500;margin-left:6px;">${step.barrier !== '—' ? '壁垒' + step.barrier : ''}</span></div>`;
+      h += `<div style="font-size:11px;color:var(--muted);line-height:1.6;">${step.desc}</div>`;
+      if (step.domestic && step.domestic !== '—') h += `<div style="font-size:11px;color:var(--color-data);margin-top:4px;">📊 国产化：${step.domestic}</div>`;
+      if (step.barrierNote) h += `<div style="font-size:11px;color:var(--muted);margin-top:3px;opacity:0.8;">${step.barrierNote}</div>`;
+      h += `</div>`;
+      if (step.keyStocks && step.keyStocks.length > 0) {
+        h += `<div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end;">`;
+        step.keyStocks.forEach(code => {
+          const s = findStock(d, code);
+          if (s) h += `<span style="font-size:11px;background:var(--card2);border:1px solid var(--border);border-radius:4px;padding:2px 6px;color:var(--text);white-space:nowrap;">${s.name}</span>`;
+        });
+        h += `</div>`;
+      }
+      h += `</div>`;
+    });
+    h += `</div>`;
+  }
   h += `<div style="font-weight:600;margin-bottom:6px;font-size:13px;color:var(--muted);">🔗 产业链通俗流水账：</div><div class="flow-row">`;
   d.plainIntro.flowSteps.forEach((s, i) => {
     if (i > 0) h += '<span class="arrow">→</span>';
