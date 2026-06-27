@@ -61,7 +61,7 @@
   .highlight-box { background: rgba(240,185,11,0.05); border-left: 3px solid var(--accent); padding: 14px 18px; border-radius: 0 8px 8px 0; font-size: 13px; margin-top: 14px; line-height: 1.8; }
 
   /* Overview */
-  .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }   /* ★ commit 4.6：grid gap 14→24 */
+  .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; align-items: stretch; }   /* ★ commit 4.6：grid gap 14→24 · 4.82 加 align-items:stretch 让 8 个统计格高度一致 */
   .overview-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; }
   .overview-item .label { font-size: 11px; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 8px; }
   .overview-item .value { font-size: 20px; font-weight: 500; }   /* ★ commit 4.6：关键数字 20→24px / 700→500 */
@@ -2263,675 +2263,11 @@ function renderChain(chainId) {
     h += `</div></div>`;  // card + section
   }
 
-  // ★ 阶段五 commit 4.20：下游需求传导 card（在 ④ 树状图 section 之后 · 仅 pcb 试点）
-  //   读取 CHAINS.pcb.demandChainMeta（pcb.js 注入）
-  //   4 个下游细分横向排列 + AI 服务器价值量倍数 + 传导系数待补充说明
-  if (d.demandChainMeta && d.demandChainMeta.segments) {
-    const dcm = d.demandChainMeta;
-    h += `<div class="section collapsible collapsed" data-key="demand" id="section-demand-chain"><div class="section-title" onclick="toggleSection('demand')"><span class="num num-chain">④</span> 下游需求传导 · <span style="color:var(--accent);">CAGR 量化锚点</span><span class="collapse-arrow">▼</span></div>`;
-    h += `<div class="section-desc">4 个下游细分 2025-2028 年 CAGR·broker 多源核实·AI 服务器额外标注单台 PCB 价值量倍数（vs 普通服务器）</div>`;
-    h += `<div class="card" style="padding:20px;">`;
-
-    // 横向 4 列（用 flex 自适应，4 等分）
-    h += `<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;">`;
-    (dcm.segments || []).forEach(seg => {
-      // 颜色映射：CAGR 越高颜色越绿（AI 服务器 32% 极绿 → 消费 2.8% 偏红/灰）
-      const cagrCls = seg.cagr >= 20 ? 'tg-green' : seg.cagr >= 5 ? 'tg-mid' : seg.cagr >= 3 ? 'tg-extreme' : 'tg-gray';
-      // tier 标识：broker = 🔵 / media = ⚪ / primary = 🟢
-      const tierBadge = seg.cagrTier === 'broker' ? '🔵 broker' : seg.cagrTier === 'primary' ? '🟢 primary' : '⚪ estimate';
-      h += `<div style="flex:1;min-width:220px;padding:14px 16px;background:var(--card2);border-radius:6px;border-left:3px solid var(--accent);">`;
-      h += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">`;
-      h += `<div style="font-size:14px;font-weight:600;color:var(--text);">${seg.name}</div>`;
-      h += `<div style="font-size:11px;color:var(--muted);font-weight:400;">占比 ${seg.sharePct}%</div>`;
-      h += `</div>`;
-      // CAGR 区间
-      h += `<div style="margin-bottom:6px;">`;
-      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:2px;">CAGR（2025-2028）<span style="color:var(--muted);">· ${tierBadge}</span></div>`;
-      h += `<div style="font-size:16px;font-weight:600;"><span class="tag ${cagrCls}" style="font-size:14px;">${seg.cagrRange}</span></div>`;
-      h += `</div>`;
-      // 价值量倍数（仅 AI 服务器）
-      if (seg.valueMult) {
-        h += `<div style="margin-bottom:6px;padding:8px 10px;background:rgba(240,185,11,0.08);border-radius:4px;">`;
-        h += `<div style="font-size:11px;color:var(--muted);margin-bottom:2px;">单台 PCB 价值量倍数 <span style="color:var(--muted);">· vs 普通服务器</span></div>`;
-        h += `<div style="font-size:15px;font-weight:600;color:var(--accent);">${seg.valueMultRange}</div>`;
-        h += `<div style="font-size:11px;color:var(--muted);margin-top:2px;">${seg.valueMultNote || ''}</div>`;
-        h += `</div>`;
-      }
-      // 来源数量
-      h += `<div style="font-size:11px;color:var(--muted);">📚 ${seg.cagrSrc.length} 源${(seg.valueMultSrc?' + '+seg.valueMultSrc.length+' 源 (价值量)':'')}</div>`;
-      h += `</div>`;
-    });
-    h += `</div>`;
-
-    // 来源明细（折叠）
-    h += `<div class="choke-card" style="margin-top:8px;">`;  // ★ commit 4.77：默认折叠（CSS 控制）
-    h += `<div class="choke-summary" onclick="this.parentElement.classList.toggle('open')"><span>📚 数据来源明细（${(dcm.segments||[]).reduce((a,s)=>a+s.cagrSrc.length+(s.valueMultSrc?s.valueMultSrc.length:0),0)} 条）</span><span class="choke-arrow">▸</span></div>`;
-    h += `<div class="choke-detail">`;
-    (dcm.segments || []).forEach(seg => {
-      h += `<div style="margin-bottom:10px;">`;
-      h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;">${seg.name} · CAGR ${seg.cagrRange}${seg.valueMult ? ' · 单台价值量 '+seg.valueMultRange : ''}</div>`;
-      h += `<ul style="margin:0;padding-left:20px;font-size:11px;color:var(--text);line-height:1.7;">`;
-      seg.cagrSrc.forEach(s => {
-        h += `<li><span style="color:var(--muted);">[${s.tier}]</span> <strong>${s.name}</strong> <span style="color:var(--muted);">(${s.date})</span>：<em style="color:var(--accent);">"${s.quote}"</em></li>`;
-      });
-      if (seg.valueMultSrc) {
-        seg.valueMultSrc.forEach(s => {
-          h += `<li><span style="color:var(--muted);">[${s.tier}]</span> <strong>${s.name}</strong> <span style="color:var(--muted);">(${s.date})</span>：<em style="color:var(--accent);">"${s.quote}"</em></li>`;
-        });
-      }
-      h += `</ul>`;
-      if (seg.note) h += `<div style="font-size:11px;color:var(--muted);margin-top:4px;font-style:italic;">📝 ${seg.note}</div>`;
-      h += `</div>`;
-    });
-    h += `</div></div>`;
-
-    // 传导系数待补充说明
-    if (dcm.conductionTBD) {
-      h += `<div style="padding:10px 14px;background:rgba(240,185,11,0.05);border-left:3px solid var(--color-signal);border-radius:0 6px 6px 0;font-size:12px;color:var(--text);line-height:1.7;margin-top:14px;">`;
-      h += `⏳ <strong>传导系数待补充</strong>：${dcm.conductionNote || '下游 X% → 上游 PCB 需求 Y% 的弹性系数未实装'}`;
-      h += `</div>`;
-    }
-
-    h += `</div></div>`;  // card + section
-  } else {
-    // ==================== 旧 schema：纵向 5 段布局（其它 11 条赛道 + AI全产业链 fallback）====================
-    h += `<div class="section" data-key="treemap" id="section-treemap"><div class="section-title" onclick="toggleSection('treemap')"><span class="num num-chain">${sec2Label}</span> 全产业链树状图<span class="collapse-arrow">▼</span></div>`;
-    // ★ commit 4.76 修复：section-desc 默认折叠为 details
-    h += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-muted);font-size:11px;list-style:none;outline:none;">📋 查看布局说明</summary><div class="section-desc" style="margin-top:6px;">颜色越深=壁垒越高=越可能藏有卡口。🔒=已识别物理卡口。</div></details>`;
-    h += `<div class="card"><div class="tree-wrapper"><div class="tree">`;
-    // Downstream
-    h += `<div class="tree-level-label">▼ 下游应用（需求端）</div>`;
-    h += `<div class="tree-node b-low" style="min-width:600px;">📱 ${d.treeMap.downstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.downstream.note}</span></div>`;
-    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:500px;"></div>`;
-    // Midstream / System Assembly
-    if (d.treeMap.systemAssembly) {
-      h += `<div class="tree-level-label" style="margin-top:4px;">▼ 系统集成层</div>`;
-      h += `<div class="tree-node b-low" style="min-width:500px;">🏭 ${d.treeMap.systemAssembly.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.systemAssembly.note}</span></div>`;
-      h += `<div class="tree-vline"></div><div class="tree-hline" style="width:600px;"></div>`;
-    } else if (d.treeMap.midstream) {
-      h += `<div class="tree-level-label" style="margin-top:4px;">▼ 中游</div>`;
-      h += `<div class="tree-node b-low" style="min-width:500px;">🏭 ${d.treeMap.midstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.midstream.note}</span></div>`;
-      h += `<div class="tree-vline"></div><div class="tree-hline" style="width:500px;"></div>`;
-    }
-  // AI全产业链专属：物理维度分层
-  if (d.treeMap.computeLabel) {
-    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.computeLabel}</div>`;
-    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
-    d.treeMap.compute.forEach(e => {
-      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:180px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
-    });
-    h += `</div>`;
-  }
-  if (d.treeMap.interconnectLabel) {
-    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.interconnectLabel}</div>`;
-    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
-    d.treeMap.interconnect.forEach(e => {
-      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:220px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
-    });
-    h += `</div>`;
-  }
-  if (d.treeMap.pcLabel) {
-    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.pcLabel}</div>`;
-    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
-    d.treeMap.pc.forEach(e => {
-      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:220px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
-    });
-    h += `</div>`;
-  }
-  // Upstream tools layer
-  if (d.treeMap.upstreamTools) {
-    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游设计工具</div>`;
-    h += `<div class="tree-node b-extreme" style="min-width:400px;">🔧 ${d.treeMap.upstreamTools.name} <span class="badge-b badge-ex">壁垒:极高</span><br><span style="font-size:11px;color:var(--muted);">${d.treeMap.upstreamTools.note}</span></div>`;
-    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:700px;"></div>`;
-  }
-  // Upstream CCL layer (PCB specific)
-  if (d.treeMap.upstreamCCL) {
-    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游核心基材</div>`;
-    h += `<div class="tree-node b-high" style="min-width:400px;">📐 ${d.treeMap.upstreamCCL.name} <span class="badge-b badge-hi">壁垒:高</span><br><span style="font-size:11px;color:var(--muted);">${d.treeMap.upstreamCCL.note}</span></div>`;
-    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:700px;"></div>`;
-  }
-  // Equipment
-  if (d.treeMap.equipment) {
-    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游核心设备</div>`;
-    h += `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
-    d.treeMap.equipment.forEach(e => {
-      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
-    });
-    h += `</div>`;
-  }
-  // AI全产业链专属：上游制造层
-  if (d.treeMap.mfgLabel) {
-    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.mfgLabel}</div>`;
-    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
-    d.treeMap.manufacturing.forEach(e => {
-      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:200px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
-    });
-    h += `</div>`;
-  }
-  // Materials
-  if (d.treeMap.materials) {
-    const label = d.treeMap.matLabel || (d.treeMap.equipment ? '▼ 上游核心材料（卡口集中区）' : '▼ 上游核心材料（卡口集中区）');
-    h += `<div class="tree-level-label" style="margin-top:8px;">${label}</div>`;
-    h += `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
-    d.treeMap.materials.forEach(m => {
-      h += `<div class="tree-sub-node ${m.barrier==='extreme'?'b-extreme':m.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${m.name}<br><span class="badge-b badge-${m.barrier==='extreme'?'ex':m.barrier==='high'?'hi':'mi'}">壁垒:${m.barrier==='extreme'?'极高':m.barrier==='high'?'高':'中'}</span>${m.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${m.note}</span></div>`;
-    });
-    h += `</div>`;
-  }
-  // Side branches
-  if (d.treeMap.sideBranches) {
-    h += `<div style="width:400px;height:2px;background:var(--border);margin:12px auto 0;"></div>`;
-    h += `<div style="display:flex;gap:20px;justify-content:center;margin-top:6px;">`;
-    d.treeMap.sideBranches.forEach(b => {
-      h += `<div class="tree-sub-node ${b.barrier==='high'?'b-high':'b-mid'}" style="min-width:260px;">${b.name}<br><span style="font-size:11px;color:var(--muted);">${b.note}</span></div>`;
-    });
-    h += `</div>`;
-  }
-  h += `</div></div>`;
-  h += `<div class="legend-bar">`;
-  h += `<span><span class="dot" style="background:var(--color-risk);"></span>极高壁垒—全球≤3家量产</span>`;
-  h += `<span><span class="dot" style="background:var(--color-warn);"></span>高壁垒—认证周期1-2年</span>`;
-  h += `<span><span class="dot" style="background:var(--color-data);"></span>中壁垒—有国产突破</span>`;
-  h += `<span><span class="dot" style="background:var(--color-muted);"></span>低壁垒—充分竞争</span>`;
-  h += `<span>🔒=物理卡口</span>`;
-  h += `</div></div></div>`;
-  }  // 关闭 } else { 旧 schema 分支
+  // ★ 4.82 M_demand + B2_treemap_old 块已移至 renderMacroDashboard 之后（保持 if/else 配对）
   // ★ commit 4.75：第一层·认识赛道 · section-overview 锚点（Hero Banner 之后）
   //   视觉上：Hero → 数据截止模块 → treeMap（treeMap 默认展开·属第一层）
   //   Quick Nav "🏛️ 认识赛道" 跳转到此位置（滚动到 Hero 顶部）
   h += `<div id="section-overview" style="padding-top:4px;"></div>`;
-
-  // ★ commit 4.40：产业链景气度仪表盘（PCB 赛道顶部 banner · 所有 stock 卡片之前）
-  h += renderMacroDashboard(chainId);
-
-  // ===== 升级 B：个股趋势徽章（绿/红/灰，复用 .tag .tg-* 零 CSS 增量） =====
-  function trendBadge(t, note) {
-    const title = note ? ` title="${note}"` : '';
-    if (t === 'up')   return ` <span class="tag tg-green"${title}>⬆ 进步</span>`;
-    if (t === 'down') return ` <span class="tag tg-extreme"${title}>⬇ 承压</span>`;
-    if (t === 'flat') return ` <span class="tag tg-gray"${title}>➖ 平稳</span>`;
-    return '';
-  }
-
-  // ===== 升级九 STEP 2B：个股六维 mini-bar 展开（native <details>，0 JS、0 CSS 增量） =====
-  function stockDims6Badge(s) {
-    if (!s.dims6 || !s.dims6.length) return '';
-    const META = (typeof PROSPERITY_META !== 'undefined') ? PROSPERITY_META : {};
-    // ★ 修复：flat/→ 统一灰色（撤销"高分 flat 金色"调优 — 用户视觉上把 barrier-high #f97316 误读为红色）
-    const arrow = (t, sc) => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : '<span style="color:var(--muted);">→</span>';
-    // ★ 升级 E：fold 面板顶部综合分行（复用赛道六维卡排版：综合 X/100 + 档位徽章 + ⚠安全垫）
-    const f = computeStockFit(s.dims6);
-    const tierCls = f.tier.indexOf('🟢')===0 ? 'tg-green' : f.tier.indexOf('🟡')===0 ? 'tg-mid' : 'tg-extreme';
-    const summaryRow = `<div style="margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--border);font-size:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">综合 <strong style="color:var(--accent);font-size:14px;">${f.score}</strong>/100 <span class="tag ${tierCls}" style="font-size:11px;">${f.tier}</span>${f.risk?' <span style="color:var(--red);font-size:11px;">⚠安全垫不足</span>':''}</div>`;
-    let bars = '';
-    s.dims6.forEach(d6 => {
-      const meta = META[d6.key] || {};
-      const pct = Math.max(0, Math.min(100, (d6.score/5)*100));
-      const barColor = d6.score >= 4 ? 'var(--green)' : d6.score >= 3 ? 'var(--color-warn)' : d6.score >= 2 ? 'var(--color-data)' : 'var(--red)';
-      bars += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:11px;line-height:1.4;">`;
-      bars += `<span style="width:68px;color:var(--muted);flex-shrink:0;">${meta.name || d6.key}${sourceTierBadge(d6.tier, d6.src)}</span>`;
-      bars += `<div style="flex:1;min-width:50px;height:4px;background:var(--card2);border-radius:2px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${barColor};"></div></div>`;
-      bars += `<span style="width:42px;text-align:right;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend, d6.score)}</span>`;
-      bars += `</div>`;
-    });
-    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;">${summaryRow}<div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}${s.valAsOf?`<div style="margin-top:4px;font-size:11px;color:var(--color-muted);text-align:right;" title="估值判断时点">📅 截至 ${s.valAsOf.slice(5)}</div>`:''}</div></details>`;
-  }
-
-  // ===== ★ B4 六维雷达图（纯内联 SVG，0 依赖，复用 var(--accent) 金色描边+半透明填充）=====
-  // 输入：dims 数组（6 个 {key, score}，顺序固定 durability/visibility/policy/supply/valuation/barrier）
-  // 输出：SVG 字符串，6 个轴顺时针从顶 -90° 起 60° 一段；5 圈背景网格 + 数据多边形 + 数据点 + 轴标签
-  // 用法：赛道级 prosperityRadar(d.prosperity.dims, 160) / 个股级 prosperityRadar(s.dims6, 100)
-  function prosperityRadar(dims, size) {
-    if (!dims || dims.length !== 6) return '';
-    size = size || 140;
-    const cx = size / 2, cy = size / 2;
-    const radius = size * 0.34;  // 留出轴标签空间
-    const angles = [-90, -30, 30, 90, 150, 210];  // 6 个轴角度
-    const labelTexts = ['持续','可见','政策','供需','估值','壁垒'];
-    // 5 圈网格（最外圈加粗）
-    let grid = '';
-    for (let g = 1; g <= 5; g++) {
-      const pts = angles.map(a => {
-        const rad = a * Math.PI / 180;
-        const r = radius * (g / 5);
-        return `${(cx + r * Math.cos(rad)).toFixed(1)},${(cy + r * Math.sin(rad)).toFixed(1)}`;
-      }).join(' ');
-      grid += `<polygon points="${pts}" fill="none" stroke="var(--border)" stroke-width="${g === 5 ? 1 : 0.5}" opacity="${g === 5 ? 0.55 : 0.28}" />`;
-    }
-    // 6 条径向轴线
-    let axes = '';
-    angles.forEach(a => {
-      const rad = a * Math.PI / 180;
-      axes += `<line x1="${cx}" y1="${cy}" x2="${(cx + radius * Math.cos(rad)).toFixed(1)}" y2="${(cy + radius * Math.sin(rad)).toFixed(1)}" stroke="var(--border)" stroke-width="0.5" opacity="0.4" />`;
-    });
-    // 数据多边形
-    const dataPts = dims.map((d, i) => {
-      const rad = angles[i] * Math.PI / 180;
-      const r = radius * Math.max(0, Math.min(1, (d.score || 0) / 5));
-      return [cx + r * Math.cos(rad), cy + r * Math.sin(rad)];
-    });
-    const dataStr = dataPts.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
-    const dataPolygon = `<polygon points="${dataStr}" fill="var(--accent)" fill-opacity="0.18" stroke="var(--accent)" stroke-width="1.5" />`;
-    // 数据点小圆
-    let dots = '';
-    dataPts.forEach(p => {
-      dots += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${size >= 130 ? 2.5 : 2}" fill="var(--accent)" />`;
-    });
-    // 轴标签（不同角度的 text-anchor 调整）
-    let labels = '';
-    const fontSize = size >= 130 ? 10 : 8;
-    angles.forEach((a, i) => {
-      const rad = a * Math.PI / 180;
-      const lr = radius + (size >= 130 ? 14 : 10);
-      const lx = cx + lr * Math.cos(rad);
-      const ly = cy + lr * Math.sin(rad);
-      let anchor = 'middle';
-      if (a === -30 || a === 30) anchor = 'start';
-      else if (a === 150 || a === 210) anchor = 'end';
-      labels += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="var(--muted)" font-size="${fontSize}" font-weight="600">${labelTexts[i]}</text>`;
-    });
-    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" style="display:block;overflow:visible;flex-shrink:0;" aria-label="六维雷达图">${grid}${axes}${dataPolygon}${dots}${labels}</svg>`;
-  }
-
-
-  // ===== AI全产业链专属：Section ⓪ 苏格拉底六问 =====
-  if (d.socraticInquiry) {
-    h += `<div class="section"><div class="section-title"><span class="num num-plain">⓪</span> 苏格拉底六问 — 追问 AI 产业链的「常识」</div>`;
-    h += `<div class="section-desc">${d.socraticInquiry.intro}</div>`;
-    h += `<div class="card" style="padding:20px;">`;
-    d.socraticInquiry.questions.forEach(q => {
-      h += `<div style="margin-bottom:18px;padding:14px 18px;background:var(--card2);border-radius:8px;border-left:3px solid var(--blue);">`;
-      h += `<div style="font-size:12px;color:var(--blue);font-weight:700;margin-bottom:6px;">${q.step}</div>`;
-      h += `<div style="font-weight:600;margin-bottom:4px;font-size:14px;">${q.question}</div>`;
-      h += `<div style="font-size:12px;color:var(--muted);">💬 ${q.challenge}</div>`;
-      h += `</div>`;
-    });
-    h += `<div style="padding:14px 18px;background:rgba(240,185,11,0.06);border-radius:8px;border-left:3px solid var(--accent);">`;
-    h += `<div style="font-weight:700;color:var(--accent);margin-bottom:4px;">🎯 六问结论</div>`;
-    h += `<div style="font-size:13px;line-height:1.9;">${d.socraticInquiry.conclusion}</div>`;
-    h += `</div></div></div>`;
-  }
-
-  // Section 0/1: Plain Intro（变量已提前到 renderChain 顶部·避免 TDZ）
-  // ★ commit 4.10：删 chain header 🔄 生成刷新指令按钮（refreshBtn 变量不再需要）
-  // ★ 阶段 A commit 4.5：顶部锚点 + ① 卡口结论段（chokePoints 主体）
-  // 新顺序：① 卡口结论+买入信号 → ② ⑥后段(折叠) → ③ 景气+周期+宏观 → ④ 树状图 → ⑤ 白话(折叠) → ⑥ 上游深度(折叠) → ⑦ 中游 → ⑧ 四问(折叠)
-
-  // 顶部锚点栏
-  h += renderQuickNav();
-
-
-
-
-  // ★ commit 4.75：第四层·投资决策（默认折叠 · 包裹 5 子块）
-  //   包含：基本面排名榜 + 信号 C TOP3 + 信号 C 历史回放 + choke card grid + 买入信号监测
-  //   持仓管理（section-holding）在上方独立显示 · 本 section 默认折叠避免首屏过载
-  h += `<div class="section collapsible collapsed" data-key="decision" id="section-decision">`;
-  h += `<div class="section-title" onclick="toggleSection('decision')"><span class="num num-result">📊</span> 投资决策 · 基本面排名 + 信号监测 + 卡口结论<span class="collapse-arrow">▼</span></div>`;
-  h += `<div class="section-body">`;
-
-  // ★ commit 4.66：基本面质量横向排名榜（综合排名 / 段位龙头 / 风险预警 三视图）
-  //   位于持仓管理下方、信号C TOP3 之前——形成 持仓风险 → 基本面质量 → 信号触发  3 段递进
-  h += renderStockRankingPanel(chainId);
-
-  // ★ commit 4.50：信号C TOP3 独立化（即将触发 TOP3 · 总距离最小 3 只 · 紧跟 section 标题）
-  h += renderSignalCTopList(chainId);
-  // ★ commit 4.57：信号 C 历史回放面板（5 年窗口 · ⚠️非实盘记录）
-  h += renderSignalCHistoryPanel(chainId);
-  h += `<div class="choke-grid" style="margin-bottom:24px;">`;
-
-  // ★ commit 4.41：默认展开名单（持仓 + 减仓信号触发 stock）
-  //   ★ commit 4.47：剥离非 PCB 持仓后·只剩 601208 东材科技一只持仓
-  //   持仓名单硬编码（HOLDING_NOTES 与下方持仓说明一致）· 减仓名单从 signalCMeta 触发列表算
-  const HOLDING_CODES_DEFAULT_OPEN = new Set(['601208']);
-  const reduceTriggeredCodes = new Set();
-  if (d.signalCMeta && d.signalCMeta.stats && Array.isArray(d.signalCMeta.stats.triggeredList)) {
-    d.signalCMeta.stats.triggeredList.forEach(s => {
-      if (s && s.code && s.reduceSignal) reduceTriggeredCodes.add(s.code);
-    });
-  }
-  const defaultOpenCodes = new Set([...HOLDING_CODES_DEFAULT_OPEN, ...reduceTriggeredCodes]);
-
-  d.chokePoints.forEach((c, i) => {
-    const medals = ['🥇','🥈','🥉'];
-    const _isOpen = defaultOpenCodes.has(c.code);
-    // ★ commit 4.41：summary 行显示最关键摘要（code+名称+段位+壁垒+PE分位+趋势）
-    let _sumPct = '';
-    if (c.valuation && typeof c.valuation.pePercentile === 'number') {
-      const _p = c.valuation.pePercentile;
-      const _pCls = _p >= 80 ? 'tg-extreme' : _p >= 50 ? 'tg-mid' : 'tg-green';
-      _sumPct = `<span class="tag ${_pCls}" style="font-size:11px;margin-left:6px;">PE分位 ${_p.toFixed(0)}%</span>`;
-    }
-    let _sumTrend = '';
-    const _findTrend = (arr) => { const m = (arr || []).find(s => s.code === c.code); if (m && m.trend) return m.trend; return null; };
-    let _trendVal = null;
-    if (d.segments) d.segments.forEach(seg => { if (!_trendVal) _trendVal = _findTrend(seg.stocks); });
-    if (!_trendVal && d.midstream) _trendVal = _findTrend(d.midstream.stocks);
-    if (_trendVal) {
-      const _tCls = _trendVal === 'up' ? 'tg-green' : _trendVal === 'down' ? 'tg-extreme' : 'tg-gray';
-      const _tTxt = _trendVal === 'up' ? '⬆' : _trendVal === 'down' ? '⬇' : '➖';
-      _sumTrend = `<span class="tag ${_tCls}" style="font-size:11px;margin-left:4px;" title="趋势">${_tTxt}</span>`;
-    }
-    const _sumTags = (c.strength || '') + _sumPct + _sumTrend;
-    // 持仓 / 减仓信号徽章（用于 summary 行标记「为什么默认展开」）
-    let _openReason = '';
-    if (HOLDING_CODES_DEFAULT_OPEN.has(c.code)) _openReason = '<span class="tag tg-extreme" style="font-size:11px;margin-left:6px;" title="commit 4.27 持仓名单">📌 持仓</span>';
-    else if (reduceTriggeredCodes.has(c.code)) _openReason = '<span class="tag tg-mid" style="font-size:11px;margin-left:6px;" title="信号 C 减仓触发">⚠️ 减仓</span>';
-
-    h += `<div class="choke-card">`;
-    // ★ commit 4.41：整只 stock 卡片用 <details> 包裹 · 持仓/减仓 stock 默认展开
-    h += `<details${_isOpen ? ' open' : ''}>`;
-    h += `<summary style="list-style:none;cursor:pointer;outline:none;padding:0;">`;
-    h += `<h3 style="display:inline;"><span class="rank">${medals[i]||'#'+(i+1)} 优先级 ${i+1}</span>${c.name} <span style="font-size:11px;color:var(--muted);font-weight:400;">${c.code}</span>${_openReason}</h3>`;
-    h += `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;font-size:11px;">`;
-    h += `<span style="color:var(--muted);">🔒 ${c.segment}</span>`;
-    h += _sumTags;
-    h += `<span style="color:var(--muted);margin-left:auto;font-size:11px;">▾ 展开详情</span>`;
-    h += `</div></summary>`;
-    if (c.verification && c.verification.items && c.verification.items.length) {
-      const all = collectVerifyStatuses(chainId, c.code, c.verification.items);
-      const ov = computeOverallStatus(all);
-      const ocls = ov==='verified'?'tg-green':ov==='falsified'?'tg-extreme':'tg-gray';
-      const otxt = ov==='verified'?'✅ 已验证':ov==='falsified'?'❌ 已证伪':'⏳ 待验证';
-      h += `<div style="margin:6px 0 4px;"><span class="tag verify-overall ${ocls}" style="font-size:11px;">${otxt}</span></div>`;
-    }
-    h += `<div class="code">${c.code}</div>`;
-    h += `<div class="seg">🔒 ${c.segment}</div>`;
-    const _logicText = c.logic || '';
-    // ★ commit 4.6：核心逻辑默认显示第一句（按 . 分割 ≤40 字），点 📖 展开全文
-    const _stripHtml = (s) => s.replace(/<[^>]*>/g, '').trim();
-    const _firstSentence = (txt) => {
-      const plain = _stripHtml(txt);
-      const m = plain.match(/^[^。．.；;]+[。．.；;]/);
-      const head = m ? m[0] : plain;
-      return head.length > 40 ? head.slice(0, 40) + '…' : head;
-    };
-    if (_stripHtml(_logicText).length > 40) {
-      h += `<div class="logic"><div style="font-size:13px;line-height:1.8;color:var(--text);margin-bottom:8px;">${_firstSentence(_logicText)}</div>`;
-      h += `<span class="choke-long" style="font-size:12px;color:var(--muted);line-height:1.7;">${_logicText}</span>`;
-      h += `<span class="choke-long-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=(this.previousElementSibling.classList.contains('expanded')?'📕 收起':'📖 展开全文');">📖 展开全文</span></div>`;
-    } else {
-      h += `<div class="logic">${_logicText}</div>`;
-    }
-    const _hasPct = c.valuation && typeof c.valuation.pePercentile === 'number';
-    const _hasEZ  = c.valuation && c.valuation.entryZone && typeof c.valuation.entryZone.p30 === 'number' && typeof c.valuation.entryZone.p70 === 'number';
-    if (c.valuation && (_hasPct || _hasEZ)) {
-      const p = _hasPct ? c.valuation.pePercentile : null;
-      const cls = p === null ? 'tg-gray' : p >= 80 ? 'tg-extreme' : p >= 50 ? 'tg-mid' : 'tg-green';
-      const band = p === null ? '估值待定' : p >= 80 ? '估值高位' : p >= 50 ? '估值中位' : '估值低位';
-      const parts = [];
-      if (c.valuation.pe)          parts.push(`PE ${c.valuation.pe}`);
-      if (c.valuation.peAbsolute)  parts.push(`<strong style="color:var(--text);">绝对 ${c.valuation.peAbsolute}</strong>`);
-      if (p !== null) parts.push(`PE分位 ${p.toFixed(1)}%`);
-      let _entryOverP70 = false;
-      if (_hasEZ) {
-        const p30 = Math.round(c.valuation.entryZone.p30);
-        const p70 = Math.round(c.valuation.entryZone.p70);
-        parts.push(`买入区间 PE ${p30}~${p70}`);
-        if (typeof c.valuation.pe_ttm === 'number' && c.valuation.pe_ttm > c.valuation.entryZone.p70) {
-          _entryOverP70 = true;
-        }
-      }
-      if (c.valuation.grossMargin) parts.push(`毛利率 ${c.valuation.grossMargin}`);
-      const fh = formatFromHigh(c.valuation.fromHigh);
-      if (fh) parts.push(fh);
-      h += `<div class="valuation" style="font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">`;
-      h += `<span>${parts.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}${c.valuation.asOf?` <span style="color:var(--color-muted);font-size:11px;" title="估值/PE 截至日">📅 ${c.valuation.asOf}</span>`:''}</span>`;
-      if (p !== null) {
-        h += `<span class="tag ${cls}" style="font-size:11px;">${band} ${p.toFixed(1)}%分位</span>`;
-      }
-      if (_entryOverP70) {
-        h += `<span class="tag tg-extreme" style="font-size:11px;" title="当前 PE ${c.valuation.pe_ttm.toFixed(2)} 高于买入区间上限 ${c.valuation.entryZone.p70.toFixed(2)}">⚠️ 高于 PE 上限</span>`;
-      }
-      h += `</div>`;
-      if (c.valuation.note) {
-        h += `<div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:14px;padding-left:10px;border-left:2px solid var(--card2);">📝 ${c.valuation.note}</div>`;
-      }
-    }
-    // ★ commit 4.39：基本面质量层（PE 分位之后 · 标签区之前）
-    h += renderFundamentalsBlock(c.code);
-    h += `<div class="tags">`;
-    // ★ commit 4.6：标签精简为 3 个（壁垒强度 + 趋势 + PE 状态）— 其他详细标签移入下方"📑 详细标签"折叠区
-    // 标签 1: 壁垒强度（来自 c.strength ★★★/★★☆/★☆☆）
-    if (c.strength) {
-      const sCls = c.strength.indexOf('★★★') === 0 ? 'tg-green' : c.strength.indexOf('★★') === 0 ? 'tg-high' : c.strength.indexOf('★') === 0 ? 'tg-mid' : 'tg-gray';
-      h += `<span class="tag ${sCls}" style="font-size:12px;" title="壁垒强度评级">${c.strength}</span>`;
-    }
-    // 标签 2: 趋势（从 segments/midstream 找同名 stock 的 trend）
-    let trendVal = null;
-    const findStock = (arr) => { const m = (arr || []).find(s => s.code === c.code); if (m && m.trend) return m.trend; return null; };
-    if (d.segments) d.segments.forEach(seg => { if (!trendVal) trendVal = findStock(seg.stocks); });
-    if (!trendVal && d.midstream) trendVal = findStock(d.midstream.stocks);
-    if (trendVal) {
-      const tCls = trendVal === 'up' ? 'tg-green' : trendVal === 'down' ? 'tg-extreme' : 'tg-gray';
-      const tTxt = trendVal === 'up' ? '⬆ 趋势向上' : trendVal === 'down' ? '⬇ 趋势承压' : '➖ 趋势平稳';
-      h += `<span class="tag ${tCls}" style="font-size:12px;">${tTxt}</span>`;
-    }
-    // 标签 3: PE 状态（从 c.valuation.pePercentile 算 — 仅 PCB/commercial-aero/hbm 有 valuation 字段）
-    if (c.valuation && typeof c.valuation.pePercentile === 'number') {
-      const p = c.valuation.pePercentile;
-      const pCls = p >= 80 ? 'tg-extreme' : p >= 50 ? 'tg-mid' : 'tg-green';
-      const pTxt = p >= 80 ? '估值高位' : p >= 50 ? '估值中位' : '估值低位';
-      h += `<span class="tag ${pCls}" style="font-size:12px;">${pTxt} ${p.toFixed(1)}%</span>`;
-    }
-    h += `</div>`;
-    h += `<div style="margin-top:14px;">`;
-    h += `<button onclick="addToDecisionCard('${chainId}','${c.code}')" style="padding:6px 14px;background:var(--card2);border:1px solid var(--accent);border-radius:6px;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;">📌 加入决策卡片</button>`;
-    h += `</div>`;
-    // ★ commit 4.6：详细 c.tags 移入"📑 详细标签"折叠区（精简后主视图只留 3 个固定 tag）
-    if (c.tags && c.tags.length) {
-      h += `<details style="margin-top:10px;"><summary style="cursor:pointer;font-size:11px;color:var(--muted);font-weight:600;padding:4px 0;">📑 详细标签 (${c.tags.length} 项 — 点击展开)</summary>`;
-      h += `<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">`;
-      c.tags.forEach(t => {
-        h += `<span class="tag tg-gray" style="font-size:11px;">${t}</span>`;
-      });
-      h += `</div></details>`;
-    }
-    if (c.verification && c.verification.items && c.verification.items.length) {
-      h += `<details style="margin-top:14px;"><summary style="cursor:pointer;font-size:12px;color:var(--muted);font-weight:600;padding:6px 0;">🔍 卡口验证 (${c.verification.items.length} 项 — 点击展开)</summary>`;
-      h += `<div style="margin-top:10px;display:flex;flex-direction:column;gap:8px;">`;
-      c.verification.items.forEach(it => {
-        const cur = loadVerifyStatus(chainId, c.code, it.type) || it.status || 'pending';
-        const cls = cur==='confirmed'?'tg-green':cur==='broken'?'tg-extreme':'tg-gray';
-        const txt = cur==='confirmed'?'✅ 已通过':cur==='broken'?'❌ 已证伪':'⏳ 待验证';
-        const accentColor = cur==='confirmed'?'var(--green)':cur==='broken'?'var(--red)':'var(--border)';
-        h += `<div style="padding:10px 12px;background:var(--card2);border-radius:6px;border-left:3px solid ${accentColor};">`;
-        h += `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">`;
-        h += `<div style="font-size:12px;font-weight:700;color:var(--text);">📌 ${it.type}</div>`;
-        h += `<span class="tag ${cls}" style="cursor:pointer;font-size:11px;flex-shrink:0;" onclick="cycleVerifyStatus('${chainId}','${c.code}','${it.type}',this)">${txt}</span>`;
-        h += `</div>`;
-        h += `<div style="font-size:11px;line-height:1.6;margin-bottom:4px;"><span style="color:var(--muted);font-weight:600;">论断：</span>${it.claim}</div>`;
-        h += `<div style="font-size:11px;line-height:1.6;margin-bottom:4px;"><span style="color:var(--muted);font-weight:600;">怎么查：</span>${it.howToCheck}</div>`;
-        h += `<div style="font-size:11px;line-height:1.6;"><span style="color:var(--muted);font-weight:600;">证伪信号：</span>${it.falsifySignal}</div>`;
-        h += `</div>`;
-      });
-      h += `</div>`;
-      if (c.verification.note) {
-        h += `<div style="margin-top:8px;padding:8px 12px;background:var(--card2);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:11px;color:var(--muted);">📝 ${c.verification.note}</div>`;
-      }
-      h += `</details>`;
-    }
-    // ★ commit 4.41：关闭 <details> 包裹（持仓/减仓 stock 默认展开·其余折叠）
-    h += `</details>`;
-    h += `</div>`;
-  });
-  h += `</div>`;  // ① section-content 闭合（choke-grid 之后）
-
-  // 紧跟：买入信号监测 card（在 ① section 内，同屏）
-  if (d.signalMeta && d.signalMeta.stats) {
-    const sm = d.signalMeta;
-    const st = sm.stats;
-    const thr = sm.thresholds;
-    const totalHits = (st.A_total || 0) + (st.B_total || 0);
-    const totalExcluded = Object.values(st.excluded || {}).reduce((a, b) => a + (b || 0), 0);
-
-    const hits = [];
-    const collectHits = (arr, segName) => {
-      (arr || []).forEach(s => {
-        if (s && s.signal && (s.signal.A || s.signal.B)) {
-          hits.push({
-            code: s.code, name: s.name, segName: segName,
-            barrier: s.signal.barrier, trend: s.signal.trend,
-            pePercentile: s.signal.pePercentile, pe_ttm: s.valuation ? s.valuation.pe_ttm : null,
-            A: s.signal.A, B: s.signal.B, channel: s.signal.channel
-          });
-        }
-      });
-    };
-    (d.segments || []).forEach(seg => collectHits(seg.stocks, seg.name));
-    if (d.midstream) collectHits(d.midstream.stocks, '中游');
-
-    h += `<div class="card" style="padding:20px;margin-top:18px;">`;
-    h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">📡 买入信号监测 — <span style="color:var(--accent);">算法推导</span></div>`;
-
-    h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
-    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">A 信号命中（壁垒高 + PE分位&lt;阈值 + 趋势向上）</div>`;
-    h += `<div style="font-size:16px;font-weight:600;color:${(st.A_total||0)>0?'var(--green)':'var(--muted)'};">${st.A_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.A_normal||0} · 成长赛道 ${st.A_growthAdj||0}）</span></div>`;
-    h += `</div>`;
-    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">B 信号命中（命中卡口 + PE分位&lt;阈值 + 趋势非向下）</div>`;
-    h += `<div style="font-size:16px;font-weight:600;color:${(st.B_total||0)>0?'var(--green)':'var(--muted)'};">${st.B_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.B_normal||0} · 成长赛道 ${st.B_growthAdj||0}）</span></div>`;
-    h += `</div>`;
-    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">基线可投卡口</div>`;
-    h += `<div style="font-size:16px;font-weight:600;color:var(--accent);">${sm.chokepointCodesCount||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
-    h += `</div>`;
-    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描被排除</div>`;
-    h += `<div style="font-size:16px;font-weight:600;color:var(--color-muted);">${totalExcluded} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
-    h += `</div>`;
-    h += `</div>`;
-
-    if (thr) {
-      // ★ commit 4.76 修复：信号阈值详情默认折叠（不展开·只保留"查看信号触发条件"摘要）
-      h += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-data);font-size:12px;font-weight:600;list-style:none;outline:none;">🎯 查看信号触发条件</summary>`;
-      h += `<div style="margin-top:8px;padding:10px 14px;background:var(--card2);border-radius:6px;border-left:3px solid var(--accent);font-size:12px;color:var(--text);line-height:1.7;">`;
-      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">普通通道</div>`;
-      h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:8px;">`;
-      h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_A}% · 趋势向上</div>`;
-      h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_B}% · 趋势非向下</div>`;
-      h += `<div>PE上限</div><div>否</div>`;
-      h += `</div>`;
-      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">成长赛道通道 <span style="font-size:11px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
-      h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;">`;
-      h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
-      h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_GROWTH_B}% · PE&lt;PE上限 · 趋势非向下</div>`;
-      h += `<div>PE上限</div><div>是（动态上限·取 pe_history 最高值）</div>`;
-      h += `</div>`;
-      h += `</div></details>`;
-    }
-
-    if (totalHits === 0) {
-      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--color-data);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
-      h += `💡 当前 ${d.name} 板块暂无信号命中。`;
-      h += `<br>主因：板块 PE 普遍处于历史高位，PE 分位回落至 50% 以下时将自动出现推荐标的。</div>`;
-    } else {
-      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📌 命中股票列表（${totalHits} 只）</div>`;
-      h += `<table class="stock-tbl" style="font-size:12px;margin-bottom:12px;table-layout:fixed;word-break:keep-all;">`;
-      h += `<colgroup><col style="width:70px"><col style="width:100px"><col style="width:140px"><col style="width:80px"><col style="width:90px"><col style="width:80px"><col style="width:80px"><col style="width:100px"></colgroup>`;
-      h += `<thead><tr><th>代码</th><th>简称</th><th>段位</th><th>壁垒</th><th>通道</th><th>信号</th><th>趋势</th><th>PE分位</th></tr></thead><tbody>`;
-      hits.forEach(h2 => {
-        const sigs = [];
-        if (h2.A) sigs.push('<span class="tag tg-green" style="font-size:11px;">A</span>');
-        if (h2.B) sigs.push('<span class="tag tg-high" style="font-size:11px;">B</span>');
-        const pcls = h2.pePercentile === null || h2.pePercentile === undefined ? 'tg-gray' : h2.pePercentile >= 80 ? 'tg-extreme' : h2.pePercentile >= 50 ? 'tg-mid' : 'tg-green';
-        h += `<tr>`;
-        h += `<td><code>${h2.code}</code></td>`;
-        h += `<td>${h2.name||'—'}</td>`;
-        h += `<td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;" title="${h2.segName||''}">${h2.segName||'—'}</td>`;
-        h += `<td>${h2.barrier||'—'}</td>`;
-        h += `<td>${h2.channel==='growthAdj'?'成长赛道':(h2.channel||'—')}</td>`;
-        h += `<td>${sigs.join(' ')}</td>`;
-        h += `<td>${h2.trend==='up'?'向上':h2.trend==='down'?'向下':h2.trend==='flat'?'平稳':(h2.trend||'—')}</td>`;
-        h += `<td><span class="tag ${pcls}" style="font-size:11px;">${h2.pePercentile!==null && h2.pePercentile!==undefined ? h2.pePercentile.toFixed(1)+'%' : '—'}</span></td>`;
-        h += `</tr>`;
-      });
-      h += `</tbody></table>`;
-    }
-    h += `</div>`;
-  }
-  h += `</div></div>`;  // 关闭 section-decision 的 section-body + section 整体（④ section-decision 默认折叠）
-
-  // ② ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论（默认折叠）
-  h += `<div class="section collapsible collapsed" data-key="meta" id="section-meta">`;
-  h += `<div class="section-title" onclick="toggleSection('meta')"><span class="num num-mid">②</span> ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论<span class="collapse-arrow">▼</span></div>`;
-  h += `<div class="section-body">`;
-
-  // ★ commit 4.10 修复：referenceChokepoints 渲染（中文名 + 数组换行兼容）
-  //   - 数据从 pcb.manual.js 注入（commit 2.3+），pcb.js 内 IIFE 会加载
-  //   - replacementCode 支持单值（如 '301217'）或数组（如 ['301217', '603186']）
-  //   - 中文名查找路径：segments.stocks[] → chokePoints[] → fallback 显示代码
-  if (d.referenceChokepoints && d.referenceChokepoints.length > 0) {
-    // 构造 code → name 查表（segments 全部段 + chokePoints）
-    const _nameByCode = {};
-    (d.segments || []).forEach(seg => {
-      (seg.stocks || []).forEach(s => {
-        if (s.code && s.name) _nameByCode[String(s.code)] = s.name;
-      });
-    });
-    (d.chokePoints || []).forEach(cp => {
-      if (cp.code && cp.name) _nameByCode[String(cp.code)] = cp.name;
-    });
-
-    h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--purple);background:rgba(168,85,247,0.04);">`;
-    h += `<h4 style="margin-bottom:8px;font-size:15px;color:var(--purple);">🌐 卡脖子参考（非 A 股·不可投）</h4>`;
-    h += `<div style="font-size:12px;color:var(--muted);margin-bottom:14px;">下列主体为<strong>非 A 股</strong>卡脖子材料/设备商——<strong>不在估值管线</strong>，仅作"国内替代标的"映射参考。点击表格中"A 股替代标的"列链回对应 A 股可投标的。</div>`;
-    h += `<table class="stock-tbl"><colgroup><col style="width:24%"><col style="width:12%"><col style="width:32%"><col style="width:32%"></colgroup><thead><tr><th>国外主体</th><th>地区</th><th>卡脖子环节</th><th>A 股替代标的</th></tr></thead><tbody>`;
-    d.referenceChokepoints.forEach(rp => {
-      // 标准化 replacementCode 为数组（单值 → [单值]）
-      const rawCode = rp.replacementCode;
-      const codes = Array.isArray(rawCode) ? rawCode : (rawCode && rawCode !== '—' ? [rawCode] : []);
-      const isReplacable = codes.length > 0;
-      let replCell;
-      if (!isReplacable) {
-        replCell = `<span style="color:var(--muted);">—</span>`;
-      } else if (codes.length === 1) {
-        // 单值：一行显示「中文名 + 代码」
-        const c = String(codes[0]);
-        const name = _nameByCode[c] || '';
-        const display = name ? `${name} ${c}` : c;
-        replCell = `<a href="#stock-${c}" onclick="window.location.hash='stock-${c}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${display}</a>`;
-      } else {
-        // 数组：每家换行
-        replCell = codes.map(c => {
-          const cs = String(c);
-          const name = _nameByCode[cs] || '';
-          const display = name ? `${name} ${cs}` : cs;
-          return `<div style="line-height:1.7;"><a href="#stock-${cs}" onclick="window.location.hash='stock-${cs}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${display}</a></div>`;
-        }).join('');
-      }
-      h += `<tr>`;
-      h += `<td style="font-weight:600;">${rp.name}</td>`;
-      h += `<td><span class="tag tg-blue" style="font-size:11px;">${rp.region}</span></td>`;
-      h += `<td style="font-size:13px;">${rp.barrier}</td>`;
-      h += `<td>${replCell}</td>`;
-      h += `</tr>`;
-    });
-    h += `</tbody></table>`;
-    h += `</div>`;
-  }
-
-  if (d.supplyGap && d.supplyGap.length > 0) {
-    h += `<div class="card"><h4 style="margin-bottom:16px;font-size:15px;">📊 供需缺口量化（2026E）</h4>`;
-    h += `<table class="stock-tbl"><colgroup><col style="width:20%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:10%"><col style="width:32%"></colgroup><thead><tr><th>卡口环节</th><th>2026E全球需求</th><th>2026E有效产能</th><th>缺口</th><th>缺口率</th><th>核心瓶颈</th></tr></thead><tbody>`;
-    d.supplyGap.forEach(g => {
-      h += `<tr><td style="font-weight:600;">${g.segment || g.name}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand||'—'}</td><td>${g.capacity||'—'}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap||'—'}</span></td><td style="color:var(--red);font-weight:700;">${g.rate||'—'}</td><td style="font-size:12px;">${g.bottleneck||'—'}</td></tr>`;
-    });
-    h += `</tbody></table></div>`;
-  }
-
-  h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--accent);">`;
-  h += `<h4 style="margin-bottom:12px;font-size:14px;color:var(--accent);">⚠️ 方法论失效边界（物理卡口三大局限性）</h4>`;
-  h += `<ol style="font-size:13px;color:var(--muted);padding-left:20px;line-height:2.2;">`;
-  h += `<li><strong>物理瓶颈长期束缚成长性</strong>：卡口环节受制于物理天花板，长期成长空间有限。一旦供给追上需求，卡口红利消失。</li>`;
-  h += `<li><strong>顺风期红利加持</strong>：当前AI算力处于超级上行周期，方法论命中率被放大。若行业下行，卡口逻辑有效性大幅下降。</li>`;
-  h += `<li><strong>并非所有产业链环节都存在物理卡口</strong>：${d.methodologyNotes||'多数环节供给充足、替代丰富，找不到符合四大条件的卡口——这是方法论的正常结果。'}</li>`;
-  h += `</ol></div>`;
-  h += `</div>`;  // section-body
-  h += `</div>`;  // ② section 闭合
-
-  // ⑤ 白话解读（plainIntro 包装为默认折叠 section）— 已移至 ④ 树状图之后，保证 ①-⑧ 编号顺序正确
 
   // Section 1/2: Overview (新顺序：③ 景气六维+周期位置+宏观数据)
   const sec1Label = _hasSocratic ? '③' : '③';
@@ -3324,6 +2660,384 @@ function renderChain(chainId) {
 
   h += `</div>`;
 
+  // ★ commit 4.40：产业链景气度仪表盘（PCB 赛道顶部 banner · 所有 stock 卡片之前）
+  h += renderMacroDashboard(chainId);
+
+  // ★ 阶段五 commit 4.20：下游需求传导 card（在 ④ 树状图 section 之后 · 仅 pcb 试点）
+  //   读取 CHAINS.pcb.demandChainMeta（pcb.js 注入）
+  //   4 个下游细分横向排列 + AI 服务器价值量倍数 + 传导系数待补充说明
+  if (d.demandChainMeta && d.demandChainMeta.segments) {
+    const dcm = d.demandChainMeta;
+    h += `<div class="section collapsible collapsed" data-key="demand" id="section-demand-chain"><div class="section-title" onclick="toggleSection('demand')"><span class="num num-chain">④</span> 下游需求传导 · <span style="color:var(--accent);">CAGR 量化锚点</span><span class="collapse-arrow">▼</span></div>`;
+    h += `<div class="section-desc">4 个下游细分 2025-2028 年 CAGR·broker 多源核实·AI 服务器额外标注单台 PCB 价值量倍数（vs 普通服务器）</div>`;
+    h += `<div class="card" style="padding:20px;">`;
+
+    // 横向 4 列（用 flex 自适应，4 等分）
+    h += `<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;">`;
+    (dcm.segments || []).forEach(seg => {
+      // 颜色映射：CAGR 越高颜色越绿（AI 服务器 32% 极绿 → 消费 2.8% 偏红/灰）
+      const cagrCls = seg.cagr >= 20 ? 'tg-green' : seg.cagr >= 5 ? 'tg-mid' : seg.cagr >= 3 ? 'tg-extreme' : 'tg-gray';
+      // tier 标识：broker = 🔵 / media = ⚪ / primary = 🟢
+      const tierBadge = seg.cagrTier === 'broker' ? '🔵 broker' : seg.cagrTier === 'primary' ? '🟢 primary' : '⚪ estimate';
+      h += `<div style="flex:1;min-width:220px;padding:14px 16px;background:var(--card2);border-radius:6px;border-left:3px solid var(--accent);">`;
+      h += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">`;
+      h += `<div style="font-size:14px;font-weight:600;color:var(--text);">${seg.name}</div>`;
+      h += `<div style="font-size:11px;color:var(--muted);font-weight:400;">占比 ${seg.sharePct}%</div>`;
+      h += `</div>`;
+      // CAGR 区间
+      h += `<div style="margin-bottom:6px;">`;
+      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:2px;">CAGR（2025-2028）<span style="color:var(--muted);">· ${tierBadge}</span></div>`;
+      h += `<div style="font-size:16px;font-weight:600;"><span class="tag ${cagrCls}" style="font-size:14px;">${seg.cagrRange}</span></div>`;
+      h += `</div>`;
+      // 价值量倍数（仅 AI 服务器）
+      if (seg.valueMult) {
+        h += `<div style="margin-bottom:6px;padding:8px 10px;background:rgba(240,185,11,0.08);border-radius:4px;">`;
+        h += `<div style="font-size:11px;color:var(--muted);margin-bottom:2px;">单台 PCB 价值量倍数 <span style="color:var(--muted);">· vs 普通服务器</span></div>`;
+        h += `<div style="font-size:15px;font-weight:600;color:var(--accent);">${seg.valueMultRange}</div>`;
+        h += `<div style="font-size:11px;color:var(--muted);margin-top:2px;">${seg.valueMultNote || ''}</div>`;
+        h += `</div>`;
+      }
+      // 来源数量
+      h += `<div style="font-size:11px;color:var(--muted);">📚 ${seg.cagrSrc.length} 源${(seg.valueMultSrc?' + '+seg.valueMultSrc.length+' 源 (价值量)':'')}</div>`;
+      h += `</div>`;
+    });
+    h += `</div>`;
+
+    // 来源明细（折叠）
+    h += `<div class="choke-card" style="margin-top:8px;">`;  // ★ commit 4.77：默认折叠（CSS 控制）
+    h += `<div class="choke-summary" onclick="this.parentElement.classList.toggle('open')"><span>📚 数据来源明细（${(dcm.segments||[]).reduce((a,s)=>a+s.cagrSrc.length+(s.valueMultSrc?s.valueMultSrc.length:0),0)} 条）</span><span class="choke-arrow">▸</span></div>`;
+    h += `<div class="choke-detail">`;
+    (dcm.segments || []).forEach(seg => {
+      h += `<div style="margin-bottom:10px;">`;
+      h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;">${seg.name} · CAGR ${seg.cagrRange}${seg.valueMult ? ' · 单台价值量 '+seg.valueMultRange : ''}</div>`;
+      h += `<ul style="margin:0;padding-left:20px;font-size:11px;color:var(--text);line-height:1.7;">`;
+      seg.cagrSrc.forEach(s => {
+        h += `<li><span style="color:var(--muted);">[${s.tier}]</span> <strong>${s.name}</strong> <span style="color:var(--muted);">(${s.date})</span>：<em style="color:var(--accent);">"${s.quote}"</em></li>`;
+      });
+      if (seg.valueMultSrc) {
+        seg.valueMultSrc.forEach(s => {
+          h += `<li><span style="color:var(--muted);">[${s.tier}]</span> <strong>${s.name}</strong> <span style="color:var(--muted);">(${s.date})</span>：<em style="color:var(--accent);">"${s.quote}"</em></li>`;
+        });
+      }
+      h += `</ul>`;
+      if (seg.note) h += `<div style="font-size:11px;color:var(--muted);margin-top:4px;font-style:italic;">📝 ${seg.note}</div>`;
+      h += `</div>`;
+    });
+    h += `</div></div>`;
+
+    // 传导系数待补充说明
+    if (dcm.conductionTBD) {
+      h += `<div style="padding:10px 14px;background:rgba(240,185,11,0.05);border-left:3px solid var(--color-signal);border-radius:0 6px 6px 0;font-size:12px;color:var(--text);line-height:1.7;margin-top:14px;">`;
+      h += `⏳ <strong>传导系数待补充</strong>：${dcm.conductionNote || '下游 X% → 上游 PCB 需求 Y% 的弹性系数未实装'}`;
+      h += `</div>`;
+    }
+
+    h += `</div></div>`;  // card + section
+  } else {
+    // ==================== 旧 schema：纵向 5 段布局（其它 11 条赛道 + AI全产业链 fallback）====================
+    h += `<div class="section" data-key="treemap" id="section-treemap"><div class="section-title" onclick="toggleSection('treemap')"><span class="num num-chain">${sec2Label}</span> 全产业链树状图<span class="collapse-arrow">▼</span></div>`;
+    // ★ commit 4.76 修复：section-desc 默认折叠为 details
+    h += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-muted);font-size:11px;list-style:none;outline:none;">📋 查看布局说明</summary><div class="section-desc" style="margin-top:6px;">颜色越深=壁垒越高=越可能藏有卡口。🔒=已识别物理卡口。</div></details>`;
+    h += `<div class="card"><div class="tree-wrapper"><div class="tree">`;
+    // Downstream
+    h += `<div class="tree-level-label">▼ 下游应用（需求端）</div>`;
+    h += `<div class="tree-node b-low" style="min-width:600px;">📱 ${d.treeMap.downstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.downstream.note}</span></div>`;
+    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:500px;"></div>`;
+    // Midstream / System Assembly
+    if (d.treeMap.systemAssembly) {
+      h += `<div class="tree-level-label" style="margin-top:4px;">▼ 系统集成层</div>`;
+      h += `<div class="tree-node b-low" style="min-width:500px;">🏭 ${d.treeMap.systemAssembly.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.systemAssembly.note}</span></div>`;
+      h += `<div class="tree-vline"></div><div class="tree-hline" style="width:600px;"></div>`;
+    } else if (d.treeMap.midstream) {
+      h += `<div class="tree-level-label" style="margin-top:4px;">▼ 中游</div>`;
+      h += `<div class="tree-node b-low" style="min-width:500px;">🏭 ${d.treeMap.midstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.midstream.note}</span></div>`;
+      h += `<div class="tree-vline"></div><div class="tree-hline" style="width:500px;"></div>`;
+    }
+  // AI全产业链专属：物理维度分层
+  if (d.treeMap.computeLabel) {
+    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.computeLabel}</div>`;
+    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.compute.forEach(e => {
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:180px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  if (d.treeMap.interconnectLabel) {
+    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.interconnectLabel}</div>`;
+    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.interconnect.forEach(e => {
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:220px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  if (d.treeMap.pcLabel) {
+    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.pcLabel}</div>`;
+    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.pc.forEach(e => {
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:220px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  // Upstream tools layer
+  if (d.treeMap.upstreamTools) {
+    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游设计工具</div>`;
+    h += `<div class="tree-node b-extreme" style="min-width:400px;">🔧 ${d.treeMap.upstreamTools.name} <span class="badge-b badge-ex">壁垒:极高</span><br><span style="font-size:11px;color:var(--muted);">${d.treeMap.upstreamTools.note}</span></div>`;
+    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:700px;"></div>`;
+  }
+  // Upstream CCL layer (PCB specific)
+  if (d.treeMap.upstreamCCL) {
+    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游核心基材</div>`;
+    h += `<div class="tree-node b-high" style="min-width:400px;">📐 ${d.treeMap.upstreamCCL.name} <span class="badge-b badge-hi">壁垒:高</span><br><span style="font-size:11px;color:var(--muted);">${d.treeMap.upstreamCCL.note}</span></div>`;
+    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:700px;"></div>`;
+  }
+  // Equipment
+  if (d.treeMap.equipment) {
+    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游核心设备</div>`;
+    h += `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.equipment.forEach(e => {
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  // AI全产业链专属：上游制造层
+  if (d.treeMap.mfgLabel) {
+    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.mfgLabel}</div>`;
+    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.manufacturing.forEach(e => {
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:200px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  // Materials
+  if (d.treeMap.materials) {
+    const label = d.treeMap.matLabel || (d.treeMap.equipment ? '▼ 上游核心材料（卡口集中区）' : '▼ 上游核心材料（卡口集中区）');
+    h += `<div class="tree-level-label" style="margin-top:8px;">${label}</div>`;
+    h += `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.materials.forEach(m => {
+      h += `<div class="tree-sub-node ${m.barrier==='extreme'?'b-extreme':m.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${m.name}<br><span class="badge-b badge-${m.barrier==='extreme'?'ex':m.barrier==='high'?'hi':'mi'}">壁垒:${m.barrier==='extreme'?'极高':m.barrier==='high'?'高':'中'}</span>${m.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${m.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  // Side branches
+  if (d.treeMap.sideBranches) {
+    h += `<div style="width:400px;height:2px;background:var(--border);margin:12px auto 0;"></div>`;
+    h += `<div style="display:flex;gap:20px;justify-content:center;margin-top:6px;">`;
+    d.treeMap.sideBranches.forEach(b => {
+      h += `<div class="tree-sub-node ${b.barrier==='high'?'b-high':'b-mid'}" style="min-width:260px;">${b.name}<br><span style="font-size:11px;color:var(--muted);">${b.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  h += `</div></div>`;
+  h += `<div class="legend-bar">`;
+  h += `<span><span class="dot" style="background:var(--color-risk);"></span>极高壁垒—全球≤3家量产</span>`;
+  h += `<span><span class="dot" style="background:var(--color-warn);"></span>高壁垒—认证周期1-2年</span>`;
+  h += `<span><span class="dot" style="background:var(--color-data);"></span>中壁垒—有国产突破</span>`;
+  h += `<span><span class="dot" style="background:var(--color-muted);"></span>低壁垒—充分竞争</span>`;
+  h += `<span>🔒=物理卡口</span>`;
+  h += `</div></div></div>`;
+  }  // 关闭 } else { 旧 schema 分支
+
+  // ===== 升级 B：个股趋势徽章（绿/红/灰，复用 .tag .tg-* 零 CSS 增量） =====
+  function trendBadge(t, note) {
+    const title = note ? ` title="${note}"` : '';
+    if (t === 'up')   return ` <span class="tag tg-green"${title}>⬆ 进步</span>`;
+    if (t === 'down') return ` <span class="tag tg-extreme"${title}>⬇ 承压</span>`;
+    if (t === 'flat') return ` <span class="tag tg-gray"${title}>➖ 平稳</span>`;
+    return '';
+  }
+
+  // ===== 升级九 STEP 2B：个股六维 mini-bar 展开（native <details>，0 JS、0 CSS 增量） =====
+  function stockDims6Badge(s) {
+    if (!s.dims6 || !s.dims6.length) return '';
+    const META = (typeof PROSPERITY_META !== 'undefined') ? PROSPERITY_META : {};
+    // ★ 修复：flat/→ 统一灰色（撤销"高分 flat 金色"调优 — 用户视觉上把 barrier-high #f97316 误读为红色）
+    const arrow = (t, sc) => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : '<span style="color:var(--muted);">→</span>';
+    // ★ 升级 E：fold 面板顶部综合分行（复用赛道六维卡排版：综合 X/100 + 档位徽章 + ⚠安全垫）
+    const f = computeStockFit(s.dims6);
+    const tierCls = f.tier.indexOf('🟢')===0 ? 'tg-green' : f.tier.indexOf('🟡')===0 ? 'tg-mid' : 'tg-extreme';
+    const summaryRow = `<div style="margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--border);font-size:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">综合 <strong style="color:var(--accent);font-size:14px;">${f.score}</strong>/100 <span class="tag ${tierCls}" style="font-size:11px;">${f.tier}</span>${f.risk?' <span style="color:var(--red);font-size:11px;">⚠安全垫不足</span>':''}</div>`;
+    let bars = '';
+    s.dims6.forEach(d6 => {
+      const meta = META[d6.key] || {};
+      const pct = Math.max(0, Math.min(100, (d6.score/5)*100));
+      const barColor = d6.score >= 4 ? 'var(--green)' : d6.score >= 3 ? 'var(--color-warn)' : d6.score >= 2 ? 'var(--color-data)' : 'var(--red)';
+      bars += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:11px;line-height:1.4;">`;
+      bars += `<span style="width:68px;color:var(--muted);flex-shrink:0;">${meta.name || d6.key}${sourceTierBadge(d6.tier, d6.src)}</span>`;
+      bars += `<div style="flex:1;min-width:50px;height:4px;background:var(--card2);border-radius:2px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${barColor};"></div></div>`;
+      bars += `<span style="width:42px;text-align:right;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend, d6.score)}</span>`;
+      bars += `</div>`;
+    });
+    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;">${summaryRow}<div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}${s.valAsOf?`<div style="margin-top:4px;font-size:11px;color:var(--color-muted);text-align:right;" title="估值判断时点">📅 截至 ${s.valAsOf.slice(5)}</div>`:''}</div></details>`;
+  }
+
+  // ===== ★ B4 六维雷达图（纯内联 SVG，0 依赖，复用 var(--accent) 金色描边+半透明填充）=====
+  // 输入：dims 数组（6 个 {key, score}，顺序固定 durability/visibility/policy/supply/valuation/barrier）
+  // 输出：SVG 字符串，6 个轴顺时针从顶 -90° 起 60° 一段；5 圈背景网格 + 数据多边形 + 数据点 + 轴标签
+  // 用法：赛道级 prosperityRadar(d.prosperity.dims, 160) / 个股级 prosperityRadar(s.dims6, 100)
+  function prosperityRadar(dims, size) {
+    if (!dims || dims.length !== 6) return '';
+    size = size || 140;
+    const cx = size / 2, cy = size / 2;
+    const radius = size * 0.34;  // 留出轴标签空间
+    const angles = [-90, -30, 30, 90, 150, 210];  // 6 个轴角度
+    const labelTexts = ['持续','可见','政策','供需','估值','壁垒'];
+    // 5 圈网格（最外圈加粗）
+    let grid = '';
+    for (let g = 1; g <= 5; g++) {
+      const pts = angles.map(a => {
+        const rad = a * Math.PI / 180;
+        const r = radius * (g / 5);
+        return `${(cx + r * Math.cos(rad)).toFixed(1)},${(cy + r * Math.sin(rad)).toFixed(1)}`;
+      }).join(' ');
+      grid += `<polygon points="${pts}" fill="none" stroke="var(--border)" stroke-width="${g === 5 ? 1 : 0.5}" opacity="${g === 5 ? 0.55 : 0.28}" />`;
+    }
+    // 6 条径向轴线
+    let axes = '';
+    angles.forEach(a => {
+      const rad = a * Math.PI / 180;
+      axes += `<line x1="${cx}" y1="${cy}" x2="${(cx + radius * Math.cos(rad)).toFixed(1)}" y2="${(cy + radius * Math.sin(rad)).toFixed(1)}" stroke="var(--border)" stroke-width="0.5" opacity="0.4" />`;
+    });
+    // 数据多边形
+    const dataPts = dims.map((d, i) => {
+      const rad = angles[i] * Math.PI / 180;
+      const r = radius * Math.max(0, Math.min(1, (d.score || 0) / 5));
+      return [cx + r * Math.cos(rad), cy + r * Math.sin(rad)];
+    });
+    const dataStr = dataPts.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+    const dataPolygon = `<polygon points="${dataStr}" fill="var(--accent)" fill-opacity="0.18" stroke="var(--accent)" stroke-width="1.5" />`;
+    // 数据点小圆
+    let dots = '';
+    dataPts.forEach(p => {
+      dots += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${size >= 130 ? 2.5 : 2}" fill="var(--accent)" />`;
+    });
+    // 轴标签（不同角度的 text-anchor 调整）
+    let labels = '';
+    const fontSize = size >= 130 ? 10 : 8;
+    angles.forEach((a, i) => {
+      const rad = a * Math.PI / 180;
+      const lr = radius + (size >= 130 ? 14 : 10);
+      const lx = cx + lr * Math.cos(rad);
+      const ly = cy + lr * Math.sin(rad);
+      let anchor = 'middle';
+      if (a === -30 || a === 30) anchor = 'start';
+      else if (a === 150 || a === 210) anchor = 'end';
+      labels += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="${anchor}" fill="var(--muted)" font-size="${fontSize}" font-weight="600">${labelTexts[i]}</text>`;
+    });
+    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" style="display:block;overflow:visible;flex-shrink:0;" aria-label="六维雷达图">${grid}${axes}${dataPolygon}${dots}${labels}</svg>`;
+  }
+
+
+  // ===== AI全产业链专属：Section ⓪ 苏格拉底六问 =====
+  if (d.socraticInquiry) {
+    h += `<div class="section"><div class="section-title"><span class="num num-plain">⓪</span> 苏格拉底六问 — 追问 AI 产业链的「常识」</div>`;
+    h += `<div class="section-desc">${d.socraticInquiry.intro}</div>`;
+    h += `<div class="card" style="padding:20px;">`;
+    d.socraticInquiry.questions.forEach(q => {
+      h += `<div style="margin-bottom:18px;padding:14px 18px;background:var(--card2);border-radius:8px;border-left:3px solid var(--blue);">`;
+      h += `<div style="font-size:12px;color:var(--blue);font-weight:700;margin-bottom:6px;">${q.step}</div>`;
+      h += `<div style="font-weight:600;margin-bottom:4px;font-size:14px;">${q.question}</div>`;
+      h += `<div style="font-size:12px;color:var(--muted);">💬 ${q.challenge}</div>`;
+      h += `</div>`;
+    });
+    h += `<div style="padding:14px 18px;background:rgba(240,185,11,0.06);border-radius:8px;border-left:3px solid var(--accent);">`;
+    h += `<div style="font-weight:700;color:var(--accent);margin-bottom:4px;">🎯 六问结论</div>`;
+    h += `<div style="font-size:13px;line-height:1.9;">${d.socraticInquiry.conclusion}</div>`;
+    h += `</div></div></div>`;
+  }
+
+  // Section 0/1: Plain Intro（变量已提前到 renderChain 顶部·避免 TDZ）
+  // ★ commit 4.10：删 chain header 🔄 生成刷新指令按钮（refreshBtn 变量不再需要）
+  // ★ 阶段 A commit 4.5：顶部锚点 + ① 卡口结论段（chokePoints 主体）
+  // 新顺序：① 卡口结论+买入信号 → ② ⑥后段(折叠) → ③ 景气+周期+宏观 → ④ 树状图 → ⑤ 白话(折叠) → ⑥ 上游深度(折叠) → ⑦ 中游 → ⑧ 四问(折叠)
+
+  // 顶部锚点栏
+  h += renderQuickNav();
+
+
+
+
+
+  // ② ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论（默认折叠）
+  h += `<div class="section collapsible collapsed" data-key="meta" id="section-meta">`;
+  h += `<div class="section-title" onclick="toggleSection('meta')"><span class="num num-mid">②</span> ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论<span class="collapse-arrow">▼</span></div>`;
+  h += `<div class="section-body">`;
+
+  // ★ commit 4.10 修复：referenceChokepoints 渲染（中文名 + 数组换行兼容）
+  //   - 数据从 pcb.manual.js 注入（commit 2.3+），pcb.js 内 IIFE 会加载
+  //   - replacementCode 支持单值（如 '301217'）或数组（如 ['301217', '603186']）
+  //   - 中文名查找路径：segments.stocks[] → chokePoints[] → fallback 显示代码
+  if (d.referenceChokepoints && d.referenceChokepoints.length > 0) {
+    // 构造 code → name 查表（segments 全部段 + chokePoints）
+    const _nameByCode = {};
+    (d.segments || []).forEach(seg => {
+      (seg.stocks || []).forEach(s => {
+        if (s.code && s.name) _nameByCode[String(s.code)] = s.name;
+      });
+    });
+    (d.chokePoints || []).forEach(cp => {
+      if (cp.code && cp.name) _nameByCode[String(cp.code)] = cp.name;
+    });
+
+    h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--purple);background:rgba(168,85,247,0.04);">`;
+    h += `<h4 style="margin-bottom:8px;font-size:15px;color:var(--purple);">🌐 卡脖子参考（非 A 股·不可投）</h4>`;
+    h += `<div style="font-size:12px;color:var(--muted);margin-bottom:14px;">下列主体为<strong>非 A 股</strong>卡脖子材料/设备商——<strong>不在估值管线</strong>，仅作"国内替代标的"映射参考。点击表格中"A 股替代标的"列链回对应 A 股可投标的。</div>`;
+    h += `<table class="stock-tbl"><colgroup><col style="width:24%"><col style="width:12%"><col style="width:32%"><col style="width:32%"></colgroup><thead><tr><th>国外主体</th><th>地区</th><th>卡脖子环节</th><th>A 股替代标的</th></tr></thead><tbody>`;
+    d.referenceChokepoints.forEach(rp => {
+      // 标准化 replacementCode 为数组（单值 → [单值]）
+      const rawCode = rp.replacementCode;
+      const codes = Array.isArray(rawCode) ? rawCode : (rawCode && rawCode !== '—' ? [rawCode] : []);
+      const isReplacable = codes.length > 0;
+      let replCell;
+      if (!isReplacable) {
+        replCell = `<span style="color:var(--muted);">—</span>`;
+      } else if (codes.length === 1) {
+        // 单值：一行显示「中文名 + 代码」
+        const c = String(codes[0]);
+        const name = _nameByCode[c] || '';
+        const display = name ? `${name} ${c}` : c;
+        replCell = `<a href="#stock-${c}" onclick="window.location.hash='stock-${c}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${display}</a>`;
+      } else {
+        // 数组：每家换行
+        replCell = codes.map(c => {
+          const cs = String(c);
+          const name = _nameByCode[cs] || '';
+          const display = name ? `${name} ${cs}` : cs;
+          return `<div style="line-height:1.7;"><a href="#stock-${cs}" onclick="window.location.hash='stock-${cs}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${display}</a></div>`;
+        }).join('');
+      }
+      h += `<tr>`;
+      h += `<td style="font-weight:600;">${rp.name}</td>`;
+      h += `<td><span class="tag tg-blue" style="font-size:11px;">${rp.region}</span></td>`;
+      h += `<td style="font-size:13px;">${rp.barrier}</td>`;
+      h += `<td>${replCell}</td>`;
+      h += `</tr>`;
+    });
+    h += `</tbody></table>`;
+    h += `</div>`;
+  }
+
+  if (d.supplyGap && d.supplyGap.length > 0) {
+    h += `<div class="card"><h4 style="margin-bottom:16px;font-size:15px;">📊 供需缺口量化（2026E）</h4>`;
+    h += `<table class="stock-tbl"><colgroup><col style="width:20%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:10%"><col style="width:32%"></colgroup><thead><tr><th>卡口环节</th><th>2026E全球需求</th><th>2026E有效产能</th><th>缺口</th><th>缺口率</th><th>核心瓶颈</th></tr></thead><tbody>`;
+    d.supplyGap.forEach(g => {
+      h += `<tr><td style="font-weight:600;">${g.segment || g.name}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand||'—'}</td><td>${g.capacity||'—'}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap||'—'}</span></td><td style="color:var(--red);font-weight:700;">${g.rate||'—'}</td><td style="font-size:12px;">${g.bottleneck||'—'}</td></tr>`;
+    });
+    h += `</tbody></table></div>`;
+  }
+
+  h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--accent);">`;
+  h += `<h4 style="margin-bottom:12px;font-size:14px;color:var(--accent);">⚠️ 方法论失效边界（物理卡口三大局限性）</h4>`;
+  h += `<ol style="font-size:13px;color:var(--muted);padding-left:20px;line-height:2.2;">`;
+  h += `<li><strong>物理瓶颈长期束缚成长性</strong>：卡口环节受制于物理天花板，长期成长空间有限。一旦供给追上需求，卡口红利消失。</li>`;
+  h += `<li><strong>顺风期红利加持</strong>：当前AI算力处于超级上行周期，方法论命中率被放大。若行业下行，卡口逻辑有效性大幅下降。</li>`;
+  h += `<li><strong>并非所有产业链环节都存在物理卡口</strong>：${d.methodologyNotes||'多数环节供给充足、替代丰富，找不到符合四大条件的卡口——这是方法论的正常结果。'}</li>`;
+  h += `</ol></div>`;
+  h += `</div>`;  // section-body
+  h += `</div>`;  // ② section 闭合
+
+  // ⑤ 白话解读（plainIntro 包装为默认折叠 section）— 已移至 ④ 树状图之后，保证 ①-⑧ 编号顺序正确
+
+
   // Section 2/3: Tree Map (新顺序：④ 产业链树状图)
 
   // ===== AI全产业链专属：Section ④ 奥卡姆剃刀 =====
@@ -3341,21 +3055,6 @@ function renderChain(chainId) {
     h += `<div style="font-size:12px;line-height:1.9;">${d.occamRazor.keepers}</div>`;
     h += `</div></div></div>`;
   }
-
-  // ⑤ 白话解读（plainIntro 包装为默认折叠 section）— 阶段 A：移到 ④ 树状图之后
-  h += `<div class="section collapsible collapsed" data-key="plain" id="section-plain">`;
-  h += `<div class="section-title" onclick="toggleSection('plain')"><span class="num num-plain">⑧</span> ${_sec0Title}<span class="collapse-arrow">▼</span></div>`;
-  h += `<div class="section-body">`;
-  h += `<div class="plain-box"><div class="analogy">${d.icon} ${d.plainIntro.analogy}</div>`;
-  d.plainIntro.paragraphs.forEach(p => h += `<p>${p}</p>`);
-  h += `<div style="font-weight:600;margin-bottom:6px;font-size:13px;color:var(--muted);">🔗 产业链通俗流水账：</div><div class="flow-row">`;
-  d.plainIntro.flowSteps.forEach((s, i) => {
-    if (i > 0) h += '<span class="arrow">→</span>';
-    h += `<span class="step">${s}</span>`;
-  });
-  h += `</div><div class="highlight-box">${d.plainIntro.highlightBox}</div></div>`;
-  h += `</div>`;  // section-body
-  h += `</div>`;  // ⑤ section 闭合
 
   // Section 3/4/5: Upstream Segments (新顺序：⑥ 上游深度拆解，默认折叠 + 每个 segment 独立折叠)
   const segNum = _hasSocratic ? '⑤' : (d.occamRazor ? '⑤' : '⑤');
@@ -3797,6 +3496,311 @@ function renderChain(chainId) {
     }
   }
   // 关闭 section-holding（持仓管理 section · 默认展开）
+
+  // ★ commit 4.75：第四层·投资决策（默认折叠 · 包裹 5 子块）
+  //   包含：基本面排名榜 + 信号 C TOP3 + 信号 C 历史回放 + choke card grid + 买入信号监测
+  //   持仓管理（section-holding）在上方独立显示 · 本 section 默认折叠避免首屏过载
+  h += `<div class="section collapsible collapsed" data-key="decision" id="section-decision">`;
+  h += `<div class="section-title" onclick="toggleSection('decision')"><span class="num num-result">📊</span> 投资决策 · 基本面排名 + 信号监测 + 卡口结论<span class="collapse-arrow">▼</span></div>`;
+  h += `<div class="section-body">`;
+
+  // ★ commit 4.66：基本面质量横向排名榜（综合排名 / 段位龙头 / 风险预警 三视图）
+  //   位于持仓管理下方、信号C TOP3 之前——形成 持仓风险 → 基本面质量 → 信号触发  3 段递进
+  h += renderStockRankingPanel(chainId);
+
+  // ★ commit 4.50：信号C TOP3 独立化（即将触发 TOP3 · 总距离最小 3 只 · 紧跟 section 标题）
+  h += renderSignalCTopList(chainId);
+  // ★ commit 4.57：信号 C 历史回放面板（5 年窗口 · ⚠️非实盘记录）
+  h += renderSignalCHistoryPanel(chainId);
+  h += `<div class="choke-grid" style="margin-bottom:24px;">`;
+
+  // ★ commit 4.41：默认展开名单（持仓 + 减仓信号触发 stock）
+  //   ★ commit 4.47：剥离非 PCB 持仓后·只剩 601208 东材科技一只持仓
+  //   持仓名单硬编码（HOLDING_NOTES 与下方持仓说明一致）· 减仓名单从 signalCMeta 触发列表算
+  const HOLDING_CODES_DEFAULT_OPEN = new Set(['601208']);
+  const reduceTriggeredCodes = new Set();
+  if (d.signalCMeta && d.signalCMeta.stats && Array.isArray(d.signalCMeta.stats.triggeredList)) {
+    d.signalCMeta.stats.triggeredList.forEach(s => {
+      if (s && s.code && s.reduceSignal) reduceTriggeredCodes.add(s.code);
+    });
+  }
+  const defaultOpenCodes = new Set([...HOLDING_CODES_DEFAULT_OPEN, ...reduceTriggeredCodes]);
+
+  d.chokePoints.forEach((c, i) => {
+    const medals = ['🥇','🥈','🥉'];
+    const _isOpen = defaultOpenCodes.has(c.code);
+    // ★ commit 4.41：summary 行显示最关键摘要（code+名称+段位+壁垒+PE分位+趋势）
+    let _sumPct = '';
+    if (c.valuation && typeof c.valuation.pePercentile === 'number') {
+      const _p = c.valuation.pePercentile;
+      const _pCls = _p >= 80 ? 'tg-extreme' : _p >= 50 ? 'tg-mid' : 'tg-green';
+      _sumPct = `<span class="tag ${_pCls}" style="font-size:11px;margin-left:6px;">PE分位 ${_p.toFixed(0)}%</span>`;
+    }
+    let _sumTrend = '';
+    const _findTrend = (arr) => { const m = (arr || []).find(s => s.code === c.code); if (m && m.trend) return m.trend; return null; };
+    let _trendVal = null;
+    if (d.segments) d.segments.forEach(seg => { if (!_trendVal) _trendVal = _findTrend(seg.stocks); });
+    if (!_trendVal && d.midstream) _trendVal = _findTrend(d.midstream.stocks);
+    if (_trendVal) {
+      const _tCls = _trendVal === 'up' ? 'tg-green' : _trendVal === 'down' ? 'tg-extreme' : 'tg-gray';
+      const _tTxt = _trendVal === 'up' ? '⬆' : _trendVal === 'down' ? '⬇' : '➖';
+      _sumTrend = `<span class="tag ${_tCls}" style="font-size:11px;margin-left:4px;" title="趋势">${_tTxt}</span>`;
+    }
+    const _sumTags = (c.strength || '') + _sumPct + _sumTrend;
+    // 持仓 / 减仓信号徽章（用于 summary 行标记「为什么默认展开」）
+    let _openReason = '';
+    if (HOLDING_CODES_DEFAULT_OPEN.has(c.code)) _openReason = '<span class="tag tg-extreme" style="font-size:11px;margin-left:6px;" title="commit 4.27 持仓名单">📌 持仓</span>';
+    else if (reduceTriggeredCodes.has(c.code)) _openReason = '<span class="tag tg-mid" style="font-size:11px;margin-left:6px;" title="信号 C 减仓触发">⚠️ 减仓</span>';
+
+    h += `<div class="choke-card">`;
+    // ★ commit 4.41：整只 stock 卡片用 <details> 包裹 · 持仓/减仓 stock 默认展开
+    h += `<details${_isOpen ? ' open' : ''}>`;
+    h += `<summary style="list-style:none;cursor:pointer;outline:none;padding:0;">`;
+    h += `<h3 style="display:inline;"><span class="rank">${medals[i]||'#'+(i+1)} 优先级 ${i+1}</span>${c.name} <span style="font-size:11px;color:var(--muted);font-weight:400;">${c.code}</span>${_openReason}</h3>`;
+    h += `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;font-size:11px;">`;
+    h += `<span style="color:var(--muted);">🔒 ${c.segment}</span>`;
+    h += _sumTags;
+    h += `<span style="color:var(--muted);margin-left:auto;font-size:11px;">▾ 展开详情</span>`;
+    h += `</div></summary>`;
+    if (c.verification && c.verification.items && c.verification.items.length) {
+      const all = collectVerifyStatuses(chainId, c.code, c.verification.items);
+      const ov = computeOverallStatus(all);
+      const ocls = ov==='verified'?'tg-green':ov==='falsified'?'tg-extreme':'tg-gray';
+      const otxt = ov==='verified'?'✅ 已验证':ov==='falsified'?'❌ 已证伪':'⏳ 待验证';
+      h += `<div style="margin:6px 0 4px;"><span class="tag verify-overall ${ocls}" style="font-size:11px;">${otxt}</span></div>`;
+    }
+    h += `<div class="code">${c.code}</div>`;
+    h += `<div class="seg">🔒 ${c.segment}</div>`;
+    const _logicText = c.logic || '';
+    // ★ commit 4.6：核心逻辑默认显示第一句（按 . 分割 ≤40 字），点 📖 展开全文
+    const _stripHtml = (s) => s.replace(/<[^>]*>/g, '').trim();
+    const _firstSentence = (txt) => {
+      const plain = _stripHtml(txt);
+      const m = plain.match(/^[^。．.；;]+[。．.；;]/);
+      const head = m ? m[0] : plain;
+      return head.length > 40 ? head.slice(0, 40) + '…' : head;
+    };
+    if (_stripHtml(_logicText).length > 40) {
+      h += `<div class="logic"><div style="font-size:13px;line-height:1.8;color:var(--text);margin-bottom:8px;">${_firstSentence(_logicText)}</div>`;
+      h += `<span class="choke-long" style="font-size:12px;color:var(--muted);line-height:1.7;">${_logicText}</span>`;
+      h += `<span class="choke-long-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=(this.previousElementSibling.classList.contains('expanded')?'📕 收起':'📖 展开全文');">📖 展开全文</span></div>`;
+    } else {
+      h += `<div class="logic">${_logicText}</div>`;
+    }
+    const _hasPct = c.valuation && typeof c.valuation.pePercentile === 'number';
+    const _hasEZ  = c.valuation && c.valuation.entryZone && typeof c.valuation.entryZone.p30 === 'number' && typeof c.valuation.entryZone.p70 === 'number';
+    if (c.valuation && (_hasPct || _hasEZ)) {
+      const p = _hasPct ? c.valuation.pePercentile : null;
+      const cls = p === null ? 'tg-gray' : p >= 80 ? 'tg-extreme' : p >= 50 ? 'tg-mid' : 'tg-green';
+      const band = p === null ? '估值待定' : p >= 80 ? '估值高位' : p >= 50 ? '估值中位' : '估值低位';
+      const parts = [];
+      if (c.valuation.pe)          parts.push(`PE ${c.valuation.pe}`);
+      if (c.valuation.peAbsolute)  parts.push(`<strong style="color:var(--text);">绝对 ${c.valuation.peAbsolute}</strong>`);
+      if (p !== null) parts.push(`PE分位 ${p.toFixed(1)}%`);
+      let _entryOverP70 = false;
+      if (_hasEZ) {
+        const p30 = Math.round(c.valuation.entryZone.p30);
+        const p70 = Math.round(c.valuation.entryZone.p70);
+        parts.push(`买入区间 PE ${p30}~${p70}`);
+        if (typeof c.valuation.pe_ttm === 'number' && c.valuation.pe_ttm > c.valuation.entryZone.p70) {
+          _entryOverP70 = true;
+        }
+      }
+      if (c.valuation.grossMargin) parts.push(`毛利率 ${c.valuation.grossMargin}`);
+      const fh = formatFromHigh(c.valuation.fromHigh);
+      if (fh) parts.push(fh);
+      h += `<div class="valuation" style="font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">`;
+      h += `<span>${parts.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}${c.valuation.asOf?` <span style="color:var(--color-muted);font-size:11px;" title="估值/PE 截至日">📅 ${c.valuation.asOf}</span>`:''}</span>`;
+      if (p !== null) {
+        h += `<span class="tag ${cls}" style="font-size:11px;">${band} ${p.toFixed(1)}%分位</span>`;
+      }
+      if (_entryOverP70) {
+        h += `<span class="tag tg-extreme" style="font-size:11px;" title="当前 PE ${c.valuation.pe_ttm.toFixed(2)} 高于买入区间上限 ${c.valuation.entryZone.p70.toFixed(2)}">⚠️ 高于 PE 上限</span>`;
+      }
+      h += `</div>`;
+      if (c.valuation.note) {
+        h += `<div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:14px;padding-left:10px;border-left:2px solid var(--card2);">📝 ${c.valuation.note}</div>`;
+      }
+    }
+    // ★ commit 4.39：基本面质量层（PE 分位之后 · 标签区之前）
+    h += renderFundamentalsBlock(c.code);
+    h += `<div class="tags">`;
+    // ★ commit 4.6：标签精简为 3 个（壁垒强度 + 趋势 + PE 状态）— 其他详细标签移入下方"📑 详细标签"折叠区
+    // 标签 1: 壁垒强度（来自 c.strength ★★★/★★☆/★☆☆）
+    if (c.strength) {
+      const sCls = c.strength.indexOf('★★★') === 0 ? 'tg-green' : c.strength.indexOf('★★') === 0 ? 'tg-high' : c.strength.indexOf('★') === 0 ? 'tg-mid' : 'tg-gray';
+      h += `<span class="tag ${sCls}" style="font-size:12px;" title="壁垒强度评级">${c.strength}</span>`;
+    }
+    // 标签 2: 趋势（从 segments/midstream 找同名 stock 的 trend）
+    let trendVal = null;
+    const findStock = (arr) => { const m = (arr || []).find(s => s.code === c.code); if (m && m.trend) return m.trend; return null; };
+    if (d.segments) d.segments.forEach(seg => { if (!trendVal) trendVal = findStock(seg.stocks); });
+    if (!trendVal && d.midstream) trendVal = findStock(d.midstream.stocks);
+    if (trendVal) {
+      const tCls = trendVal === 'up' ? 'tg-green' : trendVal === 'down' ? 'tg-extreme' : 'tg-gray';
+      const tTxt = trendVal === 'up' ? '⬆ 趋势向上' : trendVal === 'down' ? '⬇ 趋势承压' : '➖ 趋势平稳';
+      h += `<span class="tag ${tCls}" style="font-size:12px;">${tTxt}</span>`;
+    }
+    // 标签 3: PE 状态（从 c.valuation.pePercentile 算 — 仅 PCB/commercial-aero/hbm 有 valuation 字段）
+    if (c.valuation && typeof c.valuation.pePercentile === 'number') {
+      const p = c.valuation.pePercentile;
+      const pCls = p >= 80 ? 'tg-extreme' : p >= 50 ? 'tg-mid' : 'tg-green';
+      const pTxt = p >= 80 ? '估值高位' : p >= 50 ? '估值中位' : '估值低位';
+      h += `<span class="tag ${pCls}" style="font-size:12px;">${pTxt} ${p.toFixed(1)}%</span>`;
+    }
+    h += `</div>`;
+    h += `<div style="margin-top:14px;">`;
+    h += `<button onclick="addToDecisionCard('${chainId}','${c.code}')" style="padding:6px 14px;background:var(--card2);border:1px solid var(--accent);border-radius:6px;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;">📌 加入决策卡片</button>`;
+    h += `</div>`;
+    // ★ commit 4.6：详细 c.tags 移入"📑 详细标签"折叠区（精简后主视图只留 3 个固定 tag）
+    if (c.tags && c.tags.length) {
+      h += `<details style="margin-top:10px;"><summary style="cursor:pointer;font-size:11px;color:var(--muted);font-weight:600;padding:4px 0;">📑 详细标签 (${c.tags.length} 项 — 点击展开)</summary>`;
+      h += `<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">`;
+      c.tags.forEach(t => {
+        h += `<span class="tag tg-gray" style="font-size:11px;">${t}</span>`;
+      });
+      h += `</div></details>`;
+    }
+    if (c.verification && c.verification.items && c.verification.items.length) {
+      h += `<details style="margin-top:14px;"><summary style="cursor:pointer;font-size:12px;color:var(--muted);font-weight:600;padding:6px 0;">🔍 卡口验证 (${c.verification.items.length} 项 — 点击展开)</summary>`;
+      h += `<div style="margin-top:10px;display:flex;flex-direction:column;gap:8px;">`;
+      c.verification.items.forEach(it => {
+        const cur = loadVerifyStatus(chainId, c.code, it.type) || it.status || 'pending';
+        const cls = cur==='confirmed'?'tg-green':cur==='broken'?'tg-extreme':'tg-gray';
+        const txt = cur==='confirmed'?'✅ 已通过':cur==='broken'?'❌ 已证伪':'⏳ 待验证';
+        const accentColor = cur==='confirmed'?'var(--green)':cur==='broken'?'var(--red)':'var(--border)';
+        h += `<div style="padding:10px 12px;background:var(--card2);border-radius:6px;border-left:3px solid ${accentColor};">`;
+        h += `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">`;
+        h += `<div style="font-size:12px;font-weight:700;color:var(--text);">📌 ${it.type}</div>`;
+        h += `<span class="tag ${cls}" style="cursor:pointer;font-size:11px;flex-shrink:0;" onclick="cycleVerifyStatus('${chainId}','${c.code}','${it.type}',this)">${txt}</span>`;
+        h += `</div>`;
+        h += `<div style="font-size:11px;line-height:1.6;margin-bottom:4px;"><span style="color:var(--muted);font-weight:600;">论断：</span>${it.claim}</div>`;
+        h += `<div style="font-size:11px;line-height:1.6;margin-bottom:4px;"><span style="color:var(--muted);font-weight:600;">怎么查：</span>${it.howToCheck}</div>`;
+        h += `<div style="font-size:11px;line-height:1.6;"><span style="color:var(--muted);font-weight:600;">证伪信号：</span>${it.falsifySignal}</div>`;
+        h += `</div>`;
+      });
+      h += `</div>`;
+      if (c.verification.note) {
+        h += `<div style="margin-top:8px;padding:8px 12px;background:var(--card2);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:11px;color:var(--muted);">📝 ${c.verification.note}</div>`;
+      }
+      h += `</details>`;
+    }
+    // ★ commit 4.41：关闭 <details> 包裹（持仓/减仓 stock 默认展开·其余折叠）
+    h += `</details>`;
+    h += `</div>`;
+  });
+  h += `</div>`;  // ① section-content 闭合（choke-grid 之后）
+
+  // 紧跟：买入信号监测 card（在 ① section 内，同屏）
+  if (d.signalMeta && d.signalMeta.stats) {
+    const sm = d.signalMeta;
+    const st = sm.stats;
+    const thr = sm.thresholds;
+    const totalHits = (st.A_total || 0) + (st.B_total || 0);
+    const totalExcluded = Object.values(st.excluded || {}).reduce((a, b) => a + (b || 0), 0);
+
+    const hits = [];
+    const collectHits = (arr, segName) => {
+      (arr || []).forEach(s => {
+        if (s && s.signal && (s.signal.A || s.signal.B)) {
+          hits.push({
+            code: s.code, name: s.name, segName: segName,
+            barrier: s.signal.barrier, trend: s.signal.trend,
+            pePercentile: s.signal.pePercentile, pe_ttm: s.valuation ? s.valuation.pe_ttm : null,
+            A: s.signal.A, B: s.signal.B, channel: s.signal.channel
+          });
+        }
+      });
+    };
+    (d.segments || []).forEach(seg => collectHits(seg.stocks, seg.name));
+    if (d.midstream) collectHits(d.midstream.stocks, '中游');
+
+    h += `<div class="card" style="padding:20px;margin-top:18px;">`;
+    h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">📡 买入信号监测 — <span style="color:var(--accent);">算法推导</span></div>`;
+
+    h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
+    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">A 信号命中（壁垒高 + PE分位&lt;阈值 + 趋势向上）</div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:${(st.A_total||0)>0?'var(--green)':'var(--muted)'};">${st.A_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.A_normal||0} · 成长赛道 ${st.A_growthAdj||0}）</span></div>`;
+    h += `</div>`;
+    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">B 信号命中（命中卡口 + PE分位&lt;阈值 + 趋势非向下）</div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:${(st.B_total||0)>0?'var(--green)':'var(--muted)'};">${st.B_total||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只（普通 ${st.B_normal||0} · 成长赛道 ${st.B_growthAdj||0}）</span></div>`;
+    h += `</div>`;
+    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">基线可投卡口</div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:var(--accent);">${sm.chokepointCodesCount||0} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `</div>`;
+    h += `<div style="flex:1;min-width:140px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描被排除</div>`;
+    h += `<div style="font-size:16px;font-weight:600;color:var(--color-muted);">${totalExcluded} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
+    h += `</div>`;
+    h += `</div>`;
+
+    if (thr) {
+      // ★ commit 4.76 修复：信号阈值详情默认折叠（不展开·只保留"查看信号触发条件"摘要）
+      h += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-data);font-size:12px;font-weight:600;list-style:none;outline:none;">🎯 查看信号触发条件</summary>`;
+      h += `<div style="margin-top:8px;padding:10px 14px;background:var(--card2);border-radius:6px;border-left:3px solid var(--accent);font-size:12px;color:var(--text);line-height:1.7;">`;
+      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">普通通道</div>`;
+      h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:8px;">`;
+      h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_A}% · 趋势向上</div>`;
+      h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_B}% · 趋势非向下</div>`;
+      h += `<div>PE上限</div><div>否</div>`;
+      h += `</div>`;
+      h += `<div style="font-weight:600;color:var(--text);margin-bottom:6px;">成长赛道通道 <span style="font-size:11px;color:var(--muted);font-weight:400;">（AI 链放宽阈值）</span></div>`;
+      h += `<div style="display:grid;grid-template-columns:60px 1fr;gap:4px 10px;font-size:11px;color:var(--muted);line-height:1.7;">`;
+      h += `<div>信号 A</div><div>壁垒∈{极高,高} · PE分位&lt;${thr.PE_PCTL_GROWTH_A}% · PE&lt;PE上限 · 趋势向上</div>`;
+      h += `<div>信号 B</div><div>命中可投卡口 · PE分位&lt;${thr.PE_PCTL_GROWTH_B}% · PE&lt;PE上限 · 趋势非向下</div>`;
+      h += `<div>PE上限</div><div>是（动态上限·取 pe_history 最高值）</div>`;
+      h += `</div>`;
+      h += `</div></details>`;
+    }
+
+    if (totalHits === 0) {
+      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--color-data);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:12px;">`;
+      h += `💡 当前 ${d.name} 板块暂无信号命中。`;
+      h += `<br>主因：板块 PE 普遍处于历史高位，PE 分位回落至 50% 以下时将自动出现推荐标的。</div>`;
+    } else {
+      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📌 命中股票列表（${totalHits} 只）</div>`;
+      h += `<table class="stock-tbl" style="font-size:12px;margin-bottom:12px;table-layout:fixed;word-break:keep-all;">`;
+      h += `<colgroup><col style="width:70px"><col style="width:100px"><col style="width:140px"><col style="width:80px"><col style="width:90px"><col style="width:80px"><col style="width:80px"><col style="width:100px"></colgroup>`;
+      h += `<thead><tr><th>代码</th><th>简称</th><th>段位</th><th>壁垒</th><th>通道</th><th>信号</th><th>趋势</th><th>PE分位</th></tr></thead><tbody>`;
+      hits.forEach(h2 => {
+        const sigs = [];
+        if (h2.A) sigs.push('<span class="tag tg-green" style="font-size:11px;">A</span>');
+        if (h2.B) sigs.push('<span class="tag tg-high" style="font-size:11px;">B</span>');
+        const pcls = h2.pePercentile === null || h2.pePercentile === undefined ? 'tg-gray' : h2.pePercentile >= 80 ? 'tg-extreme' : h2.pePercentile >= 50 ? 'tg-mid' : 'tg-green';
+        h += `<tr>`;
+        h += `<td><code>${h2.code}</code></td>`;
+        h += `<td>${h2.name||'—'}</td>`;
+        h += `<td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;" title="${h2.segName||''}">${h2.segName||'—'}</td>`;
+        h += `<td>${h2.barrier||'—'}</td>`;
+        h += `<td>${h2.channel==='growthAdj'?'成长赛道':(h2.channel||'—')}</td>`;
+        h += `<td>${sigs.join(' ')}</td>`;
+        h += `<td>${h2.trend==='up'?'向上':h2.trend==='down'?'向下':h2.trend==='flat'?'平稳':(h2.trend||'—')}</td>`;
+        h += `<td><span class="tag ${pcls}" style="font-size:11px;">${h2.pePercentile!==null && h2.pePercentile!==undefined ? h2.pePercentile.toFixed(1)+'%' : '—'}</span></td>`;
+        h += `</tr>`;
+      });
+      h += `</tbody></table>`;
+    }
+    h += `</div>`;
+  }
+  h += `</div></div>`;  // 关闭 section-decision 的 section-body + section 整体（④ section-decision 默认折叠）
+
+  // ⑧ 白话解读（plainIntro 包装为默认折叠 section）— 4.82 重排到最后
+  h += `<div class="section collapsible collapsed" data-key="plain" id="section-plain">`;
+  h += `<div class="section-title" onclick="toggleSection('plain')"><span class="num num-plain">⑧</span> ${_sec0Title}<span class="collapse-arrow">▼</span></div>`;
+  h += `<div class="section-body">`;
+  h += `<div class="plain-box"><div class="analogy">${d.icon} ${d.plainIntro.analogy}</div>`;
+  d.plainIntro.paragraphs.forEach(p => h += `<p>${p}</p>`);
+  h += `<div style="font-weight:600;margin-bottom:6px;font-size:13px;color:var(--muted);">🔗 产业链通俗流水账：</div><div class="flow-row">`;
+  d.plainIntro.flowSteps.forEach((s, i) => {
+    if (i > 0) h += '<span class="arrow">→</span>';
+    h += `<span class="step">${s}</span>`;
+  });
+  h += `</div><div class="highlight-box">${d.plainIntro.highlightBox}</div></div>`;
+  h += `</div>`;  // section-body
+  h += `</div>`;  // ⑧ section 闭合
 
   // ★ 阶段 A commit 4.5：卡口段已移至顶部 ① section；⑥ 后段（卡脖子参考+供需缺口+方法论）已移至 ② 折叠 section
   // 此处原 L1984-L2136 整段已删除
