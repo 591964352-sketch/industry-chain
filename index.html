@@ -2517,7 +2517,7 @@ function renderChain(chainId) {
     h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">扫描总数</div>`;
     h += `<div style="font-size:16px;font-weight:600;color:var(--accent);">${scannedTotal} <span style="font-size:11px;color:var(--muted);font-weight:400;">只</span></div>`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;">扫描全部 37 只 PCB 标的（含中游+上游）· 与买入信号 A/B 的 37 不同口径</div>`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;">扫描全部 36 只 PCB 标的（含中游+上游）· 与买入信号 A/B 的不同口径</div>`;
     h += `</div>`;
     h += `<div style="flex:1;min-width:130px;padding:10px 14px;background:var(--card2);border-radius:6px;">`;
     h += `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">被排除总数</div>`;
@@ -2972,104 +2972,6 @@ function renderChain(chainId) {
 
 
 
-  // ② ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论（默认折叠）
-  h += `<div class="section collapsible collapsed" data-key="meta" id="section-meta">`;
-  h += `<div class="section-title" onclick="toggleSection('meta')"><span class="num num-mid">②</span> ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论<span class="collapse-arrow">▼</span></div>`;
-  h += `<div class="section-body">`;
-
-  // ★ commit 4.10 修复：referenceChokepoints 渲染（中文名 + 数组换行兼容）
-  //   - 数据从 pcb.manual.js 注入（commit 2.3+），pcb.js 内 IIFE 会加载
-  //   - replacementCode 支持单值（如 '301217'）或数组（如 ['301217', '603186']）
-  //   - 中文名查找路径：segments.stocks[] → chokePoints[] → fallback 显示代码
-  if (d.referenceChokepoints && d.referenceChokepoints.length > 0) {
-    // 构造 code → name 查表（segments 全部段 + chokePoints）
-    const _nameByCode = {};
-    (d.segments || []).forEach(seg => {
-      (seg.stocks || []).forEach(s => {
-        if (s.code && s.name) _nameByCode[String(s.code)] = s.name;
-      });
-    });
-    (d.chokePoints || []).forEach(cp => {
-      if (cp.code && cp.name) _nameByCode[String(cp.code)] = cp.name;
-    });
-
-    h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--purple);background:rgba(168,85,247,0.04);">`;
-    h += `<h4 style="margin-bottom:8px;font-size:15px;color:var(--purple);">🌐 卡脖子参考（非 A 股·不可投）</h4>`;
-    h += `<div style="font-size:12px;color:var(--muted);margin-bottom:14px;">下列主体为<strong>非 A 股</strong>卡脖子材料/设备商——<strong>不在估值管线</strong>，仅作"国内替代标的"映射参考。点击表格中"A 股替代标的"列链回对应 A 股可投标的。</div>`;
-    h += `<table class="stock-tbl"><colgroup><col style="width:24%"><col style="width:12%"><col style="width:32%"><col style="width:32%"></colgroup><thead><tr><th>国外主体</th><th>地区</th><th>卡脖子环节</th><th>A 股替代标的</th></tr></thead><tbody>`;
-    d.referenceChokepoints.forEach(rp => {
-      // 标准化 replacementCode 为数组（单值 → [单值]）
-      const rawCode = rp.replacementCode;
-      const codes = Array.isArray(rawCode) ? rawCode : (rawCode && rawCode !== '—' ? [rawCode] : []);
-      const isReplacable = codes.length > 0;
-      let replCell;
-      if (!isReplacable) {
-        replCell = `<span style="color:var(--muted);">—</span>`;
-      } else if (codes.length === 1) {
-        // 单值：一行显示「中文名 + 代码」
-        const c = String(codes[0]);
-        const name = _nameByCode[c] || '';
-        const display = name ? `${name} ${c}` : c;
-        replCell = `<a href="#stock-${c}" onclick="window.location.hash='stock-${c}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${display}</a>`;
-      } else {
-        // 数组：每家换行
-        replCell = codes.map(c => {
-          const cs = String(c);
-          const name = _nameByCode[cs] || '';
-          const display = name ? `${name} ${cs}` : cs;
-          return `<div style="line-height:1.7;"><a href="#stock-${cs}" onclick="window.location.hash='stock-${cs}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${display}</a></div>`;
-        }).join('');
-      }
-      h += `<tr>`;
-      h += `<td style="font-weight:600;">${rp.name}</td>`;
-      h += `<td><span class="tag tg-blue" style="font-size:11px;">${rp.region}</span></td>`;
-      h += `<td style="font-size:13px;">${rp.barrier}</td>`;
-      h += `<td>${replCell}</td>`;
-      h += `</tr>`;
-    });
-    h += `</tbody></table>`;
-    h += `</div>`;
-  }
-
-  if (d.supplyGap && d.supplyGap.length > 0) {
-    h += `<div class="card"><h4 style="margin-bottom:16px;font-size:15px;">📊 供需缺口量化（2026E）</h4>`;
-    h += `<table class="stock-tbl"><colgroup><col style="width:20%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:10%"><col style="width:32%"></colgroup><thead><tr><th>卡口环节</th><th>2026E全球需求</th><th>2026E有效产能</th><th>缺口</th><th>缺口率</th><th>核心瓶颈</th></tr></thead><tbody>`;
-    d.supplyGap.forEach(g => {
-      h += `<tr><td style="font-weight:600;">${g.segment || g.name}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand||'—'}</td><td>${g.capacity||'—'}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap||'—'}</span></td><td style="color:var(--red);font-weight:700;">${g.rate||'—'}</td><td style="font-size:12px;">${g.bottleneck||'—'}</td></tr>`;
-    });
-    h += `</tbody></table></div>`;
-  }
-
-  h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--accent);">`;
-  h += `<h4 style="margin-bottom:12px;font-size:14px;color:var(--accent);">⚠️ 方法论失效边界（物理卡口三大局限性）</h4>`;
-  h += `<ol style="font-size:13px;color:var(--muted);padding-left:20px;line-height:2.2;">`;
-  h += `<li><strong>物理瓶颈长期束缚成长性</strong>：卡口环节受制于物理天花板，长期成长空间有限。一旦供给追上需求，卡口红利消失。</li>`;
-  h += `<li><strong>顺风期红利加持</strong>：当前AI算力处于超级上行周期，方法论命中率被放大。若行业下行，卡口逻辑有效性大幅下降。</li>`;
-  h += `<li><strong>并非所有产业链环节都存在物理卡口</strong>：${d.methodologyNotes||'多数环节供给充足、替代丰富，找不到符合四大条件的卡口——这是方法论的正常结果。'}</li>`;
-  h += `</ol></div>`;
-  h += `</div>`;  // section-body
-  h += `</div>`;  // ② section 闭合
-
-  // ⑤ 白话解读（plainIntro 包装为默认折叠 section）— 已移至 ④ 树状图之后，保证 ①-⑧ 编号顺序正确
-
-
-  // Section 2/3: Tree Map (新顺序：④ 产业链树状图)
-
-  // ===== AI全产业链专属：Section ④ 奥卡姆剃刀 =====
-  if (d.occamRazor) {
-    h += `<div class="section"><div class="section-title"><span class="num num-mid">④</span> 奥卡姆剃刀 — 逐层修剪 AI 产业链</div>`;
-    h += `<div class="section-desc">${d.occamRazor.intro}</div>`;
-    h += `<div class="card" style="padding:16px;"><table class="stock-tbl"><thead><tr><th>产业链环节</th><th>判定</th><th>理由</th></tr></thead><tbody>`;
-    d.occamRazor.cuts.forEach(c => {
-      const cutColor = c.cls === 'cut' ? 'var(--red)' : 'var(--green)';
-      h += `<tr><td style="font-weight:600;">${c.layer}</td><td><span style="color:${cutColor};font-weight:700;">${c.verdict}</span></td><td style="font-size:12px;">${c.reason}</td></tr>`;
-    });
-    h += `</tbody></table>`;
-    h += `<div style="padding:14px 18px;background:rgba(14,203,129,0.06);border-radius:8px;border-left:3px solid var(--green);margin-top:16px;">`;
-    h += `<div style="font-weight:700;color:var(--green);margin-bottom:4px;">✅ 保留标的（进入 Serenity 四问筛选）</div>`;
-    h += `<div style="font-size:12px;line-height:1.9;">${d.occamRazor.keepers}</div>`;
-    h += `</div></div></div>`;
-  }
 
   // Section 3/4/5: Upstream Segments (新顺序：⑥ 上游深度拆解，默认折叠 + 每个 segment 独立折叠)
   const segNum = _hasSocratic ? '⑤' : (d.occamRazor ? '⑤' : '⑤');
@@ -3216,6 +3118,105 @@ function renderChain(chainId) {
     h += `</tbody></table></div></div>`;  // segment-card
     h += `</div></div>`;  // section-body + section (commit 4.9 折叠)
   }
+  // ② ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论（默认折叠）
+  h += `<div class="section collapsible collapsed" data-key="meta" id="section-meta">`;
+  h += `<div class="section-title" onclick="toggleSection('meta')"><span class="num num-mid">②</span> ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论<span class="collapse-arrow">▼</span></div>`;
+  h += `<div class="section-body">`;
+
+  // ★ commit 4.10 修复：referenceChokepoints 渲染（中文名 + 数组换行兼容）
+  //   - 数据从 pcb.manual.js 注入（commit 2.3+），pcb.js 内 IIFE 会加载
+  //   - replacementCode 支持单值（如 '301217'）或数组（如 ['301217', '603186']）
+  //   - 中文名查找路径：segments.stocks[] → chokePoints[] → fallback 显示代码
+  if (d.referenceChokepoints && d.referenceChokepoints.length > 0) {
+    // 构造 code → name 查表（segments 全部段 + chokePoints）
+    const _nameByCode = {};
+    (d.segments || []).forEach(seg => {
+      (seg.stocks || []).forEach(s => {
+        if (s.code && s.name) _nameByCode[String(s.code)] = s.name;
+      });
+    });
+    (d.chokePoints || []).forEach(cp => {
+      if (cp.code && cp.name) _nameByCode[String(cp.code)] = cp.name;
+    });
+
+    h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--purple);background:rgba(168,85,247,0.04);">`;
+    h += `<h4 style="margin-bottom:8px;font-size:15px;color:var(--purple);">🌐 卡脖子参考（非 A 股·不可投）</h4>`;
+    h += `<div style="font-size:12px;color:var(--muted);margin-bottom:14px;">下列主体为<strong>非 A 股</strong>卡脖子材料/设备商——<strong>不在估值管线</strong>，仅作"国内替代标的"映射参考。点击表格中"A 股替代标的"列链回对应 A 股可投标的。</div>`;
+    h += `<table class="stock-tbl"><colgroup><col style="width:24%"><col style="width:12%"><col style="width:32%"><col style="width:32%"></colgroup><thead><tr><th>国外主体</th><th>地区</th><th>卡脖子环节</th><th>A 股替代标的</th></tr></thead><tbody>`;
+    d.referenceChokepoints.forEach(rp => {
+      // 标准化 replacementCode 为数组（单值 → [单值]）
+      const rawCode = rp.replacementCode;
+      const codes = Array.isArray(rawCode) ? rawCode : (rawCode && rawCode !== '—' ? [rawCode] : []);
+      const isReplacable = codes.length > 0;
+      let replCell;
+      if (!isReplacable) {
+        replCell = `<span style="color:var(--muted);">—</span>`;
+      } else if (codes.length === 1) {
+        // 单值：一行显示「中文名 + 代码」
+        const c = String(codes[0]);
+        const name = _nameByCode[c] || '';
+        const display = name ? `${name} ${c}` : c;
+        replCell = `<a href="#stock-${c}" onclick="window.location.hash='stock-${c}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${display}</a>`;
+      } else {
+        // 数组：每家换行
+        replCell = codes.map(c => {
+          const cs = String(c);
+          const name = _nameByCode[cs] || '';
+          const display = name ? `${name} ${cs}` : cs;
+          return `<div style="line-height:1.7;"><a href="#stock-${cs}" onclick="window.location.hash='stock-${cs}';return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">${display}</a></div>`;
+        }).join('');
+      }
+      h += `<tr>`;
+      h += `<td style="font-weight:600;">${rp.name}</td>`;
+      h += `<td><span class="tag tg-blue" style="font-size:11px;">${rp.region}</span></td>`;
+      h += `<td style="font-size:13px;">${rp.barrier}</td>`;
+      h += `<td>${replCell}</td>`;
+      h += `</tr>`;
+    });
+    h += `</tbody></table>`;
+    h += `</div>`;
+  }
+
+  if (d.supplyGap && d.supplyGap.length > 0) {
+    h += `<div class="card"><h4 style="margin-bottom:16px;font-size:15px;">📊 供需缺口量化（2026E）</h4>`;
+    h += `<table class="stock-tbl"><colgroup><col style="width:20%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:10%"><col style="width:32%"></colgroup><thead><tr><th>卡口环节</th><th>2026E全球需求</th><th>2026E有效产能</th><th>缺口</th><th>缺口率</th><th>核心瓶颈</th></tr></thead><tbody>`;
+    d.supplyGap.forEach(g => {
+      h += `<tr><td style="font-weight:600;">${g.segment || g.name}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand||'—'}</td><td>${g.capacity||'—'}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap||'—'}</span></td><td style="color:var(--red);font-weight:700;">${g.rate||'—'}</td><td style="font-size:12px;">${g.bottleneck||'—'}</td></tr>`;
+    });
+    h += `</tbody></table></div>`;
+  }
+
+  h += `<div class="card" style="margin-top:18px;border-left:3px solid var(--accent);">`;
+  h += `<h4 style="margin-bottom:12px;font-size:14px;color:var(--accent);">⚠️ 方法论失效边界（物理卡口三大局限性）</h4>`;
+  h += `<ol style="font-size:13px;color:var(--muted);padding-left:20px;line-height:2.2;">`;
+  h += `<li><strong>物理瓶颈长期束缚成长性</strong>：卡口环节受制于物理天花板，长期成长空间有限。一旦供给追上需求，卡口红利消失。</li>`;
+  h += `<li><strong>顺风期红利加持</strong>：当前AI算力处于超级上行周期，方法论命中率被放大。若行业下行，卡口逻辑有效性大幅下降。</li>`;
+  h += `<li><strong>并非所有产业链环节都存在物理卡口</strong>：${d.methodologyNotes||'多数环节供给充足、替代丰富，找不到符合四大条件的卡口——这是方法论的正常结果。'}</li>`;
+  h += `</ol></div>`;
+  h += `</div>`;  // section-body
+  h += `</div>`;  // ② section 闭合
+
+  // ⑤ 白话解读（plainIntro 包装为默认折叠 section）— 已移至 ④ 树状图之后，保证 ①-⑧ 编号顺序正确
+
+
+  // Section 2/3: Tree Map (新顺序：④ 产业链树状图)
+
+  // ===== AI全产业链专属：Section ④ 奥卡姆剃刀 =====
+  if (d.occamRazor) {
+    h += `<div class="section"><div class="section-title"><span class="num num-mid">④</span> 奥卡姆剃刀 — 逐层修剪 AI 产业链</div>`;
+    h += `<div class="section-desc">${d.occamRazor.intro}</div>`;
+    h += `<div class="card" style="padding:16px;"><table class="stock-tbl"><thead><tr><th>产业链环节</th><th>判定</th><th>理由</th></tr></thead><tbody>`;
+    d.occamRazor.cuts.forEach(c => {
+      const cutColor = c.cls === 'cut' ? 'var(--red)' : 'var(--green)';
+      h += `<tr><td style="font-weight:600;">${c.layer}</td><td><span style="color:${cutColor};font-weight:700;">${c.verdict}</span></td><td style="font-size:12px;">${c.reason}</td></tr>`;
+    });
+    h += `</tbody></table>`;
+    h += `<div style="padding:14px 18px;background:rgba(14,203,129,0.06);border-radius:8px;border-left:3px solid var(--green);margin-top:16px;">`;
+    h += `<div style="font-weight:700;color:var(--green);margin-bottom:4px;">✅ 保留标的（进入 Serenity 四问筛选）</div>`;
+    h += `<div style="font-size:12px;line-height:1.9;">${d.occamRazor.keepers}</div>`;
+    h += `</div></div></div>`;
+  }
+
 
   // Section 5/6: Four Questions (新顺序：⑧ 物理卡口四问筛选，默认折叠)
   const fqNum = _hasSocratic ? '⑦' : '⑦';
@@ -3282,7 +3283,7 @@ function renderChain(chainId) {
       h += `<br>请到 <a href="#trades" onclick="event.preventDefault();renderTrades();" style="color:var(--accent);text-decoration:none;font-weight:600;">📒 交易日志</a> 记录买入操作后，刷新本页即可看到持仓风险监控。`;
       h += `</div>`;
       h += `<div style="margin-top:14px;font-size:11px;color:var(--muted);">`;
-      h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">💡 扫描池：37 只 PCB stock</span>`;
+      h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">💡 扫描池：36 只 PCB stock</span>`;
       h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">🔒 仅用户持仓触发</span>`;
       h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">📊 FIFO 配对</span>`;
       h += `</div>`;
