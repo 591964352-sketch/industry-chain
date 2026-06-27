@@ -1854,19 +1854,18 @@ let currentChain = 'pcb';
 let _pendingStockScroll = null;
 
 // ==================== 阶段 A commit 4.5：顶部锚点栏（仅在赛道视图显示） ====================
-// 5 个锚点跳到主 section，scrollIntoView 平滑滚动 + 不触发 hashchange（避免误触发 route() 重新渲染）
+// 8 个锚点跳到主 section，scrollIntoView 平滑滚动 + 不触发 hashchange（避免误触发 route() 重新渲染）
 function renderQuickNav() {
-  // ★ commit 4.75：四层框架 6 锚点
-  // 第一层·认识赛道 → section-overview
-  // 第二层·景气判断 → section-macro + section-prosperity
-  // 第三层·深度拆解 → section-upstream + section-fourq
-  // 第四层·投资决策 → section-decision（含 5 子块·默认折叠）
+  // ★ commit 4.82：8 锚点（按用户指定顺序，与 section 编号对齐）
+  // ② ③ ⑤ ⑦ 与 section 编号字面一致；其他用 emoji 标识
   return `<nav class="quick-nav">
     <a href="#section-overview" onclick="event.preventDefault();document.getElementById('section-overview').scrollIntoView({behavior:'smooth',block:'start'});">🏛️ 认识赛道</a>
+    <a href="#section-treemap" onclick="event.preventDefault();document.getElementById('section-treemap').scrollIntoView({behavior:'smooth',block:'start'});">② 产业链全图</a>
+    <a href="#section-prosperity" onclick="event.preventDefault();document.getElementById('section-prosperity').scrollIntoView({behavior:'smooth',block:'start'});">③ 赛道概览</a>
     <a href="#section-macro" onclick="event.preventDefault();document.getElementById('section-macro').scrollIntoView({behavior:'smooth',block:'start'});">🌡️ 景气仪表盘</a>
-    <a href="#section-prosperity" onclick="event.preventDefault();document.getElementById('section-prosperity').scrollIntoView({behavior:'smooth',block:'start'});">📊 景气六维</a>
-    <a href="#section-upstream" onclick="event.preventDefault();document.getElementById('section-upstream').scrollIntoView({behavior:'smooth',block:'start'});">🔬 上游拆解</a>
-    <a href="#section-fourq" onclick="event.preventDefault();document.getElementById('section-fourq').scrollIntoView({behavior:'smooth',block:'start'});">❓ 四问筛选</a>
+    <a href="#section-demand-chain" onclick="event.preventDefault();document.getElementById('section-demand-chain').scrollIntoView({behavior:'smooth',block:'start'});">④ 下游需求</a>
+    <a href="#section-upstream" onclick="event.preventDefault();document.getElementById('section-upstream').scrollIntoView({behavior:'smooth',block:'start'});">⑤ 上游拆解</a>
+    <a href="#section-fourq" onclick="event.preventDefault();document.getElementById('section-fourq').scrollIntoView({behavior:'smooth',block:'start'});">⑦ 四问筛选</a>
     <a href="#section-decision" onclick="event.preventDefault();document.getElementById('section-decision').scrollIntoView({behavior:'smooth',block:'start'});">💼 投资决策</a>
   </nav>`;
 }
@@ -2269,7 +2268,7 @@ function renderChain(chainId) {
   //   4 个下游细分横向排列 + AI 服务器价值量倍数 + 传导系数待补充说明
   if (d.demandChainMeta && d.demandChainMeta.segments) {
     const dcm = d.demandChainMeta;
-    h += `<div class="section collapsible collapsed" data-key="demand" id="section-demand-chain"><div class="section-title" onclick="toggleSection('demand')"><span class="num num-chain">⑤</span> 下游需求传导 · <span style="color:var(--accent);">CAGR 量化锚点</span><span class="collapse-arrow">▼</span></div>`;
+    h += `<div class="section collapsible collapsed" data-key="demand" id="section-demand-chain"><div class="section-title" onclick="toggleSection('demand')"><span class="num num-chain">④</span> 下游需求传导 · <span style="color:var(--accent);">CAGR 量化锚点</span><span class="collapse-arrow">▼</span></div>`;
     h += `<div class="section-desc">4 个下游细分 2025-2028 年 CAGR·broker 多源核实·AI 服务器额外标注单台 PCB 价值量倍数（vs 普通服务器）</div>`;
     h += `<div class="card" style="padding:20px;">`;
 
@@ -2563,262 +2562,6 @@ function renderChain(chainId) {
 
 
 
-  // ★ commit 4.75：第四层·持仓管理（默认展开 · 不折叠 · 用户进 PCB 页第一时间看持仓风险）
-  h += `<div class="section" id="section-holding">`;
-  h += `<div class="section-title"><span class="num num-result">🔔</span> 持仓管理 · <span style="color:var(--accent);">减仓/清仓信号</span></div>`;
-  h += `<div class="section-desc">持仓监控 + 减仓/清仓清单 + 风险量化 + 止损计划 · 实时跟踪持仓风险变化。</div>`;
-  // ★ commit 4.62：持仓管理信号 card 上移到 SECTION ① 顶部（紧跟 section 标题·在 signalC TOP3 之前）
-  //   高优先级信息前置：用户进入 PCB 页第一时间看到持仓风险（601208 减仓信号触发）
-  //   读取 CHAINS.pcb.holdingMeta（commit 4.18 注入）
-  //   显示 2 统计 + 减仓/清仓清单 + 当前持仓背景说明 + 风险量化 + 止损计划 + 综合评分
-  if (d.holdingMeta && d.holdingMeta.stats) {
-    const hm = d.holdingMeta;
-    const hms = hm.stats;
-    const reduceCount = hms.reduce_count || 0;
-    const exitCount = hms.exit_count || 0;
-    const triggeredList = hm.triggeredList || [];
-    const reduceList = triggeredList.filter(s => s.reduceSignal);
-    const exitList = triggeredList.filter(s => s.exitSignal);
-
-    // ★ commit 4.78：用户没有任何持仓时 → 显示空状态提示，不渲染减仓/清仓清单
-    //   防 38 只 PCB stock 全集误触发减仓信号的根因方案
-    if (!hm.hasOpenPosition) {
-      h += `<div class="card" style="padding:24px;margin-top:0;text-align:center;">`;
-      h += `<div style="font-size:16px;color:var(--color-muted);margin-bottom:10px;">📭 暂无持仓记录</div>`;
-      h += `<div style="font-size:13px;color:var(--muted);line-height:1.7;max-width:540px;margin:0 auto;">`;
-      h += `减仓/清仓信号只在用户<strong style="color:var(--accent);">实际持仓</strong>的 stock 上触发。`;
-      h += `<br>请到 <a href="#trades" onclick="event.preventDefault();renderTrades();" style="color:var(--accent);text-decoration:none;font-weight:600;">📒 交易日志</a> 记录买入操作后，刷新本页即可看到持仓风险监控。`;
-      h += `</div>`;
-      h += `<div style="margin-top:14px;font-size:11px;color:var(--muted);">`;
-      h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">💡 扫描池：37 只 PCB stock</span>`;
-      h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">🔒 仅用户持仓触发</span>`;
-      h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">📊 FIFO 配对</span>`;
-      h += `</div>`;
-      h += `</div>`;
-      // ★ commit 4.78：保持 section-holding 关闭结构对称
-      h += `</div>`;
-    } else {
-      // 原有持仓渲染逻辑（继续）
-      h += `<div class="card" style="padding:20px;margin-top:0;">`;
-    // ★ commit 4.75 bug 修复：去掉重复 card-header（持仓管理 section-title 已显示）
-    // h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">🔔 持仓管理 · <span style="color:var(--accent);">减仓/清仓信号</span></div>`;
-
-    // 2 统计数字（行内紧凑 · 4.71 优化：120px → 50px · 字号 24px→20px 合 page_audit 白名单）
-    h += `<div style="display:flex;align-items:center;gap:24px;padding:8px 0;margin-bottom:12px;">`;
-    h += `<span style="font-size:13px;color:var(--color-muted);">需减仓</span>`;
-    h += `<span style="font-size:20px;font-weight:700;color:${reduceCount>0?'var(--color-risk)':'var(--color-bull)'};">${reduceCount}<span style="font-size:13px;color:var(--color-muted);font-weight:400;margin-left:4px;">只</span></span>`;
-    h += `<span style="font-size:13px;color:var(--color-muted);margin-left:16px;">需清仓</span>`;
-    h += `<span style="font-size:20px;font-weight:700;color:${exitCount>0?'var(--color-risk)':'var(--color-bull)'};">${exitCount}<span style="font-size:13px;color:var(--color-muted);font-weight:400;margin-left:4px;">只</span></span>`;
-    h += `</div>`;
-
-    // 减仓清单
-    if (reduceList.length > 0) {
-      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📋 减仓清单（${reduceList.length} 只 · 动态判断）</div>`;
-      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">✅ 本模块仅对用户实际持仓的 stock 触发减仓信号（FIFO 配对）`;
-      h += `<details style="display:inline;margin-left:6px;"><summary style="display:inline;cursor:pointer;color:var(--color-data);font-size:11px;list-style:none;">查看减仓规则 ▾</summary>`;
-      h += `<div style="margin-top:6px;padding:8px 12px;background:var(--card2);border-radius:4px;font-size:11px;color:var(--muted);line-height:1.6;">① PE ≥ 99% + 距前高 ≤ -5% ② 放量拉升 volRatio5d > 2.0 ③ trend 从 up 变 flat（commit 4.18 暂缓·trendHistory 字段已就位待启用）</div>`;
-      h += `</details></div>`;
-      h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
-      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:160px;">减仓原因</th><th style="width:200px;">趋势史（trendHistory）</th><th>建议操作</th><th style="width:90px;">联动</th></tr></thead><tbody>`;
-      reduceList.forEach(s => {
-        // 减仓原因高亮（金色/橙色）
-        const manual = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[s.code]) || null;
-        const hist = (manual && manual.trendHistory) || [];
-        // 趋势史迷你显示：最近 3 个节点 · 颜色按 trend
-        const trendColor = t => t === 'up' ? 'tg-green' : t === 'down' ? 'tg-extreme' : 'tg-mid';
-        let histStr = '—';
-        if (hist.length > 0) {
-          histStr = hist.slice(0, 3).map(h => {
-            const dateShort = (h.date || '').slice(5);  // MM-DD
-            return `<span class="tag ${trendColor(h.trend)}" style="font-size:11px;margin-right:2px;">${dateShort}:${h.trend}</span>`;
-          }).join(' ');
-        }
-        h += `<tr>`;
-        h += `<td><code>${s.code}</code></td>`;
-        h += `<td>${s.name||'—'}</td>`;
-        h += `<td><span class="tag tg-mid" style="font-size:11px;">${s.reduceReason||'—'}</span></td>`;
-        h += `<td style="font-size:11px;line-height:1.5;">${histStr}</td>`;
-        h += `<td style="font-size:11px;color:var(--color-warn);">${s.reduceSignal||'—'}</td>`;
-        // ★ commit 4.22：减仓清单 → 「📝记录减仓」按钮（预填 side='sell' + triggerSignal='减仓'）
-        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'减仓'})" style="padding:3px 8px;background:var(--color-warn);color:#0f1117;border:none;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;min-width:64px;">📝记录减仓</button></td>`;
-        h += `</tr>`;
-      });
-      h += `</tbody></table></div>`;
-    }
-
-    // 清仓清单（commit 4.18 暂缓 + commit 4.28 trendHistory 启用）
-    //   触发条件：① barrier 从极高降级（暂缓）② trend = down ③ marketRisk = extreme
-    //   commit 4.28 新增：动态检测 stock.trendHistory 最新一项 trend = down → 加入清仓清单顶部
-    const trendDownList = [];
-    if (window.PCB_MANUAL && window.PCB_MANUAL.stocks) {
-      Object.keys(window.PCB_MANUAL.stocks).forEach(code => {
-        const stk = window.PCB_MANUAL.stocks[code];
-        if (!stk || !stk.trendHistory || stk.trendHistory.length === 0) return;
-        const latest = stk.trendHistory[0];
-        if (latest && latest.trend === 'down') {
-          trendDownList.push({
-            code: code,
-            name: stk.name || code,
-            exitReason: 'trendHistory→down',
-            exitSignal: `🔴立即清仓·趋势转向（${latest.date || '?'}：${latest.note || '最近一次 trend 评估转为 down'}）`,
-            trendHistory: stk.trendHistory
-          });
-        }
-      });
-    }
-    const totalExitList = [...trendDownList, ...exitList];   // ★ commit 4.28：trendDown 在前 + 原有 exitList
-    if (totalExitList.length > 0) {
-      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🚨 清仓清单（${totalExitList.length} 只 · 红色高亮 · 动态判断）</div>`;
-      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 清仓规则（pcb.js + commit 4.28）：① trend 从 up/flat 变 down（trendHistory 动态检测）② 卡口壁垒降级（暂缓）③ 系统性风险 marketRisk=extreme</div>`;
-      h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
-      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:160px;">清仓原因</th><th style="width:240px;">趋势史（trendHistory）</th><th style="width:90px;">联动</th></tr></thead><tbody>`;
-      totalExitList.forEach(s => {
-        const trendColor = t => t === 'up' ? 'tg-green' : t === 'down' ? 'tg-extreme' : 'tg-mid';
-        let histStr = '—';
-        const hist = s.trendHistory || [];
-        if (hist.length > 0) {
-          histStr = hist.slice(0, 3).map(h => {
-            const dateShort = (h.date || '').slice(5);
-            return `<span class="tag ${trendColor(h.trend)}" style="font-size:11px;margin-right:2px;">${dateShort}:${h.trend}</span>`;
-          }).join(' ');
-        }
-        h += `<tr style="background:rgba(246,70,93,0.08);">`;
-        h += `<td><code>${s.code}</code></td>`;
-        h += `<td style="color:var(--red);font-weight:600;">${s.name||'—'}</td>`;
-        h += `<td><span class="tag tg-extreme" style="font-size:11px;">${s.exitReason||'—'}</span> <span style="font-size:11px;color:var(--red);">${s.exitSignal||'—'}</span></td>`;
-        h += `<td style="font-size:11px;line-height:1.5;">${histStr}</td>`;
-        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'清仓'})" style="padding:3px 8px;background:var(--red);color:#fff;border:none;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;">📝记录清仓</button></td>`;
-        h += `</tr>`;
-      });
-      h += `</tbody></table></div>`;
-    }
-
-    // 无信号
-    if (reduceCount === 0 && exitCount === 0) {
-      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--green);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:4px;">`;
-      h += `✅ 当前持仓状态正常，无需调整。`;
-      h += `<br><span style="color:var(--muted);">减仓触发：PE 历史分位重回 99%+ 且距前高 ≤ -5% / 或放量拉升（量比 &gt; 2.0）</span>`;
-      h += `<br><span style="color:var(--muted);">清仓触发：卡口壁垒降级（暂缓）/ 景气趋势转向 / 系统性风险</span>`;
-      h += `</div>`;
-    }
-
-    // ★ commit 4.27：当前持仓 · 背景说明（硬编码 1 只 · 不依赖扫描逻辑）
-    //   来源：今日（2026-06-24）关键决策记录 · 持仓 601208 东材科技
-    //   与减仓/清仓清单独立——持仓均"持有中"·背景说明给出决策依据
-    // ★ commit 4.47：剥离非 PCB 持仓（300442 润泽科技 / 300223 北京君正 cross-chain 持仓已剔除）
-    // ★ commit 4.62：上移到 SECTION ① 顶部（持仓风险进入首屏）
-    const HOLDING_NOTES = [
-      { code: '601208', name: '东材科技', status: '持有',
-        segment: 'PCB · M9 碳氢树脂',
-        note: 'PE 高位（99.75% 分位）· 注意减仓信号（信号 C 距离显示已覆盖）',
-        color: 'var(--color-warn)' }
-    ];
-    h += `<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">`;
-    h += `<div style="font-size:13px;font-weight:600;margin-bottom:10px;">📋 当前持仓 · 背景说明 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（1 只硬编码 · PCB · 2026-06-24 决策）</span></div>`;
-    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 说明：与上方减仓/清仓清单独立——持仓 601208 东材科技"持有中"，背景说明给出决策依据。</div>`;
-    h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;">`;
-    h += `<colgroup><col style="width:60px"><col style="width:90px"><col style="width:80px"><col style="width:160px"><col><col style="width:110px"></colgroup>`;
-    h += `<thead><tr><th>代码</th><th>简称</th><th>状态</th><th>板块定位</th><th>决策依据（背景说明）</th><th>联动</th></tr></thead><tbody>`;
-    HOLDING_NOTES.forEach(s => {
-      h += `<tr>`;
-      h += `<td><code>${s.code}</code></td>`;
-      h += `<td>${s.name}</td>`;
-      h += `<td><span class="tag tg-mid" style="font-size:11px;font-weight:600;">${s.status}</span></td>`;
-      h += `<td style="font-size:11px;color:${s.color};">${s.segment}</td>`;
-      h += `<td style="font-size:11px;line-height:1.5;color:var(--text);">${s.note}</td>`;
-      // ★ commit 4.27：每只持仓加「📝记录」按钮（跳到交易日志表单预填）
-      // ★ commit 4.31：再加「+ 趋势」按钮（弹 3 字段表单·复制到剪贴板）
-      h += `<td><div style="display:flex;gap:4px;flex-wrap:wrap;">`;
-      h += `<button onclick="prefillTrade({code:'${s.code}',name:'${s.name}',side:'buy',triggerSignal:'手动'})" style="padding:3px 8px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;">📝记录</button>`;
-      h += `<button onclick="trendEntry('${s.code}','${s.name}')" style="padding:3px 8px;background:var(--green);color:#0f1117;border:none;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;">+ 趋势</button>`;
-      h += `</div></td>`;
-      h += `</tr>`;
-    });
-    h += `</tbody></table></div>`;
-    h += `</div>`;
-
-    // ★ commit 4.42：风险量化层 · 每只持仓一行 · 默认折叠 · summary 显示止损价+集中度
-    //   数据源: 601208 读 PCB_MANUAL.stocks[code].riskMetrics（pcb.manual.js 注入）
-    h += `<div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);">`;
-    h += `<div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;">⚠️ 风险量化 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:6px;">（止损价 + 再入场条件 + 集中度风险 · 默认折叠）</span></div>`;
-    HOLDING_NOTES.forEach(s => {
-      // 合并数据源: 优先 MANUAL.stocks[code].riskMetrics → fallback 到 localRiskMetrics
-      const manualRisk = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[s.code] && window.PCB_MANUAL.stocks[s.code].riskMetrics) || null;
-      const r = manualRisk || s.localRiskMetrics || null;
-      if (!r) return;
-      // 集中度颜色
-      const cr = r.concentrationRisk || 'low';
-      const crIcon = cr === 'high' ? '🔴' : cr === 'medium' ? '🟡' : '🟢';
-      const crColor = cr === 'high' ? 'var(--red)' : cr === 'medium' ? 'var(--accent)' : 'var(--green)';
-      // 止损价标签
-      const stopTxt = (typeof r.stopLoss === 'number') ? `止损 ${r.stopLoss}元` : (r.stopLossReason ? '止损待定' : '无止损');
-      // summary 行（commit 4.41 风格 · 一行关键摘要）
-      h += `<details style="background:var(--card2);border-radius:6px;padding:6px 10px;margin-bottom:8px;border-left:3px solid var(--accent);">`;
-      h += `<summary style="cursor:pointer;list-style:none;outline:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;">`;
-      h += `<span style="font-weight:700;color:var(--accent);">⚠️ ${s.code} ${s.name}</span>`;
-      h += `<span style="font-size:11px;color:var(--muted);">·</span>`;
-      h += `<span style="font-weight:600;color:${(typeof r.stopLoss === 'number') ? 'var(--text)' : 'var(--muted)'};">${stopTxt}</span>`;
-      h += `<span style="font-size:11px;color:var(--muted);">·</span>`;
-      h += `<span style="color:${crColor};font-weight:600;">${crIcon} 集中度${cr === 'high' ? '高' : cr === 'medium' ? '中' : '低'}</span>`;
-      h += `<span style="color:var(--muted);margin-left:auto;font-size:11px;">▾ 展开详情</span>`;
-      h += `</summary>`;
-      // 详情面板（4 字段 · grid 布局）
-      h += `<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-size:12px;">`;
-      // 止损价
-      h += `<div>`;
-      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">止损价</div>`;
-      if (typeof r.stopLoss === 'number') {
-        h += `<div style="font-weight:600;color:var(--text);font-size:14px;">${r.stopLoss.toFixed(2)} 元</div>`;
-        h += `<div style="color:var(--muted);font-size:11px;margin-top:2px;">${r.stopLossReason || ''}</div>`;
-      } else {
-        h += `<div style="color:var(--muted);font-weight:600;">待定</div>`;
-        h += `<div style="color:var(--muted);font-size:11px;margin-top:2px;">${r.stopLossReason || ''}</div>`;
-      }
-      h += `</div>`;
-      // 再入场条件
-      h += `<div>`;
-      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">再入场条件</div>`;
-      h += `<div style="font-size:11px;line-height:1.5;color:var(--text);">${r.reentryCondition || '—'}</div>`;
-      h += `</div>`;
-      // 集中度风险
-      h += `<div>`;
-      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">集中度风险</div>`;
-      h += `<div style="color:${crColor};font-weight:600;font-size:13px;">${crIcon} ${cr === 'high' ? '高（建议减仓）' : cr === 'medium' ? '中（建议关注）' : '低'}</div>`;
-      h += `</div>`;
-      // note
-      h += `<div>`;
-      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">决策依据</div>`;
-      h += `<div style="font-size:11px;line-height:1.5;color:var(--text);">${r.note || '—'}</div>`;
-      h += `</div>`;
-      // ★ commit 4.61：reduceSignal 风险警示渲染（4.56 写入字段·4.61 才在 UI 展示）
-      if (r.reduceSignal === true) {
-        const ar = r.activeReduce || null;
-        h += `<div style="margin-top:12px;padding:10px 12px;border-left:3px solid var(--color-risk);background:rgba(248,81,73,0.08);border-radius:0 4px 4px 0;">`;
-        h += `<div style="font-size:13px;font-weight:700;color:var(--color-risk);margin-bottom:6px;">⚠️ 减仓信号触发</div>`;
-        h += `<div style="font-size:11px;color:var(--text);line-height:1.6;margin-bottom:6px;"><strong>原因：</strong>${r.reduceReason || '—'}</div>`;
-        if (ar) {
-          h += `<div style="font-size:11px;color:var(--text);line-height:1.6;margin-bottom:6px;"><strong>建议：</strong>${ar.suggestedRatio || '—'} · ${ar.reason || ''}</div>`;
-          if (ar.suggestedPrice) h += `<div style="font-size:11px;color:var(--muted);"><strong>建议价位：</strong>${ar.suggestedPrice} 元</div>`;
-        }
-        if (r.dataAsOf) h += `<div style="font-size:11px;color:var(--color-muted);margin-top:6px;text-align:right;">数据截止：${r.dataAsOf}</div>`;
-        h += `</div>`;
-      }
-      h += `</div></details>`;
-    });
-    h += `</div>`;
-
-    // ★ commit 4.45：止损计划（默认折叠 · 3 档止损 + 触发条件 + 行动）
-    // ★ commit 4.62：随持仓管理模块一并上移到 SECTION ① 顶部
-    h += renderStopLossPlan(HOLDING_NOTES);
-
-    // ★ commit 4.45：综合评分（默认折叠 · 5 维度状态 + 加权得分 + 操作建议）
-    // ★ commit 4.62：随持仓管理模块一并上移到 SECTION ① 顶部
-    h += renderDecisionScoreCard(HOLDING_NOTES);
-
-    h += `</div>`;
-    }
-  }
-  // 关闭 section-holding（持仓管理 section · 默认展开）
 
   // ★ commit 4.75：第四层·投资决策（默认折叠 · 包裹 5 子块）
   //   包含：基本面排名榜 + 信号 C TOP3 + 信号 C 历史回放 + choke card grid + 买入信号监测
@@ -3601,7 +3344,7 @@ function renderChain(chainId) {
 
   // ⑤ 白话解读（plainIntro 包装为默认折叠 section）— 阶段 A：移到 ④ 树状图之后
   h += `<div class="section collapsible collapsed" data-key="plain" id="section-plain">`;
-  h += `<div class="section-title" onclick="toggleSection('plain')"><span class="num num-plain">⑤</span> ${_sec0Title}<span class="collapse-arrow">▼</span></div>`;
+  h += `<div class="section-title" onclick="toggleSection('plain')"><span class="num num-plain">⑧</span> ${_sec0Title}<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
   h += `<div class="plain-box"><div class="analogy">${d.icon} ${d.plainIntro.analogy}</div>`;
   d.plainIntro.paragraphs.forEach(p => h += `<p>${p}</p>`);
@@ -3615,7 +3358,7 @@ function renderChain(chainId) {
   h += `</div>`;  // ⑤ section 闭合
 
   // Section 3/4/5: Upstream Segments (新顺序：⑥ 上游深度拆解，默认折叠 + 每个 segment 独立折叠)
-  const segNum = _hasSocratic ? '⑥' : (d.occamRazor ? '⑥' : '⑥');
+  const segNum = _hasSocratic ? '⑤' : (d.occamRazor ? '⑤' : '⑤');
   h += `<div class="section collapsible" data-key="upstream" id="section-upstream">`;
   h += `<div class="section-title" onclick="toggleSection('upstream')"><span class="num num-up">${segNum}</span> 上游深度拆解<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
@@ -3730,7 +3473,7 @@ function renderChain(chainId) {
 
   // Section 4: Midstream (新顺序：⑦ 中游环节)
   if (d.midstream && d.midstream.stocks.length > 0) {
-    const midNum = d.id === 'semi' ? '⑦' : '⑦';
+    const midNum = d.id === 'semi' ? '⑥' : '⑥';
     const midTitle = d.id === 'pcb' ? '中游 — PCB 制造' : d.id === 'ai-server' ? '中游 — AI服务器整机' : d.id === 'autonomous-driving' ? '中游 — Tier1/整车集成' : '中游环节';
     // ★ commit 4.9：midstream section 加折叠（默认展开，可点标题收起）
     h += `<div class="section collapsible" data-key="midstream" id="section-midstream">`;
@@ -3761,7 +3504,7 @@ function renderChain(chainId) {
   }
 
   // Section 5/6: Four Questions (新顺序：⑧ 物理卡口四问筛选，默认折叠)
-  const fqNum = _hasSocratic ? '⑧' : '⑧';
+  const fqNum = _hasSocratic ? '⑦' : '⑦';
   h += `<div class="section collapsible" data-key="fourq" id="section-fourq">`;
   h += `<div class="section-title" onclick="toggleSection('fourq')"><span class="num num-ser">${fqNum}</span> 物理卡口 四问筛选 — 全量标的逐项打分<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
@@ -3798,6 +3541,262 @@ function renderChain(chainId) {
     }
   });
   h += `</tbody></table></div></div></div></div>`;  // ⑧ 关闭：card / fourq-wrap / section-body / section
+  // ★ commit 4.75：第四层·持仓管理（默认展开 · 不折叠 · 用户进 PCB 页第一时间看持仓风险）
+  h += `<div class="section" id="section-holding">`;
+  h += `<div class="section-title"><span class="num num-result">🔔</span> 持仓管理 · <span style="color:var(--accent);">减仓/清仓信号</span></div>`;
+  h += `<div class="section-desc">持仓监控 + 减仓/清仓清单 + 风险量化 + 止损计划 · 实时跟踪持仓风险变化。</div>`;
+  // ★ commit 4.62：持仓管理信号 card 上移到 SECTION ① 顶部（紧跟 section 标题·在 signalC TOP3 之前）
+  //   高优先级信息前置：用户进入 PCB 页第一时间看到持仓风险（601208 减仓信号触发）
+  //   读取 CHAINS.pcb.holdingMeta（commit 4.18 注入）
+  //   显示 2 统计 + 减仓/清仓清单 + 当前持仓背景说明 + 风险量化 + 止损计划 + 综合评分
+  if (d.holdingMeta && d.holdingMeta.stats) {
+    const hm = d.holdingMeta;
+    const hms = hm.stats;
+    const reduceCount = hms.reduce_count || 0;
+    const exitCount = hms.exit_count || 0;
+    const triggeredList = hm.triggeredList || [];
+    const reduceList = triggeredList.filter(s => s.reduceSignal);
+    const exitList = triggeredList.filter(s => s.exitSignal);
+
+    // ★ commit 4.78：用户没有任何持仓时 → 显示空状态提示，不渲染减仓/清仓清单
+    //   防 38 只 PCB stock 全集误触发减仓信号的根因方案
+    if (!hm.hasOpenPosition) {
+      h += `<div class="card" style="padding:24px;margin-top:0;text-align:center;">`;
+      h += `<div style="font-size:16px;color:var(--color-muted);margin-bottom:10px;">📭 暂无持仓记录</div>`;
+      h += `<div style="font-size:13px;color:var(--muted);line-height:1.7;max-width:540px;margin:0 auto;">`;
+      h += `减仓/清仓信号只在用户<strong style="color:var(--accent);">实际持仓</strong>的 stock 上触发。`;
+      h += `<br>请到 <a href="#trades" onclick="event.preventDefault();renderTrades();" style="color:var(--accent);text-decoration:none;font-weight:600;">📒 交易日志</a> 记录买入操作后，刷新本页即可看到持仓风险监控。`;
+      h += `</div>`;
+      h += `<div style="margin-top:14px;font-size:11px;color:var(--muted);">`;
+      h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">💡 扫描池：37 只 PCB stock</span>`;
+      h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">🔒 仅用户持仓触发</span>`;
+      h += `<span style="background:var(--card2);padding:4px 10px;border-radius:4px;margin:0 4px;">📊 FIFO 配对</span>`;
+      h += `</div>`;
+      h += `</div>`;
+      // ★ commit 4.78：保持 section-holding 关闭结构对称
+      h += `</div>`;
+    } else {
+      // 原有持仓渲染逻辑（继续）
+      h += `<div class="card" style="padding:20px;margin-top:0;">`;
+    // ★ commit 4.75 bug 修复：去掉重复 card-header（持仓管理 section-title 已显示）
+    // h += `<div class="card-header" style="font-size:15px;margin-bottom:14px;">🔔 持仓管理 · <span style="color:var(--accent);">减仓/清仓信号</span></div>`;
+
+    // 2 统计数字（行内紧凑 · 4.71 优化：120px → 50px · 字号 24px→20px 合 page_audit 白名单）
+    h += `<div style="display:flex;align-items:center;gap:24px;padding:8px 0;margin-bottom:12px;">`;
+    h += `<span style="font-size:13px;color:var(--color-muted);">需减仓</span>`;
+    h += `<span style="font-size:20px;font-weight:700;color:${reduceCount>0?'var(--color-risk)':'var(--color-bull)'};">${reduceCount}<span style="font-size:13px;color:var(--color-muted);font-weight:400;margin-left:4px;">只</span></span>`;
+    h += `<span style="font-size:13px;color:var(--color-muted);margin-left:16px;">需清仓</span>`;
+    h += `<span style="font-size:20px;font-weight:700;color:${exitCount>0?'var(--color-risk)':'var(--color-bull)'};">${exitCount}<span style="font-size:13px;color:var(--color-muted);font-weight:400;margin-left:4px;">只</span></span>`;
+    h += `</div>`;
+
+    // 减仓清单
+    if (reduceList.length > 0) {
+      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">📋 减仓清单（${reduceList.length} 只 · 动态判断）</div>`;
+      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">✅ 本模块仅对用户实际持仓的 stock 触发减仓信号（FIFO 配对）`;
+      h += `<details style="display:inline;margin-left:6px;"><summary style="display:inline;cursor:pointer;color:var(--color-data);font-size:11px;list-style:none;">查看减仓规则 ▾</summary>`;
+      h += `<div style="margin-top:6px;padding:8px 12px;background:var(--card2);border-radius:4px;font-size:11px;color:var(--muted);line-height:1.6;">① PE ≥ 99% + 距前高 ≤ -5% ② 放量拉升 volRatio5d > 2.0 ③ trend 从 up 变 flat（commit 4.18 暂缓·trendHistory 字段已就位待启用）</div>`;
+      h += `</details></div>`;
+      h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
+      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:160px;">减仓原因</th><th style="width:200px;">趋势史（trendHistory）</th><th>建议操作</th><th style="width:90px;">联动</th></tr></thead><tbody>`;
+      reduceList.forEach(s => {
+        // 减仓原因高亮（金色/橙色）
+        const manual = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[s.code]) || null;
+        const hist = (manual && manual.trendHistory) || [];
+        // 趋势史迷你显示：最近 3 个节点 · 颜色按 trend
+        const trendColor = t => t === 'up' ? 'tg-green' : t === 'down' ? 'tg-extreme' : 'tg-mid';
+        let histStr = '—';
+        if (hist.length > 0) {
+          histStr = hist.slice(0, 3).map(h => {
+            const dateShort = (h.date || '').slice(5);  // MM-DD
+            return `<span class="tag ${trendColor(h.trend)}" style="font-size:11px;margin-right:2px;">${dateShort}:${h.trend}</span>`;
+          }).join(' ');
+        }
+        h += `<tr>`;
+        h += `<td><code>${s.code}</code></td>`;
+        h += `<td>${s.name||'—'}</td>`;
+        h += `<td><span class="tag tg-mid" style="font-size:11px;">${s.reduceReason||'—'}</span></td>`;
+        h += `<td style="font-size:11px;line-height:1.5;">${histStr}</td>`;
+        h += `<td style="font-size:11px;color:var(--color-warn);">${s.reduceSignal||'—'}</td>`;
+        // ★ commit 4.22：减仓清单 → 「📝记录减仓」按钮（预填 side='sell' + triggerSignal='减仓'）
+        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'减仓'})" style="padding:3px 8px;background:var(--color-warn);color:#0f1117;border:none;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;min-width:64px;">📝记录减仓</button></td>`;
+        h += `</tr>`;
+      });
+      h += `</tbody></table></div>`;
+    }
+
+    // 清仓清单（commit 4.18 暂缓 + commit 4.28 trendHistory 启用）
+    //   触发条件：① barrier 从极高降级（暂缓）② trend = down ③ marketRisk = extreme
+    //   commit 4.28 新增：动态检测 stock.trendHistory 最新一项 trend = down → 加入清仓清单顶部
+    const trendDownList = [];
+    if (window.PCB_MANUAL && window.PCB_MANUAL.stocks) {
+      Object.keys(window.PCB_MANUAL.stocks).forEach(code => {
+        const stk = window.PCB_MANUAL.stocks[code];
+        if (!stk || !stk.trendHistory || stk.trendHistory.length === 0) return;
+        const latest = stk.trendHistory[0];
+        if (latest && latest.trend === 'down') {
+          trendDownList.push({
+            code: code,
+            name: stk.name || code,
+            exitReason: 'trendHistory→down',
+            exitSignal: `🔴立即清仓·趋势转向（${latest.date || '?'}：${latest.note || '最近一次 trend 评估转为 down'}）`,
+            trendHistory: stk.trendHistory
+          });
+        }
+      });
+    }
+    const totalExitList = [...trendDownList, ...exitList];   // ★ commit 4.28：trendDown 在前 + 原有 exitList
+    if (totalExitList.length > 0) {
+      h += `<div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px;">🚨 清仓清单（${totalExitList.length} 只 · 红色高亮 · 动态判断）</div>`;
+      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 清仓规则（pcb.js + commit 4.28）：① trend 从 up/flat 变 down（trendHistory 动态检测）② 卡口壁垒降级（暂缓）③ 系统性风险 marketRisk=extreme</div>`;
+      h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;margin-bottom:14px;">`;
+      h += `<thead><tr><th style="width:70px;">代码</th><th>简称</th><th style="width:160px;">清仓原因</th><th style="width:240px;">趋势史（trendHistory）</th><th style="width:90px;">联动</th></tr></thead><tbody>`;
+      totalExitList.forEach(s => {
+        const trendColor = t => t === 'up' ? 'tg-green' : t === 'down' ? 'tg-extreme' : 'tg-mid';
+        let histStr = '—';
+        const hist = s.trendHistory || [];
+        if (hist.length > 0) {
+          histStr = hist.slice(0, 3).map(h => {
+            const dateShort = (h.date || '').slice(5);
+            return `<span class="tag ${trendColor(h.trend)}" style="font-size:11px;margin-right:2px;">${dateShort}:${h.trend}</span>`;
+          }).join(' ');
+        }
+        h += `<tr style="background:rgba(246,70,93,0.08);">`;
+        h += `<td><code>${s.code}</code></td>`;
+        h += `<td style="color:var(--red);font-weight:600;">${s.name||'—'}</td>`;
+        h += `<td><span class="tag tg-extreme" style="font-size:11px;">${s.exitReason||'—'}</span> <span style="font-size:11px;color:var(--red);">${s.exitSignal||'—'}</span></td>`;
+        h += `<td style="font-size:11px;line-height:1.5;">${histStr}</td>`;
+        h += `<td><button onclick="prefillTrade({code:'${s.code}',name:'${(s.name||'').replace(/'/g, "\\'")}',side:'sell',triggerSignal:'清仓'})" style="padding:3px 8px;background:var(--red);color:#fff;border:none;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;">📝记录清仓</button></td>`;
+        h += `</tr>`;
+      });
+      h += `</tbody></table></div>`;
+    }
+
+    // 无信号
+    if (reduceCount === 0 && exitCount === 0) {
+      h += `<div style="padding:12px 16px;background:var(--card2);border-left:3px solid var(--green);border-radius:0 6px 6px 0;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:4px;">`;
+      h += `✅ 当前持仓状态正常，无需调整。`;
+      h += `<br><span style="color:var(--muted);">减仓触发：PE 历史分位重回 99%+ 且距前高 ≤ -5% / 或放量拉升（量比 &gt; 2.0）</span>`;
+      h += `<br><span style="color:var(--muted);">清仓触发：卡口壁垒降级（暂缓）/ 景气趋势转向 / 系统性风险</span>`;
+      h += `</div>`;
+    }
+
+    // ★ commit 4.27：当前持仓 · 背景说明（硬编码 1 只 · 不依赖扫描逻辑）
+    //   来源：今日（2026-06-24）关键决策记录 · 持仓 601208 东材科技
+    //   与减仓/清仓清单独立——持仓均"持有中"·背景说明给出决策依据
+    // ★ commit 4.47：剥离非 PCB 持仓（300442 润泽科技 / 300223 北京君正 cross-chain 持仓已剔除）
+    // ★ commit 4.62：上移到 SECTION ① 顶部（持仓风险进入首屏）
+    const HOLDING_NOTES = [
+      { code: '601208', name: '东材科技', status: '持有',
+        segment: 'PCB · M9 碳氢树脂',
+        note: 'PE 高位（99.75% 分位）· 注意减仓信号（信号 C 距离显示已覆盖）',
+        color: 'var(--color-warn)' }
+    ];
+    h += `<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">`;
+    h += `<div style="font-size:13px;font-weight:600;margin-bottom:10px;">📋 当前持仓 · 背景说明 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:8px;">（1 只硬编码 · PCB · 2026-06-24 决策）</span></div>`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;">⚠️ 说明：与上方减仓/清仓清单独立——持仓 601208 东材科技"持有中"，背景说明给出决策依据。</div>`;
+    h += `<div class="tbl-scroll"><table class="stock-tbl" style="font-size:12px;">`;
+    h += `<colgroup><col style="width:60px"><col style="width:90px"><col style="width:80px"><col style="width:160px"><col><col style="width:110px"></colgroup>`;
+    h += `<thead><tr><th>代码</th><th>简称</th><th>状态</th><th>板块定位</th><th>决策依据（背景说明）</th><th>联动</th></tr></thead><tbody>`;
+    HOLDING_NOTES.forEach(s => {
+      h += `<tr>`;
+      h += `<td><code>${s.code}</code></td>`;
+      h += `<td>${s.name}</td>`;
+      h += `<td><span class="tag tg-mid" style="font-size:11px;font-weight:600;">${s.status}</span></td>`;
+      h += `<td style="font-size:11px;color:${s.color};">${s.segment}</td>`;
+      h += `<td style="font-size:11px;line-height:1.5;color:var(--text);">${s.note}</td>`;
+      // ★ commit 4.27：每只持仓加「📝记录」按钮（跳到交易日志表单预填）
+      // ★ commit 4.31：再加「+ 趋势」按钮（弹 3 字段表单·复制到剪贴板）
+      h += `<td><div style="display:flex;gap:4px;flex-wrap:wrap;">`;
+      h += `<button onclick="prefillTrade({code:'${s.code}',name:'${s.name}',side:'buy',triggerSignal:'手动'})" style="padding:3px 8px;background:var(--card2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;">📝记录</button>`;
+      h += `<button onclick="trendEntry('${s.code}','${s.name}')" style="padding:3px 8px;background:var(--green);color:#0f1117;border:none;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;">+ 趋势</button>`;
+      h += `</div></td>`;
+      h += `</tr>`;
+    });
+    h += `</tbody></table></div>`;
+    h += `</div>`;
+
+    // ★ commit 4.42：风险量化层 · 每只持仓一行 · 默认折叠 · summary 显示止损价+集中度
+    //   数据源: 601208 读 PCB_MANUAL.stocks[code].riskMetrics（pcb.manual.js 注入）
+    h += `<div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);">`;
+    h += `<div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;">⚠️ 风险量化 <span style="font-size:11px;color:var(--muted);font-weight:500;margin-left:6px;">（止损价 + 再入场条件 + 集中度风险 · 默认折叠）</span></div>`;
+    HOLDING_NOTES.forEach(s => {
+      // 合并数据源: 优先 MANUAL.stocks[code].riskMetrics → fallback 到 localRiskMetrics
+      const manualRisk = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[s.code] && window.PCB_MANUAL.stocks[s.code].riskMetrics) || null;
+      const r = manualRisk || s.localRiskMetrics || null;
+      if (!r) return;
+      // 集中度颜色
+      const cr = r.concentrationRisk || 'low';
+      const crIcon = cr === 'high' ? '🔴' : cr === 'medium' ? '🟡' : '🟢';
+      const crColor = cr === 'high' ? 'var(--red)' : cr === 'medium' ? 'var(--accent)' : 'var(--green)';
+      // 止损价标签
+      const stopTxt = (typeof r.stopLoss === 'number') ? `止损 ${r.stopLoss}元` : (r.stopLossReason ? '止损待定' : '无止损');
+      // summary 行（commit 4.41 风格 · 一行关键摘要）
+      h += `<details style="background:var(--card2);border-radius:6px;padding:6px 10px;margin-bottom:8px;border-left:3px solid var(--accent);">`;
+      h += `<summary style="cursor:pointer;list-style:none;outline:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;">`;
+      h += `<span style="font-weight:700;color:var(--accent);">⚠️ ${s.code} ${s.name}</span>`;
+      h += `<span style="font-size:11px;color:var(--muted);">·</span>`;
+      h += `<span style="font-weight:600;color:${(typeof r.stopLoss === 'number') ? 'var(--text)' : 'var(--muted)'};">${stopTxt}</span>`;
+      h += `<span style="font-size:11px;color:var(--muted);">·</span>`;
+      h += `<span style="color:${crColor};font-weight:600;">${crIcon} 集中度${cr === 'high' ? '高' : cr === 'medium' ? '中' : '低'}</span>`;
+      h += `<span style="color:var(--muted);margin-left:auto;font-size:11px;">▾ 展开详情</span>`;
+      h += `</summary>`;
+      // 详情面板（4 字段 · grid 布局）
+      h += `<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-size:12px;">`;
+      // 止损价
+      h += `<div>`;
+      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">止损价</div>`;
+      if (typeof r.stopLoss === 'number') {
+        h += `<div style="font-weight:600;color:var(--text);font-size:14px;">${r.stopLoss.toFixed(2)} 元</div>`;
+        h += `<div style="color:var(--muted);font-size:11px;margin-top:2px;">${r.stopLossReason || ''}</div>`;
+      } else {
+        h += `<div style="color:var(--muted);font-weight:600;">待定</div>`;
+        h += `<div style="color:var(--muted);font-size:11px;margin-top:2px;">${r.stopLossReason || ''}</div>`;
+      }
+      h += `</div>`;
+      // 再入场条件
+      h += `<div>`;
+      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">再入场条件</div>`;
+      h += `<div style="font-size:11px;line-height:1.5;color:var(--text);">${r.reentryCondition || '—'}</div>`;
+      h += `</div>`;
+      // 集中度风险
+      h += `<div>`;
+      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">集中度风险</div>`;
+      h += `<div style="color:${crColor};font-weight:600;font-size:13px;">${crIcon} ${cr === 'high' ? '高（建议减仓）' : cr === 'medium' ? '中（建议关注）' : '低'}</div>`;
+      h += `</div>`;
+      // note
+      h += `<div>`;
+      h += `<div style="color:var(--muted);font-size:11px;margin-bottom:2px;">决策依据</div>`;
+      h += `<div style="font-size:11px;line-height:1.5;color:var(--text);">${r.note || '—'}</div>`;
+      h += `</div>`;
+      // ★ commit 4.61：reduceSignal 风险警示渲染（4.56 写入字段·4.61 才在 UI 展示）
+      if (r.reduceSignal === true) {
+        const ar = r.activeReduce || null;
+        h += `<div style="margin-top:12px;padding:10px 12px;border-left:3px solid var(--color-risk);background:rgba(248,81,73,0.08);border-radius:0 4px 4px 0;">`;
+        h += `<div style="font-size:13px;font-weight:700;color:var(--color-risk);margin-bottom:6px;">⚠️ 减仓信号触发</div>`;
+        h += `<div style="font-size:11px;color:var(--text);line-height:1.6;margin-bottom:6px;"><strong>原因：</strong>${r.reduceReason || '—'}</div>`;
+        if (ar) {
+          h += `<div style="font-size:11px;color:var(--text);line-height:1.6;margin-bottom:6px;"><strong>建议：</strong>${ar.suggestedRatio || '—'} · ${ar.reason || ''}</div>`;
+          if (ar.suggestedPrice) h += `<div style="font-size:11px;color:var(--muted);"><strong>建议价位：</strong>${ar.suggestedPrice} 元</div>`;
+        }
+        if (r.dataAsOf) h += `<div style="font-size:11px;color:var(--color-muted);margin-top:6px;text-align:right;">数据截止：${r.dataAsOf}</div>`;
+        h += `</div>`;
+      }
+      h += `</div></details>`;
+    });
+    h += `</div>`;
+
+    // ★ commit 4.45：止损计划（默认折叠 · 3 档止损 + 触发条件 + 行动）
+    // ★ commit 4.62：随持仓管理模块一并上移到 SECTION ① 顶部
+    h += renderStopLossPlan(HOLDING_NOTES);
+
+    // ★ commit 4.45：综合评分（默认折叠 · 5 维度状态 + 加权得分 + 操作建议）
+    // ★ commit 4.62：随持仓管理模块一并上移到 SECTION ① 顶部
+    h += renderDecisionScoreCard(HOLDING_NOTES);
+
+    h += `</div>`;
+    }
+  }
+  // 关闭 section-holding（持仓管理 section · 默认展开）
 
   // ★ 阶段 A commit 4.5：卡口段已移至顶部 ① section；⑥ 后段（卡脖子参考+供需缺口+方法论）已移至 ② 折叠 section
   // 此处原 L1984-L2136 整段已删除
