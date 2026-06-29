@@ -262,6 +262,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -301,6 +302,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -333,6 +335,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -365,6 +368,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -377,6 +381,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '300395': { code:'300395', name:'菲利华', rank:1, barrier:'极高', tier:'primary',
       position:'Q布业务处认证阶段(2025年收入9,837.37万元/占总营收4.88%)·石英砂环节中试阶段(非独家,石英股份等亦布局)·制品环节技术领先',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'Q布业务处认证阶段(2025年收入9,837.37万元/占总营收4.88%)·石英砂环节中试阶段(非独家,石英股份等亦布局)·制品环节技术领先｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:1,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'2026Q1/2025年报', valAsOf:'2026-06-22', trend:'up', trendNote:'英伟达全额预购2026年600-700万米Q布',
       hits:4, strength:'★★★',
@@ -398,6 +404,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -410,6 +417,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '300476': { code:'300476', name:'胜宏科技', rank:2, barrier:'极高', tier:'primary',
       position:'英伟达显卡PCB全球份额约50%(一供,Prismark 2026);GB300 OAM子板核心供应商;2025年AI业务营收83.4亿(占比43%、同比+11倍、毛利率40-45%),在手订单饱满排至2026年底 + 英伟达Tier1认证·100+层技术/70层量产(primary巨潮)·AI占比43.20%',
       investable:true, region:'国内',
+      caliber:'英伟达供应链口径',
+      investableReason:'英伟达显卡PCB全球份额约50%(一供,Prismark 2026);GB300 OAM子板核心供应商;2025年AI业务营收83.4亿(占比43%、同比+11倍、毛利率40-45%),在手订单饱满排至2026年底 + 英伟达Tier1认证·100+层技术/70层量产(primary巨潮)·AI占比43.20%｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:5,trend:'up',reason:'AI 算力结构性上行+GB300 持续放量;胜宏供应 GB300 OAM 五阶 HDI 板,单板价值量提升 30%+;数据中心 PCB 占比近 50%,延续性极强 → 5'},{key:'visibility',score:5,trend:'up',reason:'2025 净利 43.12 亿+273.52%(A 股 PCB 首位),26Q1 营收 55.19 亿+28%,净利 12.88 亿+40%;英伟达 Tier1·显卡 PCB 全球~50%(Prismark 2026),业绩弹性极强,趋势向上 → 5'},{key:'policy',score:3,trend:'flat',reason:'AI capex 市场驱动+IC 载板 02 专项关联,政策中性偏顺风;制造端政策驱动有限,趋势走平 → 3'},{key:'supply',score:4,trend:'up',reason:'2025Q1 英伟达订单占比超 70%(历史参考),AI 高多层板扩产潮直接利好;趋势向上 → 4'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 74.65 倍/3 年分位 95.98%(asOf 2026-06-16),估值高位,趋势向下(性价比恶化);扣分项为估值最贵,需控买点 → 2'},{key:'barrier',score:5,trend:'flat',reason:'英伟达 Tier1+GB300 OAM 子板核心+显卡 PCB 全球~50%(Prismark)+100+ 层技术储备/70 层量产+AI 占比 43.20%(巨潮 2025 年报),壁垒极高;豆包 2026-06-26 确认 → 5'}],
       src:'2026Q1/2025年报+Prismark', valAsOf:'2026-06-22', trend:'up', trendNote:'GB300 OAM核心·显卡PCB全球50%·谷歌微软ASIC·字节阿里云·Q1 15.2亿',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}], growthAdj:true ,
@@ -428,6 +437,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -440,6 +450,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '300522': { code:'300522', name:'世名科技', rank:3, barrier:'高', tier:'primary',
       position:'盘锦500吨已投产·M9方案已认证',
       investable:true, region:'国内',
+      caliber:'M9等级细分品类口径',
+      investableReason:'盘锦500吨已投产·M9方案已认证｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'500吨已投产·M9方案7月小批量供货·2500吨2027Q1',
       segments:[{idx:1,name:'电子树脂（碳氢树脂/PPO）'}] ,
@@ -458,6 +470,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -470,6 +483,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '301150': { code:'301150', name:'中一科技', rank:5, barrier:'中', tier:'primary',
       position:'高性能电子铜箔·HVLP4在研',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'高性能电子铜箔·HVLP4在研｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'flat', trendNote:'锂电主业70%·HVLP4在研·Q1净利+2297%·台资试样',
       segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] ,
@@ -488,6 +503,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -500,6 +516,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '301200': { code:'301200', name:'大族数控', rank:2, barrier:'高', tier:'primary',
       position:'钻孔设备全球第二·AI高多层板设备市占40-50%',
       investable:true, region:'国内',
+      caliber:'全球口径',
+      investableReason:'钻孔设备全球第二·AI高多层板设备市占40-50%｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'钻孔国内70%·沪电胜宏认证·英伟达2亿订单·景旺鹏鼎·ABF激光样品·Q1+108%',
       segments:[{idx:5,name:'PCB专用设备'}] ,
@@ -518,6 +536,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -530,6 +549,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '301217': { code:'301217', name:'铜冠铜箔', rank:1, barrier:'极高', tier:'primary',
       position:'国内唯一HVLP1-4全系列量产·2027市占预期42%',
       investable:true, region:'国内',
+      caliber:'国内口径',
+      investableReason:'国内唯一HVLP1-4全系列量产·2027市占预期42%｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'up',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'GB200/GB300 HVLP4量产·深南长期协议·HVLP5样品',
       hits:4, strength:'★★★',
@@ -549,6 +570,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -561,6 +583,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '301377': { code:'301377', name:'鼎泰高科', rank:1, barrier:'高', tier:'primary',
       position:'PCB钻针全球第一(2024年市占26.8%/2025H1进一步提升至28.9%)',
       investable:true, region:'国内',
+      caliber:'全球口径',
+      investableReason:'PCB钻针全球第一(2024年市占26.8%/2025H1进一步提升至28.9%)｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'钻针全球第一28.9%·0.01mm沪电深南·80倍径验证·HBM样品·Q1+96%',
       segments:[{idx:5,name:'PCB专用设备'}], growthAdj:true ,
@@ -579,6 +603,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -591,6 +616,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '301511': { code:'301511', name:'德福科技', rank:2, barrier:'高', tier:'primary',
       position:'进入英伟达供应链·电子电路铜箔年产能5万吨可柔性切换·HVLP4已在部分客户小规模放量(2025年报)·HVLP5完成样品认证',
       investable:true, region:'国内',
+      caliber:'英伟达供应链口径',
+      investableReason:'进入英伟达供应链·电子电路铜箔年产能5万吨可柔性切换·HVLP4已在部分客户小规模放量(2025年报)·HVLP5完成样品认证｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'全球第二HVLP4出货·HVLP5样品认证完成✅已双源核实(兴业证券·2026-05-16)·3μm载体铜箔·AMD MI300',
       hits:3, strength:'★★☆',
@@ -610,6 +637,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -622,6 +650,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '600110': { code:'600110', name:'诺德股份', rank:3, barrier:'中', tier:'primary',
       position:'6μm极薄铜箔量产·服务器铜箔市占>25%·2026Q1扭亏',
       investable:true, region:'国内',
+      caliber:'需明确口径(待人工核对)',
+      investableReason:'6μm极薄铜箔量产·服务器铜箔市占>25%·2026Q1扭亏｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'HVLP3量产·HVLP4验证中·6μm良率92%·Q1扭亏',
       segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] ,
@@ -640,6 +670,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -652,6 +683,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '600176': { code:'600176', name:'中国巨石', rank:4, barrier:'中', tier:'primary',
       position:'电子纱产能国内第一(市占25%)·全球电子玻纤市占~23%(淮安扩产后升至~28%)·全球玻纤龙头',
       investable:true, region:'国内',
+      caliber:'全球口径',
+      investableReason:'电子纱产能国内第一(市占25%)·全球电子玻纤市占~23%(淮安扩产后升至~28%)·全球玻纤龙头｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'up',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'E-glass生益/台光·淮安3.9亿米·Low-Dk研发·AI纯度低',
       segments:[{idx:2,name:'玻纤布/Q布（石英纤维布）'}] ,
@@ -670,6 +703,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -682,6 +716,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '600183': { code:'600183', name:'生益科技', rank:1, barrier:'极高', tier:'primary',
       position:'全球高端覆铜板第一梯队·M9等级大陆唯一进入英伟达供应链(与台光/松下并列三大供应商)·全球市占14-15%',
       investable:true, region:'国内',
+      caliber:'M9等级细分品类口径',
+      investableReason:'全球高端覆铜板第一梯队·M9等级大陆唯一进入英伟达供应链(与台光/松下并列三大供应商)·全球市占14-15%｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'M9 GB200/GB300批量·AMD MI300·谷歌TPU 78层',
       segments:[{idx:0,name:'覆铜板 CCL'}], growthAdj:true ,
@@ -700,6 +736,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -712,6 +749,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '601208': { code:'601208', name:'东材科技', rank:1, barrier:'极高', tier:'primary',
       position:'全球唯二M9碳氢树脂认证·国内唯一',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'全球唯二M9碳氢树脂认证·国内唯一｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'M9 GB300量产·M10验证中·台光独家',
       hits:4, strength:'★★★',
@@ -731,6 +770,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'filled',
         stopLoss: 64.0,
         stopLossReason: 'PE 回落至 50% 分位以下',
         maxDrawdown5y: null,
@@ -756,6 +796,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '603002': { code:'603002', name:'宏昌电子', rank:4, barrier:'中', tier:'primary',
       position:'环氧树脂龙头·GBF增层膜送样',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'环氧树脂龙头·GBF增层膜送样｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:2,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'flat', trendNote:'台积电低Alpha·珠海三期8万吨·52项专利·Q1+60%',
       segments:[{idx:1,name:'电子树脂（碳氢树脂/PPO）'}] ,
@@ -774,6 +816,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -786,6 +829,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '603186': { code:'603186', name:'华正新材', rank:2, barrier:'高', tier:'primary',
       position:'华为昇腾CCL核心供·CBF积层膜对标味之素ABF',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'华为昇腾CCL核心供·CBF积层膜对标味之素ABF｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'CBF国产唯一·海思/中芯/长电/通富·ABF中试送样',
       segments:[{idx:0,name:'覆铜板 CCL'},{idx:4,name:'IC封装基板（ABF载板）'}] ,
@@ -804,6 +849,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -816,6 +862,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '603228': { code:'603228', name:'景旺电子', rank:4, barrier:'中', tier:'primary',
       position:'2024年首次成为全球第一大汽车PCB供应商(2023年已进全球前三);英伟达H100/GB300交换机托盘核心供应商之一,与日本名幸等共同供应GB200服务器UBB基板',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'2024年首次成为全球第一大汽车PCB供应商(2023年已进全球前三);英伟达H100/GB300交换机托盘核心供应商之一,与日本名幸等共同供应GB200服务器UBB基板｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',reason:'2024 年首次成为全球第一大汽车 PCB 供应商(2023 已进全球前三);英伟达 H100/GB300 交换机托盘核心供应商之一;汽车+消费双轮+AI 高阶 HDI 转型,延续性高 → 4'},{key:'visibility',score:3,trend:'flat',reason:'26Q1 营收 38.92 亿,归母 2.33 亿,毛利率 18.76% 稳健;2023.4 获英伟达合格供应商认证,2024 年高阶 HDI 一次性通过认证;正交背板项目获研发标(单源待核),趋势走平 → 3'},{key:'policy',score:3,trend:'flat',reason:'汽车 PCB+AI 高阶 HDI 政策中性,趋势走平 → 3'},{key:'supply',score:3,trend:'flat',reason:'综合 PCB(软板/硬板/金属基),AI 纯度低;2026 全年规划新增约 200 万平米高端产能(珠海金湾+泰国基地),趋势走平(扩产中) → 3'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 67.58 倍/3 年分位 99.42%(asOf 2026-06-16),估值高位,趋势向下(分位回踩中);扣分项为 AI 纯度低 → 2'},{key:'barrier',score:3,trend:'flat',reason:'英伟达二级供应商+全球 PCB 第 9+汽车 PCB 全球第一,壁垒中等;非物理卡口(全球供应商>5 家),壁垒待高端化兑现 → 3'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'Rubin中板40%+·正交背板25%+·Switch板·车载PCB全球9%·Q1+62%',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}] ,
@@ -834,6 +882,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -846,6 +895,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '603256': { code:'603256', name:'宏和科技', rank:2, barrier:'高', tier:'primary',
       position:'4μm极薄布全球唯一量产·全球市占~50%',
       investable:true, region:'国内',
+      caliber:'全球口径',
+      investableReason:'4μm极薄布全球唯一量产·全球市占~50%｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'4μm GB300全球唯一·黄石10亿米2027Q2·3μm验证中',
       hits:3, strength:'★★☆',
@@ -865,6 +916,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -877,6 +929,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '603650': { code:'603650', name:'彤程新材', rank:5, barrier:'中', tier:'primary',
       position:'电子级酚醛树脂·对标SABIC PPO',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'电子级酚醛树脂·对标SABIC PPO｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:2,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'up',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'flat', trendNote:'电子级酚醛+中芯/长江存储·PPO在研',
       segments:[{idx:1,name:'电子树脂（碳氢树脂/PPO）'}] ,
@@ -895,6 +949,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -907,6 +962,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '603920': { code:'603920', name:'世运电路', rank:9, barrier:'中', tier:'primary',
       position:'特斯拉汽车/人形机器人PCB·汽车赛道稳定',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'特斯拉汽车/人形机器人PCB·汽车赛道稳定｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-04-26', trend:'up', trendNote:'28层AI服务器板+转型AI/机器人',
       segments:[{idx:'midstream',name:'中游'}] ,
@@ -925,6 +982,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -937,6 +995,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '603936': { code:'603936', name:'博敏电子', rank:5, barrier:'中', tier:'primary',
       position:'PCB+汽车切入ABF',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'PCB+汽车切入ABF｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:2,trend:'down',tier:'estimate'},{key:'visibility',score:2,trend:'down',tier:'estimate'},{key:'policy',score:2,trend:'flat',tier:'estimate'},{key:'supply',score:2,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'down', trendNote:'ABF规模<1%·HBM在研·Q1亏损·Switch/正交背板·AI载板落后',
       segments:[{idx:4,name:'IC封装基板（ABF载板）'}] ,
@@ -955,6 +1015,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -967,6 +1028,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '605006': { code:'605006', name:'山东玻纤', rank:5, barrier:'中', tier:'primary',
       position:'电子布老牌·ECR玻纤纱',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'电子布老牌·ECR玻纤纱｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:2,trend:'down',tier:'estimate'},{key:'visibility',score:2,trend:'down',tier:'estimate'},{key:'policy',score:2,trend:'flat',tier:'estimate'},{key:'supply',score:2,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'down', trendNote:'E-glass中端PCB·非Q布·市占5%·Q1+20%',
       segments:[{idx:2,name:'玻纤布/Q布（石英纤维布）'}] ,
@@ -985,6 +1048,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -997,6 +1061,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '605589': { code:'605589', name:'圣泉集团', rank:2, barrier:'高', tier:'primary',
       position:'PPO国内唯一量产·全球第四',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'PPO国内唯一量产·全球第四｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'PPO M8已量产·碳氢已批量·1500吨Q4投产',
       segments:[{idx:1,name:'电子树脂（碳氢树脂/PPO）'}] ,
@@ -1015,6 +1081,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -1027,6 +1094,10 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '688183': { code:'688183', name:'生益电子', rank:6, barrier:'极高', tier:'primary',
       position:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证｜来自position事实拼接·estimate·待人工审',
+      caliber:null,
+      investableReason:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'净利+5倍',
       segments:[{idx:'midstream',name:'中游'}] ,
@@ -1045,6 +1116,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -1057,6 +1129,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '688300': { code:'688300', name:'联瑞新材', rank:4, barrier:'中', tier:'primary',
       position:'亚微米球形硅微粉·球形硅微粉国内市占~40%',
       investable:true, region:'国内',
+      caliber:'国内口径',
+      investableReason:'亚微米球形硅微粉·球形硅微粉国内市占~40%｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'flat', trendNote:'球形硅微粉·揖斐电+深南兴森·长电·M9/M10纳米样品·AI暴露18%·Rubin低α未启动·Q1+32%',
       segments:[{idx:4,name:'IC封装基板（ABF载板）'}] ,
@@ -1075,6 +1149,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -1087,6 +1162,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '688388': { code:'688388', name:'嘉元科技', rank:4, barrier:'中', tier:'primary',
       position:'极薄铜箔4.5μm市占>50%',
       investable:true, region:'国内',
+      caliber:'需明确口径(待人工核对)',
+      investableReason:'极薄铜箔4.5μm市占>50%｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'2026Q1季报(2026-04-27)+新浪财经2026-04-29', valAsOf:'2026-06-22', trend:'up', trendNote:'A股第三HVLP4小批量·生益试样1亿·Q1+392.77%',
       segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] , growthAdj:true ,
@@ -1105,6 +1182,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -1117,6 +1195,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '688630': { code:'688630', name:'芯碁微装', rank:3, barrier:'高', tier:'primary',
       position:'PCB直接成像设备全球市占率18.8%(2025年,收入口径,全球第一,领先第二名3.1pct)·全球唯一覆盖PCB/IC载板/先进封装/掩膜版四场景的企业',
       investable:true, region:'国内',
+      caliber:'全球口径',
+      investableReason:'PCB直接成像设备全球市占率18.8%(2025年,收入口径,全球第一,领先第二名3.1pct)·全球唯一覆盖PCB/IC载板/先进封装/掩膜版四场景的企业｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'LDI全球第一18.8%·3-4μm胜宏·ABF载板深南量产·英伟达1.5亿·兴森华正新增·Q2批量交付',
       segments:[{idx:5,name:'PCB专用设备'}], growthAdj:true ,
@@ -1135,6 +1215,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -1147,6 +1228,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '688700': { code:'688700', name:'东威科技', rank:4, barrier:'中', tier:'primary',
       position:'VCP电镀国内市占>50%·AI订单>5亿',
       investable:true, region:'国内',
+      caliber:'国内口径',
+      investableReason:'VCP电镀国内市占>50%·AI订单>5亿｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'VCP国内50%+·沪电胜宏东山认证·AI订单5亿+200%·景旺鹏鼎·ABF载板验证',
       segments:[{idx:5,name:'PCB专用设备'}] ,
@@ -1165,6 +1248,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
