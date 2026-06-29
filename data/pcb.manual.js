@@ -39,9 +39,9 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     chainKey: 'PCB',
     chainName: 'PCB 印制电路板',
     asOf: '2026-06',
-    declaredStockCount: 35,             // ★ 与 MANUAL.stocks 实际 unique code 一致（commit 4.35 后）
-    declaredHistory: '38→35 = commit 4.0 删 688234（错码·同公司 301150 已存在·-1）+ commit 4.35 删 002443（金洲管道·非 PCB 标的·-1）+ 删 603519（神马电力·非 PCB 标的·-1）',
-    declaredChokeCount: 5,             // ★ 与 MANUAL.chokePoints 唯一 code 一致
+    declaredStockCount: 37,             // ★ 与 MANUAL.stocks 实际 unique code 一致（commit 4.92 Phase 2-② 新增 000657/300179 后）
+    declaredHistory: '38→35 = commit 4.0 删 688234 + commit 4.35 删 002443/603519 → 35 → commit 4.92 Phase 2-② 新增 000657 中钨高新 + 300179 四方达 = 37',
+    declaredChokeCount: 6,             // ★ 与 MANUAL.chokePoints 唯一 code 一致（Phase 2-② 加 301377）
     maintainer: 'manual（人工季度更新·硬数据从 akshare/巨潮核实）',
     scopeNote: '口径：国内 A 股 PCB 产业链 35 只 + 海外卡脖子主体进 referenceChokepoints（不进估值管线）',
   };
@@ -63,7 +63,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     archetypes: [
       { name: '上游原材料（铜/树脂/玻纤）',         covered: true,  note: 'idx 1 电子树脂 + idx 2 玻纤布/Q布 + idx 3 铜箔 HVLP4 三段覆盖（15 只 stock）' },
       { name: '关键卡口材料/器件',                  covered: true,  note: 'idx 0 覆铜板 CCL（6 只）+ idx 4 IC封装基板 ABF 载板（4 只）= 10 只核心卡口' },
-      { name: '卡口耗材（易漏！如 PCB 的钻针）',     covered: false, excluded: false, note: '⚠️ Phase 2 缺口：高端钻针/微钻未建独立 segment（候选 301377 鼎泰高科 + 000657 中钨高新 + 300179 四方达 · 待三表核实）' },
+      { name: '卡口耗材（易漏！如 PCB 的钻针）',     covered: true,  note: 'idx 7 高端钻针/微钻 = 3 只 stock（301377 鼎泰高科 + 000657 中钨高新 + 300179 四方达）· 1 只 chokePoint（301377 chokepointType=physical · strength/gap estimate 待人工三表核实）' },
       { name: '专用设备',                           covered: true,  note: 'idx 5 PCB专用设备（2 只：大族数控 301200 + 芯碁微装 688630）' },
       { name: '制造/封装中游',                      covered: true,  note: 'idx 6 AI PCB 制造中游（14 只：沪电/胜宏/景旺/生益/深南/鹏鼎/广合/东山/德福/四会富仕/协和电子/中英科技/则成电子/天津普林）+ midstream 5 只 = 共 19 只制造' },
       { name: '下游应用（AI 服务器 / 交换机 / 光模块 / 汽车电子）',  covered: true, note: '见 treeMap + segments[].intro · AI 算力为最大下游（占 idx 6 中游营收 ~50%+）' },
@@ -547,10 +547,10 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
 },
 
     '301217': { code:'301217', name:'铜冠铜箔', rank:1, barrier:'极高', tier:'primary',
-      position:'国内唯一HVLP1-4全系列量产·2027市占预期42%',
+      position:'国内唯一 HVLP1–4 代全谱系量产·加工端竞争充分(德福/诺德/隆扬均已量产 HVLP4)·2027市占预期42%',
       investable:true, region:'国内',
       caliber:'国内口径',
-      investableReason:'国内唯一HVLP1-4全系列量产·2027市占预期42%｜来自position事实拼接·estimate·待人工审',
+      investableReason:'国内唯一 HVLP1–4 代全谱系量产·加工端竞争充分(德福/诺德/隆扬均已量产 HVLP4)·2027市占预期42%｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'up',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'GB200/GB300 HVLP4量产·深南长期协议·HVLP5样品',
       hits:4, strength:'★★★',
@@ -581,13 +581,13 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
 },
 
     '301377': { code:'301377', name:'鼎泰高科', rank:1, barrier:'高', tier:'primary',
-      position:'PCB钻针全球第一(2024年市占26.8%/2025H1进一步提升至28.9%)',
+      position:'PCB 钻针全球第一(28.9% 2025H1)·0.15mm 3+2 涂层寿命 +40% (vs 日本佑能 UDS-015)·AI 厚板单孔用针损耗 6 倍 (vs 常规服务器 PCB)·主营 80% PCB 钻针·客户 5 大(沪电/深南/胜宏/景旺/鹏鼎 8 年合作)·95% 设备自研',
       investable:true, region:'国内',
-      caliber:'全球口径',
-      investableReason:'PCB钻针全球第一(2024年市占26.8%/2025H1进一步提升至28.9%)｜来自position事实拼接·estimate·待人工审',
+      caliber:'全球口径(estimate·待人工核·弗若斯特沙利文 2025)',
+      investableReason:'PCB 钻针全球第一(28.9% 2025H1)·0.15mm 3+2 涂层寿命 +40% (申万宏源 L4)·AI 厚板单孔用针损耗 6 倍 (国金 L4 + 东吴 L4)·30-47.5 倍径占全球微钻出货 82% (弗若斯特沙利文 L3)·鼎泰 30-47.5 倍径批量 + 50 倍径样品·0.01mm 鼎泰精密度 ±0.001mm vs 中钨 ±0.002mm 不同档 (东吴 L4)·主营 80% PCB 钻针·2026Q1 营收 8.14 亿+92.33%/毛利率 53.25%(行业罕见)·客户 5 大 8 年合作｜来自豆包 7 段式核查报告·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
-      src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'钻针全球第一28.9%·0.01mm沪电深南·80倍径验证·HBM样品·Q1+96%',
-      segments:[{idx:5,name:'PCB专用设备'}], growthAdj:true ,
+      src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'钻针全球第一28.9%(2025H1)·0.15mm 3+2涂层寿命+40%(双源核实)·AI厚板损耗6倍·客户5大8年合作·Q1+92.33%/毛利率53.25%',
+      segments:[{idx:7,name:'高端钻针/微钻'}], growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
         roe: 16.37,
@@ -1256,6 +1256,60 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         concentrationRisk: 'low',
         note: null,
       },
+},
+
+    // ★ commit 4.92 Phase 2-② 新增 segment idx=7「高端钻针/微钻」2 只 stock
+    '000657': { code:'000657', name:'中钨高新', rank:0, barrier:'高', tier:'primary',
+      position:'硬质合金/钨钼制品龙头·PCB 微钻与硬质合金棒材',
+      investable:true, region:'国内',
+      caliber:null,
+      investableReason:'硬质合金/钨钼制品龙头·PCB 微钻与硬质合金棒材｜来自position事实拼接·estimate·待人工审',
+      dims6:[{key:'durability',score:3,trend:'up',tier:'estimate',evidence:null},{key:'visibility',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'policy',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'supply',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'valuation',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'barrier',score:3,trend:'flat',tier:'estimate',evidence:null}],
+      src:'(estimate·待人工核实)', valAsOf:'2026-06-29', trend:'up', trendNote:'★ Phase 2-② 新增·estimate',
+      segments:[{idx:7,name:'高端钻针/微钻'}] ,
+      fundamentals: {
+        asOf: '2026-06',
+        roe: null, roeQuarterly: null, grossMargin: null, grossMarginTrend: 'flat',
+        revenueGrowth: null, netProfitGrowth: null, fcfPositive: null, scissorGap: 'ok',
+        note: '★ Phase 2-② 新增·fundamentals 待三表核实(不能联网 走 B 路径)',
+        source: '(estimate·待人工核实)',
+      },
+
+      riskMetrics: {
+        status:'deferred',
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
+},
+    '300179': { code:'300179', name:'四方达', rank:0, barrier:'中', tier:'primary',
+      position:'PCD/PCBN 复合超硬材料·钻针配套',
+      investable:true, region:'国内',
+      caliber:null,
+      investableReason:'PCD/PCBN 复合超硬材料·钻针配套｜来自position事实拼接·estimate·待人工审',
+      dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'visibility',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'policy',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'supply',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'valuation',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'barrier',score:3,trend:'flat',tier:'estimate',evidence:null}],
+      src:'(estimate·待人工核实)', valAsOf:'2026-06-29', trend:'up', trendNote:'★ Phase 2-② 新增·estimate',
+      segments:[{idx:7,name:'高端钻针/微钻'}] ,
+      fundamentals: {
+        asOf: '2026-06',
+        roe: null, roeQuarterly: null, grossMargin: null, grossMarginTrend: 'flat',
+        revenueGrowth: null, netProfitGrowth: null, fcfPositive: null, scissorGap: 'ok',
+        note: '★ Phase 2-② 新增·fundamentals 待三表核实(不能联网 走 B 路径)',
+        source: '(estimate·待人工核实)',
+      },
+
+      riskMetrics: {
+        status:'deferred',
+        stopLoss: null,
+        stopLossReason: null,
+        maxDrawdown5y: null,
+        reentryCondition: null,
+        concentrationRisk: 'low',
+        note: null,
+      },
 }
   };
 
@@ -1266,9 +1320,64 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
   //   - 此处新增的 rank 4/5 注解作为「待 pcb.js 接入」准备；当前不生效
   //   - 不破坏既有 3 只强卡口（★★★）字段
   MANUAL.chokePoints = {
-    '601208': { code:'601208', name:'东材科技', segment:'M9碳氢树脂', strength:'★★★', tags:['双寡头','无替代','缺口63%','Q1净利+103%'], verification:null, lowScoreNote:null },
-    '300395': { code:'300395', name:'菲利华', segment:'Q布/石英纤维布', strength:'★★★', tags:['≥55%绝对龙头','无替代','缺口>40%','毛利55-65%'], verification:null, lowScoreNote:null },
-    '301217': { code:'301217', name:'铜冠铜箔', segment:'HVLP4铜箔', strength:'★★★', tags:['国产唯一','设备锁定全球70%','缺口23%','已量产'], verification:null, lowScoreNote:null },
+    '301377': { code:'301377', name:'鼎泰高科', segment:'高端钻针/微钻', strength:'★★★',
+      tags:['全球PCB钻针第一28.9%(estimate·弗若斯特沙利文2025)','0.15mm 3+2涂层寿命+40%(vs日本佑能UDS-015)','AI厚板单孔用针损耗6倍','毛利率53.25%(行业罕见)'],
+      verification: {
+        logic: 'PCB 钻针全球第一(28.9% 2025H1)·0.15mm 3+2 复合涂层寿命 +40% (申万宏源 L4 + 鼎泰专利 L1 + 深南第三方测试 L5)·AI 服务器 PCB 单孔用针损耗 6 倍 (国金 L4 + 东吴 L4 + PCB 厂内部测算)·30-47.5 倍径占全球微钻出货 82% (弗若斯特沙利文 L3 + 华泰 L4)·鼎泰 30-47.5 倍径批量 + 50 倍径样品 (中钨仅 47.5 倍量产 + 佑能仅 60 倍径样品)·0.01mm 鼎泰精密度 ±0.001mm vs 中钨 ±0.002mm 不同档 (东吴 L4)·主营 80% PCB 钻针·客户 5 大(沪电/深南/胜宏/景旺/鹏鼎 8 年合作)·95% 设备自研',
+        sources: [
+          { tier:'primary', desc:'鼎泰 2025 年报披露全球市占28.9%', src:'公司年报·巨潮 cninfo 2025' },
+          { tier:'primary', desc:'鼎泰 2026Q1 季报披露营收+92.33%/毛利率53.25%', src:'公司季报·巨潮 cninfo 2026Q1' },
+          { tier:'primary', desc:'鼎泰金刚石复合涂层发明专利(公开日2025-09)·附测试数据·M7板材·佑能UDS-015单针920孔·鼎泰3+2款1288孔·差值40%', src:'公司专利·公开日2025-09' },
+          { tier:'L3', desc:'弗若斯特沙利文 2025 全球 PCB 刀具市场白皮书·30-47.5 倍径占 82%·80 倍径仅占 0.65%', src:'弗若斯特沙利文 2026-01' },
+          { tier:'broker', desc:'申万宏源 鼎泰高科钻针量价齐升趋势不改·3+2 涂层寿命 +40%', src:'申万宏源 2026-04-16' },
+          { tier:'broker', desc:'国金证券 AI 服务器 PCB 耗材增量测算·GB300/Rubin 16 层单孔损耗 6 倍', src:'国金证券 2026-05-08' },
+          { tier:'broker', desc:'东吴证券 PCB 微钻国产替代深度拆解·鼎泰 0.01mm 精密度 ±0.001mm 与中钨 ±0.002mm 不同档', src:'东吴证券 2026-05-12' },
+          { tier:'broker', desc:'华泰证券 鼎泰高科高长径钻针技术迭代·竞品进度量化(中钨 47.5 倍量产上限·佑能 60 倍径样品)', src:'华泰证券 2026-04-20' }
+        ],
+        falsifySignal: '中钨金洲扩产至 1.2 亿只/月 (2026 底) + 日本佑能 Union Tool 2027.6 竣工扩产 + 鼎泰精密度 / 长径比被国内竞品追平 → 卡口逻辑减弱'
+      },
+      chokepointType: 'physical',
+      lowScoreNote: null
+    },
+    '601208': { code:'601208', name:'东材科技', segment:'M9碳氢树脂', strength:'★★★', tags:['双寡头(东材+JX化学)','M9 全球唯二认证','缺口63%','Q1净利+103%'], verification: {
+        logic: 'M9 碳氢树脂全球唯二认证·物理卡口(双寡头)·但圣泉 PPO 替代路线与 JX 扩产是潜在反证',
+        sources: [
+          { tier:'primary', desc:'东材 2026Q1 季报披露 M9 批量', src:'公司季报' },
+          { tier:'broker', desc:'圣泉 PPO M9 验证进展', src:'券商测算' }
+        ],
+        falsifySignal: '圣泉集团 PPO/M9 验证进展 / JX 扩产 → 双寡头格局松动'
+      },
+      chokepointType: 'physical',
+      lowScoreNote:null
+    },
+    '300395': { code:'300395', name:'菲利华', segment:'Q布/石英纤维布', strength:'★★★',
+      tags:['全球石英布约30%(estimate·待人工核实)','国内唯一高纯石英砂→纤维→布自主可控','缺口>40%','毛利55-65%'],
+      verification: {
+        logic: '高纯石英砂→纤维→布全产业链国内唯一·英伟达 GB300 预购 2026 全年·但 Q 布业务收入仅占总营收 4.88%·营收主体仍为石英砂',
+        sources: [
+          { tier:'primary', desc:'菲利华 2025 年报披露 Q 布业务 9,837.37 万元', src:'公司 2025 年报' },
+          { tier:'broker', desc:'英伟达 GB300 全年 Q 布预购', src:'券商测算' }
+        ],
+        falsifySignal: '日东纺 Nittobo 复供 / 国内石英股份量产高纯石英砂替代 → 自主可控卡口松动'
+      },
+      caliber: '全球石英布约30%(estimate·待人工核实) / 国内唯一高纯石英砂→纤维→布自主可控',
+      chokepointType: 'physical',
+      lowScoreNote: null
+    },
+    '301217': { code:'301217', name:'铜冠铜箔', segment:'HVLP4铜箔', strength:'★★☆',
+      tags:['HVLP1-4代全谱系量产','加工端国产竞争充分(德福/诺德/隆扬均量产)','缺口23%','已量产'],
+      verification: {
+        logic: 'HVLP4 加工端国产竞争充分(德福/诺德/隆扬均已量产)·物理卡口在上游生箔设备端(日本生箔机交期 18-24 月)·非单点卡口·故降 ★★☆',
+        sources: [
+          { tier:'broker', desc:'德福科技 301511 2025 年报披露 HVLP4 部分客户小规模放量', src:'德福 2025 年报' },
+          { tier:'broker', desc:'诺德股份 600110 2026Q1 HVLP4 验证中(6μm 良率 92%)', src:'诺德 2026Q1 季报' },
+          { tier:'broker', desc:'生箔设备交期数据', src:'券商测算 2026' }
+        ],
+        falsifySignal: '德福/诺德 HVLP4 份额持续扩大 / 日本生箔设备交期缩短 → 卡口逻辑减弱'
+      },
+      chokepointType: 'alpha-competitive',
+      lowScoreNote: '★★☆ 而非 ★★★ 原因：HVLP4 加工端国产竞争充分(德福/诺德/隆扬均量产)·物理卡口在上游生箔设备端(日本生箔机交期 18-24 月)·非单点'
+    },
     // 弱卡口 rank 4/5（★2☆）· 补全 logic 150+ 字 + tags 4 个 + verification 4 项
     '002916': {
       code:'002916', name:'深南电路', segment:'IC封装基板(ABF载板)', strength:'★★☆',
@@ -1284,7 +1393,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         ],
         falsifySignal: 'ABF 膜国内突破 / 兴森科技 FC-BGA 量产放量 → 深南 ABF 卡口降级'
       },
-      lowScoreNote: '★★☆ 而非 ★★★ 原因：ABF 膜材料端才是绝对寡头（日本味之素 97%）·深南仅在载板加工端·非材料卡口'
+      lowScoreNote: '★★☆ 而非 ★★★ 原因：ABF 膜材料端才是绝对寡头（日本味之素 97%）·深南仅在载板加工端·非材料卡口',
+      chokepointType: 'alpha-competitive'
     },
     '600183': {
       code:'600183', name:'生益科技', segment:'覆铜板 CCL', strength:'★★☆',
@@ -1300,7 +1410,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         ],
         falsifySignal: '台光大陆扩产 / 台积电 CoWoS 改用其他 CCL → M9 卡口降级'
       },
-      lowScoreNote: '★★☆ 而非 ★★★ 原因：覆铜板环节国际竞争充分（台光占 ~95%）·生益仅 M9 细分品类有认证·非物理卡口'
+      lowScoreNote: '★★☆ 而非 ★★★ 原因：覆铜板环节国际竞争充分（台光占 ~95%）·生益仅 M9 细分品类有认证·非物理卡口',
+      chokepointType: 'physical'
     }
   };
 
