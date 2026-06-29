@@ -1,29 +1,85 @@
 // data/pcb.manual.js  —— 阶段二 commit 2.1：手动层（人工填·脚本只读不写）
 // 由 index.html 在 data/pcb.js 之前以 <script src="data/pcb.manual.js"></script> 加载。
-// PCB 38 只 stock 单点真理·以 stock code 为键·多段引用同一份·解决 ④ 胜宏 300476 不一致 bug 准备
+// PCB 35 只 stock 单点真理·以 stock code 为键·多段引用同一份·解决 ④ 胜宏 300476 不一致 bug 准备
 // 脚本只重写 *.auto.json（阶段三 commit 3.3+），绝不触碰本文件。
+//
+// ★ 股票数对账（2026-06-29 复盘）：
+//   起点 commit 2.1 = 38 只（pcb.manual.js 手动层 + 单点真理）
+//   commit 4.0    减 1 只（删除 688234 错码·同公司 301150 已存在）
+//   commit 4.35   减 2 只（删除 002443 金洲管道 + 603519 神马电力·皆非 PCB 标的）
+//   终点当前      = 35 只实际 unique stock code
+//   _meta.declaredStockCount = 35 与 MANUAL.stocks 实际唯一 code 数一致
 //
 // 数据来源（pcb.js 原样抽取·未改 1 字）：
 //   segments（7 段 35 只）+ midstream（10 只 + 7 只跨段 = 5 只新增）+ fourQ（4 段 30 只 + 688234 同公司异码）
-//   跨段合并后 unique 38 只（含 1 只 stock code 错误 688234/301150，commit 2.3 解决）
-//   chokePoints 3 只 + prosperity override + 6 只国外 referenceChokepoints
+//   跨段合并后 unique 35 只（commit 4.35 后实际数）
+//   chokePoints 5 只（3 只★★★强卡口 + 2 只★★☆弱卡口）+ prosperity override + 6 只国外 referenceChokepoints
 //
 // 字段保留（不动 logic·不动 pcb.js）：
 //   code/name/rank/barrier/tier/position/dims6/src/valAsOf/trend/trendNote/hits/strength/segments
 // 不抽（commit 2.2 才有意义）：
 //   logic（含 PE-TTM 数字原文·阶段三 commit 3.1 脚本不动）·valuation（commit 2.2 auto.json）
 //
+// ★ 阶段六 commit X.Y（chain.template.js v1.0 对齐）：
+//   新增 _meta 块（声明数 vs 实际数对账）+ chainCompleteness 块（环节完整性审计）
+//   35 只 stock 加 4 字段：caliber / investableReason / riskMetrics.status / dims6[].evidence
+//   走 §6 不能联网路径（B）：fundamentals 数值保留现状·evidence 留空或 estimate·不进三表
+//   §3 四个缺陷（铜冠降级/菲利华口径/东材 falsifySignal/高端钻针 segment）完全留给 Phase 2
+//
 // ⚠️ §6.2 硬红线：本文件是手动层·脚本严禁重写·新 commit 一律按 STOCK_REGISTRY[code] 单点真理
 
 window.PCB_MANUAL = window.PCB_MANUAL || {};
 (function(MANUAL){
 
-  // ========== ① 单点真理：38 只 stock ==========
+  // ========== ★ commit X.Y · _meta 块（chain.template.js v1.0 §1 强制）==========
+  //   · declaredStockCount 写实际数 35（与 MANUAL.stocks 唯一 code 数一致）
+  //   · declaredHistory 记录 38→35 差额来源（commit 4.0 + commit 4.35 两步折算）
+  //   · validate() 会和 Object.keys(MANUAL.stocks).length 对账·不符即报错
+  MANUAL._meta = {
+    chainKey: 'PCB',
+    chainName: 'PCB 印制电路板',
+    asOf: '2026-06',
+    declaredStockCount: 35,             // ★ 与 MANUAL.stocks 实际 unique code 一致（commit 4.35 后）
+    declaredHistory: '38→35 = commit 4.0 删 688234（错码·同公司 301150 已存在·-1）+ commit 4.35 删 002443（金洲管道·非 PCB 标的·-1）+ 删 603519（神马电力·非 PCB 标的·-1）',
+    declaredChokeCount: 5,             // ★ 与 MANUAL.chokePoints 唯一 code 一致
+    maintainer: 'manual（人工季度更新·硬数据从 akshare/巨潮核实）',
+    scopeNote: '口径：国内 A 股 PCB 产业链 35 只 + 海外卡脖子主体进 referenceChokepoints（不进估值管线）',
+  };
+
+  // ========== ★ commit X.Y · chainCompleteness 块（chain.template.js v1.0 §1 强制）==========
+  //   · archetype 通用清单来自 chain.template.js v1.0 line 87
+  //     （原材料 / 关键材料 / 核心器件 / 卡口耗材 / 专用设备 / 制造中游 / 配套芯片 / 下游应用）
+  //   · PCB 当前 7 段映射（pcb.js segments 索引 0-6）：
+  //     idx 0 覆铜板 CCL       → 关键材料 / 制造中游
+  //     idx 1 电子树脂         → 关键材料
+  //     idx 2 玻纤布/Q布       → 关键材料
+  //     idx 3 铜箔 HVLP4       → 关键材料
+  //     idx 4 IC封装基板ABF载板 → 核心器件
+  //     idx 5 PCB专用设备      → 专用设备
+  //     idx 6 AI PCB 制造      → 制造中游
+  //   · 中游 midstream 在 pcb.js segments[6] 之外另有 5 只 AI PCB 制造龙头
+  //   · ★ 高端钻针/微钻暂未覆盖（archetype "卡口耗材"标 covered=false+excluded=false · Phase 2 加 segment）
+  MANUAL.chainCompleteness = {
+    archetypes: [
+      { name: '上游原材料（铜/树脂/玻纤）',         covered: true,  note: 'idx 1 电子树脂 + idx 2 玻纤布/Q布 + idx 3 铜箔 HVLP4 三段覆盖（15 只 stock）' },
+      { name: '关键卡口材料/器件',                  covered: true,  note: 'idx 0 覆铜板 CCL（6 只）+ idx 4 IC封装基板 ABF 载板（4 只）= 10 只核心卡口' },
+      { name: '卡口耗材（易漏！如 PCB 的钻针）',     covered: false, excluded: false, note: '⚠️ Phase 2 缺口：高端钻针/微钻未建独立 segment（候选 301377 鼎泰高科 + 000657 中钨高新 + 300179 四方达 · 待三表核实）' },
+      { name: '专用设备',                           covered: true,  note: 'idx 5 PCB专用设备（2 只：大族数控 301200 + 芯碁微装 688630）' },
+      { name: '制造/封装中游',                      covered: true,  note: 'idx 6 AI PCB 制造中游（14 只：沪电/胜宏/景旺/生益/深南/鹏鼎/广合/东山/德福/四会富仕/协和电子/中英科技/则成电子/天津普林）+ midstream 5 只 = 共 19 只制造' },
+      { name: '下游应用（AI 服务器 / 交换机 / 光模块 / 汽车电子）',  covered: true, note: '见 treeMap + segments[].intro · AI 算力为最大下游（占 idx 6 中游营收 ~50%+）' },
+    ],
+    auditedBy: 'manual',
+    auditNote: '每条 archetype 必须 covered=true 或 excluded=true(+reason)；不允许留空当默认覆盖。卡口耗材暂未覆盖留待 Phase 2。',
+  };
+
+  // ========== ① 单点真理：35 只 stock ==========
   MANUAL.stocks = {
     '001389': { code:'001389', name:'广合科技', rank:5, barrier:'高', tier:'primary',
       position:'专注算力PCB（服务器/交换机）·算力纯度最高',
       investable:true, region:'国内',
-      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
+      caliber:null,
+      investableReason:'专注算力PCB（服务器/交换机）·算力纯度最高｜来自position事实拼接·estimate·待人工审',
+      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate',evidence:null},{key:'visibility',score:4,trend:'up',tier:'estimate',evidence:null},{key:'policy',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'supply',score:4,trend:'up',tier:'estimate',evidence:null},{key:'valuation',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'barrier',score:4,trend:'flat',tier:'estimate',evidence:null}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'算力纯度最高',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}] ,
       fundamentals: {
@@ -41,6 +97,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -53,7 +110,9 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '002080': { code:'002080', name:'中材科技', rank:3, barrier:'中', tier:'primary',
       position:'国内Low Dk市占35%·石英布独供胜宏GB300',
       investable:true, region:'国内',
-      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
+      caliber:'国内口径',
+      investableReason:'国内Low Dk市占35%·石英布独供胜宏GB300｜来自position事实拼接·estimate·待人工审',
+      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate',evidence:null},{key:'visibility',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'policy',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'supply',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'valuation',score:2,trend:'down',tier:'estimate',evidence:null},{key:'barrier',score:2,trend:'flat',tier:'estimate',evidence:null}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'石英布胜宏独家·GB300认证·Low-Dk二代已批量·华为昇腾',
       segments:[{idx:2,name:'玻纤布/Q布（石英纤维布）'}] ,
       fundamentals: {
@@ -71,6 +130,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -83,7 +143,9 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '002384': { code:'002384', name:'东山精密', rank:3, barrier:'极高', tier:'primary',
       position:'边缘AI设备PCB全球第一(2025市占26.9%)·全球PCB前3(市占4.2%)·FPC软板全球第二(市占24.5%)·含光模块业务(索尔思光电 IDM 国内唯一 200G EML)+ FPC全球第二·苹果/特斯拉/英伟达三大认证·全球唯一光模块+AI PCB双能力',
       investable:true, region:'国内',
-      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
+      caliber:'英伟达供应链口径',
+      investableReason:'边缘AI设备PCB全球第一(2025市占26.9%)·全球PCB前3(市占4.2%)·FPC软板全球第二(市占24.5%)·含光模块业务(索尔思光电 IDM 国内唯一 200G EML)+ FPC全球第二·苹果/特斯拉/英伟达三大认证·全球唯一光模块+AI PCB双能力｜来自position事实拼接·estimate·待人工审',
+      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate',evidence:null},{key:'visibility',score:5,trend:'up',tier:'estimate',evidence:null},{key:'policy',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'supply',score:4,trend:'up',tier:'estimate',evidence:null},{key:'valuation',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'barrier',score:5,trend:'flat',tier:'estimate',evidence:null}],
       src:'2026Q1/2025年报+Prismark', valAsOf:'2026-06-22', trend:'up', trendNote:'28层GB200+32层GB300·1.6T光模块·Meta自研背板·Rubin样品·Q1+143%',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}] ,
       fundamentals: {
@@ -101,6 +163,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -113,6 +176,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '002436': { code:'002436', name:'兴森科技', rank:2, barrier:'高', tier:'primary',
       position:'ABF载板国产化追赶者·HBM级ABF唯一',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'ABF载板国产化追赶者·HBM级ABF唯一｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'FCBGA Rubin 200批量供货·双AI巨头·台积电BT载板验证·寒武纪壁仞量产·Q1+157%',
       segments:[{idx:4,name:'IC封装基板（ABF载板）'}] ,
@@ -131,6 +196,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -143,6 +209,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '002463': { code:'002463', name:'沪电股份', rank:1, barrier:'极高', tier:'primary',
       position:'GB200/GB300 交换机及高多层板核心供应商之一，与景旺电子等共同供应（非独家）；78 层 M9 正交背板已通过英伟达认证并量产 + 78层M9全球独家量产·GB200/GB300全系认证·AI板良率92-98%·全年AI占比15.9%(2025年报);AI营收占比~60%(Q1季报口径)/15.9%(全年口径)',
       investable:true, region:'国内',
+      caliber:'M9等级细分品类口径',
+      investableReason:'GB200/GB300 交换机及高多层板核心供应商之一，与景旺电子等共同供应（非独家）；78 层 M9 正交背板已通过英伟达认证并量产 + 78层M9全球独家量产·GB200/GB300全系认证·AI板良率92-98%·全年AI占比15.9%(2025年报);AI营收占比~60%(Q1季报口径)/15.9%(全年口径)｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:5,trend:'up',reason:'AI 算力结构性上行+GB300/Rubin 持续放量;沪电为英伟达 H100/H200 提供 22-26 层高多层板,H200 UBB 主板份额超 70%(截至 2025),泰国工厂 2025.10 投产承接 GB300 订单,延续性极强 → 5'},{key:'visibility',score:5,trend:'up',reason:'26Q1 营收 62.14 亿+53.91%,归母 12.42 亿+62.9%,AI 营收占比升至~60%,英伟达份额>50%;2025 净利 38.22 亿+47.74%;业绩兑现极强,趋势向上 → 5'},{key:'policy',score:3,trend:'flat',reason:'AI capex 市场驱动+IC 载板 02 专项+大基金二期关联,政策中性偏顺风;制造端政策驱动有限,趋势走平 → 3'},{key:'supply',score:4,trend:'up',reason:'与景旺电子等共同供应 GB200 服务器 UBB 基板/PCB 组件(非独家);AI 算力高多层板扩产潮直接利好,趋势向上 → 4'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 62.91 倍/3 年分位 90.48%(asOf 2026-06-16),估值偏高,趋势向下(性价比恶化);扣分项为估值高位,需控买点 → 2'},{key:'barrier',score:5,trend:'flat',reason:'78 层 M9 全球独家量产（broker 华泰 2026-05-25）+GB200/GB300 全系认证+AI 板良率 92-98%+全球仅沪电与日本 Ibiden 通过认证(后者未量产),壁垒极高;豆包 2026-06-26 确认 → 5'}],
       src:'2026Q1/2025年报+券商研报', valAsOf:'2026-06-22', trend:'up', trendNote:'GB200 22层量产·GB300 112G/224G背板·Rubin+233%·AMD扩产·谷歌TPU v5·Meta自研背板验证·Q1+78%',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}], growthAdj:true ,
@@ -161,6 +229,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 
       riskMetrics: {
+        status:'deferred',
         stopLoss: null,
         stopLossReason: null,
         maxDrawdown5y: null,
@@ -173,6 +242,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '002636': { code:'002636', name:'金安国纪', rank:4, barrier:'中', tier:'primary',
       position:'国内龙头·全球CCL第7',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'国内龙头·全球CCL第7｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:2,trend:'flat',tier:'estimate'},{key:'visibility',score:2,trend:'flat',tier:'estimate'},{key:'policy',score:2,trend:'flat',tier:'estimate'},{key:'supply',score:2,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'up',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'flat', trendNote:'M7已量产·M8在研·Q1+763.91%',
       segments:[{idx:0,name:'覆铜板 CCL'}] ,
@@ -203,6 +274,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '002913': { code:'002913', name:'奥士康', rank:10, barrier:'中', tier:'primary',
       position:'通过供应体系向英伟达供货·AI暴露弱',
       investable:true, region:'国内',
+      caliber:null,
+      investableReason:'通过供应体系向英伟达供货·AI暴露弱｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:3,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-04-26', trend:'up', trendNote:'向高端HDI/多层切换',
       // ★ commit 4.28：trendHistory 字段（历史 trend 数组·commit 4.18 减仓3 / 清仓1 实装前置）
@@ -240,6 +313,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '002916': { code:'002916', name:'深南电路', rank:1, barrier:'极高', tier:'primary',
       position:'国内唯一ABF载板批量交付·大陆内资ABF市占~63%·全球PCB营收前10',
       investable:true, region:'国内',
+      caliber:'全球口径',
+      investableReason:'国内唯一ABF载板批量交付·大陆内资ABF市占~63%·全球PCB营收前10｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'20层ABF GB200量产·28层Rubin批量·M10样品⚠️单源待核(2026-05-26互动易)·英伟达+AMD双AI·谷歌TPU4 FC-BGA·Q1+86%',
       segments:[{idx:4,name:'IC封装基板（ABF载板）'},{idx:'midstream',name:'中游'}], growthAdj:true ,
@@ -270,6 +345,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
     '002938': { code:'002938', name:'鹏鼎控股', rank:5, barrier:'高', tier:'primary',
       position:'全球PCB营收连续9年第一·FPC软板全球第二(2025市占25%)',
       investable:true, region:'国内',
+      caliber:'全球口径',
+      investableReason:'全球PCB营收连续9年第一·FPC软板全球第二(2025市占25%)｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:3,trend:'flat',reason:'全球 PCB 营收连续 9 年第一+FPC 软板全球第二(2025 市占 25%);消费电子占比~70%→AI 转型中;2026-01-15 调研披露"算力直接客户订单导入元年",AI 多场景布局推进中;趋势走平(消费弱) → 3'},{key:'visibility',score:2,trend:'down',reason:'26Q1 营收 79.86 亿同比-1.25%,归母净利 4.63 亿同比-5.21%,扣非-31.85%;AI 业务尚未兑现到整体业绩,业绩可见度低,趋势向下 → 2'},{key:'policy',score:3,trend:'flat',reason:'苹果链稳定+AI 转型政策中性,趋势走平 → 3'},{key:'supply',score:3,trend:'flat',reason:'覆盖 AI 服务器/光模块/交换机等多场景;消费占比~70% 受消费电子周期影响,趋势走平 → 3'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 67.54 倍/3 年分位 99.58%(asOf 2026-06-16),估值贵(动态 PE~130x、TTM~65x,截至 2026-05-22),趋势向下 → 2'},{key:'barrier',score:4,trend:'flat',reason:'全球 PCB 营收 9 连冠+FPC 全球第二,壁垒中等偏上;非物理卡口(全球供应商>5 家),壁垒待 AI 转型兑现 → 4'}],
       src:'2026Q1/2025年报+Prismark', valAsOf:'2026-06-22', trend:'up', trendNote:'GB200 20层·GB300 HDI·9连冠·AI暴露5.41%·海外云厂商小批量·Q1-10%',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}] ,
