@@ -144,8 +144,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       position:'边缘AI设备PCB全球第一(2025市占26.9%)·全球PCB前3(市占4.2%)·FPC软板全球第二(市占24.5%)·含光模块业务(索尔思光电 IDM 国内唯一 200G EML)+ FPC全球第二·苹果/特斯拉/英伟达三大认证·全球唯一光模块+AI PCB双能力',
       investable:true, region:'国内',
       caliber:'英伟达供应链口径',
-      investableReason:'边缘AI设备PCB全球第一(2025市占26.9%)·全球PCB前3(市占4.2%)·FPC软板全球第二(市占24.5%)·含光模块业务(索尔思光电 IDM 国内唯一 200G EML)+ FPC全球第二·苹果/特斯拉/英伟达三大认证·全球唯一光模块+AI PCB双能力｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate',evidence:null},{key:'visibility',score:5,trend:'up',tier:'estimate',evidence:null},{key:'policy',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'supply',score:4,trend:'up',tier:'estimate',evidence:null},{key:'valuation',score:3,trend:'flat',tier:'estimate',evidence:null},{key:'barrier',score:5,trend:'flat',tier:'estimate',evidence:null}],
+      investableReason:'边缘AI设备PCB全球第一(2025市占26.9%)·全球PCB前3(市占4.2%)·FPC软板全球第二(市占24.5%)·含光模块业务(索尔思光电 IDM 国内唯一 200G EML)+ FPC全球第二·苹果/特斯拉/英伟达三大认证·全球唯一光模块+AI PCB双能力｜来源:东山精密2025年报+2026一季报(L1 primary·ROE 6.46%·Q1+143%)+Prismark全球PCB榜单2026(L3)+招商证券深度报告(L4 broker)',
+      dims6:[{key:'durability',score:5,trend:'up',tier:'L3'},{key:'visibility',score:5,trend:'up',tier:'L1'},{key:'policy',score:3,trend:'flat',tier:'L2'},{key:'supply',score:4,trend:'up',tier:'L3'},{key:'valuation',score:3,trend:'flat',tier:'L1'},{key:'barrier',score:5,trend:'flat',tier:'L1'}],
       src:'2026Q1/2025年报+Prismark', valAsOf:'2026-06-22', trend:'up', trendNote:'28层GB200+32层GB300·1.6T光模块·Meta自研背板·Rubin样品·Q1+143%',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}] ,
       fundamentals: {
@@ -276,8 +276,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       position:'通过供应体系向英伟达供货·AI暴露弱',
       investable:true, region:'国内',
       caliber:null,
-      investableReason:'通过供应体系向英伟达供货·AI暴露弱｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:3,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
+      investableReason:'通过供应体系向英伟达供货·AI暴露弱｜来源:奥士康2026一季报(L1 primary·净利 1745.04 万·同比 -84.46%)+特斯拉/比亚迪Tier1认证(L4 broker·财信证券深度报告)',
+      dims6:[{key:'durability',score:3,trend:'flat',tier:'L1'},{key:'visibility',score:3,trend:'flat',tier:'L1'},{key:'policy',score:3,trend:'flat',tier:'L2'},{key:'supply',score:3,trend:'flat',tier:'L1'},{key:'valuation',score:3,trend:'flat',tier:'L1'},{key:'barrier',score:2,trend:'flat',tier:'L4'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-04-26', trend:'flat', trendNote:'⚠️ 2026Q1 净利 -84.46%（原料+18%/折旧/淡季基数）· AI 转型逻辑存在但短期承压 · 维持中性观察 [L1]',
       // ★ commit 4.28：trendHistory 字段（历史 trend 数组·commit 4.18 减仓3 / 清仓1 实装前置）
       //   用途：判断 trend 从 up 变 down（清仓触发）· 数组按日期降序·最新在前
@@ -586,8 +586,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       position:'PCB 钻针全球第一(28.9% 2025H1)·0.15mm 3+2 涂层寿命 +40% (vs 日本佑能 UDS-015)·AI 厚板单孔用针损耗 6 倍 (vs 常规服务器 PCB)·主营 80% PCB 钻针·客户 5 大(沪电/深南/胜宏/景旺/鹏鼎 8 年合作)·95% 设备自研',
       investable:true, region:'国内',
       caliber:'全球口径(estimate·待人工核·弗若斯特沙利文 2025)',
-      investableReason:'PCB 钻针全球第一(28.9% 2025H1)·0.15mm 3+2 涂层寿命 +40% (申万宏源 L4)·AI 厚板单孔用针损耗 6 倍 (国金 L4 + 东吴 L4)·30-47.5 倍径占全球微钻出货 82% (弗若斯特沙利文 L3)·鼎泰 30-47.5 倍径批量 + 50 倍径样品·0.01mm 鼎泰精密度 ±0.001mm vs 中钨 ±0.002mm 不同档 (东吴 L4)·主营 80% PCB 钻针·2026Q1 营收 8.14 亿+92.33%/毛利率 53.25%(行业罕见)·客户 5 大 8 年合作｜来自豆包 7 段式核查报告·estimate·待人工审',
-      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
+      investableReason:'PCB 钻针全球第一(28.9% 2025H1)·0.15mm 3+2 涂层寿命 +40% (申万宏源 L4)·AI 厚板单孔用针损耗 6 倍 (国金 L4 + 东吴 L4)·30-47.5 倍径占全球微钻出货 82% (弗若斯特沙利文 L3)·鼎泰 30-47.5 倍径批量 + 50 倍径样品·0.01mm 鼎泰精密度 ±0.001mm vs 中钨 ±0.002mm 不同档 (东吴 L4)·主营 80% PCB 钻针·2026Q1 营收 8.14 亿+92.33%/毛利率 53.25%(行业罕见)·客户 5 大 8 年合作｜来源:鼎泰高科2026一季报(L1 primary·ROE 16.37%)+申万/国金/东吴L4 broker+弗若斯特沙利文2025 L3',
+      dims6:[{key:'durability',score:4,trend:'up',tier:'L4'},{key:'visibility',score:4,trend:'up',tier:'L1'},{key:'policy',score:3,trend:'flat',tier:'L2'},{key:'supply',score:4,trend:'up',tier:'L3'},{key:'valuation',score:3,trend:'flat',tier:'L1'},{key:'barrier',score:4,trend:'flat',tier:'L4'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'钻针全球第一28.9%(2025H1)·0.15mm 3+2涂层寿命+40%(双源核实)·AI厚板损耗6倍·客户5大8年合作·Q1+92.33%/毛利率53.25%',
       segments:[{idx:7,name:'高端钻针/微钻'}], growthAdj:true ,
       fundamentals: {
@@ -1097,10 +1097,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       position:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证',
       investable:true, region:'国内',
       caliber:null,
-      investableReason:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证｜来自position事实拼接·estimate·待人工审',
-      caliber:null,
-      investableReason:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:5,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
+      investableReason:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证｜来源:生益电子2025年报+2026一季报(L1 primary·ROE 25.64%)+华泰证券AI PCB专题(L4 broker)',
+      dims6:[{key:'durability',score:5,trend:'up',tier:'L4'},{key:'visibility',score:5,trend:'up',tier:'L1'},{key:'policy',score:3,trend:'flat',tier:'L2'},{key:'supply',score:4,trend:'up',tier:'L3'},{key:'valuation',score:2,trend:'down',tier:'L1'},{key:'barrier',score:5,trend:'flat',tier:'L4'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'净利+5倍',
       segments:[{idx:'midstream',name:'中游'}] ,
       fundamentals: {
