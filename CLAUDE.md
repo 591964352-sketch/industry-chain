@@ -694,3 +694,16 @@ trend判断规则：
 2分：PE分位70-85%
 1分：PE分位>85
 
+## §11 待办清单（Backlog · 2026-07-01 起）
+
+> 本节登记**未在当前 commit 闭环、需在下一轮（豆包批次 / 阶段交界）处理的项**。避免遗漏。
+
+### §11.1 下一豆包批次 P0 项（数据准确度阻塞）
+
+- **605006 山东玻纤** · 6 维评分为兜底默认值（全 2 分 / 无 reason 字段）· **未走豆包 v2 真实查询**
+  - 现状：durability/visibility/policy/supply/valuation/barrier 全 score=2，全 tier=estimate，无 reason
+  - 同段位 idx 2 玻纤布 5 只 stock 中，**仅 605006 是兜底**（其余 4 只菲利华/中国巨石/宏和/中材都带 reason 字段）
+  - **下一豆包批次必做**：按 §6.11 13 条硬约束 + §6.10 三重验证重新查询 6 维评分 + 补充 reason
+  - 完成定义：6 维 score 不全相等 + 每维有 reason 字符串 + tier 不全为 estimate
+  - 涉及文件：`data/pcb.manual.js` L1038-1069 stock 块
+

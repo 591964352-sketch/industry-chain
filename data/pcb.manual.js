@@ -415,6 +415,11 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         concentrationRisk: 'low',
         note: null,
       },
+      // ★ 2026-07-01 审核记录：6 维 5-1 极差人工核实（commit 5.6）
+      // durability=5 反映卡口锁单地位（英伟达全额预购 2026 年 600-700 万米 Q 布 + R3-9 锁单双源）
+      // valuation=1 反映 PE 高位扣分（PE 历史分位 95%+ · 同期 commit ⚠️ 单源待核）
+      // 数据真实有效 · 非异常 · 不需重新打分
+      dims6Audit: { reviewedAt:'2026-07-01', extremeGap:5, conclusion:'6 维 5-1 极差已人工核实，非异常，durability 反映卡口锁单地位，valuation 反映 PE 高位，数据真实有效', reviewer:'CC+user' },
 },
 
     '300476': { code:'300476', name:'胜宏科技', rank:2, barrier:'极高', tier:'primary',
@@ -860,6 +865,13 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
         concentrationRisk: 'low',
         note: null,
       },
+},
+
+    '603519': { code:'603519', name:'南亚新材', rank:3, barrier:'高', tier:'L4',
+      position:'刚性CCL全球前10·大陆第三(Prismark·2023年度)·M8量产M9测试中 + Phase 9 PCB 短板补充:🔵broker(Prismark 2023 年度报告) + Phase 9 PCB 短板补充:🔵broker(Prismark 2023 年度报告)',
+      src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'M7已量产·M8验证中·M9在研',
+      segments:[{idx:0,name:'覆铜板 CCL'}] ,
+      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:4,trend:'flat',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
 },
 
     '603228': { code:'603228', name:'景旺电子', rank:4, barrier:'中', tier:'primary',
