@@ -1233,10 +1233,16 @@ function renderDecisionScoreCard(holdings) {
 
 // ★ commit 5.5: 模块 1 · 个股基本面 chip 渲染（fundamentals 4 字段 + riskMetrics 止损/集中度）
 //   用于 segments / midstream / fourQuestions / treeMap sub-card 等 4 个挂载点
-function renderStockFundamentalsChip(s) {
-  // 优先从 PCB_MANUAL.stocks[code] 读 fundamentals（更全）
+// ★ commit 5.7: 加 chainId 参数 · 内部 MANUAL 命名空间按 chainId 动态派生（不再硬编码 'pcb'）
+function renderStockFundamentalsChip(s, chainId) {
+  // chainId 派生 MANUAL 命名空间 key（约定：<chainId>_MANUAL，如 pcb_MANUAL / semi_MANUAL）
+  // 三级 fallback：参数 → s.chainId → 当前活跃链 → 'pcb'（保持 PCB 页面零回归）
+  const _cid = chainId || (s && s.chainId) || (window.currentChainId) || 'pcb';
+  const _manualKey = _cid.toUpperCase() + '_MANUAL';
+  const _manual = window[_manualKey] || window.PCB_MANUAL || null;
+  // 优先从 MANUAL.stocks[code] 读 fundamentals（更全）
   const code = s && s.code;
-  const stock = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[code]) || null;
+  const stock = (_manual && _manual.stocks && _manual.stocks[code]) || null;
   const f = stock && stock.fundamentals;
   if (!f || !f.asOf) return '<span class="tag tg-gray" style="font-size:10px;" title="基本面待补">📊 待补</span>';
   // 4 关键字段：ROE / 毛利率 / 营收同比 / 净利同比 · 剪刀差徽章
@@ -1257,10 +1263,14 @@ function renderStockFundamentalsChip(s) {
   return '<span style="font-size:10px;color:var(--muted);margin-left:6px;cursor:help;" title="' + titleParts.join(' · ') + '">📊 ' + roe + '/' + gm + ' 营收' + rev + '/净利' + np + ' ' + scissor + '</span>';
 }
 
-function renderStockRiskChip(s) {
+function renderStockRiskChip(s, chainId) {
+  // ★ commit 5.7: 同 renderStockFundamentalsChip · chainId 动态派生 MANUAL key
+  const _cid = chainId || (s && s.chainId) || (window.currentChainId) || 'pcb';
+  const _manualKey = _cid.toUpperCase() + '_MANUAL';
+  const _manual = window[_manualKey] || window.PCB_MANUAL || null;
   // 风险指标（止损线 / 集中度风险 / 重入条件）
   const code = s && s.code;
-  const stock = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[code]) || null;
+  const stock = (_manual && _manual.stocks && _manual.stocks[code]) || null;
   const r = stock && stock.riskMetrics;
   if (!r || !r.status || r.status === 'deferred') return '';
   const sl = typeof r.stopLoss === 'number' ? '🛑SL' + r.stopLoss : '';
@@ -3111,7 +3121,7 @@ function renderChain(chainId) {
       const _logicCell = _trunc.truncated
         ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:11px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
         : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
-      h += `<td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}${renderStockFundamentalsChip(s)}${renderStockRiskChip(s)}</td>`;
+      h += `<td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}${renderStockFundamentalsChip(s, chainId)}${renderStockRiskChip(s, chainId)}</td>`;
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
@@ -3173,7 +3183,7 @@ function renderChain(chainId) {
       const _logicCell = _trunc.truncated
         ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:11px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
         : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
-      h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}${renderStockFundamentalsChip(s)}${renderStockRiskChip(s)}</td></tr>`;
+      h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}${renderStockFundamentalsChip(s, chainId)}${renderStockRiskChip(s, chainId)}</td></tr>`;
     });
     h += `</tbody></table></div></div>`;  // segment-card
     h += `</div></div>`;  // section-body + section (commit 4.9 折叠)
