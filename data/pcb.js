@@ -623,7 +623,73 @@ CHAINS.pcb.chokePoints = [
         { type:'交叉信源', claim:'至少两个独立来源印证设备锁定+市占率', howToCheck:'一篇券商深度研报 + 公司年报/公告 + 三船公司出货公告同时印证。只有单一来源则存疑', falsifySignal:'只找得到单一来源(尤其只有自媒体) → 存疑', status:'pending' }
       ],
       note: '这是初始版本验证清单 — 实际状态需手动核查后切换'
-    } }
+    }
+  },
+  { rank:4, name:'深南电路', code:'002916', segment:'IC封装基板(ABF载板)', strength:'★★☆', logic:'国内<strong>唯一</strong>ABF 载板批量交付·大陆内资 ABF 市占~63%·<strong>PCB+封装基板+装联 3-in-1 全产业链布局</strong>·全球唯一同时具备 ABF/BT/FC-BGA 三种载板能力的厂商。Q1 营收 60.66 亿+34.81%。⚠️<strong>ABF 膜材料端才是绝对寡头</strong>（味之素 97% 进口·卡口在膜不在载板）。', tags:['PCB+封装+装联3-in-1','大陆ABF第一','63%内资份额','ABF膜依赖'],
+    valuation: {pe:'PE(TTM)~46x / 50%',peAbsolute:'PE(TTM)~46x · 50% 历史分位 · 估值合理',pePercentile:50,grossMargin:'25%+',fromHigh:'(2026-06-22 数据·相对前高位置未独立核实)',asOf:'2026-06-22',note:'🟢 估值合理·但卡口为α-competitive（非物理）',tier:'broker',src:'深南电路 2025 年报+2026 一季报(L1)+招商证券深度报告(L4 broker)'},
+    verification: {
+      items: [
+        { type:'供给寡头', claim:'国内唯一 ABF 批量交付', howToCheck:'搜深南电路 ABF 产能公告、兴森科技 ABF 进展', falsifySignal:'兴森 ABF 量产 / 国产替代实现 → 卡口降级', status:'pending' },
+        { type:'产能缺口', claim:'大陆内资 ABF 市占 63%', howToCheck:'查 Prismark 2026 ABF 报告·CPCA 数据', falsifySignal:'市占率快速下滑 → 卡口降级', status:'pending' },
+        { type:'财报印证', claim:'Q1 营收 60.66 亿+34.81%', howToCheck:'查深南最新季报：分产品营收增速、毛利率', falsifySignal:'毛利率下行 / 营收不增 → 卡口大概率为假', status:'pending' },
+        { type:'交叉信源', claim:'至少两个独立来源印证', howToCheck:'券商深度 + 公司年报 + Prismark 行业数据', falsifySignal:'只找得到单一来源 → 存疑', status:'pending' }
+      ],
+      note: '★★☆ 而非 ★★★ 原因：ABF 膜材料端才是绝对寡头（味之素 97% 进口）· PCB 制造段有替代（兴森/博敏等）· 卡口在膜不在载板'
+    },
+    chokepointType: 'alpha-competitive'
+  },
+  { rank:5, name:'东山精密', code:'002384', segment:'AI PCB 制造(中游)', strength:'★★★', logic:'<strong>FPC 全球第二(24.5%)</strong>·边缘 AI 设备 PCB 全球第一(2025 市占 26.9%)·含光模块业务（索尔思光电 IDM 国内唯一 200G EML）·苹果/特斯拉/英伟达<strong>三大认证</strong>·<strong>全球唯一光模块+AI PCB 双能力</strong>·Q1 营收 99.50 亿+24.07%，归母 4.62 亿+143.34%。', tags:['FPC全球第二','光模块+AI PCB双能力','苹果链核心','Q1+143%'],
+    valuation: {pe:'PE(TTM)~38x / 45%',peAbsolute:'PE(TTM)~38x · 45% 历史分位 · 估值合理',pePercentile:45,grossMargin:'18%+',fromHigh:'(2026-06-22 数据·相对前高位置未独立核实)',asOf:'2026-06-22',note:'🟢 估值合理·稀缺能力溢价',tier:'broker',src:'东山精密 2025 年报+2026 一季报(L1·ROE 6.46%·Q1+143%)+招商证券深度报告(L4 broker)+Prismark 2026 全球PCB榜单(L3)'},
+    verification: {
+      items: [
+        { type:'供给寡头', claim:'全球唯一光模块+AI PCB 双能力', howToCheck:'查 FPC 全球排名 + 光模块国内厂商', falsifySignal:'出现第二家同时具备双能力的厂商 → 卡口降级', status:'pending' },
+        { type:'产能缺口', claim:'FPC 全球第二 + 边缘 AI 设备 PCB 全球第一', howToCheck:'查 Prismark 2025/2026 FPC 榜单 + 边缘AI设备 PCB 排名', falsifySignal:'排名下滑 → 卡口降级', status:'pending' },
+        { type:'财报印证', claim:'Q1 营收 99.50 亿+24.07% / 归母 4.62 亿+143.34%', howToCheck:'查东山最新季报：分产品营收增速、毛利率', falsifySignal:'毛利率下行 / 营收不增 → 卡口大概率为假', status:'pending' },
+        { type:'交叉信源', claim:'至少两个独立来源印证', howToCheck:'券商深度 + 公司年报 + 行业第三方数据', falsifySignal:'只找得到单一来源 → 存疑', status:'pending' }
+      ],
+      note: '★★☆ 而非 ★★★ 原因：FPC 行业竞争充分（臻鼎/鹏鼎等可替代）· AI 纯度相对低（消费电子占比~50%）· 光模块业务需观察索尔思整合效果'
+    },
+    chokepointType: 'physical'
+  },
+  { rank:6, name:'生益电子', code:'688183', segment:'AI PCB 制造(中游)', strength:'★★★', logic:'<strong>AI 服务器 PCB 黑马</strong>·生益科技子公司 + AWS<strong>主力供应商(占营收 42.9%)</strong>·56 层交换机 PCB 核心供应商认证·2025 年净利+91.1% / Q1 净利+5 倍·ROE 25.29%·材料+PCB 一体化闭环优势·国内极少数通过英伟达 M9 高端覆铜板认证的核心厂商。', tags:['AI服务器黑马','AWS一供42.9%','净利+5倍','56层交换机'],
+    valuation: {pe:'PE(TTM)~67x / 67%',peAbsolute:'PE(TTM)~67x · 67% 历史分位 · 估值偏高',pePercentile:67,grossMargin:'20%+',fromHigh:'(2026-06-22 数据·相对前高位置未独立核实)',asOf:'2026-06-22',note:'🟢 估值偏高·AWS 单一大客户依赖是双刃剑',tier:'broker',src:'生益电子 2025 年报+2026 一季报(L1·ROE 25.29%)+招商证券深度报告(L4 broker·2026-05-04)'},
+    verification: {
+      items: [
+        { type:'供给寡头', claim:'AWS 主力供应商(占营收 42.9%)', howToCheck:'查生益电子投资者关系活动记录表·AWS 订单详情', falsifySignal:'AWS 切换到其他 PCB 厂商 → 卡口降级', status:'pending' },
+        { type:'产能缺口', claim:'AI 服务器 PCB 黑马·净利+5 倍', howToCheck:'查生益最新季报·AI 服务器营收占比', falsifySignal:'AI 营收占比下滑 → 卡口降级', status:'pending' },
+        { type:'财报印证', claim:'2025 净利+91.1% / Q1 净利+5 倍 / ROE 25.29%', howToCheck:'查生益最新季报：净利率、ROE、营收增速', falsifySignal:'业绩降速 → 卡口大概率为假', status:'pending' },
+        { type:'交叉信源', claim:'至少两个独立来源印证', howToCheck:'券商深度 + 公司年报 + 行业第三方数据', falsifySignal:'只找得到单一来源 → 存疑', status:'pending' }
+      ],
+      note: '★★☆ 而非 ★★★ 原因：PCB 制造段竞争充分（深南/沪电/胜宏/景旺等 5+ 家可替代）· 客户可切换· 非物理卡口'
+    },
+    chokepointType: 'physical'
+  },
+  { rank:7, name:'胜宏科技', code:'300476', segment:'AI PCB 制造(中游)', strength:'★★★', logic:'<strong>英伟达 GB300 PCB 主供</strong>·显卡 PCB 全球~50%·<strong>78 层 M9 正交背板独家</strong>·AI 营收占比 43.20%·2025 净利+47.74%·Q1 营收 33.12 亿+88.6%/归母 4.81 亿+5 倍·HDI 全球第一梯队·100+ 层技术储备。', tags:['GB300主供','显卡PCB全球50%','78层独家','AI占比43%'],
+    valuation: {pe:'PE(TTM)~50x / 60%',peAbsolute:'PE(TTM)~50x · 60% 历史分位 · 估值合理',pePercentile:60,grossMargin:'20%+',fromHigh:'(2026-06-22 数据·相对前高位置未独立核实)',asOf:'2026-06-22',note:'🟢 估值合理·显卡 PCB 全球第一',tier:'broker',src:'胜宏科技 2025 年报+2026 一季报(L1)+招商证券深度报告(L4)+民生证券(L4 broker)'},
+    verification: {
+      items: [
+        { type:'供给寡头', claim:'英伟达 GB300 PCB 主供·显卡 PCB 全球~50%', howToCheck:'查英伟达 GB300 供应链公告·胜宏份额', falsifySignal:'胜宏份额下滑 → 卡口降级', status:'pending' },
+        { type:'产能缺口', claim:'78 层 M9 正交背板独家', howToCheck:'查胜宏投资者关系活动记录·78 层技术', falsifySignal:'竞争对手突破 78 层 → 卡口降级', status:'pending' },
+        { type:'财报印证', claim:'Q1 营收 33.12 亿+88.6%/归母 4.81 亿+5 倍', howToCheck:'查胜宏最新季报：AI 营收占比、毛利率', falsifySignal:'毛利率下行 → 卡口大概率为假', status:'pending' },
+        { type:'交叉信源', claim:'至少两个独立来源印证', howToCheck:'券商深度 + 公司年报 + Prismark 行业数据', falsifySignal:'只找得到单一来源 → 存疑', status:'pending' }
+      ],
+      note: '★★☆ 而非 ★★★ 原因：客户可切换·非物理卡口·英伟达 Tier 1 认证不是垄断（沪电/景旺等也是 Tier 1）'
+    },
+    chokepointType: 'physical'
+  },
+  { rank:8, name:'沪电股份', code:'002463', segment:'AI PCB 制造(中游)', strength:'★★★', logic:'<strong>78 层 M9 全球独家量产</strong>·GB200/GB300 全系认证·<strong>AI 板良率 92-98%</strong>·H200 UBB 主板份额超 70%·2025 净利+47.74% / Q1 营收 62.14 亿+53.91% / 归母 12.42 亿+62.9%·AI 营收占比升至~60%·<strong>全球仅沪电与日本 Ibiden 通过 78 层 M9 认证(后者未量产)</strong>。', tags:['78层M9独家','GB200/GB300认证','良率92-98%','H200 UBB 70%+'],
+    valuation: {pe:'PE(TTM)~63x / 90%',peAbsolute:'PE(TTM)~63x · 90% 历史分位 · 估值偏高',pePercentile:90,grossMargin:'30%+',fromHigh:'(2026-06-22 数据·相对前高位置未独立核实)',asOf:'2026-06-22',note:'🟢 估值偏高·但 78 层 M9 独家+良率 92-98% 支撑溢价',tier:'broker',src:'沪电股份 2025 年报+2026 一季报(L1·ROE 25.29%)+长江证券深度报告(L4 broker·华泰 2026-05-25 确认)'},
+    verification: {
+      items: [
+        { type:'供给寡头', claim:'78 层 M9 全球独家量产·Ibiden 未量产', howToCheck:'查 Ibiden 最新 78 层 M9 量产公告', falsifySignal:'Ibiden 量产 → 卡口降级', status:'pending' },
+        { type:'产能缺口', claim:'H200 UBB 主板份额超 70%', howToCheck:'查英伟达 H200 UBB 供应链公告', falsifySignal:'份额下滑 → 卡口降级', status:'pending' },
+        { type:'财报印证', claim:'Q1 营收 62.14 亿+53.91% / 归母 12.42 亿+62.9% / 良率 92-98%', howToCheck:'查沪电最新季报：净利率、AI 营收占比', falsifySignal:'毛利率下行 / 良率不达标 → 卡口大概率为假', status:'pending' },
+        { type:'交叉信源', claim:'至少两个独立来源印证', howToCheck:'券商深度 + 公司年报 + Prismark 行业数据', falsifySignal:'只找得到单一来源 → 存疑', status:'pending' }
+      ],
+      note: '★★☆ 而非 ★★★ 原因：AI 服务器 PCB 制造段竞争激烈·Ibiden 一旦量产 78 层 M9 → 卡口逻辑立即弱化'
+    },
+    chokepointType: 'physical'
+  }
 ];
 CHAINS.pcb.supplyGap = [
   { segment:'M9碳氢树脂', demand:'~8000吨/年', capacity:'~3000吨/年', gap:'5000吨', rate:'~63%', bottleneck:'认证周期18-24个月', tier:'broker', src:'Prismark + 东材公告 / 2026-06' },
