@@ -555,10 +555,10 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
 },
 
     '301217': { code:'301217', name:'铜冠铜箔', rank:1, barrier:'极高', tier:'primary',
-      position:'国内唯一 HVLP1–4 代全谱系量产·加工端竞争充分(德福/诺德/隆扬均已量产 HVLP4)·2027市占预期42%',
+      position:'2025年报主营构成(akshare stock_zygc_em 2026-07-02 验证):PCB铜箔营收37.04亿/占比55.37%、锂电池铜箔26.22亿/39.19%、铜扁线等4.60%、其他0.84%(产品分类口径)·国内唯一 HVLP1–4 代全谱系量产·加工端竞争充分(德福/诺德/隆扬均已量产 HVLP4)·2027市占预期42%',
       investable:true, region:'国内',
       caliber:'国内口径',
-      investableReason:'国内唯一 HVLP1–4 代全谱系量产·加工端竞争充分(德福/诺德/隆扬均已量产 HVLP4)·2027市占预期42%｜来自position事实拼接·estimate·待人工审',
+      investableReason:'2025年报主营构成(akshare stock_zygc_em 2026-07-02 验证):PCB铜箔营收37.04亿/占比55.37%、锂电池铜箔26.22亿/39.19%、铜扁线等4.60%、其他0.84%(产品分类口径)·国内唯一 HVLP1–4 代全谱系量产·加工端竞争充分(德福/诺德/隆扬均已量产 HVLP4)·2027市占预期42%｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:2,trend:'down',tier:'L3',reason:'2026 年国内外 HVLP3 高速铜箔集中扩产,行业整体供给略过剩 · 海外头部 4 家合计市占 80%(日本福田 28%/三井 22%/韩国日进 18%/铜冠 12%) · 公司产能利用率 72%,2026Q4/2027Q3 分两期扩产 6000 吨/年 · SMM《2025 全球高速电子铜箔产业白皮书》+Prismark《2026 PCB 配套导电材料市场预测报告》双源确认 → 2'},{key:'valuation',score:2,trend:'up',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)+SMM 2026白皮书+Prismark 2026预测', valAsOf:'2026-07', trend:'up', trendNote:'GB200/GB300 HVLP4量产·深南长期协议·HVLP5样品·2026全球HVLP3供给略过剩',
       hits:4, strength:'★★★',
