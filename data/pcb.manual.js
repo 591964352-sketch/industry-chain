@@ -207,11 +207,11 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
 },
 
     '002463': { code:'002463', name:'沪电股份', rank:1, barrier:'极高', tier:'primary',
-      position:'GB200/GB300 交换机及高多层板核心供应商之一，与景旺电子等共同供应（非独家）；78 层 M9 正交背板已通过英伟达认证并量产 + 78层M9全球独家量产·GB200/GB300全系认证·AI板良率92-98%·全年AI占比15.9%(2025年报);AI营收占比~60%(Q1季报口径)/15.9%(全年口径)',
+      position:'GB200/GB300 交换机及高多层板核心供应商之一，与景旺电子等共同供应（非独家）；78 层 M9 正交背板已通过英伟达认证并量产 + 78层M9全球独家量产·GB200/GB300全系认证·AI板良率92-98%·全年AI占比15.9%(2025年报);AI营收占比~60%(Q1季报口径)/15.9%(全年口径)(AI占PCB业务口径:Q1季度60%/全年均值15.9%,嵌套口径,公司主营PCB占总营收95.77%)',
       investable:true, region:'国内',
       caliber:'M9等级细分品类口径',
-      investableReason:'GB200/GB300 交换机及高多层板核心供应商之一，与景旺电子等共同供应（非独家）；78 层 M9 正交背板已通过英伟达认证并量产 + 78层M9全球独家量产·GB200/GB300全系认证·AI板良率92-98%·全年AI占比15.9%(2025年报);AI营收占比~60%(Q1季报口径)/15.9%(全年口径)｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:5,trend:'up',reason:'AI 算力结构性上行+GB300/Rubin 持续放量;沪电为英伟达 H100/H200 提供 22-26 层高多层板,H200 UBB 主板份额超 70%(截至 2025),泰国工厂 2025.10 投产承接 GB300 订单,延续性极强 → 5'},{key:'visibility',score:5,trend:'up',reason:'26Q1 营收 62.14 亿+53.91%,归母 12.42 亿+62.9%,AI 营收占比升至~60%,英伟达份额>50%;2025 净利 38.22 亿+47.74%;业绩兑现极强,趋势向上 → 5'},{key:'policy',score:3,trend:'flat',reason:'AI capex 市场驱动+IC 载板 02 专项+大基金二期关联,政策中性偏顺风;制造端政策驱动有限,趋势走平 → 3'},{key:'supply',score:2,trend:'down',tier:'L3',reason:'整赛道 AI PCB 供给略过剩,但 78 层 M9 细分赛道 2025 年全球供给缺口 18%(沪电 62%/欣兴 38%,全球仅 2 家量产) · 公司 M9 利用率 92%,2026Q4/2027Q3 分两期扩产 5.8 万㎡/月 · Prismark《2025-2026 高端高多层算力 PCB 专项报告》+IHS Markit《全球高端 AI 硬件 PCB 供需预测》双源确认 · 保留 78 层 M9 全球独家/62% 份额与 GB200/GB300 全系认证细节 → 2'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 62.91 倍/3 年分位 90.48%(asOf 2026-06-16),估值偏高,趋势向下(性价比恶化);扣分项为估值高位,需控买点 → 2'},{key:'barrier',score:5,trend:'flat',reason:'78 层 M9 全球独家量产（broker 华泰 2026-05-25）+GB200/GB300 全系认证+AI 板良率 92-98%+全球仅沪电与日本 Ibiden 通过认证(后者未量产),壁垒极高;豆包 2026-06-26 确认 → 5'}],
+      investableReason:'GB200/GB300 交换机及高多层板核心供应商之一，与景旺电子等共同供应（非独家）；78 层 M9 正交背板已通过英伟达认证并量产 + 78层M9全球独家量产·GB200/GB300全系认证·AI板良率92-98%·全年AI占比15.9%(2025年报);AI营收占比~60%(Q1季报口径)/15.9%(全年口径)(AI占PCB业务口径:Q1季度60%/全年均值15.9%,嵌套口径,公司主营PCB占总营收95.77%)｜来自position事实拼接·estimate·待人工审',
+      dims6:[{key:'durability',score:5,trend:'up',reason:'AI 算力结构性上行+GB300/Rubin 持续放量;沪电为英伟达 H100/H200 提供 22-26 层高多层板,H200 UBB 主板份额超 70%(截至 2025),泰国工厂 2025.10 投产承接 GB300 订单,延续性极强 → 5'},{key:'visibility',score:5,trend:'up',reason:'26Q1 营收 62.14 亿(+53.91% 同比),归母 12.42 亿(+62.9% 同比),英伟达份额>50%;2025 净利 38.22 亿(+47.74% 同比);AI 营收占比 Q1 季报口径 ~60%、全年口径 15.9%(嵌套口径:AI 占 PCB 业务,公司主营 PCB 占总营收 95.77%);业绩兑现极强,趋势向上 → 5'},{key:'policy',score:3,trend:'flat',reason:'AI capex 市场驱动+IC 载板 02 专项+大基金二期关联,政策中性偏顺风;制造端政策驱动有限,趋势走平 → 3'},{key:'supply',score:2,trend:'down',tier:'L3',reason:'整赛道 AI PCB 供给略过剩,但 78 层 M9 细分赛道 2025 年全球供给缺口 18%(沪电 62%/欣兴 38%,全球仅 2 家量产) · 公司 M9 利用率 92%,2026Q4/2027Q3 分两期扩产 5.8 万㎡/月 · Prismark《2025-2026 高端高多层算力 PCB 专项报告》+IHS Markit《全球高端 AI 硬件 PCB 供需预测》双源确认 · 保留 78 层 M9 全球独家/62% 份额与 GB200/GB300 全系认证细节 → 2'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 62.91 倍/3 年分位 90.48%(asOf 2026-06-16),估值偏高,趋势向下(性价比恶化);扣分项为估值高位,需控买点 → 2'},{key:'barrier',score:5,trend:'flat',reason:'78 层 M9 全球独家量产（broker 华泰 2026-05-25）+GB200/GB300 全系认证+AI 板良率 92-98%+全球仅沪电与日本 Ibiden 通过认证(后者未量产),壁垒极高;豆包 2026-06-26 确认 → 5'}],
       src:'2026Q1/2025年报+券商研报', valAsOf:'2026-06-22', trend:'up', trendNote:'GB200 22层量产·GB300 112G/224G背板·Rubin+233%·AMD扩产·谷歌TPU v5·Meta自研背板验证·Q1+78%',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}], growthAdj:true ,
       fundamentals: {
@@ -423,10 +423,10 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
 },
 
     '300476': { code:'300476', name:'胜宏科技', rank:2, barrier:'极高', tier:'primary',
-      position:'英伟达显卡PCB全球份额约50%(一供,Prismark 2026);GB300 OAM子板核心供应商;2025年AI业务营收83.4亿(占比43%、同比+11倍、毛利率40-45%),在手订单饱满排至2026年底 + 英伟达Tier1认证·100+层技术/70层量产(primary巨潮)·AI占比43.20%',
+      position:'英伟达显卡PCB全球份额约50%(一供,Prismark 2026);GB300 OAM子板核心供应商;2025年AI业务营收83.4亿(占比43%、同比+11倍、毛利率40-45%),在手订单饱满排至2026年底 + 英伟达Tier1认证·100+层技术/70层量产(primary巨潮)·AI占比43.20%(AI占PCB业务43.20%,嵌套口径:AI营收83.4亿÷PCB主营180.84亿;公司主营PCB占总营收93.74%)',
       investable:true, region:'国内',
       caliber:'英伟达供应链口径',
-      investableReason:'英伟达显卡PCB全球份额约50%(一供,Prismark 2026);GB300 OAM子板核心供应商;2025年AI业务营收83.4亿(占比43%、同比+11倍、毛利率40-45%),在手订单饱满排至2026年底 + 英伟达Tier1认证·100+层技术/70层量产(primary巨潮)·AI占比43.20%｜来自position事实拼接·estimate·待人工审',
+      investableReason:'英伟达显卡PCB全球份额约50%(一供,Prismark 2026);GB300 OAM子板核心供应商;2025年AI业务营收83.4亿(占比43%、同比+11倍、毛利率40-45%),在手订单饱满排至2026年底 + 英伟达Tier1认证·100+层技术/70层量产(primary巨潮)·AI占比43.20%(AI占PCB业务43.20%,嵌套口径:AI营收83.4亿÷PCB主营180.84亿;公司主营PCB占总营收93.74%)｜来自position事实拼接·estimate·待人工审',
       dims6:[{key:'durability',score:5,trend:'up',reason:'AI 算力结构性上行+GB300 持续放量;胜宏供应 GB300 OAM 五阶 HDI 板,单板价值量提升 30%+;数据中心 PCB 占比近 50%,延续性极强 → 5'},{key:'visibility',score:5,trend:'up',reason:'2025 净利 43.12 亿+273.52%(A 股 PCB 首位),26Q1 营收 55.19 亿+28%,净利 12.88 亿+40%;英伟达 Tier1·显卡 PCB 全球~50%(Prismark 2026),业绩弹性极强,趋势向上 → 5'},{key:'policy',score:3,trend:'flat',reason:'AI capex 市场驱动+IC 载板 02 专项关联,政策中性偏顺风;制造端政策驱动有限,趋势走平 → 3'},{key:'supply',score:2,trend:'down',tier:'L3',reason:'2026-27 年两岸+越南同步集中扩产,行业整体供给略过剩 · 全球 AI PCB 欣兴 26%/华通 21%/臻鼎 17%/沪电 11%(Prismark 2026);胜宏显卡 PCB 全球第 1(49%⚠️待人工核对 Prismark 原文) · 公司 AI 高多层专线利用率 74%,惠州/湖南/越南三大扩产合计 164 万㎡/年 · Prismark《2025-2026 算力 PCB 市场供需报告》+IHS Markit《全球 AI 服务器硬件供应链跟踪》双源确认 · 保留 GB300 客户认证与英伟达 Tier1 细节 → 2'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 74.65 倍/3 年分位 95.98%(asOf 2026-06-16),估值高位,趋势向下(性价比恶化);扣分项为估值最贵,需控买点 → 2'},{key:'barrier',score:5,trend:'flat',reason:'英伟达 Tier1+GB300 OAM 子板核心+显卡 PCB 全球~50%(Prismark)+100+ 层技术储备/70 层量产+AI 占比 43.20%(巨潮 2025 年报),壁垒极高;豆包 2026-06-26 确认 → 5'}],
       src:'2026Q1/2025年报+Prismark', valAsOf:'2026-06-22', trend:'up', trendNote:'GB300 OAM核心·显卡PCB全球50%·谷歌微软ASIC·字节阿里云·Q1 15.2亿',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}], growthAdj:true ,
@@ -1108,7 +1108,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
 },
 
     '688183': { code:'688183', name:'生益电子', rank:6, barrier:'极高', tier:'primary',
-      position:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证',
+      position:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证(AWS占电子元器件业务约44.5%,口径嵌套:AWS单一客户营收÷电子元器件业务营收)',
       investable:true, region:'国内',
       caliber:'英伟达供应链口径(estimate·L1生益电子2026一季报)',
       investableReason:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证｜来源:生益电子2025年报+2026一季报(L1 primary·ROE 25.64%)+华泰证券AI PCB专题(L4 broker)｜口径:英伟达供应链口径',
