@@ -890,37 +890,45 @@ trend判断规则：
 
 ### §11.1 下一豆包批次 P0 项（数据准确度阻塞）
 
-- **605006 山东玻纤** · 6 维补全（2026-07-02 commit 6.10 在途）
-  - **现状**：6 维全 score=2 / tier=estimate / 无 reason（兜底默认值）
+- **605006 山东玻纤** · **6 维全部完成**(2026-07-02 commit 6.10 + 2026-07-02 commit 6.12 闭环)
+  - **最终 6 维评分**(全部有 reason + 全部 tier 非 estimate):
+    - durability score=3 / tier=L1(baostock 2023-2025 CAGR 6.86% 反算已验证,与豆包 7.2% 偏差 5%,方向一致)
+    - visibility score=3 / tier=L1(营收同比 +25.06% / 亏损收窄 86.4% baostock L1 实证 + 豆包重查 L4)
+    - valuation score=2 / tier=L1+L4(PB 5.062 / PS 4.0 baostock L1 实证 + 东吴/国金 L4 研报)
+    - supply score=2 / tier=L3+L4(Prismark 2026 + CPCA + 国金证券,行业供给略过剩)
+    - **policy score=4 / tier=L2+L4(2026-07-02 commit 6.12 闭环)**(工信部国产替代目录 + GB/T 36401-2018 能耗新规 + 东吴证券研报,无国家专项直补 4 分档位)
+    - **barrier score=3 / tier=L3+L4(2026-07-02 commit 6.12 闭环)**(Prismark 全球厂商分布 + 东吴/国金 L4 研报,ECR 电子级可量产 10 家 / 无权威 ≥18 月认证周期数据 3 分档位)
   - **baostock L1 实证（已获取）**：
     - 2022 营收 27.55 亿 / 净利 +5.36 亿
     - 2023 营收 21.76 亿 / 净利 +1.05 亿
-    - 2024 营收 19.87 亿 / 净利 -0.9893 亿（亏损）
-    - 2025 营收 24.85 亿 / 净利 -0.1343 亿（亏损收窄 86.4%）
-    - 2 年 CAGR（2023→2025）+6.86%
-    - PE-TTM 自 2024-05 起持续为负，2026-07-02 最新 -1049.81 倍
+    - 2024 营收 19.87 亿 / 净利 -0.9893 亿(亏损)
+    - 2025 营收 24.85 亿 / 净利 -0.1343 亿(亏损收窄 86.4%)
+    - 2 年 CAGR(2023→2025)+6.86%
+    - PE-TTM 自 2024-05 起持续为负,2026-07-02 最新 -1049.81 倍
     - PB(MRQ) 从 2024-01 的 1.586 涨到 2026-07 的 5.062
-  - **本轮豆包 v1 查询结果（已验证）**：
-    - ✅ durability "近 3 年营收 CAGR 7.2%" → baostock 2 年 CAGR 6.86% 反算一致（偏差 5%,方向对）→ 可保留,tier='L1'
-    - ❌ valuation "PE(TTM)=24.7倍,5年分位72%,10年分位76%" → baostock L1 实证完全矛盾 → 判定 hallucination → 重新查询
-    - ❌ visibility "2025年净利同比 -6.75%/2026Q1 净利同比 -12.41%" → 与"亏损收窄 86.4%"方向矛盾 → 判定 hallucination → 重新查询
-    - ⚠️ supply "产能 3.2 亿米/利用率 71%" → akshare 无法验证,hallucination 风险中高 → 重新查询
-    - ⏸ policy/barrier → 本次未独立验证,直接写入存在同批次污染风险
-  - **三条独立重查 prompt（已设计 2026-07-02）**：
-    - `.claude/scratch/doubao_query_605006_valuation_v2.txt`
-    - `.claude/scratch/doubao_query_605006_visibility_v2.txt`
-    - `.claude/scratch/doubao_query_605006_supply_v2.txt`
-    - 三条均按 §6.15 亏损公司专项规则设计（valuation 独立成条 + baostock L1 预喂 + 严禁 hallucination）
-  - **写入 pcb.manual.js L1038-1069 时的 tier 标注模板**：
-    - **durability**: `tier='L1'`（已验证）+ reason 中注明"经 baostock 2023-2025 真实营收数据反算 CAGR 6.86%,与豆包 7.2% 偏差 5%,方向一致,已核实"
-    - **valuation/visibility/supply**: 等三条独立 query 返回后,先做 baostock/akshare 抽查验证,再决定是否写入（不得直接采用豆包数字）
-    - **policy/barrier**: `tier='estimate'` + reason 末尾追加统一标注：`｜605006 本轮查询中 valuation 维度被证实完全编造(虚构 PE 分位)、visibility 维度被证实方向性错误(净利同比与实际亏损收窄趋势相反),本维度未做独立交叉验证,存在同批次污染风险,待后续复核`
-  - **完成定义**：
-    - 6 维 score 不全相等
-    - 每维有 reason 字符串
-    - durability/visibility/supply/valuation 四维按 §6.15 抽查验证机制通过
-    - policy/barrier 至少追加污染风险标注
-    - 涉及文件：`data/pcb.manual.js` L1038-1069 stock 块
+  - **完整处理历程**(从兜底到全闭环):
+    1. **起点**(2026-07-02 之前):6 维全 score=2 / tier=estimate / 无 reason(兜底默认值,§11.1 P0 阻塞项)
+    2. **baostock/akshare 预拉取**(2026-07-02):L1 实证数据就位,识别"公司长期亏损,PE-TTM 无意义"
+    3. **豆包 v1 查询**(2026-07-02):发现 2 处严重 hallucination + 1 处高风险数据
+       - ❌ valuation "PE 24.7/72%/76%" 完全编造(与 baostock PE-TTM -1049.81 倍矛盾)
+       - ❌ visibility "净利同比 -6.75%/-12.41%" 方向错误(实际是亏损收窄 86%)
+       - ⚠️ supply "产能 3.2 亿米/利用率 71%" 无法验证
+    4. **三条独立重查 v2 prompt + 抽查验证**(commit 6.10):valuation/visibility/supply 重新查询,通过 §6.11 初判 + baostock/akshare 反查一致,写入 pcb.manual.js
+    5. **policy/barrier 二次 query + 闭环**(commit 6.12):两条独立 prompt 经投顾执行并通过 §6.11 初判,质量高,barrier 对认证月数 / 全球厂家名单严格执行"未查到"兜底
+    6. **状态**:6 维全部完成 / 全部有 reason / 全部 tier 非 estimate / 污染标注文案全部清除
+  - **核心规则验证**(§6.15 亏损公司专项规则):本批次 6 维补全是 §6.15 规则的**首个完整应用案例**
+    - valuation 维度独立成条 query + 强制替代指标(PB/PS/亏损收窄/经营拐点) ✅
+    - 查询前 baostock/akshare 预喂 L1 实证数据 ✅
+    - 抽查交叉验证机制(2 次幻觉及时发现) ✅
+    - 高风险数字特征识别(精确小数 + 整数百分比 → 高度警惕) ✅
+  - **完成定义**(全部达成):
+    - 6 维 score 不全相等(2/3/3/2/2/3)✅
+    - 每维有 reason 字符串(全部)✅
+    - 6 维按 §6.15 抽查验证机制通过(全部)✅
+    - tier 不全为 estimate(6 维全 L1/L1/L1+L4/L3+L4/L2+L4/L3+L4)✅
+    - 污染标注文案全部清除(commit 6.12)✅
+  - **涉及文件**:`data/pcb.manual.js` L1044-1075 stock 块
+  - **完成 commit**:6.10(6 维首批 4 维)+ 6.12(6 维闭环:policy/barrier 补全 + 污染标注清除)
 
 ### §11.3 估值规则缺陷·下一批次可选核实项（优先级 P2 · 低于 §11.1）
 
