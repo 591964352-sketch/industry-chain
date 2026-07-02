@@ -468,6 +468,48 @@ Phase 10 半导体设备 R2-1 → R2-2 → R2-3 → R2-4 累计 4 轮重出。CC
 
 **违反本节 = §6.2 红线（双层数据不一致）**。
 
+### 6.13 豆包返回涉及主营业务占比数字·强制 akshare stock_zygc_em 前置核验（2026-07-02 commit 6.6 立）
+
+> **事故案例（2026-07-02）**：R3-16+ 批 2 / 豆包 E 批次 301217 铜冠铜箔 返回"电子电路铜箔营收占比 43%"，akshare `stock_zygc_em` 实证为 **"PCB 铜箔占比 55.37%"**（12pp 偏差 + 产品分类名称错位）。该 hallucination 未写入 `pcb.manual.js`（lessons-learned 标记作废有效），但暴露豆包在"营收占比类数字"上的**系统性不可信**。
+
+**触发场景**：任何豆包 / DeepSeek / Gemini prompt 查询**涉及"某 stock 某业务/产品/产品分类占公司总营收 X%"** 类数字时，**必须**先走 akshare `stock_zygc_em` 实测核验，**不得**直接采信 LLM 返回的占比数字。
+
+**强制规则**：
+
+1. **前置核验**：豆包 prompt 返回后，先用 akshare `stock_zygc_em` 拉取同一报告期主营构成（`MAINOP_TYPE=2` 产品 + `MAINOP_TYPE=1` 行业），交叉对比
+2. **对比口径**：
+   - 产品分类占比（`MAINOP_TYPE=2`）—— 对应公司年报"按产品分类"披露
+   - 行业分类占比（`MAINOP_TYPE=1`）—— 对应公司年报"按行业分类"披露
+3. **偏差阈值**：偏差 >5pp 视为幻觉，**必须丢弃豆包数字改用 akshare**；偏差 ≤5pp 标注口径差异保留豆包数字但加 ⚠️ 口径差异
+4. **产品分类名错位**：豆包常将"PCB 铜箔" / "电子电路铜箔" / "锂电铜箔" 等相似名称混淆 —— **必须以 akshare 的 `ITEM_NAME` 为准**
+5. **akshare 数据通道属性**：akshare `stock_zygc_em` 数据源 = 东方财富（抓取自巨潮/年报），**实际信源等级 = L1 primary**（年报原始披露），只是通过 akshare 接口访问；不能因为用 akshare 就降级到 L5
+   - **L1 等效限定**：此 L1 等效认定**仅适用于 akshare 成功完整解析返回数据的情况**（即 `r.json()` 成功 + `zygcfx` 字段齐全 + `MAINOP_TYPE=1/2` 行数 ≥1）；若接口返回 **JSON 解析失败 / 字段缺失 / 需正则补查**（如 `002938 鹏鼎控股` 案例，GBK 解码含特殊字符 → `json.JSONDecodeError`），该数据点**降级为"akshare 辅助 + 人工核实"**，**不自动视为 L1**——必须由投顾人工登录巨潮/年报核对原始数据后再标记 tier
+   - **降级标记方式**：dims6 字段中 tier 标 `estimate`（或 `L4`）+ reason 字段末尾追加 `｜akshare 正则补查·降级为辅助·需人工核对 L1`
+6. **不替代产能/产量**：akshare **没有**"产能/产能利用率/产量"结构化接口（2026-07-02 实测确认），这部分**仍须 LLM 读年报 PDF + 强制窄范围复核**（§6.11 约束 #11 不得编造）
+
+**已验证规模**（2026-07-02 实测）：
+- PCB 38 只 stock 全量核验：成功 37 / 失败 1（`002938 鹏鼎控股` JSON 解析失败，正则补查成功）
+- 显著差异（偏差 >5pp 或产品名错位）：19 只中**绝大多数是细分口径差异**（如"AI 占 PCB 43%" vs "PCB 占公司 93.74%"），非数据错误
+- 真正数据错误：**301217 铜冠** 1 只（豆包 43% vs akshare 55.37%，已 commit 6.6 修正）
+- OCR 异常值 3 只待人工复核：`601208 东材 "131.42%"` / `002636 金安国纪 "763.91%"` / `002384 东山精密 "143.0%"`（已纳入 §11 待办）
+
+**验证脚本**：`scripts/verify_business_structure.py` · 已对 PCB 38 只 stock 全量核验，结果写入 `.claude/scratch/business-structure-diff-<date>.json`
+
+**复用方式**（11 链扩展）：
+```bash
+# 修改脚本中 chainId 参数即可对其他赛道核验
+# scripts/verify_business_structure.py 默认 pcb · 可改为其他 11 链
+```
+
+**akshare 接口技术注意**：
+- `stock_zygc_em` 底层走 `emweb.securities.eastmoney.com` —— **Windows 代理可通**
+- `push2.eastmoney.com` 子域名（部分 akshare 默认调用）—— **Windows 代理会拦截**，需在能联网的环境跑
+- `stock_zygc_em` 返回 GBK 编码，需 `r.encoding = 'gbk'`；个别 stock 接口返回含 GBK 解码不了的特殊字符（`002938 鹏鼎控股` 即此类），用正则提取兜底
+
+**违反本节 = §6.2 红线（造数）+ §6.8 数据准确度优先原则违反**。
+
+---
+
 ## Serenity Skill —— 主要的操作入口
 
 [.claude/skills/serenity/SKILL.md](.claude/skills/serenity/SKILL.md) 是本仓库的操作手册，已经作为可调用 skill (`serenity`) 注册。它涵盖：
