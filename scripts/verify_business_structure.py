@@ -120,12 +120,60 @@ print(f'\n[3] 拉取完成 · 成功 {len(all_results)} / 失败 {len(errors)}\n
 PCT_RE = re.compile(r'(\d+(?:\.\d+)?)\s*[%％]')
 PCT_RANGE_RE = re.compile(r'(\d+(?:\.\d+)?)\s*[%％]\s*[-~到至]\s*(\d+(?:\.\d+)?)\s*[%％]')
 
+# 数字周围出现这些关键词 → 跳过(非主营占比口径)
+SKIP_KEYWORDS = [
+    '同比', '增长', '增幅', '降幅', '增速',
+    '市占率', '市占', '份额',
+    '产能利用', '产能利用率',
+    '良率', '合格率',
+    '毛利率', '净利率', '净利同比',
+    '产销率',
+    'YoY', 'yoy',
+    'PE分位', 'PE-TTM', 'PE-', '估值',
+    '涨幅', '跌幅',
+]
+
+# 数字周围出现这些关键词 → 纳入(明确主营占比口径)
+INCLUDE_KEYWORDS = [
+    '占比', '占公司', '占主营', '营收占比', '主营占比',
+    '占营业收入', '占营收', '营业总收入', '总营收占比', '收入占比'
+]
+
+def extract_caliber_marked_pcts(text):
+    """仅提取文本中明确标注为'营收占比/主营占比'口径的 % 数字
+    跳过:同比/+%/增速/YoY/市占率/产能利用率/良率/毛利率/净利率/估值等
+    """
+    if not text:
+        return []
+    results = []
+    for m in re.finditer(r'(\d+(?:\.\d+)?)\s*[%％]', text):
+        pct = float(m.group(1))
+        start = max(0, m.start() - 20)
+        end = min(len(text), m.end() + 8)
+        context = text[start:end]
+
+        # 跳过:任意跳过关键词出现在 context
+        if any(kw in context for kw in SKIP_KEYWORDS):
+            continue
+
+        # 纳入:任意纳入关键词出现在 context
+        if any(kw in context for kw in INCLUDE_KEYWORDS):
+            results.append({'pct': pct, 'context': context})
+            continue
+
+        # 兜底:无明确口径标注 → 不纳入(避免误报)
+
+    return results
+
+# 保留旧 extract_pcts 以便日志输出跳过的数字
 def extract_pcts(text):
-    """提取文本中所有百分比数字"""
+    """提取文本中所有百分比数字(供日志)"""
     return [float(m) for m in PCT_RE.findall(text or '')]
 
 def check_deviation(code, stock_data):
-    """对单只 stock 检查 position/investableReason 中的占比描述与 akshare 真实数据偏差"""
+    """对单只 stock 检查 position/investableReason 中的占比描述与 akshare 真实数据偏差
+    仅对比明确标注'主营占比/营收占比'口径的数字(extract_caliber_marked_pcts)
+    """
     issues = []
 
     by_product = stock_data['by_product']
@@ -136,12 +184,16 @@ def check_deviation(code, stock_data):
     if not by_product and not by_industry:
         return None  # 无主营构成数据
 
-    # 提取文本中所有占比数字
+    # 提取文本中**明确标注主营占比**的数字
     text = (pos or '') + ' ' + (reason or '')
-    text_pcts = extract_pcts(text)
+    text_pcts_marked = extract_caliber_marked_pcts(text)
+    text_pcts_all = extract_pcts(text)
+    text_pcts = [x['pct'] for x in text_pcts_marked]
 
     if not text_pcts:
-        return None  # 文本中无占比数字,无法核对
+        # 没有"占比"类数字 → 检查是否有"主营产品名"标注问题(产品名一致性独立判断)
+        # 但不算偏差
+        return None  # 文本中无主营占比数字,无法核对
 
     # 取 akshare 主营构成(产品口径)Top 1 占比作为对比基准
     main_ratio = by_product[0]['ratio_pct'] if by_product else (by_industry[0]['ratio_pct'] if by_industry else None)
@@ -153,11 +205,14 @@ def check_deviation(code, stock_data):
     # 检查文本中的占比数字是否与主营占比差距过大
     worst_diff = 0
     worst_pct = None
-    for pct in text_pcts:
+    worst_ctx = None
+    for item in text_pcts_marked:
+        pct = item['pct']
         diff = abs(pct - main_ratio)
         if diff > worst_diff:
             worst_diff = diff
             worst_pct = pct
+            worst_ctx = item['context']
 
     # 偏差 >5pp 算显著差异
     threshold = 5.0
@@ -168,7 +223,7 @@ def check_deviation(code, stock_data):
             'akshare_main_ratio': main_ratio,
             'text_pct': worst_pct,
             'diff_pp': round(worst_diff, 2),
-            'text_excerpt': text[:100]
+            'text_context': worst_ctx
         })
 
     # 检查文本中的产品名是否与 akshare 一致(简单匹配)
