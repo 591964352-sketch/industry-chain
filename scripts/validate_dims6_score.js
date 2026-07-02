@@ -64,6 +64,12 @@ function supplyTheoreticalScore(reason) {
   return null; // 无法判断
 }
 
+// ★ 已知差异:002463 沪电股份 supply 维度 (commit 6.4 登记)
+//   实际 score=2(整赛道 AI PCB 略过剩,commit 5.8 投顾决断口径)
+//   脚本默认视角读到 "78 层 M9 细分赛道 2025 年全球供给缺口 18%" 触发 5 分关键词
+//   差异 3 档,属已知整赛道 vs 细分赛道口径选择,非新发现异常
+//   跳过本次判定即可(不修改 score,不需人工重核)
+
 console.log('==================================================');
 console.log('validate_dims6_score · PCB dims6 ↔ §10 规则校验');
 console.log('==================================================\n');
