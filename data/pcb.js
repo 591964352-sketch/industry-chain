@@ -448,7 +448,26 @@ CHAINS.pcb.segments = [
       { rank:4, name:'东威科技', code:'688700', position:'VCP电镀国内市占>50%·AI订单>5亿 + Phase 9 PCB 短板补充:⚪media(公司公告 + 行业转述) + Phase 9 PCB 短板补充:⚪media(公司公告 + 行业转述)', barrier:'中', tier:'primary', valAsOf:'2026-06-22', src:'akshare/新浪财经(基于公司季报)', trend:'up', trendNote:'VCP国内50%+·沪电胜宏东山认证·AI订单5亿+200%·景旺鹏鼎·ABF载', hits:null, strength:null, logic:'<mark class="updated">2026Q1营收3.05亿、归母0.44亿、毛利率37.25%</mark>(2026-04-28季报,tier:primary,src:akshare/新浪财经(基于公司季报));PE-TTM 204.21倍(3年分位93.15%,asOf:2026-06-21)。AI订单>5亿。三合一电镀设备打破海外垄断',
         dims6:[{key:'durability',score:4,trend:'up',tier:'estimate',reason:'VCP 电镀国内市占>50%+三合一电镀设备打破海外垄断;AI 算力+5G 持续抬升 PCB 电镀设备需求,延续性强 → 4'},{key:'visibility',score:4,trend:'up',tier:'estimate',reason:'26Q1 营收 3.05 亿,归母 0.44 亿,毛利率 37.25% 极强;AI 订单>5 亿,业绩弹性兑现,趋势向上 → 4'},{key:'policy',score:3,trend:'flat',tier:'estimate',reason:'高端 PCB 设备国产替代政策中性,趋势走平 → 3'},{key:'supply',score:4,trend:'up',tier:'estimate',reason:'VCP 电镀国内市占>50%+AI 订单>5 亿,扩产潮直接利好,趋势向上 → 4'},{key:'valuation',score:2,trend:'down',tier:'estimate',reason:'PE-TTM 197.00 倍/3 年分位 91.87%(asOf 2026-06-16),估值严重透支,趋势向下(分位回踩中) → 2'},{key:'barrier',score:2,trend:'flat',tier:'estimate',reason:'VCP 电镀国内市占>50%+三合一电镀设备打破海外垄断,壁垒中等偏下;非物理卡口(全球供应商>5 家),壁垒待高端化兑现 → 2'}],
         dims6Note:'🟢 VCP垂直连续电镀国内50%+市占(2024-Q4至2026-Q2 broker双源·麦高+国信)+沪电/胜宏/东山电镀认证(2025-Q1/Q3 broker+primary)+AI订单5亿同比+200%(2026-Q1 broker双源);高速电镀速度+30%/能耗-20%/良率99%+;Q1营收3.05亿/净利0.44亿/毛利率37.25%极强;⚠️VCP 50%+市占(麦高单源)+良率99%+(麦高单源)+高速电镀客户认证时间未查到' },
-      
+
+    ]
+  },
+  // ★ commit 6.2 立:PCB 钻针耗材段位(idx 7 · 配套标的中钨高新/四方达)· 301377 鼎泰高科已在 idx 5
+  {
+    name: 'PCB钻针耗材', costRatio: '—', barrier: 'mid', choke: false, border: false,
+    intro: 'PCB 钻针是 PCB 制造核心耗材,M9 基材升级使钻针寿命从 1000 孔降至 100-200 孔,用量暴增。本段为配套标的(硬质合金棒材 / 复合超硬材料),PCB 钻针耗材主供应商鼎泰高科已在 idx 5 PCB专用设备 中展示。',
+    globalLandscape: [
+      { lbl: '鼎泰高科（中）', val: 'PCB钻针全球第一(2025H1市占28.9%)', note: '展示在 idx 5 PCB专用设备' },
+      { lbl: '中钨高新（中）', val: '硬质合金/钨钼制品龙头·PCB微钻配套', note: 'A股PCB上游材料配套' },
+      { lbl: '四方达（中）', val: 'PCD/PCBN复合超硬材料·钻针配套', note: 'A股PCB耗材配套' }
+    ],
+    stocks: [
+      { rank:1, name:'中钨高新', code:'000657', position:'硬质合金/钨钼制品龙头·PCB 微钻与硬质合金棒材', barrier:'高', tier:'primary', valAsOf:'2026-06-29', src:'(estimate·待人工核实)', trend:'up', trendNote:'★ Phase 2-② 新增·estimate', hits:null, strength:null, logic:'★ commit 6.2 立:作为 idx 7 PCB钻针耗材配套标的从 pcb.manual.js 同步到 pcb.js 渲染层·位置描述保持不变·fundamentals 仍待三表核实',
+        dims6:[{key:'durability',score:3,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
+        dims6Note:'★ Phase 2-② 新增·6 维全 estimate·fundamentals 待三表核实' },
+      { rank:2, name:'四方达', code:'300179', position:'PCD/PCBN 复合超硬材料·钻针配套', barrier:'中', tier:'primary', valAsOf:'2026-06-29', src:'(estimate·待人工核实)', trend:'up', trendNote:'★ Phase 2-② 新增·estimate', hits:null, strength:null, logic:'★ commit 6.2 立:作为 idx 7 PCB钻针耗材配套标的从 pcb.manual.js 同步到 pcb.js 渲染层·位置描述保持不变·fundamentals 仍待三表核实',
+        dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'estimate'},{key:'barrier',score:3,trend:'flat',tier:'estimate'}],
+        dims6Note:'★ Phase 2-② 新增·6 维全 estimate·fundamentals 待三表核实' },
+
     ]
   },
 ];
