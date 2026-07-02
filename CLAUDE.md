@@ -345,36 +345,37 @@ Phase 10 半导体设备 R2-1 → R2-2 → R2-3 → R2-4 累计 4 轮重出。CC
    - 否 → ✅ 可以推荐
 ```
 
-### 6.9 上市状态预检 + 豆包返回幻觉筛查（双重检查·硬约束）
+### 6.9 stock code / 段位 / name 三重验证（实装·R3-16+ 落地）
 
-**触发时机**：任何涉及具体 stock 的数据操作前，必须先做上市状态预检 + 豆包返回幻觉筛查。
+**触发时机**：任何涉及具体 stock 的豆包/DeepSeek 注入批次提交前。
 
-**双重检查流程（顺序执行，不可跳步）**：
+**实装脚本**：
+- `.claude/scratch/R3-16-batch2-hallucination-screen.js`（segments[0]-[3] 19 只范例）
+- `.claude/scratch/R3-16-batch3-hallucination-screen.js`（segments[4]-[6] 15 只范例）
 
-1. **上市状态预检**——运行 `.claude/plans/tools/pcb-pre-flight-check.js`
-   - 动态提取 pcb.js 中所有 stock code（segments + midstream + fourQuestions 三路径）
-   - 扫描字段是否含退市/停牌/ST/暂停上市/delisted/suspended 关键词
-   - 输出报告写入 `.claude/scratch/stock-status-report.md`
-   - **异常 stock 必须用户显式确认处理方式（删除/标注退市/暂存）后，才进入下一步**
+**三重验证流程（顺序执行，不可跳步）**：
 
-2. **豆包返回幻觉筛查**——运行 `.claude/plans/tools/pcb-hallucination-screen.js`
-   - 对豆包每次返回的方案 G 7 段式内容做 4 层防御检查
-   - Layer 1 退市窗口（❌严重）：已退市 stock 不应有实质性事件
-   - Layer 2 事件密度（⚠️警告/❌严重）：总事件数 >15 警告 / >20 严重
-   - Layer 3 数字可验证性（⚠️参考）：未在 pcb.js 中佐证的数字
-   - Layer 4 客户名可验证性（⚠️参考）：未在 pcb.js 中出现的客户名
-   - risk score >= 10 → ❌ 强烈疑似幻觉，禁止采信
-   - risk score 5-9 → ⚠️ 部分可疑，需人工核查
-   - risk score < 5 → ✅ 通过（Layer 3/4 仅供参考）
+1. **stock code 校验**——动态提取 `pcb.js` 实际 stock list（segments + midstream + fourQuestions 三路径），验证豆包返回的所有 stock code 在 pcb.js 中
+2. **stock 段位校验**——对比返回 stock 的 segIdx 与 pcb.js 实际 segIdx
+3. **stock name 校验**——对比返回 stock 的 name 与 pcb.js 实际 name
 
-**双重检查强制规则**：
-- 任何 stock 在 trend 推断前**必须**先过 pre-flight-check.js（查 stock 状态）+ hallucination-screen.js（查豆包返回内容）
-- 单一检查通过不算合规，必须两项都通过
-- 异常 stock（如退市）的豆包返回即使幻觉筛查"通过"也不算合规——双重检查必须都通过
+**附：数据冲突检查**——对比上一稳定版本 trendNote 与新数据，重大漂移（如 trend 从 up → down / 营收增长率从 +50% → +200%）必须显式标注 ⚠️。
 
-**违反本节 = §6.2 红线（造数）+ §6.8 数据准确度优先原则违反**。
+**强制规则**：
+- 任何涉及 ≥10 只 stock 的数据刷新必须先过三重验证
+- 单一检查通过不算合规，三项必须都通过
+- 数据冲突检查必须列出所有重大漂移并标注 ⚠️
 
-**事故案例（2026-06-21）**：002288 超华科技已退市但被纳入 P1 流程，豆包返回 13 项事件含 7 项 2026 幻觉事件（HVLP 铜箔认证/玉林基地/宁德时代比亚迪绑定等）被采信为 down 判定依据，导致三层关卡（CC 采纳→网页端审核→用户确认）全部失守。本次双重检查机制即为此事故的防御措施。
+**违反本节 = §6.2 红线（造数）**。
+
+**事故案例（2026-06-22）**：R3-16+ 批 1 豆包在缺上述约束下返回 4 只 pcb.js 不存在的 stock（600143 金发科技、600346 恒力石化、600160 巨化股份、688519 南亚新材错码），并把 603228 景旺电子、002916 深南电路错位到错误段位。三重验证机制即为此事故的防御措施。
+
+> **设计稿·未实装**（2026-07-02 审计确认 gap）：§6.9 早期版本曾描述"上市状态预检"（`.claude/plans/tools/pcb-pre-flight-check.js`）+"4 层幻觉筛查"（含 risk score 量化）双重检查机制。截至本审计:
+> - `pcb-pre-flight-check.js` **不存在**（`.claude/plans/tools/` 目录仅有 `helper_akshare.py` / `_akshare_spot_cache.json`）
+> - `pcb-hallucination-screen.js` **不存在于** `.claude/plans/tools/`——脚本实际位于 `.claude/scratch/` 且仅做"stock code / 段位 / name"三重验证,无"4 层防御 + risk score 量化"
+> - 退市窗口扫描、事件密度告警、数字可验证性、客户名可验证性这 4 层均**未实装**
+>
+> 若需恢复这 4 层防御+上市状态预检,需新建脚本(预计代码量 ~300 行),不在本批次 scope。**短期应对**:沿用现有三重验证 + 豆包 prompt 中显式约束 L1 数据由用户人工登录 cninfo 核对（§6.11 约束 #8）。
 
 ### 6.10 三重验证机制（stock code / 段位 / name 校验·硬约束）
 
@@ -444,6 +445,28 @@ Phase 10 半导体设备 R2-1 → R2-2 → R2-3 → R2-4 累计 4 轮重出。CC
 **事故案例（2026-06-27）**：R4-82 豆包返回 4 条 dfcfw.com PDF URL（华泰/东吴/国金/东北证券），经 curl 实测全部为 HTTP 200 + Content-Length 0 + 无 %PDF 文件头——dfcfw CDN 对所有 H3_AP 模式 URL 一律返回空响应占位。本节升级至 13 条，新增约束 #8「禁止提供任何 PDF URL」+ 约束 #7 改为 6 级信源分层（L1-L6），禁止 L4 券商研报提供 PDF URL。
 
 **事故案例（2026-06-27 第二轮）**：R4-82 补查 6 条 cninfo 真实 PDF URL 抽查，仅 1 条（深南电路 2024 年度报告）真实可访问（3.95 MB / %PDF-1.5 / HTTP 200），其余 5 条全部 404（146 字节 HTML 404 页）。豆包声称「已验证 URL 真实可访问」实际未执行 HTTP 请求，系统性编造 cninfo 文件 ID。约束 #8 升级为「禁止提供任何 URL」（包括 cninfo PDF）——豆包 L1 数据真实性由用户人工登录 cninfo 核对。
+
+### 6.12 双层架构同步校验（pcb.manual.js ↔ pcb.js·commit 5.9 立）
+
+**触发时机**：每次 commit 前必须运行 `python scripts/page_audit.py` → 第【7】项会调用 `scripts/check_manual_pcb_sync.js` 自动 diff 两层文件的 stock 列表。
+
+**校验范围**：
+- 仅 `pcb.manual.js` 有 / pcb.js 渲染层无(悬空 stock · 需评估是否补 pcb.js)
+- 仅 `pcb.js` 有 / `pcb.manual.js` 无(manual 层缺失 · 需评估是否补 manual.js)
+- `name` 不一致(同一 code 两层 name 不同)
+
+**强制规则**：
+- 第【7】项 FAIL → **不得 commit** · 必须先修复差异
+- 当前已发现 2 处悬空 stock(`000657 中钨高新` / `300179 四方达` · 仅 manual.js 有)· 详见 §11.1 待办
+
+**历史事故**：
+- commit 4.35 误删 `002443 金洲管道` / `603519 神马电力`(实为非 PCB 标的)——曾发生
+- commit 5.6 同步补回 `603519 南亚新材`(commit 4.35 误删后)——已修复
+- 当前 2 处悬空是**已知差异**,已纳入 §11.1 待办
+
+**升级历史**：本机制在 commit 5.9 前**完全靠人工 `git diff data/pcb.js data/pcb.manual.js | grep` 检查**——易遗漏、不可靠。commit 5.9 起升级为 `scripts/check_manual_pcb_sync.js` 自动检查 + page_audit 第【7】项强制阻断 commit。
+
+**违反本节 = §6.2 红线（双层数据不一致）**。
 
 ## Serenity Skill —— 主要的操作入口
 
@@ -706,4 +729,18 @@ trend判断规则：
   - **下一豆包批次必做**：按 §6.11 13 条硬约束 + §6.10 三重验证重新查询 6 维评分 + 补充 reason
   - 完成定义：6 维 score 不全相等 + 每维有 reason 字符串 + tier 不全为 estimate
   - 涉及文件：`data/pcb.manual.js` L1038-1069 stock 块
+
+### §11.2 双层架构悬空 stock（page_audit 第【7】项 FAIL 阻塞）
+
+- **000657 中钨高新** · 仅 `data/pcb.manual.js` 有 · `pcb.js` segments/midstream/chokePoints 均无
+  - position 描述:"硬质合金/钨钼制品龙头·PCB 微钻与硬质合金棒材"
+  - **决策选项**:A) 补到 `pcb.js` idx 7 钻针段位 · B) 从 `pcb.manual.js` 删除(非 PCB 主业)
+  - 当前 commit 5.9 起被 page_audit 第【7】项标记 FAIL · 不得 commit
+
+- **300179 四方达** · 仅 `data/pcb.manual.js` 有 · `pcb.js` segments/midstream/chokePoints 均无
+  - position 描述:"PCD/PCBN 复合超硬材料·钻针配套"
+  - **决策选项**:A) 补到 `pcb.js` idx 7 钻针段位 · B) 从 `pcb.manual.js` 删除(配套非主营)
+  - 当前 commit 5.9 起被 page_audit 第【7】项标记 FAIL · 不得 commit
+
+**决策建议(投顾定夺)**:两者均为 PCB 钻针段位(idx 7)的配套标的,业务相关但 pcb.js 渲染层未展示。如保留,**建议补到 idx 7 段位**;如认定非主营,**从 manual.js 删除并保留 audit 记录**。
 
