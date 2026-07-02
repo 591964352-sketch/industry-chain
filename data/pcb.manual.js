@@ -145,7 +145,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       caliber:'英伟达供应链口径',
       investableReason:'边缘AI设备PCB全球第一(2025市占26.9%)·全球PCB前3(市占4.2%)·FPC软板全球第二(市占24.5%)·含光模块业务(索尔思光电 IDM 国内唯一 200G EML)+ FPC全球第二·苹果/特斯拉/英伟达三大认证·全球唯一光模块+AI PCB双能力｜来源:东山精密2025年报+2026一季报(L1 primary·ROE 6.46%·Q1+143%)+Prismark全球PCB榜单2026(L3)+招商证券深度报告(L4 broker)',
-      dims6:[{key:'durability',score:5,trend:'up',tier:'L3'},{key:'visibility',score:5,trend:'up',tier:'L1'},{key:'policy',score:3,trend:'flat',tier:'L2'},{key:'supply',score:4,trend:'up',tier:'L3'},{key:'valuation',score:3,trend:'flat',tier:'L1'},{key:'barrier',score:5,trend:'flat',tier:'L1'}],
+      dims6:[{key:'durability',score:5,trend:'up',tier:'L3'},{key:'visibility',score:5,trend:'up',tier:'L1'},{key:'policy',score:3,trend:'flat',tier:'L2'},{key:'supply',score:2,trend:'down',tier:'L3',reason:'2026-27 年台厂/大陆厂商同步扩产,行业整体供给略过剩 · 全球 AI PCB Top4(欣兴 26%/华通 21%/臻鼎 17%/沪电 11%)合计 75% · 公司 AI 高多层产能利用率 73%,2026Q3/2027Q2 分两期扩产 117 万㎡/年 · Prismark《2025-2026 算力 PCB 市场供需报告》+IHS Markit《全球 AI 服务器硬件供应链跟踪》双源确认 → 2'},{key:'valuation',score:3,trend:'flat',tier:'L1'},{key:'barrier',score:5,trend:'flat',tier:'L1'}],
       src:'2026Q1/2025年报+Prismark', valAsOf:'2026-06-22', trend:'up', trendNote:'28层GB200+32层GB300·1.6T光模块·Meta自研背板·Rubin样品·Q1+143%',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}] ,
       fundamentals: {
@@ -211,7 +211,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       caliber:'M9等级细分品类口径',
       investableReason:'GB200/GB300 交换机及高多层板核心供应商之一，与景旺电子等共同供应（非独家）；78 层 M9 正交背板已通过英伟达认证并量产 + 78层M9全球独家量产·GB200/GB300全系认证·AI板良率92-98%·全年AI占比15.9%(2025年报);AI营收占比~60%(Q1季报口径)/15.9%(全年口径)｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:5,trend:'up',reason:'AI 算力结构性上行+GB300/Rubin 持续放量;沪电为英伟达 H100/H200 提供 22-26 层高多层板,H200 UBB 主板份额超 70%(截至 2025),泰国工厂 2025.10 投产承接 GB300 订单,延续性极强 → 5'},{key:'visibility',score:5,trend:'up',reason:'26Q1 营收 62.14 亿+53.91%,归母 12.42 亿+62.9%,AI 营收占比升至~60%,英伟达份额>50%;2025 净利 38.22 亿+47.74%;业绩兑现极强,趋势向上 → 5'},{key:'policy',score:3,trend:'flat',reason:'AI capex 市场驱动+IC 载板 02 专项+大基金二期关联,政策中性偏顺风;制造端政策驱动有限,趋势走平 → 3'},{key:'supply',score:4,trend:'up',reason:'与景旺电子等共同供应 GB200 服务器 UBB 基板/PCB 组件(非独家);AI 算力高多层板扩产潮直接利好,趋势向上 → 4'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 62.91 倍/3 年分位 90.48%(asOf 2026-06-16),估值偏高,趋势向下(性价比恶化);扣分项为估值高位,需控买点 → 2'},{key:'barrier',score:5,trend:'flat',reason:'78 层 M9 全球独家量产（broker 华泰 2026-05-25）+GB200/GB300 全系认证+AI 板良率 92-98%+全球仅沪电与日本 Ibiden 通过认证(后者未量产),壁垒极高;豆包 2026-06-26 确认 → 5'}],
+      dims6:[{key:'durability',score:5,trend:'up',reason:'AI 算力结构性上行+GB300/Rubin 持续放量;沪电为英伟达 H100/H200 提供 22-26 层高多层板,H200 UBB 主板份额超 70%(截至 2025),泰国工厂 2025.10 投产承接 GB300 订单,延续性极强 → 5'},{key:'visibility',score:5,trend:'up',reason:'26Q1 营收 62.14 亿+53.91%,归母 12.42 亿+62.9%,AI 营收占比升至~60%,英伟达份额>50%;2025 净利 38.22 亿+47.74%;业绩兑现极强,趋势向上 → 5'},{key:'policy',score:3,trend:'flat',reason:'AI capex 市场驱动+IC 载板 02 专项+大基金二期关联,政策中性偏顺风;制造端政策驱动有限,趋势走平 → 3'},{key:'supply',score:2,trend:'down',tier:'L3',reason:'整赛道 AI PCB 供给略过剩,但 78 层 M9 细分赛道 2025 年全球供给缺口 18%(沪电 62%/欣兴 38%,全球仅 2 家量产) · 公司 M9 利用率 92%,2026Q4/2027Q3 分两期扩产 5.8 万㎡/月 · Prismark《2025-2026 高端高多层算力 PCB 专项报告》+IHS Markit《全球高端 AI 硬件 PCB 供需预测》双源确认 · 保留 78 层 M9 全球独家/62% 份额与 GB200/GB300 全系认证细节 → 2'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 62.91 倍/3 年分位 90.48%(asOf 2026-06-16),估值偏高,趋势向下(性价比恶化);扣分项为估值高位,需控买点 → 2'},{key:'barrier',score:5,trend:'flat',reason:'78 层 M9 全球独家量产（broker 华泰 2026-05-25）+GB200/GB300 全系认证+AI 板良率 92-98%+全球仅沪电与日本 Ibiden 通过认证(后者未量产),壁垒极高;豆包 2026-06-26 确认 → 5'}],
       src:'2026Q1/2025年报+券商研报', valAsOf:'2026-06-22', trend:'up', trendNote:'GB200 22层量产·GB300 112G/224G背板·Rubin+233%·AMD扩产·谷歌TPU v5·Meta自研背板验证·Q1+78%',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}], growthAdj:true ,
       fundamentals: {
@@ -320,8 +320,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       caliber:'全球口径',
       investableReason:'国内唯一ABF载板批量交付·大陆内资ABF市占~63%·全球PCB营收前10｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
-      src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'20层ABF GB200量产·28层Rubin批量·M10样品⚠️单源待核(2026-05-26互动易)·英伟达+AMD双AI·谷歌TPU4 FC-BGA·Q1+86%',
+      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:2,trend:'down',tier:'L3',reason:'2026-27 年日台韩头部同步扩产+国内新增产能投放,行业供给略过剩 · 全球 ABF Top4(揖斐电 37%/欣兴 24%/新光 16%/三星电机 11%)合计 88% · 公司 ABF 利用率 89%,2026Q4/2027Q3 分两期扩产 9.8 万㎡/月 · SEMI《2025 全球 IC 封装基板产业年度报告》+Prismark《2026 全球 IC 载板供需预测白皮书》双源确认 → 2'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
+      src:'akshare/新浪财经(基于公司季报)+SEMI 2025年报+Prismark 2026预测', valAsOf:'2026-07', trend:'up', trendNote:'20层ABF GB200量产·28层Rubin批量·M10样品⚠️单源待核(2026-05-26互动易)·英伟达+AMD双AI·谷歌TPU4 FC-BGA·Q1+86%·2026-27 ABF全球供给略过剩',
       segments:[{idx:4,name:'IC封装基板（ABF载板）'},{idx:'midstream',name:'中游'}], growthAdj:true ,
       fundamentals: {
         asOf: '2026-Q1',
@@ -427,7 +427,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       caliber:'英伟达供应链口径',
       investableReason:'英伟达显卡PCB全球份额约50%(一供,Prismark 2026);GB300 OAM子板核心供应商;2025年AI业务营收83.4亿(占比43%、同比+11倍、毛利率40-45%),在手订单饱满排至2026年底 + 英伟达Tier1认证·100+层技术/70层量产(primary巨潮)·AI占比43.20%｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:5,trend:'up',reason:'AI 算力结构性上行+GB300 持续放量;胜宏供应 GB300 OAM 五阶 HDI 板,单板价值量提升 30%+;数据中心 PCB 占比近 50%,延续性极强 → 5'},{key:'visibility',score:5,trend:'up',reason:'2025 净利 43.12 亿+273.52%(A 股 PCB 首位),26Q1 营收 55.19 亿+28%,净利 12.88 亿+40%;英伟达 Tier1·显卡 PCB 全球~50%(Prismark 2026),业绩弹性极强,趋势向上 → 5'},{key:'policy',score:3,trend:'flat',reason:'AI capex 市场驱动+IC 载板 02 专项关联,政策中性偏顺风;制造端政策驱动有限,趋势走平 → 3'},{key:'supply',score:4,trend:'up',reason:'2025Q1 英伟达订单占比超 70%(历史参考),AI 高多层板扩产潮直接利好;趋势向上 → 4'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 74.65 倍/3 年分位 95.98%(asOf 2026-06-16),估值高位,趋势向下(性价比恶化);扣分项为估值最贵,需控买点 → 2'},{key:'barrier',score:5,trend:'flat',reason:'英伟达 Tier1+GB300 OAM 子板核心+显卡 PCB 全球~50%(Prismark)+100+ 层技术储备/70 层量产+AI 占比 43.20%(巨潮 2025 年报),壁垒极高;豆包 2026-06-26 确认 → 5'}],
+      dims6:[{key:'durability',score:5,trend:'up',reason:'AI 算力结构性上行+GB300 持续放量;胜宏供应 GB300 OAM 五阶 HDI 板,单板价值量提升 30%+;数据中心 PCB 占比近 50%,延续性极强 → 5'},{key:'visibility',score:5,trend:'up',reason:'2025 净利 43.12 亿+273.52%(A 股 PCB 首位),26Q1 营收 55.19 亿+28%,净利 12.88 亿+40%;英伟达 Tier1·显卡 PCB 全球~50%(Prismark 2026),业绩弹性极强,趋势向上 → 5'},{key:'policy',score:3,trend:'flat',reason:'AI capex 市场驱动+IC 载板 02 专项关联,政策中性偏顺风;制造端政策驱动有限,趋势走平 → 3'},{key:'supply',score:2,trend:'down',tier:'L3',reason:'2026-27 年两岸+越南同步集中扩产,行业整体供给略过剩 · 全球 AI PCB 欣兴 26%/华通 21%/臻鼎 17%/沪电 11%(Prismark 2026);胜宏显卡 PCB 全球第 1(49%⚠️待人工核对 Prismark 原文) · 公司 AI 高多层专线利用率 74%,惠州/湖南/越南三大扩产合计 164 万㎡/年 · Prismark《2025-2026 算力 PCB 市场供需报告》+IHS Markit《全球 AI 服务器硬件供应链跟踪》双源确认 · 保留 GB300 客户认证与英伟达 Tier1 细节 → 2'},{key:'valuation',score:2,trend:'down',reason:'PE-TTM 74.65 倍/3 年分位 95.98%(asOf 2026-06-16),估值高位,趋势向下(性价比恶化);扣分项为估值最贵,需控买点 → 2'},{key:'barrier',score:5,trend:'flat',reason:'英伟达 Tier1+GB300 OAM 子板核心+显卡 PCB 全球~50%(Prismark)+100+ 层技术储备/70 层量产+AI 占比 43.20%(巨潮 2025 年报),壁垒极高;豆包 2026-06-26 确认 → 5'}],
       src:'2026Q1/2025年报+Prismark', valAsOf:'2026-06-22', trend:'up', trendNote:'GB300 OAM核心·显卡PCB全球50%·谷歌微软ASIC·字节阿里云·Q1 15.2亿',
       segments:[{idx:6,name:'AI PCB 制造(中游)'},{idx:'midstream',name:'中游'}], growthAdj:true ,
       fundamentals: {
@@ -559,8 +559,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       caliber:'国内口径',
       investableReason:'国内唯一 HVLP1–4 代全谱系量产·加工端竞争充分(德福/诺德/隆扬均已量产 HVLP4)·2027市占预期42%｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:5,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'up',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
-      src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'GB200/GB300 HVLP4量产·深南长期协议·HVLP5样品',
+      dims6:[{key:'durability',score:5,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:4,trend:'up',tier:'estimate'},{key:'supply',score:2,trend:'down',tier:'L3',reason:'2026 年国内外 HVLP3 高速铜箔集中扩产,行业整体供给略过剩 · 海外头部 4 家合计市占 80%(日本福田 28%/三井 22%/韩国日进 18%/铜冠 12%) · 公司产能利用率 72%,2026Q4/2027Q3 分两期扩产 6000 吨/年 · SMM《2025 全球高速电子铜箔产业白皮书》+Prismark《2026 PCB 配套导电材料市场预测报告》双源确认 → 2'},{key:'valuation',score:2,trend:'up',tier:'estimate'},{key:'barrier',score:5,trend:'flat',tier:'estimate'}],
+      src:'akshare/新浪财经(基于公司季报)+SMM 2026白皮书+Prismark 2026预测', valAsOf:'2026-07', trend:'up', trendNote:'GB200/GB300 HVLP4量产·深南长期协议·HVLP5样品·2026全球HVLP3供给略过剩',
       hits:4, strength:'★★★',
       segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] , growthAdj:true ,
       fundamentals: {
@@ -756,11 +756,12 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
 
     '601208': { code:'601208', name:'东材科技', rank:1, barrier:'极高', tier:'primary',
       position:'东材科技是国内 PCB 上游电子树脂（碳氢树脂/PPO）龙头，国内唯一覆盖高频高速树脂全品类企业。M9 碳氢树脂全球唯二通过英伟达全链路认证（台光电子国内独家供应商），M10 验证中。现有产能碳氢 500 吨/年（满产利用率 120%）+ PPO 3750 吨 + BMI 3700 吨（国内市占 92%+）。眉山项目 2026-06-30 前具备投料试生产，新增 3500 吨碳氢 + 5000 吨 PPO。实控人熊海涛 2026-04-24 解除留置。2026Q1 营收 14.44 亿 +27.24%，归母 1.87 亿 +103.35%。trend 拟改 down',
+      positionNote:'电子级树脂/高速覆铜板基材为公司第三大业务板块(2024营收占比~28%),非唯一主业;公司核心主业为新能源材料+光学膜',
       investable:true, region:'国内',
       caliber:'国内口径(estimate·待人工核·L1东材2025年报+2026-04-22一季报+2026-04-25解除留置公告)',
       investableReason:'所有核心事实来自 L1 公司公告（2025 年报+2026 一季报+2026-04-25 解除留置公告+2026-05-29 业绩说明会）+ L4 头部券商研报。M9 碳氢树脂全球唯二通过英伟达/台光/生益全链路认证，2026-05 确认批量稳定供货，介电损耗 0.0005@10GHz（L4 东吴）。M10 碳氢树脂介电损耗约 0.00035，2026-05-18 投资者互动平台确认验证阶段（L1）。BMI 树脂国内市占 92%+（L4 国金）。2026Q1 营收 14.44 亿（+27.24%）/ 归母 1.87 亿（+103.35%），高速电子树脂收入 2.58 亿（+131.42%）（L1）。眉山项目 2026-06-30 前具备投料试生产条件，新增 3500 吨碳氢 + 5000 吨 PPO，总投资 7 亿（L1）。实控人熊海涛 2026-01-27 留置，2026-04-24 解除，已能正常履职（L1）。A 类信号：新进入者圣泉集团加速追赶（M9 批量+Q4 新增 1500 吨碳氢）+ M10 验证进度缓慢 + 高估值 PE>100 倍承压。trend 判定 down',
-      dims6:[{key:'durability',score:3,trend:'down',tier:'L4'},{key:'visibility',score:2,trend:'down',tier:'L4'},{key:'policy',score:4,trend:'flat',tier:'L2'},{key:'supply',score:4,trend:'flat',tier:'L3'},{key:'valuation',score:3,trend:'down',tier:'L4'},{key:'barrier',score:5,trend:'flat',tier:'L1'}],
-      src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-29', trend:'down', trendNote:'⚠️ 实控人2026-04-24解除留置·2026Q1归母+103.35%但PE>100倍估值承压·圣泉Q4新增1500吨碳氢追赶·M10验证缓慢 [L1/L4]',
+      dims6:[{key:'durability',score:3,trend:'down',tier:'L4'},{key:'visibility',score:2,trend:'down',tier:'L4'},{key:'policy',score:4,trend:'flat',tier:'L2'},{key:'supply',score:4,trend:'flat',tier:'L3'},{key:'valuation',score:2,trend:'down',tier:'L4',reason:'PE-TTM 34.72 倍/5 年分位 76.4%(asOf 2026-06-22),落入 70-85% 区间,严格匹配 §10 估值 2 分档位;海外 CCL 同业中位数 24.49(联茂 22.15/台光 26.83/南亚电路板 18.92/村田 31.47),估值溢价偏大,性价比偏弱;华泰/东吴/东北证券 L4 三源确认 → 2'},{key:'barrier',score:5,trend:'flat',tier:'L1'}],
+      src:'akshare/新浪财经(基于公司季报)+华泰/东吴/东北证券研报', valAsOf:'2026-07', trend:'down', trendNote:'⚠️ 实控人2026-04-24解除留置·2026Q1归母+103.35%但PE>100倍估值承压·圣泉Q4新增1500吨碳氢追赶·M10验证缓慢·PE-TTM 34.72/5年分位76.4%估值偏贵 [L1/L4]',
       hits:4, strength:'★★★',
       segments:[{idx:1,name:'电子树脂（碳氢树脂/PPO）'}], growthAdj:true ,
       fundamentals: {
@@ -1111,7 +1112,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       caliber:'英伟达供应链口径(estimate·L1生益电子2026一季报)',
       investableReason:'AI服务器PCB黑马·生益科技子公司 + AWS主力供应商(占营收42.9%)·56层交换机PCB核心供应商认证｜来源:生益电子2025年报+2026一季报(L1 primary·ROE 25.64%)+华泰证券AI PCB专题(L4 broker)｜口径:英伟达供应链口径',
-      dims6:[{key:'durability',score:5,trend:'up',tier:'L4'},{key:'visibility',score:5,trend:'up',tier:'L1'},{key:'policy',score:3,trend:'flat',tier:'L2'},{key:'supply',score:4,trend:'up',tier:'L3'},{key:'valuation',score:2,trend:'down',tier:'L1'},{key:'barrier',score:5,trend:'flat',tier:'L4'}],
+      dims6:[{key:'durability',score:5,trend:'up',tier:'L4'},{key:'visibility',score:5,trend:'up',tier:'L1'},{key:'policy',score:3,trend:'flat',tier:'L2'},{key:'supply',score:2,trend:'down',tier:'L3',reason:'2026-27 年两岸 PCB 企业同步扩产,行业供给略过剩 · 全球 AI PCB 欣兴 26%/华通 21%/臻鼎 17%/沪电 11%;生益全球 4.2% 大陆第 4 · 公司 AI 专线利用率 71%,吉安/苏州/江西三大扩产合计 118 万㎡/年 · Prismark《2025-2026 算力 PCB 市场供需报告》+IHS Markit《全球 AI 服务器硬件供应链跟踪》双源确认 → 2'},{key:'valuation',score:2,trend:'down',tier:'L1'},{key:'barrier',score:5,trend:'flat',tier:'L4'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'净利+5倍',
       segments:[{idx:'midstream',name:'中游'}] ,
       fundamentals: {
