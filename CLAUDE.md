@@ -701,6 +701,50 @@ v2 实测结果：**从 27 只误报降到 0 只真实数据错误**（唯一真
 
 **违反本节**：无（仅为规则设计缺口登记，不构成违规）。
 
+### 6.16 dims6Audit 必须覆盖所有 5 分维度的 reason 完整性（2026-07-04 commit 6.23 立）
+
+> **本节为 §6.15 后续审计盲点的防御规则**。本次(2026-07-04)8 只 chokePoints d/b/s 排查中,发现 6 只存在"score 高分但 reason 缺失"问题,其中 3 只(601208/300395/688183)barrier=5 完全没有 reason 字段,沿用旧版本分数未反映后续批次审计揭示的事实。**dims6Audit 机制从未覆盖这些维度**——只审计"极端值"(如 300395 6 维 5-1 极差只审了 durability 和 valuation,**barrier=5 从未审计**)。
+
+**触发场景**:任何 `dims6` 维度(无论 durability/visibility/policy/supply/valuation/barrier)出现 `score=5` 时,必须同时审计 reason 字段完整性。
+
+**强制规则(4 条)**:
+
+1. **dims6Audit 覆盖范围扩展**——审计对象从"极端值(如 6 维 5-1 极差)"扩展为"**所有 5 分维度**" · **禁止只审极端值而漏审 5 分维度** · **禁止 score=5 但 reason 缺失/空白的情况长期存在**
+2. **reason 字段完整性检查**——任何 5 分维度的 reason 必须满足以下任一条件:
+   - **A 类**:reason 字段非空 + 含具体事实依据(L1 公告 / L3 机构 / L4 券商 / 行业报告)+ 引用 5 分硬指标"全球≤3 家+认证≥18 月"的判定
+   - **B 类**:reason 字段非空 + 显式标注"卡口逻辑转移"(如 "加工端 N 家量产 + 卡口转移到上游某环节")+ 引用新卡口逻辑的依据
+   - ❌ **禁止**:score=5 但 reason 字段缺失 / 空白 / "待补" / "estimate" 等占位符
+3. **审计责任主体**——dims6Audit 标记者(reviewer 字段)必须明确标注"barrier 维度已审" / "supply 维度已审" / "durability 维度已审"等具体审计范围,**禁止笼统写"已审"** · **审计必须可追溯**(至少到 commit 编号)
+4. **触发后续修复**——发现 5 分维度 reason 缺失时,CC 必须立即:
+   - 阶段 1:**补全 reason 字段**(从 position/investableReason 提取事实 + 引用 L1-L4 信源)
+   - 阶段 2:**下修 score**(若事实依据不支持 5 分硬指标,按 §10 5 档表合理下修)
+   - 阶段 3:**登记到 §11 待办**(本批次已完成的事也必须在 §11.1/§11.3 等章节登记,确保可追溯)
+
+**§6.16 与现有规则的协同**:
+- 与 §6.11 13 条硬约束协同:reason 字段必须按 §6.11 格式写明(信源分层 + 7 段式)
+- 与 §6.14 口径标注规范协同:reason 中的百分比必须显式标注口径(主营占比/同比/市占率/估值分位)
+- 与 §6.15 抽查机制协同:5 分维度的 reason 字段 + score 都必须通过 baostock/akshare 抽查验证
+- 与 §7.2 自查报告协同:发现 5 分维度 reason 缺失时,自查报告的【已知错误】必须列出该问题
+
+**事故案例(2026-07-04 排查)**:
+- **601208 东材 barrier=5 缺失 reason**:position 字段已写"圣泉 M9 批量 + Q4 新增 1500 吨",事实已存在但未下沉到 dims6 barrier reason · score=5 沿用旧版本
+- **300395 菲利华 barrier=5 缺失 reason**:position 字段已写"Q 布认证阶段 + 石英砂非独家",事实已存在但未下沉到 dims6 barrier reason · dims6Audit 2026-07-01 立时只审了 durability(5)和 valuation(1)极差,**barrier(5)从未审计**
+- **688183 生益电子 barrier=5 缺失 reason**:position 字段已写"AWS 主力+56 层交换机 PCB 核心",事实已存在但未下沉到 dims6 barrier reason
+- **002384 东山 barrier=5 缺失 reason**:position 字段已写"全球唯一光模块+AI PCB 双能力",事实已存在但未下沉到 dims6 barrier reason
+- **002916 深南 barrier=5 缺失 reason**:`pcb.js` line 414 已有 reason,但 `pcb.manual.js` 渲染层未同步
+- **301217 铜冠 durability=5 缺失 reason**:trendNote 字段已写"GB200/GB300 HVLP4 量产+深南长期协议",事实已存在但未下沉到 dims6 durability reason
+- **688183 生益 durability=5 缺失 reason**:position 字段已写"AWS 主力+56 层交换机 PCB 核心",事实已存在但未下沉到 dims6 durability reason
+- **002384 东山 durability=5 缺失 reason**:position 字段已写"边缘 AI 设备 PCB 全球第一 26.9% + FPC 全球第二 24.5%",事实已存在但未下沉到 dims6 durability reason
+- **601208 东材 supply=4 偏高**:reason 缺失,事实依据"圣泉 Q4 新增 1500 吨+眉山 2026-06-30 投料试生产"反驳 supply=4,本次同步下修 4→3
+
+**已闭环(commit 6.22 + 6.23)**:
+- P0 三项 barrier 下修:601208 5→3 / 300395 5→4 / 688183 5→3(commit 6.22)
+- P1 三项 reason 补全:002384 barrier=5 补 reason / 002916 barrier=5 从 pcb.js 复制 / 301217 durability=5 补 reason(commit 6.23)
+- P2 四项 reason 补全:002916 durability / 688183 durability / 002384 durability / 601208 supply 4→3 下修(commit 6.23)
+- 8 只 chokePoints 中 5 只(601208/300395/688183/002384/002916)的 barrier 维度从"5 分无 reason"变为"合理分数 + 完整 reason + L3 信源",**dims6 数据治理质量显著提升**
+
+**违反本节 = §6.2 红线(高分低证据 = 数据字段缺失)+ §6.8 数据准确度优先原则违反**。
+
 ---
 
 ## Serenity Skill —— 主要的操作入口
