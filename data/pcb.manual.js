@@ -1211,7 +1211,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       caliber:'全球口径',
       investableReason:'PCB直接成像设备全球市占率18.8%(2025年,收入口径,全球第一,领先第二名3.1pct)·全球唯一覆盖PCB/IC载板/先进封装/掩膜版四场景的企业｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
+      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:1,trend:'down',tier:'L1+L3',reason:'PE-TTM 195.30倍 · 5年PE历史分位 99.42%(PE分位口径·baostock L1)/ PB(MRQ) 27.97倍 · 5年PB历史分位 99.42%(PB分位口径·baostock L1)/ 申万850727其他专用设备 TTM PE 63.29倍、相对行业溢价208.6%·申万850818半导体设备 TTM PE 144.31倍、相对行业溢价35.4%(赛道溢价口径·akshare L3)/ 2024→2025营收同比 +48.5%(营收增速口径·baostock L1); §10标准PE分位规则·PE分位超85%阈值,PE/PB同步处于5年历史极值显著高估,经营增长仅辅助无法对冲估值负面,综合 score=1 / trend=down / tier=L1+L3'},{key:'barrier',score:4,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'LDI全球第一18.8%·3-4μm胜宏·ABF载板深南量产·英伟达1.5亿·兴森华正新增·Q2批量交付',
       segments:[{idx:5,name:'PCB专用设备'}], growthAdj:true ,
       fundamentals: {
@@ -1244,7 +1244,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       caliber:'国内口径',
       investableReason:'VCP电镀国内市占>50%·AI订单>5亿｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'down',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
+      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:4,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:1,trend:'flat',tier:'L1+L3',reason:'PE-TTM 158.17倍 · 5年PE历史分位 86.14%(PE分位口径·baostock L1·2026-07-02收盘)/ 敏感性检验·baostock真实拉取最近35个交易日(2026-05-15~2026-07-03)5年PE分位分布:32天>85%(1分档)/3天70%-85%(2分档)/0天50%-70%(3分档),91.4%交易日稳定处于1分档·敏感性检验1分判定稳定·推翻豆包12/18推演数据(豆包用逻辑推导代替真实拉取)/ 3年PE历史分位 76.89%·1年PE历史分位 57.02%(PE分位口径·baostock L1)/ PB(MRQ) 12.49倍 · 5年PB历史分位 65.59%(PB分位口径·baostock L1·中性区间无共振高估)/ 赛道横向对比·申万850727其他专用设备TTM PE 63.29倍溢价+149.9%、申万850818半导体设备TTM PE 144.31倍溢价+9.6%(赛道溢价口径·akshare L3·行业归属待核实)/ 2024业绩低谷营收7.43亿、净利+0.69亿→2025业绩拐点营收10.93亿同比+47.1%、净利+1.21亿同比+75.4%(营收净利增速口径·baostock L1)/ 2026Q1净利 +0.44亿(单季净利口径·baostock L1); §10标准PE分位规则·baostock真实拉取敏感性检验91.4%交易日>85%·1分档判定稳定,综合 score=1 / trend=flat / tier=L1+L3'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'VCP国内50%+·沪电胜宏东山认证·AI订单5亿+200%·景旺鹏鼎·ABF载板验证',
       segments:[{idx:5,name:'PCB专用设备'}] ,
       fundamentals: {
