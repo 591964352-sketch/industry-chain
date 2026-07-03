@@ -660,7 +660,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       caliber:'需明确口径(待人工核对)',
       investableReason:'6μm极薄铜箔量产·服务器铜箔市占>25%·2026Q1扭亏｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
+      dims6:[{key:'durability',score:4,trend:'up',tier:'estimate'},{key:'visibility',score:3,trend:'up',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:4,trend:'up',tier:'estimate'},{key:'valuation',score:3,trend:'flat',tier:'L1',reason:'PB(MRQ) 4.47倍 · 5年PB历史分位 83.00%(PB分位口径·baostock L1)/ 2025年亏损同比收窄 15.4%(归母净利-3.69亿至-3.12亿·亏损收窄口径·baostock L1)/ 2026Q1净利 +0.42亿(单季净利口径·baostock L1·业绩拐点已确立)/ 2024→2025营收同比 +40.8%(年度营收增速口径·baostock L1); §6.15 亏损公司专项规则·PB估值分位偏高与多重经营正面信号对冲抵消·综合 score=3 / trend=flat / tier=L1｜本次上修突破§6.15现行5档表的PB区间硬约束(PB 83% 严格按5档表应给2分),依据是业绩拐点已确立+营收+40.8%+亏损收窄15.4%这组正面信号的人工判断,该规则漏洞已在CLAUDE.md §6.15.⑤登记,不代表§6.15规则允许普遍性弹性上修'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'up', trendNote:'HVLP3量产·HVLP4验证中·6μm良率92%·Q1扭亏',
       segments:[{idx:3,name:'铜箔（HVLP4超低轮廓铜箔）'}] ,
       fundamentals: {
@@ -1145,7 +1145,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       investable:true, region:'国内',
       caliber:'国内口径',
       investableReason:'亚微米球形硅微粉·球形硅微粉国内市占~40%｜来自position事实拼接·estimate·待人工审',
-      dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:2,trend:'flat',tier:'estimate'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
+      dims6:[{key:'durability',score:3,trend:'flat',tier:'estimate'},{key:'visibility',score:3,trend:'flat',tier:'estimate'},{key:'policy',score:3,trend:'flat',tier:'estimate'},{key:'supply',score:3,trend:'flat',tier:'estimate'},{key:'valuation',score:1,trend:'down',tier:'L1+L3',reason:'PE-TTM 167.35倍 · 5年PE历史分位 98.93%(PE分位口径·baostock L1)/ PB(MRQ) 28.37倍 · 5年PB历史分位 98.93%(PB分位口径·baostock L1)/ 申万850523非金属新材料Ⅲ TTM PE 85.33倍、相对行业溢价96.1%·申万850861电子化学品Ⅲ TTM PE 133.12倍、相对行业溢价25.7%(赛道溢价口径·akshare L3)/ 2022→2025营收累计同比 +68.8%(营收增速口径·baostock L1); §10标准PE分位规则·PE分位超85%阈值,估值极端高估,基本面正向信号仅辅助无法对冲估值负面,综合 score=1 / trend=down / tier=L1+L3'},{key:'barrier',score:2,trend:'flat',tier:'estimate'}],
       src:'akshare/新浪财经(基于公司季报)', valAsOf:'2026-06-22', trend:'flat', trendNote:'球形硅微粉·揖斐电+深南兴森·长电·M9/M10纳米样品·AI暴露18%·Rubin低α未启动·Q1+32%',
       segments:[{idx:4,name:'IC封装基板（ABF载板）'}] ,
       fundamentals: {
