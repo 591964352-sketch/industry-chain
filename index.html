@@ -848,27 +848,115 @@ const PROSPERITY_META = {
 
 // —— 长线适配度综合分内核（赛道级/个股级共用同一份权重+门控；全站权重只此一份）——
 // 输入：[{key,score},...]（必须 6 个，key 顺序不限，缺 key 按 0 计）
-// 输出：{ score:0-100整数, tier:'🟢核心'|'🟡观察'|'🔴回避/等', risk:bool, valuationHigh:bool }
+// 输出(Phase 1.5):{ moatScore, moatTier, timingScore, timingTier, quadrant, risk, valuationHigh,
+//                  score(向后兼容), tier(向后兼容) }
 // ★ commit 4.79 安全垫逻辑拆分：
 //   - 质地差：barrier≤1 → risk=true + 封顶 60（硬约束：护城河不在）
 //   - 时机差：valuation≤1 且 barrier≥3 → valuationHigh=true（不封顶，景气六维 verdict 单独提示）
 //   - 估值≤1 且 壁垒≤1 → 双触发，risk=true（硬约束优先）
-// 权重：durability 0.25 / visibility 0.25 / valuation 0.20 / supply 0.12 / barrier 0.10 / policy 0.08
+// ★ Phase 1.5 权重重构(commit 6.21+)：
+//   护城河分 = durability 0.25 + barrier 0.25 + visibility 0.20 + supply 0.20 + policy 0.10
+//   择时分   = valuation 1.00
+//   象限阈值 65 / borderline 区间 [60,70] / 档位 core=75 / watch=55
+
+// ===== ★ Phase 1.5 commit 6.21+ 重构：visibility 进入护城河 + borderline 60-70 提示 =====
+// 解决 valuation 与"物理卡口"投资逻辑的结构性冲突
+// 权重方案(用户 2026-07-04 确认·visibility 上移到护城河):
+//   护城河分 = durability 0.25 + barrier 0.25 + visibility 0.20 + supply 0.20 + policy 0.10
+//   择时分   = valuation 1.00(单维度·独立决定介入时机)
+// 象限阈值 65(暂用,后续按 38 只 PCB 实际分布调整·非最终锁定值)
+// borderline 区间 [60,70]:任一分数落入此区间则 quadrant 加 '-borderline' 后缀
+//   - 表示"接近阈值但未到"·前端应给予"再观察/小仓位试探"提示而非确定性介入
+// 档位阈值 core=75 / watch=55(与原方案保持一致)
+const FIT_CONFIG = {
+  moatWeights:    { durability:0.25, barrier:0.25, visibility:0.20, supply:0.20, policy:0.10 },
+  timingWeights:  { valuation:1.00 },
+  quadrantThreshold: 65,
+  borderlineRange: { min:60, max:70 },   // ★ Phase 1.5 新增
+  tierThresholds: { core:75, watch:55 }
+};
+
+// 档位判定(从 computeFitFromDims 抽出,便于测试与复用)
+function scoreToTier(score) {
+  return score >= FIT_CONFIG.tierThresholds.core ? '🟢核心'
+       : score >= FIT_CONFIG.tierThresholds.watch ? '🟡观察'
+       : '🔴回避/等';
+}
+
+// borderline 判定(任一分数落入 [60,70] 区间)
+function isBorderline(score) {
+  const R = FIT_CONFIG.borderlineRange;
+  return score >= R.min && score <= R.max;
+}
+
+// 象限逻辑(护城河分 × 择时分 → 4 象限 + borderline 后缀)
+//   - priority: 护城河高 + 择时高 = 优先关注
+//   - hold:     护城河高 + 择时低 = 值得长持(非当前介入时点)
+//   - swing:    护城河低 + 择时高 = 短期波段候选(非长线标的)
+//   - skip:     护城河低 + 择时低 = 低优先级
+//   - 上述 4 象限中,任一分数 ∈ [60,70] → quadrant + '-borderline'(再观察/小仓位试探)
+function quadrantOf(moatScore, timingScore) {
+  const T = FIT_CONFIG.quadrantThreshold;
+  const mHigh = moatScore >= T;
+  const tHigh = timingScore >= T;
+  let base;
+  if (mHigh && tHigh) base = 'priority';
+  else if (mHigh && !tHigh) base = 'hold';
+  else if (!mHigh && tHigh) base = 'swing';
+  else base = 'skip';
+  return (isBorderline(moatScore) || isBorderline(timingScore)) ? base + '-borderline' : base;
+}
+
 function computeFitFromDims(dims){
-  const w = { durability:0.25, visibility:0.25, valuation:0.20, supply:0.12, barrier:0.10, policy:0.08 };
-  if (!dims || !dims.length) return { score:0, tier:'🔴回避/等', risk:false, valuationHigh:false };
+  if (!dims || !dims.length) {
+    return {
+      moatScore:0, moatTier:'🔴回避/等',
+      timingScore:0, timingTier:'🔴回避/等',
+      quadrant:'skip', risk:false, valuationHigh:false,
+      // 向后兼容字段(Phase 3-4 替换)
+      score:0, tier:'🔴回避/等'
+    };
+  }
   const s = Object.fromEntries(dims.map(d=>[d.key, d.score]));
-  let score = Object.entries(w).reduce((a,[k,wk])=> a + (s[k]||0)/5*wk, 0) * 100; // 0-100
-  // ★ commit 4.79：拆分风险门控
-  const barrierLow = s.barrier <= 1;       // 质地差（护城河低）
-  const valuationLow = s.valuation <= 1;   // 估值高位
-  const barrierOk = s.barrier >= 3;        // 护城河足够
-  let risk = barrierLow;                    // 硬约束只看 barrier
-  if (risk) score = Math.min(score, 60);
-  // valuationHigh：估值低位但护城河还在 → 时机差（不进 risk，但前端单独提示）
+
+  // 护城河分 = durability 0.25 + barrier 0.25 + visibility 0.20 + supply 0.20 + policy 0.10
+  // (visibility 上移到护城河,详见 FIT_CONFIG.moatWeights · commit 6.21+ Phase 1.5)
+  const moatScore = Object.entries(FIT_CONFIG.moatWeights)
+    .reduce((a,[k,wk]) => a + (s[k]||0)/5*wk, 0) * 100; // 0-100
+
+  // 择时分 = valuation 1.00(单维度,独立决定介入时机)
+  const timingScore = Object.entries(FIT_CONFIG.timingWeights)
+    .reduce((a,[k,wk]) => a + (s[k]||0)/5*wk, 0) * 100;
+
+  // ★ 风险门控(原 commit 4.79 拆分·仅作用于护城河分)
+  //   - 质地差: barrier≤1 → risk=true + 护城河分封顶 60(硬约束:护城河不在)
+  //   - 估值≤1 且 壁垒≤1 → 双触发,risk=true(硬约束优先)
+  const barrierLow = s.barrier <= 1;
+  const valuationLow = s.valuation <= 1;
+  const barrierOk = s.barrier >= 3;
+  let risk = barrierLow;
+  const moatScoreGated = risk ? Math.min(moatScore, 60) : moatScore;
+
+  // valuationHigh: 估值低位但护城河还在 → 时机差(不进 risk,但前端单独提示)
   const valuationHigh = valuationLow && barrierOk;
-  let tier = score>=75 ? '🟢核心' : score>=55 ? '🟡观察' : '🔴回避/等';
-  return { score: Math.round(score), tier, risk, valuationHigh };
+
+  const moatTier = scoreToTier(moatScoreGated);
+  const timingTier = scoreToTier(timingScore);
+  const quadrant = quadrantOf(moatScoreGated, timingScore);
+
+  return {
+    moatScore: Math.round(moatScoreGated),
+    moatScoreRaw: Math.round(moatScore),  // 保留原始未封顶值(供调试/二次校准)
+    moatTier,
+    timingScore: Math.round(timingScore),
+    timingTier,
+    quadrant,
+    risk,
+    valuationHigh,
+    // 向后兼容字段(Phase 3-4 替换为双显示后移除)
+    score: Math.round(moatScoreGated),
+    tier: moatTier
+  };
 }
 
 // 赛道级（prosperity.dims）— 内部转调内核，行为不变
