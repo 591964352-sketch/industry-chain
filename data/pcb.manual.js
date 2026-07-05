@@ -455,7 +455,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
 },
 
-    '300522': { code:'300522', name:'世名科技', rank:3, barrier:'高', tier:'primary',
+    '300522': { code:'300522', name:'世名科技', nonPcMember:true, conceptNote:'⚠️非主营/概念性持仓 — 主业为纳米着色材料/色浆/涂料/纺织化学品等化工材料（PCB 业务不构成主业）；PCB 链仅作参考，不计入完整度分母。处置依据 CLAUDE.md §6.5 概念票规则。▍2026-07-05 §6.13 复核注：本字段初版含三处精确数字（主营营收占比、PCB 业务占比、L1 公告具体日期），因 akshare 接口异常 + cninfo 网络封禁双重失败无法溯源，按用户口径降级为定性描述（具体数字在 position/investableReason 字段仍保留以便追溯，conceptNote 本字段只保留定性）。', rank:3, barrier:'高', tier:'primary',
       position:'世名科技主营着色剂类产品（2025 年占比 99.5%），电子碳氢树脂业务规模极小（2026Q2 收入 182.3 万元，占比 0.25%）⚠️ L1 公司公告（2026-06-24 股票交易严重异常波动公告）明确：市场传言的 HVLP 极薄电子铜箔业务未开展，公司无相关产品和技术。盘锦基地 500 吨/年 M6-M8 级电子碳氢树脂已量产，产能利用率 30%；M9 级仅研发储备；2500 吨项目 2027Q1 投产。未与生益/台光等头部 CCL 厂合作，转型受阻',
       investable:true, region:'国内',
       caliber:'M6-M8等级细分品类口径(estimate·L1公司公告2026-06-24否认HVLP业务)',
