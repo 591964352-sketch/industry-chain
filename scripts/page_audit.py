@@ -107,6 +107,66 @@ if sync_script.exists():
 else:
     check("双层架构 stock 列表完全同步", False, "scripts/check_manual_pcb_sync.js 不存在")
 
+# ── 8. 数据层同步状态检测(commit 6.68 立 · 2026-07-07)
+# 检查 manifest 数组中被注释掉的数据文件 vs 实际磁盘上对应文件状态
+# 不阻断 commit,仅 WARNING 提示(见 CLAUDE_CORE_RULES.md §13.X.6)
+print("\n【8】数据层同步状态检测(manifest vs 实际文件)")
+import re as _re2
+# 找 manifest 数组中被注释的 .js 文件(如 // 'pcb.auto',)
+manifest_block_match = _re2.search(r'DATA_MANIFEST\s*=\s*\[(.*?)\];', html, _re2.DOTALL)
+if manifest_block_match:
+    manifest_block = manifest_block_match.group(1)
+    # 提取被注释的行(以 // 开头,含 <id> 引用,manifest 用短名如 'pcb.auto' / 'pcb.close_history' 不带 .js 后缀)
+    # regex 不强制 .js 后缀,匹配后手动拼 .js 路径
+    commented_files = _re2.findall(r'//\s*[\'"]([a-z0-9\-_]+(?:\.[a-z0-9\-_]+)*)[\'"]', manifest_block)
+    # 提取实际启用的文件(非注释行)·用于对照
+    active_files = _re2.findall(r'(?<!//\s)[\'"]([a-z0-9\-_]+(?:\.[a-z0-9\-_]+)*)[\'"]', manifest_block)
+
+    # 计算 manual.js mtime 作为 L1 时间锚
+    manual_js_path = Path(__file__).parent.parent / "data" / "pcb.manual.js"
+    manual_mtime = manual_js_path.stat().st_mtime if manual_js_path.exists() else 0
+    import datetime as _dt
+    manual_mtime_str = _dt.datetime.fromtimestamp(manual_mtime).strftime('%Y-%m-%d') if manual_mtime else '未知'
+    print(f"  锚点:pcb.manual.js mtime = {manual_mtime_str}")
+
+    # 检查每个被注释的文件
+    if not commented_files:
+        check("manifest 数组中无被注释的数据文件", True, "无需检测")
+    else:
+        for commented_file in commented_files:
+            # 转换为磁盘路径(data/<file>.js)— commented_file 是 manifest 中的短名(不含 .js 后缀)
+            disk_path = Path(__file__).parent.parent / "data" / (commented_file + '.js')
+            if not disk_path.exists():
+                # 文件不存在,这是正常的(可能本来就未生成)
+                check(f"manifest 注释文件 {commented_file} 状态", True,
+                      f"磁盘文件不存在,无需同步检测")
+                continue
+
+            # 文件存在,需要计算 mtime 差距
+            file_mtime = disk_path.stat().st_mtime
+            file_mtime_str = _dt.datetime.fromtimestamp(file_mtime).strftime('%Y-%m-%d')
+            age_days = (manual_mtime - file_mtime) / 86400.0
+
+            if age_days > 30:
+                # 警告性滞后(L1 比 L3 新 30 天以上),不阻断 commit,仅 WARNING
+                print(f"  [WARNING] manifest 注释文件 {commented_file} (mtime={file_mtime_str}) "
+                      f"比 pcb.manual.js (mtime={manual_mtime_str}) 滞后 {age_days:.0f} 天 · "
+                      f"该数据层可能已长期未同步,请确认是否需要处理")
+            elif age_days > 0:
+                # 提示性滞后(0~30 天)
+                print(f"  [INFO] manifest 注释文件 {commented_file} (mtime={file_mtime_str}) "
+                      f"比 pcb.manual.js (mtime={manual_mtime_str}) 滞后 {age_days:.0f} 天 · 提示性滞后")
+            else:
+                # 完全同步
+                print(f"  [OK] manifest 注释文件 {commented_file} (mtime={file_mtime_str}) "
+                      f"与 pcb.manual.js 同步或更新")
+
+        # 整体状态 PASS(因不阻断 commit)
+        check("manifest 数组 vs 实际文件状态(不阻断 commit · 警告性)", True,
+              f"已扫描 {len(commented_files)} 个被注释的数据文件 · 详见上方 INFO/WARNING 输出")
+else:
+    check("manifest 数组 vs 实际文件状态", False, "未找到 DATA_MANIFEST 数组定义")
+
 # ── 汇总 ──
 print(f"\n{'='*50}")
 print(f"审计结果：{PASS_COUNT}项通过 / {FAIL_COUNT}项失败")

@@ -339,7 +339,7 @@ LLM 在日期类任务中**极易编造看似合理的具体日期**(例如把"2
 
 ---
 
-## §13 附录:7 个核心章节索引
+## §13 附录:核心章节索引
 
 | 章节 | 主题 | 强制约束类型 |
 |---|---|---|
@@ -355,10 +355,116 @@ LLM 在日期类任务中**极易编造看似合理的具体日期**(例如把"2
 | §10 | commit message 真实性核查 | 红线原则 |
 | §11 | 数据自查纪律 | 流程约束 |
 | §12 | 跨赛道扩展指引 | 操作指南 |
+| §13.X | 数据层同步纪律(commit 6.68 立) | 流程约束 |
 
 ---
 
-**本文件维护规则**(对应 §11 附录):
+## §13.X 数据层同步纪律(commit 6.68 立 · 2026-07-07)
+
+> **本节为 PCB 项目 33 个 commit(6.35-6.67)期间"修改 pcb.manual.js 但未同步检查 pcb.js / PCB_AUTO"导致的横幅误导性问题立**。所有 PCB 链及后续扩展的 11 链必须遵守本节同步纪律。
+
+### §13.X.1 三层数据架构 + 同步关系
+
+本仓数据架构分 **三层**,**任一层修改必须显式判断是否影响其它层**:
+
+| 层 | 文件 | 生成方式 | 加载方式 | 影响范围 |
+|---|---|---|---|---|
+| **L1 · 手动层** | `data/<chain>.manual.js` | `scripts/edit_dim_field.js` 等工具手工编辑 | manifest 数组同步加载 | 六维 score/trend/tier/reason |
+| **L2 · 合并层** | `data/<chain>.js` | 手工编辑(无自动生成脚本) | manifest 数组同步加载 | segments / midstream / overview / chokePoints |
+| **L3 · 增强层** | `data/<chain>.auto.js` | `scripts/refresh_<chain>_valuation.py` baostock 拉取 | **可选**(manifest 数组可注释禁用) | 实时 PE-TTM / PE 分位 / 距前高回落幅度 + 横幅数据 |
+
+### §13.X.2 commit message 强制说明项(硬约束)
+
+**任何涉及数据字段的 commit,commit message 必须明确说明本次修改的数据层**:
+
+```
+✅ 标准写法示例:
+
+[本次修改 pcb.manual.js L1 层]
+- 修改文件:data/pcb.manual.js
+- 影响数据层:L1 手动层
+- 是否影响 L2(pcb.js)双层同步文件:否(本次仅修改 6 维字段,stock 列表未变)
+- 是否影响 L3(PCB_AUTO)增强数据层:否(本次未涉及 PE-TTM / 估值字段)
+
+[本次修改 pcb.js L2 层]
+- 修改文件:data/pcb.js
+- 影响数据层:L2 合并层
+- 是否影响 L1(manual.js)双层同步文件:否(stock 列表变化,但 manual.js 已同步补全)
+- 是否影响 L3(PCB_AUTO)增强数据层:否
+```
+
+**禁止默认省略**:
+- ❌ 禁止 commit message 只描述"改了哪些字段",不说明影响哪些数据层
+- ❌ 禁止默认假设"我只动了 manual.js 不影响其它" — 这是高频错误,必须显式写"不影响"才算说明
+- ❌ 禁止对双层同步文件变化不验证 — §6.12 check_manual_pcb_sync 必须跑通才能 commit
+
+### §13.X.3 修改 L1(manual.js)时的同步检查清单
+
+修改 `data/<chain>.manual.js` 后,commit 前必须确认以下 3 项:
+
+| 检查项 | 检查方法 | 是否需要执行 |
+|---|---|---|
+| 1. stock 列表是否变化? | `git diff data/pcb.manual.js \| grep -E "'[036]\d{5}':"` 查看是否新增/删除 stock | **变化 → 必须同步修改 L2 pcb.js** |
+| 2. segments[idx] 是否变化? | `git diff data/pcb.manual.js \| grep -E "idx\s*:"` 查看 stock 段位变化 | **变化 → 必须同步修改 L2 pcb.js** |
+| 3. 是否修改了 PE/估值相关字段? | `git diff data/pcb.manual.js \| grep -E "pe_ttm\|pePercentile\|fromHigh"` | **变化 → 必须评估 L3 PCB_AUTO 是否需要刷新** |
+
+### §13.X.4 修改 L2(pcb.js)时的同步检查清单
+
+修改 `data/<chain>.js` 后,commit 前必须确认:
+
+| 检查项 | 检查方法 |
+|---|---|
+| 1. segments/midstream 股票列表与 L1 一致? | `python scripts/page_audit.py` 第【7】项必须 PASS |
+| 2. 双层架构 stock 列表无悬空? | `node scripts/check_manual_pcb_sync.js` 输出"完全同步" |
+
+### §13.X.5 修改 L3(PCB_AUTO)或 manifest 数组时的纪律
+
+**L3 是可选层**(`pcb.auto.js` 在 manifest 数组中可被注释禁用),但**禁用/恢复必须有明确 commit**:
+
+- **禁用** → commit message 必须写明:禁用原因 + 影响功能列表 + 是否计划恢复
+- **恢复** → 必须先执行 `scripts/refresh_<chain>_valuation.py` 重新生成 L3 文件 + commit message 写明恢复日期
+- **修改 manifest 数组** → 任何注释/取消注释都要 commit message 显式说明理由
+
+**反模式(禁止)**:
+- ❌ "临时禁用 4.1MB · 减重优化" 后 33 个 commit 没人想起恢复(2026-06-22 commit 6.34 立, 33 个 commit 都没恢复 — §13.X 立教训)
+- ❌ 横幅显示硬编码 commit 5.1,误导用户认为数据陈旧 — 真实状态是 manual.js 实时同步,只是 PCB_AUTO 未加载
+
+### §13.X.6 数据层同步状态可视化(供 page_audit.py 第【8】项使用)
+
+**本节定义 page_audit.py 第【8】项检测的数据层同步状态阈值**:
+
+| 状态 | 判断标准 |
+|---|---|
+| ✅ 完全同步 | L1 mtime ≤ L3 mtime(增强层比手动层新或同期) |
+| ⚠️ 提示性滞后 | L1 mtime 晚于 L3 mtime 但差距 ≤ 30 天 |
+| 🚨 警告性滞后 | L1 mtime 晚于 L3 mtime 超过 30 天(但不阻断 commit) |
+| ⛔ 阻断性失败 | L3 文件存在但 manifest 数组中注释禁用(本应启用却禁用 — 罕见) |
+
+**🚨 警告性滞后** 是 **提示性**(不阻断 commit),仅在 `page_audit.py` 输出 WARNING,提醒人工评估是否需要执行 `refresh_<chain>_valuation.py`。
+
+### §13.X.7 反模式清单(2026-07-07 commit 6.68 立 · 历史教训)
+
+| 反模式 | 案例 | 后果 |
+|---|---|---|
+| **commit message 不说明数据层影响** | 33 个 commit(6.35-6.67)全部未写"影响 L1/L2/L3 哪层" | 后续 commit 维护者无法快速判断是否需要同步 |
+| **L3 manifest 禁用后无恢复机制** | commit 6.34 禁用 pcb.auto.js 后 33 个 commit 无人想起恢复 | 横幅永远显示 fallback 文案,用户误以为数据陈旧 |
+| **L1 修改不评估 L3 影响** | commit 6.37/6.38 P0 reason 补全后,valuation 字段 baostock 实测,但 PCB_AUTO 未刷新,网页估值字段仍显示旧值 | 投资决策可能基于陈旧 PE 分位 |
+| **page_audit.py 未检测数据层同步状态** | 当前 page_audit.py 仅检查双层架构 stock 列表(L1 vs L2),未检查 L3 状态 | 无法在 commit 时自动拦截 |
+
+### §13.X.8 强制行动清单(任何新 chain 套用本规则时)
+
+- [ ] 复制本文件 §13.X.1-§13.X.7 至新仓 CLAUDE_CORE_RULES.md(已实装)
+- [ ] 新仓 `scripts/page_audit.py` 必须包含第【8】项数据层同步检测(commit 6.68 立)
+- [ ] 新仓 `scripts/check_manual_pcb_sync.js` 必须能跑通且无悬空 stock
+- [ ] 新仓 manifest 数组如禁用 L3 文件,必须有显式"恢复计划"登记到 §11 待办清单
+- [ ] 任何 commit message 必须按 §13.X.2 模板说明数据层影响,默认禁止省略
+
+**违反本节 = §10 commit message 真实性核查红线延伸(同步状态必须显式说明,不能默认省略)**。
+
+### 复用方式(11 链扩展)
+任何 chain 必须把本节作为 `CLAUDE_CORE_RULES.md` 必含章节。若新 chain 没有 L3 增强层(如 HBM/CPO/光模块等),将 §13.X.5/§13.X.6/§13.X.7 标注 N/A 即可,但 §13.X.1-§13.X.4 强制保留。
+
+---
 
 - 修改本文件必须使用 `重要程度` 标签,不得用 "🆪 主观判断类" 标记七章核心约束(七章全部为约束而非建议)
 - 跨章节引用必须使用 §N.M 小节锚点(如 "§9 跨环节引用" 指 §9 整节)

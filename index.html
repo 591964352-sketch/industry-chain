@@ -2210,10 +2210,12 @@ function renderChain(chainId) {
     h += `<span>🔌 数据源：baostock v${baostockVersion}</span>`;
     h += `<span>🕐 上次刷新：${asOf}</span>`;
   } else {
-    // ★ commit 5.1: pcb.auto.js 失效时 fallback 文本明确
-    h += `<span>📅 数据截止：<strong style="color:var(--accent);">2026-06-29（manual 层）</strong></span>`;
-    h += `<span>🔌 数据源：pcb.manual.js（auto 层暂未生效）</span>`;
-    h += `<span title="commit 5.1: bump DATA_VERSION='?v=20260630a' · 下次 refresh_pcb_valuation.py 跑后会恢复">🕐 上次刷新：2026-06-30 (commit 5.1) · 待 pcb.auto.js 重新生成</span>`;
+    // ★ commit 6.68: 修正误导性 fallback 文案 · 旧版"上次刷新 commit 5.1"易被误解为数据陈旧
+    // 真实状态:六维评分(38 只 stock 的 score/trend/tier/reason)由 manual.js 实时读取,与最新 commit 同步
+    // PCB_AUTO 增强功能(横幅实时刷新 + 估值 PE 分位 + 距前高回落幅度)目前未启用,估值精确数据见各 stock reason 中 baostock L1 实测
+    h += `<span>📊 六维评分数据:<strong style="color:var(--accent);">实时同步(manual.js)</strong></span>`;
+    h += `<span>🔌 数据源:pcb.manual.js(实时)</span>`;
+    h += `<span title="实时估值增强(PE 分位/距前高回落幅度)依赖 PCB_AUTO 数据层,目前未启用;如需精确估值数据,请参考各 stock reason 字段中的 baostock L1 实测数值(2026-07-06 起 8 只 chokePoint 已含实测)">💡 实时估值增强功能未启用 · 见各股 reason 中的 baostock L1 实测</span>`;
   }
   h += `</div>`;
   // ★ commit 4.49：Hero Banner（四屏结构第一屏 · 4 行紧凑布局）
