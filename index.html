@@ -608,6 +608,19 @@
   /* (4) 上游深度拆解 section 自身折叠时，section-desc 隐藏（避免空白描述） */
   .section.collapsible.collapsed .segment-card.collapsible > .seg-header { padding-top: 14px; padding-bottom: 14px; }
 
+  /* === ★ commit 6.68.x 概念票渲染层特殊标注(commit 6.45 字段已加,渲染层未读) === */
+  /*   - 300522 世名科技等概念票(非 PCB 主营·不计入完整度分母) */
+  /*   - 数据源:pcb.manual.js stocks[code].nonPcMember === true */
+  /*   - 三层视觉提示:行底色变暗 + ⚠️概念票 标签 + title 含 conceptNote */
+  /*   - 仅影响渲染层·不动 score/trend/tier/reason 等数据层字段 */
+  tr.concept-vote td { background: rgba(139, 92, 246, 0.04) !important; color: var(--color-muted) !important; }
+  tr.concept-vote td.s-name { color: #8b5cf6 !important; font-weight: 600; }
+  tr.concept-vote td.s-name .concept-tag { display: inline-block; font-size: 10px; padding: 1px 7px; margin-left: 6px; border-radius: 3px; background: rgba(139, 92, 246, 0.18); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.5); font-weight: 600; vertical-align: middle; cursor: help; }
+  tr.concept-vote td.s-code { color: #8b5cf6 !important; opacity: 0.7; }
+  tr.concept-vote td.position { font-style: italic; opacity: 0.75; }
+  /* 决策卡片库概念票标识(decision-card 卡片底部 footnote) */
+  .concept-note-foot { font-size: 10px; color: #8b5cf6; margin-top: 6px; padding: 4px 8px; background: rgba(139, 92, 246, 0.06); border-left: 3px solid #8b5cf6; border-radius: 0 3px 3px 0; line-height: 1.5; }
+
   @media (max-width: 900px) {
     .quick-nav { margin: -10px -12px 18px; padding: 8px 10px; gap: 4px; }
     .quick-nav a { font-size: 11px; padding: 5px 10px; }
@@ -981,6 +994,26 @@ function stockFitBadge(s){
   // ★ 升级：tier 文字 emoji 与中文间加空格（原 `🟢核心` 不直观·改 `🟢 核心`）
   const tierLabel = f.tier.replace(/^(🟢|🟡|🔴)/, '$1 ');
   return ` <span class="tag ${cls}" style="display:inline-block;margin-top:4px;white-space:nowrap;" title="长线适配分（与赛道综合分同口径；权重：持续 0.25/兑现 0.25/估值 0.20/供需 0.12/壁垒 0.10/政策 0.08）">${f.score}/100 ${tierLabel}</span>`;
+}
+
+// ★ commit 6.68.x 概念票标注辅助函数
+// 数据源:pcb.manual.js stocks[code].nonPcMember(commit 6.45 + 6.66 已立字段)
+// 用途:300522 世名科技等非 PCB 主营标的在渲染层加特殊视觉提示
+// 行为:正式 stock(nonPcMember !== true)返回 { isConcept: false } 不影响任何展示
+function conceptNoteOf(s){
+  // s.code 必须存在
+  const manualStock = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[s.code]) || null;
+  if (manualStock && manualStock.nonPcMember === true) {
+    return { isConcept: true, note: manualStock.conceptNote || '⚠️ 非 PCB 主营·不计入完整度分母' };
+  }
+  return { isConcept: false, note: null };
+}
+// 简化调用,直接返回 '<span class="concept-tag" title="...">⚠️ 概念票</span>' 或 ''
+function conceptTagHtml(s){
+  const m = conceptNoteOf(s);
+  if (!m.isConcept) return '';
+  const titleAttr = m.note.replace(/"/g, '&quot;').replace(/\n/g, ' ');
+  return ` <span class="concept-tag" title="${titleAttr}">⚠️ 概念票</span>`;
 }
 
 // —— 跨链重复个股 canonical 注册表（先留空壳留钩子，20+ 条链时正式收口）—— 样板 §8.3
@@ -3202,9 +3235,14 @@ function renderChain(chainId) {
     if (seg.stocks.some(s => s.hits !== null)) h += `<th>四问命中</th>`;
     h += `<th>核心逻辑</th></tr></thead><tbody>`;
     seg.stocks.forEach(s => {
-      h += `<tr${s.code?` id="stock-${s.code}"`:''}>`;
+      // ★ commit 6.69.x 概念票特殊标注(PCB 链 ⑤ 上游深度拆解 → A股标的 表格)
+      //   此段是 PCB 链真正渲染路径(commit 6.68 误改到 remainingSegs 半导体分支)
+      //   唯一触发:window.PCB_MANUAL.stocks[s.code].nonPcMember === true
+      const _isConcept = conceptNoteOf(s).isConcept;
+      const _trClass = _isConcept ? ' class="concept-vote"' : '';
+      h += `<tr${s.code?` id="stock-${s.code}"${_trClass}`:''}${!s.code && _isConcept?' class="concept-vote"':''}>`;
       h += `<td><span class="rank-num">${s.rank}</span></td>`;
-      h += `<td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td>`;
+      h += `<td class="s-name">${s.name}${conceptTagHtml(s)}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td>`;
       h += `<td style="font-size:12px;line-height:1.45;"><div style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;">${s.position || '<span style="color:var(--muted);">—</span>'}</div></td>`;
       h += `<td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td>`;
       if (seg.stocks.some(x => x.hits !== null)) {
@@ -3248,7 +3286,11 @@ function renderChain(chainId) {
         const _logicCell = _trunc.truncated
           ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:11px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
           : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
-        h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td style="font-size:13px;">${s.position}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
+        // ★ commit 6.68.x 概念票特殊标注(仅 300522 等 nonPcMember === true)
+        const _isConcept = conceptNoteOf(s).isConcept;
+        const _trClass = _isConcept ? ' class="concept-vote"' : '';
+        const _conceptTag = conceptTagHtml(s);
+        h += `<tr${s.code?` id="stock-${s.code}"${_trClass}`:''}${!s.code && _isConcept?' class="concept-vote"':''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${conceptTagHtml(s)}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td class="position" style="font-size:13px;">${s.position}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
       });
       h += `</tbody></table></div>`;
     });
@@ -3281,7 +3323,7 @@ function renderChain(chainId) {
       const _logicCell = _trunc.truncated
         ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:11px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
         : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
-      h += `<tr${s.code?` id="stock-${s.code}"`:''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}${renderStockFundamentalsChip(s, chainId)}${renderStockRiskChip(s, chainId)}</td></tr>`;
+      h += `<tr${s.code?` id="stock-${s.code}"${conceptNoteOf(s).isConcept?' class="concept-vote"':''}`:''}${!s.code && conceptNoteOf(s).isConcept?' class="concept-vote"':''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${conceptTagHtml(s)}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}${renderStockFundamentalsChip(s, chainId)}${renderStockRiskChip(s, chainId)}</td></tr>`;
     });
     h += `</tbody></table></div></div>`;  // segment-card
     h += `</div></div>`;  // section-body + section (commit 4.9 折叠)
