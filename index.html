@@ -688,6 +688,10 @@
     <h3>📋 数据变更 <span class="count-badge" id="cl-badge">0</span></h3>
     <button class="changelog-close" onclick="toggleChangelog()">✕</button>
   </div>
+  <!-- ★ commit 6.69.x:CHANGELOG 面板说明性提示(避免用户误解)
+       CHANGELOG 数组是手工维护,commit 6.13 起多个数据治理批次未追加条目。
+       这行提示让用户知道面板可能没列全,完整历史以 git log 为准。 -->
+  <div style="font-size:10px;color:var(--muted);line-height:1.45;padding:8px 14px;border-bottom:1px solid rgba(42,45,58,0.5);background:rgba(240,185,11,0.06);">💡 本面板为人工维护的重大变更摘要(可能未完全反映最近 commit) · 完整历史以 <code style="background:transparent;color:inherit;font-size:10px;">git log --oneline</code> 为准</div>
   <div class="changelog-list" id="changelog-list">
     <div style="padding:16px;color:var(--muted);font-size:12px;text-align:center;">暂无变更记录</div>
   </div>
@@ -1014,6 +1018,27 @@ function conceptTagHtml(s){
   if (!m.isConcept) return '';
   const titleAttr = m.note.replace(/"/g, '&quot;').replace(/\n/g, ' ');
   return ` <span class="concept-tag" title="${titleAttr}">⚠️ 概念票</span>`;
+}
+
+// ★ commit 6.69.x 横幅 fallback 真实时间辅助函数
+//   替代 commit 6.68 删除的硬编码"2026-06-30 commit 5.1"占位文本
+//   取 window.PCB_MANUAL 中所有 dim block 的最新 verifiedAt 日期作为
+//   "六维数据最近核验"时间戳 — 真实反映 manual.js 最后修改时间
+//   无 hardcode,无 commit 号,无虚假假设
+//   返回 ISO 字符串如 '2026-07-07',失败返回 null(fallback 链显示提示文案)
+function latestVerifiedAtFromManual(){
+  const stocks = window.PCB_MANUAL && window.PCB_MANUAL.stocks;
+  if (!stocks) return null;
+  let max = '';
+  for (const code of Object.keys(stocks)) {
+    const s = stocks[code];
+    if (!s || !Array.isArray(s.dims6)) continue;
+    for (const dim of s.dims6) {
+      const v = dim && dim.verifiedAt;
+      if (typeof v === 'string' && v > max) max = v;  // ISO 日期字符串字典序 = 时间序
+    }
+  }
+  return max || null;
 }
 
 // —— 跨链重复个股 canonical 注册表（先留空壳留钩子，20+ 条链时正式收口）—— 样板 §8.3
@@ -2246,9 +2271,16 @@ function renderChain(chainId) {
     // ★ commit 6.68: 修正误导性 fallback 文案 · 旧版"上次刷新 commit 5.1"易被误解为数据陈旧
     // 真实状态:六维评分(38 只 stock 的 score/trend/tier/reason)由 manual.js 实时读取,与最新 commit 同步
     // PCB_AUTO 增强功能(横幅实时刷新 + 估值 PE 分位 + 距前高回落幅度)目前未启用,估值精确数据见各 stock reason 中 baostock L1 实测
+    // ★ commit 6.69.x:补充"六维数据最近核验"为动态时间戳,取 window.PCB_MANUAL 中
+    //   所有 dim block 的最新 verifiedAt 日期(替代原 commit 6.68 删除的硬编码"2026-06-30")
+    const _latestVer = latestVerifiedAtFromManual();
     h += `<span>📊 六维评分数据:<strong style="color:var(--accent);">实时同步(manual.js)</strong></span>`;
     h += `<span>🔌 数据源:pcb.manual.js(实时)</span>`;
-    h += `<span title="实时估值增强(PE 分位/距前高回落幅度)依赖 PCB_AUTO 数据层,目前未启用;如需精确估值数据,请参考各 stock reason 字段中的 baostock L1 实测数值(2026-07-06 起 8 只 chokePoint 已含实测)">💡 实时估值增强功能未启用 · 见各股 reason 中的 baostock L1 实测</span>`;
+    if (_latestVer) {
+      h += `<span title="manual.js 中所有 dim block 的最新 verifiedAt 日期(无 hardcode)。PCB_AUTO 实时估值增强未启用,估值数据见各 stock reason 中的 baostock L1 实测。">🕐 六维数据最近核验:<strong style="color:var(--accent);">${_latestVer}</strong></span>`;
+    } else {
+      h += `<span title="PCB_AUTO 实时估值增强未启用;精确估值见各 stock reason 中的 baostock L1 实测">💡 实时估值增强未启用 · 见各股 reason 中的 baostock L1 实测</span>`;
+    }
   }
   h += `</div>`;
   // ★ commit 4.49：Hero Banner（四屏结构第一屏 · 4 行紧凑布局）
