@@ -167,8 +167,8 @@ function parseFields(blockText) {
 const curFields = parseFields(blk.text);
 
 // ---------- 校验字段是否已存在 ----------
-// verifiedAt 和 tier 是允许新增的字段(其他字段必须已存在)
-if (!(fieldName in curFields) && fieldName !== 'verifiedAt' && fieldName !== 'tier') {
+// verifiedAt / tier / reason 是允许新增的字段(其他字段必须已存在)
+if (!(fieldName in curFields) && fieldName !== 'verifiedAt' && fieldName !== 'tier' && fieldName !== 'reason') {
   console.error(`[ERR] dim 块里没有字段 ${fieldName} (现有字段: ${Object.keys(curFields).join(', ')})`);
   process.exit(1);
 }
@@ -205,17 +205,15 @@ if (fieldName === 'score') {
   }
   newBlockText = blk.text.substring(0, idx) + `${fieldName}:'${valEscaped}'` + blk.text.substring(idx + fieldText.length);
 } else if (fieldName === 'verifiedAt') {
-  // 新增 verifiedAt:在 reason 字段结尾单引号之后、} 之前插入
-  const re = /(reason:'((?:\\'|[^'])*)')(?=\}$)/;
-  const m = blk.text.match(re);
-  if (!m) {
-    console.error('[ERR-INT] 找不到 reason 字段结尾,无法插入 verifiedAt');
+  // 新增 verifiedAt:放在最后一个字段之后(允许 evidence 后 / reason 后)
+  // 优先:在 lastIndexOf('}') 之前直接插入
+  // verifiedAt 应作为元数据字段放在 dim block 最末尾
+  const lastIdx = blk.text.lastIndexOf('}');
+  if (lastIdx < 0) {
+    console.error('[ERR-INT] 找不到 } 锚点,无法插入 verifiedAt');
     process.exit(1);
   }
-  const insertPos = m.index + m[0].length;
-  const before = blk.text.substring(0, insertPos);
-  const after = blk.text.substring(insertPos);
-  newBlockText = before + `,verifiedAt:'${valEscaped}'` + after;
+  newBlockText = blk.text.substring(0, lastIdx) + `,verifiedAt:'${valEscaped}'` + blk.text.substring(lastIdx);
 } else if (fieldName === 'tier') {
   // 新增 tier:把 ',reason: 替换为 ',tier:'VALUE',reason:
   // 这样插入位置自动正确,不需要手动算偏移
@@ -230,6 +228,22 @@ if (fieldName === 'score') {
   const replacement = `',tier:'${valEscaped}',reason:`;
   // 用 splice 而非 replace(只替换第一个 occurrence)
   newBlockText = blk.text.substring(0, idx) + replacement + blk.text.substring(idx + anchor.length);
+} else if (fieldName === 'reason' && !(fieldName in curFields)) {
+  // 新增 reason:在 tier 之后、evidence 之前插入
+  // 如果有 evidence:null 字段,用 ',evidence: 替换为 ',reason:'VALUE',evidence:
+  // 如果没有 evidence,在 lastIndexOf('}') 之前插入
+  let anchorIdx = blk.text.indexOf(',evidence:');
+  if (anchorIdx >= 0) {
+    newBlockText = blk.text.substring(0, anchorIdx) + `,reason:'${valEscaped}'` + blk.text.substring(anchorIdx);
+  } else {
+    // 没有 evidence 字段(常见):在 } 前插入
+    const lastIdx = blk.text.lastIndexOf('}');
+    if (lastIdx < 0) {
+      console.error('[ERR-INT] 找不到 } 锚点,无法插入 reason');
+      process.exit(1);
+    }
+    newBlockText = blk.text.substring(0, lastIdx) + `,reason:'${valEscaped}'` + blk.text.substring(lastIdx);
+  }
 } else {
   console.error(`[ERR] 不支持的字段操作: ${fieldName}`);
   process.exit(1);
