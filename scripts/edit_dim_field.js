@@ -9,6 +9,7 @@
 //   - tier: 允许 primary/broker/media/estimate + L1-L5
 //   - reason / evidence:字符串(必须已存在)
 //   - verifiedAt:字符串(允许新增到 reason 之后)
+//   - tier:字符串(允许新增到 trend 之后,reason 之前)
 
 'use strict';
 
@@ -59,9 +60,7 @@ if (fieldName === 'trend' && !VALID_TRENDS.includes(newValueRaw)) {
 // ---------- 单 pass 解析 dims6 数组边界 ----------
 const source = fs.readFileSync(FILE, 'utf8');
 
-// 找到 stock + dimKey 的 dims6 块 — 用括号深度跟踪 dim 块
 function locateDimBlock(src, stock, dim) {
-  // step 1: 找到 'XXXXXX': 出现位置
   const stockKey = `'${stock}':`;
   const stockPositions = [];
   let scanPos = 0;
@@ -73,14 +72,12 @@ function locateDimBlock(src, stock, dim) {
   }
   if (stockPositions.length === 0) return { error: `找不到 stock '${stock}'` };
 
-  // step 2: 对每个 stock 位置,验证其后 30KB 内是否有 dims6:[ 且目标 dim 在内
   for (const pos of stockPositions) {
     const window = src.substring(pos, pos + 30000);
     const dIdx = window.indexOf('dims6:[');
     if (dIdx < 0) continue;
     const dims6Abs = pos + dIdx + 'dims6:['.length;
 
-    // step 3: 单 pass 解析 dims6 数组内所有顶层 {key:'X',...} 块
     const blocks = [];
     let i = dims6Abs;
     let depth = 0;
@@ -95,27 +92,17 @@ function locateDimBlock(src, stock, dim) {
       if (inString) {
         if (c === '\\') { escape = true; }
         else if (c === "'") {
-          // 检查字符串是否在 "key:'X'," 模式里 — 取其后 5 字符决定这是不是 key
-          inString = false;
-          // 解析 key 字符串
           if (lastKeyName === null) {
-            // 这是 key 字符串
-            // 找前一个 '{key:' 位置
-            const blockTextSoFar = src.substring(blockStart, i + 1);
-            const keyMatch = blockTextSoFar.match(/\{key:'([^']*)'$/);
-            if (keyMatch) lastKeyName = keyMatch[1];
+            const slice = src.substring(blockStart, i + 1);
+            const m = slice.match(/\{key:'([^']*)'$/);
+            if (m) lastKeyName = m[1];
           }
+          inString = false;
         }
         i++; continue;
       }
-
       if (c === "'") { inString = true; i++; continue; }
-
-      if (c === '{') {
-        if (depth === 0) { blockStart = i; lastKeyName = null; }
-        depth++;
-        i++; continue;
-      }
+      if (c === '{') { if (depth === 0) { blockStart = i; lastKeyName = null; } depth++; i++; continue; }
       if (c === '}') {
         depth--;
         if (depth === 0 && blockStart >= 0) {
@@ -127,7 +114,6 @@ function locateDimBlock(src, stock, dim) {
         i++; continue;
       }
       if (c === ']' && depth === 0) {
-        // dims6 结束
         const match = blocks.find((b) => b.dimKey === dim);
         if (match) return { block: match };
         return { error: `stock=${stock} dims6 中无 dim=${dim}(包含: ${blocks.map((b) => b.dimKey).join(',')})` };
@@ -150,8 +136,6 @@ const blk = result.block;
 // ---------- 解析当前 dim 块中每个字段的当前值 ----------
 function parseFields(blockText) {
   const m = {};
-  // 用宽松正则解析:key:'x',score:N,trend:'x',tier:'x',[evidence:null,]reason:'...'
-  // 顺序固定且唯一
   const patterns = [
     ['key', /^key:'((?:\\'|[^'])*)'/],
     ['score', /^score:(\d+)/],
@@ -161,10 +145,8 @@ function parseFields(blockText) {
     ['reason', /^reason:'((?:\\'|[^'])*)'/],
     ['verifiedAt', /^verifiedAt:'((?:\\'|[^'])*)'/],
   ];
-  let cursor = 0;
   for (const [name, re] of patterns) {
-    // 在 blockText 中找到下一个 ',' 或 '^' 之后开始匹配
-    let searchFrom = blockText.indexOf(name + ':');
+    const searchFrom = blockText.indexOf(name + ':');
     if (searchFrom < 0) continue;
     const slice = blockText.substring(searchFrom);
     const mm = slice.match(re);
@@ -185,7 +167,8 @@ function parseFields(blockText) {
 const curFields = parseFields(blk.text);
 
 // ---------- 校验字段是否已存在 ----------
-if (!(fieldName in curFields) && fieldName !== 'verifiedAt') {
+// verifiedAt 和 tier 是允许新增的字段(其他字段必须已存在)
+if (!(fieldName in curFields) && fieldName !== 'verifiedAt' && fieldName !== 'tier') {
   console.error(`[ERR] dim 块里没有字段 ${fieldName} (现有字段: ${Object.keys(curFields).join(', ')})`);
   process.exit(1);
 }
@@ -195,42 +178,58 @@ let newBlockText;
 const valEscaped = newValueRaw.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 
 if (fieldName === 'score') {
-  // 替换 score:N 为 score:newValue
+  // 替换 score:N 为 score:newValue(字面 indexOf 匹配)
   const oldScore = curFields.score;
-  const re = new RegExp(`score:${oldScore}(,?)`);
-  if (!re.test(blk.text)) {
-    console.error(`[ERR-INT] 字段 score anchor 找不到`);
+  const fieldText = `score:${oldScore}`;
+  const idx = blk.text.indexOf(fieldText);
+  if (idx < 0) {
+    console.error(`[ERR-INT] 字段 score anchor 找不到: ${fieldText}`);
     process.exit(1);
   }
-  newBlockText = blk.text.replace(re, `score:${newValueRaw}$1`);
+  // 找到该 score 字段结尾位置(下一个 , 或 })
+  let endIdx = idx + fieldText.length;
+  while (endIdx < blk.text.length && blk.text[endIdx] !== ',' && blk.text[endIdx] !== '}') {
+    endIdx++;
+  }
+  newBlockText = blk.text.substring(0, idx) + `score:${newValueRaw}` + blk.text.substring(endIdx);
 } else if (fieldName in curFields) {
-  // 替换已有字段
+  // 替换已有字段(字面 indexOf 匹配)
   const v = curFields[fieldName];
-  // 转义回源码形式
-  const oldLit = "'" + (v == null ? '' : String(v)).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
-  const re = new RegExp(`${fieldName}:${oldLit.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}(,?)`);
-  if (!re.test(blk.text)) {
-    console.error(`[ERR-INT] 字段 ${fieldName} anchor 找不到: ${oldLit}`);
+  const escapedV = (v == null ? '' : String(v)).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  const fieldText = `${fieldName}:'${escapedV}'`;
+  const idx = blk.text.indexOf(fieldText);
+  if (idx < 0) {
+    console.error(`[ERR-INT] 字段 ${fieldName} anchor 找不到: ${fieldText.substring(0, 100)}...`);
+    console.error(`  block 末尾 200 字符: ${blk.text.substring(blk.text.length - 200)}`);
     process.exit(1);
   }
-  newBlockText = blk.text.replace(re, `${fieldName}:'${valEscaped}'$1`);
+  newBlockText = blk.text.substring(0, idx) + `${fieldName}:'${valEscaped}'` + blk.text.substring(idx + fieldText.length);
 } else if (fieldName === 'verifiedAt') {
   // 新增 verifiedAt:在 reason 字段结尾单引号之后、} 之前插入
-  // dim 块尾部应该是 'reason_value'}
-  // 找最后一个 ',reason:' 块,然后定位其结尾单引号
-  // 用 lookahead(?=\}$)允许字符串末尾是 } 而不是 '
   const re = /(reason:'((?:\\'|[^'])*)')(?=\}$)/;
   const m = blk.text.match(re);
   if (!m) {
     console.error('[ERR-INT] 找不到 reason 字段结尾,无法插入 verifiedAt');
     process.exit(1);
   }
-  // m.index 是 reason: 起始位置,m[0] 是 reason:'...' 整段
-  // 我们要在 m.index + m[0].length 处(即 ' 之后)是 }, 之前
   const insertPos = m.index + m[0].length;
   const before = blk.text.substring(0, insertPos);
-  const after = blk.text.substring(insertPos);  // 应该是 }
+  const after = blk.text.substring(insertPos);
   newBlockText = before + `,verifiedAt:'${valEscaped}'` + after;
+} else if (fieldName === 'tier') {
+  // 新增 tier:把 ',reason: 替换为 ',tier:'VALUE',reason:
+  // 这样插入位置自动正确,不需要手动算偏移
+  const anchor = "',reason:";
+  const idx = blk.text.indexOf(anchor);
+  if (idx < 0) {
+    console.error('[ERR-INT] 找不到 \',reason: 锚点,无法插入 tier');
+    console.error(`  block 末尾 200 字符: ${blk.text.substring(blk.text.length - 200)}`);
+    process.exit(1);
+  }
+  // idx 是 closing single quote 位置;replace 整段 ',reason:
+  const replacement = `',tier:'${valEscaped}',reason:`;
+  // 用 splice 而非 replace(只替换第一个 occurrence)
+  newBlockText = blk.text.substring(0, idx) + replacement + blk.text.substring(idx + anchor.length);
 } else {
   console.error(`[ERR] 不支持的字段操作: ${fieldName}`);
   process.exit(1);
@@ -255,7 +254,7 @@ if (fieldName in curFields) {
   const ovStr = ov == null ? 'null' : String(ov);
   console.log(`     旧值: ${ovStr.substring(0, 60)}${ovStr.length > 60 ? '...' : ''}`);
 } else {
-  console.log(`     (字段不存在,新增 verifiedAt)`);
+  console.log(`     (字段不存在,新增 ${fieldName})`);
 }
 console.log(`     新值: ${newValueRaw}`);
 console.log(`     字符偏移: ${blk.start}-${blk.end}`);
