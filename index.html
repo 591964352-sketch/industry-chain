@@ -706,14 +706,15 @@
   // 让浏览器忽略旧缓存、走新版。下次 commit 同时同步这行。
   // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写) / v2=20260614 (新增 optical 骨架) / v3=20260615 (新增 liquid-cooling 骨架) / v4=20260616 (新增 optical-chip 骨架) / v5=20260618 (液冷链 A 类注入 36 只 + 4 只 PE 失真) / v6=20260618c (液冷链第3轮注入 4 模块 + G8 4 项不达标) / v7=20260618d (Phase 1 验证:巨化 1 只 Gemini 联网 position broker 注入) / v8=20260618e (Phase 1 验证:英维克/永贵 position + 永贵降级 ★★★→★★☆ + supplyGap[0] src PFAS 法规) / v9=20260618f (Phase 2 完成·49 项 G8 达标·30 只 stock position 联网核实 + 16 sub-card note 占比补 + 2 overview 卡 + supplyGap[1] CDU 4 项 + meta.status 改 active) / v10=20260618g (Phase 3 双跑试点完成·DeepSeek 5/5 vs Gemini 3 Pro 0/5·5 只 ⚪media 单源升级双源:高澜🟢primary + 申菱🔵broker + 中科曙光🔵broker + 浪潮🔵broker + 工业富联🔵broker) / v11=20260618h (Phase 4 全量 42 项 DeepSeek 智能搜索完成·6 项 ✅ 升级双源 + 12 项 ⚠️ 部分找到 + 24 项 ❌ 维持稀缺区·包含 14 只 stock position + 3 sub-card note + 1 supplyGap demand + 1 overview 氟化液市场规模 + 汉威科技反向证据降级) / v12=20260618i (Phase 5 单项深挖完成·10 项 DeepSeek 智能搜索核实·5 项升级:4 stock 部分项(川环/中石/飞荣达/数据港)+ 1 sub-card B1 液冷数据中心冲突解决(480 亿=产业规模赛迪顾问 vs 149.4 亿=基础设施 IDC)+ supplyGap[1] CDU capacity/gap/rate 验证全球研究均不提供产能数据(行业真实缺口)) / v13=20260618j (Phase 6 最后清仓完成·13 项 stock 全部处理完毕·barrier 全部合理化:6 只 barrier 1(芯原/四方/海容/中颖/雪迪龙/精测 几乎无液冷关联)+ 7 只 barrier 2(天赐/多氟多/昊华氟化液主业占比>72% 液冷<2% + 奥飞/博威/双良/华工数据存在但未拆分)·数据治理闭环) / v14=20260618k (Phase 7 全量 24 项最后清仓完成·A 8 只 midstream 全部升级(曙光 58.8%/浪潮 45%/申菱赛迪+国金)+ B 9 个 sub-card 升级(CDU 30-40%/液冷板 40-45%/UQD 15-20%/TrendForce HPC 8%/储能 92.7% 渗透等)+ C 反推法补 CDU capacity 厂商碎片数据(英维克 50 万套/CoolIT 多吉瓦/Asetek 10 万台)·液冷链数据治理终章) / v15=20260618l (Phase 8 行业协会专项突破·7/8 项找到·A 4 个 sub-card 升级含 CDU 内部成本拆解首次出现(泵 22-40%/换热器 15-25%/阀门 10-15%)+ 一次侧 vs 二次侧价值(冷板式一次侧 20-30%/二次侧 70-80%)+ B rate 20-25% 缺口率首次量化+ C 联想 Neptune 8 万套/工业富联液冷营收 300 亿同比+200%) / v16=20260619a (Phase 9 PCB 短板补充·34 只 stock 补 tier 标记:🟢primary 6/🔵broker 21/⚪media 6/🆪estimate 1·首次数据治理精度与液冷链对齐·pcb.js 35 只 stock ②待补 = 0·8 阶段同步高数据精度)
 // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写) / v2=20260614 (新增 optical 骨架) / v3=20260615 (新增 liquid-cooling 骨架) / v4=20260616 (新增 optical-chip 骨架) / v5=20260618 (液冷链 A 类注入 36 只 + 4 只 PE 失真) / v6=20260618c (液冷链第3轮注入 4 模块 + G8 4 项不达标) / v7=20260618d (Phase 1 验证:巨化 1 只 Gemini 联网 position broker 注入) / v8=20260618e (Phase 1 验证:英维克/永贵 position + 永贵降级 ★★★→★★☆ + supplyGap[0] src PFAS 法规) / v9=20260618f (Phase 2 完成·49 项 G8 达标·30 只 stock position 联网核实 + 16 sub-card note 占比补 + 2 overview 卡 + supplyGap[1] CDU 4 项 + meta.status 改 active) / v10=20260618g (Phase 3 双跑试点完成·DeepSeek 5/5 vs Gemini 3 Pro 0/5·5 只 ⚪media 单源升级双源:高澜🟢primary + 申菱🔵broker + 中科曙光🔵broker + 浪潮🔵broker + 工业富联🔵broker) / v11=20260618h (Phase 4 全量 42 项 DeepSeek 智能搜索完成·6 项 ✅ 升级双源 + 12 项 ⚠️ 部分找到 + 24 项 ❌ 维持稀缺区·包含 14 只 stock position + 3 sub-card note + 1 supplyGap demand + 1 overview 氟化液市场规模 + 汉威科技反向证据降级) / v12=20260618i (Phase 5 单项深挖完成·10 项 DeepSeek 智能搜索核实·5 项升级:4 stock 部分项(川环/中石/飞荣达/数据港)+ 1 sub-card B1 液冷数据中心冲突解决(480 亿=产业规模赛迪顾问 vs 149.4 亿=基础设施 IDC)+ supplyGap[1] CDU capacity/gap/rate 验证全球研究均不提供产能数据(行业真实缺口)) / v13=20260618j (Phase 6 最后清仓完成·13 项 stock 全部处理完毕·barrier 全部合理化:6 只 barrier 1(芯原/四方/海容/中颖/雪迪龙/精测 几乎无液冷关联)+ 7 只 barrier 2(天赐/多氟多/昊华氟化液主业占比>72% 液冷<2% + 奥飞/博威/双良/华工数据存在但未拆分)·数据治理闭环) / v14=20260618k (Phase 7 全量 24 项最后清仓完成·A 8 只 midstream 全部升级(曙光 58.8%/浪潮 45%/申菱赛迪+国金)+ B 9 个 sub-card 升级(CDU 30-40%/液冷板 40-45%/UQD 15-20%/TrendForce HPC 8%/储能 92.7% 渗透等)+ C 反推法补 CDU capacity 厂商碎片数据(英维克 50 万套/CoolIT 多吉瓦/Asetek 10 万台)·液冷链数据治理终章) / v15=20260618l (Phase 8 行业协会专项突破·7/8 项找到·A 4 sub-card 升级含 CDU 内部成本拆解首次出现(泵 22-40%/换热器 15-25%/阀门 10-15%)+ 一次侧 vs 二次侧价值(冷板式一次侧 20-30%/二次侧 70-80%)+ B rate 20-25% 缺口率首次量化+ C 联想 Neptune 8 万套/工业富联液冷营收 300 亿同比+200%) / v16=20260619a (Phase 9 PCB 短板补充·34 只 stock 补 tier 标记:🟢primary 6/🔵broker 21/⚪media 6/🆪estimate 1·首次数据治理精度与液冷链对齐·pcb.js 35 只 stock ②待补 = 0·8 阶段同步高数据精度) / v17=20260619b (Phase 10 半导体设备新增·28 只 stock + 6 segments + 3 卡口(中微★★★/北方华创★★★/拓荆★★☆)+ 4 supplyGap(100%/55%/70%/60%)+ 6 维景气 + 5 列 treeMap + midstream 10 只·17 赛道数据治理精度对齐 PCB/液冷链 93%)
-  var DATA_VERSION = '?v=20260709a';  // ★ commit 6.63 立 · semicon-equip 重构骨架 · 同时打散 pcb 检查 (date bump 至 2026-07-09)
+  var DATA_VERSION = '?v=20260709b';  // ★ P0-1 立 · semicon-equip 双层拆分:manual 先于 auto 加载 + 渲染层 fallback 修复 (bump 自 20260709a)
   var DATA_MANIFEST = [
     'pcb.manual',   // ★ 阶段二 commit 2.1：手动层（必须先于 pcb.js 加载·注入 STOCK_REGISTRY）
     // 'pcb.auto',     // ★ 阶段二 commit 2.2：自动层（估值字段全 null·commit 3.1+ 脚本回填）· commit 6.34 临时禁用· 文件保留可恢复·减重 4.1MB
     // 'pcb.close_history', // ★ commit 4.57：信号 C 历史回放数据层（独立文件·避免 pcb.auto.js 膨胀 +55%）· commit 6.34 临时禁用· 文件保留可恢复·减重 1.7MB
     'pcb','semi','ai-server','hbm','robotics','autonomous-driving',
     'power-semi','semi-equipment','ai-apps','cpo','optical-chip','optical-module','solid-battery','low-altitude','commercial-aero',
-    'liquid-cooling','semicon-equip',
+    'liquid-cooling','semicon-equip.manual', // ★ P0-1: 手动层先于 semicon-equip.js 加载,注入 window.SEMICON_EQUIP_MANUAL.stocks[code]
+    'semicon-equip',
     'ai-full-chain'
   ];
   DATA_MANIFEST.forEach(function(id){
@@ -989,11 +990,43 @@ function computeStockFit(dims6){
   return computeFitFromDims(dims6);
 }
 
+// ★ P0-1 立 · 2026-07-09 · semicon-equip 双层架构支撑:
+//   渲染层统一通过 getEffectiveDims6(s) / getEffectiveDims6Note(s) 读取 6 维数据。
+//   优先读 s.dims6 (旧 PCB/Phase A 直接嵌在 stock 块的设计);
+//   缺失时回退到 window.<chainId>_MANUAL.stocks[code].dims6(nonePcMember/semicon-equip 等新链采用 manual/auto 双层架构)
+//   · PCB 链:s.dims6 永远存在 → helper 等价旧逻辑(无性能损失)
+//   · semicon-equip 链:移除 stock.dims6 后由 helper 从 SEMICON_EQUIP_MANUAL.stocks[code].dims6 兜底
+//   · 不引入循环依赖,不使用异步,纯同步降级
+function getEffectiveDims6(s, chainId) {
+  if (s && Array.isArray(s.dims6) && s.dims6.length) return s.dims6;
+  if (!chainId || !s || !s.code) return [];
+  // ★ P0-1 fix: chainId 含连字符(如 'semicon-equip')时,toUpperCase 后是 'SEMICON-EQUIP',
+  //   但 manual.js 注入的命名空间是 'SEMICON_EQUIP_MANUAL'(下划线)。必须把连字符替换为下划线
+  //   对齐其他 helper 的命名空间派生规则(line 1596/1699 已有此 pattern)
+  const manualKey = chainId.toUpperCase().replace(/-/g, '_') + '_MANUAL';
+  const manual = window[manualKey];
+  if (manual && manual.stocks && manual.stocks[s.code] && Array.isArray(manual.stocks[s.code].dims6) && manual.stocks[s.code].dims6.length) {
+    return manual.stocks[s.code].dims6;
+  }
+  return [];
+}
+function getEffectiveDims6Note(s, chainId) {
+  if (s && typeof s.dims6Note === 'string' && s.dims6Note.length) return s.dims6Note;
+  if (!chainId || !s || !s.code) return '';
+  const manualKey = chainId.toUpperCase().replace(/-/g, '_') + '_MANUAL';
+  const manual = window[manualKey];
+  if (manual && manual.stocks && manual.stocks[s.code] && typeof manual.stocks[s.code].dims6Note === 'string' && manual.stocks[s.code].dims6Note.length) {
+    return manual.stocks[s.code].dims6Note;
+  }
+  return '';
+}
+
 // 个股长线适配分小徽章（segments 个股行末用），无 dims6 优雅降级为空字符串
 // 复用 .tag .tg-{color}（tg-green/tg-mid/tg-extreme），不新增 CSS 主结构
-function stockFitBadge(s){
-  if (!s.dims6 || !s.dims6.length) return '';
-  const f = computeStockFit(s.dims6);
+function stockFitBadge(s, chainId){
+  const dims = getEffectiveDims6(s, chainId);
+  if (!dims.length) return '';
+  const f = computeStockFit(dims);
   if (!f) return '';
   const cls = f.tier.indexOf('🟢')===0 ? 'tg-green' : f.tier.indexOf('🟡')===0 ? 'tg-mid' : 'tg-extreme';
   // ★ 升级：tier 文字 emoji 与中文间加空格（原 `🟢核心` 不直观·改 `🟢 核心`）
@@ -2107,16 +2140,21 @@ function renderStockRankingPanel(chainId) {
   const d = CHAINS[chainId];
   if (!d) return '';
   // 收集所有 stock + dims6 综合分
+  // ★ P0-1: 改用 getEffectiveDims6(s, chainId) 兼容 semicon-equip 双层架构
   const allStocks = [];
   (d.segments || []).forEach(seg => {
     (seg.stocks || []).forEach(s => {
-      const fit = computeStockFit(s.dims6);
+      const dims = getEffectiveDims6(s, chainId);
+      if (!dims.length) return;
+      const fit = computeStockFit(dims);
       if (fit) allStocks.push({ ...s, segmentName: seg.name, choke: !!seg.choke, fit });
     });
   });
   if (d.midstream && d.midstream.stocks) {
     d.midstream.stocks.forEach(s => {
-      const fit = computeStockFit(s.dims6);
+      const dims = getEffectiveDims6(s, chainId);
+      if (!dims.length) return;
+      const fit = computeStockFit(dims);
       if (fit) allStocks.push({ ...s, segmentName: '中游 PCB 制造', choke: false, fit });
     });
   }
@@ -2190,7 +2228,9 @@ function renderStockRankingPanel(chainId) {
     h += `<table class="stock-tbl" style="font-size:12px;"><colgroup><col style="width:8%"><col style="width:18%"><col style="width:9%"><col style="width:30%"><col style="width:12%"><col style="width:13%"><col style="width:10%"></colgroup>`;
     h += `<thead><tr><th>#</th><th>个股</th><th>代码</th><th>段位</th><th>综合分</th><th>档位</th><th>短板维度</th></tr></thead><tbody>`;
     riskStocks.forEach((s, i) => {
-      const weakDims = s.dims6.filter(d => d.score <= 1).map(d => d.key);
+      // ★ P0-1: 用 helper fallback 读 dims6
+      const dims = getEffectiveDims6(s, chainId);
+      const weakDims = dims.filter(d => d.score <= 1).map(d => d.key);
       const weakText = weakDims.length > 0 ? weakDims.join('+') : '—';
       h += `<tr><td><span class="rank-num">${i + 1}</span></td>`;
       h += `<td class="s-name" style="color:var(--color-risk);">${s.name}</td>`;
@@ -3096,17 +3136,20 @@ function renderChain(chainId) {
   }
 
   // ===== 升级九 STEP 2B：个股六维 mini-bar 展开（native <details>，0 JS、0 CSS 增量） =====
-  function stockDims6Badge(s) {
-    if (!s.dims6 || !s.dims6.length) return '';
+  // ★ P0-1: 加 chainId 参数,内部用 getEffectiveDims6(s, chainId) 兼容双层架构
+  function stockDims6Badge(s, chainId) {
+    const dims = getEffectiveDims6(s, chainId);
+    const dimsNote = getEffectiveDims6Note(s, chainId);
+    if (!dims.length) return '';
     const META = (typeof PROSPERITY_META !== 'undefined') ? PROSPERITY_META : {};
     // ★ 修复：flat/→ 统一灰色（撤销"高分 flat 金色"调优 — 用户视觉上把 barrier-high #f97316 误读为红色）
     const arrow = (t, sc) => t==='up' ? '<span style="color:var(--green);">↑</span>' : t==='down' ? '<span style="color:var(--red);">↓</span>' : '<span style="color:var(--muted);">→</span>';
     // ★ 升级 E：fold 面板顶部综合分行（复用赛道六维卡排版：综合 X/100 + 档位徽章 + ⚠安全垫）
-    const f = computeStockFit(s.dims6);
+    const f = computeStockFit(dims);
     const tierCls = f.tier.indexOf('🟢')===0 ? 'tg-green' : f.tier.indexOf('🟡')===0 ? 'tg-mid' : 'tg-extreme';
     const summaryRow = `<div style="margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--border);font-size:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">综合 <strong style="color:var(--accent);font-size:14px;">${f.score}</strong>/100 <span class="tag ${tierCls}" style="font-size:11px;">${f.tier}</span>${f.risk?' <span style="color:var(--red);font-size:11px;">⚠安全垫不足</span>':''}</div>`;
     let bars = '';
-    s.dims6.forEach(d6 => {
+    dims.forEach(d6 => {
       const meta = META[d6.key] || {};
       const pct = Math.max(0, Math.min(100, (d6.score/5)*100));
       const barColor = d6.score >= 4 ? 'var(--green)' : d6.score >= 3 ? 'var(--color-warn)' : d6.score >= 2 ? 'var(--color-data)' : 'var(--red)';
@@ -3116,7 +3159,7 @@ function renderChain(chainId) {
       bars += `<span style="width:42px;text-align:right;flex-shrink:0;">${d6.score}/5 ${arrow(d6.trend, d6.score)}</span>`;
       bars += `</div>`;
     });
-    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;">${summaryRow}<div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(s.dims6, 96)}</div></div>${s.dims6Note?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${s.dims6Note}</div>`:''}${s.valAsOf?`<div style="margin-top:4px;font-size:11px;color:var(--color-muted);text-align:right;" title="估值判断时点">📅 截至 ${s.valAsOf.slice(5)}</div>`:''}</div></details>`;
+    return ` <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(240,185,11,0.08);border:1px solid rgba(240,185,11,0.35);border-radius:10px;color:var(--accent);font-weight:600;">🆪 六维 ▾</summary><div style="margin-top:6px;padding:8px 10px;background:var(--card2);border-radius:6px;min-width:280px;">${summaryRow}<div style="display:flex;gap:12px;align-items:flex-start;"><div style="flex:1;min-width:160px;">${bars}</div><div class="stock-radar-wrap" style="flex-shrink:0;padding:2px;">${prosperityRadar(dims, 96)}</div></div>${dimsNote?`<div style="margin-top:8px;font-size:11px;color:var(--text);line-height:1.6;padding-top:6px;border-top:1px dashed var(--border);">${dimsNote}</div>`:''}${s.valAsOf?`<div style="margin-top:4px;font-size:11px;color:var(--color-muted);text-align:right;" title="估值判断时点">📅 截至 ${s.valAsOf.slice(5)}</div>`:''}</div></details>`;
   }
 
   // ===== ★ B4 六维雷达图（纯内联 SVG，0 依赖，复用 var(--accent) 金色描边+半透明填充）=====
@@ -3290,7 +3333,7 @@ function renderChain(chainId) {
       const _logicCell = _trunc.truncated
         ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:11px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
         : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
-      h += `<td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}${renderStockFundamentalsChip(s, chainId)}${renderStockRiskChip(s, chainId)}</td>`;
+      h += `<td style="font-size:12px;">${_logicCell}${stockDims6Badge(s, chainId)}${stockFitBadge(s, chainId)}${renderStockFundamentalsChip(s, chainId)}${renderStockRiskChip(s, chainId)}</td>`;
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
@@ -3323,7 +3366,7 @@ function renderChain(chainId) {
         const _isConcept = conceptNoteOf(s).isConcept;
         const _trClass = _isConcept ? ' class="concept-vote"' : '';
         const _conceptTag = conceptTagHtml(s);
-        h += `<tr${s.code?` id="stock-${s.code}"${_trClass}`:''}${!s.code && _isConcept?' class="concept-vote"':''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${conceptTagHtml(s)}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td class="position" style="font-size:13px;">${s.position}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}</td></tr>`;
+        h += `<tr${s.code?` id="stock-${s.code}"${_trClass}`:''}${!s.code && _isConcept?' class="concept-vote"':''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${conceptTagHtml(s)}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td class="position" style="font-size:13px;">${s.position}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s, chainId)}${stockFitBadge(s, chainId)}</td></tr>`;
       });
       h += `</tbody></table></div>`;
     });
@@ -3356,7 +3399,7 @@ function renderChain(chainId) {
       const _logicCell = _trunc.truncated
         ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:11px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
         : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
-      h += `<tr${s.code?` id="stock-${s.code}"${conceptNoteOf(s).isConcept?' class="concept-vote"':''}`:''}${!s.code && conceptNoteOf(s).isConcept?' class="concept-vote"':''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${conceptTagHtml(s)}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s)}${stockFitBadge(s)}${renderStockFundamentalsChip(s, chainId)}${renderStockRiskChip(s, chainId)}</td></tr>`;
+      h += `<tr${s.code?` id="stock-${s.code}"${conceptNoteOf(s).isConcept?' class="concept-vote"':''}`:''}${!s.code && conceptNoteOf(s).isConcept?' class="concept-vote"':''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${conceptTagHtml(s)}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s, chainId)}${stockFitBadge(s, chainId)}${renderStockFundamentalsChip(s, chainId)}${renderStockRiskChip(s, chainId)}</td></tr>`;
     });
     h += `</tbody></table></div></div>`;  // segment-card
     h += `</div></div>`;  // section-body + section (commit 4.9 折叠)
