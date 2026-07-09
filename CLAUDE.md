@@ -2158,6 +2158,183 @@ trend判断规则：
 - ✅ 无 603183 类代码错误(stock.code 已用 baostock 已知正确 6 位代码)
 - ✅ 无虚假 PASS(page_audit 16/16 是真实 PASS,因第【7】项仅查 PCB 双层架构,新 chain 为 N/A)
 
+### §11.14 semicon-equip P0 基础设施(双层架构 + 命名空间修复 + check 脚本)·双 commit(2026-07-09 立)
+
+> **触发**:Phase A 骨架(commit 6.63, 2026-07-09)在 `data/semicon-equip.js` 建好 800+ 行骨架,但 24 只 stock × 6 维 dims6 字段全部内联在 auto 层(数据体量 ~30 KB),与「auto 层放自动估值字段」的设计意图冲突,需 P0 基建拆分双层架构。
+
+**【本次 2 个 commit 概览】**
+
+| commit | 主题 | 涉及文件 | hash |
+|---|---|---|---|
+| **6.62** | P0 基建:双层架构拆分 + 渲染层 fallback 修复(含命名空间 bug)+ check_semicon_sync | A semicon-equip.manual.js / M semicon-equip.js / M index.html / A scripts/check_semicon_sync.js | (见 `git log --oneline`) |
+| **6.64** | 3 项 name 冲突修复:4 个 placeholder code 唯一化 | M data/semicon-equip.js | (见 `git log --oneline`) |
+
+#### §11.14.1 P0 主 commit(6.62)— 双层架构迁移 + helper 命名空间修复
+
+**【动机】**
+
+Phase A commit 6.63 把 24 只 stock × 6 维 dims6 字段全部内联在 `data/semicon-equip.js`。
+- **问题 1(数据治理)**:dims6 字段属「用户维护的 6 维景气主观判断」,不应与自动估值字段混在同一文件
+- **问题 2(渲染层)**:精简 auto 层后 `s.dims6` 字段不存在,渲染层 `stockDims6Badge` 会因 dims=undefined 返回空字符串 → "🆪 六维 ▾" chip 不显示
+- **问题 3(同步校验)**:新建 chain 无独立检查脚本,baseline 检查只能手工
+
+**【双层架构拆分】**
+
+| 层 | 文件 | 体量 | 字段 |
+|---|---|---|---|
+| auto 层 | `data/semicon-equip.js` | 33 KB(原 92 KB,减重 -64%) | rank/name/code/position/barrier/tier/valAsOf/src/trend/trendNote/logic 共 11 字段 |
+| manual 层 | `data/semicon-equip.manual.js`(新增) | 31 KB,24 stocks × 6 维 | dims6(score/trend/tier/reason/evidence/flag/src)6 维数组 + `window.SEMICON_EQUIP_MANUAL` 命名空间 |
+
+**【命名空间派生 bug + 修复(关键)】**
+
+`index.html` 内 2 个 helper 函数 `getEffectiveDims6(s, chainId)` + `getEffectiveDims6Note(s, chainId)` 原实现:
+```js
+const manual = window[chainId.toUpperCase() + '_MANUAL'];
+```
+对 `chainId='semicon-equip'` 产出 `'SEMICON-EQUIP_MANUAL'`(带连字符)。
+
+但 `data/semicon-equip.manual.js` 注入用的是 `'SEMICON_EQUIP_MANUAL'`(下划线)。
+
+**bug 结果**:helper 永远找不到 manual 层,永远返回空 dims → chip 不显示(即使 manual 数据完整)。
+
+**修复**:加 `.replace(/-/g, '_')`,对齐其他 helper(line 1596/1699)既有命名空间派生规则:
+```js
+const manualKey = chainId.toUpperCase().replace(/-/g, '_') + '_MANUAL';
+const manual = window[manualKey];
+```
+
+**【自动化验证】**
+
+新建 `verify_chip_render.js`(Node 脚本,无需浏览器):
+- 对比 buggy / fixed 两个 helper 版本
+- 4 种 chainId 模式测试(pcb / semicon-equip / ai-server / liquid-cooling)
+- 修复前 0 条 dims → 修复后 6 条 dims
+
+**结果**:
+- `stockDims6Badge` 生成的 chip HTML 现包含「🆪 六维 ▾」+「综合 75/100 · 共 6 维」
+- 浏览器硬刷验证:中微 688012 在「⑤ 上游拆解 → CCP/ICP 刻蚀设备 → A 股标的」行正常展开 6 维 mini-bar + 雷达图 ✓
+
+#### §11.14.2 check_semicon_sync.js 检查 2 判定逻辑调整(core vs treeMapOnly 分类)
+
+**【动机】**
+
+初始版本 `check2_stockCodeConsistency()` 把所有 5 处引用(segments/midstream/chokePoints/treeMap/fourQuestions)统一视为 core references,任何 `uniqueCodes` 找不到的 code 都报 ⚠ orphan refs。
+
+semicon-equip 链 treeMap 含 43 项上下游生态背景(中芯国际/长江存储/长鑫存储等),这是 PCB 黄金范例设计的 treeMap 全景视角,不计入 core stock list 也不应报 ⚠ 警告。
+
+**【分类判定】**
+
+| 类型 | 路径 | 计入 orphan 警告? |
+|---|---|---|
+| **core references**(44) | segments[].stocks[] + midstream.stocks[] + chokePoints[] | **必须 = 0**(任何 orphans 都是真实数据缺失) |
+| **treeMapOnly references**(77) | treeMap[*][*].companies[] | **不计警告**(PCB 设计意图,生态背景) |
+
+**【报告输出】**
+
+```
+【2】Stock 名称/代码一致性回归检测
+  [ℹ] 设计口径:core vs treeMapOnly 二分类
+      · core = segments/midstream/chokePoints — 必须命中 unique stock list
+      · treeMapOnly = treeMap.*.companies — PCB 上下游生态背景,不计入警告
+  core references: 44 | treeMap references: 77
+  name 冲突: X (必须为 0)
+  core 游离(must be 0): X
+  treeMap 生态背景游离(P=背景,不计入警告): X unique codes (基线持续记录)
+```
+
+**【退出码调整】**
+
+原:`r1.issues > 0 || r2.nameConflicts > 0 || r2.orphanRefs > 0 || !r4.mtimeValid` → exit 1
+新:`r1.issues > 0 || r2.nameConflicts > 0 || r2.coreOrphans > 0 || !r4.mtimeValid` → exit 1
+(treeOrphans 不计入 exit 1,符合 PCB 设计)
+
+#### §11.14.3 独立 commit(6.64)— 3 项 name 冲突修复(4 个 placeholder code 唯一化)
+
+**【触发】**
+
+commit 6.62 落地后跑 `check_semicon_sync.js`,check 2 报 3 项 name 冲突:
+```
+- （未上市） 期望 "长江存储" 实际 "长鑫存储" @ treeMap.downstream[1].companies[1]
+- （未上市） 期望 "长江存储" 实际 "中科信" @ treeMap.midstream[5].companies[3]
+- （未上市） 期望 "长江存储" 实际 "中科信" @ treeMap.equipment[1].companies[1]
+```
+
+**【根因】**
+
+4 处 placeholder(长江存储 / 长鑫存储 / 中科信 × 2)都用同一字符串 `code:"（未上市）"`。脚本遍历 references 时遇到 code 重复即比对同 code 不同 name → 报冲突。
+
+**【方案 A 修复 · placeholder code 唯一化】**
+
+| stock | 位置 | 原 code | 新 code |
+|---|---|---|---|
+| 长江存储 | treeMap.downstream[1].companies[0] | "（未上市）" | "未上市·IDM存储1" |
+| 长鑫存储 | treeMap.downstream[1].companies[1] | "（未上市）" | "未上市·IDM存储2" |
+| 中科信 | treeMap.midstream[5].companies[3] | "（未上市）" | "未上市·离子注入1" |
+| 中科信 | treeMap.equipment[1].companies[1] | "（未上市）" | "未上市·离子注入2" |
+
+**【为什么方案 A 不删 placeholder】**
+- 长江存储 / 长鑫存储 / 中科信 是真实产业链重要未上市节点(大基金三期重点投资标的)
+- 移除会破坏 treeMap 上下游生态
+- 唯一化 code 让脚本能区分引用,既保留数据又消除冲突
+
+**【后续 Phase B+ 探针】**
+
+这 3 家 IPO 后手动将 placeholder code 换成真实股票代码,placeholder 字符串「未上市·XXX」作为"已 IPO 探针信号"使用。
+
+#### §11.14.4 双 commit 验证结果(2026-07-09 完成)
+
+**【page_audit.py】**
+
+```
+16项通过 / 0项失败
+[PASS] 双层架构 stock 列表完全同步
+[PASS] 数据层同步状态检测(manifest vs 实际文件)
+```
+
+**【check_semicon_sync.js】**
+
+| 检查项 | 6.62 baseline | 6.64 修复后 |
+|---|---|---|
+| check 1(双层字段数值一致性) | ✓ 0 偏离 | ✓ 0 偏离 |
+| check 2(name 冲突) | ⚠ 3 项 | ✓ 0 项(从 3 降 0) |
+| check 2(core 游离) | ✓ 0 | ✓ 0 |
+| check 2(treeMap 生态背景游离) | 43 unique codes(基线) | 43 unique codes(不变) |
+| check 3(股票口径 reason) | 1/24(4.2%) | 1/24(4.2%) |
+| check 3(字段口径 reason) | 6/144(4.2%) | 6/144(4.2%) |
+| check 4(DATA_VERSION + mtime) | ✓ | ✓ |
+
+**【浏览器硬刷验证 chip 展开】**
+- 中微 688012 在「⑤ 上游拆解 → CCP/ICP 刻蚀设备」table 行
+- stockDims6Badge 生成的 `<details>` 现正常展开
+- 6 维 mini-bar(durability/visibility/policy/supply/valuation/barrier)+ 综合分数显示 OK
+
+#### §11.14.5 完成定义(本次 P0 基建)
+
+- ✅ data/semicon-equip.manual.js(31 KB,24 stocks × 6 维 dims 完整)
+- ✅ data/semicon-equip.js 精简(92 KB → 33 KB,-64% 体量)
+- ✅ index.html helper 命名空间连字符 bug 修复(`.replace(/-/g, '_')`)
+- ✅ 自动化验证脚本:verify_chip_render.js(0 → 6 条 dims 确认)
+- ✅ browser hard-refresh:688012 chip 正常展开 ✓
+- ✅ scripts/check_semicon_sync.js(4 项检查 + baseline 持久化)
+- ✅ check 2 判定逻辑:core vs treeMapOnly 二分类
+- ✅ 3 项 name 冲突修复:4 个 placeholder code 唯一化
+- ✅ page_audit 16/16 PASS
+- ✅ check_semicon_sync 全部 expected(P0 前基线已 OK)
+
+**【不包含(留 Phase B+)】**
+- ❌ 24 只 stock 真实 6 维 dims6 reason 完整 baostock L1 实证(当前 23 只仍为 `(Phase B 补)` 占位,1 只 688012 已有结构化 reason)
+- ❌ auto 层 estimation 字段(PE/PB/quadrant 等 akshare 抓数)实装
+- ❌ src URL ≥ 2 独立来源(目前为 akshare/新浪财经占位)
+- ❌ threefold validation(stock code/段位/name)
+- ❌ treeMap sub-card sourceSegment 字段复用
+
+#### §11.14.6 事故案例归档
+
+- **命名空间连字符 bug**:典型「模式拼接忽视连字符」陷阱,其他 12 条赛道无此问题(single-word),但 semicon-equip / ai-full-chain 这类 multi-word 命名才会触发。修复要点:helper 一律统一 `.replace(/-/g, '_')` ✓
+- **3 项 name 冲突 4 处占位**:典型「占位字符串太一般化」,即使 treeMap 上下游生态背景合规,也不能 4 处共用同一字符串。设计应每个 placeholder 独立编码(`「未上市·IDM存储1」` / 「「未上市·离子注入1」」),且关键字眼(存储/注入等)能让 Phase B+ IPO 后 grep 替换 ✓
+
+**违反本节 = §6.2 红线(占位字符串降低信号清晰度)+ §11.16 命名一致性原则违反**。
+
 ### §12.1 8 只 chokePoints 最终状态
 
 #### §12.1.1 名单与护城河分排名
