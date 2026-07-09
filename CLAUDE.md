@@ -2006,6 +2006,94 @@ trend判断规则：
 - 或新增 §6.16 自动化脚本能辅助批量 reason 提取 + tier 校准 + audit field 写入
 - 或专门发起"§6.16 dims6Audit 字段标准化"子任务先统一字段格式,然后批量回填
 
+### §11.12 treeMap 独有股票·设计豁免清单(2026-07-09 commit 6.61a 立)
+
+> **触发原因**:用户截图发现 "AI 服务器 PCB" 卡片中"生益电子"显示的代码是"603183"(正确应是 688183)。最终诊断发现:
+> - 603183 错误代码位于 `data/pcb.js` 的 `treeMap.midstream[0].companies[2].code`(不是 segments 字段)
+> - `scripts/check_manual_pcb_sync.js` v1 完全不扫描 `treeMap` 路径,所以这个错码 27 天未被检出
+> - v1 跑出虚假 PASS "双层架构 stock 列表完全同步",掩盖了真正的盲点
+> - 同时 v2 扩展到 treeMap 后,暴露出 11 只"仅 pcb.js 有"的 stock——**这些是设计有意为之的 treeMap 上下游生态视图,不是数据错误**
+
+**【白名单豁免清单 · 11 只】**:
+
+| code | name | treeMap 位置 | 段位性质 | 豁免理由 |
+|---|---|---|---|---|
+| **601138** | 工业富联 | `treeMap.downstream[0]` | AI 服务器(40%) | 英伟达 AI 服务器整机代工龙头·treeMap 展示为 PCB 下游客户(下游整机厂) |
+| **000977** | 浪潮信息 | `treeMap.downstream[0]` | AI 服务器(40%) | 国内 AI 服务器整机·treeMap 展示为 PCB 下游客户 |
+| **603019** | 中科曙光 | `treeMap.downstream[0]` | AI 服务器(40%) | 智算中心+海光信息·treeMap 展示为 PCB 下游客户 |
+| **002594** | 比亚迪 | `treeMap.downstream[1]` | 汽车电子(25%) | 新能源整车·treeMap 展示为 PCB 下游整车厂 |
+| **605333** | 沪光股份 | `treeMap.downstream[1]` | 汽车电子(25%) | 汽车线束+高压连接器·treeMap 展示为 PCB 下游汽零厂 |
+| **002402** | 和而泰 | `treeMap.downstream[1]` | 汽车电子(25%) | 汽车智能控制器·treeMap 展示为 PCB 下游汽车控制器厂 |
+| **000063** | 中兴通讯 | `treeMap.downstream[2]` | 通信/5G(20%) | 5G 基站+光通信设备·treeMap 展示为 PCB 下游整机厂 |
+| **600498** | 烽火通信 | `treeMap.downstream[2]` | 通信/5G(20%) | 光通信传输设备·treeMap 展示为 PCB 下游通信设备厂 |
+| **600552** | 凯盛科技 | `treeMap.sideBranches[1]` | CCL 上游硅微粉 | 硅微粉二供·央企背景·treeMap 展示为 PCB 上游材料 |
+| **603328** | 依顿电子 | `treeMap.midstream[1]` | 汽车 PCB | PCB 主营·treeMap 展示用(暂未纳入 manual 池,后续评估) |
+| **000823** | 超声电子 | `treeMap.midstream[2]` | 消费类 PCB | PCB 主营(消费)+覆铜板·treeMap 展示用(暂未纳入 manual 池,后续评估) |
+
+**【白名单维护规则(永久生效)】**:
+
+1. **新增白名单条目**:
+   - 必须先在本表登记完整行(code + name + 位置 + 段位 + 豁免理由)
+   - 然后才能在 `scripts/check_manual_pcb_sync.js` 的 `TREE_MAP_WHITELIST` 常量中加对应条目
+   - 理由必须明确说"为什么不是 PCB 核心池,但又需要在 treeMap 中展示"——避免后续误删
+
+2. **删除白名单条目**:
+   - 必须先决定:① 从 treeMap 删除该 stock 显示(破坏展示完整性)② 还是纳入 manual 池(补全 dims6 等字段)
+   - 任何变更必须先在本表删除行,再同步改 script
+   - **没有"静默删除"路径**
+
+3. **白名单豁免范围严格限定**:
+   - 仅豁免 `仅 pcb.js 有(manual 层缺失)` 这一个检查项
+   - **不豁免** 其他检查:`name 一致性`(如果以后 manual 也加入同名 stock,必须确认 code/name 完全一致)、`悬空(仅 manual.js 有)`(manual 池的 stock 必须确实存在于 pcb.js)
+   - 如果某只白名单 stock 出现了与 §6 不同性质的差异(如 name 与 pcb.manual.js 冲突),按 §6 正常判定,不受白名单保护
+
+4. **定期复核(季度级)**:
+   - 每次大版本升级(commit X.0)时,核对 treeMap 结构是否仍然存在
+   - 如果某天 `data/pcb.js` 重构,delete 了 treeMap 路径,白名单全部失效,需重新评估
+
+**【本次修复的"603183"错误】**:
+
+| 文件 | 行号 | 修复 |
+|---|---|---|
+| `data/pcb.js` | line 197(treeMap.midstream[0].companies[2]) | `code:'603183'` → `code:'688183'` |
+| 关联 | `pcb.manual.js` line 1110 + `pcb.js` line 500/593/673 | 本次始终是 688183,无需修 |
+
+**【盲点根因(完整链)】**:
+
+1. **数据生成时**:commit f019b60 (升级九 STEP 4) 首次将 PCB 数据外置为 data/pcb.js,line 197 处的 603183 是**转录早期错误**(从 index.html 内联 PCB 数据块迁移时未做 code 真实性校验)
+2. **检查工具漏检**:scripts/check_manual_pcb_sync.js v1 仅扫描 `seg.stocks` + `midstream.stocks` + `chokePoints[]`,**完全漏掉 `treeMap.*[*].companies` 路径**
+3. **page_audit 虚假 PASS**:第【7】项调用的就是 check_manual_pcb_sync.js → 输出"双层架构 stock 列表完全同步",事实上是漏检的伪同步
+4. **27 天未被检出的危害**:用户在 AI 服务器 PCB 段位看到错误的"603183 生益电子",可能导致投资决策误判(对应到错误公司)
+
+**【防御机制升级(commit 6.61a)】**:
+
+1. **scripts/check_manual_pcb_sync.js v2**:
+   - 新增 `Object.keys(PCB.treeMap).forEach(...)` 扫描 5 列下所有 `companies`
+   - 新增 `TREE_MAP_WHITELIST` 常量(11 只)
+   - 报告分类:⭐ 白名单豁免 vs 🚨 真实缺失
+   - `diffCount` 不计入白名单豁免 → exit 0/1 仅基于"实质差异"
+2. **pcb.manual.js STAMPS 校验**:不需新增,因为所有 38 只 manual stock 都在 seg.stocks/midstream.stocks/chokePoints 路径,不存在 treeMap 路径漏检
+3. **后续治理参考**:任何对 treeMap 的结构调整(增/删 stock、扩段位、改 5 列)必须同步检查 §11.12 本表 + script 白名单
+
+**完成定义**(本次 commit 全部达成):
+- ✅ data/pcb.js line 197 错码 603183 → 688183 已修复
+- ✅ scripts/check_manual_pcb_sync.js v2 treeMap 路径扫描上线
+- ✅ TREE_MAP_WHITELIST 11 只白名单常量上线(含详细豁免理由)
+- ✅ page_audit.py 第【7】项从虚假 PASS 变真实 PASS(经白名单豁免后)
+- ✅ CLAUDE.md §11.12 完整登记(本节)
+- ✅ Exit code 0(实质差异 = 0)
+
+**事故案例归档**(2026-07-09 commit 6.61a 立):
+- **数据生成时漏失真实性校验** + **检查工具漏扫路径** 双盲点 → 用户视觉层看到错误代码 27 天未被检出
+- **关键教训**:
+  - 任何双层架构的数据文件,**检查脚本必须覆盖所有数据生成路径**(segments + midstream + chokePoints + treeMap,缺一不可)
+  - 代码真实性校验是基本盘——数字本身 6 位合法但内容可错,必须有"代码 vs 真实 A 股"的真实性校验(本次未实装,见下方"遗留")
+  - "假同步"比"真差异"更危险——它让人误以为数据没问题而停止审查
+
+**遗留**(本次未实装,留待后续):
+- **code vs 真实 A 股 真实性校验**(基于 baostock/akshare 接口拿到真实 code+name 表,批量核对 38 只)
+- **pcb.js 其他段位名称真实性校验**(非 stock code,如 segment 名"AI 服务器 PCB"是否正确)
+
 ### §12.1 8 只 chokePoints 最终状态
 
 #### §12.1.1 名单与护城河分排名

@@ -194,7 +194,7 @@ CHAINS.pcb = {
         companies: [
           { name:'胜宏科技', code:'300476', position:'英伟达 GB300 PCB 主供·显卡 PCB 全球~50% + Phase 9 PCB 短板补充:🔵broker(Prismark 2026 + 多源券商) + Phase 9 PCB 短板补充:🔵broker(Prismark 2026 + 多源券商)', barrier:'极高' },
           { name:'沪电股份', code:'002463', position:'AI 服务器+汽车 PCB 双龙头·78 层 M9 正交背板已通过英伟达认证并量产（v3+v3.1 双 broker 源：太平洋证券+国盛证券） + Phase 9 PCB 短板补充:🔵broker(Prismark 2026 + 多源券商) + Phase 9 PCB 短板补充:🔵broker(Prismark 2026 + 多源券商)', barrier:'极高' },
-          { name:'生益电子', code:'603183', position:'生益科技子公司·AI 服务器 PCB 黑马', barrier:'高' }
+          { name:'生益电子', code:'688183', position:'生益科技子公司·AI 服务器 PCB 黑马', barrier:'高' }
         ]
       },
       {
