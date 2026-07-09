@@ -1,6 +1,25 @@
-// data/semi-equipment.js  —— 升级九 STEP 4 小步 3：半导体设备赛道新增（IIFE + window.CHAINS['semi-equipment'] 注入）
+// ⚠️ DEPRECATED · DEPRECATED · DEPRECATED · 2026-07-09 commit [未来编号] 立
+// data/semi-equipment.js —— 升级九 STEP 4 小步 3：半导体设备赛道新增(IIFE + window.CHAINS['semi-equipment'] 注入)
+//
+// ⚠️ 本文件已被 data/semicon-equip.js(2026-07-09 新建)替换为「半导体设备重构版」骨架
+//   - 重构后完整度从 82/100 提升至骨架 100(框架)+ 待 Phase B+ 迭代补 stock-level dims6
+//   - 本文件保留作「前期骨架对账参考」,后台运行,侧栏已标记 .coming(灰显但 manifest 保留)
+//   - 暂不删除:后续 Phase 12 维护期评估是否彻底移除
+//
+// 重构后主入口:`data/semicon-equip.js`(主骨架)
+//   - meta.ltFit = null · status = partial-Phase-A骨架(2026-07-09)
+//   - 13 个顶层字段(id/name/icon/meta/prosperity/cyclePosition/plainIntro/overview/treeMap/segments/midstream/fourQuestions/chokePoints/supplyGap/methodologyNotes)全齐
+//   - treeMap 5 列 23 sub-card 全部含 companies 数组(对齐 PCB schema)
+//   - segments 6 段 × 5-6 stocks(超出原版光刻段 3 / 离子注入段 3 的差距)
+//   - midstream 10 stocks + fourQuestions 6 段 q1-q4 + chokePoints 3 大卡口 + supplyGap 4 条
+//   - prosperity 链级 6 维完整 verdict
+//
+// 重构对照:
+//   semi-equipment.js (本文件 · deprecated) → semicon-equip.js (active · 2026-07-09)
+//   完整度 82/100                      骨架 100(框架) + 待 Phase B+ 迭代补 stock-level dims6
+//
 // ★ 严格模式约束：标识符含连字符，必须用 CHAINS['semi-equipment'] 方括号语法(点语法会被解释为减号报错)
-// 由 index.html manifest 数组同步加载（document.write 顺序注入 <script src>）；加载失败 → renderChain guard 显示红色错误卡 → 其余赛道照常渲染（独立 <script> 容错隔离）。
+// 由 index.html manifest 数组同步加载(document.write 顺序注入 <script src>);加载失败 → renderChain guard 显示红色错误卡 → 其余赛道照常渲染(独立 <script> 容错隔离)。
 //
 // 数据治理精度与 Phase 9 PCB / Phase 8 液冷链对齐 — 28 只 stock + 6 segments + 3 卡口 + 4 supplyGap + 6 维景气 + 5 列 treeMap
 // ②待补 = 0(主流通用部分)，已知稀缺区(光刻 EUV 100% 卡脖子 / 离子注入商业化进度慢)诚实标记

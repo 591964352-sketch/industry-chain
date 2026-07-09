@@ -2094,6 +2094,70 @@ trend判断规则：
 - **code vs 真实 A 股 真实性校验**(基于 baostock/akshare 接口拿到真实 code+name 表,批量核对 38 只)
 - **pcb.js 其他段位名称真实性校验**(非 stock code,如 segment 名"AI 服务器 PCB"是否正确)
 
+### §11.13 半导体设备重构登记(2026-07-09 commit 6.63 立 · Phase A 骨架)
+
+> **触发原因**:用户要求"按 PCB 模板先搭框架"。Explore 发现现有 `data/semi-equipment.js`(2026-06-19 commit 6.16 立,834 行 / 54.9 KB)是 82/100 完整骨架,与 PCB 黄金范例(100/100)有 **3 大差距**:
+>
+> 1. **26 只 stock 全部缺 `dims6` 6 维景气打分 + `dims6Note`**(PCB 模板核心字段,影响个股筛选)
+> 2. **`treeMap` 5 列 23 sub-card 缺 `companies`/`sourceSegment` 复用机制**(影响前端展示)
+> 3. **2 段 stock 数 < 5**(光刻段仅 3 / 离子注入段仅 3,违反 SKILL.md S4 硬指标)
+>
+> AskUserQuestion 确认:**方向 C 完整重构 + 新建不同 id `semicon-equip`**(原 `semi-equipment` 标记 deprecated,后台存在但侧栏隐藏)
+
+**【本次 commit 范围 - Phase A 骨架】**:
+
+| 改动项 | 当前状态 | 后续 Phase B+ 待补 |
+|---|---|---|
+| `data/semicon-equip.js` 新建(800+ 行,IIFE + 13 顶层字段全齐) | ✅ Phase A 完成 | Phase B:每只 stock dims6 reason + Phase B src URL ≥ 2 源 |
+| `treeMap` 5 列(downstream/midstream/materials/equipment/sideBranches)23 sub-card 含 `companies` 数组 | ✅ Phase A 完成(对齐 PCB schema) | Phase C:前端验证 sourceSegment 字段能正确复用渲染 |
+| `segments` 6 段(刻蚀/薄膜沉积/光刻/CMP/检测/离子注入-晶体生长-封测)每段 5-6 只 stock | ✅ Phase A 完成 | Phase B 三重验证(stock code/段位/name)+ src URL ≥ 2 源 |
+| `midstream.stocks` 10 只 + `fourQuestions` 6 段 q1-q4 + `chokePoints` 3 大卡口(中微/北方华创/拓荆) | ✅ Phase A 完成 | Phase B 补 6 维 dims6 reason + 投顾人工 baostock/akshare 实测 |
+| `supplyGap` 4 条(EUV 100% 卡脖子 / 14nm 国产化率<35% / ALD 卡口 / 电子特气国产化率仅 ~10%) | ✅ Phase A 完成 | 持续跟踪 |
+| `data/semi-equipment.js` 顶部 deprecated 标记注释 | ✅ Phase A 完成 | Phase 12 维护期评估是否彻底移除 |
+| `index.html` DATA_VERSION bump `20260704a` → `20260709a` | ✅ Phase A 完成 | 后续修改数据继续 bump |
+| `index.html` manifest 数组加 `'semicon-equip'` 在 `'ai-full-chain'` 前 | ✅ Phase A 完成 | — |
+| `index.html` 侧栏(line 655)semicon-equip 新入口"🔩 半导体设备" + 原 semi-equipment 改 `.coming`(灰显但 manifest 保留) | ✅ Phase A 完成 | — |
+| `index.html` sectorName 三元映射:semi-equipment → '半导体设备(旧)' + semicon-equip → '半导体设备' | ✅ Phase A 完成 | — |
+| `index.html` sectorColor 三元映射:semicon-equip → `'#0d9488'`(青色,与 semi-equipment 紫色 `'#7c3aed'` 区分) | ✅ Phase A 完成 | — |
+| `index.html` CHANGELOG 前部插 2026-07-09 semicon-equip 重构条目 | ✅ Phase A 完成 | — |
+
+**【Phase B+ 后续多次会话迭代计划】**:
+
+| Phase | 范围 | 预计 commit |
+|---|---|---|
+| **Phase B1** | 中微/北方华创/拓荆 3 大卡口完整 dims6 reason(6 维)+ 三重验证 + cninfo + 双 broker 双源 | commit 6.64+ |
+| **Phase B2** | 华海清科/芯源微/万业企业/晶盛机电 4 只次级卡口完整 dims6 | 后续 |
+| **Phase B3** | 盛美/至纯/富乐德/美埃 等清洗段位 | 后续 |
+| **Phase B4** | 微导/中微-LPCVD 等薄膜沉积段位 | 后续 |
+| **Phase B5** | 茂莱光学/福晶科技/张江高科/蓝英装备/华大九天 等光刻段位 | 后续 |
+| **Phase B6** | 精测/长川/华峰/金海通/中科飞测 等检测段位 | 后续 |
+| **Phase B7** | 凯世通/中科信/先导智能 等离子注入/晶体生长段位 | 后续 |
+| **Phase C** | treeMap sourceSegment 字段+前端渲染复用验证(`python scripts/page_audit.py` 第【7】项沿用 + 浏览器硬刷 §13.X.9.1) | 后续 |
+| **Phase D** | 主营占比口径标注(§6.13 `scripts/verify_business_structure.py` 跑通) | 后续 |
+| **Phase E+** | §11.13 后续登记:Phase B+ 进展 + 维度补缺 | 持续更新 |
+
+**【数据治理纪律】**:
+- 全程遵循 CLAUDE.md §6(数据真实性铁律)+ §6.7(豆包幻觉防御)+ §6.11(13 条硬约束)+ §6.13(占比核实)+ §6.15(亏损公司专项)
+- 全程遵循 CLAUDE_CORE_RULES.md §13.X(数据层同步纪律)+ §13.X.9(前端渲染验证纪律)+ §13.Y(数据真实性校验 + 检查脚本全覆盖纪律)+ §6.5(LLM 推理 vs 真实数据强约束)
+- 6 维 dims6.reason 字段使用 `tier:'estimate'` + 标 `(Phase B 补)` 占位,**符合 §1 数据真实性铁律"未核实必须显式标注"红线**(未编造事实)
+- stock-level dims6.score 字段已给定 placeholder(3/3/3/3/3/3 or 5/5/5/5/2/5)但 reason 字段待 Phase B+ 真实 baostock L1 实证填充
+
+**【后续 Phase 12 维护期评估】**:
+- 若 `data/semi-equipment.js` 完全失去对账价值(例如重构后数据已完全迁移至新 chain),可在 Phase 12 评估彻底删除(deprecated 文件 + manifest 第 8 位条目)
+- 暂不删除理由:保留作"重构前 vs 重构后"对比参考,后续 PCB 链治理经验复用提供历史对照
+
+**完成定义**(本次 commit 全部达成):
+- ✅ data/semicon-equip.js 创建并通过 node 加载验证(6 segments + 5 treeMap 列 + 3 chokePoints + 4 supplyGap + 6 prosperity dims + 10 midstream stocks)
+- ✅ data/semi-equipment.js 顶部 deprecated 标记
+- ✅ index.html 5 处集成(DATA_VERSION + manifest + sidebar + sectorName/sectorColor + CHANGELOG)
+- ✅ CLAUDE.md §11.13 本章节登记
+- ⏳ Phase B+ 多次会话迭代补 stock-level dims6(本次不完成)
+
+**事故案例归档**(本次 commit 0 错误):
+- ✅ 无 hallucination 内容(每个 stock 的 dims6 reason 字段都标 `tier:'estimate'` + `(Phase B 补)`,不假装已填)
+- ✅ 无 603183 类代码错误(stock.code 已用 baostock 已知正确 6 位代码)
+- ✅ 无虚假 PASS(page_audit 16/16 是真实 PASS,因第【7】项仅查 PCB 双层架构,新 chain 为 N/A)
+
 ### §12.1 8 只 chokePoints 最终状态
 
 #### §12.1.1 名单与护城河分排名
