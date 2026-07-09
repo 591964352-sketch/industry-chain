@@ -2335,6 +2335,30 @@ commit 6.62 落地后跑 `check_semicon_sync.js`,check 2 报 3 项 name 冲突:
 
 **违反本节 = §6.2 红线(占位字符串降低信号清晰度)+ §11.16 命名一致性原则违反**。
 
+#### §11.14.7 数字澄清 · 36 → 39 unique code+name 组合(2026-07-09 commit 6.66 立 · 后续追溯钩子)
+
+> **本节为 §11.14.4 表格中 `treeMap 生态背景游离: 43(实测 38 unique / 用户回忆 36)` 数字澄清的最终结论**。避免后续翻 baseline 时又对不上号产生新一轮困惑。
+
+| 字段 | 含义 | 数值 |
+|---|---|---|
+| `treeMap refs 总数` | 5 列(downstream/midstream/materials/equipment/sideBranches)所有 companies 节点引用的 **refs 数量**(不去重) | **77** |
+| `orphan refs` | 在 core path unique stock code 找不到的 refs(不去重) | **43** |
+| `unique code+name 组合` | orphan refs 按 `code\|name` 组合去重后的 **unique 组合数** | **39** |
+
+**36 → 39 数字澄清**
+
+- 上一轮(commit 6.62 修复后,6.64 修复前)实际 unique code+name 组合数 = **38**(`35 个真实股票 + 3 个 placeholder 引用合并「（未上市）」`)；用户凭印象回忆的 "36 unique" 是简化记忆,缺失 2 个细节(可能是漏算了 IDM 等子节点)。本次脚本跑出的精确数字 = **38** → **39**。
+- 6.64 commit 把 1 个 placeholder code「（未上市）」(覆盖 4 处引用 → 3 个 code+name 组合)拆成 4 个独立 placeholder code(每个引用 1 个 unique code)→ +1 个 unique code+name 组合。
+
+实际净增 = **+1 unique code+name 组合**(从 38 → 39),**非用户回忆的 +3**。
+
+复现脚本与基线:
+- 工具:[`scripts/check_unique_stock_codes.js`](scripts/check_unique_stock_codes.js) — 长期复用,每次 treeMap 结构变动后跑一次快速核对
+- 基线持久化:[`.claude/scratch/semicon-equip-unique-codes-baseline.json`](.claude/scratch/semicon-equip-unique-codes-baseline.json) — 含 `uniqueCodeNames: 39` 字段 + 全部 39 项 unique breakdown(code+name+refCount)
+- 用法:`node scripts/check_unique_stock_codes.js` 或 `node scripts/check_unique_stock_codes.js <chainId>`
+
+**为避免以后误读,在 `_clarification_36_to_39` 字段写入 baseline.json 内部做了根因登记**(2026-07-09 commit 6.66 立)。
+
 ### §12.1 8 只 chokePoints 最终状态
 
 #### §12.1.1 名单与护城河分排名
