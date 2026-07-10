@@ -2343,19 +2343,6 @@ function renderChain(chainId) {
   const isNewTreeMapSchema = Array.isArray(d.treeMap.downstream);
   const showTreeMap = isNewTreeMapSchema && !(d.meta && d.meta.showTreeMap === false);
 
-  // ★ 升级九 STEP 2+ bug 修复(2026-06-15):barrier 归一化 — 兼容数字(液冷 1-5)/中文(极高/高/中/低)/英文(extreme/high/mid/low)/'—' 4 种格式
-  //   历史 bug:液冷 JS 用数字 barrier,渲染层 barrierClassMap 等按英文 key 查找 → 全部 fallback 'b-low' 显低
-  // ★ commit 6.73b: 提升到 treeMap 区块外——skip treeMap 时 midstream/segments 渲染仍需要此函数
-  function barrierNorm(b) {
-    if (b == null || b === '—' || b === '待核') return null;
-    if (typeof b === 'number') return b >= 5 ? '极高' : b >= 4 ? '高' : b >= 3 ? '中' : '低';
-    if (b === 'extreme') return '极高';
-    if (b === 'high') return '高';
-    if (b === 'mid' || b === 'medium') return '中';
-    if (b === 'low') return '低';
-    return b;  // 已是 '极高'/'高'/'中'/'低' 或其他未知值
-  }
-
   if (showTreeMap) {
     // ==================== 升级七：5 列横向布局（pcb 试点）====================
     // ★ commit 4.7：横向流图模式（默认）+ 5 列列表模式（切换）— 封装到 IIFE 供两处复用
@@ -2383,6 +2370,17 @@ function renderChain(chainId) {
     h += `<span><span class="dot" style="background:var(--color-muted);"></span>低(充分竞争)</span>`;
     h += `<span>🔒=物理卡口</span>`;
     h += `</div>`;
+    // ★ 升级九 STEP 2+ bug 修复(2026-06-15):barrier 归一化 — 兼容数字(液冷 1-5)/中文(极高/高/中/低)/英文(extreme/high/mid/low)/'—' 4 种格式
+    //   历史 bug:液冷 JS 用数字 barrier,渲染层 barrierClassMap 等按英文 key 查找 → 全部 fallback 'b-low' 显低
+    function barrierNorm(b) {
+      if (b == null || b === '—' || b === '待核') return null;
+      if (typeof b === 'number') return b >= 5 ? '极高' : b >= 4 ? '高' : b >= 3 ? '中' : '低';
+      if (b === 'extreme') return '极高';
+      if (b === 'high') return '高';
+      if (b === 'mid' || b === 'medium') return '中';
+      if (b === 'low') return '低';
+      return b;  // 已是 '极高'/'高'/'中'/'低' 或其他未知值
+    }
     const barrierOrder = { '极高': 0, '高': 1, '中': 2, '低': 3 };
     const barrierClassMap = { '极高':'b-extreme', '高':'b-high', '中':'b-mid', '低':'b-low' };
     const barrierLabelMap = { '极高':'极高', '高':'高', '中':'中', '低':'低' };
