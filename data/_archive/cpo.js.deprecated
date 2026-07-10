@@ -1,0 +1,145 @@
+// data/cpo.js — 升级九 STEP 4 小步 2：CPO (共封装光学) 数据外置（IIFE 包原代码一字不改）
+// 由 index.html manifest 数组同步加载（document.write 顺序注入 <script src>），window.CHAINS.cpo 注入后供主 script 渲染。
+// 加载失败 → renderChain guard 显示红色错误卡而非白屏 → 其余赛道不连坐（独立 <script> 容错隔离）。
+
+window.CHAINS = window.CHAINS || {};
+(function(CHAINS){
+
+// ==================== CPO ====================
+CHAINS.cpo = {
+  id: 'cpo', name: 'CPO 共封装光学', icon: '💡',
+  plainIntro: {
+    analogy: 'CPO（共封装光学）= 把"光纤"直接焊在"芯片"旁边——光模块从"可插拔U盘"进化成"芯片上就有的光纤接口"',
+    paragraphs: [
+      '光模块是AI数据中心的"血管"——GPU之间的数据交换靠光纤传输。传统光模块像<strong>可插拔的U盘</strong>，插在交换机面板上。CPO（Co-Packaged Optics，共封装光学）则<strong>把光引擎（激光器+硅光芯片）直接封装在交换芯片旁边</strong>——省掉了面板到芯片中间那段铜线，功耗降<strong>30-50%</strong>，延迟降<strong>10倍</strong>。2026年英伟达Spectrum-X硅光CPO交换机全面量产，标志着CPO从PPT走进产线。',
+      '<strong>CPO产业链的核心增量在哪？</strong>CPO架构彻底改变了光模块的价值分配：① CW激光器（外置光源）→以前每颗光模块自带激光器，CPO变成集中式外置光源→CW激光器用量暴增；② 硅光芯片→从传统的III-V族激光器+分立调制器变成硅基单片集成→硅光代工（台积电COUPE）成为新壁垒；③ FAU/MTP高密度光纤阵列→CPO需要把几十根光纤同时高精度对准硅光芯片→连接器价值量跃升。'
+    ],
+    flowSteps: ['CW激光器(外置光源)','硅光PIC芯片(调制+波分)','高密度FAU(光纤阵列)','CPO引擎→贴装到交换芯片旁','CPO交换机→数据中心部署'],
+    highlightBox: '<strong>💡 物理卡口 视角：CPO产业链的卡口不像PCB那么"硬"，但有几个环节全球供应商极度稀缺：</strong><br>① <strong>100mW+ CW激光器</strong>：源杰科技是国内唯一100mW CW激光器量产企业（毛利率77.81%），全球仅Lumentum/源杰/住友等<5家能供。② <strong>硅光芯片代工</strong>：台积电COUPE平台独领风骚，但A股无直接代工标的→抓设计+器件侧。③ <strong>高密度FAU光纤阵列</strong>：天孚通信/仕佳光子进入CPO供应链。④ 中际旭创是全球光模块龙头（Q1营收195亿+192%），但光模块制造端竞争者>5家→非绝对寡头。'
+  },
+  overview: [
+    { label: '💡 全球CPO市场（2030E）', value: '~$100亿', note: 'CAGR>70%，英伟达Rubin标配CPO', color: 'var(--accent)' },
+    { label: '🔌 英伟达CPO交换机', value: 'Spectrum-X全面量产', note: '2026年6月官宣，标配Vera Rubin', color: 'var(--green)' },
+    { label: '🇨🇳 CW激光器产销', value: '源杰Q1营收+321%', note: '净利+1153%·毛利率77.81%', color: 'var(--red)' },
+    { label: '🏭 产业阶段', value: '导入→放量临界点', note: '硅光渗透率→40-75%·EML→硅光切换', color: null },
+    { label: '📐 中际旭创Q1', value: '营收195亿+192%', note: '净利57.35亿+262%·全球光模块第一', color: 'var(--blue)' },
+    { label: '⚡ 1.6T光模块需求(2026)', value: '英伟达上调至2000万只', note: 'Q4落地3.2T·硅光方案占比>50%', color: null },
+    { label: '🔴 核心矛盾', value: 'CW激光器产能不足', note: '100mW仅支持900万支1.6T→缺口>50%', color: 'var(--red)' },
+    { label: '📋 硅光渗透率(2026E)', value: '40-75%', note: '800G/1.6T主流方案从EML→硅光', color: 'var(--green)' }
+  ],
+  treeMap: {
+    downstream: [
+      { name: '英伟达Rubin/GB300+AI数据中心+谷歌TPU+华为昇腾', barrier: 'low', note: '英伟达全年1.6T采购上调至2000万只', companies: [], sourceSegment: 'whole_chain' }
+    ],
+    midstream: [
+      { name: 'CPO光模块/光引擎制造', barrier: 'low', note: '中际旭创全球龙头(营收195亿)·新易盛·光迅科技→无卡口', companies: [], sourceSegment: 'whole_chain' }
+    ],
+    equipment: [
+      { name: '硅光芯片(PIC)代工—台积电COUPE', barrier: 'extreme', note: '台积电平台化→A股无代工标的·抓设计/器件', companies: [], sourceSegment: '硅光芯片(PIC) — CPO的"中央处理器"' },
+      { name: 'CW激光器(外置光源)', barrier: 'extreme', note: '全球<5家·源杰Q1净利+1153%·毛利率77.81%', companies: [], sourceSegment: 'CW激光器（外置光源）— CPO核心增量' }
+    ],
+    materials: [
+      { name: '硅光芯片设计(光迅/仕佳)', barrier: 'high', note: '光迅1.6T硅光批量·仕佳AWG+CW+FAU三线', companies: [], sourceSegment: '硅光芯片(PIC) — CPO的"中央处理器"' },
+      { name: '高密度FAU/MPO光纤阵列', barrier: 'high', note: '天孚/仕佳/太辰光→CPO关键配套', companies: [], sourceSegment: '高密度光纤阵列(FAU/MPO) — CPO的"感官神经"' },
+      { name: 'EML芯片(100G→200G过渡)', barrier: 'high', note: '长光华芯100G EML验证通过·源杰100G PAM4出货', companies: [], sourceSegment: 'CW激光器（外置光源）— CPO核心增量' }
+    ],
+    sideBranches: [
+      { name: '光模块→1.6T/3.2T升级(CPO过渡)', barrier: 'mid', note: '中际旭创/天孚/新易盛→光模块三剑客', companies: [], sourceSegment: 'whole_chain' },
+      { name: 'LPO(线性驱动)→CPO过渡方案', barrier: 'mid', note: '新易盛LPO领先·CPO替代风险需跟踪', companies: [], sourceSegment: 'whole_chain' }
+    ]
+  },
+  segments: [],
+  midstream: { description: '', stocks: [] },
+  fourQuestions: { segments: [] },
+  chokePoints: [],
+  supplyGap: []
+};
+
+CHAINS.cpo.segments = [
+  {
+    name: 'CW激光器（外置光源）— CPO核心增量', costRatio: 'CPO引擎~25%', barrier: 'extreme', choke: true, border: true,
+    intro: 'CPO架构的最大变化：<strong>光源从"每颗光模块内置"变成"集中式外置"</strong>。CW（连续波）激光器为硅光芯片提供"照明"——就像一个灯泡照亮整个房间（硅光芯片），而不是每个设备自带手电筒。100mW+大功率CW激光器是CPO的必需选择。全球能批量供应100mW CW DFB激光器的企业<strong>仅Lumentum/源杰科技/住友/三菱<5家</strong>。源杰科技70mW已大量出货，100mW进入交付阶段，2026产能扩至7000万颗，毛利率77.81%。',
+    globalLandscape: [
+      { lbl: '🥇 源杰科技（中）', val: '100mW CW出货·毛利率77.81%', note: 'Q1营收3.55亿+321%·净利+1153%·A股股王' },
+      { lbl: '🥈 Lumentum（美）', val: 'CW激光器全球龙头', note: '英伟达CPO一供·但产能不足' },
+      { lbl: '🥉 仕佳光子（中）', val: '100mW+400mW CW DFB小批量', note: 'Q1营收5.77亿+32%·三线布局' },
+      { lbl: '长光华芯（中）', val: '70mW/100mW CW量产出货', note: '200G EML送样·海外大厂验证中' }
+    ],
+    stocks: [
+      { rank:1, name:'源杰科技', code:'688498', position:'国内唯一100mW CW激光器量产', barrier:'极高', hits:4, strength:'★★★', logic:'Q1营收3.55亿+321%/净利+1153%。毛利率77.81%。100mW进入交付。产能扩至7000万颗。中际旭创预付定金锁产能。全球<5家100mW批量→寡头格局明确' },
+      { rank:2, name:'仕佳光子', code:'688313', position:'AWG+CW+FAU三线CPO全配套', barrier:'高', hits:3, strength:'★★☆', logic:'100mW/400mW CW DFB小批量。AWG全球主流光模块企业标配。FAU/MPO进CPO场景。但CW规模远小于源杰' },
+      { rank:3, name:'长光华芯', code:'688048', position:'100G EML+CW双线·海外验证', barrier:'高', hits:null, strength:null, logic:'100G EML验证通过。70mW/100mW CW量产出货。海外光模块大厂多款芯片验证中。研发费用率20.32%→技术储备强' }
+    ]
+  },
+  {
+    name: '硅光芯片(PIC) — CPO的"中央处理器"', costRatio: 'CPO引擎~35%', barrier: 'extreme', choke: true, border: true,
+    intro: '硅光芯片（PIC）是CPO引擎的核心——在硅基片上<strong>单片集成调制器/波分复用器/耦合器等光学功能</strong>。代工端被台积电COUPE平台主导（类似EUV在芯片制造中的地位）。A股无直接硅光代工标的，但抓两点：① 硅光设计公司（光迅科技1.6T硅光模块已批量交付）② 硅光芯片配套材料/器件（AWG波分复用器是硅光芯片关键子组件→仕佳光子）。2026年硅光方案渗透率将从<30%→40-75%→对应市场数倍增长。',
+    globalLandscape: [
+      { lbl: '🥇 台积电COUPE（台）', val: '硅光代工全球主导', note: '类似EUV在芯片→硅光代工绝对寡头' },
+      { lbl: '🥈 光迅科技（中）', val: '1.6T硅光模块批量交付', note: '硅光芯片设计+光模块一体化' },
+      { lbl: '🥉 仕佳光子（中）', val: 'AWG波分复用→硅光核心子器件', note: 'CWDM/LAN WDM AWG全球主流光模块标配' }
+    ],
+    stocks: [
+      { rank:1, name:'光迅科技', code:'002281', position:'1.6T硅光模块批量交付+特种光纤', barrier:'极高', hits:3, strength:'★★☆', logic:'硅光设计+光模块全链。1.6T硅光已批量。特种光纤军工壁垒。Q1净利+59.76%。但硅光芯片代工依赖台积电' },
+      { rank:2, name:'仕佳光子', code:'688313', position:'AWG波分复用→硅光核心子器件', barrier:'高', hits:null, strength:null, logic:'CWDM AWG和LAN WDM AWG是全球主流光模块标配。光互联MPO/MMC大批量出货。但AWG非独家→≥5家全球' }
+    ]
+  },
+  {
+    name: '高密度光纤阵列(FAU/MPO) — CPO的"感官神经"', costRatio: 'CPO引擎~15%', barrier: 'high', choke: false, border: false,
+    intro: 'CPO需要把<strong>几十根光纤同时高精度对准硅光芯片</strong>——这就是FAU（Fiber Array Unit）/MPO连接器的作用。相比传统可插拔光模块的LC单纤接口，CPO的FAU通道数从4→16→32→64+，精度要求从微米级→亚微米级。全球供应商>5家→不构成绝对寡头，但天孚通信/仕佳光子已进入CPO场景小批量出货。',
+    globalLandscape: [
+      { lbl: '天孚通信（中）', val: 'FA/MT-FA/MPO全系列', note: 'CPO关键配套·机构持股>50%·Q1净利+45.79%' },
+      { lbl: '仕佳光子（中）', val: 'FAU/MPO进CPO场景小批量', note: '全球主要布线厂商认证' },
+      { lbl: '太辰光（中）', val: 'MT插芯+光纤连接器', note: 'CPO高密度连接方案' }
+    ],
+    stocks: [
+      { rank:1, name:'天孚通信', code:'300394', position:'光器件平台型公司·FA/MPO全系列', barrier:'高', hits:null, strength:null, logic:'Q1营收13.3亿+40.82%/净利4.92亿+45.79%。CPO关键配套器件。机构持股>50%。但FAU全球>5家→非寡头' },
+      { rank:2, name:'太辰光', code:'300570', position:'MT插芯+光纤连接器', barrier:'中', hits:null, strength:null, logic:'CPO高密度连接方案供应商。但竞争格局分散' }
+    ]
+  }
+];
+
+CHAINS.cpo.midstream = {
+  description: '光模块制造端是充分竞争行业。中际旭创全球龙头（Q1营收195亿+192%/净利57.35亿+262%），新易盛/光迅科技等跟随。全球>10家→不构成物理卡口。但中际旭创的规模优势+硅光技术领先构成了事实上的行业主导地位。',
+  stocks: [
+    { rank:1, name:'中际旭创', code:'300308', barrier:'极高', note:'全球光模块龙头·Q1营收195亿+192%/净利57.35亿+262%·深度绑定英伟达/谷歌' },
+    { rank:2, name:'新易盛', code:'300502', barrier:'高', note:'LPO方案领先·北美数据中心核心供应商·2025中报预增385%' },
+    { rank:3, name:'光迅科技', code:'002281', barrier:'高', note:'硅光模块+特种光纤+CPO全链布局' }
+  ]
+};
+
+CHAINS.cpo.fourQuestions = {
+  segments: [
+    {
+      name: 'CW激光器（100mW+）',
+      stocks: [
+        { name:'源杰科技', code:'688498', q1:true, q1note:'全球<5家100mW量产', q2:true, q2note:'产能扩产>12月', q3:true, q3note:'CPO必须CW外置光源', q4:true, q4note:'英伟达2000万只1.6T刚需', hits:4, strength:'★★★' }
+      ]
+    },
+    {
+      name: '硅光芯片/PIC',
+      stocks: [
+        { name:'光迅科技', code:'002281', q1:false, q1note:'硅光设计>5家', q2:true, q2note:'1.6T验证>12月', q3:false, q3note:'中际/旭创可替', q4:true, q4note:'CPO核心器件', hits:2, strength:null }
+      ]
+    },
+    {
+      name: '光模块制造（充分竞争）',
+      stocks: [
+        { name:'中际旭创', code:'300308', q1:false, q1note:'全球>10家光模块', q2:false, q2note:'', q3:false, q3note:'新易盛/光迅/Finisar可替', q4:false, q4note:'', hits:0, strength:null }
+      ]
+    }
+  ]
+};
+
+CHAINS.cpo.chokePoints = [
+  { rank:1, name:'源杰科技', code:'688498', segment:'100mW+ CW激光器', strength:'★★★', logic:'全球<strong>仅<5家</strong>能批量供应100mW+ CW DFB激光器——CPO架构必须外置高功率光源。Q1营收3.55亿+321%/净利+1153%。毛利率77.81%。100mW产品已进入交付。产能2026年扩至7000万颗。中际旭创预付定金锁定2026年核心CW供应。英伟达1.6T光模块上调至2000万只→CW缺口>50%。', tags:['全球<5家','毛利率77.81%','CPO必须配置','缺口>50%'] },
+  { rank:2, name:'光迅科技', code:'002281', segment:'硅光芯片设计+1.6T光模块', strength:'★★☆', logic:'国内<strong>唯一</strong>1.6T硅光模块批量交付企业。硅光芯片设计+光模块制造一体化。同时布局特种光纤（军工壁垒）。但硅光代工依赖台积电COUPE→核心技术不自主。光模块制造端>10家→非寡头。', tags:['1.6T硅光批量','代工依赖台积电','特种光纤壁垒','非独家寡头'] }
+];
+CHAINS.cpo.supplyGap = [
+  { segment:'100mW+ CW激光器', demand:'2000万支1.6T→需2000-3000万颗CW', capacity:'全球<5家有效产能~1500万颗', gap:'~500-1500万颗', rate:'>30%', bottleneck:'CW芯片良率+产能扩产>12月' },
+  { segment:'硅光芯片代工(COUPE)', demand:'硅光渗透率40-75%→需海量PIC', capacity:'台积电COUPE产能有限', gap:'扩产慢', rate:'~30%', bottleneck:'台积电独供' }
+];
+CHAINS.cpo.methodologyNotes = 'CPO赛道最大特殊点：核心器件（CW激光器）的物理卡口逻辑清晰——全球<5家、扩产>12月、不可替代、下游刚需（物理卡口vs软件卡口的典范）。但硅光芯片代工被台积电COUPE垄断→A股无直接代工标的，只能抓设计+器件侧。光模块制造端充分竞争→源杰科技是这条赛道唯一命中的"纯物理卡口"标的。';
+
+
+})(window.CHAINS);
