@@ -2339,9 +2339,11 @@ function renderChain(chainId) {
   // ★ commit 4.75 bug 修复：treeMap 移到第一层（Hero 后）· 见上方 renderHeroBanner 之后
   const sec2Label = _hasSocratic ? '②' : '②';
   // ★ 升级七：新 schema 检测（downstream 是 array → pcb 试点）→ 用横向 5 列
+  // ★ commit 6.73a：meta.showTreeMap=false 可跳过 treeMap（如 semicon-equip 用下游需求传导逻辑替代原材料树状图）
   const isNewTreeMapSchema = Array.isArray(d.treeMap.downstream);
+  const showTreeMap = isNewTreeMapSchema && !(d.meta && d.meta.showTreeMap === false);
 
-  if (isNewTreeMapSchema) {
+  if (showTreeMap) {
     // ==================== 升级七：5 列横向布局（pcb 试点）====================
     // ★ commit 4.7：横向流图模式（默认）+ 5 列列表模式（切换）— 封装到 IIFE 供两处复用
     const flowViewKey = 'pcb_treemap_view_' + d.id;
