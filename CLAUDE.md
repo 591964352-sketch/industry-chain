@@ -2876,6 +2876,32 @@ function validateNoDevTerms(text, fieldName, stockCode) {
 
 **违反本节**：无（仅为待办登记·不构成违规）。
 
+### §11.22 300522 世名科技·6 维 reason 全部缺失（2026-07-11 commit 6.75 登记 · 后续补全）
+
+> **触发原因**：commit 6.75 auto 层旧 dims6 清理审计发现 300522 在 manual 层 6 维全部缺失 reason 字段（0 字符），且 auto 层 Phase A 占位值与 manual 层差异达 ±3 档（durability 4→1/supply 4→1/barrier 4→1）。核实后确认 manual 层为后续批次重新评估的真实评分，非数据错误——但 6 维 reason 全部缺失构成数据治理缺口。
+
+**当前 manual 层状态**：
+
+| dim | score | trend | tier | reason |
+|-----|:--:|------|------|:--:|
+| durability | 1 | down | L1 | **空** |
+| visibility | 2 | flat | L4 | **空** |
+| policy | 3 | flat | L2 | **空** |
+| supply | 1 | down | L1 | **空** |
+| valuation | 2 | down | L5 | **空** |
+| barrier | 1 | down | L1 | **空** |
+
+**性质判断**：
+- barrier=1 → 触发风险门控（moatScore 封顶 60），moat=28 已在 60 以下，不影响当前护城河判定
+- score 取值(1/2/3/1/2/1)显著低于 Phase A 占位值(4/3/4/4/2/4)，判定为后续豆包/DeepSeek 批次的真实重新评估，非 bug
+- **严重度：P2**（不影响判定结论，但 6 维 reason 全部缺失违反 §6.16 数据治理最低标准）
+
+**待办**：后续找时间补全 6 维 reason 字段，按 §6.11 13 条硬约束 + §6.15 抽查验证标准流程。
+
+**涉及文件**：`data/pcb.manual.js` 300522 stock 块
+
+**登记 commit**：6.75
+
 ---
 
 ### §12.1 8 只 chokePoints 最终状态
