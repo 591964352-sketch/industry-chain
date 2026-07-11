@@ -1,0 +1,28 @@
+[
+  {
+    "idx": 0,
+    "ancestors": [
+      "DIV.tree",
+      "DIV.tree-wrapper",
+      "DIV.card",
+      "DIV#section-treemap.section",
+      "DIV#chain-content.container",
+      "DIV.main-area"
+    ],
+    "innerText": "📱 undefined\nundefined",
+    "outerHtml": "<div class=\"tree-node b-low\" style=\"min-width:600px;\">📱 undefined<br><span style=\"font-size:11px;color:var(--muted);\">undefined</span></div>"
+  },
+  {
+    "idx": 1,
+    "ancestors": [
+      "DIV.tree",
+      "DIV.tree-wrapper",
+      "DIV.card",
+      "DIV#section-treemap.section",
+      "DIV#chain-content.container",
+      "DIV.main-area"
+    ],
+    "innerText": "🏭 undefined\nundefined",
+    "outerHtml": "<div class=\"tree-node b-low\" style=\"min-width:500px;\">🏭 undefined<br><span style=\"font-size:11px;color:var(--muted);\">undefined</span></div>"
+  }
+]

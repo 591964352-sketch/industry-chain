@@ -713,7 +713,7 @@
   // 让浏览器忽略旧缓存、走新版。下次 commit 同时同步这行。
   // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写) / v2=20260614 (新增 optical 骨架) / v3=20260615 (新增 liquid-cooling 骨架) / v4=20260616 (新增 optical-chip 骨架) / v5=20260618 (液冷链 A 类注入 36 只 + 4 只 PE 失真) / v6=20260618c (液冷链第3轮注入 4 模块 + G8 4 项不达标) / v7=20260618d (Phase 1 验证:巨化 1 只 Gemini 联网 position broker 注入) / v8=20260618e (Phase 1 验证:英维克/永贵 position + 永贵降级 ★★★→★★☆ + supplyGap[0] src PFAS 法规) / v9=20260618f (Phase 2 完成·49 项 G8 达标·30 只 stock position 联网核实 + 16 sub-card note 占比补 + 2 overview 卡 + supplyGap[1] CDU 4 项 + meta.status 改 active) / v10=20260618g (Phase 3 双跑试点完成·DeepSeek 5/5 vs Gemini 3 Pro 0/5·5 只 ⚪media 单源升级双源:高澜🟢primary + 申菱🔵broker + 中科曙光🔵broker + 浪潮🔵broker + 工业富联🔵broker) / v11=20260618h (Phase 4 全量 42 项 DeepSeek 智能搜索完成·6 项 ✅ 升级双源 + 12 项 ⚠️ 部分找到 + 24 项 ❌ 维持稀缺区·包含 14 只 stock position + 3 sub-card note + 1 supplyGap demand + 1 overview 氟化液市场规模 + 汉威科技反向证据降级) / v12=20260618i (Phase 5 单项深挖完成·10 项 DeepSeek 智能搜索核实·5 项升级:4 stock 部分项(川环/中石/飞荣达/数据港)+ 1 sub-card B1 液冷数据中心冲突解决(480 亿=产业规模赛迪顾问 vs 149.4 亿=基础设施 IDC)+ supplyGap[1] CDU capacity/gap/rate 验证全球研究均不提供产能数据(行业真实缺口)) / v13=20260618j (Phase 6 最后清仓完成·13 项 stock 全部处理完毕·barrier 全部合理化:6 只 barrier 1(芯原/四方/海容/中颖/雪迪龙/精测 几乎无液冷关联)+ 7 只 barrier 2(天赐/多氟多/昊华氟化液主业占比>72% 液冷<2% + 奥飞/博威/双良/华工数据存在但未拆分)·数据治理闭环) / v14=20260618k (Phase 7 全量 24 项最后清仓完成·A 8 只 midstream 全部升级(曙光 58.8%/浪潮 45%/申菱赛迪+国金)+ B 9 个 sub-card 升级(CDU 30-40%/液冷板 40-45%/UQD 15-20%/TrendForce HPC 8%/储能 92.7% 渗透等)+ C 反推法补 CDU capacity 厂商碎片数据(英维克 50 万套/CoolIT 多吉瓦/Asetek 10 万台)·液冷链数据治理终章) / v15=20260618l (Phase 8 行业协会专项突破·7/8 项找到·A 4 个 sub-card 升级含 CDU 内部成本拆解首次出现(泵 22-40%/换热器 15-25%/阀门 10-15%)+ 一次侧 vs 二次侧价值(冷板式一次侧 20-30%/二次侧 70-80%)+ B rate 20-25% 缺口率首次量化+ C 联想 Neptune 8 万套/工业富联液冷营收 300 亿同比+200%) / v16=20260619a (Phase 9 PCB 短板补充·34 只 stock 补 tier 标记:🟢primary 6/🔵broker 21/⚪media 6/🆪estimate 1·首次数据治理精度与液冷链对齐·pcb.js 35 只 stock ②待补 = 0·8 阶段同步高数据精度)
 // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写) / v2=20260614 (新增 optical 骨架) / v3=20260615 (新增 liquid-cooling 骨架) / v4=20260616 (新增 optical-chip 骨架) / v5=20260618 (液冷链 A 类注入 36 只 + 4 只 PE 失真) / v6=20260618c (液冷链第3轮注入 4 模块 + G8 4 项不达标) / v7=20260618d (Phase 1 验证:巨化 1 只 Gemini 联网 position broker 注入) / v8=20260618e (Phase 1 验证:英维克/永贵 position + 永贵降级 ★★★→★★☆ + supplyGap[0] src PFAS 法规) / v9=20260618f (Phase 2 完成·49 项 G8 达标·30 只 stock position 联网核实 + 16 sub-card note 占比补 + 2 overview 卡 + supplyGap[1] CDU 4 项 + meta.status 改 active) / v10=20260618g (Phase 3 双跑试点完成·DeepSeek 5/5 vs Gemini 3 Pro 0/5·5 只 ⚪media 单源升级双源:高澜🟢primary + 申菱🔵broker + 中科曙光🔵broker + 浪潮🔵broker + 工业富联🔵broker) / v11=20260618h (Phase 4 全量 42 项 DeepSeek 智能搜索完成·6 项 ✅ 升级双源 + 12 项 ⚠️ 部分找到 + 24 项 ❌ 维持稀缺区·包含 14 只 stock position + 3 sub-card note + 1 supplyGap demand + 1 overview 氟化液市场规模 + 汉威科技反向证据降级) / v12=20260618i (Phase 5 单项深挖完成·10 项 DeepSeek 智能搜索核实·5 项升级:4 stock 部分项(川环/中石/飞荣达/数据港)+ 1 sub-card B1 液冷数据中心冲突解决(480 亿=产业规模赛迪顾问 vs 149.4 亿=基础设施 IDC)+ supplyGap[1] CDU capacity/gap/rate 验证全球研究均不提供产能数据(行业真实缺口)) / v13=20260618j (Phase 6 最后清仓完成·13 项 stock 全部处理完毕·barrier 全部合理化:6 只 barrier 1(芯原/四方/海容/中颖/雪迪龙/精测 几乎无液冷关联)+ 7 只 barrier 2(天赐/多氟多/昊华氟化液主业占比>72% 液冷<2% + 奥飞/博威/双良/华工数据存在但未拆分)·数据治理闭环) / v14=20260618k (Phase 7 全量 24 项最后清仓完成·A 8 只 midstream 全部升级(曙光 58.8%/浪潮 45%/申菱赛迪+国金)+ B 9 个 sub-card 升级(CDU 30-40%/液冷板 40-45%/UQD 15-20%/TrendForce HPC 8%/储能 92.7% 渗透等)+ C 反推法补 CDU capacity 厂商碎片数据(英维克 50 万套/CoolIT 多吉瓦/Asetek 10 万台)·液冷链数据治理终章) / v15=20260618l (Phase 8 行业协会专项突破·7/8 项找到·A 4 sub-card 升级含 CDU 内部成本拆解首次出现(泵 22-40%/换热器 15-25%/阀门 10-15%)+ 一次侧 vs 二次侧价值(冷板式一次侧 20-30%/二次侧 70-80%)+ B rate 20-25% 缺口率首次量化+ C 联想 Neptune 8 万套/工业富联液冷营收 300 亿同比+200%) / v16=20260619a (Phase 9 PCB 短板补充·34 只 stock 补 tier 标记:🟢primary 6/🔵broker 21/⚪media 6/🆪estimate 1·首次数据治理精度与液冷链对齐·pcb.js 35 只 stock ②待补 = 0·8 阶段同步高数据精度) / v17=20260619b (Phase 10 半导体设备新增·28 只 stock + 6 segments + 3 卡口(中微★★★/北方华创★★★/拓荆★★☆)+ 4 supplyGap(100%/55%/70%/60%)+ 6 维景气 + 5 列 treeMap + midstream 10 只·17 赛道数据治理精度对齐 PCB/液冷链 93%)
-  var DATA_VERSION = '?v=20260711a';  // ★ 6.71 · 光模块/光芯片/CPO 三链合一 + 侧栏 nav 重组 (bump 自 20260709b)
+  var DATA_VERSION = '?v=20260711d';  // ★ P0-5: PCB C1 contamination cleanup 28处 + validateNoDevTerms (bump 自 20260711c)
   var DATA_MANIFEST = [
     'pcb.manual',   // ★ 阶段二 commit 2.1：手动层（必须先于 pcb.js 加载·注入 STOCK_REGISTRY）
     // 'pcb.auto',     // ★ 阶段二 commit 2.2：自动层（估值字段全 null·commit 3.1+ 脚本回填）· commit 6.34 临时禁用· 文件保留可恢复·减重 4.1MB
@@ -1009,11 +1009,8 @@ function computeStockFit(dims6){
 function getEffectiveDims6(s, chainId) {
   if (s && Array.isArray(s.dims6) && s.dims6.length) return s.dims6;
   if (!chainId || !s || !s.code) return [];
-  // ★ P0-1 fix: chainId 含连字符(如 'semicon-equip')时,toUpperCase 后是 'SEMICON-EQUIP',
-  //   但 manual.js 注入的命名空间是 'SEMICON_EQUIP_MANUAL'(下划线)。必须把连字符替换为下划线
-  //   对齐其他 helper 的命名空间派生规则(line 1596/1699 已有此 pattern)
-  const manualKey = chainId.toUpperCase().replace(/-/g, '_') + '_MANUAL';
-  const manual = window[manualKey];
+  // ★ P0-1 fix + P0-3 refactor: 统一走 getManualNamespace helper，不再手写 .replace(/-/g, '_')
+  const manual = getManualNamespace(chainId);
   if (manual && manual.stocks && manual.stocks[s.code] && Array.isArray(manual.stocks[s.code].dims6) && manual.stocks[s.code].dims6.length) {
     return manual.stocks[s.code].dims6;
   }
@@ -1022,12 +1019,22 @@ function getEffectiveDims6(s, chainId) {
 function getEffectiveDims6Note(s, chainId) {
   if (s && typeof s.dims6Note === 'string' && s.dims6Note.length) return s.dims6Note;
   if (!chainId || !s || !s.code) return '';
-  const manualKey = chainId.toUpperCase().replace(/-/g, '_') + '_MANUAL';
-  const manual = window[manualKey];
+  const manual = getManualNamespace(chainId);
   if (manual && manual.stocks && manual.stocks[s.code] && typeof manual.stocks[s.code].dims6Note === 'string' && manual.stocks[s.code].dims6Note.length) {
     return manual.stocks[s.code].dims6Note;
   }
   return '';
+}
+
+// ★ P0-3 fix · 统一命名空间解析 helper — 所有手动拼接 <chainId>_MANUAL 的地方必须走这里
+//   连字符 chainId(如 semicon-equip/optical-module/ai-full-chain) 的 toUpperCase 结果含连字符
+//   (例 'SEMICON-EQUIP')，但 manual.js 注入的命名空间用下划线(例 'SEMICON_EQUIP_MANUAL')
+//   必须 .replace(/-/g, '_') 对齐，否则 window[badKey] → undefined → 渲染层回退到 PCB_MANUAL
+//   本仓库 2026-07-09~11 同 bug 三连发(P0-1 → 本次 P0-3)，加此 helper 终结同类问题
+function getManualNamespace(chainId) {
+  if (!chainId) return null;
+  var key = chainId.toUpperCase().replace(/-/g, '_') + '_MANUAL';
+  return window[key] || null;
 }
 
 // 个股长线适配分小徽章（segments 个股行末用），无 dims6 优雅降级为空字符串
@@ -1425,14 +1432,12 @@ function renderDecisionScoreCard(holdings) {
 // ★ commit 5.7: 加 chainId 参数 · 内部 MANUAL 命名空间按 chainId 动态派生（不再硬编码 'pcb'）
 // ★ commit 5.7.1: TEST_MANUAL 严格多链场景测试通过(3/3 PASS) · 兜底标注
 function renderStockFundamentalsChip(s, chainId) {
-  // chainId 派生 MANUAL 命名空间 key（约定：<chainId>_MANUAL，如 pcb_MANUAL / semi_MANUAL）
+  // ★ P0-3 fix: 统一走 getManualNamespace helper（终结连字符漏洞三次连发）
   // 三级 fallback：参数 → s.chainId → 当前活跃链 → 'pcb'（保持 PCB 页面零回归）
   const _cid = chainId || (s && s.chainId) || (window.currentChainId) || 'pcb';
-  const _manualKey = _cid.toUpperCase() + '_MANUAL';
-  // ★ 临时兜底:当前仅 PCB 链上线(<chainId>_MANUAL 对象不存在时)回退到 PCB_MANUAL
-  //   阶段四引入其他链的 <chainId>_MANUAL 对象(semi_MANUAL / hbm_MANUAL / ...)后
-  //   需重新评估此兜底是否仍需保留 · 或改为返回空串(其他链未上线时不应误用 PCB 数据)
-  const _manual = window[_manualKey] || window.PCB_MANUAL || null;
+  // ★ 临时兜底:手动层对象不存在时回退到 PCB_MANUAL（仅 PCB 链有 fundamentals 数据）
+  //   其他链手动层上线 fundamentals 后此兜底将移除
+  const _manual = getManualNamespace(_cid) || window.PCB_MANUAL || null;
   // 优先从 MANUAL.stocks[code] 读 fundamentals（更全）
   const code = s && s.code;
   const stock = (_manual && _manual.stocks && _manual.stocks[code]) || null;
@@ -1457,14 +1462,10 @@ function renderStockFundamentalsChip(s, chainId) {
 }
 
 function renderStockRiskChip(s, chainId) {
-  // ★ commit 5.7: 同 renderStockFundamentalsChip · chainId 动态派生 MANUAL key
-  // ★ commit 5.7.1: TEST_MANUAL 严格多链场景测试通过(3/3 PASS) · 兜底标注
+  // ★ P0-3 fix: 统一走 getManualNamespace helper（终结连字符漏洞三次连发）
   const _cid = chainId || (s && s.chainId) || (window.currentChainId) || 'pcb';
-  const _manualKey = _cid.toUpperCase() + '_MANUAL';
-  // ★ 临时兜底:当前仅 PCB 链上线(<chainId>_MANUAL 对象不存在时)回退到 PCB_MANUAL
-  //   阶段四引入其他链的 <chainId>_MANUAL 对象(semi_MANUAL / hbm_MANUAL / ...)后
-  //   需重新评估此兜底是否仍需保留 · 或改为返回空串(其他链未上线时不应误用 PCB 数据)
-  const _manual = window[_manualKey] || window.PCB_MANUAL || null;
+  // ★ 临时兜底:手动层对象不存在时回退到 PCB_MANUAL（仅 PCB 链有 riskMetrics 数据）
+  const _manual = getManualNamespace(_cid) || window.PCB_MANUAL || null;
   // 风险指标（止损线 / 集中度风险 / 重入条件）
   const code = s && s.code;
   const stock = (_manual && _manual.stocks && _manual.stocks[code]) || null;
@@ -3031,7 +3032,7 @@ function renderChain(chainId) {
     }
 
     h += `</div></div>`;  // card + section
-  } else {
+  } else if (!isNewTreeMapSchema) {
     // ==================== 旧 schema：纵向 5 段布局（其它 11 条赛道 + AI全产业链 fallback）====================
     h += `<div class="section" data-key="treemap" id="section-treemap"><div class="section-title" onclick="toggleSection('treemap')"><span class="num num-chain">${sec2Label}</span> 全产业链树状图<span class="collapse-arrow">▼</span></div>`;
     // ★ commit 4.76 修复：section-desc 默认折叠为 details

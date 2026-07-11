@@ -1,0 +1,173 @@
+  // ★ 阶段五 commit 4.20：下游需求传导 card（在 ④ 树状图 section 之后 · 仅 pcb 试点）
+  //   读取 CHAINS.pcb.demandChainMeta（pcb.js 注入）
+  //   4 个下游细分横向排列 + AI 服务器价值量倍数 + 传导系数待补充说明
+  if (d.demandChainMeta && d.demandChainMeta.segments) {
+    const dcm = d.demandChainMeta;
+    h += `<div class="section collapsible collapsed" data-key="demand" id="section-demand-chain"><div class="section-title" onclick="toggleSection('demand')"><span class="num num-chain">④</span> 下游需求传导 · <span style="color:var(--accent);">CAGR 量化锚点</span><span class="collapse-arrow">▼</span></div>`;
+    h += `<div class="section-desc">4 个下游细分 2025-2028 年 CAGR·broker 多源核实·AI 服务器额外标注单台 PCB 价值量倍数（vs 普通服务器）</div>`;
+    h += `<div class="card" style="padding:20px;">`;
+
+    // 横向 4 列（用 flex 自适应，4 等分）
+    h += `<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;">`;
+    (dcm.segments || []).forEach(seg => {
+      // 颜色映射：CAGR 越高颜色越绿（AI 服务器 32% 极绿 → 消费 2.8% 偏红/灰）
+      const cagrCls = seg.cagr >= 20 ? 'tg-green' : seg.cagr >= 5 ? 'tg-mid' : seg.cagr >= 3 ? 'tg-extreme' : 'tg-gray';
+      // tier 标识：broker = 🔵 / media = ⚪ / primary = 🟢
+      const tierBadge = seg.cagrTier === 'broker' ? '🔵 broker' : seg.cagrTier === 'primary' ? '🟢 primary' : '⚪ estimate';
+      h += `<div style="flex:1;min-width:220px;padding:14px 16px;background:var(--card2);border-radius:6px;border-left:3px solid var(--accent);">`;
+      h += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">`;
+      h += `<div style="font-size:14px;font-weight:600;color:var(--text);">${seg.name}</div>`;
+      h += `<div style="font-size:11px;color:var(--muted);font-weight:400;">占比 ${seg.sharePct}%</div>`;
+      h += `</div>`;
+      // CAGR 区间
+      h += `<div style="margin-bottom:6px;">`;
+      h += `<div style="font-size:11px;color:var(--muted);margin-bottom:2px;">CAGR（2025-2028）<span style="color:var(--muted);">· ${tierBadge}</span></div>`;
+      h += `<div style="font-size:16px;font-weight:600;"><span class="tag ${cagrCls}" style="font-size:14px;">${seg.cagrRange}</span></div>`;
+      h += `</div>`;
+      // 价值量倍数（仅 AI 服务器）
+      if (seg.valueMult) {
+        h += `<div style="margin-bottom:6px;padding:8px 10px;background:rgba(240,185,11,0.08);border-radius:4px;">`;
+        h += `<div style="font-size:11px;color:var(--muted);margin-bottom:2px;">单台 PCB 价值量倍数 <span style="color:var(--muted);">· vs 普通服务器</span></div>`;
+        h += `<div style="font-size:15px;font-weight:600;color:var(--accent);">${seg.valueMultRange}</div>`;
+        h += `<div style="font-size:11px;color:var(--muted);margin-top:2px;">${seg.valueMultNote || ''}</div>`;
+        h += `</div>`;
+      }
+      // 来源数量
+      h += `<div style="font-size:11px;color:var(--muted);">📚 ${seg.cagrSrc.length} 源${(seg.valueMultSrc?' + '+seg.valueMultSrc.length+' 源 (价值量)':'')}</div>`;
+      h += `</div>`;
+    });
+    h += `</div>`;
+
+    // 来源明细（折叠）
+    h += `<div class="choke-card" style="margin-top:8px;">`;  // ★ commit 4.77：默认折叠（CSS 控制）
+    h += `<div class="choke-summary" onclick="this.parentElement.classList.toggle('open')"><span>📚 数据来源明细（${(dcm.segments||[]).reduce((a,s)=>a+s.cagrSrc.length+(s.valueMultSrc?s.valueMultSrc.length:0),0)} 条）</span><span class="choke-arrow">▸</span></div>`;
+    h += `<div class="choke-detail">`;
+    (dcm.segments || []).forEach(seg => {
+      h += `<div style="margin-bottom:10px;">`;
+      h += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;">${seg.name} · CAGR ${seg.cagrRange}${seg.valueMult ? ' · 单台价值量 '+seg.valueMultRange : ''}</div>`;
+      h += `<ul style="margin:0;padding-left:20px;font-size:11px;color:var(--text);line-height:1.7;">`;
+      seg.cagrSrc.forEach(s => {
+        h += `<li><span style="color:var(--muted);">[${s.tier}]</span> <strong>${s.name}</strong> <span style="color:var(--muted);">(${s.date})</span>：<em style="color:var(--accent);">"${s.quote}"</em></li>`;
+      });
+      if (seg.valueMultSrc) {
+        seg.valueMultSrc.forEach(s => {
+          h += `<li><span style="color:var(--muted);">[${s.tier}]</span> <strong>${s.name}</strong> <span style="color:var(--muted);">(${s.date})</span>：<em style="color:var(--accent);">"${s.quote}"</em></li>`;
+        });
+      }
+      h += `</ul>`;
+      if (seg.note) h += `<div style="font-size:11px;color:var(--muted);margin-top:4px;font-style:italic;">📝 ${seg.note}</div>`;
+      h += `</div>`;
+    });
+    h += `</div></div>`;
+
+    // 传导系数待补充说明
+    if (dcm.conductionTBD) {
+      h += `<div style="padding:10px 14px;background:rgba(240,185,11,0.05);border-left:3px solid var(--color-signal);border-radius:0 6px 6px 0;font-size:12px;color:var(--text);line-height:1.7;margin-top:14px;">`;
+      h += `⏳ <strong>传导系数待补充</strong>：${dcm.conductionNote || '下游 X% → 上游 PCB 需求 Y% 的弹性系数未实装'}`;
+      h += `</div>`;
+    }
+
+    h += `</div></div>`;  // card + section
+  } else {
+    // ==================== 旧 schema：纵向 5 段布局（其它 11 条赛道 + AI全产业链 fallback）====================
+    h += `<div class="section" data-key="treemap" id="section-treemap"><div class="section-title" onclick="toggleSection('treemap')"><span class="num num-chain">${sec2Label}</span> 全产业链树状图<span class="collapse-arrow">▼</span></div>`;
+    // ★ commit 4.76 修复：section-desc 默认折叠为 details
+    h += `<details style="margin-bottom:14px;"><summary style="cursor:pointer;color:var(--color-muted);font-size:11px;list-style:none;outline:none;">📋 查看布局说明</summary><div class="section-desc" style="margin-top:6px;">颜色越深=壁垒越高=越可能藏有卡口。🔒=已识别物理卡口。</div></details>`;
+    h += `<div class="card"><div class="tree-wrapper"><div class="tree">`;
+    // Downstream
+    h += `<div class="tree-level-label">▼ 下游应用（需求端）</div>`;
+    h += `<div class="tree-node b-low" style="min-width:600px;">📱 ${d.treeMap.downstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.downstream.note}</span></div>`;
+    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:500px;"></div>`;
+    // Midstream / System Assembly
+    if (d.treeMap.systemAssembly) {
+      h += `<div class="tree-level-label" style="margin-top:4px;">▼ 系统集成层</div>`;
+      h += `<div class="tree-node b-low" style="min-width:500px;">🏭 ${d.treeMap.systemAssembly.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.systemAssembly.note}</span></div>`;
+      h += `<div class="tree-vline"></div><div class="tree-hline" style="width:600px;"></div>`;
+    } else if (d.treeMap.midstream) {
+      h += `<div class="tree-level-label" style="margin-top:4px;">▼ 中游</div>`;
+      h += `<div class="tree-node b-low" style="min-width:500px;">🏭 ${d.treeMap.midstream.name}<br><span style="font-size:11px;color:var(--muted);">${d.treeMap.midstream.note}</span></div>`;
+      h += `<div class="tree-vline"></div><div class="tree-hline" style="width:500px;"></div>`;
+    }
+  // AI全产业链专属：物理维度分层
+  if (d.treeMap.computeLabel) {
+    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.computeLabel}</div>`;
+    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.compute.forEach(e => {
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:180px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  if (d.treeMap.interconnectLabel) {
+    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.interconnectLabel}</div>`;
+    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.interconnect.forEach(e => {
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:220px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  if (d.treeMap.pcLabel) {
+    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.pcLabel}</div>`;
+    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.pc.forEach(e => {
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:220px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  // Upstream tools layer
+  if (d.treeMap.upstreamTools) {
+    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游设计工具</div>`;
+    h += `<div class="tree-node b-extreme" style="min-width:400px;">🔧 ${d.treeMap.upstreamTools.name} <span class="badge-b badge-ex">壁垒:极高</span><br><span style="font-size:11px;color:var(--muted);">${d.treeMap.upstreamTools.note}</span></div>`;
+    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:700px;"></div>`;
+  }
+  // Upstream CCL layer (PCB specific)
+  if (d.treeMap.upstreamCCL) {
+    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游核心基材</div>`;
+    h += `<div class="tree-node b-high" style="min-width:400px;">📐 ${d.treeMap.upstreamCCL.name} <span class="badge-b badge-hi">壁垒:高</span><br><span style="font-size:11px;color:var(--muted);">${d.treeMap.upstreamCCL.note}</span></div>`;
+    h += `<div class="tree-vline"></div><div class="tree-hline" style="width:700px;"></div>`;
+  }
+  // Equipment
+  if (d.treeMap.equipment) {
+    h += `<div class="tree-level-label" style="margin-top:4px;">▼ 上游核心设备</div>`;
+    h += `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.equipment.forEach(e => {
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  // AI全产业链专属：上游制造层
+  if (d.treeMap.mfgLabel) {
+    h += `<div class="tree-level-label" style="margin-top:8px;">${d.treeMap.mfgLabel}</div>`;
+    h += `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.manufacturing.forEach(e => {
+      h += `<div class="tree-sub-node ${e.barrier==='extreme'?'b-extreme':e.barrier==='high'?'b-high':'b-mid'}" style="min-width:200px;">${e.name}<br><span class="badge-b badge-${e.barrier==='extreme'?'ex':e.barrier==='high'?'hi':'mi'}">壁垒:${e.barrier==='extreme'?'极高':e.barrier==='high'?'高':'中'}</span>${e.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${e.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  // Materials
+  if (d.treeMap.materials) {
+    const label = d.treeMap.matLabel || (d.treeMap.equipment ? '▼ 上游核心材料（卡口集中区）' : '▼ 上游核心材料（卡口集中区）');
+    h += `<div class="tree-level-label" style="margin-top:8px;">${label}</div>`;
+    h += `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px;">`;
+    d.treeMap.materials.forEach(m => {
+      h += `<div class="tree-sub-node ${m.barrier==='extreme'?'b-extreme':m.barrier==='high'?'b-high':'b-mid'}" style="min-width:160px;">${m.name}<br><span class="badge-b badge-${m.barrier==='extreme'?'ex':m.barrier==='high'?'hi':'mi'}">壁垒:${m.barrier==='extreme'?'极高':m.barrier==='high'?'高':'中'}</span>${m.choke?'<br><span style="font-size:11px;color:var(--accent);">🔒 卡口环节</span>':''}<br><span style="font-size:11px;color:var(--muted);">${m.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  // Side branches
+  if (d.treeMap.sideBranches) {
+    h += `<div style="width:400px;height:2px;background:var(--border);margin:12px auto 0;"></div>`;
+    h += `<div style="display:flex;gap:20px;justify-content:center;margin-top:6px;">`;
+    d.treeMap.sideBranches.forEach(b => {
+      h += `<div class="tree-sub-node ${b.barrier==='high'?'b-high':'b-mid'}" style="min-width:260px;">${b.name}<br><span style="font-size:11px;color:var(--muted);">${b.note}</span></div>`;
+    });
+    h += `</div>`;
+  }
+  h += `</div></div>`;
+  h += `<div class="legend-bar">`;
+  h += `<span><span class="dot" style="background:var(--color-risk);"></span>极高壁垒—全球≤3家量产</span>`;
+  h += `<span><span class="dot" style="background:var(--color-warn);"></span>高壁垒—认证周期1-2年</span>`;
+  h += `<span><span class="dot" style="background:var(--color-data);"></span>中壁垒—有国产突破</span>`;
+  h += `<span><span class="dot" style="background:var(--color-muted);"></span>低壁垒—充分竞争</span>`;
+  h += `<span>🔒=物理卡口</span>`;
+  h += `</div></div></div>`;
+  }  // 关闭 } else { 旧 schema 分支

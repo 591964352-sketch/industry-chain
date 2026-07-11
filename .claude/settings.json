@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(cd \"d:/乌龟/产业链全景\" && cp .claude/scratch/pcb.manual.js.pre-p0p1-redo data/pcb.manual.js && git status --short data/pcb.manual.js && git log -1 --oneline data/pcb.manual.js)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"C:/Users/Administrator/AppData/Local/Temp/write-startup.ps1\")",
+      "Bash(\"C:/Users/Administrator/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/chain_auto_start.bat\")",
+      "Bash(netstat -ano)",
+      "Bash(\"C:/Windows/System32/schtasks.exe\" /Create /SC ONLOGON /TN \"ChainAutoStart\" /TR \"D:\\\\\\\\start_chain_proxy.bat\" /F /RL HIGHEST)",
+      "Read(//d//**)",
+      "Read(//c/Users/Administrator/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/**)",
+      "Bash(rm -f chain_auto_start.bat create_real_shortcut.vbs run_chain.bat)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"C:/Users/Administrator/AppData/Local/Temp/create-lnk.ps1\")",
+      "Bash(node \"C:/Users/Administrator/AppData/Local/Temp/create-lnk.js\")",
+      "Bash(cd \"d:/乌龟/产业链全景\" && cp data/pcb.js .claude/scratch/pcb.js.pre-sync-4.94 && ls -la .claude/scratch/pcb.js.pre-sync-4.94)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(node -e \"const fs=require\\('fs'\\);const html=fs.readFileSync\\('index.html','utf8'\\);const m=html.match\\(/<script>\\\\s*\\\\n\\\\s*\\\\/\\\\/ ={5,}\\\\n\\\\/\\\\/ DATA LAYER[\\\\s\\\\S]+?<\\\\/script>/\\);const code=m[0].replace\\(/^<script>/,''\\).replace\\(/<\\\\/script>\\\\$/,''\\);try{new Function\\(code\\);console.log\\('OK',code.length,'chars'\\);}catch\\(e\\){console.log\\('ERR',e.message\\);}\")",
+      "Bash(node .claude/scratch/_verify-syntax.js)",
+      "Bash(node *)",
+      "Bash(node -e \"global.window={};require\\('./data/pcb.js'\\);console.log\\('卡口数:',window.CHAINS.pcb.chokePoints.length\\);\")",
+      "Bash(node -e \"global.window={};require\\('./data/pcb.manual.js'\\);const s=global.PCB_MANUAL.stocks['601208'];console.log\\('601208 dims6:',JSON.stringify\\(s.dims6,null,2\\)\\);console.log\\('positionNote:',s.positionNote||'\\(undefined\\)'\\);\")",
+      "Bash(node -e \"global.window={};global.window.PCB_MANUAL={};require\\('./data/pcb.manual.js'\\);const s=global.PCB_MANUAL.stocks['601208'];console.log\\('601208 dims6:',JSON.stringify\\(s.dims6,null,2\\)\\);console.log\\('---'\\);console.log\\('positionNote:',s.positionNote||'\\(undefined\\)'\\);console.log\\('---'\\);console.log\\('name:',s.name\\);\")",
+      "Bash(node -e \"global.window={PCB_MANUAL:{}};require\\('./data/pcb.manual.js'\\);const s=global.window.PCB_MANUAL.stocks['601208'];console.log\\('601208 dims6:'\\);console.log\\(JSON.stringify\\(s.dims6,null,2\\)\\);console.log\\('---positionNote:',s.positionNote||'\\(undefined\\)'\\);console.log\\('---name:',s.name\\);console.log\\('---tier:',s.tier\\);\")",
+      "Bash(node -e \"global.window={PCB_MANUAL:{}};require\\('./data/pcb.manual.js'\\);['301217','002916','002384','688183','300476','002463'].forEach\\(c=>{const s=global.window.PCB_MANUAL.stocks[c];console.log\\(c,'supply:',s.dims6.find\\(d=>d.key==='supply'\\)\\);}\\);\")",
+      "Bash(node -e \"global.window={PCB_MANUAL:{}};require\\('./data/pcb.manual.js'\\);['301217','002916','002384','688183','300476','002463'].forEach\\(c=>{const s=global.window.PCB_MANUAL.stocks[c];console.log\\(c,'supply完整:',JSON.stringify\\(s.dims6.find\\(d=>d.key==='supply'\\)\\)\\);}\\);\")",
+      "Bash(node -e \"global.window={PCB_MANUAL:{}};require\\('./data/pcb.manual.js'\\);const stocks=['601208','301217','002916','002384','688183','300476','002463'];stocks.forEach\\(c=>{const s=global.window.PCB_MANUAL.stocks[c];console.log\\('========',c,'========'\\);console.log\\('name:',s.name\\);console.log\\('tier:',s.tier\\);console.log\\('barrier:',s.barrier\\);console.log\\('strength:',s.strength\\);console.log\\('dims6:'\\);console.log\\(JSON.stringify\\(s.dims6,null,2\\)\\);console.log\\('investableReason前80字:',\\(s.investableReason||''\\).substring\\(0,80\\)\\);console.log\\(''\\);}\\);\")",
+      "Bash(node -e \"global.window={PCB_MANUAL:{}};require\\('./data/pcb.manual.js'\\);['601208','301217','002916','002384','688183','300476','002463'].forEach\\(c=>{const s=global.window.PCB_MANUAL.stocks[c];const dim=c==='601208'?'valuation':'supply';const d=s.dims6.find\\(x=>x.key===dim\\);console.log\\(c,dim,JSON.stringify\\(d\\)\\);}\\);\")",
+      "Bash(node -e \"global.window={};global.window.PCB_MANUAL={};require\\('./data/pcb.manual.js'\\);console.log\\('601208 positionNote:',global.window.PCB_MANUAL.stocks['601208'].positionNote\\);\")",
+      "Bash(node scripts/page_audit.py)",
+      "Bash(python scripts/page_audit.py)",
+      "Bash(cat)",
+      "Bash(git push *)",
+      "Bash(node -e \"global.window={};global.window.CHAINS={};try{require\\('./data/semicon-equip.js'\\);const c=global.window.CHAINS['semicon-equip'];if\\(!c\\){console.log\\('FAIL: CHAINS 缺失'\\);process.exit\\(1\\);}console.log\\('OK 链名='+c.name+' segments='+c.segments.length+' midstream.stocks='+c.midstream.stocks.length+' chokePoints='+c.chokePoints.length+' supplyGap='+c.supplyGap.length+' prosperity.dims='+c.prosperity.dims.length+' treeMap列数='+Object.keys\\(c.treeMap\\).length\\);console.log\\('Top segment[0]: '+c.segments[0].name+', stocks='+c.segments[0].stocks.length\\);console.log\\('Top segment[2]: '+c.segments[2].name+', stocks='+c.segments[2].stocks.length\\);console.log\\('Top chokePoint[0]: '+c.chokePoints[0].name+' '+c.chokePoints[0].code+' strength='+c.chokePoints[0].strength\\);}catch\\(e\\){console.log\\('ERR: '+e.message\\);}\")",
+      "Bash(echo \"Exit code: $?\")",
+      "Bash(node scripts/check_manual_pcb_sync.js)",
+      "Bash(node -e \"global.window={};global.window.CHAINS={};['pcb.manual','pcb','semi','ai-server','hbm','robotics','autonomous-driving','power-semi','semi-equipment','ai-apps','cpo','optical-chip','optical-module','solid-battery','low-altitude','commercial-aero','liquid-cooling','semicon-equip','ai-full-chain'].forEach\\(id=>try{require\\('./data/'+id+'.js'\\)}catch\\(e\\){console.log\\('FAIL '+id+': '+e.message\\)}\\);console.log\\('Total chains registered:',Object.keys\\(global.window.CHAINS\\).length\\);console.log\\('semicon-equip exists?',!!global.window.CHAINS['semicon-equip']\\);console.log\\('semi-equipment still exists?',!!global.window.CHAINS['semi-equipment']\\);\")",
+      "Bash(awk '{print $5, $9}')"
+    ],
+    "additionalDirectories": [
+      "d:\\乌龟\\产业链全景\\.claude\\scratch",
+      "C:\\Users\\Administrator\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup",
+      "C:\\Users\\Administrator\\AppData\\Local\\Temp"
+    ]
+  }
+}
