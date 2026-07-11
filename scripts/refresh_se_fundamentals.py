@@ -19,6 +19,72 @@ import re
 import sys
 import traceback
 from datetime import datetime
+from decimal import Decimal, Context, ROUND_HALF_EVEN
+
+# ★ P0-6 立 · Decimal 精算引擎（借鉴 ai-berkshire financial_rigor.py 设计）
+#   所有百分比和财务数字的计算/解析统一走 Decimal，杜绝 float 舍入误差
+#   prec=28 有效数字，对标 financial_rigor.py 的精度设置
+_CTX = Context(prec=28, rounding=ROUND_HALF_EVEN)
+
+def exact(value) -> Decimal:
+    """float→str→Decimal，避免 float 精度损失。对标 financial_rigor.py exact()"""
+    if isinstance(value, Decimal):
+        return value
+    if isinstance(value, float):
+        return Decimal(str(value))
+    return Decimal(str(value))
+
+
+# ★ P0-6 立 · YoY 反算校验（借鉴 financial_rigor.py cross-validate 设计）
+#   回测通过：2026-07-11 对 semicon-equip 21 只全量实测，营收最大偏差 0.26pp，
+#   净利最大偏差 1.59pp（亏损股）——全部通过对应档位阈值。
+#   集成后将作为所有 fundamentals 批次写入前的强制阻断校验。
+def verify_yoy(code, rev_curr, rev_prev, np_curr, np_prev, rev_claimed, np_claimed):
+    """两期原始数字反推 YoY，与 abstract_ths 声称的百分比做偏差校验。
+
+    阈值分档（2026-07-11 设计，经 21 只全量回测验证）：
+      营收增速：≥100亿±0.5pp / 30-100亿±1pp / 10-30亿±2pp / <10亿±3pp
+      净利增速：≥10亿±1pp / 3-10亿±2pp / 1-3亿±5pp / 0-1亿±8pp / ≤0±10pp
+
+    设计理由：亏损股的百分比偏差取决于"上年基数有多小"而非当前净利绝对值，
+    统一 ±10pp 比按绝对值再分档更准确（回测中 4 只亏损股最大偏差仅 1.59pp）。
+    """
+    if rev_prev == 0 or np_prev == 0:
+        return  # 除数零，跳过校验
+
+    rev_comp = float((exact(rev_curr) - exact(rev_prev)) / abs(exact(rev_prev)) * 100)
+    np_comp  = float((exact(np_curr) - exact(np_prev)) / abs(exact(np_prev)) * 100)
+
+    # ── 营收增速阈值 ──
+    rev_abs = abs(rev_curr)
+    if rev_abs >= 100:     thr_rev = 0.5
+    elif rev_abs >= 30:    thr_rev = 1.0
+    elif rev_abs >= 10:    thr_rev = 2.0
+    else:                  thr_rev = 3.0
+
+    rev_dev = abs(rev_comp - rev_claimed)
+    if rev_dev > thr_rev:
+        raise ValueError(
+            f'[{code}] revenueGrowth: computed={rev_comp:.2f}% vs claimed={rev_claimed:.2f}%, '
+            f'dev={rev_dev:.2f}pp > threshold={thr_rev}pp '
+            f'(rev_curr={rev_curr:.2f} rev_prev={rev_prev:.2f})'
+        )
+
+    # ── 净利增速阈值 ──
+    np_abs = abs(np_curr)
+    if np_curr > 0 and np_abs >= 10:     thr_np = 1.0
+    elif np_curr > 0 and np_abs >= 3:    thr_np = 2.0
+    elif np_curr > 0 and np_abs >= 1:    thr_np = 5.0
+    elif np_curr > 0:                    thr_np = 8.0
+    else:                                thr_np = 10.0  # 亏损
+
+    np_dev = abs(np_comp - np_claimed)
+    if np_dev > thr_np:
+        raise ValueError(
+            f'[{code}] netProfitGrowth: computed={np_comp:.2f}% vs claimed={np_claimed:.2f}%, '
+            f'dev={np_dev:.2f}pp > threshold={thr_np}pp '
+            f'(np_curr={np_curr:.2f} np_prev={np_prev:.2f})'
+        )
 
 # ============================================================================
 # 配置区
@@ -123,35 +189,51 @@ def fetch_one(code: str) -> dict | None:
         print(f'  ❌ {code} 返回空 DataFrame')
         return None
 
-    # --- 取最新一行 ---
+    # --- 取最新两行（用于 YoY 反算校验）---
     latest = df.iloc[-1]
+    prev   = df.iloc[-2]
     period_raw = str(latest['报告期']).strip()
 
-    # 提取原始值
-    roe_raw       = latest['净资产收益率']        # 如 '9.97%'
-    gm_raw        = latest['销售毛利率']          # 如 '39.17%'
-    rev_yoy_raw   = latest['营业总收入同比增长率']  # 如 '36.62%'
-    np_yoy_raw    = latest['净利润同比增长率']     # 如 '30.69%'
-    net_profit_raw = latest['净利润']            # 如 '21.11亿' (用于验证)
+    # 解析原始金额（支持 亿/万 混合单位）
+    def _amt(val):
+        s = str(val).strip().replace(',','').replace('，','')
+        if s in ('','—','-','N/A','nan'): return None
+        unit = 1.0
+        if '万' in s: s = s.replace('万',''); unit = 0.0001
+        elif '亿' in s: s = s.replace('亿','')
+        try: return float(s) * unit
+        except: return None
+
+    rev_curr = _amt(latest['营业总收入']); rev_prev = _amt(prev['营业总收入'])
+    np_curr  = _amt(latest['净利润']);     np_prev  = _amt(prev['净利润'])
+
+    # 提取百分比
+    roe_raw       = latest['净资产收益率']          # 如 '9.97%'
+    gm_raw        = latest['销售毛利率']            # 如 '39.17%'
+    rev_yoy_raw   = latest['营业总收入同比增长率']   # 如 '36.62%'
+    np_yoy_raw    = latest['净利润同比增长率']       # 如 '30.69%'
 
     # 解析
     roe = parse_pct(roe_raw)
     gross_margin = parse_pct(gm_raw)
     revenue_growth = parse_pct(rev_yoy_raw)
     net_profit_growth = parse_pct(np_yoy_raw)
-    net_profit_yi = parse_yi(net_profit_raw)
 
     # 剪刀差
     scissor = compute_scissor(revenue_growth, net_profit_growth)
 
+    # ★ P0-6: YoY 反算校验（写入前阻断 — 借鉴 ai-berkshire financial_rigor.py）
+    if rev_curr is not None and rev_prev is not None and revenue_growth is not None:
+        verify_yoy(code, rev_curr, rev_prev, np_curr, np_prev, revenue_growth, net_profit_growth)
+
     # 输出诊断
     flag = ''
-    if net_profit_yi is not None and net_profit_yi < 0:
+    if np_curr is not None and np_curr < 0:
         flag = ' [LOSS]'
 
     print(f'  {code} | {period_raw} | ROE={roe}% GM={gross_margin}% '
           f'revYoY={revenue_growth}% npYoY={net_profit_growth}% '
-          f'scissor={scissor} netProfit={net_profit_yi}bn{flag}')
+          f'scissor={scissor} netProfit={np_curr}bn{flag}')
 
     return {
         'code': code,
@@ -163,7 +245,7 @@ def fetch_one(code: str) -> dict | None:
         'scissorGap': scissor,
         'source': 'akshare(stock_financial_abstract_ths)',
         '_fetchedAt': datetime.now().strftime('%Y-%m-%d %H:%M'),
-        '_netProfit_yi': net_profit_yi,   # 辅助验证, 不写入 manual.js
+        '_netProfit_yi': np_curr,   # 辅助验证, 不写入 manual.js
     }
 
 
