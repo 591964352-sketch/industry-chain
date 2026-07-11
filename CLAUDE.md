@@ -3038,3 +3038,288 @@ function validateNoDevTerms(text, fieldName, stockCode) {
 
 **完成 commit**:6.36(待执行)
 
+---
+
+## §13 新链/大改动上线前置检查清单（Pre-Flight Checklist · 2026-07-11 commit 08a59f1 立）
+
+> **触发**：semicon-equip 链 Phase A→B 全流程暴露 5 类系统性缺陷（P0-1~P0-5），全部是现有 page_audit/check_xxx_sync 脚本 PASS 的情况下被用户截图发现的。现有验证体系只覆盖"数据层自证"（字段存在/数值一致/文件完整），**缺失"真实页面渲染效果验证"这道强制关卡**。本节建立新链/大改动上线前必须完成的标准化检查流程。
+
+### §13.1 适用范围与执行时机
+
+**强制触发条件**（任一即触发，不可跳过）：
+- 新建一条产业链（新增 `data/<chainId>.js` + `data/<chainId>.manual.js`）
+- 对现有链做 Phase B+ 级别的批量 dims6/fundamentals 注入（涉及 ≥5 只 stock）
+- segments 结构调整（增/删/改名/重排）
+- 渲染层改动（index.html 新增/修改 render 函数、helper、CSS class）
+- treeMap 数据结构变更
+
+**执行人分工**：
+
+| 检查层 | 工具 | 执行人 | 是否可自动化 |
+|--------|------|--------|:--:|
+| 数据层 | page_audit.py + check_xxx_sync.js | CC | ✅ 全自动 |
+| 内容安全 | validateNoDevTerms + contamination scan | CC | ✅ 全自动 |
+| 渲染层 DOM | Playwright 自动化截图 + 结构提取 | CC | ✅ 全自动（DOM 验证）/ ⚠️ 半自动（视觉截图需人工看） |
+| 视觉核对 | 浏览器手动操作 + 肉眼比对 | **投顾/用户** | ❌ 不可自动化（强制人工关卡） |
+
+---
+
+### §13.2 数据层自动验证（必须全部 PASS，一项 FAIL = 阻断上线）
+
+#### 检查 1：双层架构同步（`check_xxx_sync.js`）
+
+```bash
+node scripts/check_<chainId>_sync.js
+```
+
+**通过标准**：
+- `[1]` 双层字段数值一致性：0 偏离
+- `[2]` name 冲突：0
+- `[2]` core 游离（必须为 0）：0
+- `[3]` stock 口径：100% 完全达标
+- `[4]` DATA_VERSION 与 mtime 同步：✓
+
+**如果新链尚无专用 sync 脚本**：参考 `scripts/check_semicon_sync.js` 创建，必须覆盖 4 项检查。
+
+#### 检查 2：unique stock code 基线（`check_unique_stock_codes.js`）
+
+```bash
+node scripts/check_unique_stock_codes.js <chainId>
+```
+
+**通过标准**：unique code+name 组合数与 baseline 一致（或变化有合理解释）。
+
+#### 检查 3：全局页面审计（`page_audit.py`）
+
+```bash
+python scripts/page_audit.py
+```
+
+**通过标准**：全部 N 项 PASS，0 项 FAIL。
+
+#### 检查 4：manifest 加载顺序验证
+
+```bash
+node -e "
+global.window = {};
+var manifest = [/* 从 index.html 提取 */];
+manifest.forEach(id => { try { require('./data/'+id+'.js'); } catch(e) { console.log('FAIL:', id, e.message); } });
+console.log(Object.keys(global.window.CHAINS).length + ' chains loaded');
+"
+```
+
+**通过标准**：manifest 数组中的所有文件均成功加载，`window.CHAINS` 中的链数量与预期一致。如果有 `.manual` 文件，必须在对应的 `.js` 文件之前加载。
+
+---
+
+### §13.3 渲染层浏览器验证（使用 Playwright 自动化 DOM 检查）
+
+#### 模板脚本
+
+以下脚本可复用于任意链（替换 `chainId` 和 `chainUrl`）：
+
+```python
+# scripts/_preflight_render_check.py
+from playwright.sync_api import sync_playwright
+
+def check_chain(chainId, chainUrl):
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page(viewport={'width': 1440, 'height': 900})
+        page.goto(f'http://localhost:8765/index.html#{chainUrl}', wait_until='networkidle')
+        time.sleep(3)
+
+        # 1. JS 错误检查
+        errors = []
+        page.on('pageerror', lambda err: errors.append(str(err)))
+
+        # 2. 页面结构审计
+        info = page.evaluate('''() => JSON.stringify({
+            sectionCount: document.querySelectorAll('.section-title').length,
+            segmentCards: document.querySelectorAll('.segment-card').length,
+            stockRows: document.querySelectorAll('tr[id^="stock-"]').length,
+            flowNodes: document.querySelectorAll('.flow-node').length,
+            treeNodes: document.querySelectorAll('.tree-node').length,
+            fourQRows: document.querySelector('#section-fourq tbody tr')?.length || 0,
+            fundsChips: document.querySelectorAll('[title*="ROE"]').length,
+            hasUndefined: document.getElementById('chain-content')?.innerText.includes('undefined'),
+        }'''))
+
+        # 3. 开发术语扫描
+        devTerms = ['commit', 'Phase ', 'idx 7', '同步到', '渲染层', 'DATA_VERSION', 'bump']
+        chainText = page.evaluate('() => document.getElementById("chain-content")?.innerText || ""')
+        hits = [t for t in devTerms if t in chainText]
+
+        return {'errors': errors, 'info': info, 'devTermHits': hits}
+```
+
+#### 通过标准
+
+| 检查项 | 通过条件 | 常见故障模式 |
+|--------|---------|------------|
+| JS errors | 0 | 命名空间连字符 bug（P0-3）、未定义函数引用 |
+| `treeNodes` 计数 | 0（新 schema 链）/ N（旧 schema 链）| demandChainMeta if/else 耦合（P0-4） |
+| `flowNodes` 计数 | ≥ 每列 sub-card 总数 | treeMap 数据未填充 |
+| `fourQRows` 计数 | > 0（除非确认暂不填充）| `fourQuestions.segments = []`（P0-2） |
+| `stockRows` 计数 | = auto 层 unique stock 数 + midstream 数 | 残留已删除股票（P0-1） |
+| `fundsChips` 计数 | = stockRows 数 | fundamentals 未写入 manual.js |
+| `hasUndefined` | False | 数据字段缺失 → 渲染 "undefined" 文字 |
+| `devTermHits` | 0 | 写入脚本未做 validateNoDevTerms（P0-5） |
+
+---
+
+### §13.4 内容安全校验（开发术语污染扫描）
+
+#### 写入前校验（已在 `__inject_*.js` 中实装）
+
+所有批量写入脚本必须包含：
+
+```javascript
+const FORBIDDEN_DEV_TERMS = [
+  '★ commit', 'commit 6.', 'Phase 2-', 'Phase 9 PCB',
+  'idx 7 PCB', '同步到 pcb.js', '渲染层',
+  'DATA_VERSION', 'bump', 'Co-Authored-By',
+];
+function validateNoDevTerms(text, fieldName, stockCode) {
+  if (typeof text !== 'string' || !text) return;
+  for (const term of FORBIDDEN_DEV_TERMS) {
+    if (text.includes(term)) {
+      throw new Error(`[CONTAMINATION BLOCKED] ${stockCode}.${fieldName} contains "${term}"`);
+    }
+  }
+}
+```
+
+#### 写入后扫描（全量复查）
+
+```bash
+node scripts/__scan_contamination.js
+```
+
+**通过标准**：0 个命中项。每次新链/大改动提交前必须运行，作为 `page_audit.py` 的补充检查项。
+
+---
+
+### §13.5 强制人工确认关卡（不可跳过·不可由 CC 自行宣布"通过"）
+
+> **本节是整个 §13 的最高优先级规则。如果此关卡未完成，即使前面所有自动化检查全部 PASS，也不得视为"已上线"。**
+
+#### 确认清单（投顾/用户逐项打勾）
+
+| # | 确认项 | 具体操作 | 通过标准 |
+|---|--------|---------|---------|
+| 1 | **赛道概览区** | 浏览器打开页面，查看顶部 overview 卡片和 prosperity 六维仪表盘 | 8 张 overview 卡全部显示真实数字，六维 mini-bar 有颜色/分数，无占位符 |
+| 2 | **产业链全图** | 滚动到 treeMap 区域，点击流图/列表视图切换 | 5 列全部显示 sub-card + 公司名称，无破损节点（📱undefined/🏭undefined），颜色正确区分壁垒等级 |
+| 3 | **上游拆解 segments** | 逐个展开每个 segment 卡片，检查股票列表 | 每段股票数 ≥ 设计数量，无已删除股票残留，每只股票有名称/代码/定位/壁垒/核心逻辑 |
+| 4 | **dims6 chip 展开** | 随机点开 3-5 只股票的 "🆪 六维 ▾" 折叠区 | 6 维 mini-bar 全部有分数，雷达图正常渲染，reason 文字是投研分析而非占位符 |
+| 5 | **fundamentals chip** | 查看同一批股票的 fundamentals chip | 显示真实 ROE/毛利率/增速数字，非 "📊 待补" |
+| 6 | **中游环节** | 滚动到 midstream 区域 | 10 只（或设计数量）中游股票正常显示 |
+| 7 | **四问筛选** | 滚动到四问筛选 section | 表格有数据行（非仅表头空白），✓/✗ 标记正常 |
+| 8 | **供需缺口** | 展开 "⑥ 后段" 折叠区 | supplyGap 条目完整显示 |
+| 9 | **全局巡检** | 从上到下滚动整个页面，肉眼扫描 | 无 "undefined" 文字、无破损 CSS、无空白 section（除确认暂不填充的） |
+| 10 | **PCB 对照** | 切换到 PCB 链，对比同位置模块的信息密度 | 新链的每个模块信息量与 PCB 同模块大致相当（非完全一致，但不应出现 PCB 有 50 行表格而新链只有空表头） |
+
+#### 确认记录格式
+
+```
+=== 新链上线人工确认记录 ===
+链 ID: <chainId>
+日期: YYYY-MM-DD
+确认人: <投顾/用户>
+
+[ ] 1. 赛道概览区    — 通过/不通过 — 备注:___
+[ ] 2. 产业链全图     — 通过/不通过 — 备注:___
+[ ] 3. 上游拆解 segments — 通过/不通过 — 备注:___
+[ ] 4. dims6 chip 展开  — 通过/不通过 — 备注:___
+[ ] 5. fundamentals chip — 通过/不通过 — 备注:___
+[ ] 6. 中游环节       — 通过/不通过 — 备注:___
+[ ] 7. 四问筛选       — 通过/不通过 — 备注:___
+[ ] 8. 供需缺口       — 通过/不通过 — 备注:___
+[ ] 9. 全局巡检       — 通过/不通过 — 备注:___
+[ ] 10. PCB 对照      — 通过/不通过 — 备注:___
+
+最终结论: [ ] 批准上线 / [ ] 驳回修改
+```
+
+**此确认记录必须保存在 `.claude/scratch/<chainId>-preflight-<date>.md`，作为该链上线的前置证据。CC 不得自行填写此记录——必须由投顾/用户逐项核对后填写。**
+
+---
+
+### §13.6 新链 vs PCB 金标准自动对比脚本
+
+#### 模板脚本
+
+```bash
+node scripts/_diff_chain_vs_pcb.js <chainId>
+```
+
+#### 对比维度
+
+| 维度 | PCB 金标准 | 对比方式 | 输出 |
+|------|-----------|---------|------|
+| **顶层字段** | `id/name/icon/meta/prosperity/cyclePosition/plainIntro/overview/treeMap/segments/midstream/fourQuestions/chokePoints/supplyGap/methodologyNotes` | 逐字段存在性检查 | MISSING 清单 |
+| **segments[].stocks[] 字段** | `rank/name/code/position/barrier/tier/valAsOf/src/trend/trendNote/logic` (PCB auto 层) | 逐字段存在性检查 | 新链缺失字段清单 |
+| **manual.js stocks[] 字段** | `dims6/fundamentals/riskMetrics` (PCB manual 层) | 逐字段存在性检查 | 新链缺失字段清单 |
+| **treeMap 结构** | 5 列均为数组，每 sub-card 含 `companies` 数组 | 类型检查 | 非数组列/缺失列清单 |
+| **fourQuestions** | `segments` 数组长度 = segments 数量，每段含 `stocks` 数组 | 数组长度对比 | 空数组告警 |
+| **valid 股票数** | auto 层 unique codes = manual 层 stocks 数量 | 计数对比 | 差异清单 |
+
+#### 输出示例
+
+```
+=== semicon-equip vs PCB 金标准对比 ===
+[OK] 顶层字段: 14/14 齐
+[OK] segments[].stocks[] 字段: 11/11 齐
+[WARN] manual.js 缺失字段: fundamentals(0/21), riskMetrics(0/21)
+[OK] treeMap 结构: 5 列全为数组
+[FAIL] fourQuestions.segments: PCB=7, semicon-equip=0 (空数组)
+[OK] 股票数一致: auto=21, manual=21
+```
+
+**此脚本每次新链上线前必须运行，输出报告存入 `.claude/scratch/<chainId>-vs-pcb-<date>.md`。**
+
+---
+
+### §13.7 常见故障模式速查表（从 P0-1~P0-5 事故提炼）
+
+| 故障模式 | 典型表现 | 首次发现 | 预防机制 |
+|---------|---------|:--:|------|
+| **双层架构不同步** | auto 层有 23 只、manual 层有 21 只（差异=2 只已删除股票残留） | P0-1 | `check_xxx_sync.js` 第[2]项 core 游离检查 |
+| **命名空间连字符** | `chainId.toUpperCase()` 产生 `SEMICON-EQUIP_MANUAL`（应为下划线）→ window 查找失败 → 回退到 PCB_MANUAL | P0-3 | `getManualNamespace(chainId)` 统一 helper，禁止各自手写拼接 |
+| **if/else 分支误归属** | `if (!d.demandChainMeta)` 的 else 分支误渲染旧版 treeMap → 页面出现 "📱 undefined" | P0-4 | 渲染检查 `treeNodes` 计数 + 人工视觉核对 §13.5 第 2 项 |
+| **开发术语污染** | position/logic/trendNote 中出现 "★ commit 6.2"/"Phase 9 PCB 短板补充" | P0-5 | `validateNoDevTerms` 写入前校验 + `__scan_contamination.js` 写入后全量扫描 |
+| **数组当作对象访问** | `d.treeMap.downstream.name` 期望对象但 downstream 是数组 → undefined | P0-4 | 新链 vs PCB 对比脚本检查 treeMap 每列类型 |
+| **空数组渲染空表格** | `fourQuestions.segments = []` → section 渲染仅表头、无数据行 | P0-2 | 渲染检查 `fourQRows` 计数 + 人工核对 §13.5 第 7 项 |
+| **数据已写但渲染未读** | manual.js 有 fundamentals 但 `getManualNamespace` 找不到 → chip 全显 "📊 待补" | P0-3 | 渲染检查 `fundsChips` 计数 + 人工核对 §13.5 第 5 项 |
+| **股票跨段重复计数** | 北方华创出现在 seg[0] 和 seg[1]，按段计数得 30 但 unique 仅 21 | P0-1 | `check_unique_stock_codes.js` 区分 core vs treeMapOnly |
+
+---
+
+### §13.8 完整上线前执行序列（一次性跑通）
+
+```bash
+# ===== 第 1 步：数据层自动验证（CC 执行，全部 PASS 才能继续）=====
+python scripts/page_audit.py                    # 全局审计
+node scripts/check_<chainId>_sync.js            # 双层同步
+node scripts/check_unique_stock_codes.js <id>   # unique 基线
+node scripts/__scan_contamination.js            # 开发术语污染扫描
+
+# ===== 第 2 步：新链 vs PCB 结构对比（CC 执行）=====
+node scripts/_diff_chain_vs_pcb.js <chainId>    # 字段结构 diff
+
+# ===== 第 3 步：渲染层 DOM 验证（CC 执行）=====
+python scripts/_preflight_render_check.py <chainId>  # Playwright 自动 DOM 检查
+
+# ===== 第 4 步：强制人工确认（投顾/用户执行，不可跳过）=====
+# 浏览器打开 http://localhost:8000/index.html#<chainId>
+# 按 §13.5 的 10 项清单逐项核对，填写确认记录
+# 确认记录存入 .claude/scratch/<chainId>-preflight-<date>.md
+
+# ===== 第 5 步：上线 =====
+# 第 1-3 步全部 PASS + 第 4 步投顾批准 → 允许上线
+```
+
+**任何一步 FAIL → 必须修复后从第 1 步重新跑，不得跳过中间步骤直接"补丁式修复"。**
+
+**违反本节（§13）= 新链/大改动在上线前未完成完整的前置检查流程 → 视为违反 §6.8 数据准确度优先原则（"流程完成 > 数据准确"的逆向错误）。**
+
