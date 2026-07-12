@@ -205,7 +205,7 @@ CHAINS["semicon-equip"] = {
           },
           {
             "name": "长鑫科技",
-            "code": "688041",
+            "code": "未上市·DRAM3",
             "position": "长鑫存储母公司·统一管理 DRAM 研发/生产",
             "barrier": "极高"
           }
@@ -463,7 +463,7 @@ CHAINS["semicon-equip"] = {
           },
           {
             "name": "西安瑞联",
-            "code": "688269",
+            "code": "688550",
             "position": "半导体级抛光垫+硅片清洗 · 配套材料",
             "barrier": "中"
           },
@@ -683,7 +683,7 @@ CHAINS["semicon-equip"] = {
           },
           {
             "name": "连城数控",
-            "code": "688135",
+            "code": "835185",
             "position": "单晶炉配套 · 隆基绿能关联",
             "barrier": "中"
           }
