@@ -3868,13 +3868,14 @@ function renderChain(chainId) {
   h += renderSignalCTopList(chainId);
   // ★ commit 4.57：信号 C 历史回放面板（5 年窗口 · ⚠️非实盘记录）
   h += renderSignalCHistoryPanel(chainId);
-  h += `<div class="choke-grid" style="margin-bottom:24px;">`;
 
-  // ★ commit 6.78：chokePoints 子标题——紧邻卡片区域正上方，与上方基本面排名表/信号监测明确分隔
+  // ★ commit 6.78：chokePoints 子标题——独立一行说明文字（在choke-grid外部·不参与网格布局）
   h += `<div style="margin-bottom:14px;padding:8px 0;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:8px;">`;
   h += `<span style="font-size:15px;font-weight:700;color:var(--accent);">🔒 全链核心卡口标的</span>`;
   h += `<span style="font-size:12px;color:var(--muted);">${d.chokePoints.length} 只 · 精选 · 非段内排名</span>`;
   h += `</div>`;
+
+  h += `<div class="choke-grid" style="margin-bottom:24px;">`;
 
   // ★ commit 4.41：默认展开名单（持仓 + 减仓信号触发 stock）
   //   ★ commit 4.47：剥离非 PCB 持仓后·只剩 601208 东材科技一只持仓
