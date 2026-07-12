@@ -405,7 +405,7 @@ CHAINS["semicon-equip"] = {
         "note": "离子注入 100% AMAT/Axcelis 双寡头 · 国产化率 < 30% · 晶体生长 70% 国产 · SEMI 2025",
         "companies": [
           {
-            "name": "万业企业",
+            "name": "先导基电",
             "code": "600641",
             "position": "凯世通离子注入国产第一·集成电路+光伏双线·2025 通过中芯产线验证",
             "barrier": "极高"
@@ -632,7 +632,7 @@ CHAINS["semicon-equip"] = {
         "note": "离子注入 AMAT/Axcelis 双寡头 100% · 国产化率 25%",
         "companies": [
           {
-            "name": "万业企业",
+            "name": "先导基电",
             "code": "600641",
             "position": "凯世通离子注入国产第一·28nm 工艺验证(共享 midstream)",
             "barrier": "极高"
@@ -852,7 +852,7 @@ CHAINS["semicon-equip"] = {
         },
         {
           "rank": 4,
-          "name": "万业企业",
+          "name": "先导基电",
           "code": "600641",
           "position": "凯世通离子注入国产第一(全资子公司)·集成电路+光伏双线",
           "barrier": "高",
@@ -861,7 +861,7 @@ CHAINS["semicon-equip"] = {
           "src": "akshare/新浪财经(基于公司季报)",
           "trend": "up",
           "trendNote": "离子注入 100% AMAT/Axcelis 双寡头·国产化率 < 30%·凯世通 28nm 工艺验证通过",
-          "logic": "万业企业通过子公司凯世通攻关离子注入机国产化(全球 100% AMAT/Axcelis 双寡头垄断),28nm 工艺验证通过,2025 集成电路领域新签合同金额同比 +160%。"
+          "logic": "先导基电通过子公司凯世通攻关离子注入机国产化(全球 100% AMAT/Axcelis 双寡头垄断),28nm 工艺验证通过,2025 集成电路领域新签合同金额同比 +160%。"
         },
         {
           "rank": 5,
@@ -1304,7 +1304,7 @@ CHAINS["semicon-equip"] = {
       "barrier": "high",
       "choke": false,
       "border": false,
-      "intro": "离子注入机用于将掺杂原子以高能离子束形式注入晶圆，是28nm以下先进制程的关键设备。全球市场由应用材料(AMAT·~70%)和Axcelis(~20%)主导，国内仅凯世通(万业企业子公司)实现批量供货。晶体生长设备(CZ炉)用于拉制单晶硅棒，晶盛机电为国内龙头(市占~10%)。",
+      "intro": "离子注入机用于将掺杂原子以高能离子束形式注入晶圆，是28nm以下先进制程的关键设备。全球市场由应用材料(AMAT·~70%)和Axcelis(~20%)主导，国内仅凯世通(先导基电子公司)实现批量供货。晶体生长设备(CZ炉)用于拉制单晶硅棒，晶盛机电为国内龙头(市占~10%)。",
       "globalLandscape": [
         {
           "lbl": "🥇 AMAT(美)",
@@ -1330,7 +1330,7 @@ CHAINS["semicon-equip"] = {
       "stocks": [
         {
           "rank": 1,
-          "name": "万业企业",
+          "name": "先导基电",
           "code": "600641",
           "position": "凯世通离子注入国产第一·28nm 工艺验证通过·集成电路+光伏",
           "barrier": "高",
@@ -1498,7 +1498,7 @@ CHAINS["semicon-equip"] = {
       },
       {
         "rank": 6,
-        "name": "万业企业",
+        "name": "先导基电",
         "code": "600641",
         "position": "凯世通离子注入·集成电路+光伏双线",
         "barrier": "高",
@@ -1609,7 +1609,7 @@ CHAINS["semicon-equip"] = {
             "strength": null
           },
           {
-            "name": "万业企业",
+            "name": "先导基电",
             "code": "600641",
             "q1": false,
             "q1note": "全球竞争者>3家或数据不足·半导体设备行业公开格局数据稀缺(§11.23)",
@@ -1938,7 +1938,7 @@ CHAINS["semicon-equip"] = {
         "variant": null,
         "stocks": [
           {
-            "name": "万业企业",
+            "name": "先导基电",
             "code": "600641",
             "q1": false,
             "q1note": "全球竞争者>3家或数据不足·半导体设备行业公开格局数据稀缺(§11.23)",
@@ -2229,44 +2229,70 @@ CHAINS["semicon-equip"] = {
   ],
   "supplyGap": [
     {
+      "segment": "EUV 光刻机",
+      "rate": "100%",
+      "demand": "全球12英寸先进制程Fab需求",
+      "capacity": "ASML垄断·2024年起不再向中国大陆出口EUV",
       "gap": "EUV 光刻机 100% ASML 垄断",
-      "why": "EUV 是 7nm 及以下先进制程必需设备,2024 年起 ASML 已不再向中国大陆出口 EUV,大陆晶圆厂卡在 14nm DUV 节点",
-      "choke": [
-        "ASML(荷)"
-      ],
-      "tracker": "工信部公告 + SEMI 季度报告 · 美方 BIS 出口管制清单变化",
-      "impactLevel": "extreme",
-      "asOf": "2026-07-09"
+      "bottleneck": "EUV 是 7nm 及以下先进制程必需设备,大陆晶圆厂卡在 14nm DUV 节点",
+      "tier": "L3",
+      "src": "SEMI 季度报告 + 美方 BIS 出口管制清单",
+      "asOf": "2026-07-12"
     },
     {
+      "segment": "14nm 工艺设备",
+      "rate": "65%",
+      "demand": "14nm节点国产化率仍<35%·CCP刻蚀30%+/PECVD 35%+/ALD 25%+/CMP 40%/清洗30%/检测25%",
+      "capacity": "AMAT/Lam/TEL/ASML/KLA/Nova 等海外厂商垄断",
       "gap": "14nm 工艺设备国产化率仍 < 35%",
-      "why": "CCP 刻蚀 30%+/PECVD 35%+/ALD 25%+/CMP 40%/清洗 30%/检测 25%, 14nm 节点国产化仍偏低",
-      "choke": [
-        "AMAT/Lam/TEL/ASML/KLA/Nova 等"
-      ],
-      "tracker": "工信部十四五目标:2025 年 50%/2027 年 70%",
-      "impactLevel": "high",
-      "asOf": "2026-07-09"
+      "bottleneck": "工信部十四五目标:2025年50%/2027年70%",
+      "tier": "L2",
+      "src": "工信部十四五规划 + SEMI 全球设备数据",
+      "asOf": "2026-07-12"
     },
     {
+      "segment": "ALD 原子层沉积",
+      "rate": "85%",
+      "demand": "14nm以下HARC介质/Gate Oxide等关键工艺必需·国内Fab扩产需求旺盛",
+      "capacity": "AMAT/Lam/TEL三大寡头合计85%+",
       "gap": "ALD 原子层沉积卡口",
-      "why": "ALD 是 14nm 以下 HARC 介质/Gate Oxide 等关键工艺必需设备,三大寡头(AMAT/Lam/TEL)合计 85%+",
-      "choke": [
-        "AMAT/Lam/TEL"
-      ],
-      "tracker": "微导纳米/拓荆 ALD 工艺验证进度 · 微导纳米 14nm 验证公告",
-      "impactLevel": "high",
-      "asOf": "2026-07-09"
+      "bottleneck": "微导纳米/拓荆 ALD 工艺验证进度",
+      "tier": "L3",
+      "src": "SEMI + VLSI Research 全球ALD设备格局",
+      "asOf": "2026-07-12"
     },
     {
+      "segment": "电子特气",
+      "rate": "90%",
+      "demand": "电子特气占晶圆材料~13%·国内Fab全面扩产拉动需求",
+      "capacity": "林德/液空/大阳日酸/空气化工 4寡头合计90%+",
       "gap": "电子特气国产化率仅 ~10%",
-      "why": "电子特气占晶圆材料 ~13%,林德/液空/大阳日酸/空气化工 4 寡头合计 90%+",
-      "choke": [
-        "林德/液空/大阳日酸/空气化工"
-      ],
-      "tracker": "金宏/华特/凯美特气国产化进度 · SEC 公告国产化订单占比",
-      "impactLevel": "high",
-      "asOf": "2026-07-09"
+      "bottleneck": "金宏/华特/凯美特气国产化进度",
+      "tier": "L4",
+      "src": "SEC 公告国产化订单占比 + 券商行业深度",
+      "asOf": "2026-07-12"
+    },
+    {
+      "segment": "去胶设备",
+      "rate": "30%",
+      "demand": "全球去胶设备市场8.56亿美元·国内Fab全面扩产拉动需求",
+      "capacity": "PSK(韩国·~40%)+屹唐(~33.7%)双寡头>70%·第三名起均<10%",
+      "gap": "去胶设备双寡头格局·第二名为国产屹唐",
+      "bottleneck": "屹唐实体清单风险·MATCH法案·高端零部件采购受限",
+      "tier": "L3",
+      "src": "Gartner 2025 + 东吴/方正/国投证券",
+      "asOf": "2026-07-12"
+    },
+    {
+      "segment": "关键零部件",
+      "rate": "70%",
+      "demand": "半导体设备零部件占设备总成本30-50%·国内设备厂扩产需求迫切",
+      "capacity": "日本/美国精密件厂商主导高端市场·国内富创精密/新莱应材/京仪装备等追赶中",
+      "gap": "设备核心零部件国产化率低·精密结构件/射频电源/真空泵/温控等严重依赖进口",
+      "bottleneck": "高端反应腔体/射频电源/真空阀门国产化验证周期长(≥12月)",
+      "tier": "L4",
+      "src": "SEMI + 券商零部件行业深度",
+      "asOf": "2026-07-12"
     }
   ],
   "methodologyNotes": "🔩 **半导体设备重构骨架说明 (Phase A - 2026-07-09)**\n\n**触发原因**:用户要求\"按 PCB 模板先搭框架\",Explore 发现现有 data/semi-equipment.js (2026-06-19 commit 6.16 立,834 行 / 54.9 KB)是 82/100 完整骨架,与 PCB 黄金范例(100/100)有 3 大差距:\n\n1. **26 只 stock 全部缺 dims6 6 维景气打分 + dims6Note**\n2. **treeMap 5 列 23 sub-card 缺 companies/sourceSegment 复用机制**\n3. **2 段 stock 数 < 5**(光刻段仅 3 / 离子注入段仅 3)\n\n**本次 Phase A 骨架 commit 范围**:\n- ✅ data/semicon-equip.js 已建,13 个顶层字段全齐(id/name/icon/meta/prosperity/cyclePosition/plainIntro/overview/treeMap/segments/midstream/fourQuestions/chokePoints/supplyGap/methodologyNotes)\n- ✅ meta.ltFit = null(对齐 PCB)·status = partial-Phase-A骨架\n- ✅ prosperity 链级 6 维完整 verdict(参考 PCB prosperity.dims 全字段 schema)\n- ✅ treeMap 5 列 23 sub-card 全部含 **companies** 数组(对齐 PCB schema)·Phase A 骨架每 sub-card 含 1-3 只 stock name+code+position+barrier\n- ✅ segments 6 段(刻蚀/薄膜沉积/光刻/CMP-清洗/检测/离子注入-晶体生长-封测)·每段 5-6 只 stock 满足 S4 硬指标 ≥ 5(超出原 3 仅 3 / 3 的差距)\n- ✅ midstream 10 只 stock 头部画像(参考 PCB midstream 标准)\n- ✅ fourQuestions 6 段 × 物理追问四件套(q1-q4 hits 计算)\n- ✅ chokePoints 3 大卡口(★★★/★★★/★★☆)+ verification.items[4] + valuation(pe+pePercentile)\n- ✅ supplyGap 4 条缺口(EUV/14nm 国产化率/ALD/电子特气)+ 跟踪指标\n\n**Phase A 未完成(本次未做)**:\n- ❌ 每个 stock 的 dims6 reason 字段具体内容(目前标 \"(Phase B 补)\" 占位)·**后续 Phase B+ 多次会话迭代补**\n- ❌ src URL ≥ 2 独立来源(目前 akshare/新浪财经 单源)·**Phase B 跟进**\n- ❌ 三重验证(stock code/段位/name)·**Phase B 必做**\n\n**待跟进 checklist(Phase B+)**:\n1. Phase B 第 1 次:中微/北方华创/拓荆/华海清科/芯源微 5 只 Top 卡口完整 dims6 + 三重验证 + cninfo 双源\n2. Phase B 第 2 次:万业/晶盛/精测/华峰/长川 5 只次级卡口\n3. Phase B 第 3 次:北方华创-清洗/盛美-清洗/至纯-清洗 等清洗段位\n4. Phase B 第 4 次:中微-PECVD/微导-ALD/中微-LPCVD 等薄膜沉积段位\n5. Phase B 第 5 次:茂莱光学/福晶科技/张江高科/蓝英装备/华大九天 等光刻段位\n6. Phase B 第 6 次-7 次:离子注入/晶体生长/封测 段位补股\n7. Phase C:treeMap sub-card 检查 sourceSegment 是否能前端渲染复用\n8. Phase D:光刻段 3→6 已完成(本次 Phase A)· 离子注入段 3→5 已完成(本次 Phase A)\n\n**数据治理纪律**:全套遵循 CLAUDE.md §6 + CLAUDE_CORE_RULES.md §13.X + §13.Y + §6.5。\n\n**已存在但保留为 deprecated**:`data/semi-equipment.js` (834 行 / 54.9 KB / 2026-06-19 commit 6.16 立)作为前期骨架,**后台保留**,侧栏隐藏但 manifest 不动,提供数据对账参考。",
