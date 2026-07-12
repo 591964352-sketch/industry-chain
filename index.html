@@ -3357,6 +3357,7 @@ function renderChain(chainId) {
       h += `</div>`;
     }
     h += `<h4>A股标的 — 按壁垒高低排序</h4>`;
+    h += `<div style="font-size:11px;color:var(--muted);margin-bottom:6px;">本段内${seg.stocks.length}只标的（按壁垒从高到低排列·非全链精选排名）</div>`;
     // ★ commit 4.64 C：上游 6 segments 列宽调整（5/18/9/18/11/11/28 → 3/16/8/15/10/10/47）
     h += `<table class="stock-tbl"><colgroup><col style="width:3%"><col style="width:16%"><col style="width:8%"><col style="width:15%"><col style="width:10%">`;
     if (seg.stocks.some(s => s.hits !== null)) h += `<col style="width:10%">`;
@@ -3856,7 +3857,7 @@ function renderChain(chainId) {
   //   包含：基本面排名榜 + 信号 C TOP3 + 信号 C 历史回放 + choke card grid + 买入信号监测
   //   持仓管理（section-holding）在上方独立显示 · 本 section 默认折叠避免首屏过载
   h += `<div class="section collapsible collapsed" data-key="decision" id="section-decision">`;
-  h += `<div class="section-title" onclick="toggleSection('decision')"><span class="num num-result">📊</span> 投资决策 · 基本面排名 + 信号监测 + 卡口结论<span class="collapse-arrow">▼</span></div>`;
+  h += `<div class="section-title" onclick="toggleSection('decision')"><span class="num num-result">📊</span> 投资决策·基本面排名+信号监测 │ 🔒 全链核心卡口标的（${d.chokePoints.length}只·精选·非段内排名）<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
 
   // ★ commit 4.66：基本面质量横向排名榜（综合排名 / 段位龙头 / 风险预警 三视图）
