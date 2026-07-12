@@ -148,7 +148,7 @@ CHAINS['semi-equipment'] = {
     ],
     equipment: [  // 上游设备(细分领域)
       { name: '涂胶显影(Track)', barrier: '极高', note: '🔵 TEL ~85%垄断,芯源微国产唯一突破,28nm 验证通过' },
-      { name: '离子注入', barrier: '高', note: '🔵 Axcelis ~45%垄断,万业企业(凯世通)国产替代,28nm 验证' },
+      { name: '离子注入', barrier: '高', note: '🔵 Axcelis ~45%垄断,先导基电(凯世通)国产替代,28nm 验证' },
       { name: '退火设备', barrier: '中', note: '🔵 AMAT/Veeco 主导,北方华创/屹唐半导体国产突破' },
       { name: '晶体生长(长晶炉)', barrier: '中', note: '🔵 晶盛机电国产龙头,12寸半导体长晶炉国产替代' }
     ],
@@ -206,7 +206,7 @@ CHAINS['semi-equipment'] = {
           q4:true, q4note:'中芯/华虹/长存刚需',
           hits:3, strength:'★★☆',
           tier:'primary', valAsOf:'2026-04-30' },
-        { rank:4, name:'万业企业', code:'600641', barrier:'中',
+        { rank:4, name:'先导基电', code:'600641', barrier:'中',
           position:'旗下凯世通离子注入机国产替代先行者,2025 营收 38亿/+45%/注入设备占比 ~40%',
           trend:'up', trendNote:'26Q1 +62%',
           logic:'🟢 凯世通离子注入机国内稀缺(万业公告)。半导体离子注入设备全球被 Axcelis/Veeco 垄断,凯世通 28nm 验证通过。T1 级别卡口。',
@@ -487,11 +487,11 @@ CHAINS['semi-equipment'] = {
         { lbl: 'Axcelis(离子注入)', val: '~45%', note: '美国,离子注入龙头' },
         { lbl: 'AMAT(离子注入)', val: '~30%', note: '美国,离子注入第二' },
         { lbl: '晶盛机电(长晶炉)', val: '~15%', note: '国产长晶炉龙头' },
-        { lbl: '万业企业(凯世通)', val: '~3%', note: '国产离子注入' },
+        { lbl: '先导基电(凯世通)', val: '~3%', note: '国产离子注入' },
         { lbl: 'ASM Pacific(封测)', val: '~20%', note: '封测设备龙头' }
       ],
       stocks: [
-        { rank:1, name:'万业企业', code:'600641', barrier:'中高',
+        { rank:1, name:'先导基电', code:'600641', barrier:'中高',
           position:'旗下凯世通离子注入机国产替代先行者,2025 营收 38亿/+45%',
           trend:'up', trendNote:'26Q1 +62%',
           logic:'🟢 凯世通离子注入 28nm 验证通过。稀缺性强,但商业化进度慢。T1 级别。',
@@ -561,7 +561,7 @@ CHAINS['semi-equipment'] = {
         position:'国产测试设备龙头,2025 营收 45亿/+78%',
         note:'T1 卡口,4/4 四问全中。26Q1 营收 16.2亿/+142%。PE-TTM 60x。',
         trend:'up', trendNote:'26Q1 +142%', logic:'🟢 同 seg[4] rank 2', q1:true, q2:true, q3:true, q4:true, hits:4, strength:'★★☆', tier:'primary', valAsOf:'2026-04-25' },
-      { rank:9, name:'万业企业', code:'600641', barrier:'中高',
+      { rank:9, name:'先导基电', code:'600641', barrier:'中高',
         position:'凯世通离子注入机国产替代,2025 营收 38亿/+45%',
         note:'T1 卡口,4/4 四问全中但商业化慢。PE-TTM 45x。',
         trend:'up', trendNote:'26Q1 +62%', logic:'🟢 同 seg[0] rank 4', q1:true, q2:true, q3:true, q4:true, hits:4, strength:'★★☆', tier:'media', valAsOf:'2026-04-25' },
@@ -675,7 +675,7 @@ CHAINS['semi-equipment'] = {
       {
         name: '离子注入/晶体生长/封测设备',
         stocks: [
-          { name:'万业企业', code:'600641',
+          { name:'先导基电', code:'600641',
             q1:true, q1note:'离子注入国内稀缺',
             q2:true, q2note:'扩产 12-18 月',
             q3:true, q3note:'Axcelis 替代难',

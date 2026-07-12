@@ -1,9 +1,3 @@
-// data/semicon-equip.manual.js -- 半导体设备产业链 · 手动层 (dim6 + fundamentals + moat/timing)
-//
-// 触发: Phase A 骨架 commit 同期 (P0-1 双层拆分, commit 6.62)
-// 命名空间: window.SEMICON_EQUIP_MANUAL (连字符 chainId 经 getManualNamespace 解析)
-// 更新: 2026-07-11 · fundamentals 批量注入 (scripts/refresh_se_fundamentals.py + __inject_se_fundamentals.js)
-//
 window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
 (function(MANUAL){
   Object.assign(MANUAL, {
@@ -97,7 +91,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": -549.6,
         "scissorGap": "danger",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 51,
+      "timingScore": 40,
+      "quadrant": "watch",
+      "moatComputedAt": "2026-07-12"
     },
     "300316": {
       "code": "300316",
@@ -183,7 +181,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": -64.75,
         "scissorGap": "danger",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 56,
+      "timingScore": 40,
+      "quadrant": "watch",
+      "moatComputedAt": "2026-07-12"
     },
     "300450": {
       "code": "300450",
@@ -267,7 +269,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 446.58,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 47,
+      "timingScore": 60,
+      "quadrant": "watch",
+      "moatComputedAt": "2026-07-12"
     },
     "300567": {
       "code": "300567",
@@ -353,7 +359,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 184.04,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 67,
+      "timingScore": 40,
+      "quadrant": "hold",
+      "moatComputedAt": "2026-07-12"
     },
     "300604": {
       "code": "300604",
@@ -439,7 +449,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 190.42,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 79,
+      "timingScore": 60,
+      "quadrant": "core",
+      "moatComputedAt": "2026-07-12"
     },
     "301297": {
       "code": "301297",
@@ -523,7 +537,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 58.54,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 66,
+      "timingScore": 60,
+      "quadrant": "core",
+      "moatComputedAt": "2026-07-12"
     },
     "600641": {
       "code": "600641",
@@ -610,7 +628,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": -217.72,
         "scissorGap": "danger",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 82,
+      "timingScore": 60,
+      "quadrant": "core",
+      "moatComputedAt": "2026-07-12"
     },
     "603061": {
       "code": "603061",
@@ -694,7 +716,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 124.93,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 71,
+      "timingScore": 60,
+      "quadrant": "core",
+      "moatComputedAt": "2026-07-12"
     },
     "603690": {
       "code": "603690",
@@ -780,7 +806,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": -472.34,
         "scissorGap": "danger",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 60,
+      "timingScore": 20,
+      "quadrant": "hold",
+      "moatComputedAt": "2026-07-12"
     },
     "688012": {
       "code": "688012",
@@ -880,7 +910,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 30.69,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 85,
+      "timingScore": 60,
+      "quadrant": "core",
+      "moatComputedAt": "2026-07-12"
     },
     "688037": {
       "code": "688037",
@@ -967,7 +1001,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": -64.64,
         "scissorGap": "danger",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 67,
+      "timingScore": 40,
+      "quadrant": "hold",
+      "moatComputedAt": "2026-07-12"
     },
     "688072": {
       "code": "688072",
@@ -1066,7 +1104,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 34.67,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 72,
+      "timingScore": 60,
+      "quadrant": "core",
+      "moatComputedAt": "2026-07-12"
     },
     "688082": {
       "code": "688082",
@@ -1152,7 +1194,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 21.05,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 68,
+      "timingScore": 40,
+      "quadrant": "hold",
+      "moatComputedAt": "2026-07-12"
     },
     "688120": {
       "code": "688120",
@@ -1238,7 +1284,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 5.89,
         "scissorGap": "warn",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 79,
+      "timingScore": 40,
+      "quadrant": "hold",
+      "moatComputedAt": "2026-07-12"
     },
     "688200": {
       "code": "688200",
@@ -1324,7 +1374,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 60.55,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 76,
+      "timingScore": 60,
+      "quadrant": "core",
+      "moatComputedAt": "2026-07-12"
     },
     "688361": {
       "code": "688361",
@@ -1408,7 +1462,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 608.91,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 51,
+      "timingScore": 40,
+      "quadrant": "watch",
+      "moatComputedAt": "2026-07-12"
     },
     "688376": {
       "code": "688376",
@@ -1492,7 +1550,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": -36.93,
         "scissorGap": "danger",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 47,
+      "timingScore": 40,
+      "quadrant": "watch",
+      "moatComputedAt": "2026-07-12"
     },
     "688502": {
       "code": "688502",
@@ -1576,7 +1638,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 30.43,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 51,
+      "timingScore": 40,
+      "quadrant": "watch",
+      "moatComputedAt": "2026-07-12"
     },
     "688765": {
       "code": "688765",
@@ -1661,7 +1727,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": -3.75,
         "scissorGap": "danger",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 38,
+      "timingScore": 20,
+      "quadrant": "skip",
+      "moatComputedAt": "2026-07-12"
     },
     "002222": {
       "code": "🟢 (Phase B 补)",
@@ -1745,7 +1815,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": 27.32,
         "scissorGap": "ok",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 73,
+      "timingScore": 60,
+      "quadrant": "core",
+      "moatComputedAt": "2026-07-12"
     },
     "002371": {
       "code": "002371",
@@ -1845,7 +1919,11 @@ window.SEMICON_EQUIP_MANUAL = window.SEMICON_EQUIP_MANUAL || {};
         "netProfitGrowth": -1.77,
         "scissorGap": "danger",
         "source": "akshare(stock_financial_abstract_ths)"
-      }
+      },
+      "moatScore": 85,
+      "timingScore": 60,
+      "quadrant": "core",
+      "moatComputedAt": "2026-07-12"
     }
   },
   "fourQuestions": {

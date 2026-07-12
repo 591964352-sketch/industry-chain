@@ -1078,8 +1078,10 @@ function conceptTagHtml(s){
 //   "六维数据最近核验"时间戳 — 真实反映 manual.js 最后修改时间
 //   无 hardcode,无 commit 号,无虚假假设
 //   返回 ISO 字符串如 '2026-07-07',失败返回 null(fallback 链显示提示文案)
-function latestVerifiedAtFromManual(){
-  const stocks = window.PCB_MANUAL && window.PCB_MANUAL.stocks;
+function latestVerifiedAtFromManual(chainId){
+  const _cid = chainId || 'pcb';
+  const _manual = getManualNamespace(_cid);
+  const stocks = _manual && _manual.stocks;
   if (!stocks) return null;
   let max = '';
   for (const code of Object.keys(stocks)) {
@@ -1109,17 +1111,24 @@ const SOURCE_TIERS = {
   primary:  { icon:'🟢', label:'一手',  color:'var(--green)',       desc:'财报/公告/交易所一手数据' },
   broker:   { icon:'🔵', label:'券商',  color:'var(--blue)',        desc:'券商研报/Prismark/行业协会' },
   media:    { icon:'⚪', label:'存疑',  color:'var(--muted)',       desc:'自媒体/财富号（仅此单一来源，待核）' },
-  estimate: { icon:'🆪', label:'推断',  color:'var(--color-warn)', desc:'AI 主观推断（如六维评分）' }
+  estimate: { icon:'🆪', label:'推断',  color:'var(--color-warn)', desc:'AI 主观推断（如六维评分）' },
+  L1: { icon:"🟢", label:"L1", color:"var(--green)",  desc:"财报/公告/巨潮(cninfo)一手数据" },
+  L2: { icon:"🔵", label:"L2", color:"var(--blue)",   desc:"政府部委/行业协会/监管数据" },
+  L3: { icon:"🔵", label:"L3", color:"var(--blue)",   desc:"专业机构报告(SEMI/Prismark/Yole/Gartner等)" },
+  L4: { icon:"🔵", label:"L4", color:"var(--blue)",   desc:"头部券商研报(华泰/东吴/国金等)" },
+  L5: { icon:"⚪", label:"L5", color:"var(--muted)",  desc:"财经媒体(需两家以上同一数字才采信)" },
 };
 
 // 角标助手：item.tier 缺省时返回空字符串，不影响既有数据点的渲染（向后兼容）
 // ★ B3：从 inline style 升级为 utility class .src-chip.t-{tier}（精致 chip 样式见 <style> 块）
 function sourceTierBadge(tier, src) {
-  if (!tier || !SOURCE_TIERS[tier]) return '';
-  const t = SOURCE_TIERS[tier];
-  const safeSrc = src ? String(src).replace(/"/g, '&quot;') : '';
-  const titleAttr = safeSrc ? ` title="${t.desc} — ${safeSrc}"` : ` title="${t.desc}"`;
-  return ` <sup class="src-chip t-${tier}"${titleAttr}>${t.icon}${t.label}</sup>`;
+  if (!tier) return "";
+  const primaryTier = String(tier).split("+")[0].trim();
+  const t = SOURCE_TIERS[tier] || SOURCE_TIERS[primaryTier];
+  if (!t) return "";
+  const safeSrc = src ? String(src).replace(/"/g, "&quot;") : "";
+  const titleAttr = safeSrc ? ` title="${t.desc} \u2014 ${safeSrc}"` : ` title="${t.desc}"`;
+  return ` <sup class="src-chip t-${primaryTier}"${titleAttr}>${t.icon}${t.label}</sup>`;
 }
 
 // ★ commit 4.64：logic 字段截断函数（句号截断 + 200 字兜底）
@@ -1486,9 +1495,11 @@ function renderStockRiskChip(s, chainId) {
   return '<span style="font-size:10px;color:var(--muted);margin-left:4px;cursor:help;" title="' + titleParts.join(' · ') + '">' + sl + ' ' + cr + ' ' + re + '</span>';
 }
 
-function renderFundamentalsBlock(code) {
-  // 读取 PCB_MANUAL 层的 fundamentals（注意：手动层独立于 CHAINS.segments）
-  const stock = (window.PCB_MANUAL && window.PCB_MANUAL.stocks && window.PCB_MANUAL.stocks[code]) || null;
+function renderFundamentalsBlock(code, chainId) {
+  // ★ 2026-07-12 fix: 改用 getManualNamespace(chainId) 而非硬编码 PCB_MANUAL
+  const _cid = chainId || (typeof currentChain !== 'undefined' ? currentChain : 'pcb');
+  const _manual = getManualNamespace(_cid);
+  const stock = (_manual && _manual.stocks && _manual.stocks[code]) || null;
   const f = stock && stock.fundamentals;
   if (!f || !f.asOf) {
     // 降级处理：fundamentals 字段不存在或全 null
@@ -2151,11 +2162,14 @@ function switchChain(chainId) {
 function renderStockRankingPanel(chainId) {
   const d = CHAINS[chainId];
   if (!d) return '';
-  // 收集所有 stock + dims6 综合分
+  // 收集所有 stock + dims6 综合分 · ★ 2026-07-12 fix: 按唯一stock code去重
   // ★ P0-1: 改用 getEffectiveDims6(s, chainId) 兼容 semicon-equip 双层架构
+  const seen = new Set();
   const allStocks = [];
   (d.segments || []).forEach(seg => {
     (seg.stocks || []).forEach(s => {
+      if (seen.has(s.code)) return;
+      seen.add(s.code);
       const dims = getEffectiveDims6(s, chainId);
       if (!dims.length) return;
       const fit = computeStockFit(dims);
@@ -2164,6 +2178,8 @@ function renderStockRankingPanel(chainId) {
   });
   if (d.midstream && d.midstream.stocks) {
     d.midstream.stocks.forEach(s => {
+      if (seen.has(s.code)) return;
+      seen.add(s.code);
       const dims = getEffectiveDims6(s, chainId);
       if (!dims.length) return;
       const fit = computeStockFit(dims);
@@ -2291,6 +2307,19 @@ function renderChain(chainId) {
         if (String(s.code) === String(code)) return s;
       }
     }
+    // ★ chainStory keyStocks 兜底: treeMap 5 列中的上下游生态公司
+    if (d.treeMap) {
+      const cols = ['downstream','midstream','materials','equipment','sideBranches'];
+      for (const col of cols) {
+        const items = d.treeMap[col];
+        if (!Array.isArray(items)) continue;
+        for (const item of items) {
+          for (const co of (item.companies || [])) {
+            if (String(co.code) === String(code)) return co;
+          }
+        }
+      }
+    }
     return null;
   }
   // ★ 升级九 STEP 4 小步 1：容错 guard — 数据未加载时显示提示而非白屏（之前是 if (!d) return; 静默 return）
@@ -2308,6 +2337,18 @@ function renderChain(chainId) {
 
   // ★ commit 4.75 bug 修复：提前声明 treeMap 需要的变量（避免 TDZ）
   const _hasSocratic = !!d.socraticInquiry;
+  // ★ 2026-07-12: 动态连续序号——每条链按实际渲染顺序 ②→③→... 依次递增，消除 ⑥-⑥ 重复
+  //   semicon-equip(无demandChainMeta): ②③→④上游→⑤中游→⑥后段→⑦四问→⑧白话
+  //   PCB(有demandChainMeta):      ②③→④需求传导→⑤上游→⑥中游→⑦后段→⑧四问→⑨白话
+  const _hasDemand = !!(d.demandChainMeta && d.demandChainMeta.segments);
+  const _sTreeMap  = '②';
+  const _sOverview = '③';
+  const _sDemand   = '④';
+  const _sUpstream = _hasDemand ? '⑤' : '④';
+  const _sMid      = _hasDemand ? '⑥' : '⑤';
+  const _sMeta     = _hasDemand ? '⑦' : '⑥';
+  const _sFourQ    = _hasDemand ? '⑧' : '⑦';
+  const _sPlain    = _hasDemand ? '⑨' : '⑧';
   const _sec0Label = _hasSocratic ? '①' : '⓪';
   const _sec0Title = d.id === 'ai-full-chain' ? '第一性原理 — AI 算力的物理拆解' : `白话解读：${d.name}是什么？`;
 
@@ -2326,7 +2367,7 @@ function renderChain(chainId) {
     // PCB_AUTO 增强功能(横幅实时刷新 + 估值 PE 分位 + 距前高回落幅度)目前未启用,估值精确数据见各 stock reason 中 baostock L1 实测
     // ★ commit 6.69.x:补充"六维数据最近核验"为动态时间戳,取 window.PCB_MANUAL 中
     //   所有 dim block 的最新 verifiedAt 日期(替代原 commit 6.68 删除的硬编码"2026-06-30")
-    const _latestVer = latestVerifiedAtFromManual();
+    const _latestVer = latestVerifiedAtFromManual(chainId);
     h += `<span>📊 六维评分数据:<strong style="color:var(--accent);">实时同步(manual.js)</strong></span>`;
     h += `<span>🔌 数据源:pcb.manual.js(实时)</span>`;
     if (_latestVer) {
@@ -2340,7 +2381,7 @@ function renderChain(chainId) {
   h += renderHeroBanner(chainId);
 
   // ★ commit 4.75 bug 修复：treeMap 移到第一层（Hero 后）· 见上方 renderHeroBanner 之后
-  const sec2Label = _hasSocratic ? '②' : '②';
+  const sec2Label = _sTreeMap;
   // ★ 升级七：新 schema 检测（downstream 是 array → pcb 试点）→ 用横向 5 列
   const isNewTreeMapSchema = Array.isArray(d.treeMap.downstream);
 
@@ -2571,7 +2612,7 @@ function renderChain(chainId) {
   h += `<div id="section-overview" style="padding-top:4px;"></div>`;
 
   // Section 1/2: Overview (新顺序：③ 景气六维+周期位置+宏观数据)
-  const sec1Label = _hasSocratic ? '③' : '③';
+  const sec1Label = _sOverview;
   h += `<div class="section" id="section-prosperity"><div class="section-title"><span class="num num-macro">${sec1Label}</span> 赛道概览 — 宏观数据 + 景气六维 + 周期位置</div>`;
   h += `<div class="section-desc">数据来源：公开研报及行业数据交叉验证。</div><div class="overview-grid">`;
   d.overview.forEach(o => {
@@ -2969,8 +3010,8 @@ function renderChain(chainId) {
   //   4 个下游细分横向排列 + AI 服务器价值量倍数 + 传导系数待补充说明
   if (d.demandChainMeta && d.demandChainMeta.segments) {
     const dcm = d.demandChainMeta;
-    h += `<div class="section collapsible collapsed" data-key="demand" id="section-demand-chain"><div class="section-title" onclick="toggleSection('demand')"><span class="num num-chain">④</span> 下游需求传导 · <span style="color:var(--accent);">CAGR 量化锚点</span><span class="collapse-arrow">▼</span></div>`;
-    h += `<div class="section-desc">4 个下游细分 2025-2028 年 CAGR·broker 多源核实·AI 服务器额外标注单台 PCB 价值量倍数（vs 普通服务器）</div>`;
+    h += `<div class="section collapsible collapsed" data-key="demand" id="section-demand-chain"><div class="section-title" onclick="toggleSection('demand')"><span class="num num-chain">${_sDemand}</span> 下游需求传导 · <span style="color:var(--accent);">CAGR 量化锚点</span><span class="collapse-arrow">▼</span></div>`;
+    h += `<div class="section-desc">${dcm.segments.length} 个下游细分 ${dcm.config.period} CAGR·${dcm.config.note.includes('broker')?'broker':'L3/L4'} 多源核实${dcm.segments.some(s=>s.valueMult)?'·AI 服务器额外标注单台 PCB 价值量倍数（vs 普通服务器）':''}</div>`;
     h += `<div class="card" style="padding:20px;">`;
 
     // 横向 4 列（用 flex 自适应，4 等分）
@@ -3263,7 +3304,7 @@ function renderChain(chainId) {
 
 
   // Section 3/4/5: Upstream Segments (新顺序：⑥ 上游深度拆解，默认折叠 + 每个 segment 独立折叠)
-  const segNum = _hasSocratic ? '⑤' : (d.occamRazor ? '⑤' : '⑤');
+  const segNum = _sUpstream;
   h += `<div class="section collapsible" data-key="upstream" id="section-upstream">`;
   h += `<div class="section-title" onclick="toggleSection('upstream')"><span class="num num-up">${segNum}</span> 上游深度拆解<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
@@ -3356,7 +3397,7 @@ function renderChain(chainId) {
   // Also include remaining segments like Foundry/Packaging
   const remainingSegs = d.segments.filter(s => s.name.includes('晶圆制造') || s.name.includes('封装测试'));
   if (remainingSegs.length > 0) {
-    h += `<div class="section"><div class="section-title"><span class="num num-mid">⑥</span> 中游 — 制造与封测（半导体晶圆/封测）</div>`;
+    h += `<div class="section"><div class="section-title"><span class="num num-mid">${_sMid}</span> 中游 — 制造与封测（半导体晶圆/封测）</div>`;
     remainingSegs.forEach(seg => {
       h += `<div class="segment-card">`;
       h += `<div class="seg-title">${seg.name}</div>`;
@@ -3387,7 +3428,7 @@ function renderChain(chainId) {
 
   // Section 4: Midstream (新顺序：⑦ 中游环节)
   if (d.midstream && d.midstream.stocks.length > 0) {
-    const midNum = d.id === 'semi' ? '⑥' : '⑥';
+    const midNum = _sMid;
     const midTitle = d.id === 'pcb' ? '中游 — PCB 制造' : d.id === 'ai-server' ? '中游 — AI服务器整机' : d.id === 'autonomous-driving' ? '中游 — Tier1/整车集成' : '中游环节';
     // ★ commit 4.9：midstream section 加折叠（默认展开，可点标题收起）
     h += `<div class="section collapsible" data-key="midstream" id="section-midstream">`;
@@ -3418,7 +3459,7 @@ function renderChain(chainId) {
   }
   // ② ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论（默认折叠）
   h += `<div class="section collapsible collapsed" data-key="meta" id="section-meta">`;
-  h += `<div class="section-title" onclick="toggleSection('meta')"><span class="num num-mid">②</span> ⑥ 后段：卡脖子参考 + 供需缺口 + 方法论<span class="collapse-arrow">▼</span></div>`;
+  h += `<div class="section-title" onclick="toggleSection('meta')"><span class="num num-mid">${_sMeta}</span> 后段：卡脖子参考 + 供需缺口 + 方法论<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
 
   // ★ commit 4.10 修复：referenceChokepoints 渲染（中文名 + 数组换行兼容）
@@ -3517,7 +3558,7 @@ function renderChain(chainId) {
 
 
   // Section 5/6: Four Questions (新顺序：⑧ 物理卡口四问筛选，默认折叠)
-  const fqNum = _hasSocratic ? '⑦' : '⑦';
+  const fqNum = _sFourQ;
   h += `<div class="section collapsible" data-key="fourq" id="section-fourq">`;
   h += `<div class="section-title" onclick="toggleSection('fourq')"><span class="num num-ser">${fqNum}</span> 物理卡口 四问筛选 — 全量标的逐项打分<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
@@ -3936,14 +3977,30 @@ function renderChain(chainId) {
         h += `<div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:14px;padding-left:10px;border-left:2px solid var(--card2);">📝 ${c.valuation.note}</div>`;
       }
     }
+    // ★ commit 6.XX: valuation.note 独立渲染——即使 pePercentile 为 null（如 semicon-equip 链 PE 数据待实测），note 也应该显示
+    if (c.valuation && c.valuation.note && !(_hasPct || _hasEZ)) {
+      // 没有 PE 分位数据但有 note：渲染基础估值行 + note
+      const _parts2 = [];
+      if (c.valuation.pe) _parts2.push(`PE ${c.valuation.pe}`);
+      if (c.valuation.grossMargin) _parts2.push(`毛利率 ${c.valuation.grossMargin}`);
+      const _fh2 = formatFromHigh(c.valuation.fromHigh);
+      if (_fh2) _parts2.push(_fh2);
+      if (_parts2.length) {
+        h += `<div class="valuation" style="font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">`;
+        h += `<span>${_parts2.join(' · ')}${sourceTierBadge(c.valuation.tier, c.valuation.src)}${c.valuation.asOf?` <span style="color:var(--color-muted);font-size:11px;" title="估值/PE 截至日">📅 ${c.valuation.asOf}</span>`:''}</span>`;
+        h += `</div>`;
+      }
+      h += `<div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:14px;padding-left:10px;border-left:2px solid var(--card2);">📝 ${c.valuation.note}</div>`;
+    }
     // ★ commit 4.39：基本面质量层（PE 分位之后 · 标签区之前）
-    h += renderFundamentalsBlock(c.code);
+    h += renderFundamentalsBlock(c.code, chainId);
     h += `<div class="tags">`;
     // ★ commit 4.6：标签精简为 3 个（壁垒强度 + 趋势 + PE 状态）— 其他详细标签移入下方"📑 详细标签"折叠区
     // 标签 1: 壁垒强度（来自 c.strength ★★★/★★☆/★☆☆）
     if (c.strength) {
       const sCls = c.strength.indexOf('★★★') === 0 ? 'tg-green' : c.strength.indexOf('★★') === 0 ? 'tg-high' : c.strength.indexOf('★') === 0 ? 'tg-mid' : 'tg-gray';
       h += `<span class="tag ${sCls}" style="font-size:12px;" title="壁垒强度评级">${c.strength}</span>`;
+      h += `<sup style="font-size:10px;color:var(--muted);cursor:help;margin-left:2px;" title="本卡片星级为投研编辑判断，综合考量供给格局、认证壁垒、财报验证等多维度定性分析得出；与下方 dims6 chip 中的 moat/timing 量化评分为独立体系">ⓘ</sup>`;
     }
     // 标签 2: 趋势（从 segments/midstream 找同名 stock 的 trend）
     let trendVal = null;
@@ -4103,7 +4160,7 @@ function renderChain(chainId) {
 
   // ⑧ 白话解读（plainIntro 包装为默认折叠 section）— 4.82 重排到最后
   h += `<div class="section collapsible collapsed" data-key="plain" id="section-plain">`;
-  h += `<div class="section-title" onclick="toggleSection('plain')"><span class="num num-plain">⑧</span> ${_sec0Title}<span class="collapse-arrow">▼</span></div>`;
+  h += `<div class="section-title" onclick="toggleSection('plain')"><span class="num num-plain">${_sPlain}</span> ${_sec0Title}<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
   h += `<div class="plain-box"><div class="analogy">${d.icon} ${d.plainIntro.analogy}</div>`;
   d.plainIntro.paragraphs.forEach(p => h += `<p>${p}</p>`);
@@ -4174,6 +4231,10 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  // ── 2026-07-12 本轮数据准确性专项复核+可信度标注建设(多 commit) ──
+  { date:'2026-07-12', sector:'semicon-equip', desc:'🔩 半导体设备链内容深度补齐·三大动作:(1) chokePoints从3只扩容至4只(新增华海清科 688120·CMP全球仅AMAT/Ebara/华海清科≤3家,★★★,含盈利能力弱化趋势预警标注)·(2) 4只卡口补齐logic叙事正文(365-415字,基于Phase B dims6 reason+abstract_ths L1实证)+(3) 4只卡口补齐valuation估值分析(Forward PE+真实网络搜索治理风险修订·华海清科控制权已从清华变更为四川国资的发现来自搜索核实)·(4) 新增demandChainMeta下游需求传导模块(3段·逻辑代工56%+存储31%+模拟功率13%·SEMI/Gartner/中信多源CAGR)·section序号从②-⑧扩展至②-⑨对齐PCB·影响:侧栏切换查看🔩半导体设备→④下游需求传导+卡口卡片完整显示', pct:'NEW' },
+  { date:'2026-07-12', sector:'pcb', desc:'🔍 PCB链数据准确性专项复核·(1) 8只chokePoints strength独立核实:铜冠铜箔★★★→★★☆(HVLP4加工端非单点卡口·证据不足下修)+东材科技★★★→★★☆(M9加工端≥2家量产·卡口转移到上游)+菲利华★★★保留(Q布全球30%份额属实但仅占总营收4.88%)+生益电子★★★保留(AWS占营收42.9%+56层交换机细分龙头)·(2) 污染清理:19只stock×28处开发操作记录误写入用户可见字段全部清除+treeMap 603183错码修复(603183→688183)+validateNoDevTerms防御机制实装·(3) choke card strength标签旁新增ⓘ工具提示(说明星级为投研编辑判断与dims6量化评分为独立体系)·影响:PCB卡口结论区星级更准确+页面不再显示开发标记', pct:'FIX' },
+  { date:'2026-07-12', sector:'system', desc:'🔧 全站6项系统性修复·(1) SOURCE_TIERS扩展L1-L5五档信源角标(此前仅4个key导致所有L1-L5角标静默返回空字符串→PCB 265个+SEMI 217个tier角标全部启用)·(2) renderFundamentalsBlock+latestVerifiedAtFromManual硬编码PCB_MANUAL→getManualNamespace(chainId)(修复非PCB链fundamentals chip全显示待补充)·(3) renderStockRankingPanel排名表去重(跨段股票不再重复出现·6链全量排查修复)·(4) valuation.note渲染fallback(pePercentile为null时仍显示估值note·此前SEMI链估值区完全不渲染)·(5) section序号动态连续化(消除⑥-⑥重复·PCB②-⑨·SEMI②-⑨)·(6) section-desc动态化(不再硬编码4个下游细分)·影响:全站信源角标可见+跨链渲染统一', pct:'FIX' },
   // ── commit 6.63 立 · Phase A 骨架(本日) ──
   { date:'2026-07-09', sector:'semicon-equip', desc:'🔩 半导体设备重构·Phase A 骨架 commit · 用户要求"按 PCB 模板先搭框架"· Explore 发现现有 data/semi-equipment.js(2026-06-19 commit 6.16 立,82/100 完整)与 PCB 黄金范例有 3 大差距:26 stock 缺 dims6 + treeMap 缺 companies/sourceSegment + 2 段 stock < 5 · 新建 data/semicon-equip.js(完整度 100 骨架 + stock-level dims6 待 Phase B+ 迭代补)· 13 顶层字段全齐 · treeMap 5 列 23 sub-card 全部含 companies 数组(对齐 PCB schema) · segments 6 段 × 5-6 stocks(超出原版光刻/离子注入两段差距)· midstream 10 + fourQuestions 6 段 q1-q4 + chokePoints 3 大卡口(中微/北方华创/拓荆)+ supplyGap 4 条 · 原 semi-equipment.js 顶部 deprecated 标记 + 侧栏标记 .coming(灰显但 manifest 保留作对账参考)· 后续 Phase B+ 多次会话迭代补 stock-level dims6 + src URL ≥ 2 源 + 三重验证 · 影响:CLAUDE.md §11.13 待登记 + index.html DATA_VERSION bump(20260704a→20260709a)+ 侧栏新增 🔩 半导体设备 入口 + 原 🔧 半导体设备(旧)灰显 + sectorName/sectorColor 三元映射各加 1 行 + CHANGELOG 加本条目', pct:'NEW' },
   // ── commit 6.72 立 · 人工补录历史变更摘要 · 按用户可读表述翻译,无技术黑话 ──

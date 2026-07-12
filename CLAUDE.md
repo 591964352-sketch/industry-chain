@@ -2904,6 +2904,154 @@ function validateNoDevTerms(text, fieldName, stockCode) {
 
 ---
 
+### §11.23 四问框架 Q2/Q3/Q4 在技术密集型行业的公开数据稀缺性（2026-07-12 · semicon-equip 四问核实立）
+
+> **触发**：对 semicon-equip 链 21 只股票按 SKILL.md 四问标准（§1: ≤3 家 / §2: ≥12 月扩产 / §3: ≥2 年替代验证 / §4: ≥6 月替换认证）做逐一核实，结果 Q2/Q3/Q4 三项 21 只股票**全部 "数据不足"**——没有一只股票的 barrier reason 字段包含这三种数据的具体数字和来源。
+
+**这不是核实工作的失败，是行业信息透明度的客观限制**：
+
+| 四问 | 在半导体设备行业的实际情况 |
+|------|------|
+| Q1（供给寡头 ≤3 家） | ✓ 可回答。L3 机构报告（SEMI/VLSI/Gartner）通常覆盖全球设备厂商格局 |
+| Q2（扩产周期 ≥12 月） | ✗ 不可回答。设备厂产能扩张周期无标准公开口径；行业逻辑是"订单→交付→验收"而非"建产能→扩产" |
+| Q3（替代验证 ≥2 年） | ✗ 不可回答。客户几乎不会公开披露"替代某家供应商需要多久"这类商业敏感信息 |
+| Q4（替换认证 ≥6 月） | ✗ 不可回答。客户替换认证周期属于商业机密；barrier reason 中引用的 "≥12/18 月" 数据均为**导入认证周期**（新供应商首次进入），不等于 Q4 要求的**替换认证周期**（从 A 供应商切换到 B 供应商的重认证时间）|
+| Q4 补充说明 | 导入认证周期 ≠ 替换认证周期。前者是"新人进门要多久"，后者是"换人重新办手续要多久"——两个不同概念。现有 L4 券商研报只覆盖前者，不覆盖后者 |
+
+**四问核实结果（semicon-equip 21 只）**：
+- Q1 ✓：4/21（中微/北方华创/华海清科/拓荆·均有 L3 信源）
+- Q2/Q3/Q4：0/21（系统性数据不足）
+- 0 只命中 ★★★ 或 ★★☆
+- fourQuestions 字段如实反映此结果：strength 全部 null，Q2/Q3/Q4 全部 false + qXnote 标注"数据不足"
+
+**预期管理规则（后续产业链四问核实时适用）**：
+
+1. **技术密集型行业（半导体设备/光模块/存储与接口/CPO 等）的 Q2/Q3/Q4 大概率无法从公开渠道获得可验证数据**——这是行业信息透明度的客观限制，不是核实工作不到位
+2. **不要为了"凑满四问"去编造数据或降级标准**——0/4 或 1/4 是诚实结果，比虚假的 4/4 有价值
+3. **Q1（全球 ≤3 家）是这类行业唯一可能从公开渠道验证的维度**——因为有 L3 机构报告覆盖全球格局
+4. **如果整个产业链连 Q1 也无法验证（如光芯片/CPO 等新兴行业缺乏 L3 格局数据），fourQuestions 可以全 0——这是预期内结果，不是异常**
+5. **不要试图用"导入认证周期 ≥X 月"来替代 Q4 的"替换认证周期 ≥6 月"**——两个概念不同，混用会制造虚假的"数据充分"假象
+
+**复用方式**（后续光模块/存储与接口等链四问核实时）：
+- 启动四问核实前，先读本节做预期管理——不要期望填满四问
+- 诚实标注"数据不足"比凑数更有价值
+- 如果某链有 L3 机构报告覆盖全球格局（如光模块的 LightCounting），Q1 可能是唯一可验证的维度
+
+**登记 commit**：本次（semicon-equip 四问核实完成）
+
+---
+
+### §11.24 riskMetrics 字段适用边界规则（2026-07-12 · semicon-equip 收尾诊断立）
+
+> **触发**：semicon-equip 链收尾阶段，诊断 riskMetrics 字段是否应该补全时发现：riskMetrics 不是 fundamentals 那样的客观财务数据，而本质上是**实际持仓后的仓位管理决策**。它的核心子字段（止损价、MA 触发条件、建议减仓比例）全部需要：① 实际持有该股票 ② 技术面行情数据 ③ 仓位管理策略 —— 三者缺一不可。
+
+**601208 东材科技参照**（PCB 链唯一有 riskMetrics 的股票）：
+- 止损价 64 元、三档止损（61.94/47.26/44.65）附带 MA20/MA60/60 日低点触发条件
+- 建议减仓 77.58 元 + 30% 比例，理由是 "董事长减持窗口 6 月 30 日开启"
+- 这些全部是基于真实持仓 + 技术分析 + 仓位管理的人工判断，没有任何一项可以从 abstract_ths 或任何结构化数据源自动获取
+
+**P0-5 污染清理的同源教训**：riskMetrics 填入虚假数据（为不持有的股票编造止损价）——这比 fourQuestions "凑 4/4" 更严重，因为编造的是**具体的交易决策**（"在 XX 元减仓 30%"），一旦被当真可能导致实盘下单错误。
+
+**强制规则（所有产业链通用 · 永久生效）**：
+
+1. **riskMetrics.status = "deferred" 是正确默认值，不是待办未完成**。不持有该股票的情况下，保持 deferred 是正确的
+2. **只有用户实际持仓的股票才应该填充 riskMetrics**——持仓记录来自交易日志（`#trades` 视图，localStorage `myTrades`）
+3. **不要把 riskMetrics 当作 "必须填满才算完整" 的字段**——它不是 dims6/fundamentals 那种 "每只股票都应该有" 的通用数据
+4. **填写前必须满足 3 个前置条件**：
+   - 用户在交易日志中有该股票的买入记录（有实际持仓）
+   - 用户已查看当前行情（MA20/MA60/60 日低点等），且确认了止损价位
+   - 用户已决定仓位比例和重入策略
+5. **严禁 CC 在没有上述 3 个条件的情况下填 riskMetrics**——哪怕是 "占位" 或 "建议" 也不行，因为数字一旦出现在页面上就容易被当真
+
+**反模式（禁止）**：
+
+| 反模式 | 后果 |
+|--------|------|
+| 为未持仓股票填 `stopLoss: null, status: "filled"` | chip 渲染空白 🛑SLnull，用户困惑 |
+| 为未持仓股票编造 MA20 等具体价格 | 虚假交易决策数据，违反 §6.2 |
+| 把 riskMetrics 写进 `_diff_chain_vs_pcb.js` 的 "缺失字段" 报告 | 误报——deferred 不是缺失，是正确的设计 |
+
+**复用方式**（后续光模块/存储与接口等链）：
+- 任何新链的 riskMetrics 默认全部 `status: "deferred"`
+- 只有当用户在交易日志中买入该链某只股票后，才对该股票单独填写 riskMetrics
+- `_diff_chain_vs_pcb.js` 的 riskMetrics 覆盖率检查应改为 "仅在有持仓的股票中统计"，不报 deferred 为缺失
+
+**登记 commit**：本次（semicon-equip 收尾）
+
+---
+
+### §11.25 chainStory 中 treeMap 背景公司的验证边界（2026-07-12 · semicon-equip chainStory 收尾立）
+
+> **触发**：semicon-equip 链 chainStory 补全时，`findStock()` 扩展了 treeMap 三级 fallback，使得 Steps 1-3（硅片基材/电子特气/光刻胶/CMP 抛光液/靶材）和 Step 9（晶圆代工）中 treeMap 里的上游材料与下游公司名称能在 chainStory 卡片右侧正确显示。
+
+**关键边界**：这些公司（沪硅产业/TCL 中环/金宏气体/华特气体/彤程新材/安集科技/鼎龙股份/中芯国际/华虹半导体等）**来自 treeMap 生态背景数据，未经 Phase B 同等级别的六维打分与黑名单核实流程**。它们与 semicon-equip 链 segments 中的 21 只核心设备股票有本质区别：
+
+| 数据层级 | 公司来源 | 验证程度 | 投资判断依据 |
+|------|------|------|:--:|
+| segments.stocks（21 只） | Phase B 5 批次完整流程 | dims6 6 维 + baostock/abstract_ths L1 实测 + §6.7.3 黑名单核实 + src ≥2 源 | ✅ 可用于投资分析 |
+| treeMap companies（Steps 1-3, 9 中的 ~27 家） | Phase A 骨架阶段从 `semi-equipment.js` 老骨架迁移的生态背景数据 | 仅有 name/code/barrier，无数值验证 | ❌ 仅作 "产业链上还有谁" 参考 |
+
+**强制规则（所有产业链通用 · 永久生效）**：
+
+1. **chainStory 每个 step 右侧显示的公司名称不代表该公司的数据经过了完整核实**——chainStory 是一个 "产业链全景叙事" 模块，不是 "已核实标的清单"
+2. **treeMap 公司的 dims6/fundamentals/valuation 等字段缺失是预期行为**——它们从未经过 Phase B 流程，不应该被误认为 "待补"
+3. **如需将 treeMap 中某家公司提升到 segments 级别**（纳入正式六维打分），必须单独走一遍 Phase B 完整流程（abstract_ths L1 实测 → 黑名单核实 → dims6 6 维补全 → src ≥2 源 → 三重验证）
+4. **`_diff_chain_vs_pcb.js` 或 `check_xxx_sync.js` 不应将 treeMap 公司的 dims6 缺失报告为 "待补"**——这是设计边界，不是数据缺口
+
+**反模式（禁止）**：
+
+| 反模式 | 后果 |
+|--------|------|
+| 看到 chainStory 卡片右侧有公司名就认为 "这条链所有公司都核实过了" | 将未经核实的 treeMap 背景数据当作投资依据 |
+| 把 treeMap 公司的 dims6 缺失列入 "待办清单 P0" | 混淆数据治理优先级——这些是背景数据，不是核心标的 |
+| 要求 CC 给 treeMap 公司批量补 dims6（"既然名字已经显示了，顺便把六维也补上"） | 将 treeMap 生态视图升级为六维评分系统的工作量远超预期，且需走完整 Phase B 流程 |
+
+**涉及的具体公司清单（供后续如需纳入正式体系时参考）**：
+- Step 1 硅片：沪硅产业 688126 / TCL中环 002129 / 立昂微 605358
+- Step 2 特气/光刻胶：金宏气体 688106 / 华特气体 688268 / 彤程新材 603650 / 南大光电 300346
+- Step 3 CMP/靶材：安集科技 688019 / 鼎龙股份 300054 / 江丰电子 300666
+- Step 9 晶圆代工：中芯国际 688981 / 华虹半导体 688347
+
+**登记 commit**：本次（semicon-equip chainStory 收尾）
+
+---
+
+### §11.26 barrier 评分体系盲区：全行业市占率 vs 大客户集中度细分卡口（2026-07-12 · PCB chokePoints strength 独立核实立）
+
+> **触发**：PCB 链 chokePoints strength ★★★ 独立核实中，688183 生益电子案例暴露：dims6 barrier=3 基于 "全球 AI PCB 排名第 4（市占 4.2%）" 扣分，但 chokePoint strength=★★★（保留）、chokePointType=physical 基于 "AWS 占营收 42.9% + 56 层交换机 PCB 细分龙头"。同一组事实，两套评分基于**不同口径**给出不同结论——全局排名视角（dims6）vs 大客户集中度细分视角（strength）。
+
+**这不是评分错误，是评分体系的边界缺失**：
+
+| 评分维度 | dims6 barrier（全局口径） | chokePoint strength（细分口径） |
+|------|------|------|
+| 688183 全球 AI PCB 排名 | 第 4（4.2%）→ score=3 | —（不纳入判断） |
+| 688183 AWS 大客户锁定 | —（未纳入 barrier 评分项） | 占营收 42.9% → 极高客户粘性 |
+| 56 层交换机细分地位 | — | 核心供应商认证 → physical 卡口 |
+
+**核心盲区**：dims6 barrier 评分规则（§10）只覆盖 "全球 ≤3 家 / 认证周期 / 竞争者数量" 这类**供给侧壁垒**，没有覆盖 "大客户深度绑定导致的替代成本" 这种**需求侧粘性壁垒**。而 chokePoint strength 的手动评估反而天然涵盖了后者——因为编辑在设定 ★★★ 时会综合考虑客户关系和细分地位。
+
+**另一个盲区（同一案例的背面）**：AWS 占营收 42.9% 的高客户集中度，既是护城河（客户粘性高）也是风险（单一客户流失冲击巨大）。但无论是 dims6 barrier（只看护城河面）还是 strength（只看卡口面），都**没有同时标注 "集中度风险" 这一面**。
+
+**建议改进方向（待后续规则完善，本次不实施）**：
+
+1. **§10 barrier 评分规则增加 "大客户粘性" 加分项**：若单一战略客户占营收 > 30% 且有 L1 公告证实长期供货协议，barrier score +1（封顶 5 分）
+2. **barrier 评分增加 "集中度风险" 并行标注**：若前 3 大客户占营收 > 50%，在 dims6 barrier reason 中显式标注 "⚠️ 高客户集中度风险"
+3. **chokePoint card 增加双向风险提示**：在现有 "壁垒强度" 标签旁边，增加 "集中度风险"（高/中/低）标注
+
+**当前过渡处理**（针对 688183 生益电子）：
+- strength ★★★ 保留（细分物理卡口成立）
+- chokePoint logic 文本中已包含 "AWS 主力供应商（占营收 42.9%）" 的事实披露
+- **不增加 dims6 barrier score（维持 3 分）**——全局排名第 4 的判断在 barrier 规则体系内是正确的
+- **本次仅登记规则盲区，不修改任何评分**
+
+**复用方式**（后续其他链 chokePoints 设定时）：
+- 涉及大客户深度绑定的卡口（如澜起科技对 Intel/AMD 的 DDR5 RCD 独占），应意识到现有 barrier 规则可能低估其实际壁垒
+- chokePoint strength 的手动评估可作为 dims6 barrier 的补充视角（尤其在大客户粘性场景），但不能替代
+
+**登记 commit**：本次（PCB chokePoints strength 独立核实）
+
+---
+
 ### §12.1 8 只 chokePoints 最终状态
 
 #### §12.1.1 名单与护城河分排名
@@ -3372,6 +3520,31 @@ node scripts/__scan_contamination.js
 
 **此确认记录必须保存在 `.claude/scratch/<chainId>-preflight-<date>.md`，作为该链上线的前置证据。CC 不得自行填写此记录——必须由投顾/用户逐项核对后填写。**
 
+#### §13.5.1 CHANGELOG 面板同步提醒（2026-07-12 commit · 阶段1 moat/timing 后立）
+
+> **触发**：阶段1 完成后发现右侧"数据变更"面板内容滞后——昨天 PCB 系统性收尾的 9 个 commit 完全没有反映在面板中，用户看不到本轮工作的成果摘要。
+
+**根因**：CHANGELOG 面板数据源是 `index.html` 内 `const CHANGELOG = [...]` 硬编码数组，`renderChangelog()` 函数先尝试从 git API 拉取，失败后 fallback 到内置数组。**生产环境没有 git API 在运行，所以永远走 fallback 路径**——这是一个**纯人工维护**的变更记录面板，不是自动同步的。
+
+**强制规则**：任何涉及以下场景的 commit，**必须在 commit 后立即补充 CHANGELOG 条目**：
+
+- 数据字段批量修改（如污染清理、估值校准、reason 补全）
+- 渲染层 bug 修复（如 getEffectiveDims6 优先级反转）
+- 新功能上线（如 Playwright 验证脚本、§13 检查清单）
+- 数据治理规则修订（如 §10.2/§10.3 估值规则）
+
+**补充方式**：直接在 `index.html` 的 `const CHANGELOG = [` 数组最前面插入新条目，格式参照已有记录：
+
+```javascript
+{ date:'YYYY-MM-DD', sector:'pcb', desc:'...用户可读的变更描述...', pct:'NEW/FIX/🆪' },
+```
+
+`sector` 取值：`'pcb'` / `'semicon-equip'` / `'system'` 等。`pct` 取值：`'NEW'`（新功能）、`'FIX'`（修复）、`'🆪'`（AI 辅助/主观判断类改动）。
+
+**与 §13.5 人工确认清单的关系**：CHANGELOG 面板更新可纳入 §13.5 第 9 项"全局巡检"的范围——用户肉眼扫描时应确认面板内容是否反映了本轮工作。
+
+**违反本节**：不构成违规（面板本身就是"可能未完全反映最近 commit"的人工摘要），但**会降低用户对数据治理工作的感知度**——用户看不到做了哪些改动，可能误以为"数据好久没更新了"。
+
 ---
 
 ### §13.6 新链 vs PCB 金标准自动对比脚本
@@ -3409,6 +3582,62 @@ node scripts/_diff_chain_vs_pcb.js <chainId>
 
 ---
 
+#### §13.6.1 字段对比方法论：Object.keys() 递归 dump 优先于人工列举（2026-07-12 · chainStory keyStocks 漏检教训立）
+
+> **触发**：semicon-equip 链 chainStory 模块收尾阶段，连续多轮对比报告都未发现 PCB chainStory 中有 `keyStocks`/`barrierNote`/`source` 三个子字段，导致 semicon-equip 的 chainStory 卡片右侧股票名单一直空白，直到用户亲眼看页面截图才指出差异。
+
+**根因**：之前的对比方法是 **人工列举已知字段名逐项核对**（如 "step/name/barrier/choke/domestic/desc 各有哪些"），而不是先做 `Object.keys()` 递归 dump 再交叉对比。人工列举的方法自带盲区——你只能检查你已经知道存在的字段，而 `keyStocks` 这类字段恰好不在当时的 "已知字段清单" 里。
+
+**强制规则（所有新链 vs PCB 对比时永久生效）**：
+
+1. **对比第一步：全量字段名 dump**——对 PCB 和目标链的对应数据结构，**必须**先用 `Object.keys()` 递归提取全部字段名，生成两份完整字段清单，再做交叉对比（PCB 有但新链无 / 新链有但 PCB 无 / 两边都有但类型不同）
+2. **禁止跳过第一步直接做 "内容对比"**——在没有完整字段清单的情况下比较 "哪边内容丰富"，等于在盲区里做判断
+3. **递归深度至少 2 层**——顶层字段 + 每个顶层字段的子字段（如 `plainIntro.chainStory[0]` 的所有 key）
+
+**对比模板**（替代人工列举）：
+
+```javascript
+function dumpKeys(obj, prefix='', depth=0, maxDepth=2) {
+  if (depth > maxDepth || obj === null || typeof obj !== 'object') return [];
+  const keys = [];
+  if (Array.isArray(obj) && obj.length > 0) {
+    keys.push(prefix + '[0]');
+    keys.push(...dumpKeys(obj[0], prefix+'[0].', depth+1, maxDepth));
+  } else {
+    Object.keys(obj).forEach(k => {
+      keys.push(prefix + k);
+      if (typeof obj[k] === 'object' && obj[k] !== null && !Array.isArray(obj[k])) {
+        keys.push(...dumpKeys(obj[k], prefix+k+'.', depth+1, maxDepth));
+      } else if (Array.isArray(obj[k]) && obj[k].length > 0 && typeof obj[k][0] === 'object') {
+        keys.push(...dumpKeys(obj[k][0], prefix+k+'[0].', depth+1, maxDepth));
+      }
+    });
+  }
+  return keys;
+}
+// 使用：对比 PCB 和 semicon-equip 的 plainIntro 字段
+const pcbKeys = dumpKeys(PCB.plainIntro, 'plainIntro.');
+const seKeys = dumpKeys(SEMI.plainIntro, 'plainIntro.');
+const pcbOnly = pcbKeys.filter(k => !seKeys.includes(k));
+const seOnly = seKeys.filter(k => !pcbKeys.includes(k));
+```
+
+**本次漏检的 3 个字段已被补入常见的 "新链 vs PCB 对比" 关注清单**：
+
+| 字段 | 位置 | 首次发现 |
+|------|------|:--:|
+| `plainIntro.chainStory[0].keyStocks` | 每个 step 右侧股票名单 | semicon-equip chainStory 收尾 |
+| `plainIntro.chainStory[0].barrierNote` | 壁垒补充说明文字 | 同上 |
+| `plainIntro.chainStory[0].source` | 数据来源标注 | 同上 |
+
+**复用方式**（后续光模块/存储与接口等链对比时）：
+- `_diff_chain_vs_pcb.js` 应集成 `dumpKeys()` 功能，在报告开头先输出 "PCB 独有字段 / 新链独有字段" 清单
+- 不要等到用户截图发现差异再补——字段名差异应该是自动检测的第一道关卡
+
+**违反本节 = 对比方法缺陷导致字段遗漏（非数据错误，但会降低对比报告的完整性和可信度）**。
+
+---
+
 ### §13.7 常见故障模式速查表（从 P0-1~P0-5 事故提炼）
 
 | 故障模式 | 典型表现 | 首次发现 | 预防机制 |
@@ -3421,6 +3650,61 @@ node scripts/_diff_chain_vs_pcb.js <chainId>
 | **空数组渲染空表格** | `fourQuestions.segments = []` → section 渲染仅表头、无数据行 | P0-2 | 渲染检查 `fourQRows` 计数 + 人工核对 §13.5 第 7 项 |
 | **数据已写但渲染未读** | manual.js 有 fundamentals 但 `getManualNamespace` 找不到 → chip 全显 "📊 待补" | P0-3 | 渲染检查 `fundsChips` 计数 + 人工核对 §13.5 第 5 项 |
 | **股票跨段重复计数** | 北方华创出现在 seg[0] 和 seg[1]，按段计数得 30 但 unique 仅 21 | P0-1 | `check_unique_stock_codes.js` 区分 core vs treeMapOnly |
+| **基本面排名表重复股票** | `renderStockRankingPanel` 遍历 segments 时未按唯一 code 去重，跨段股票重复出现 (2026-07-12 · 全局排查确认 12 条链均受影响) | semicon-equip 中微/北华/万业各出现 3 次 | `allStocks` 收集时用 `Set` 去重 (`if (seen.has(s.code)) return`) + §13.5 人工核对新增检查项 |
+| **公司更名未同步** | 先导基电(原万业企业 600641)更名后 manual.js 和 auto.js 多处仍用旧名 (2026-07-12) | 用户对照历史记录困惑 | §14.6 公司名称变更通用核实步骤 · 每链 Phase A 阶段全量核查 + 半年报刷新时复查 |
+| **硬编码 PCB_MANUAL 漏网** | `window.PCB_MANUAL` 直接引用 → 非 PCB 链手动层数据读不到 → fallback 到空/错误值 (2026-07-12·第四次发现:renderFundamentalsBlock) | semicon-equip 卡口卡片 "基本面数据待补充" 但实际数据完整 | `grep -n 'window\.PCB_MANUAL' index.html` 全局审计 → 分类:跨链共享函数(BUG·必须修)/PCB 专有函数(设计如此·加注释标记) → 新增函数一律走 `getManualNamespace` |
+| **git checkout 整文件恢复导致已修复内容丢失** | 修改过程中遇到语法错误，用 `git checkout -- file` 整文件恢复 → **所有未 commit 的该文件改动全部丢失**（包括之前已验证通过的其他修复）(2026-07-12·SOURCE_TIERS 扩展时 Python 行插入缺逗号→checkout index.html→之前 6 处修复同时消失) | 一次小语法错误 → 整页不可用 → checkout 恢复 → 9 处修复需逐一重做 | 🔴 **硬性规则：今后遇到任何语法错误，禁止使用 `git checkout` 整文件恢复。正确做法：① 优先 `git stash` 保存当前所有改动 → 修复问题 → `git stash pop` 恢复 → 合并 ② 直接定位并只修改出问题的具体那一行，不要整文件恢复 ③ 如源文件备份存在，对比 diff 逐项恢复而非盲目 checkout** |
+
+---
+
+#### §13.7.1 硬编码 PCB_MANUAL 自动化检测（2026-07-12 · "绝不出现第五次"）
+
+**触发**：从 P0-3（命名空间连字符）→ P0-3（优先级反转）→ 本次（renderFundamentalsBlock）→ latestVerifiedAtFromManual，累计 4 次发现 `window.PCB_MANUAL` 硬编码 bug。每次都是被动修复单个函数，从未做过全站主动扫描。
+
+**根因模式**：新增渲染函数时，开发者从已有函数复制代码作为模板，将 `window.PCB_MANUAL` 一并复制过去，但忘记改为 `getManualNamespace(chainId)`。这个模式在 PCB 专有功能中是合理的（持有管理/信号 C/宏观/概念票只服务 PCB 链），但在跨链共享函数中就是 bug。
+
+**自动化检测脚本**（每次 commit 前或新函数新增后运行）：
+
+```bash
+# 检测 index.html 中所有 window.PCB_MANUAL 直接引用
+grep -n 'window\.PCB_MANUAL' index.html | while read line; do
+  lineno=$(echo "$line" | cut -d: -f1)
+  # 排除注释行（// 或 /* 开头）
+  if ! sed -n "${lineno}p" index.html | grep -qE '^\s*(//|\*|/\*)'; then
+    # 检查前后 3 行是否含 getManualNamespace
+    ctx=$(sed -n "$((lineno-3)),$((lineno+3))p" index.html)
+    if ! echo "$ctx" | grep -q 'getManualNamespace'; then
+      echo "⚠️  L${lineno}: PCB_MANUAL 直接引用，且周围无 getManualNamespace 调用"
+    fi
+  fi
+done
+```
+
+**输出示例**（2026-07-12 审计结果）：
+
+| 行号 | 函数 | 分类 | 处理 |
+|:--:|------|:--:|:--:|
+| 1064 | conceptNoteOf | PCB 专有 | 保留（概念票标注只适用于 PCB） |
+| 1085 | latestVerifiedAtFromManual | 跨链共享 | ✅ 已修复为 getManualNamespace |
+| 1208 | renderStopLossPlan | PCB 专有 | 保留（持有止损计划仅 PCB 持仓） |
+| 1214 | renderStopLossPlan | PCB 专有 | 保留 |
+| 1269-70 | renderMacroDashboard | PCB 专有 | 保留（宏观仪表盘仅 PCB 有 macro 数据） |
+| 1339 | renderSignalC | PCB 专有 | 保留（信号 C 仅 PCB 链启用） |
+| 1445 | renderStockFundamentalsChip | 跨链共享 | ✅ 已修复（getManualNamespace with fallback） |
+| 1473 | renderStockRiskChip | 跨链共享 | ✅ 已修复（getManualNamespace with fallback） |
+| 1493 | renderFundamentalsBlock | 跨链共享 | ✅ 本次修复 |
+| 1949 | signalC distance | PCB 专有 | 保留 |
+| 3638/3666-68 | conceptNote 渲染 | PCB 专有 | 保留 |
+| 3759 | stopLoss section | PCB 专有 | 保留 |
+
+**强制规则**：
+
+1. **任何新增函数不得直接引用 `window.PCB_MANUAL`** — 必须走 `getManualNamespace(chainId)`
+2. **复制已有代码作为模板时，必须将 `window.PCB_MANUAL` 替换为 `getManualNamespace` 调用**
+3. **上方的 grep 检测脚本应集成到 `page_audit.py` 或 `check_xxx_sync.js` 中**，作为 commit 前的自动化阻断
+4. **如果某个函数确实只需要读 PCB 的数据（如 PCB 持仓管理系统）**，必须在函数顶部加注释 `// ★ PCB-ONLY: 本函数仅服务 PCB 链，PCB_MANUAL 硬编码为设计意图` 并说明原因
+
+**登记 commit**：本次（2026-07-12 PCB_MANUAL 全局审计）
 
 ---
 
@@ -3451,4 +3735,238 @@ python scripts/_preflight_render_check.py <chainId>  # Playwright 自动 DOM 检
 **任何一步 FAIL → 必须修复后从第 1 步重新跑，不得跳过中间步骤直接"补丁式修复"。**
 
 **违反本节（§13）= 新链/大改动在上线前未完成完整的前置检查流程 → 视为违反 §6.8 数据准确度优先原则（"流程完成 > 数据准确"的逆向错误）。**
+
+---
+
+## §14 半年报/季报数据刷新标准流程（通用 · 所有产业链 · 2026-07-12 立）
+
+> **适用范围**：所有已通过 Phase B 完成 dims6 六维打分的产业链（PCB/semicon-equip/光模块·光互联/存储与接口等未来的链），每季度/每半年财报发布后按本流程统一刷新。
+>
+> **执行前必须读完本节全部** —— 不读完不允许开始拉取任何一只股票的数据。
+
+### §14.1 触发时机与前置条件
+
+**触发时机**：用户发出 "对 XX 链开始执行半年报刷新" 的明确信号。该链所有股票的最新一期财报必须已在巨潮/交易所公告（不可用 "业绩预告" 作为替代，必须是正式财报）。
+
+**前置条件**（任一不满足则拒绝执行）：
+
+1. 该链已有 `.manual.js` 文件，且 `check_xxx_sync.js` 全绿
+2. 该链 100% 股票已完成 dims6 六维打分（field 口径 reason ≥ 20 字覆盖率 = 100%）
+3. `abstract_ths` 接口可正常访问该链所有股票的最新一期数据
+4. 本机 Python 环境有 akshare 且 `stock_financial_abstract_ths` 可用
+
+### §14.2 触发规则：方向性判断（四类·适用于任意产业链）
+
+对所有股票执行依次检查，**命中任一条 → 完整重写 dims6 reason + score**。均未命中 → 轻量增量更新。
+
+#### R1：盈亏方向反转
+
+| 子条件 | 定义 | 严重度 |
+|:--:|------|:--:|
+| R1a | 上期（年报/上一季报）净利润 > 0，本期净利润 < 0（由盈转亏） | 🔴 强制重写 |
+| R1b | 上期净利润 < 0，本期净利润 > 0（由亏转盈） | 🔴 强制重写 |
+| R1c | 亏损幅度同比收窄 > 50%（如 -1.5 亿 → -0.3 亿） | 🟡 建议重写 |
+
+**判定依据**：`abstract_ths` 对比本期 vs 上期净利润正负号。R1c 需计算上年同期基数。
+
+#### R2：营收/净利 YoY 方向反转
+
+| 子条件 | 定义 |
+|:--:|------|
+| R2a | 上一期财报（如 2026Q1）营收 YoY 符号与本期（如 2026H1）相反 |
+| R2b | 上一期财报净利 YoY 符号与本期相反 |
+
+**判定依据**：`abstract_ths` 连续两期数据对比。R2 触发意味着之前的 trend（up/down/flat）判断可能反转——A 类正面信号可能变为负面，或反之。
+
+#### R3：§6.15 五种亏损模式归类变化
+
+每只股票在 Phase B 首次打分时有固定的模式归类（见各链对应的 §11.X）。如果本期数据导致归类发生变化（如从 "模式一（扩产阵痛型）" 变为 "模式二（全面恶化型）"），需要完整重写——因为不同模式使用不同的 valuation 替代指标（§6.15 规则 ①）。
+
+**判定依据**：对比本期的净利润正负状态 + 营收 YoY 方向 + 亏损收窄/扩大趋势，与当前的模式归类表对照。
+
+#### R4：净利率趋势性变化
+
+| 子条件 | 定义 |
+|:--:|------|
+| R4a | 本期净利率 < 上期净利率 × 0.7（连续恶化超过 30%） |
+| R4b | 本期净利率由负转正（如 -5% → +3%） |
+
+**判定依据**：`abstract_ths` 的三期数据（去年年报 → 上期季报 → 本期），计算净利率趋势。R4 触发意味着 visibility 和 durability 维度的 B 类辅助信号可能发生方向性变化。
+
+### §14.3 轻量增量更新流程（未触发 §14.2 规则的股票）
+
+#### Step L1：fundamentals 字段更新
+
+```
+脚本：scripts/refresh_fundamentals.py --chain=<chainId>
+数据源：akshare stock_financial_abstract_ths（§6.17 单一权威源）
+对未触发重写规则的股票，更新 manual.js 中的 fundamentals 字段：
+  - revenueGrowth / netProfitGrowth（本期 vs 上年同期）
+  - roe / grossMargin / roeQuarterly（最新实测值）
+  - asOf 日期更新为本期财报截止日
+```
+
+#### Step L2：dims6 reason 中数字和时间点同步
+
+对每只股票的 6 个 dims6 reason 字段做**纯文本更新**（不改变 score/trend/tier）：
+
+| 操作 | 示例 |
+|------|------|
+| 将旧期数字替换为新期数字 | "2026Q1 营收 23.95 亿+30.9%" → "2026H1 营收 XX 亿+XX%" |
+| 更新实测日期标注 | "2026-07-08 实测" → "2026-08-XX 实测" |
+| 更新数据截止点 | "截至 2026Q1" → "截至 2026H1" |
+
+**约束**：只在 reason 文本中发现 "可精确匹配" 的数字时才替换。**使用 stock code 精确定位**（§11.19 教训），不使用全文字符串匹配。score/trend/tier 三个字段不修改。
+
+#### Step L3：auditLog 追加
+
+在每只股票对应的 manual.js 中追加（或新建）auditLog：
+
+```json
+{ "date": "2026-08-XX", "action": "H1数据刷新", "result": "轻量更新·趋势判断维持不变",
+  "fieldsUpdated": ["fundamentals", "reason中数字和时间点"], "chainId": "<chainId>" }
+```
+
+#### Step L4：moat/timing 联动重算
+
+即使 score 不变，也需要重新跑 `computeFitFromDims` 确认 moat/timing 没有漂移。使用独立 Node.js 脚本逐只验证，与旧值对比，差异 > 3 分的必须人工复核原因。
+
+### §14.4 完整重写流程（触发 §14.2 任一规则的股票）
+
+不允许降级处理——必须走 Phase B v3 完整流程：
+
+#### Step F1：abstract_ths 实测 + 黑名单生成
+
+```bash
+python scripts/refresh_fundamentals.py --chain=<chainId> --mode=full-rewrite --codes=<触发股票列表>
+```
+
+拉取四期完整财务数据（T-3 年报 / T-2 年报 / T-1 季报 / 本期），与现有 dims6 reason 数字对比，生成黑名单："与实测不符的旧数字"（Phase A 残留或上期数据已漂移的），明确禁止豆包引用。
+
+#### Step F2：prompt v3 模板生成
+
+每条 prompt 含以下 4 个区块：
+
+| 区块 | 内容 |
+|------|------|
+| §0 [1] | L1 实证数据 pre-feed（四期 financial abstract） |
+| §0 [2] | 当前 dims6 6 维 score/trend/tier 快照（作为豆包修正的参考基线） |
+| §0 [3] | 触发原因说明（R1/R2/R3/R4 哪条命中 + 具体数据对比） |
+| §0 [4] | Phase A 黑名单（禁止引用的旧数字清单） |
+| §1 | 查询规则（13 条硬约束 + §6.7.3 4 类禁止 + §6.17 abstract_ths 单一源 + §6.15 亏损公司专项） |
+| §2 | 输出格式（7 段式 + 每个 dims6 维度的 score/trend/tier/reason 完整结构） |
+| §3 | 自查清单（高风险/中风险/低风险/可重算四栏） |
+
+#### Step F3：发豆包 + §6.7.3 筛查
+
+用户将 prompt 发给豆包 → 豆包返回 → CC 逐条筛查：具体日期/具体金额/占比口径扩展/早年历史数据 4 类高风险数字，命中任一条 → 删除具体数字、改为定性描述或归 "未查到"。
+
+#### Step F4：stock code 精确定位写入
+
+写入前唯一性检查（§11.19 规则），写入后跑 chain 对应的 `check_xxx_sync.js` check3 口径差额验证。
+
+#### Step F5：moat/timing 重算 + 差异审计
+
+使用 `computeFitFromDims` 重算 moat/timing，与旧值对比。差异 > 3 分的必须人工复核原因并记录在 auditLog 中。
+
+### §14.5 通用批量拉取与分类脚本框架
+
+#### 脚本：`scripts/refresh_fundamentals.py`
+
+**使用方式**：
+```bash
+python scripts/refresh_fundamentals.py --chain=pcb                # PCB 链 38 只
+python scripts/refresh_fundamentals.py --chain=semicon-equip      # 半导体设备链 21 只
+python scripts/refresh_fundamentals.py --chain=optical-module     # 光模块·光互连链
+```
+
+**参数说明**：
+
+| 参数 | 必需 | 说明 |
+|------|:--:|------|
+| `--chain` | ✅ | chainId，对应 `data/<chainId>.js` 和 `data/<chainId>.manual.js` |
+| `--mode` | ❌ | `auto`（默认·自动分类）/ `classify-only`（仅输出分类不做写入）/ `fundamentals-only`（仅更新 fundamentals 不做 dims6） |
+| `--codes` | ❌ | 指定 stock code 列表（逗号分隔），默认处理该链全部 stock |
+
+**内部流程**：
+
+1. **加载 manual 层** → 获取所有 stock code 列表 + 当前 dims6/fundamentals 快照
+2. **逐只拉取** → `akshare.stock_financial_abstract_ths` 拉取四期数据（T-3 年报 / T-2 年报 / T-1 季报 / 本期）
+3. **R1-R4 自动判定** → 对比本期 vs 上期数据 + 当前 dims6 reason 中的模式归类
+4. **输出分类报告**（标准格式）：
+
+```
+=== <chainId> 半年报刷新分类结果 ===
+生成时间: 2026-08-XX
+完整重写 (FULL_REWRITE): X/N
+  - <code> <name> [R1b: 由亏转盈] [R3: 模式变更]
+  - ...
+轻量更新 (LIGHT_UPDATE): Y/N
+  - <code> <name>
+  - ...
+```
+
+5. **按分类执行**：
+   - LIGHT_UPDATE → 自动执行 §14.3 的 Step L1-L4
+   - FULL_REWRITE → 输出 prompt 文件（`<chainId>_h1_rewrite_prompts.md`），**待人工发豆包后 CC 再写入**（不自动写入）
+6. **verify_yoy 校验** → 每个 fundamentals 写入前走 YoY 反算校验（§13.4 阈值分档），偏差超阈值阻断写入
+
+**与现有脚本的关系**：
+- `refresh_se_fundamentals.py` → 维持不变（semicon-equip 专用，保留了 Decimal 精算引擎和 verify_yoy 的具体实现）
+- 新脚本 `refresh_fundamentals.py` → 复用相同的抽象逻辑框架，但使用 chainId 参数动态加载不同链的 manual.js
+
+### §14.6 公司名称变更的通用核实步骤
+
+> **触发**：先导基电（原万业企业，600641）在 semicon-equip 链的 manual.js 中 name 字段仍为旧名。本步骤将此问题从 "遇一个改一个" 升级为通用核实流程。
+
+**核实流程（每一步适用于任意链）**：
+
+1. **扫描所有 stock name** → 逐只对比 `abstract_ths` 接口返回的最新公司全称与该链 `manual.js` 中的 `name` 字段是否一致
+2. **对于不一致的股票**：查询巨潮 cninfo 公告确认更名日期和正式生效日
+3. **更新 manual.js 中的 name 字段**为最新全称
+4. **在 dims6 或 auditLog 中追加备注**：`"原名<旧名>, <YYYY-MM>更名"`
+5. **同步检查 auto 层**：`data/<chainId>.js` 中 segments/midstream/treeMap 的 `name` 字段是否也需要同步更新
+
+**已知待更名清单**：
+
+| 链 | code | 旧名 | 新名 | 更名日期 |
+|------|------|------|------|------|
+| semicon-equip | 600641 | 万业企业 | 先导基电 | 2025-11（已确认） |
+
+**后续新链建立时**：Phase A 骨架阶段即应做一次全量名称核查，不等到半年报刷新时才发现。
+
+### §14.7 刷新完成后的验证流程
+
+**所有刷新操作完成后，必须走完整 §13 四层验证**（此清单本身是跨链通用的）：
+
+| 层 | 工具/方式 | 关键检查点 |
+|:--:|------|------|
+| 数据层 | `check_<chain>_sync.js` | check3 股票口径 reason 完整率是否保持 100%（不能因为刷新导致 reason 字段意外缩短或丢失） |
+| 数据层 | `page_audit.py` | 全部 PASS |
+| 渲染层 | Playwright DOM | `hasUndefined` = false · JS errors = 0 · dims6 chips 正常展开 · fundamentals chips 显示新数字 |
+| 视觉 | 人工浏览器核对 | §13.5 关键项抽查（随机 3-5 只股票展开 dims6 chip 确认 reason 数字已更新） |
+
+**额外检查（刷新专项）**：
+
+1. **moat/timing 联动验证**：对比刷新前后的 moat/timing 值（用 `check_<chain>_sync.js` 的 baseline 对比），差异 > 3 分的股票必须列出并人工复核原因。
+2. **CHANGELOG 同步**：在 `index.html` 的 `CHANGELOG` 数组最前面插入一条刷新记录，格式参照已有条目：
+   ```
+   { date:'2026-08-XX', sector:'<chainId>', desc:'📊 H1半年报数据刷新·X/N只轻量更新+Y/N只完整重写·...', pct:'REFRESH' }
+   ```
+3. **no regressions on other chains**：由于 `refresh_fundamentals.py` 和 `findStock` 是共享代码，刷新完成后必须切到 **PCB 链**（或其他未刷新的链）确认渲染正常、无回归。
+
+### §14.8 执行示例（对各链的具体预测，仅供参考）
+
+| 链 | 预计股票数 | 预计完整重写数 | 备注 |
+|------|:--:|:--:|------|
+| PCB | 38 | 预估 5-10 只 | 亏损公司较多（605006/002636/603186 等），R1/R3 触发概率较高 |
+| semicon-equip | 21 | 预估 3-6 只 | 至纯/微导/茂莱/中科飞测等亏损/微利公司 R1/R3 触发概率高 |
+| optical-module | 待定 | 待定 | 光模块·光互联链 Phase B+ 完成后适用 |
+
+**上述数字为预估，实际以 `refresh_fundamentals.py --mode=classify-only` 输出为准。**
+
+---
+
+**本节（§14）为跨链通用标准方法论。任何新链完成 Phase B 后即适用本节规则。**
+**违反本节 = 半年报/季报数据刷新未按标准流程执行 → 违反 §6.2（数据未核实写入）+ §6.8（流程完成 > 数据准确）。**
 

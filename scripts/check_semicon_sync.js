@@ -173,12 +173,12 @@ function check2_stockCodeConsistency() {
 }
 
 // ===== 检查 3:dims6 reason 完整率统计 =====
-// 股票口径:6 维全部 reason 长度 ≥ 20 字符(非占位文本)的股票数 / 24
-// 字段口径:24 × 6 = 144 个字段中 reason 长度 ≥ 20 字符的字段数 / 144
+// 股票口径:6 维全部 reason 长度 ≥ 20 字符(非占位文本)的股票数 / 总股票数
+// 字段口径:总股票数 × 6 个字段中 reason 长度 ≥ 20 字符的字段数 / (总股票数 × 6)
 function check3_dims6Completeness() {
   const stocks = MANUAL.stocks || {};
   const totalStocks = Object.keys(stocks).length || 1;
-  const totalFields = 24 * 6;  // 24 stocks × 6 维
+  const totalFields = totalStocks * 6;  // N stocks × 6 维 · 不再硬编码 24
   let completeStocks = 0;
   let completeFields = 0;
   let phaseBOccupied = 0;
