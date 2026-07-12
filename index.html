@@ -3857,7 +3857,7 @@ function renderChain(chainId) {
   //   包含：基本面排名榜 + 信号 C TOP3 + 信号 C 历史回放 + choke card grid + 买入信号监测
   //   持仓管理（section-holding）在上方独立显示 · 本 section 默认折叠避免首屏过载
   h += `<div class="section collapsible collapsed" data-key="decision" id="section-decision">`;
-  h += `<div class="section-title" onclick="toggleSection('decision')"><span class="num num-result">📊</span> 投资决策·基本面排名+信号监测 │ 🔒 全链核心卡口标的（${d.chokePoints.length}只·精选·非段内排名）<span class="collapse-arrow">▼</span></div>`;
+  h += `<div class="section-title" onclick="toggleSection('decision')"><span class="num num-result">📊</span> 投资决策 · 基本面排名 + 信号监测 + 卡口结论<span class="collapse-arrow">▼</span></div>`;
   h += `<div class="section-body">`;
 
   // ★ commit 4.66：基本面质量横向排名榜（综合排名 / 段位龙头 / 风险预警 三视图）
@@ -3869,6 +3869,12 @@ function renderChain(chainId) {
   // ★ commit 4.57：信号 C 历史回放面板（5 年窗口 · ⚠️非实盘记录）
   h += renderSignalCHistoryPanel(chainId);
   h += `<div class="choke-grid" style="margin-bottom:24px;">`;
+
+  // ★ commit 6.78：chokePoints 子标题——紧邻卡片区域正上方，与上方基本面排名表/信号监测明确分隔
+  h += `<div style="margin-bottom:14px;padding:8px 0;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:8px;">`;
+  h += `<span style="font-size:15px;font-weight:700;color:var(--accent);">🔒 全链核心卡口标的</span>`;
+  h += `<span style="font-size:12px;color:var(--muted);">${d.chokePoints.length} 只 · 精选 · 非段内排名</span>`;
+  h += `</div>`;
 
   // ★ commit 4.41：默认展开名单（持仓 + 减仓信号触发 stock）
   //   ★ commit 4.47：剥离非 PCB 持仓后·只剩 601208 东材科技一只持仓
