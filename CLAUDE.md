@@ -3754,12 +3754,13 @@ const seOnly = seKeys.filter(k => !pcbKeys.includes(k));
 | **git checkout 整文件恢复导致已修复内容丢失** | 修改过程中遇到语法错误，用 `git checkout -- file` 整文件恢复 → **所有未 commit 的该文件改动全部丢失**（包括之前已验证通过的其他修复）(2026-07-12·SOURCE_TIERS 扩展时 Python 行插入缺逗号→checkout index.html→之前 6 处修复同时消失) | 一次小语法错误 → 整页不可用 → checkout 恢复 → 9 处修复需逐一重做 | 🔴 **硬性规则：今后遇到任何语法错误，禁止使用 `git checkout` 整文件恢复。正确做法：① 优先 `git stash` 保存当前所有改动 → 修复问题 → `git stash pop` 恢复 → 合并 ② 直接定位并只修改出问题的具体那一行，不要整文件恢复 ③ 如源文件备份存在，对比 diff 逐项恢复而非盲目 checkout** |
 | **脚本从 git HEAD 加载源数据后全量覆写磁盘** | 多个修改脚本各自从 `git show HEAD:file`（而非 `fs.readFileSync` 从磁盘）读取 → 修改 → 写回磁盘。第二个脚本的源数据来自 git HEAD（不含第一个脚本未 commit 的修改）→ 覆写后第一个脚本的改动**静默丢失**。此模式与 `git checkout -- file` 数据丢失效果完全等价，但通过脚本逻辑而非 git 命令实现——更难察觉（2026-07-12·commit 6.76 前两轮会话交接时发现：variant 元数据被 `__add_chokes_final.js` 从 git HEAD 加载覆写） | PCB variant 元数据（`__fix_pcb_final.js` 写入 variant+chokePoints → `__add_chokes_final.js` 从 `git cat-file -p HEAD` 加载·不含 variant → 覆写磁盘 → variant 丢失，chokePoints 因两脚本都写了而幸存） | 🔴 **任何修改磁盘文件的脚本/命令，必须从磁盘当前状态读取，严禁从 git HEAD（`git show`/`git cat-file`）或任何历史 commit 读取后全量覆写**。正确做法：① 脚本用 `fs.readFileSync` 从磁盘加载当前状态 → 修改 → 写回 ② 多个脚本串行执行时，后续脚本必须从磁盘读取（自然包含前面脚本的修改）③ `git show HEAD:file > file` 等价于 `git checkout HEAD -- file`，同属禁止操作 ④ commit 是防止此类丢失的唯一硬防线——关键节点必须 commit 后再启动下一批脚本 |
 | **迁移声明与实际写入不同步** | 双层架构拆分/数据迁移脚本在 auto 层添加 `_note: "数据已迁 XXX"` 并将源字段清空（如 `segments: []`），**但目标层（manual.js）从未收到写入操作** → 数据在两层之间都不存在，形成**悬空状态**。`_note` 声明提供了虚假的安全感——脚本开发者以为迁移已完成，后续检查工具看到 `_note` 后也跳过验证。此模式比前两种更难察觉，因为没有任何报错或明显信号，仅在渲染层出现"数据空白"时才被发现（2026-07-12·commit 6.62 P0 双层拆分时 semicon-equip fourQuestions 数据从 auto 层清空但从未写入 manual 层·23 天未被发现） | semicon-equip fourQuestions（commit 02d1c87 双层拆分时 auto 层 `segments: []` + `_note: 已迁 manual.js` → manual 层从未收到写入 → fourQuestions 在两层均不存在·23 天后用户追问才发现） | 🔴 **任何数据迁移操作，不能只在 `_note`/注释里声明"已迁移"，必须实际验证目标位置确实存在对应数据后，才能在源位置清空/移除**。正确做法：① 先将完整数据写入目标层 → ② 验证目标层数据可读（`require` 后检查字段非空）→ ③ 确认渲染层能正确读取目标层数据 → ④ 最后才在源层清空并添加 `_note` ② 迁移脚本必须包含"写入后验证"步骤——读回刚写入的数据并逐字段对比 ③ 为防止此类漏洞，check_xxx_sync.js 应增加"fourQuestions 覆盖率"检查项（§13.2 补充） |
+| **写入目标文件混淆（废弃/活跃文件同名陷阱）** | 修改操作确实执行了、diff 确实存在、汇报者正确看到了变更——但**目标是旧废弃文件而非新活跃文件**（如 `semi-equipment.js` deprecated vs `semicon-equip.js` 活跃）。两文件命名极度相似（仅差一个连字符）·汇报环节无法发现——因为 diff 真实存在、内容正确，只是目标错了。与模式 3 的区别：这次写入真的成功了，但写入了错误的文件（2026-07-12·commit 415cb4e 将 600641 先导基电改名写入 deprecated 的 semi-equipment.js·活跃的 semicon-equip.js 从未收到·用户页面持续显示旧名 2 天后才发现） | 600641 万业企业→先导基电改名（§14.6 登记 + commit 415cb4e 写入→但写入目标为旧 deprecated 文件 `semi-equipment.js`→活跃文件 `semicon-equip.js` 未变更→页面仍显示"万业企业"→commit 434b48f 修复 13 处·写入正确的活跃文件） | 🔴 **废弃文件必须在文件名或文件头部显式标注 `_DEPRECATED_DO_NOT_EDIT`**·写入脚本必须含文件路径白名单校验（禁止写入 deprecated 文件）·定期清理废弃文件·commit 验证时如涉及 deprecated/活跃同名文件对，必须确认两文件在本次变更中的各自 diff 范围是否符合预期（活跃文件应有变更、deprecated 文件应无新增变更） |
 
 ---
 
 #### §13.7.1 硬编码 PCB_MANUAL 自动化检测（2026-07-12 · "绝不出现第五次"）
 
-**触发**：从 P0-3（命名空间连字符）→ P0-3（优先级反转）→ 本次（renderFundamentalsBlock）→ latestVerifiedAtFromManual，累计 4 次发现 `window.PCB_MANUAL` 硬编码 bug。每次都是被动修复单个函数，从未做过全站主动扫描。
+**触发**：从 P0-3（命名空间连字符）→ P0-3（优先级反转）→ 本次（renderFundamentalsBlock）→ latestVerifiedAtFromManual，累计 4 次发现 `window.PCB_MANUAL` 硬编码 bug。
 
 **根因模式**：新增渲染函数时，开发者从已有函数复制代码作为模板，将 `window.PCB_MANUAL` 一并复制过去，但忘记改为 `getManualNamespace(chainId)`。这个模式在 PCB 专有功能中是合理的（持有管理/信号 C/宏观/概念票只服务 PCB 链），但在跨链共享函数中就是 bug。
 
@@ -3805,6 +3806,30 @@ done
 4. **如果某个函数确实只需要读 PCB 的数据（如 PCB 持仓管理系统）**，必须在函数顶部加注释 `// ★ PCB-ONLY: 本函数仅服务 PCB 链，PCB_MANUAL 硬编码为设计意图` 并说明原因
 
 **登记 commit**：本次（2026-07-12 PCB_MANUAL 全局审计）
+
+---
+
+#### §13.7.2 废弃/同名文件防御规则（2026-07-12 · 第四种漏洞变种立）
+
+> **触发**：commit 415cb4e 将 600641 先导基电改名正确写入了 `semi-equipment.js`（deprecated），但活跃文件 `semicon-equip.js` 从未收到——写入成功但目标错误。
+
+**废弃文件清单（仓库当前状态）**：
+
+| 文件 | 状态 | 混淆风险 |
+|------|:--:|:--:|
+| `data/semi-equipment.js` | 🔴 **已废弃·高混淆风险** | 与 `semicon-equip.js` 仅差一个连字符·已被误写入 1 次（415cb4e） |
+| `data/_archive/cpo.js.deprecated` | 🟢 已归档·低风险 | 在 _archive 子目录+ .deprecated 扩展名 |
+| `data/_archive/optical-chip.js.deprecated` | 🟢 已归档·低风险 | 同上 |
+| `data/_archive/optical-module.js.pre-merge-backup` | 🟢 合并前备份·低风险 | .pre-merge-backup 后缀清晰 |
+| `data/pcb.js.bak467` | 🟢 备份·低风险 | .bak 后缀 |
+| `data/advanced-packaging.js.bak.*` | 🟢 备份·低风险 | .bak 后缀 |
+
+**强制规则（永久生效）**：
+
+1. **semi-equipment.js 头部已标注 DEPRECATED**（2026-07-09）——但注释无法阻止脚本写入。**任何涉及 `semi-equipment` 和 `semicon-equip` 的写入操作，必须先确认目标是活跃文件 `semicon-equip.js`**
+2. **写入脚本必须含文件路径白名单**——禁止写入含 `deprecated`/`_archive`/`.bak` 标记的文件
+3. **定期清理**：废弃文件应在确认无对账价值后移入 `_archive/` 或删除。当前 `semi-equipment.js` 保留仅作为"重构前 vs 重构后"对比参考（§11.13），Phase 12 维护期评估是否彻底移除
+4. **新链建立时**：如需废弃旧链，必须将旧文件移入 `_archive/` 子目录（而非留在 `data/` 根目录），消除同名混淆风险
 
 ---
 
