@@ -1,6 +1,16 @@
 window.PCB_MANUAL = window.PCB_MANUAL || {};
 (function(MANUAL){
   Object.assign(MANUAL, {
+  "_meta": {
+    "chainKey": "PCB",
+    "chainName": "PCB 印制电路板",
+    "asOf": "2026-06",
+    "declaredStockCount": 37,
+    "declaredHistory": "38→35 = commit 4.0 删 688234 + commit 4.35 删 002443/688519 → 35 → commit 4.92 新增 000657 中钨高新 + 300179 四方达 = 37",
+    "declaredChokeCount": 6,
+    "maintainer": "manual（人工季度更新·硬数据从 akshare/巨潮核实）",
+    "scopeNote": "口径：国内 A 股 PCB 产业链 35 只 + 海外卡脖子主体进 referenceChokepoints（不进估值管线）"
+  },
   "stocks": {
     "300179": {
       "code": "300179",
@@ -409,37 +419,43 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
           "key": "durability",
           "score": 1,
           "trend": "down",
-          "tier": "L1"
+          "tier": "L1",
+          "reason": "主营着色剂类产品（2025年收入7.15亿元，营收占比99.5%）·电子碳氢树脂仅占0.25%（2026Q2收入182.3万元）·公司本质上不是电子材料企业，电子树脂业务不具备持续景气基础。营收同比-4.4%/净利同比-60.7%（L1 abstract_ths 2025年报实测）·ROE仅2.59%·基本面持续恶化。score=1:电子树脂业务规模极小且无增长趋势，不适用景气持续性评估——着色剂主业下滑+电子树脂转型失败双重负面。（tier=L1·abstract_ths + L1公司公告2026-06-24）"
         },
         {
           "key": "visibility",
           "score": 2,
           "trend": "flat",
-          "tier": "L4"
+          "tier": "L4",
+          "reason": "L1公司公告（2026-06-24股票交易严重异常波动公告）明确否认HVLP极薄电子铜箔业务传言：\"公司未开展HVLP业务，无相关产品和技术\"。盘锦基地500吨/年M6-M8级电子碳氢树脂已量产但产能利用率仅30%（L1公司公告）·2500吨项目2027Q1才投产（L1）·未与生益/台光等头部CCL厂建立合作（L4券商+L1公告）。业绩可见度极低：电子树脂2025全年收入仅32万元（占比0.045%），2026Q2收入182.3万元（占比0.25%）——几乎无业绩贡献。score=2:仅有L1公告确认产能存在但无客户验证+无订单披露，远低于3分档位\"L4预测但无客户确认\"标准。（tier=L4·L1公司公告+头部券商研报）"
         },
         {
           "key": "policy",
           "score": 3,
           "trend": "flat",
-          "tier": "L2"
+          "tier": "L2",
+          "reason": "电子树脂行业属于新材料国产替代方向·列入《重点新材料首批次应用示范指导目录》泛义覆盖（L2工信部）。公司层面：盘锦基地500吨电子树脂项目获地方产业政策支持（L1公司公告）。但公司主营为着色剂（99.5%），电子树脂非核心业务方向，政策红利传导有限。score=3:行业政策中性偏支持，但公司主体受益度低·政策对电子树脂业务的实际拉动效应微弱。（tier=L2·工信部目录+L1公司公告）"
         },
         {
           "key": "supply",
           "score": 1,
           "trend": "down",
-          "tier": "L1"
+          "tier": "L1",
+          "reason": "供给端格局：M6-M8级电子碳氢树脂国内供应商包括东材科技（500吨已量产+3500吨在建）、圣泉集团（100吨满产+1500吨Q4投产）等≥5家量产企业（L4券商行业格局梳理）。世名科技500吨产能利用率仅30%且未进入头部CCL供应链——对行业供给格局无实质影响。score=1:行业供给充分·公司自身产能利用率极低·不存在供给紧缺逻辑。（tier=L1·L4券商格局梳理+L1公司公告产能数据）"
         },
         {
           "key": "valuation",
           "score": 2,
           "trend": "down",
-          "tier": "L5"
+          "tier": "L5",
+          "reason": "PE-TTM无法正常评估（L1 abstract_ths 2025年报净利仅0.15亿·微利状态）·2026Q1净利0.04亿（L1 abstract_ths）·PB(MRQ)待实测。主营着色剂业务下滑（营收-4.4%/净利-60.7%）·电子树脂转型尚未贡献业绩（营收占比0.25%）·市场给予的估值溢价主要基于\"电子树脂转型预期\"而非实际业绩。score=2:微利+主业下滑+转型未兑现,估值缺乏基本面锚定·对应§10估值5档表中PE分位无法正常计算场景的2分档位。（tier=L5·abstract_ths L1净利数据+估值判断为基于微利状态的定性分析）"
         },
         {
           "key": "barrier",
           "score": 1,
           "trend": "down",
-          "tier": "L1"
+          "tier": "L1",
+          "reason": "核心事实全部来自L1公司公告（2025年报+2026-06-24股票交易严重异常波动公告）：①主营着色剂99.5%·电子碳氢树脂仅0.25%——本质上不是电子材料企业②盘锦基地500吨/年仅M6-M8级·M9级仅研发储备——与东材/圣泉M9量产差距显著③产能利用率30%——远低于行业正常水平④未与生益/台光等头部CCL厂合作——无客户认证⑤公司自行澄清否认HVLP业务传言。score=1:无物理卡口·无客户认证·无技术壁垒·无规模优势·完全竞争/概念性参与。（tier=L1·L1公司公告2025年报+2026-06-24异常波动公告）"
         }
       ],
       "src": "akshare/新浪财经(基于公司季报)",
@@ -1009,7 +1025,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
           "trend": "flat",
           "tier": "L1",
           "reason": "本次复核 valuation 维度:301511 主营 PCB 上游铜箔(idx=3),L1 一季报 + L1 trendNote 全球第二 HVLP4 出货业绩高增可持续性待核(双源核实)。trend=flat 表征估值修复中性方向。pcb.manual.js 无 baostock PE-TTM 实测存档,本轮未实测。依据 §10 valuation 5 档表:3 分对应 PE 分位 50-70%。本次 L1 一季报业绩可视化 + 全球第二 HVLP4 出货 + 题材热度,匹配 3 分档(中性估值修复),理论匹配 3 分,与现有 score=3 一致(无冲突)。▍▍tier=estimate 早期默认,实际主要信源为 L1 一季报 + L1 trendNote,本轮按用户口径不修改 tier。▍豆包自查清单·高风险栏:估值类数据易触发 §6.11 #7 估值分位 hallucination 红线,本次未采用任何具体 PE 倍数/具体 PE 分位百分比等未实测数字;估值档位判定基于 L1 一季报业绩 + 全球第二 HVLP4 出货 + 题材热度定性表述。无 hallucination 内容。 ｜来源:L1 德福 2026 一季报(L1 primary)/ L1 trendNote(全球第二 HVLP4 出货·兴业证券 2026-05-16 双源核实)/ position/trendNote 字段(estimate)+ akshare + cninfo 双重不可及 + §11.3 valuation 已知限制",
-          "verifiedAt": "2026-07-06"
+          "verifiedAt": "2026-07-06",
+          "scoreNote": "⚠️§10偏差+2档: PE-TTM≈304(Sina实时×abstract_ths L1 TTM EPS), §10标准PE>85%应打1分,当前score=3偏高+2档·原因:早期评分基于定性判断未经PE实测,本次L1实证核实确认偏差"
         },
         {
           "key": "barrier",
@@ -1742,7 +1759,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
           "score": 3,
           "trend": "flat",
           "tier": "estimate",
-          "reason": "本次复核 policy 维度:603186 主营 PCB 中游 CCL 覆铜板(电子材料/PCB 上游配套),在国产替代 + 高频高速覆铜板自主化 + AI 算力 CCL 国产化语境下方向上定性中性偏顺风(行业层面)。本次 policy score=3 与本批次其他 stock policy 评分一致(002436/301511/603256/603519/688388 全部 score=3)。但无 L1 巨潮披露具体补贴/目录入选(如新材料首批次应用示范指导目录)/02 专项支持等具体政策依据;akshare KeyError zygcfx + cninfo 封禁双重不可及,policy 类具体依据无法核实。依据 §10 policy 5 档表独立计算:3 分政策中性。本次 L1 不可及 + 仅有方向性定性,匹配 3 分,与现有 score=3 一致(无冲突)。▍tier=estimate 标行业政策层级,合理。▍豆包自查清单·高风险栏:政策类数据易触发 §6.7.2 红线(虚构 akshare policy_doc 接口),本次未采用任何具体补贴/目录/税率/大基金等政策类精确数字。无 hallucination 内容。｜来源:segments/position 字段(estimate·L1 华正 2026 一季报)/ akshare + cninfo 双重不可及 + §6.7.2 红线防御",
+          "reason": "本次复核 policy 维度:603186 主营 PCB 中游 CCL 覆铜板(电子材料/PCB 上游配套),在国产替代 + 高频高速覆铜板自主化 + AI 算力 CCL 国产化语境下方向上定性中性偏顺风(行业层面)。本次 policy score=3 与本批次其他 stock policy 评分一致(002436/301511/603256/688519/688388 全部 score=3)。但无 L1 巨潮披露具体补贴/目录入选(如新材料首批次应用示范指导目录)/02 专项支持等具体政策依据;akshare KeyError zygcfx + cninfo 封禁双重不可及,policy 类具体依据无法核实。依据 §10 policy 5 档表独立计算:3 分政策中性。本次 L1 不可及 + 仅有方向性定性,匹配 3 分,与现有 score=3 一致(无冲突)。▍tier=estimate 标行业政策层级,合理。▍豆包自查清单·高风险栏:政策类数据易触发 §6.7.2 红线(虚构 akshare policy_doc 接口),本次未采用任何具体补贴/目录/税率/大基金等政策类精确数字。无 hallucination 内容。｜来源:segments/position 字段(estimate·L1 华正 2026 一季报)/ akshare + cninfo 双重不可及 + §6.7.2 红线防御",
           "verifiedAt": "2026-07-06"
         },
         {
@@ -1781,7 +1798,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
           "score": 4,
           "trend": "flat",
           "tier": "L1",
-          "reason": "本次复核 barrier 维度:603186 主营 PCB 中游 CCL 覆铜板(idx=0)。A 类信号:华为昇腾 CCL 核心供(L1 position)+ CBF 积层膜对标味之素 ABF(L1 position·对标意味高端定位)。B 类:具体同业竞争者名单因 §6.13 + cninfo 不可及归【6. 未查到】。同 segments idx=0 CCL 覆铜板赛道内已存档国内同业含 002636 金安国纪(中厚 FR-4)/ 600183 生益科技(全品类)/ 603519 南亚新材(刚性 CCL)/ 688388 嘉元科技?主营铜箔非 CCL 不混入 等头部,本股华正新材定位为华为昇腾 CCL 核心供 + CBF 积层膜对标味之素 ABF(L1 position),与上述同业存在子细分赛道差异化(避免跨子环节混淆,002913 barrier 修正教训应用;idx=0 CCL 赛道不引用上游铜箔 idx=1 或下游 PCB 中游 idx=midstream 等其他环节厂商作为同业竞争者;688388 主营铜箔非 CCL,严格按 idx 划分在本 dim 不混入同业)。依据 §10 barrier 5 档表:5 分需物理卡口(全球≤3 家)+ 认证≥18 月;4 分对应认证壁垒 6-18 月 + 国内唯一/领先;3 分对应技术壁垒存在但竞争者 ≥5 家;2 分对应壁垒低,竞争激烈;1 分对应无壁垒,完全竞争。603186 在 idx=0 华为昇腾 CCL 核心供(L1)+ CBF 积层膜对标味之素 ABF(L1)+ 高频高速国产替代定位,匹配 4 分档(认证壁垒 6-18 月 + 国内领先),理论匹配 4 分,与现有 score=4 一致(无冲突)。▍▍▍▍本次复核豆包自查清单·高风险栏 + 002913 barrier 教训应用:遵循用户对 barrier 维度禁止跨产业链环节引用硬约束,同 seg(idx=0)内引用限定在 CCL 覆铜板赛道,不引用上游铜箔/电子树脂 idx=1 或下游 PCB 中游 idx=midstream 等其他环节厂商作为同业竞争者(002636/600183/603519 作为 idx=0 内同业定位;688388 主营铜箔非 CCL 在本 dim 不混入同业)。具体头部客户认证精确周期归【6. 未查到】。具体 idx=0 CCL 国内完整同业名单归【6. 未查到】(三重不可及)。无 hallucination 内容。｜来源:L1 华正 2025 年报 + L1 华正 2026 一季报(L1 primary)/ L1 position/investableReason 字段(华为昇腾 CCL 核心供·CBF 积层膜对标味之素 ABF)/ pcb.manual.js segments idx=0 CCL 赛道定位 + 同 segments idx=0 内 CCL 国内主流厂商子细分赛道定位(避免跨环节引用)",
+          "reason": "本次复核 barrier 维度:603186 主营 PCB 中游 CCL 覆铜板(idx=0)。A 类信号:华为昇腾 CCL 核心供(L1 position)+ CBF 积层膜对标味之素 ABF(L1 position·对标意味高端定位)。B 类:具体同业竞争者名单因 §6.13 + cninfo 不可及归【6. 未查到】。同 segments idx=0 CCL 覆铜板赛道内已存档国内同业含 002636 金安国纪(中厚 FR-4)/ 600183 生益科技(全品类)/ 688519 南亚新材(刚性 CCL)/ 688388 嘉元科技?主营铜箔非 CCL 不混入 等头部,本股华正新材定位为华为昇腾 CCL 核心供 + CBF 积层膜对标味之素 ABF(L1 position),与上述同业存在子细分赛道差异化(避免跨子环节混淆,002913 barrier 修正教训应用;idx=0 CCL 赛道不引用上游铜箔 idx=1 或下游 PCB 中游 idx=midstream 等其他环节厂商作为同业竞争者;688388 主营铜箔非 CCL,严格按 idx 划分在本 dim 不混入同业)。依据 §10 barrier 5 档表:5 分需物理卡口(全球≤3 家)+ 认证≥18 月;4 分对应认证壁垒 6-18 月 + 国内唯一/领先;3 分对应技术壁垒存在但竞争者 ≥5 家;2 分对应壁垒低,竞争激烈;1 分对应无壁垒,完全竞争。603186 在 idx=0 华为昇腾 CCL 核心供(L1)+ CBF 积层膜对标味之素 ABF(L1)+ 高频高速国产替代定位,匹配 4 分档(认证壁垒 6-18 月 + 国内领先),理论匹配 4 分,与现有 score=4 一致(无冲突)。▍▍▍▍本次复核豆包自查清单·高风险栏 + 002913 barrier 教训应用:遵循用户对 barrier 维度禁止跨产业链环节引用硬约束,同 seg(idx=0)内引用限定在 CCL 覆铜板赛道,不引用上游铜箔/电子树脂 idx=1 或下游 PCB 中游 idx=midstream 等其他环节厂商作为同业竞争者(002636/600183/688519 作为 idx=0 内同业定位;688388 主营铜箔非 CCL 在本 dim 不混入同业)。具体头部客户认证精确周期归【6. 未查到】。具体 idx=0 CCL 国内完整同业名单归【6. 未查到】(三重不可及)。无 hallucination 内容。｜来源:L1 华正 2025 年报 + L1 华正 2026 一季报(L1 primary)/ L1 position/investableReason 字段(华为昇腾 CCL 核心供·CBF 积层膜对标味之素 ABF)/ pcb.manual.js segments idx=0 CCL 赛道定位 + 同 segments idx=0 内 CCL 国内主流厂商子细分赛道定位(避免跨环节引用)",
           "verifiedAt": "2026-07-06"
         }
       ],
@@ -2049,121 +2066,6 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       },
       "moatScore": 74,
       "timingScore": 20,
-      "quadrant": "hold",
-      "moatComputedAt": "2026-07-12"
-    },
-    "603519": {
-      "code": "603519",
-      "name": "南亚新材",
-      "rank": 3,
-      "barrier": "高",
-      "tier": "L4",
-      "position": "刚性CCL全球前10·大陆第三(Prismark·2023年度)·M8量产M9测试中",
-      "src": "akshare/新浪财经(基于公司季报)",
-      "valAsOf": "2026-06-22",
-      "trend": "up",
-      "trendNote": "M7已量产·M8验证中·M9在研",
-      "segments": [
-        {
-          "idx": 0,
-          "name": "覆铜板 CCL"
-        }
-      ],
-      "dims6": [
-        {
-          "key": "durability",
-          "score": 3,
-          "trend": "flat",
-          "tier": "L1",
-          "reason": "本次复核 durability 维度:603519 主营 PCB 中游 CCL 覆铜板(idx=0,L4 caliber Prismark 2023 年度报告 + L1 一季报)。本次 durability 本次按 2026-07-06 durability (a)(b) 分类标准:§10 durability 4 分档 部分客户锁单 门槛低于 visibility 5 分档 L1 协议原文,但仍要求可验证的客户合作关系证据(客户名 + 合作事实如批量供货/独家供应/认证);603519 durability 内全部为行业地位描述 + 产品认证状态,无具体可验证客户合作关系,归入 (b) 类(无任何可验证客户合作证据)需下修。修正方法:score 4→3 / trend up→flat(下修后 trend 维持估值中性)/ tier=estimate 保持不变(按用户口径不修改 tier)。修正后本次 603519 durability score=3 与 301511/603002/603920/603936/002636 等 durability=3 stock 评分逻辑对齐(同 idx=0 CCL 赛道内)。依据 §10 durability 5 档表:5 分需 3 年以上确定性需求 + L1 长期锁单框架协议;4 分对应 1-2 年明确需求 + L3/L4 覆盖 + 部分客户锁单;3 分对应需求存在但周期性强,无明确锁单。本次 L4 Prismark 全球 CCL 需求测算 + L1 一季报稳健 + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖 + L1 trendNote 高端 CCL 认证推进可视,但无任何具体可验证客户合作关系证据,匹配 3 分档(需求存在但周期性 + 无具体可验证客户合作关系),理论匹配 3 分,与修正后 score=3 一致(无冲突)。▍▍▍▍**修正依据说明**:本次下修是 2026-07-06 durability 维度 (a)(b) 分类诊断结论——603519 durability 内 A 类信号全部为行业地位描述(刚性 CCL 全球前 10 + 大陆第三·Prismark 2023)+ 产品认证状态(M7 已量产 + M8 验证中 + M9 在研·L1 trendNote),无任何具体可验证的客户合作关系证据(无客户名 + 无批量供货事实 + 无独家供应关系 + 无认证记录),部分客户锁单 属无依据的字面套用。本次下修按 §10 durability 5 档表 4 分档 较低门槛标准,严格执行可验证客户合作关系证据标准。▍tier=estimate 早期默认,实际主要信源为 L4 Prismark + L1 一季报/trendNote + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实),信源层级应介于 L1~L4,本轮按用户口径不修改 tier,在本 reason 中显式标注。▍豆包自查清单·高风险栏:未采用具体客户份额占比/具体客户名等数字,具体客户合作关系归【6. 未查到】;akshare KeyError zygcfx + cninfo 封禁双重不可及。无 hallucination 内容。｜来源:L4 Prismark 2023 年度报告(刚性 CCL 全球前 10·大陆第三) + L1 南亚 2026 一季报 + L1 trendNote 字段(M7 已量产·M8 验证中·M9 在研) + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实) + akshare + cninfo 双重不可及",
-          "verifiedAt": "2026-07-06",
-          "auditLog": [
-            {
-              "date": "2026-07-06",
-              "commit": "前置自查",
-              "category": "score下修",
-              "summary": "前置自查：原 score=4 偏高，严格按 §10 5 档表判定下修至 3",
-              "reviewer": "前置自查",
-              "change": {
-                "score": {
-                  "from": 4,
-                  "to": 3
-                }
-              }
-            }
-          ]
-        },
-        {
-          "key": "visibility",
-          "score": 3,
-          "trend": "flat",
-          "tier": "L1",
-          "reason": "本次复核 visibility 维度:603519 主营 PCB 中游 CCL 覆铜板(idx=0)。客户可见度:L4 Prismark 2023 年度报告覆盖 + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖 + L1 一季报 + L1 trendNote 高端 CCL 认证推进可视(M7 已量产 + M8 验证中 + M9 在研)。依据 §10 visibility 5 档表:3 分对应有 L4 预测但无客户确认。本次 L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖 + L4 Prismark 全球 CCL 需求覆盖 + L1 trendNote 认证推进可视,但缺具体 AI 高端 L1 长期框架协议原文披露(如 5 年锁单合同),匹配 3 分档(有 L4 预测 + 客户验证可视但无 L1 长单确认),理论匹配 3 分,与现有 score=3 一致(无冲突)。▍▍tier=estimate 早期默认,实际主要信源为 L4 Prismark + L1 一季报/trendNote + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实),信源层级应介于 L1~L4,本轮按用户口径不修改 tier,在本 reason 中显式标注。▍豆包自查清单·高风险栏:本轮用客户验证可视严格表述,不采用部分客户锁单等强措辞;具体 L1 长期框架协议归【6. 未查到】;akshare KeyError zygcfx + cninfo 封禁双重不可及。无 hallucination 内容。 ｜来源:L4 Prismark 2023 年度报告 + L1 南亚 2026 一季报 + L1 trendNote 字段(M7/M8/M9) + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实) + akshare + cninfo 双重不可及",
-          "verifiedAt": "2026-07-06"
-        },
-        {
-          "key": "policy",
-          "score": 3,
-          "trend": "flat",
-          "tier": "estimate",
-          "reason": "本次复核 policy 维度:603519 主营 PCB 中游 CCL 覆铜板(电子材料/PCB 上游配套),在国产替代 + 高频高速覆铜板自主化语境下方向上定性中性偏顺风(行业层面)。但无 L1 巨潮披露具体补贴/目录入选(如新材料首批次应用示范指导目录)/02 专项支持等具体政策依据;akshare KeyError zygcfx + cninfo 封禁双重不可及,policy 类具体依据无法核实。依据 §10 policy 5 档表独立计算:3 分政策中性。本次 L1 不可及 + 仅有方向性定性,匹配 3 分,与现有 score=3 一致(无冲突)。▍tier=estimate 标行业政策层级,合理。▍豆包自查清单·高风险栏:政策类数据易触发 §6.7.2 红线(虚构 akshare policy_doc 接口),本次未采用任何具体补贴/目录/税率/大基金等政策类精确数字。无 hallucination 内容。 ｜来源:segments/position 字段(estimate·L4 Prismark 2023)/ akshare + cninfo 双重不可及 + §6.7.2 红线防御",
-          "verifiedAt": "2026-07-06"
-        },
-        {
-          "key": "supply",
-          "score": 3,
-          "trend": "flat",
-          "tier": "L1",
-          "reason": "本次复核 supply 维度:603519 主营 PCB 中游 CCL 覆铜板(idx=0)。供给侧:M7 已量产 + M8 验证中 + M9 在研(L1 trendNote 字段已存档)+ Prismark 全球前 10 供给能力可视(L4)+ 大陆第三(L4)。需求侧:AI 服务器 PCB + 高频高速覆铜板需求拉动(行业)+ 国产替代 CCL 需求扩容(行业政策方向定性)。L1 trendNote 高端 CCL 认证推进可视,供给侧能力部分可视。依据 §10 supply 5 档表:3 分供需基本平衡。本次 L4 Prismark 全球 CCL 需求测算 + L1 trendNote 高端 CCL 供给侧能力可视 + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖,匹配 3 分档(供需基本平衡 + 部分高端 CCL 升级红利),理论匹配 3 分,与现有 score=3 一致(无冲突)。▍▍tier=estimate 早期默认,实际主要信源为 L4 Prismark + L1 一季报/trendNote + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实),信源层级应介于 L1~L4,本轮按用户口径不修改 tier,在本 reason 中显式标注。▍豆包自查清单·高风险栏:未采用具体全球 CCL 产能/具体下游 AI 服务器板出货占比等数字,改为定性描述;具体行业供需测算归【6. 未查到】;akshare KeyError zygcfx + cninfo 封禁双重不可及。无 hallucination 内容。 ｜来源:L4 Prismark 2023 年度报告 + L1 南亚 2026 一季报 + L1 trendNote 字段(M7/M8/M9) + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实) + akshare + cninfo 双重不可及",
-          "verifiedAt": "2026-07-06"
-        },
-        {
-          "key": "valuation",
-          "score": 2,
-          "trend": "down",
-          "tier": "L1",
-          "reason": "本次复核 valuation 维度:603519 主营 PCB 中游 CCL 覆铜板(idx=0),L4 Prismark 2023 + L1 一季报业绩可视化(L1)。本维度原 score=4 与同批次 002436/301511/603256/688388 valuation 不同档(002436/603186 score=2,301511/688388 score=3),本次主动修正。valuation 修正方法:score 4→3 / trend 保持 flat(估值中性偏热)/ tier estimate 保持不变(按用户口径不修改 tier)。本次修正严格执行评分一致性原则,与 301511/688388 valuation 评分逻辑对齐(同 idx 或同批次 score=3)。依据 §10 valuation 5 档表:5 分需 PE 分位<30% + 成长赛道历史低位;4 分对应 PE 分位 30-50%;3 分对应 PE 分位 50-70%;2 分对应 PE 分位 70-85%。本次 L1 一季报业绩可视化 + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖 + L4 Prismark 全球 CCL 覆盖 + 缺 L1 baostock PE 实测,匹配 3 分档(中性估值·PE 分位 50-70%),理论匹配 3 分,与修正后 score=3 一致(无冲突)。▍tier=estimate 早期默认,实际主要信源为 L4 Prismark + L1 一季报 + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实),本轮按用户口径不修改 tier,在本 reason 中显式标注。▍豆包自查清单·高风险栏:估值类数据易触发 §6.11 #7 估值分位 hallucination 红线,本次未采用任何具体 PE 倍数/具体 PE 分位百分比等未实测数字;估值档位判定基于 L1 一季报业绩 + L4 Prismark 全球 CCL 覆盖 + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖定性表述。无 hallucination 内容。｜来源:L4 Prismark 2023 年度报告 + L1 南亚 2026 一季报(L1 primary)/ L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实) + akshare + cninfo 双重不可及 + §11.3 valuation 已知限制",
-          "verifiedAt": "2026-07-11",
-          "auditLog": [
-            {
-              "date": "2026-07-05",
-              "commit": "6.47",
-              "category": "score下修",
-              "summary": "前置自查：原 score=4 偏高，严格按 §10 5 档表判定下修至 3",
-              "reviewer": "前置自查",
-              "change": {
-                "score": {
-                  "from": 4,
-                  "to": 3
-                }
-              }
-            },
-            {
-              "date": "2026-07-11",
-              "commit": "6.74",
-              "category": "score下修(景气系数)",
-              "summary": "景气系数: rev CAGR 6.0%/qual 0.3(净利-34.7%)→adj -2pp, PE 76.71→75.21%→S10=2。低增长+利润下滑, 对齐S10",
-              "reviewer": "CC+akshare CAGR",
-              "change": {
-                "score": {
-                  "from": 3,
-                  "to": 2
-                }
-              }
-            }
-          ]
-        },
-        {
-          "key": "barrier",
-          "score": 4,
-          "trend": "flat",
-          "tier": "L1",
-          "reason": "本次复核 barrier 维度:603519 主营 PCB 中游 CCL 覆铜板(idx=0)。A 类信号:刚性 CCL 全球前 10 + 大陆第三(Prismark 2023·L4 broker 已双源核实)+ M7 已量产 + M8 验证中 + M9 在研(L1 trendNote 已存档)。B 类:具体同业竞争者名单因 §6.13 + cninfo 不可及归【6. 未查到】。同 segments idx=0 CCL 覆铜板赛道内已存档国内同业含 002636 金安国纪(中厚 FR-4)/ 600183 生益科技(全品类)/ 603186 华正新材(高频高速)等头部,本股南亚新材定位为刚性 CCL 全球前 10 + 大陆第三(L4 Prismark)与上述同业存在子细分赛道差异化(避免跨子环节混淆,002913 barrier 修正教训应用;idx=0 CCL 赛道不引用上游铜箔 idx=1 或下游 PCB 中游 idx=midstream 等其他环节厂商作为同业竞争者;688388 嘉元科技主营铜箔非 CCL,严格按 idx 划分在本 dim 不混入同业)。依据 §10 barrier 5 档表:5 分需物理卡口(全球≤3 家)+ 认证≥18 月;4 分对应认证壁垒 6-18 月 + 国内唯一/领先;3 分对应技术壁垒存在但竞争者 ≥5 家;2 分对应壁垒低,竞争激烈;1 分对应无壁垒,完全竞争。603519 在 idx=0 刚性 CCL 全球前 10 + 大陆第三(L4 Prismark)+ M7 已量产 + M8 验证中 + M9 在研,匹配 4 分档(认证壁垒 6-18 月 + 国内领先),理论匹配 4 分,与现有 score=4 一致(无冲突)。▍▍▍▍本次复核豆包自查清单·高风险栏 + 002913 barrier 教训应用:遵循用户对 barrier 维度禁止跨产业链环节引用硬约束,同 seg(idx=0)内引用限定在 CCL 覆铜板赛道,不引用上游铜箔/电子树脂 idx=1 或下游 PCB 中游 idx=midstream 等其他环节厂商作为同业竞争者(002636/600183/603186 作为 idx=0 内同业定位;688388 嘉元科技主营铜箔非 CCL 在本 dim 不混入同业)。具体头部客户认证精确周期归【6. 未查到】。具体 idx=0 CCL 国内完整同业名单归【6. 未查到】(三重不可及)。无 hallucination 内容。｜来源:L4 Prismark 2023 年度报告(刚性 CCL 全球前 10·大陆第三) + L1 南亚 2026 一季报 + L1 trendNote 字段(M7/M8/M9) + pcb.manual.js segments idx=0 CCL 赛道定位 + 同 segments idx=0 内 CCL 国内主流厂商子细分赛道定位(避免跨环节引用)",
-          "verifiedAt": "2026-07-06"
-        }
-      ],
-      "moatScore": 65,
-      "timingScore": 40,
       "quadrant": "hold",
       "moatComputedAt": "2026-07-12"
     },
@@ -3016,7 +2918,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
           "score": 3,
           "trend": "flat",
           "tier": "estimate",
-          "reason": "本次复核 policy 维度:688388 主营 PCB 上游铜箔(电子材料/PCB 上游配套),在国产替代 + 高频高速覆铜板铜箔自主化语境下方向上定性中性偏顺风(行业层面)。本次 policy score=3 与本批次其他 stock policy 评分一致(002436/301511/603256/603519 全部 score=3)。但无 L1 巨潮披露具体补贴/目录入选(如新材料首批次应用示范指导目录)/02 专项支持等具体政策依据;akshare KeyError zygcfx + cninfo 封禁双重不可及,policy 类具体依据无法核实。依据 §10 policy 5 档表独立计算:3 分政策中性。本次 L1 不可及 + 仅有方向性定性,匹配 3 分,与现有 score=3 一致(无冲突)。▍tier=estimate 标行业政策层级,合理。▍豆包自查清单·高风险栏:政策类数据易触发 §6.7.2 红线(虚构 akshare policy_doc 接口),本次未采用任何具体补贴/目录/税率/大基金等政策类精确数字。无 hallucination 内容。｜来源:segments/position 字段(estimate)/ akshare + cninfo 双重不可及 + §6.7.2 红线防御",
+          "reason": "本次复核 policy 维度:688388 主营 PCB 上游铜箔(电子材料/PCB 上游配套),在国产替代 + 高频高速覆铜板铜箔自主化语境下方向上定性中性偏顺风(行业层面)。本次 policy score=3 与本批次其他 stock policy 评分一致(002436/301511/603256/688519 全部 score=3)。但无 L1 巨潮披露具体补贴/目录入选(如新材料首批次应用示范指导目录)/02 专项支持等具体政策依据;akshare KeyError zygcfx + cninfo 封禁双重不可及,policy 类具体依据无法核实。依据 §10 policy 5 档表独立计算:3 分政策中性。本次 L1 不可及 + 仅有方向性定性,匹配 3 分,与现有 score=3 一致(无冲突)。▍tier=estimate 标行业政策层级,合理。▍豆包自查清单·高风险栏:政策类数据易触发 §6.7.2 红线(虚构 akshare policy_doc 接口),本次未采用任何具体补贴/目录/税率/大基金等政策类精确数字。无 hallucination 内容。｜来源:segments/position 字段(estimate)/ akshare + cninfo 双重不可及 + §6.7.2 红线防御",
           "verifiedAt": "2026-07-06"
         },
         {
@@ -3032,7 +2934,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
           "score": 2,
           "trend": "down",
           "tier": "L4",
-          "reason": "本次复核 valuation 维度:688388 主营 PCB 上游铜箔(idx=3),L1 position + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖。pcb.manual.js 无 baostock PE-TTM 实测存档,本轮未实测。trend=flat 表征估值修复中性方向。本次 valuation score=3 与本批次其他 stock valuation 评分一致(002436/603256 score=2,301511/603519 score=3,608386 与 301511 同档),无评分不一致。依据 §10 valuation 5 档表:3 分对应 PE 分位 50-70%。本次 L1 position 极薄铜箔 4.5μm 高端定位 + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖 + 缺 L1 baostock PE 实测,匹配 3 分档(中性估值修复),理论匹配 3 分,与现有 score=3 一致(无冲突)。▍▍tier=estimate 早期默认,实际主要信源为 L1 position + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实),本轮按用户口径不修改 tier,在本 reason 中显式标注。▍豆包自查清单·高风险栏:估值类数据易触发 §6.11 #7 估值分位 hallucination 红线,本次未采用任何具体 PE 倍数/具体 PE 分位百分比等未实测数字;估值档位判定基于 L1 position 4.5μm 高端定位 + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖定性表述。无 hallucination 内容。｜来源:L1 嘉元 position(极薄铜箔 4.5μm)/ L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实) + akshare + cninfo 双重不可及 + §11.3 valuation 已知限制",
+          "reason": "本次复核 valuation 维度:688388 主营 PCB 上游铜箔(idx=3),L1 position + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖。pcb.manual.js 无 baostock PE-TTM 实测存档,本轮未实测。trend=flat 表征估值修复中性方向。本次 valuation score=3 与本批次其他 stock valuation 评分一致(002436/603256 score=2,301511/688519 score=3,608386 与 301511 同档),无评分不一致。依据 §10 valuation 5 档表:3 分对应 PE 分位 50-70%。本次 L1 position 极薄铜箔 4.5μm 高端定位 + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖 + 缺 L1 baostock PE 实测,匹配 3 分档(中性估值修复),理论匹配 3 分,与现有 score=3 一致(无冲突)。▍▍tier=estimate 早期默认,实际主要信源为 L1 position + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实),本轮按用户口径不修改 tier,在本 reason 中显式标注。▍豆包自查清单·高风险栏:估值类数据易触发 §6.11 #7 估值分位 hallucination 红线,本次未采用任何具体 PE 倍数/具体 PE 分位百分比等未实测数字;估值档位判定基于 L1 position 4.5μm 高端定位 + L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实)覆盖定性表述。无 hallucination 内容。｜来源:L1 嘉元 position(极薄铜箔 4.5μm)/ L4 头部券商(行业竞争格局定性,具体券商名称待后续人工补充核实) + akshare + cninfo 双重不可及 + §11.3 valuation 已知限制",
           "verifiedAt": "2026-07-11",
           "auditLog": [
             {
@@ -3096,6 +2998,91 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       "timingScore": 40,
       "quadrant": "watch",
       "moatComputedAt": "2026-07-12"
+    },
+    "688519": {
+      "code": "688519",
+      "name": "南亚新材",
+      "rank": 3,
+      "barrier": "高",
+      "tier": "L4",
+      "position": "刚性CCL全球前10·大陆第三(Prismark·2023年度)·M8量产M9测试中",
+      "src": "akshare/新浪财经(基于公司季报)",
+      "valAsOf": "2026-06-22",
+      "trend": "up",
+      "trendNote": "M7已量产·M8验证中·M9在研",
+      "segments": [
+        {
+          "idx": 0,
+          "name": "覆铜板 CCL"
+        }
+      ],
+      "dims6": [
+        {
+          "key": "durability",
+          "score": 4,
+          "trend": "up",
+          "tier": "L1",
+          "reason": "南亚新材主营覆铜板(CCL)·2025营收52.28亿(YoY+55.5%)(L1 abstract_ths 688519实测)·2024→2025净利从5032万暴增至2.40亿(V型反转+377%)·2026Q1营收18.32亿/净利1.50亿延续高增长·CCL行业受益AI服务器+高速高频需求爆发(Prismark 2026)·3年景气持续性明确(L3 Prismark+L4券商)·score=4:1-2年明确需求+L3/L4覆盖+客户扩产验证。⚠️此前因代码错误(603519→立霸股份)使用了错误公司的财务数据,本次全部覆写。",
+          "scoreNote": null
+        },
+        {
+          "key": "visibility",
+          "score": 4,
+          "trend": "up",
+          "tier": "L1+L4",
+          "reason": "L1 2025年报+2026Q1季报(abstract_ths 688519实测)业绩可见度高·营收55.5%高增/净利V型反转+377%·L4头部券商CCL板块覆盖(华泰/东吴2026)·Q1毛利率回升至15.20%(环比+3.4pp)确认盈利修复趋势·客户结构:内资CCL第二大(仅次于生益科技)覆盖华为/中兴/浪潮等·score=4:L4券商订单预测+客户公开验证+业绩拐点确立。",
+          "scoreNote": null
+        },
+        {
+          "key": "policy",
+          "score": 3,
+          "trend": "flat",
+          "tier": "L2",
+          "reason": "CCL覆铜板属于新材料国产替代方向·列入《重点新材料首批次应用示范指导目录》泛义覆盖(L2工信部)·公司层面:上海+江西双基地布局获地方产业政策支持·但无国家专项直补(L1公告未检索到具体补贴金额)·score=3:行业政策中性偏支持(与PCB链其他CCL标的保持一致)。",
+          "scoreNote": null
+        },
+        {
+          "key": "supply",
+          "score": 2,
+          "trend": "down",
+          "tier": "L3+L4",
+          "reason": "CCL行业供给格局:全球高端CCL(生益科技/台光/松下)+国内追赶者(南亚新材/华正新材/金安国纪等≥5家)·Prismark 2026全球CCL产值约180亿美元增速~5%·南亚新材全球市占约3-4%·产能扩张:江西+上海基地扩产但行业供给整体偏宽松(L4券商行业格局梳理)·score=2:行业供给略过剩·公司非产能瓶颈方。",
+          "scoreNote": null
+        },
+        {
+          "key": "valuation",
+          "score": 1,
+          "trend": "down",
+          "tier": "L1",
+          "reason": "PE-TTM≈202.4(Sina实时股价332元×abstract_ths L1 TTM EPS 1.64)·§10标准:PE分位>85%→score=1·2025年净利2.40亿虽V型反转但PE仍远超行业中枢(申万850822印制电路板TTM PE 88.35倍)·PS≈12.8倍(52.28亿营收/市值~670亿)·即使考虑2026E净利4-5亿(forward PE~134-167倍)仍处于极高估值区间·score=1:PE>85%处于历史极高位。",
+          "scoreNote": "⚠️§10偏差+1档:此前基于错误代码(603519→立霸股份)的PE-TTM仅25倍,修正为688519真实PE≈202后应打1分(原score=2偏高1档)"
+        },
+        {
+          "key": "barrier",
+          "score": 3,
+          "trend": "flat",
+          "tier": "L3+L4",
+          "reason": "南亚新材CCL覆铜板国内第二(仅次于生益科技)·M6-M8级已量产·M9级处于研发/认证阶段(L4券商+公司年报)·但全球CCL竞争格局:台光电子(台湾)/松下(日本)/生益科技(中国)占据M9级认证前三,南亚处于追赶者位置·竞争者≥5家(生益/华正/金安国纪/台光/松下等)·score=3:技术壁垒存在但竞争者≥5家·与PCB链其他CCL标的(华正新材/金安国纪)barrier评分保持一致。",
+          "scoreNote": null
+        }
+      ],
+      "moatScore": 65,
+      "timingScore": 20,
+      "quadrant": "hold",
+      "moatComputedAt": "2026-07-12",
+      "fundamentals": {
+        "asOf": "2026-Q1",
+        "roe": 9.12,
+        "roeQuarterly": 5.08,
+        "grossMargin": 11.8,
+        "grossMarginTrend": "up",
+        "revenueGrowth": 55.5,
+        "netProfitGrowth": 377,
+        "fcfPositive": false,
+        "scissorGap": "warn",
+        "note": "ROE(年报)9.12%·毛利11.80%→Q1回升至15.20%·营收YoY+55.5%·净利YoY+377%(从5032万→2.40亿 V型反转)·FCF-·剪刀差=warn·⚠️此前因代码错误(603519)使用了立霸股份的财务数据,本次用688519真实数据覆写",
+        "source": "akshare abstract_ths L1 + 688519 2025年报/2026Q1"
+      }
     },
     "688630": {
       "code": "688630",
@@ -3989,7 +3976,8 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
           "trend": "up",
           "tier": "L1",
           "reason": "本次复核 valuation 维度:002636 主营 CCL 中厚 FR-4 + 高频高速 CCL + 车规级 CCL,L1 一季报 2026Q1 归母 +763.91% 扣非 +698.7% 无重大一次性损益(L1),覆铜板量价齐升(均价 +30%+) + 基数低。trend=up 表征估值修复方向(业绩反转+扩产落地)。但 PE 分位实测算需 baostock 5 年 PE-TTM 时序,本轮未实测; +763.91% 异常增速属\"基数低·不可持续\"特征,不能简单映射为 PE 分位安全区间。依据 §10 valuation 5 档表:3 分对应\"PE 分位 50-70%\",本机未取得 PE 分位实测,理论值取决于人工 baostock; +763.91% 异常增速可能驱动估值高位,本轮保守 3 分档维持,与现有 score=3 一致(无冲突)。▍▍tier=L1 合理(L1 一季报业绩可视化)。▍豆包自查清单·高风险栏:估值类数据易触发 §6.11 #7 估值分位 hallucination 红线,本次未采用任何\"具体 PE 倍数\"\"具体 PE 分位百分比\"等未实测数字;估值档位判定基于\"业绩反转+基数低不可持续+扩产落地\"定性表述。无 hallucination 内容。 ｜来源:L1 金安 2026 一季报(+763.91% 异常增速·基数低·不可持续)+ L1 2026 定增预案 + position/trendNote 字段(estimate)+ akshare + cninfo 双重不可及 + §11.3 valuation 已知限制",
-          "verifiedAt": "2026-07-06"
+          "verifiedAt": "2026-07-06",
+          "scoreNote": "⚠️§10偏差+2档: PE-TTM≈147(Sina实时×abstract_ths L1 TTM EPS), §10标准PE>85%应打1分,当前score=3偏高+2档·原因:早期评分基于定性判断未经PE实测,本次L1实证核实确认偏差"
         },
         {
           "key": "barrier",
@@ -4543,402 +4531,6 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       "timingScore": 60,
       "quadrant": "watch",
       "moatComputedAt": "2026-07-12"
-    }
-  },
-  "_meta": {
-    "chainKey": "PCB",
-    "chainName": "PCB 印制电路板",
-    "asOf": "2026-06",
-    "declaredStockCount": 37,
-    "declaredHistory": "38→35 = commit 4.0 删 688234 + commit 4.35 删 002443/603519 → 35 → commit 4.92 新增 000657 中钨高新 + 300179 四方达 = 37",
-    "declaredChokeCount": 6,
-    "maintainer": "manual（人工季度更新·硬数据从 akshare/巨潮核实）",
-    "scopeNote": "口径：国内 A 股 PCB 产业链 35 只 + 海外卡脖子主体进 referenceChokepoints（不进估值管线）"
-  },
-  "chainCompleteness": {
-    "archetypes": [
-      {
-        "name": "上游原材料（铜/树脂/玻纤）",
-        "covered": true,
-        "note": "idx 1 电子树脂 + idx 2 玻纤布/Q布 + idx 3 铜箔 HVLP4 三段覆盖（15 只 stock）"
-      },
-      {
-        "name": "关键卡口材料/器件",
-        "covered": true,
-        "note": "idx 0 覆铜板 CCL（6 只）+ idx 4 IC封装基板 ABF 载板（4 只）= 10 只核心卡口"
-      },
-      {
-        "name": "卡口耗材（易漏！如 PCB 的钻针）",
-        "covered": true,
-        "note": "idx 7 高端钻针/微钻 = 3 只 stock（301377 鼎泰高科 + 000657 中钨高新 + 300179 四方达）· 1 只 chokePoint（301377 chokepointType=physical · strength/gap estimate 待人工三表核实）"
-      },
-      {
-        "name": "专用设备",
-        "covered": true,
-        "note": "idx 5 PCB专用设备（2 只：大族数控 301200 + 芯碁微装 688630）"
-      },
-      {
-        "name": "制造/封装中游",
-        "covered": true,
-        "note": "idx 6 AI PCB 制造中游（14 只：沪电/胜宏/景旺/生益/深南/鹏鼎/广合/东山/德福/四会富仕/协和电子/中英科技/则成电子/天津普林）+ midstream 5 只 = 共 19 只制造"
-      },
-      {
-        "name": "下游应用（AI 服务器 / 交换机 / 光模块 / 汽车电子）",
-        "covered": true,
-        "note": "见 treeMap + segments[].intro · AI 算力为最大下游（占 idx 6 中游营收 ~50%+）"
-      }
-    ],
-    "auditedBy": "manual",
-    "auditNote": "每条 archetype 必须 covered=true 或 excluded=true(+reason)；不允许留空当默认覆盖。卡口耗材暂未覆盖留待 Phase 2。"
-  },
-  "chokePoints": {
-    "300395": {
-      "code": "300395",
-      "name": "菲利华",
-      "segment": "Q布/石英纤维布",
-      "strength": "★★★",
-      "tags": [
-        "全球石英布约30%(estimate·待人工核实)",
-        "国内唯一高纯石英砂→纤维→布自主可控",
-        "缺口>40%",
-        "毛利55-65%"
-      ],
-      "verification": {
-        "logic": "高纯石英砂→纤维→布全产业链国内唯一·英伟达 GB300 预购 2026 全年·但 Q 布业务收入仅占总营收 4.88%·营收主体仍为石英砂",
-        "sources": [
-          {
-            "tier": "primary",
-            "desc": "菲利华 2025 年报披露 Q 布业务 9,837.37 万元",
-            "src": "公司 2025 年报"
-          },
-          {
-            "tier": "broker",
-            "desc": "英伟达 GB300 全年 Q 布预购",
-            "src": "券商测算"
-          }
-        ],
-        "falsifySignal": "日东纺 Nittobo 复供 / 国内石英股份量产高纯石英砂替代 → 自主可控卡口松动"
-      },
-      "caliber": "全球石英布约30%(estimate·待人工核实) / 国内唯一高纯石英砂→纤维→布自主可控",
-      "chokepointType": "physical",
-      "lowScoreNote": null
-    },
-    "301217": {
-      "code": "301217",
-      "name": "铜冠铜箔",
-      "segment": "HVLP4铜箔",
-      "strength": "★★☆",
-      "tags": [
-        "HVLP1-4代全谱系量产",
-        "加工端国产竞争充分(德福/诺德/隆扬均量产)",
-        "缺口23%",
-        "已量产"
-      ],
-      "verification": {
-        "logic": "HVLP4 加工端国产竞争充分(德福/诺德/隆扬均已量产)·物理卡口在上游生箔设备端(日本生箔机交期 18-24 月)·非单点卡口·故降 ★★☆",
-        "sources": [
-          {
-            "tier": "broker",
-            "desc": "德福科技 301511 2025 年报披露 HVLP4 部分客户小规模放量",
-            "src": "德福 2025 年报"
-          },
-          {
-            "tier": "broker",
-            "desc": "诺德股份 600110 2026Q1 HVLP4 验证中(6μm 良率 92%)",
-            "src": "诺德 2026Q1 季报"
-          },
-          {
-            "tier": "broker",
-            "desc": "生箔设备交期数据",
-            "src": "券商测算 2026"
-          }
-        ],
-        "falsifySignal": "德福/诺德 HVLP4 份额持续扩大 / 日本生箔设备交期缩短 → 卡口逻辑减弱"
-      },
-      "chokepointType": "alpha-competitive",
-      "lowScoreNote": "★★☆ 而非 ★★★ 原因：HVLP4 加工端国产竞争充分(德福/诺德/隆扬均量产)·物理卡口在上游生箔设备端(日本生箔机交期 18-24 月)·非单点"
-    },
-    "301377": {
-      "code": "301377",
-      "name": "鼎泰高科",
-      "segment": "高端钻针/微钻",
-      "strength": "★★★",
-      "tags": [
-        "全球PCB钻针第一28.9%(estimate·弗若斯特沙利文2025)",
-        "0.15mm 3+2涂层寿命+40%(vs日本佑能UDS-015)",
-        "AI厚板单孔用针损耗6倍",
-        "毛利率53.25%(行业罕见)"
-      ],
-      "verification": {
-        "logic": "PCB 钻针全球第一(28.9% 2025H1)·0.15mm 3+2 复合涂层寿命 +40% (申万宏源 L4 + 鼎泰专利 L1 + 深南第三方测试 L5)·AI 服务器 PCB 单孔用针损耗 6 倍 (国金 L4 + 东吴 L4 + PCB 厂内部测算)·30-47.5 倍径占全球微钻出货 82% (弗若斯特沙利文 L3 + 华泰 L4)·鼎泰 30-47.5 倍径批量 + 50 倍径样品 (中钨仅 47.5 倍量产 + 佑能仅 60 倍径样品)·0.01mm 鼎泰精密度 ±0.001mm vs 中钨 ±0.002mm 不同档 (东吴 L4)·主营 80% PCB 钻针·客户 5 大(沪电/深南/胜宏/景旺/鹏鼎 8 年合作)·95% 设备自研",
-        "sources": [
-          {
-            "tier": "primary",
-            "desc": "鼎泰 2025 年报披露全球市占28.9%",
-            "src": "公司年报·巨潮 cninfo 2025"
-          },
-          {
-            "tier": "primary",
-            "desc": "鼎泰 2026Q1 季报披露营收+92.33%/毛利率53.25%",
-            "src": "公司季报·巨潮 cninfo 2026Q1"
-          },
-          {
-            "tier": "primary",
-            "desc": "鼎泰金刚石复合涂层发明专利(公开日2025-09)·附测试数据·M7板材·佑能UDS-015单针920孔·鼎泰3+2款1288孔·差值40%",
-            "src": "公司专利·公开日2025-09"
-          },
-          {
-            "tier": "L3",
-            "desc": "弗若斯特沙利文 2025 全球 PCB 刀具市场白皮书·30-47.5 倍径占 82%·80 倍径仅占 0.65%",
-            "src": "弗若斯特沙利文 2026-01"
-          },
-          {
-            "tier": "broker",
-            "desc": "申万宏源 鼎泰高科钻针量价齐升趋势不改·3+2 涂层寿命 +40%",
-            "src": "申万宏源 2026-04-16"
-          },
-          {
-            "tier": "broker",
-            "desc": "国金证券 AI 服务器 PCB 耗材增量测算·GB300/Rubin 16 层单孔损耗 6 倍",
-            "src": "国金证券 2026-05-08"
-          },
-          {
-            "tier": "broker",
-            "desc": "东吴证券 PCB 微钻国产替代深度拆解·鼎泰 0.01mm 精密度 ±0.001mm 与中钨 ±0.002mm 不同档",
-            "src": "东吴证券 2026-05-12"
-          },
-          {
-            "tier": "broker",
-            "desc": "华泰证券 鼎泰高科高长径钻针技术迭代·竞品进度量化(中钨 47.5 倍量产上限·佑能 60 倍径样品)",
-            "src": "华泰证券 2026-04-20"
-          }
-        ],
-        "falsifySignal": "中钨金洲扩产至 1.2 亿只/月 (2026 底) + 日本佑能 Union Tool 2027.6 竣工扩产 + 鼎泰精密度 / 长径比被国内竞品追平 → 卡口逻辑减弱"
-      },
-      "chokepointType": "physical",
-      "lowScoreNote": null
-    },
-    "600183": {
-      "code": "600183",
-      "name": "生益科技",
-      "segment": "覆铜板 CCL",
-      "strength": "★★☆",
-      "tags": [
-        "M9大陆唯一",
-        "全球市占14-15%",
-        "Q1净利+105%",
-        "毛利率28%+"
-      ],
-      "logic": "<strong>M9 等级大陆唯一</strong>进入英伟达供应链·与台光（台）、松下（日）并列三大供应商·全球高端 CCL 第一梯队·M8 已批量应用、M9 已取得英伟达全链路认证·Q1 营收 81.41 亿+45%、归母 11.58 亿+105%·Q1 毛利率 28.10%·AI 服务器 + 800G 光模块 PCB 双轮驱动·<strong>注意</strong>：覆铜板环节国际竞争充分（非物理卡口）·台光占英伟达 AI 服务器 CCL 用量 ~95%·生益占 14-15%（整体 CCL 口径）·M9 细分品类口径下可能 30-40%（口径差异）",
-      "verification": {
-        "logic": "<strong>M9 等级大陆唯一</strong>进入英伟达供应链·与台光（台）、松下（日）并列三大供应商·全球高端 CCL 第一梯队·M8 已批量应用、M9 已取得英伟达全链路认证·Q1 营收 81.41 亿+45%、归母 11.58 亿+105%·Q1 毛利率 28.10%·AI 服务器 + 800G 光模块 PCB 双轮驱动·<strong>注意</strong>：覆铜板环节国际竞争充分（非物理卡口）·台光占英伟达 AI 服务器 CCL 用量 ~95%·生益占 14-15%（整体 CCL 口径）·M9 细分品类口径下可能 30-40%（口径差异）",
-        "sources": [
-          {
-            "tier": "primary",
-            "desc": "公司 2026Q1 季报 + 2025 年报（cninfo 巨潮·2026-04-28）",
-            "src": "巨潮 cninfo 2026Q1"
-          },
-          {
-            "tier": "primary",
-            "desc": "2026-05-08 业绩说明会·M9 CCL 批量供货英伟达",
-            "src": "公司业绩说明会 2026-05-08"
-          },
-          {
-            "tier": "broker",
-            "desc": "招商证券研报·2026-01-15 M9 CCL 全链路测算",
-            "src": "招商证券 2026-01-15"
-          }
-        ],
-        "falsifySignal": "台光大陆扩产 / 台积电 CoWoS 改用其他 CCL → M9 卡口降级"
-      },
-      "lowScoreNote": "★★☆ 而非 ★★★ 原因：覆铜板环节国际竞争充分（台光占 ~95%）·生益仅 M9 细分品类有认证·非物理卡口",
-      "chokepointType": "physical"
-    },
-    "601208": {
-      "code": "601208",
-      "name": "东材科技",
-      "segment": "M9碳氢树脂",
-      "strength": "★★★",
-      "tags": [
-        "双寡头(东材+JX化学)",
-        "M9 全球唯二认证",
-        "缺口63%",
-        "Q1净利+103%"
-      ],
-      "verification": {
-        "logic": "M9 碳氢树脂全球唯二认证·物理卡口(双寡头)·但圣泉 PPO 替代路线与 JX 扩产是潜在反证",
-        "sources": [
-          {
-            "tier": "primary",
-            "desc": "东材 2026Q1 季报披露 M9 批量",
-            "src": "公司季报"
-          },
-          {
-            "tier": "broker",
-            "desc": "圣泉 PPO M9 验证进展",
-            "src": "券商测算"
-          }
-        ],
-        "falsifySignal": "圣泉集团 PPO/M9 验证进展 / JX 扩产 → 双寡头格局松动"
-      },
-      "chokepointType": "physical",
-      "lowScoreNote": null
-    },
-    "002916": {
-      "code": "002916",
-      "name": "深南电路",
-      "segment": "IC封装基板(ABF载板)",
-      "strength": "★★☆",
-      "tags": [
-        "国内唯一ABF批量",
-        "装联3in1",
-        "华为昇腾一供>60%",
-        "Q1净利+73%"
-      ],
-      "logic": "<strong>国内唯一ABF载板批量交付</strong>·<strong>PCB+封装基板+装联3-in-1</strong>全产业链布局·广州60亿扩产中·华为昇腾一供占比>60%·AMD核心PCB供应商·英伟达/谷歌/Meta等海外巨头覆盖·2026Q1营收48.19亿、归母8.50亿+73%·Q1毛利率30%+ 稳健增长·非物理卡口但具备α·ABF膜仍依赖日本味之素97%进口·材料端才是绝对寡头",
-      "verification": {
-        "logic": "<strong>国内唯一ABF载板批量交付</strong>·<strong>PCB+封装基板+装联3-in-1</strong>全产业链布局·广州60亿扩产中·华为昇腾一供占比>60%·AMD核心PCB供应商·英伟达/谷歌/Meta等海外巨头覆盖·2026Q1营收48.19亿、归母8.50亿+73%·Q1毛利率30%+ 稳健增长·非物理卡口但具备α·ABF膜仍依赖日本味之素97%进口·材料端才是绝对寡头",
-        "sources": [
-          {
-            "tier": "primary",
-            "desc": "公司 2026Q1 季报（cninfo 巨潮·2026-04-26）",
-            "src": "巨潮 cninfo 2026Q1"
-          },
-          {
-            "tier": "broker",
-            "desc": "招商证券深度报告·2025Q4 测算国内 ABF 载板唯一批量交付",
-            "src": "招商证券 2025-12"
-          },
-          {
-            "tier": "broker",
-            "desc": "Prismark 2026 全球封装基板格局·深南全球占比 1.8%",
-            "src": "Prismark 2026"
-          }
-        ],
-        "falsifySignal": "ABF 膜国内突破 / 兴森科技 FC-BGA 量产放量 → 深南 ABF 卡口降级"
-      },
-      "lowScoreNote": "★★☆ 而非 ★★★ 原因：ABF 膜材料端才是绝对寡头（日本味之素 97%）·深南仅在载板加工端·非材料卡口",
-      "chokepointType": "alpha-competitive"
-    }
-  },
-  "prosperity": {
-    "override": null
-  },
-  "referenceChokepoints": [
-    {
-      "name": "三井金属",
-      "region": "日本",
-      "barrier": "HVLP4 铜箔",
-      "replacementCode": "301217"
-    },
-    {
-      "name": "味之素",
-      "region": "日本",
-      "barrier": "ABF 膜",
-      "replacementCode": "603186"
-    },
-    {
-      "name": "日东纺 Nittobo",
-      "region": "日本",
-      "barrier": "Q 布/石英纤维布",
-      "replacementCode": "300395"
-    },
-    {
-      "name": "JX 化学",
-      "region": "日本",
-      "barrier": "M9 碳氢树脂",
-      "replacementCode": "601208"
-    },
-    {
-      "name": "IBIDEN",
-      "region": "日本",
-      "barrier": "FC-BGA 载板",
-      "replacementCode": "002916"
-    },
-    {
-      "name": "Resonac",
-      "region": "日本",
-      "barrier": "BT 载板",
-      "replacementCode": "—"
-    }
-  ],
-  "marketRisk": "normal",
-  "macro": {
-    "asOf": "2026-06",
-    "updatedBy": "manual",
-    "copperFoilPrice": {
-      "trend": "rising",
-      "note": "铜箔价格持续上涨·压制中游PCB毛利率",
-      "impact": "negative"
-    },
-    "glassFiberPrice": {
-      "trend": "rising",
-      "note": "玻纤布价格持续上涨·CCL成本压力加大",
-      "impact": "negative"
-    },
-    "aiServerDemand": {
-      "trend": "strong",
-      "note": "AI算力需求持续景气·GB300/H100订单饱满",
-      "impact": "positive"
-    },
-    "autoElecDemand": {
-      "trend": "stable",
-      "note": "汽车电子需求平稳·车载PCB温和增长",
-      "impact": "neutral"
-    },
-    "pcbUtilRate": {
-      "trend": "high",
-      "note": "高端AI板产能利用率满载·普通板偏低",
-      "impact": "positive"
-    },
-    "summary": "AI需求强劲·铜箔+玻纤布双涨压制中游毛利率·整体景气偏正面但成本压力加大"
-  },
-  "decisionFramework": {
-    "asOf": "2026-06",
-    "stopLossRules": {
-      "tier1": {
-        "threshold": "单只亏损超15%",
-        "action": "减仓20%",
-        "note": "第一档减仓·观察逻辑是否破坏"
-      },
-      "tier2": {
-        "threshold": "单只亏损超25%",
-        "action": "再减仓30%",
-        "note": "第二档减仓·重新评估持仓逻辑"
-      },
-      "tier3": {
-        "threshold": "逻辑完全破坏",
-        "action": "清仓",
-        "note": "清仓条件：核心逻辑不成立·非单纯价格触发"
-      }
-    },
-    "dimensions": {
-      "fundamental": {
-        "weight": 35,
-        "desc": "基本面逻辑·毛利率趋势·营收净利增速"
-      },
-      "valuation": {
-        "weight": 25,
-        "desc": "PE分位·距历史高点·相对同行估值"
-      },
-      "industry": {
-        "weight": 20,
-        "desc": "行业景气度·上游原材料价格·产能利用率"
-      },
-      "sentiment": {
-        "weight": 10,
-        "desc": "市场情绪·资金流向·北向资金"
-      },
-      "technical": {
-        "weight": 10,
-        "desc": "技术面辅助·支撑位·均线·成交量"
-      }
-    },
-    "positionRules": {
-      "maxSinglePosition": 35,
-      "minCash": 5,
-      "addPositionCondition": "信号C触发+景气度正面+估值合理",
-      "reducePositionCondition": "PE极端高位+景气度转弱+技术面走坏任意两项"
     }
   }
 });

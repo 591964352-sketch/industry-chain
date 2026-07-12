@@ -666,9 +666,9 @@ CHAINS.pcb = {
         {
           "rank": 3,
           "name": "南亚新材",
-          "code": "603519",
+          "code": "688519",
           "position": "刚性CCL全球前10·大陆第三(Prismark·2023年度)·M8量产M9测试中",
-          "barrier": "高",
+          "barrier": "中",
           "tier": "primary",
           "valAsOf": "2026-06-22",
           "src": "akshare/新浪财经(基于公司季报)",
@@ -1422,7 +1422,7 @@ CHAINS.pcb = {
         "stocks": [
           {
             "name": "南亚新材",
-            "code": "603519",
+            "code": "688519",
             "q1": false,
             "q1note": "刚性CCL全球前10·大陆第三(Prismark 2023);M9仍测试中,非供给寡头(CR3为建滔、生益、台光电)",
             "q2": true,
