@@ -182,6 +182,39 @@ function checkR3(chain) {
       });
       return;
     }
+
+    // ★ v3 2026-07-12: 行业数据不可得场景识别
+    //   触发条件: q1=true + q2/q3/q4 全 false + hits=1 + barrier≥4
+    //   含义: Q2/Q3/Q4 系统性不可得(§11.23 半导体设备行业论证)
+    //   检测: 若 q1note 明确标注"数据不足"+"§11.23"引用 → AUTHORIZED
+    var q1 = fq.q1, q2 = fq.q2, q3 = fq.q3, q4 = fq.q4;
+    var q1note = fq.q1note || '';
+    var ms = chain.manual.stocks[cp.code];
+    var barrierScore = ms && ms.dims6 ? (ms.dims6.find(function(d){return d.key==='barrier';}) || {}).score : 0;
+    var isIndustryDataGap = (q1 === true) && (q2 === false) && (q3 === false) && (q4 === false) && (hits === 1) && (barrierScore >= 4) && (
+      q1note.indexOf('数据不足') >= 0 ||
+      q1note.indexOf('§11.23') >= 0 ||
+      q1note.indexOf('全球≤3家') >= 0 ||
+      q1note.indexOf('寡头') >= 0 ||
+      (cp.strengthNote || '').indexOf('§11.23') >= 0 ||
+      (cp.strengthNote || '').indexOf('数据不可得') >= 0 ||
+      ((cp.verification || {}).note || '').indexOf('§11.23') >= 0 ||
+      ((cp.verification || {}).note || '').indexOf('数据不可得') >= 0
+    );
+    if (isIndustryDataGap) {
+      var strengthNoteText = (cp.strengthNote || '').substring(0, 120);
+      var verificationNoteText = ((cp.verification || {}).note || '').substring(0, 80);
+      var dataGapDetail = 'hits=1(q1=true) 是因为 Q2/Q3/Q4 系统性数据不可得(§11.23:半导体设备行业设备厂扩产周期无公开口径/客户替换认证属商业机密/L4研报只覆盖导入认证≠替换认证)·barrier=' + barrierScore + ' 有 L3+L4 双源强支撑';
+      issues.push({
+        severity: 'AUTHORIZED',
+        code: cp.code, name: cp.name,
+        msg: '✅ 行业数据局限场景 — q1=true(全球寡头格局) + Q2/Q3/Q4 数据不可得(§11.23) + barrier=' + barrierScore + '·chokePoint strength=' + cp.strength + ' 依据 barrier 物理卡口地位而非四问命中率' + (strengthNoteText ? ' ·strengthNote: ' + strengthNoteText + '…' : ' ·strengthNote: ⚠️未补充') + (verificationNoteText ? ' ·verification.note: ' + verificationNoteText + '…' : ''),
+        rule: 'R3',
+        source: '§11.23+strengthNote+q1note'
+      });
+      return;
+    }
+
     // ★ Generalized: any mismatch between derived strength from hits and chokePoint strength
     var derivedStr = {4:'★★★',3:'★★☆',2:'★☆☆',1:'☆☆☆',0:null}[hits];
     if (derivedStr && cp.strength !== derivedStr) {

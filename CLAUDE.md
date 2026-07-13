@@ -2906,6 +2906,8 @@ function validateNoDevTerms(text, fieldName, stockCode) {
 
 ### §11.23 四问框架 Q2/Q3/Q4 在技术密集型行业的公开数据稀缺性（2026-07-12 · semicon-equip 四问核实立）
 
+> **2026-07-12 补充**：本节结论被 `scripts/check_rating_consistency.js` R3 规则（§R3 行业数据局限场景检测）直接引用——当 chokePoint 出现 q1=true + q2/q3/q4=false + barrier≥4 的状态时，R3 显式标注为 AUTHORIZED 并附"依据 §11.23+strengthNote+q1note"来源。**不要扩展 Q2/Q3/Q4 评估框架——本节的论证已经明确这些维度对半导体设备类技术密集型行业是结构性不可得的。**
+
 > **触发**：对 semicon-equip 链 21 只股票按 SKILL.md 四问标准（§1: ≤3 家 / §2: ≥12 月扩产 / §3: ≥2 年替代验证 / §4: ≥6 月替换认证）做逐一核实，结果 Q2/Q3/Q4 三项 21 只股票**全部 "数据不足"**——没有一只股票的 barrier reason 字段包含这三种数据的具体数字和来源。
 
 **这不是核实工作的失败，是行业信息透明度的客观限制**：
