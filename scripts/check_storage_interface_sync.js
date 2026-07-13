@@ -45,16 +45,16 @@ console.log('【2】dims6 reason 完整性 (Phase A baseline)');
 console.log('  股票口径: ' + reasonStats.completeStocks + '/' + reasonStats.totalStocks + ' (' + (reasonStats.totalStocks ? (reasonStats.completeStocks/reasonStats.totalStocks*100).toFixed(1) : '0') + '%)');
 console.log('  字段口径: ' + reasonStats.completeFields + '/' + reasonStats.totalFields + ' (' + (reasonStats.totalFields ? (reasonStats.completeFields/reasonStats.totalFields*100).toFixed(1) : '0') + '%)');
 
-// Check 3: moat/timing/fundamentals coverage
+// Check 3: moatScore/timingScore/fundamentals coverage
 let moatFilled = 0, timingFilled = 0, fundsFilled = 0;
 manualCodes.forEach(code => {
   const s = MANUAL.stocks[code];
-  if (typeof s.moat === 'number' && s.moat !== null && !isNaN(s.moat)) moatFilled++;
-  if (typeof s.timing === 'number' && s.timing !== null && !isNaN(s.timing)) timingFilled++;
+  if (typeof s.moatScore === 'number' && s.moatScore !== null && !isNaN(s.moatScore)) moatFilled++;
+  if (typeof s.timingScore === 'number' && s.timingScore !== null && !isNaN(s.timingScore)) timingFilled++;
   if (s.fundamentals && s.fundamentals.asOf) fundsFilled++;
 });
 console.log('【3】其他字段覆盖率');
-console.log('  moat: ' + moatFilled + '/' + manualCodes.length + ' | timing: ' + timingFilled + '/' + manualCodes.length + ' | fundamentals: ' + fundsFilled + '/' + manualCodes.length);
+console.log('  moatScore: ' + moatFilled + '/' + manualCodes.length + ' | timingScore: ' + timingFilled + '/' + manualCodes.length + ' | fundamentals: ' + fundsFilled + '/' + manualCodes.length);
 
 // Check 4: segments stock count
 console.log('【4】segments 结构');

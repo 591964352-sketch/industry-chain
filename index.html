@@ -641,15 +641,17 @@
             style="padding:6px 10px;background:var(--accent);color:#0f1117;border:none;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;line-height:1;">+</button>
   </div>
   <div class="sidebar-nav" id="nav-list">
-    <!-- 主区·算力链主线(激活 3 条·commit 6.71 调整) -->
+    <!-- 主区·算力链主线(激活 4 条·2026-07-13 升级:加入存储与接口) -->
     <span class="nav-item active" data-chain="pcb" onclick="switchChain('pcb')">🔌 PCB 印制电路板</span>
     <span class="nav-item" data-chain="semicon-equip" onclick="switchChain('semicon-equip')">🔩 半导体设备</span>
     <span class="nav-item" data-chain="optical-module" onclick="switchChain('optical-module')">🔦 光模块·光互联</span>
-    <!-- ★ 存储与接口 + 先进封装 本次不激活(逻辑占位·不渲染) -->
+    <span class="nav-item" data-chain="storage-interface" onclick="switchChain('storage-interface')">💾 存储与接口 <sup style="font-size:9px;color:var(--muted);">Phase A</sup></span>
+    <!-- ★ 先进封装 本次仍不激活(逻辑占位·不渲染) -->
     <span class="nav-item nav-toggle" id="chain-toggle" onclick="toggleSidebarChains()">▶ 更多赛道 ()</span>
     <div class="sidebar-collapsible collapsed" id="chain-collapsed">
       <!-- ★ 第一组·算力链剩余队列(保留·全部可见·commit 6.71 调整) -->
       <span class="nav-item" data-chain="liquid-cooling" onclick="switchChain('liquid-cooling')">❄️ 液冷散热</span>
+      <!-- ★ 存储与接口 已升级到主区主线(2026-07-13)·此处不再显示 -->
       <!-- 半导体材料·规划中(占位·不渲染·仅注释记录) -->
       <!-- AI芯片·规划中(占位·不渲染·仅注释记录) -->
       <span class="nav-item" data-chain="power-semi" onclick="switchChain('power-semi')">⚡ 功率半导体/SiC</span>
@@ -724,6 +726,8 @@
     'semicon-equip',
     'optical-module.manual', // ★ 阶段 2: 手动层先于 optical-module.js 加载,注入 window.OPTICAL_MODULE_MANUAL.stocks[code] (commit 6.71)
     'optical-module',        // ★ 阶段 2: 光模块·光互联合并链 auto 层 (commit 6.71 · cpo.js + optical-chip.js 已合并·旧文件 rename 存档)
+    'storage-interface.manual', // ★ 2026-07-13: 手动层先于 storage-interface.js 加载,注入 window.STORAGE_INTERFACE_MANUAL.stocks[code] (Phase A 骨架接入 manifest)
+    'storage-interface',        // ★ 2026-07-13: 存储与接口链 auto 层 (Phase A 骨架 · 7 segment + 3 chokePoint + 35 只 manual stocks)
     'ai-full-chain'
   ];
   DATA_MANIFEST.forEach(function(id){
@@ -4239,6 +4243,8 @@ function renderChain(chainId) {
 // CHANGELOG SYSTEM
 // ================================================================
 const CHANGELOG = [
+  // ── 2026-07-13 本轮: storage-interface 接入展示层(零业务数据) ──
+  { date:'2026-07-13', sector:'storage-interface', desc:'💾 存储与接口链接入展示层(Phase A 骨架上线·仅展示·零业务数据)·(1)DATA_MANIFEST 加 storage-interface.manual + storage-interface(manual 先于 auto 加载)·(2)侧栏折叠容器加 💾 存储与接口 入口(Phase A 角标提示)·(3)sectorName/sectorColor 加 storage-interface(青绿色 #14b8a6)·(4)前期工作:storage-interface.manual.js 字段结构已对齐 PCB(35只 stock × 24 顶层字段)+ storage-interface.js auto 层 stock 补 dims6Note + chokePoints 3 项补齐 valuation/verification/chokepointType/barrier · 全部业务字段仍为 "(Phase B 补)" 占位·Phase B+ 投顾提供具体文案/数据后再迭代填充', pct:'NEW' },
   // ── 2026-07-12 本轮: 代码排查+UX优化+§11.27案例(多 commit) ──
   { date:'2026-07-12', sector:'semicon-equip', desc:'🔗 半导体设备链补建 chainStory 产业链叙事·11 step 完整覆盖(上游材料→前道设备→检测零部件→下游晶圆厂)·Step 7-8 拆分决策:原草案CMP/清洗/去胶合并为1步·拆分后Step 7=CMP/清洗设备·Step 8=去胶/热处理设备(去胶有独立segment+屹唐moat=86全链最高·合并会降低叙事权重)·每步含desc/barrier/choke/domestic/barrierNote/keyStocks/source 7字段·60个数据点全部有信源引用(SEMI/Gartner/各券商深度研报+2025年报实测)·keyStocks按§11.25验证边界区分:Step 4-10核心segment股票(Phase B六维核实)·Step 1-3+11 treeMap背景公司(未经六维打分仅作产业链全貌参考)·影响:页面白话解读区新增产业链全景11卡片·用户可快速理解从硅片到晶圆厂的完整叙事链', pct:'NEW' },
   // ── 2026-07-12 本轮: 代码排查+UX优化+§11.27案例(多 commit) ──
@@ -4423,8 +4429,8 @@ function renderChangelog() {
     //   panel 保留 line 695 静态 HTML 默认的"暂无变更记录"
     //   修复方法:用 (typeof c.pct === 'string') 守卫,缺失时 dir = null(无方向徽章,正常显示其他字段)
     const dir = (c.pct === 'NEW' || c.pct === 'FIX' || c.pct === 'BRAND') ? null : ((typeof c.pct === 'string' && c.pct.startsWith('+')) ? 'up' : (typeof c.pct === 'string' ? 'down' : null));
-    const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'power-semi' ? '功率半导/SiC' : c.sector === 'semi-equipment' ? '半导体设备(旧)' : c.sector === 'semicon-equip' ? '半导体设备' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'optical-module' ? '光模块' : c.sector === 'optical-chip' ? '光芯片' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'liquid-cooling' ? '液冷' : c.sector === 'ai-full-chain' ? 'AI全产业链' : c.sector === 'system' ? '系统升级' : c.sector;
-    const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'power-semi' ? '#f6465d' : c.sector === 'semi-equipment' ? '#7c3aed' : c.sector === 'semicon-equip' ? '#0d9488' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'optical-module' ? '#06b6d4' : c.sector === 'optical-chip' ? '#0891b2' : c.sector === 'optical' ? '#06b6d4' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'liquid-cooling' ? 'var(--blue)' : c.sector === 'ai-full-chain' ? 'var(--accent)' : c.sector === 'system' ? '#3b82f6' : 'var(--muted)';
+    const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'power-semi' ? '功率半导/SiC' : c.sector === 'semi-equipment' ? '半导体设备(旧)' : c.sector === 'semicon-equip' ? '半导体设备' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'optical-module' ? '光模块' : c.sector === 'optical-chip' ? '光芯片' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'liquid-cooling' ? '液冷' : c.sector === 'storage-interface' ? '存储与接口' : c.sector === 'ai-full-chain' ? 'AI全产业链' : c.sector === 'system' ? '系统升级' : c.sector;
+    const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'power-semi' ? '#f6465d' : c.sector === 'semi-equipment' ? '#7c3aed' : c.sector === 'semicon-equip' ? '#0d9488' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'optical-module' ? '#06b6d4' : c.sector === 'optical-chip' ? '#0891b2' : c.sector === 'optical' ? '#06b6d4' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'liquid-cooling' ? 'var(--blue)' : c.sector === 'storage-interface' ? '#14b8a6' : c.sector === 'ai-full-chain' ? 'var(--accent)' : c.sector === 'system' ? '#3b82f6' : 'var(--muted)';
     return `<div class="changelog-item" onclick="switchChain('${c.sector}')">
       <div class="cl-date">${c.date}</div>
       <div class="cl-sector" style="color:${sectorColor};">${sectorName}</div>
