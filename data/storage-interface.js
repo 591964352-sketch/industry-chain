@@ -174,7 +174,7 @@ CHAINS['storage-interface'] = {
             "name": "拓荆科技",
             "code": "688072",
             "position": "混合键合设备国产突破",
-            "barrier": "极高"
+            "barrier": "高"
           },
           {
             "name": "北方华创",
@@ -192,15 +192,15 @@ CHAINS['storage-interface'] = {
       },
       {
         "name": "HBM 封装材料",
-        "barrier": "极高",
-        "choke": true,
-        "note": "GMC全球仅住友电木+华海诚科两家",
+        "barrier": "高",
+        "choke": false,
+        "note": "GMC全球仅住友电木+华海诚科两家｜⚠️ 2026-07-13: 该环节中的华海诚科(688535) 经 Phase B 试点核算 moatScore=58/quadrant=skip，不再认定为正式卡口，仅保留赛道展示",
         "companies": [
           {
             "name": "华海诚科",
             "code": "688535",
             "position": "GMC塑封料国产唯一",
-            "barrier": "极高"
+            "barrier": "高"
           },
           {
             "name": "德邦科技",
@@ -294,15 +294,15 @@ CHAINS['storage-interface'] = {
     "materials": [
       {
         "name": "GMC 塑封料",
-        "barrier": "极高",
-        "choke": true,
-        "note": "全球仅住友电木+华海诚科两家通过认证",
+        "barrier": "高",
+        "choke": false,
+        "note": "全球仅住友电木+华海诚科两家通过认证｜⚠️ 2026-07-13: 该环节中的华海诚科(688535) 经 Phase B 试点核算 moatScore=58/quadrant=skip，不再认定为正式卡口，仅保留赛道展示",
         "companies": [
           {
             "name": "华海诚科",
             "code": "688535",
             "position": "GMC颗粒状环氧塑封料国产唯一",
-            "barrier": "极高"
+            "barrier": "高"
           }
         ]
       },
@@ -358,7 +358,7 @@ CHAINS['storage-interface'] = {
             "name": "拓荆科技",
             "code": "688072",
             "position": "混合键合设备国产突破",
-            "barrier": "极高"
+            "barrier": "高"
           },
           {
             "name": "北方华创",
@@ -447,14 +447,15 @@ CHAINS['storage-interface'] = {
           "name": "拓荆科技",
           "code": "688072",
           "position": "混合键合设备国产突破·PECVD/ALD 国内第一",
-          "barrier": "极高",
+          "barrier": "高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
           "src": "(Phase B 补)",
           "trend": "up",
           "trendNote": "(Phase B 补)",
           "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "dims6Note": "(Phase B 补)",
+          "phaseBTestTrial": true
         },
         {
           "rank": 2,
@@ -548,14 +549,15 @@ CHAINS['storage-interface'] = {
           "name": "华海诚科",
           "code": "688535",
           "position": "GMC颗粒状环氧塑封料国产唯一·住友电木双寡头",
-          "barrier": "极高",
+          "barrier": "高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
           "src": "(Phase B 补)",
           "trend": "up",
           "trendNote": "(Phase B 补)",
           "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "dims6Note": "(Phase B 补)",
+          "phaseBTestTrial": true
         },
         {
           "rank": 2,
@@ -657,7 +659,8 @@ CHAINS['storage-interface'] = {
           "trendNote": "(Phase B 补)",
           "logic": "(Phase B 补)",
           "dims6Note": "(Phase B 补)",
-          "scoringStatus": "primary"
+          "scoringStatus": "primary",
+          "phaseBTestTrial": true
         },
         {
           "rank": 2,
@@ -731,7 +734,8 @@ CHAINS['storage-interface'] = {
           "trendNote": "(Phase B 补)",
           "logic": "(Phase B 补)",
           "dims6Note": "(Phase B 补)",
-          "scoringStatus": "reference"
+          "scoringStatus": "reference",
+          "phaseBTestTrial": true
         },
         {
           "rank": 2,
@@ -791,7 +795,8 @@ CHAINS['storage-interface'] = {
           "trendNote": "(Phase B 补)",
           "logic": "(Phase B 补)",
           "dims6Note": "(Phase B 补)",
-          "scoringStatus": "reference"
+          "scoringStatus": "reference",
+          "phaseBTestTrial": true
         },
         {
           "rank": 2,
@@ -990,7 +995,8 @@ CHAINS['storage-interface'] = {
             "asOf": "2026-07-12"
           }
         ],
-        "methodologyNotes": "(Phase B 补)"
+        "methodologyNotes": "(Phase B 补)",
+        "phaseBTestTrial": true
       },
       {
         "name": "芯原股份",
@@ -1088,7 +1094,7 @@ CHAINS['storage-interface'] = {
         "name": "华海诚科",
         "code": "688535",
         "position": "GMC颗粒状环氧塑封料国产唯一·住友电木双寡头",
-        "barrier": "极高",
+        "barrier": "高",
         "trend": "up",
         "trendNote": "(Phase B 补)",
         "logic": "(Phase B 补)",
@@ -1098,36 +1104,7 @@ CHAINS['storage-interface'] = {
           "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
           "segments": []
         },
-        "chokePoints": [
-          {
-            "rank": 1,
-            "name": "华海诚科",
-            "code": "688535",
-            "segment": "HBM 封装材料",
-            "strength": "★★★",
-            "logic": "(Phase B 补)",
-            "tags": [
-              "(Phase B 补)"
-            ],
-            "valuation": {
-              "pe": "(Phase B 补)",
-              "peAbsolute": "(Phase B 补)",
-              "pePercentile": null,
-              "grossMargin": "(Phase B 补)",
-              "fromHigh": "(Phase B 补)",
-              "asOf": null,
-              "note": "(Phase B 补)",
-              "tier": "(Phase B 补)",
-              "src": "(Phase B 补)"
-            },
-            "verification": {
-              "items": [],
-              "note": "(Phase B 补)"
-            },
-            "chokepointType": "(Phase B 补)",
-            "barrier": "GMC颗粒状环氧塑封料国产唯一·住友电木双寡头"
-          }
-        ],
+        "chokePoints": [],
         "supplyGap": [
           {
             "segment": "HBM 产能缺口",
@@ -1174,13 +1151,14 @@ CHAINS['storage-interface'] = {
             "asOf": "2026-07-12"
           }
         ],
-        "methodologyNotes": "(Phase B 补)"
+        "methodologyNotes": "(Phase B 补)",
+        "phaseBTestTrial": true
       },
       {
         "name": "拓荆科技",
         "code": "688072",
         "position": "混合键合设备国产突破·PECVD/ALD 国内第一",
-        "barrier": "极高",
+        "barrier": "高",
         "trend": "up",
         "trendNote": "(Phase B 补)",
         "logic": "(Phase B 补)",
@@ -1266,7 +1244,8 @@ CHAINS['storage-interface'] = {
             "asOf": "2026-07-12"
           }
         ],
-        "methodologyNotes": "(Phase B 补)"
+        "methodologyNotes": "(Phase B 补)",
+        "phaseBTestTrial": true
       },
       {
         "name": "华峰测控",
