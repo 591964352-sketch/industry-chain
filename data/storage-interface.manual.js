@@ -126,6 +126,17 @@ window.STORAGE_INTERFACE_MANUAL = window.STORAGE_INTERFACE_MANUAL || {};
     MANUAL.stocks[code] = placeholderStock(code);
   });
 
-  console.log('[storage-interface.manual] loaded · stocks=' + Object.keys(MANUAL.stocks).length + ' · PhaseA-aligned');
+  
+  // ★ 2026-07-13 澜起科技跨段归属调整:覆盖 segments + investableReason (基于 2025 年报+akshare abstract_ths L1 实证)
+  if (MANUAL.stocks['688008']) {
+    MANUAL.stocks['688008'].segments = [
+      { idx: 2, name: 'DDR5/LPDDR5 主控与 RCD' },
+      { idx: 3, name: 'CXL 内存池化与互连' },
+      { idx: 4, name: 'PCIe Retimer/Redriver 接口' }
+    ];
+    MANUAL.stocks['688008'].investableReason = '🏠 主场:seg[2] DDR5 RCD全球双寡头(与Rambus)·营收占比78-81%·基于2025年报(总营收54.56亿·互连类芯片51.39亿占比94.18%)+akshare stock_financial_abstract_ths L1实证核实·DDR5第三子代RCD主力出货(6400MT/s)·第四子代已规模出货(7200MT/s)·⚠️ 关联提及(不重复计分):seg[3] CXL MXC(营收<2%·早期导入·国内唯一量产能力)+seg[4] PCIe Retimer(营收7-11%·全球第二·第二大单品)·❌ 已移除:seg[5] UCIe(无独立产品线·纯技术概念关联)';
+  }
+
+console.log('[storage-interface.manual] loaded · stocks=' + Object.keys(MANUAL.stocks).length + ' · PhaseA-aligned');
 
 })(window.STORAGE_INTERFACE_MANUAL);

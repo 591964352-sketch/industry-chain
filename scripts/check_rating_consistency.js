@@ -340,7 +340,8 @@ function checkR6(chain) {
 
   var seen = new Set();
   allStocks.forEach(function(s) {
-    if (seen.has(s.code)) return;
+        if (s.scoringStatus === "reference") return; // ★ 2026-07-13 澜起跨段归属: scoringStatus="reference" 的股票不重复计入 R6 候选
+if (seen.has(s.code)) return;
     seen.add(s.code);
     if (chokes.has(s.code)) return;
 
