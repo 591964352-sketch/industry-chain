@@ -119,7 +119,7 @@ window.STORAGE_INTERFACE_MANUAL = window.STORAGE_INTERFACE_MANUAL || {};
     '603203','603283','603986','605589',
     '688008','688012','688019','688035','688052','688072','688120','688123',
     '688200',
-    '688262','688268','688300','688486','688515','688521','688535',
+    '688268','688300','688486','688515','688521','688535',
     '688733','688766'
   ];
   codes.forEach(function(code){
@@ -186,7 +186,7 @@ window.STORAGE_INTERFACE_MANUAL = window.STORAGE_INTERFACE_MANUAL || {};
 
   // ★ 2026-07-14 storage-interface 链 Phase B 第二批:22 只 stock 六维数据写入
   // 4 只 C 类复用 semicon-equip L1 财务(seg 语境重评)+ 18 只 A 类新实测(akshare abstract_ths L1)
-  ['002371','688012','688120','688200','002409','300054','300346','300474','603203','603283','603986','688019','688035','688052','688123','688262','688268','688300','688486','688515','688521','688766'].forEach(function(code){
+  ['002371','688012','688120','688200','002409','300054','300346','300474','603203','603283','603986','688019','688035','688052','688123','688268','688300','688486','688515','688521','688766'].forEach(function(code){
     var stock = MANUAL.stocks[code];
     if (!stock) return;
     var D = {
@@ -835,56 +835,6 @@ window.STORAGE_INTERFACE_MANUAL = window.STORAGE_INTERFACE_MANUAL || {};
     "srcChain": "semicon-equip (C 类)",
     "segContext": "midstream 测试设备"
   },
-  "688262": {
-    "dims6": [
-      "L1 实测 akshare abstract_ths 2025 年报数据(2026-07-14 实测):营业总收入 5.32亿(同比 -7.37%),归母净利 -2.54亿(同比 -40.72%),销售毛利率 21.83%,销售净利率 -47.78%,ROE -12.31%。§6.15+§11.23:2025 净利-2.54亿/ROE-12.31%,CPU/UCIe IP 商业机密多",
-      "基于 L1 akshare abstract_ths 财务时序与 L4 行业格局报告,本链 seg 语境下壁垒定位符合 3 分档要求。",
-      "全部数据取自 L1 stock_financial_abstract_ths 2026-07-14 实测口径,核心叙事基于 2025 年报真实数字与 2026Q1 业绩弹性。§6.15+§11.23:2025 净利-2.54亿/ROE-12.31%,CPU/UCIe IP 商业机密多",
-      "供需分析基于 L1 akshare 经营时序 + L4 头部券商报告,本链 seg 语境下供需定位符合 3 分档要求。§6.15+§11.23:2025 净利-2.54亿/ROE-12.31%,CPU/UCIe IP 商业机密多",
-      "半导体存储与 HBM 产业链国产替代政策中性偏正面,公司归入大基金重点投向或国产替代鼓励目录范围。"
- 
-    ],
-    "name": "国芯科技",
-    "fundamentals": {
-      "asOf": "2025年报",
-      "roe": null,
-      "roeQuarterly": null,
-      "grossMargin": "21.83%",
-      "grossMarginTrend": "2025 全年口径:21.83%",
-      "revenueGrowth": "-7.37%",
-      "netProfitGrowth": "-40.72%",
-      "fcfPositive": null,
-      "scissorGap": null,
-      "note": "L1 实测 akshare abstract_ths 2025 年报数据(2026-07-14 实测):营业总收入 5.32亿(同比 -7.37%),归母净利 -2.54亿(同比 -40.72%),销售毛利率 21.83%,销售净利率 -47.78%,ROE -12.31%。§6.15+§11.23:2025 净利-2.54亿/ROE-12.31%,CPU/UCIe IP 商业机密多 (akshare abstract_ths L1 实测 2026-07-14)",
-      "source": "L1 akshare stock_financial_abstract_ths 2026-07-14 实测 + L4 头部券商研报"
-    },
-    "moatScore": 58,
-    "timingScore": 40,
-    "quadrant": "watch",
-    "scoreDurability": 3,
-    "scoreBarrier": 3,
-    "scoreVisibility": 2,
-    "scoreSupply": 3,
-    "scorePolicy": 4,
-    "scoreValuation": 2,
-    "trendDur": "down",
-    "trendVis": "down",
-    "trendSup": "flat",
-    "trendPol": "up",
-    "trendVal": "flat",
-    "tier": {
-      "durability": "L1(abstract_ths)",
-      "barrier": "L1(abstract_ths)+行业共识",
-      "visibility": "L1(abstract_ths)+L4头部券商",
-      "supply": "L1(abstract_ths)+L4头部券商",
-      "policy": "L1(abstract_ths)+§10",
-      "valuation": "L4头部券商"
-    },
-    "srcChain": "A 类 (本链 abstract_ths 2026-07-14 新实测)",
-    "segContext": "本链 seg 语境",
-    "barrier":"高",
-    "special": true
-  },
   "688268": {
     "dims6": [
       "L1 实测 akshare abstract_ths 2025 年报数据(2026-07-14 实测):营业总收入 14.19亿(同比 1.70%),归母净利 1.35亿(同比 -26.75%),销售毛利率 30.87%,销售净利率 9.05%,ROE 6.81%。电子特气国产前列,2025 营收+1.70%/净利-26.75% 短期承压,GM 30.87%",
@@ -1316,7 +1266,7 @@ window.STORAGE_INTERFACE_MANUAL = window.STORAGE_INTERFACE_MANUAL || {};
     "002371":"北方华创","688012":"中微公司","688120":"华海清科","688200":"华峰测控",
     "002409":"雅克科技","300054":"鼎龙股份","300346":"南大光电","300474":"景嘉微",
     "603203":"快克智能","603283":"赛腾股份","603986":"兆易创新","688019":"安集科技",
-    "688035":"德邦科技","688052":"纳芯微","688123":"聚辰股份","688262":"国芯科技",
+    "688035":"德邦科技","688052":"纳芯微","688123":"聚辰股份",
     "688268":"华特气体","688300":"联瑞新材","688486":"龙迅股份","688515":"裕太微",
     "688521":"芯原股份","688766":"普冉股份"
   };
@@ -1325,7 +1275,7 @@ window.STORAGE_INTERFACE_MANUAL = window.STORAGE_INTERFACE_MANUAL || {};
   });
   // R4 barrier 文本对齐修复(A 类的 stock 顶层 barrier 字段,3 只被早期修复误改)
   var R4MAP = {5:"极高",4:"高",3:"中",2:"低",1:"低"};
-  ['002371','688012','688120','688200','002409','300054','300346','300474','603203','603283','603986','688019','688035','688052','688123','688262','688268','688300','688486','688515','688521','688766'].forEach(function(code){
+  ['002371','688012','688120','688200','002409','300054','300346','300474','603203','603283','603986','688019','688035','688052','688123','688268','688300','688486','688515','688521','688766'].forEach(function(code){
     var stock = MANUAL.stocks[code];
     if (!stock || !stock.dims6) return;
     var dimBar = stock.dims6.find(function(d){ return d.key === 'barrier'; });

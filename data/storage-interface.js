@@ -247,12 +247,6 @@ CHAINS['storage-interface'] = {
             "code": "688008",
             "position": "CXL控制器国内唯一",
             "barrier": "极高"
-          },
-          {
-            "name": "国芯科技",
-            "code": "688262",
-            "position": "CXL交换芯片+RISC-V CPU",
-            "barrier": "高"
           }
         ]
       },
@@ -760,20 +754,6 @@ CHAINS['storage-interface'] = {
           "phaseBTestTrial": true
         },
         {
-          "rank": 2,
-          "name": "国芯科技",
-          "code": "688262",
-          "position": "CXL交换芯片+RISC-V CPU·互连方案",
-          "barrier": "中",
-          "tier": "primary",
-          "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
-          "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
-        },
-        {
           "rank": 3,
           "name": "景嘉微",
           "code": "300474",
@@ -884,20 +864,6 @@ CHAINS['storage-interface'] = {
           "name": "芯原股份",
           "code": "688521",
           "position": "Chiplet互连IP国产领先·UCIe标准贡献者",
-          "barrier": "中",
-          "tier": "primary",
-          "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
-          "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
-        },
-        {
-          "rank": 3,
-          "name": "国芯科技",
-          "code": "688262",
-          "position": "Chiplet互连+RISC-V CPU·国产化方案",
           "barrier": "中",
           "tier": "primary",
           "valAsOf": "2026-07-12",
@@ -1454,98 +1420,6 @@ CHAINS['storage-interface'] = {
         "methodologyNotes": "(Phase B 补)"
       },
       {
-        "name": "国芯科技",
-        "code": "688262",
-        "position": "CXL交换芯片+RISC-V CPU·互连方案",
-        "barrier": "中",
-        "trend": "up",
-        "trendNote": "(Phase B 补)",
-        "logic": "(Phase B 补)",
-        "dims6Note": "(Phase B 补)",
-        "rank": 7,
-        "fourQuestions": {
-          "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
-          "segments": []
-        },
-        "chokePoints": [
-          {
-            "rank": 1,
-            "name": "国芯科技",
-            "code": "688262",
-            "segment": "CXL 内存池化与互连",
-            "strength": "★★★",
-            "logic": "(Phase B 补)",
-            "tags": [
-              "(Phase B 补)"
-            ],
-            "valuation": {
-              "pe": "(Phase B 补)",
-              "peAbsolute": "(Phase B 补)",
-              "pePercentile": null,
-              "grossMargin": "(Phase B 补)",
-              "fromHigh": "(Phase B 补)",
-              "asOf": null,
-              "note": "(Phase B 补)",
-              "tier": "(Phase B 补)",
-              "src": "(Phase B 补)"
-            },
-            "verification": {
-              "items": [],
-              "note": "(Phase B 补)"
-            },
-            "chokepointType": "(Phase B 补)",
-            "barrier": "CXL交换芯片+RISC-V CPU·互连方案"
-          }
-        ],
-        "supplyGap": [
-          {
-            "segment": "HBM 产能缺口",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "(Phase B 补)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "DDR5 RCD 国产化",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "(Phase B 补)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "CXL/PCIe 接口芯片",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "(Phase B 补)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "GMC 塑封料供给",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "(Phase B 补)",
-            "asOf": "2026-07-12"
-          }
-        ],
-        "methodologyNotes": "(Phase B 补)"
-      },
-      {
         "name": "聚辰股份",
         "code": "688123",
         "position": "SPD Hub温度传感器·DDR5配套芯片",
@@ -1643,7 +1517,66 @@ CHAINS['storage-interface'] = {
     "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
     "segments": []
   },
-  "chokePoints": [],
+  "chokePoints": [
+    {
+      "rank": 1,
+      "name": "安集科技",
+      "code": "688019",
+      "segment": "seg[1] HBM 封装材料 · CMP 抛光液",
+      "strength": "★★★",
+      "logic": "CMP 抛光液国产第一龙头(2025 市占率国内领先):核心产品涵盖铜/钨/介质/多晶硅抛光液全品类,国内 IDM/代工厂主流晶圆厂 28nm/14nm 已批量导入。2025年报 L1 abstract_ths 实测:营收 25.04亿(+36.47%)、净利 7.84亿(+46.85%)、ROE 25.18%、毛利率 56.72%(行业最强组合)。无客户切换致命瓶颈:HBM/DRAM 国产替代+先进逻辑自主可控双轮驱动,赛道逻辑清晰。本链 seg[1] HBM 封装材料 语境下,CMP 抛光液与 HBM 制造良率/产能直接挂钩(介质层抛光精度决定堆叠良率)。⚠ 当前估值段依赖 abstract_ths L1 财务+机构EPS预测(无 PE-TTM 实测)。",
+      "tags": [
+        "CMP抛光液国产第一",
+        "HBM堆叠介质抛光刚需",
+        "ROE 25.18% + GM 56.72%",
+        "本链独立评估(A类)非跨链复用"
+      ],
+      "valuation": {
+        "pe": "Forward PE(2026E)~72x（ths 机构预测·待 TTM PE 实测校准）",
+        "pePercentile": null,
+        "grossMargin": "56.72% 行业最强",
+        "fromHigh": "待实测",
+        "asOf": "2026-07-14",
+        "note": "🆪 估值草案·Phase 2 待 PE 实测校准(L1 abstract_ths 财务已审验,缺 PE-TTM/历史分位数据)\n\n📊 L1 基本面(abstract_ths 实测):2025全年营收 25.04亿(+36.47%)/净利 7.84亿(+46.85%)/毛利率 56.72%/ROE 25.18%。2026Q1 营收 7.24亿(+34.8%)/净利 2.08亿(+40.7%)——业绩持续高增长\n\n📊 Forward PE 近似参考:2026E EPS=14.43元→Forward PE~72x / 2027E EPS=18.45元→Forward PE~56x\n\n⚠ 估值核心矛盾:ROE/GM 双高+业绩持续 30%+高增+赛道稀缺性溢价,但 Forward PE~72x 已显著高于半导体材料行业均值。⏳ TTM PE 及 5年 PE 分位待人工补充\n\n⚠ L3/L4 卡口来源待补:目前仅依靠 L1 abstract_ths 财务 + L4 头部券商研报行业评论(无全球 CMP 抛光液厂商格局报告)。建议补充 Cabot Microelectronics/Versum/Merck 三家全球 CMP 抛光液龙头 2025 市占率报告以验证全球≤3家物理卡口地位",
+        "tier": "estimate",
+        "src": "L1 abstract_ths 实测 + L4 头部券商研报(行业评论) / 待补充 L3 全球 CMP 抛光液厂商格局报告"
+      },
+      "verification": {
+        "items": [
+          {
+            "type": "本链独立卡口",
+            "claim": "本链 Phase B 第二批独立打分,barrier=5(极高)+moat=94 全链最高,本链 5 维权重下唯一 barrier≥5/moat≥60/本链独立评估的股票",
+            "howToCheck": "回查 .claude/scratch/_chokepoint_candidate_filter.js 筛选条件:barrier=5 + moat≥60 + 非跨链复用(C类)",
+            "falsifySignal": "出现另一只 A 类股票达到 barrier=5+moat≥60 而安集科技 scoreBarrier 修订为 ≤4 → R6 候选资格变化",
+            "status": "verified-by-data"
+          },
+          {
+            "type": "财务印证",
+            "claim": "2025营收+36.47%/净利+46.85%/ROE 25.18%/GM 56.72% — 行业最强组合",
+            "howToCheck": "查 akshare abstract_ths 2025年报实测 + 2026Q1 持续高增",
+            "falsifySignal": "ROE 连续两季跌破 20% + GM 跌破 50% → 卡口护城河弱化",
+            "status": "verified-by-L1"
+          },
+          {
+            "type": "全球卡口地位(待 L3 补)",
+            "claim": "CMP 抛光液国产第一 + 行业卡口地位需全球厂商格局报告验证(Cabot Microelectronics/Versum/Merck 三家)",
+            "howToCheck": "查 Cabot/Versum/Merck 2024/2025 全球 CMP 抛光液市场份额报告 + TecChem 2026 全球 CMP 抛光液供需专题",
+            "falsifySignal": "全球 CMP 抛光液供给端有 ≥4 家可量产 + 国产厂商市占 <40% → 卡口地位下调",
+            "status": "pending-L3"
+          },
+          {
+            "type": "交叉信源",
+            "claim": "至少 ≥2 个独立来源印证国产第一龙头地位",
+            "howToCheck": "一篇券商 CMP 抛光液行业深度研报 +一篇公司公告/调研纪要 同时印证",
+            "falsifySignal": "只找得到单一来源 → 存疑",
+            "status": "pending"
+          }
+        ],
+        "note": "基于 L1 abstract_ths 688019 实测(2026-07-14)+ L4 头部券商研报(行业评论)+ 本链 Phase B 第二批独立打分·R6 候选纳入·barrier=5(极高)+moat=94 全链最高·strength=★★★"
+      },
+      "strengthNote": "2026-07-14 6.92 立:本链首次入选 chokePoints 的 Phase B 第二批独立评估股票(A类,非跨链复用). barrier=5 来自 L1 abstract_ths 财务时序+L4 头部券商研报行业共识(§11.23 数据局限已记录,本链 L3 全球 CMP 抛光液厂商格局报告待补). moat=94 来自 storage-interface 链 5 维权重(durability 0.25 + barrier 0.25 + visibility 0.20 + supply 0.20 + policy 0.10)×100 公式反推. 本链 seg[1] HBM 封装材料 语境下,与 HBM 介质层抛光精度强相关. risk 门控:无(barrier=5+moat≥60)."
+    }
+  ],
   "supplyGap": [
     {
       "segment": "HBM 产能缺口",
