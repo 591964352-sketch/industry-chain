@@ -3013,6 +3013,16 @@ function renderChain(chainId) {
   }
   // ===== 升级九 STEP 2B：个股六维 mini-bar 展开（native <details>，0 JS、0 CSS 增量） =====
   // ★ P0-1: 加 chainId 参数,内部用 getEffectiveDims6(s, chainId) 兼容双层架构
+  // ★ commit 6.94：plainLanguageNote 渲染 helper——从 manual 层读取白话解读
+  function renderStockPlainNote(s, chainId) {
+    if (!s || !s.code) return '';
+    const nsKey = chainId.toUpperCase().replace(/-/g, '_') + '_MANUAL';
+    const manual = window[nsKey];
+    if (!manual || !manual.stocks) return '';
+    const ms = manual.stocks[s.code];
+    if (!ms || !ms.plainLanguageNote) return '';
+    return ' <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(14,203,129,0.08);border:1px solid rgba(14,203,129,0.35);border-radius:10px;color:var(--green);font-weight:600;">💡 白话 ▾</summary><div style="margin-top:6px;padding:10px 14px;background:rgba(240,185,11,0.04);border-radius:6px;border-left:3px solid var(--accent);font-size:13px;line-height:1.85;color:var(--text);max-width:560px;">' + ms.plainLanguageNote + '</div></details>';
+  }
   function stockDims6Badge(s, chainId) {
     const dims = getEffectiveDims6(s, chainId);
     const dimsNote = getEffectiveDims6Note(s, chainId);
@@ -3198,7 +3208,7 @@ function renderChain(chainId) {
       const _logicCell = _trunc.truncated
         ? `<details class="logic-collapse"><summary style="cursor:pointer;color:var(--accent);font-weight:500;line-height:1.5;font-size:12px;list-style:none;outline:none;">${_trunc.summary} <span style="color:var(--muted);font-size:11px;margin-left:4px;">▾ 展开</span></summary><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:12px;line-height:1.6;color:var(--text);">${_trunc.full}</div></details>`
         : `<div style="font-size:12px;line-height:1.6;">${_trunc.full}</div>`;
-      h += `<td style="font-size:12px;">${_logicCell}${stockDims6Badge(s, chainId)}${stockFitBadge(s, chainId)}${renderStockFundamentalsChip(s, chainId)}${renderStockRiskChip(s, chainId)}</td>`;
+      h += `<td style="font-size:12px;">${_logicCell}${stockDims6Badge(s, chainId)}${renderStockPlainNote(s, chainId)}${stockFitBadge(s, chainId)}${renderStockFundamentalsChip(s, chainId)}${renderStockRiskChip(s, chainId)}</td>`;
       h += `</tr>`;
     });
     h += `</tbody></table></div>`;
@@ -3230,7 +3240,7 @@ function renderChain(chainId) {
         const _isConcept = conceptNoteOf(s).isConcept;
         const _trClass = _isConcept ? ' class="concept-vote"' : '';
         const _conceptTag = conceptTagHtml(s);
-        h += `<tr${s.code?` id="stock-${s.code}"${_trClass}`:''}${!s.code && _isConcept?' class="concept-vote"':''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${conceptTagHtml(s)}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td class="position" style="font-size:13px;">${s.position}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s, chainId)}${stockFitBadge(s, chainId)}</td></tr>`;
+        h += `<tr${s.code?` id="stock-${s.code}"${_trClass}`:''}${!s.code && _isConcept?' class="concept-vote"':''}><td><span class="rank-num">${s.rank}</span></td><td class="s-name">${s.name}${conceptTagHtml(s)}${trendBadge(s.trend, s.trendNote)}</td><td class="s-code">${s.code}</td><td class="position" style="font-size:13px;">${s.position}</td><td><span class="tag ${(()=>{const b=barrierNorm(s.barrier);return b==='极高'?'tg-extreme':b==='高'?'tg-high':b==='中'?'tg-mid':'tg-low';})()}">${barrierNorm(s.barrier) || '待核'}</span></td><td style="font-size:12px;">${_logicCell}${stockDims6Badge(s, chainId)}${renderStockPlainNote(s, chainId)}${stockFitBadge(s, chainId)}</td></tr>`;
       });
       h += `</tbody></table></div>`;
     });
@@ -3730,6 +3740,10 @@ function renderChain(chainId) {
       h += `<span class="choke-long-toggle" onclick="this.previousElementSibling.classList.toggle('expanded');this.textContent=(this.previousElementSibling.classList.contains('expanded')?'📕 收起':'📖 展开全文');">📖 展开全文</span></div>`;
     } else {
       h += `<div class="logic">${_logicText}</div>`;
+    }
+    // ★ commit 6.94：白话解读(plainLanguageNote)——chokePoint 专属·通俗卡口叙事
+    if (c.plainLanguageNote) {
+      h += `<div style="margin:10px 0;padding:14px 16px;background:rgba(240,185,11,0.06);border-radius:8px;border-left:3px solid var(--accent);font-size:13px;line-height:1.85;color:var(--text);">${c.plainLanguageNote}</div>`;
     }
     const _hasPct = c.valuation && typeof c.valuation.pePercentile === 'number';
     const _hasEZ  = c.valuation && c.valuation.entryZone && typeof c.valuation.entryZone.p30 === 'number' && typeof c.valuation.entryZone.p70 === 'number';

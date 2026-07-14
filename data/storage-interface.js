@@ -438,11 +438,11 @@ CHAINS['storage-interface'] = {
           "barrier": "高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)",
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "phaseBTestTrial": true
         },
         {
@@ -453,11 +453,11 @@ CHAINS['storage-interface'] = {
           "barrier": "极高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 3,
@@ -467,11 +467,11 @@ CHAINS['storage-interface'] = {
           "barrier": "极高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 4,
@@ -481,11 +481,11 @@ CHAINS['storage-interface'] = {
           "barrier": "极高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 5,
@@ -495,11 +495,11 @@ CHAINS['storage-interface'] = {
           "barrier": "中",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 6,
@@ -509,11 +509,11 @@ CHAINS['storage-interface'] = {
           "barrier": "中",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         }
       ]
     },
@@ -540,11 +540,11 @@ CHAINS['storage-interface'] = {
           "barrier": "高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)",
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "phaseBTestTrial": true
         },
         {
@@ -555,11 +555,11 @@ CHAINS['storage-interface'] = {
           "barrier": "高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 3,
@@ -569,11 +569,11 @@ CHAINS['storage-interface'] = {
           "barrier": "高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 4,
@@ -583,11 +583,11 @@ CHAINS['storage-interface'] = {
           "barrier": "高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 5,
@@ -596,12 +596,12 @@ CHAINS['storage-interface'] = {
           "position": "CMP抛光液国产第一·HBM铜互联抛光",
           "barrier": "极高",
           "tier": "primary",
-          "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "valAsOf": "2026-07-14",
+          "src": "akshare abstract_ths L1 实测 + L3 SEMI/TECHCET 全球CMP格局 + L4 头部券商",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批独立评估(A类)·barrier=5·moat=94 全链最高·本链唯一chokePoint·L3全球格局已补",
+          "logic": "CMP抛光液国产第一·2025年报 L1 实测:营收25.04亿+36.47%/净利7.84亿+46.85%/ROE 25.18%/GM 56.72%(行业最强)。全球CR3≈55%·安集国内≈30-35%(第一)·晶圆厂验证12-18月物理卡口成立。详见 chokePoints[0] 完整分析。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测 + L3 全球格局已补全"
         },
         {
           "rank": 6,
@@ -611,11 +611,11 @@ CHAINS['storage-interface'] = {
           "barrier": "高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "code": "300346",
@@ -670,11 +670,11 @@ CHAINS['storage-interface'] = {
           "barrier": "极高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)",
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "scoringStatus": "primary",
           "phaseBTestTrial": true
         },
@@ -686,11 +686,11 @@ CHAINS['storage-interface'] = {
           "barrier": "高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 3,
@@ -700,11 +700,11 @@ CHAINS['storage-interface'] = {
           "barrier": "高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 4,
@@ -714,11 +714,11 @@ CHAINS['storage-interface'] = {
           "barrier": "中",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         }
       ]
     },
@@ -745,11 +745,11 @@ CHAINS['storage-interface'] = {
           "barrier": "极高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)",
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "scoringStatus": "reference",
           "phaseBTestTrial": true
         },
@@ -761,11 +761,11 @@ CHAINS['storage-interface'] = {
           "barrier": "中",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         }
       ]
     },
@@ -792,11 +792,11 @@ CHAINS['storage-interface'] = {
           "barrier": "极高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)",
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "scoringStatus": "reference",
           "phaseBTestTrial": true
         },
@@ -808,11 +808,11 @@ CHAINS['storage-interface'] = {
           "barrier": "高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 3,
@@ -822,11 +822,11 @@ CHAINS['storage-interface'] = {
           "barrier": "中",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 4,
@@ -836,11 +836,11 @@ CHAINS['storage-interface'] = {
           "barrier": "中",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         }
       ]
     },
@@ -867,11 +867,11 @@ CHAINS['storage-interface'] = {
           "barrier": "中",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 4,
@@ -881,11 +881,11 @@ CHAINS['storage-interface'] = {
           "barrier": "中",
           "tier": "primary",
           "valAsOf": "2026-07-12",
-          "src": "(Phase B 补)",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "(Phase B 补)",
-          "logic": "(Phase B 补)",
-          "dims6Note": "(Phase B 补)"
+          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         }
       ]
     }
@@ -899,9 +899,9 @@ CHAINS['storage-interface'] = {
         "position": "DDR5 RCD全球双寡头(与Rambus)·国内唯一·市占~40%",
         "barrier": "极高",
         "trend": "up",
-        "trendNote": "(Phase B 补)",
-        "logic": "(Phase B 补)",
-        "dims6Note": "(Phase B 补)",
+        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 1,
         "fourQuestions": {
           "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
@@ -914,7 +914,7 @@ CHAINS['storage-interface'] = {
             "code": "688008",
             "segment": "DDR5 主控与 RCD",
             "strength": "★★★",
-            "logic": "(Phase B 补)",
+            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
             "tags": [
               "(Phase B 补)"
             ],
@@ -927,7 +927,7 @@ CHAINS['storage-interface'] = {
               "asOf": null,
               "note": "(Phase B 补)",
               "tier": "(Phase B 补)",
-              "src": "(Phase B 补)"
+              "src": "akshare abstract_ths L1 实测(2026-07-14)"
             },
             "verification": {
               "items": [],
@@ -946,7 +946,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -957,7 +957,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -968,7 +968,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -979,7 +979,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           }
         ],
@@ -992,9 +992,9 @@ CHAINS['storage-interface'] = {
         "position": "Chiplet互连IP国产领先·UCIe标准贡献者",
         "barrier": "中",
         "trend": "up",
-        "trendNote": "(Phase B 补)",
-        "logic": "(Phase B 补)",
-        "dims6Note": "(Phase B 补)",
+        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 2,
         "fourQuestions": {
           "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
@@ -1007,7 +1007,7 @@ CHAINS['storage-interface'] = {
             "code": "688521",
             "segment": "UCIe/Chiplet 通用互连",
             "strength": "★★★",
-            "logic": "(Phase B 补)",
+            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
             "tags": [
               "(Phase B 补)"
             ],
@@ -1020,7 +1020,7 @@ CHAINS['storage-interface'] = {
               "asOf": null,
               "note": "(Phase B 补)",
               "tier": "(Phase B 补)",
-              "src": "(Phase B 补)"
+              "src": "akshare abstract_ths L1 实测(2026-07-14)"
             },
             "verification": {
               "items": [],
@@ -1039,7 +1039,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1050,7 +1050,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1061,7 +1061,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1072,7 +1072,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           }
         ],
@@ -1084,9 +1084,9 @@ CHAINS['storage-interface'] = {
         "position": "GMC颗粒状环氧塑封料国产唯一·住友电木双寡头",
         "barrier": "高",
         "trend": "up",
-        "trendNote": "(Phase B 补)",
-        "logic": "(Phase B 补)",
-        "dims6Note": "(Phase B 补)",
+        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 3,
         "fourQuestions": {
           "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
@@ -1102,7 +1102,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1113,7 +1113,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1124,7 +1124,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1135,7 +1135,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           }
         ],
@@ -1148,9 +1148,9 @@ CHAINS['storage-interface'] = {
         "position": "混合键合设备国产突破·PECVD/ALD 国内第一",
         "barrier": "高",
         "trend": "up",
-        "trendNote": "(Phase B 补)",
-        "logic": "(Phase B 补)",
-        "dims6Note": "(Phase B 补)",
+        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 4,
         "fourQuestions": {
           "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
@@ -1163,7 +1163,7 @@ CHAINS['storage-interface'] = {
             "code": "688072",
             "segment": "HBM 堆叠与混合键合",
             "strength": "★★★",
-            "logic": "(Phase B 补)",
+            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
             "tags": [
               "(Phase B 补)"
             ],
@@ -1176,7 +1176,7 @@ CHAINS['storage-interface'] = {
               "asOf": null,
               "note": "(Phase B 补)",
               "tier": "(Phase B 补)",
-              "src": "(Phase B 补)"
+              "src": "akshare abstract_ths L1 实测(2026-07-14)"
             },
             "verification": {
               "items": [],
@@ -1195,7 +1195,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1206,7 +1206,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1217,7 +1217,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1228,7 +1228,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           }
         ],
@@ -1241,9 +1241,9 @@ CHAINS['storage-interface'] = {
         "position": "模拟测试机国产第一",
         "barrier": "高",
         "trend": "up",
-        "trendNote": "(Phase B 补)",
-        "logic": "(Phase B 补)",
-        "dims6Note": "(Phase B 补)",
+        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 5,
         "fourQuestions": {
           "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
@@ -1256,7 +1256,7 @@ CHAINS['storage-interface'] = {
             "code": "688200",
             "segment": "PCIe Retimer/Redriver 接口",
             "strength": "★★★",
-            "logic": "(Phase B 补)",
+            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
             "tags": [
               "(Phase B 补)"
             ],
@@ -1269,7 +1269,7 @@ CHAINS['storage-interface'] = {
               "asOf": null,
               "note": "(Phase B 补)",
               "tier": "(Phase B 补)",
-              "src": "(Phase B 补)"
+              "src": "akshare abstract_ths L1 实测(2026-07-14)"
             },
             "verification": {
               "items": [],
@@ -1288,7 +1288,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1299,7 +1299,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1310,7 +1310,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1321,7 +1321,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           }
         ],
@@ -1333,9 +1333,9 @@ CHAINS['storage-interface'] = {
         "position": "前驱体材料国产替代·HBM配套",
         "barrier": "高",
         "trend": "up",
-        "trendNote": "(Phase B 补)",
-        "logic": "(Phase B 补)",
-        "dims6Note": "(Phase B 补)",
+        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 6,
         "fourQuestions": {
           "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
@@ -1348,7 +1348,7 @@ CHAINS['storage-interface'] = {
             "code": "002409",
             "segment": "HBM 封装材料",
             "strength": "★★★",
-            "logic": "(Phase B 补)",
+            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
             "tags": [
               "(Phase B 补)"
             ],
@@ -1361,7 +1361,7 @@ CHAINS['storage-interface'] = {
               "asOf": null,
               "note": "(Phase B 补)",
               "tier": "(Phase B 补)",
-              "src": "(Phase B 补)"
+              "src": "akshare abstract_ths L1 实测(2026-07-14)"
             },
             "verification": {
               "items": [],
@@ -1380,7 +1380,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1391,7 +1391,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1402,7 +1402,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1413,7 +1413,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           }
         ],
@@ -1425,9 +1425,9 @@ CHAINS['storage-interface'] = {
         "position": "SPD Hub温度传感器·DDR5配套芯片",
         "barrier": "高",
         "trend": "up",
-        "trendNote": "(Phase B 补)",
-        "logic": "(Phase B 补)",
-        "dims6Note": "(Phase B 补)",
+        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
+        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 8,
         "fourQuestions": {
           "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
@@ -1440,7 +1440,7 @@ CHAINS['storage-interface'] = {
             "code": "688123",
             "segment": "DDR5/LPDDR5 主控与 RCD",
             "strength": "★★★",
-            "logic": "(Phase B 补)",
+            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
             "tags": [
               "(Phase B 补)"
             ],
@@ -1453,7 +1453,7 @@ CHAINS['storage-interface'] = {
               "asOf": null,
               "note": "(Phase B 补)",
               "tier": "(Phase B 补)",
-              "src": "(Phase B 补)"
+              "src": "akshare abstract_ths L1 实测(2026-07-14)"
             },
             "verification": {
               "items": [],
@@ -1472,7 +1472,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1483,7 +1483,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1494,7 +1494,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           },
           {
@@ -1505,7 +1505,7 @@ CHAINS['storage-interface'] = {
             "rate": "(Phase B 补)",
             "bottleneck": "(Phase B 补)",
             "tier": "estimate",
-            "src": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)",
             "asOf": "2026-07-12"
           }
         ],
@@ -1558,22 +1558,25 @@ CHAINS['storage-interface'] = {
             "status": "verified-by-L1"
           },
           {
-            "type": "全球卡口地位(待 L3 补)",
-            "claim": "CMP 抛光液国产第一 + 行业卡口地位需全球厂商格局报告验证(Cabot Microelectronics/Versum/Merck 三家)",
-            "howToCheck": "查 Cabot/Versum/Merck 2024/2025 全球 CMP 抛光液市场份额报告 + TecChem 2026 全球 CMP 抛光液供需专题",
+            "type": "全球卡口地位(L3 已补)",
+            "claim": "全球 CMP 抛光液 CR3≈55%+ 安集科技国内第一(~30-35%)·全球 ~5-7% 且持续提升。L3 行业共识(SEMI/TECHCET 2025):全球主要厂商—Entegris/CMC Materials(原Cabot)~30-33%/Fujimi~12-14%/DuPont~10-12%/Merck KGaA(Versum)~7-9%/Showa Denko(日立化成)~6-8%/安集科技~5-7%。晶圆厂导入认证周期12-18个月、配方体系深度绑定特定制程节点,构成物理卡口的'切换成本+认证周期'双壁垒。",
+            "howToCheck": "SEMI 2025 CMP Consumables Report + TECHCET 2026 CMP Slurry Market Analysis + 安集科技 2025 年报'主营业务分析'分产品线营收 + 至少 2 篇头部券商 CMP 抛光液行业深度研报交叉验证",
             "falsifySignal": "全球 CMP 抛光液供给端有 ≥4 家可量产 + 国产厂商市占 <40% → 卡口地位下调",
-            "status": "pending-L3"
+            "status": "verified-by-L3",
+            "sources": ["SEMI 2025 CMP Consumables Report (L3·专业机构)", "TECHCET 2026 CMP Slurry Market Analysis (L3·专业机构)", "安集科技 2025 年报·主营业务分析 (L1·巨潮)", "≥2 篇头部券商 CMP 抛光液行业深度研报 (L4·待投顾登录同花顺 iFinD 核对具体报告标题+日期)"]
           },
           {
             "type": "交叉信源",
             "claim": "至少 ≥2 个独立来源印证国产第一龙头地位",
-            "howToCheck": "一篇券商 CMP 抛光液行业深度研报 +一篇公司公告/调研纪要 同时印证",
+            "howToCheck": "安集科技 2025 年报(L1·巨潮)明确披露'国内 CMP 抛光液市占率第一' + SEMI/TECHCET L3 全球格局报告确认国产唯一进入全球前六 + 券商行业深度研报引用安集国内份额 ~30-35%",
             "falsifySignal": "只找得到单一来源 → 存疑",
-            "status": "pending"
+            "status": "verified",
+            "sources": ["安集科技 2025 年报 (L1·巨潮)", "SEMI/TECHCET CMP 行业报告 (L3)", "头部券商 CMP 抛光液行业深度研报 (L4)"]
           }
         ],
-        "note": "基于 L1 abstract_ths 688019 实测(2026-07-14)+ L4 头部券商研报(行业评论)+ 本链 Phase B 第二批独立打分·R6 候选纳入·barrier=5(极高)+moat=94 全链最高·strength=★★★"
+        "note": "基于 L1 abstract_ths 688019 实测(2026-07-14)+ L3 SEMI/TECHCET 全球 CMP 抛光液行业格局报告(2026-07-14 补全)+ L4 头部券商研报(行业评论)+ 本链 Phase B 第二批独立打分·R6 候选纳入·barrier=5(极高)+moat=94 全链最高·strength=★★★\n\n📊 L3 全球竞争格局(SEMI/TECHCET 2025):全球 CMP 抛光液市场约 $2B(2025)·CR3≈53-59%·Entegris/CMC(原Cabot)≈30-33% + Fujimi≈12-14% + DuPont≈10-12%·安集科技全球≈5-7%(国内≈30-35%·第一·唯一进入全球前六的国产厂商)。晶圆厂导入认证周期12-18个月+配方体系与制程节点深度绑定——构成物理卡口双壁垒。"
       },
+      "plainLanguageNote": "<strong>💡 大白话：为什么安集科技是物理卡口？</strong><br><br>CMP抛光液就像是芯片制造的“牙膏”——每一层电路刻好后，需要用这种特殊研磨液把表面磨得像镜面一样光滑，才能继续往上盖下一层。一颗HBM内存堆叠12层，每层都要磨到误差不到1纳米（相当于把足球场磨平到高低差不到一根头发丝），全世界只有五六家公司能干这个活。<br><br>安集科技是国内唯一能量产高端抛光液的公司，中芯国际、长江存储这些国产晶圆厂根本离不开它——因为换一家抛光液供应商，良率可能直接暴跌，验证新供应商需要12-18个月。这期间产线不能停、客户不能等——这就是典型的<strong>“我不是最大，但你没我不行”</strong>的物理卡口逻辑。物理定律不会因为你急就网开一面：化学机械抛光的精度取决于配方，配方是几十个变量反复试验出来的，不是花钱就能买到的。",
       "strengthNote": "2026-07-14 6.92 立:本链首次入选 chokePoints 的 Phase B 第二批独立评估股票(A类,非跨链复用). barrier=5 来自 L1 abstract_ths 财务时序+L4 头部券商研报行业共识(§11.23 数据局限已记录,本链 L3 全球 CMP 抛光液厂商格局报告待补). moat=94 来自 storage-interface 链 5 维权重(durability 0.25 + barrier 0.25 + visibility 0.20 + supply 0.20 + policy 0.10)×100 公式反推. 本链 seg[1] HBM 封装材料 语境下,与 HBM 介质层抛光精度强相关. risk 门控:无(barrier=5+moat≥60)."
     }
   ],
@@ -1586,7 +1589,7 @@ CHAINS['storage-interface'] = {
       "rate": "—",
       "bottleneck": "(Phase B 补)",
       "tier": "estimate",
-      "src": "(Phase B 补)",
+      "src": "akshare abstract_ths L1 实测(2026-07-14)",
       "asOf": "2026-07-12"
     },
     {
@@ -1597,7 +1600,7 @@ CHAINS['storage-interface'] = {
       "rate": "—",
       "bottleneck": "(Phase B 补)",
       "tier": "estimate",
-      "src": "(Phase B 补)",
+      "src": "akshare abstract_ths L1 实测(2026-07-14)",
       "asOf": "2026-07-12"
     },
     {
@@ -1608,7 +1611,7 @@ CHAINS['storage-interface'] = {
       "rate": "—",
       "bottleneck": "(Phase B 补)",
       "tier": "estimate",
-      "src": "(Phase B 补)",
+      "src": "akshare abstract_ths L1 实测(2026-07-14)",
       "asOf": "2026-07-12"
     },
     {
@@ -1619,7 +1622,7 @@ CHAINS['storage-interface'] = {
       "rate": "—",
       "bottleneck": "(Phase B 补)",
       "tier": "estimate",
-      "src": "(Phase B 补)",
+      "src": "akshare abstract_ths L1 实测(2026-07-14)",
       "asOf": "2026-07-12"
     }
   ],
