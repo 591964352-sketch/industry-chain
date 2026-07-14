@@ -102,7 +102,7 @@ CHAINS['storage-interface'] = {
       "AI服务器/数据中心"
     ],
     "highlightBox": "<strong>💡 物理卡口视角：存储与接口链的\"河道收窄处\"在哪？</strong><br>① <strong>HBM高带宽存储</strong>：AI大模型训练的\"数据高速公路\"——GPU算力再强，没有HBM高速喂数据也是空转。但HBM制造被SK海力士/三星/美光100%垄断——<strong>均不在A股</strong>，A股只能抓配套(安集科技CMP抛光液+拓荆科技混合键合设备)。② <strong>DDR5 RCD(内存接口芯片)</strong>：每台服务器内存条上的\"交通指挥员\"——全球只有澜起科技/Rambus/IDT三家能量产，认证周期≥12个月。澜起科技是全球唯二的独立RCD供应商(另一家Rambus为IP授权模式)，国内唯一。③ <strong>CXL/PCIe高速接口</strong>：AI服务器GPU之间的\"超高速数据管道\"——PCIe 5.0 Retimer全球仅Astera Labs/澜起科技/谱瑞三家量产，CXL 2.0/3.0是下一代内存池化的关键标准。④ <strong>物理约束的本质不同</strong>：PCB链的卡口在\"材料和工艺\"(M9树脂/Q布/HVLP4铜箔——全球≤3家)，存储链的卡口在\"芯片设计+认证壁垒\"(RCD/Retimer/CMP抛光液——全球≤3家+认证≥12月)。存储链的A股机会比PCB链更\"间接\"——抓的是\"卖铲人\"和\"材料商\"，而非核心芯片制造商本身。",
-    "chainStory": [{"step":1,"name":"硅晶圆 → DRAM 颗粒","barrier":"low","choke":false,"domestic":"沪硅产业(12英寸硅片·国产替代早期)·中芯国际(DRAM代工·制程落后于三星/海力士)","desc":"从高纯硅拉制12英寸硅片起步，经过上千道工序制造DRAM存储颗粒。全球DRAM市场被三星(~40%)、SK海力士(~30%)、美光(~25%)三巨头垄断——<strong>三大DRAM厂均不在A股</strong>。这是存储链与PCB链的本质差异：PCB的核心卡口(AI PCB+材料)大部分在A股，存储链的核心卡口(HBM/DRAM制造)完全在海外。A股在这一步的角色是\"卖铲人\"和\"材料商\"，而非制造商本身。","keyStocks":[{"code":"688126","name":"沪硅产业","note":"12英寸硅片国产化·treeMap背景(非本链核心标的)"}],"barrierNote":"DRAM制造本身壁垒极高(全球仅3家)·但A股无直接标的·本步仅作产业链全景展示","source":"SEMI 2026 DRAM Market Report + TrendForce DRAM Quarterly"},{"step":2,"name":"HBM 3D 堆叠键合","barrier":"extreme","choke":true,"domestic":"拓荆科技(PECVD/ALD国内第一·混合键合设备国产突破)·北方华创(多产品线综合设备·C类跨链复用)·中微公司(CCP刻蚀国产第一·C类跨链复用)","desc":"把12层DRAM颗粒像千层蛋糕一样垂直堆叠在一起——每层通过TSV(硅通孔)连接，用混合键合(Hybrid Bonding)代替传统微凸点，把层间距从45μm缩小到10μm以下。这是HBM制造最核心的物理门槛：<strong>TSV刻蚀精度+混合键合对准精度+堆叠良率</strong>三者缺一不可。台积电CoWoS封装垄断了全球HBM封装产能，是比HBM制造本身更大的产能瓶颈。A股机会在设备端(拓荆科技混合键合国产突破)，但全球设备霸主仍是AMAT和Lam Research。","keyStocks":[{"code":"688072","name":"拓荆科技","note":"混合键合设备国产突破·PECVD/ALD国内第一·本链seg[0]主场·scoringStatus=primary"},{"code":"002371","name":"北方华创","note":"多产品线平台型设备·C类跨链复用(复用于semicon-equip)·seg语境重评"},{"code":"688012","name":"中微公司","note":"CCP刻蚀国产第一·C类跨链复用(复用于semicon-equip)·seg语境重评"}],"barrierNote":"全球PECVD/ALD设备≤5家·混合键合设备AMAT/Lam垄断·拓荆科技国产唯一但存在1代以上技术代差·符合§11.23数据局限(设备厂扩产周期不可得)","source":"SEMI 2026 HBM Equipment Report + Yole Hybrid Bonding 2026 + 各公司2025年报"},{"step":3,"name":"CMP 抛光液 / 抛光垫","barrier":"extreme","choke":true,"domestic":"安集科技(CMP抛光液国产第一·国内≈30-35%·唯一进入全球前六的国产厂商)·鼎龙股份(CMP抛光垫国产第一·先进封装配套)","desc":"HBM每堆叠一层DRAM，必须用CMP(化学机械抛光)把表面磨到<strong>误差不到1纳米</strong>——相当于把足球场磨平到高低差不到一根头发丝。抛光液是消耗品，每片晶圆需要经过数十次CMP步骤。全球CMP抛光液市场约$2B，CR3≈55%(Entegris/Fujimi/DuPont)，安集科技全球≈5-7%但国内≈30-35%遥遥领先。晶圆厂一旦选定抛光液供应商就不会轻易更换——<strong>验证新供应商需要12-18个月，期间良率可能暴跌</strong>，这是典型的\"我不是最大，但你没我不行\"的物理卡口逻辑。","keyStocks":[{"code":"688019","name":"安集科技","note":"CMP抛光液国产第一·国内≈30-35%·本链唯一顶层chokePoint·barrier=5·moat=94全链最高"},{"code":"300054","name":"鼎龙股份","note":"CMP抛光垫国产第一·先进封装配套·全球份额<15%·barrier=高"}],"barrierNote":"全球CMP抛光液CR3≈55%·晶圆厂导入认证12-18个月+配方体系深度绑定制程节点·安集科技国内第一(≈30-35%)·符合§10 5分档物理卡口标准","source":"TECHCET 2026 CMP Slurry Market Analysis + SEMI 2025 CMP Consumables Report + 安集科技2025年报(L1·巨潮)"},{"step":4,"name":"GMC 塑封料 / 硅微粉","barrier":"high","choke":false,"domestic":"华海诚科(GMC塑封料国内唯一·住友电木双寡头·⚠ Phase B试点moat=58/quadrant=skip)·联瑞新材(硅微粉国产第一·HBM封装填料)","desc":"堆叠好的HBM芯片需要\"穿衣服\"——GMC(颗粒状环氧塑封料)包裹住芯片，防潮、防震、散热、绝缘。全球仅日本住友电木(~70%)和华海诚科(~30%)两家可批量供应，看似双寡头格局但<strong>实际需求尚未起量</strong>——国内长鑫存储的HBM量产时间表未公开(2027?2028?)，华海诚科2025年营收反而同比-39.47%，说明HBM封装需求还没有转化为真实营收，公司仍处于验证→放量的过渡期。硅微粉则是塑封料的填料，联瑞新材在这个细分环节国产第一。","keyStocks":[{"code":"688535","name":"华海诚科","note":"GMC塑封料国内唯一·住友电木双寡头·⚠ Phase B试点moatScore=58·quadrant=skip·不构成正式卡口·仅作赛道展示"},{"code":"688300","name":"联瑞新材","note":"硅微粉国产第一·HBM封装填料"}],"barrierNote":"全球仅住友电木+华海诚科两家·但下游HBM量产时点未明确·华海诚科2025营收-39.47%说明需求尚未起量·不构成当前时点的物理卡口","source":"TECHCET 2026 GMC Market Report + 华海诚科2025年报(L1·巨潮·营收同比-39.47%⚠)"},{"step":5,"name":"前驱体 / 电子特气","barrier":"high","choke":false,"domestic":"雅克科技(前驱体材料·通过收购UP Chemical进入全球供应链)·南大光电(ARF光刻胶+前驱体材料)·华特气体(电子特气·HBM/DRAM制造关键耗材·国内唯一获ASML认证)","desc":"HBM和DRAM制造过程中需要上百种高纯度化学材料——前驱体(薄膜沉积的\"原料\")和电子特气(刻蚀/清洗的\"工具气体\")是消耗量最大的两类。雅克科技通过收购韩国UP Chemical进入全球前驱体供应链，南大光电在光刻胶之外也布局前驱体材料，华特气体是国内唯一通过ASML认证的电子特气供应商。这些材料虽然单价不高，但<strong>纯度要求极高(99.999%+)，一旦杂质超标整批晶圆报废</strong>。不过全球前驱体市场仍被默克/液化空气/林德等巨头主导，国产替代处于早期。","keyStocks":[{"code":"002409","name":"雅克科技","note":"前驱体材料国产替代·收购UP Chemical进入全球供应链·本链seg[1]·barrier=高"},{"code":"300346","name":"南大光电","note":"ARF光刻胶+前驱体·集成电路先进制程·本链seg[1]·barrier=中"},{"code":"688268","name":"华特气体","note":"电子特气·国内唯一获ASML认证·本链seg[1]·barrier=高"}],"barrierNote":"全球前驱体/电子特气市场集中度高(默克/液化空气/林德)·但国产替代空间大·非\"全球≤3家\"级别的物理卡口","source":"SEMI 2026 Materials Market Report + TECHCET Precursors & Gases 2026 + 各公司2025年报"},{"step":6,"name":"DDR5 RCD(内存接口芯片)","barrier":"extreme","choke":true,"domestic":"澜起科技(DDR5 RCD全球双寡头·市占~40%·国内唯一·🏠主场:seg[2]·scoringStatus=primary) + 聚辰股份(SPD Hub·DDR5配套芯片)","desc":"把服务器内存想象成一座超大型图书馆——CPU要同时从几十本\"书\"里查资料，如果没有\"图书管理员\"指挥调度，所有人会撞在一起。DDR5 RCD芯片就是这位\"管理员\"——每颗指甲盖大小的芯片，同时指挥几十颗内存颗粒的读写顺序。<strong>全球只有澜起科技、美国的Rambus和日本的IDT(Renesas)三家能量产这颗芯片</strong>，澜起科技全球市占约40%，国内唯一。澜起2025年报L1实测：营收54.56亿(+49.94%)/净利22.36亿(+58.35%)/毛利率62.23%——互连类芯片(DDR5 RCD为主体)占公司总营收94.18%。第四子代RCD(7200MT/s)已规模出货。这是本链中澜起科技的<strong>primary主场</strong>——DDR5 RCD是其核心业务和卡口逻辑的根基。","keyStocks":[{"code":"688008","name":"澜起科技","note":"★ 本链seg[2] primary主场·DDR5 RCD全球双寡头(与Rambus)·市占~40%·认证≥12月·2025营收54.56亿+49.94%·RCD占比~78-81%·moat=88·quadrant=core"},{"code":"688123","name":"聚辰股份","note":"SPD Hub温度传感器·DDR5配套芯片·本链seg[2]·barrier=高"}],"barrierNote":"全球≤3家量产·Intel/AMD平台认证≥12个月·OEM客户切换成本极高(数据中心兼容性测试+库存建立≥9个月)·符合§10 5分档物理卡口标准·澜起scoringStatus=primary(主场)","source":"澜起科技2025年报(L1·巨潮·互连类芯片占比94.18%) + TrendForce DDR5 Market Tracker(L3)"},{"step":7,"name":"CXL 内存池化控制器","barrier":"extreme","choke":true,"domestic":"澜起科技(CXL MXC控制器·全球仅澜起+Astera Labs两家已流片·⚠ 关联提及:营收<2%)","desc":"CXL(Compute Express Link)是让多台服务器共享同一块内存的\"超级立交桥\"——传统架构下每台服务器独享自己的内存，空闲的内存其他服务器用不了，造成巨大浪费。CXL 2.0/3.0标准让CPU可以通过PCIe物理层直接访问其他服务器的内存，把数据中心的<strong>内存利用率从~50%提升到80%+</strong>。但CXL生态目前仍处早期——全球仅澜起科技和美国的Astera Labs两家完成了CXL MXC控制器的流片，AWS/谷歌/微软处于原型验证阶段，批量部署预计2027+。<strong>澜起科技在CXL的布局是其DDR5主业之外的技术延伸</strong>，2025年报披露CXL相关营收占总营收不到2%，属于早期导入阶段的战略卡位，非当前营收贡献主力。","keyStocks":[{"code":"688008","name":"澜起科技","note":"⚠ 关联提及(非主场)·CXL MXC控制器仅澜起+Astera Labs两家已流片·营收<2%·早期导入阶段·本链seg[3]·scoringStatus=reference"}],"barrierNote":"全球仅2家已流片·技术壁垒极高·但CXL标准仍在演进(3.0未锁定)+下游部署尚未规模化·澜起在此环节为战略卡位·非当前营收贡献主力","source":"Yole 2026 CXL Market Forecast + 澜起科技2025年报(L1·CXL营收<2%) + CXL Consortium Technical Whitepaper"},{"step":8,"name":"PCIe Retimer/Redriver 接口","barrier":"extreme","choke":true,"domestic":"澜起科技(PCIe 5.0 Retimer全球第二·市占~25%·⚠ 关联提及:营收7-11%) + 龙迅股份(Redriver/Retimer·国产替代)","desc":"PCIe是GPU与GPU之间、GPU与CPU之间的\"超高速数据管道\"。PCIe 5.0单通道速率已达32GT/s，信号在PCB上跑几厘米就会严重衰减——必须用Retimer芯片在中间\"接力\"，把衰减的信号重新整形放大。<strong>每台AI服务器需要4-8颗PCIe 5.0 Retimer芯片</strong>，全球仅三家量产：美国的Astera Labs(~55%)、中国的澜起科技(~25%)、台湾的谱瑞科技(~20%)。澜起科技的PCIe Retimer是其<strong>第二大业务线</strong>(2025年报披露营收占比约7-11%)，全球市占率正在爬坡中。龙迅股份(688486)也是该环节的国产参与者，主攻Redriver方向。该环节的特点是三家格局稳固但<strong>澜起非唯一国内玩家</strong>。","keyStocks":[{"code":"688008","name":"澜起科技","note":"⚠ 关联提及(非主场)·PCIe 5.0 Retimer全球第二·市占~25%·营收占比7-11%·第二大业务线·本链seg[4]·scoringStatus=reference"},{"code":"688486","name":"龙迅股份","note":"Redriver/Retimer国产替代·本链seg[4]·barrier=高"}],"barrierNote":"全球仅3家量产PCIe 5.0 Retimer·Astera Labs占>50%·澜起份额爬坡中·非澜起独家赛道·龙迅股份同为国产参与者","source":"Yole 2026 PCIe Market Report + 澜起科技2025年报(L1·PCIe营收占比7-11%) + Astera Labs 2025 Annual Report"},{"step":9,"name":"UCIe/Chiplet 互连","barrier":"high","choke":false,"domestic":"芯原股份(Chiplet互连IP国产领先·UCIe标准贡献者)","desc":"Chiplet(芯粒)是\"拼积木式\"造芯片的新范式——不同工艺的芯片(7nm的CPU+14nm的I/O+28nm的模拟)通过UCIe互连标准像乐高一样拼在一起，绕过了单芯片面积的光罩极限。UCIe是Intel/AMD/台积电/三星联合制定的开放标准。芯原股份是国内UCIe标准的先行者之一，但<strong>全球Chiplet互连IP格局分散</strong>——多家IP厂商(ARM/Synopsys/Cadence)和Foundry(台积电3D Fabric/Intel EMIB/三星I-Cube)都有自己的互连方案。这个环节更大的卡口在先进封装(CoWoS/EMIB)而非互连IP本身——先进封装由台积电/Intel/三星垄断，均不在A股。","keyStocks":[{"code":"688521","name":"芯原股份","note":"Chiplet互连IP国产领先·UCIe标准贡献者·本链seg[5]·scoringStatus=reference·IP授权模式(物理卡口框架适用性有限)"}],"barrierNote":"全球互连IP格局分散·多家厂商+Foundry自研方案·标准仍在演进·真正的卡口在先进封装(台积电CoWoS·不在A股)而非互连IP本身","source":"UCIe Consortium Specification 2.0 + Yole Chiplet Market 2026 + 芯原股份2025年报"},{"step":10,"name":"AI服务器/数据中心集成","barrier":"low","choke":false,"domestic":"工业富联(英伟达GB300独家设计生产·treeMap背景·非本链核心标的)","desc":"所有零件——HBM、DDR5 RCD、CXL控制器、PCIe Retimer——最终汇集到一台AI服务器中。英伟达GB300 NVL72机柜集成了72颗Blackwell GPU、18个NVSwitch、几十公里铜缆、数百个液冷冷板。整机制造的壁垒不在制造本身(富士康/广达/纬创充分竞争)，而在<strong>英伟达的GPU分配权和液冷系统工程能力</strong>。HBM、DDR5 RCD、CXL、PCIe这些核心芯片都是英伟达指定供应商——整机厂只是按清单组装。A股中工业富联(601138)是最纯正的AI服务器ODM标的，但本链中它仅作为产业链终端的背景展示，不做卡口评估。","keyStocks":[{"code":"601138","name":"工业富联","note":"英伟达GB300独家设计生产·treeMap背景·非本链核心标的"}],"barrierNote":"AI服务器整机制造充分竞争(CR5<40%)·核心卡口在芯片(HBM/DDR5 RCD/PCIe Retimer)而非整机组装·工业富联为英伟达独家ODM但非物理卡口","source":"TrendForce AI Server Shipment Tracker 2026 + 英伟达GTC 2026 GB300 NVL72 Technical Brief"}]
+    "chainStory": [{"step":1,"name":"硅晶圆 → DRAM 颗粒","barrier":"low","choke":false,"domestic":"沪硅产业(12英寸硅片·国产替代早期)·中芯国际(DRAM代工·制程落后于三星/海力士)","desc":"从高纯硅拉制12英寸硅片起步，经过上千道工序制造DRAM存储颗粒。全球DRAM市场被三星(~40%)、SK海力士(~30%)、美光(~25%)三巨头垄断——<strong>三大DRAM厂均不在A股</strong>。这是存储链与PCB链的本质差异：PCB的核心卡口(AI PCB+材料)大部分在A股，存储链的核心卡口(HBM/DRAM制造)完全在海外。A股在这一步的角色是\"卖铲人\"和\"材料商\"，而非制造商本身。","keyStocks":[{"code":"688126","name":"沪硅产业","note":"12英寸硅片国产化·treeMap背景(非本链核心标的)"}],"barrierNote":"DRAM制造本身壁垒极高(全球仅3家)·但A股无直接标的·本步仅作产业链全景展示","source":"SEMI 2026 DRAM Market Report + TrendForce DRAM Quarterly"},{"step":2,"name":"HBM 3D 堆叠键合","barrier":"extreme","choke":true,"domestic":"拓荆科技(PECVD/ALD国内第一·混合键合设备国产突破)·北方华创(多产品线综合设备·C类跨链复用)·中微公司(CCP刻蚀国产第一·C类跨链复用)","desc":"把12层DRAM颗粒像千层蛋糕一样垂直堆叠在一起——每层通过TSV(硅通孔)连接，用混合键合(Hybrid Bonding)代替传统微凸点，把层间距从45μm缩小到10μm以下。这是HBM制造最核心的物理门槛：<strong>TSV刻蚀精度+混合键合对准精度+堆叠良率</strong>三者缺一不可。台积电CoWoS封装垄断了全球HBM封装产能，是比HBM制造本身更大的产能瓶颈。A股机会在设备端(拓荆科技混合键合国产突破)，但全球设备霸主仍是AMAT和Lam Research。","keyStocks":[{"code":"688072","name":"拓荆科技","note":"混合键合设备国产突破·PECVD/ALD国内第一·本链seg[0]主场·scoringStatus=primary"},{"code":"002371","name":"北方华创","note":"多产品线平台型设备·C类跨链复用(复用于semicon-equip)·seg语境重评"},{"code":"688012","name":"中微公司","note":"CCP刻蚀国产第一·C类跨链复用(复用于semicon-equip)·seg语境重评"}],"barrierNote":"全球PECVD/ALD设备≤5家·混合键合设备AMAT/Lam垄断·拓荆科技国产唯一但存在1代以上技术代差·符合§11.23数据局限(设备厂扩产周期不可得)","source":"SEMI 2026 HBM Equipment Report + Yole Hybrid Bonding 2026 + 各公司2025年报"},{"step":3,"name":"CMP 抛光液 / 抛光垫","barrier":"extreme","choke":true,"domestic":"安集科技(CMP抛光液国产第一·国内≈30-35%·唯一进入全球前六的国产厂商)·鼎龙股份(CMP抛光垫国产第一·先进封装配套)","desc":"HBM每堆叠一层DRAM，必须用CMP(化学机械抛光)把表面磨到<strong>误差不到1纳米</strong>——相当于把足球场磨平到高低差不到一根头发丝。抛光液是消耗品，每片晶圆需要经过数十次CMP步骤。全球CMP抛光液市场约$2B，CR3≈55%(Entegris/Fujimi/DuPont)，安集科技全球≈5-7%但国内≈30-35%遥遥领先。晶圆厂一旦选定抛光液供应商就不会轻易更换——<strong>验证新供应商需要12-18个月，期间良率可能暴跌</strong>，这是典型的\"我不是最大，但你没我不行\"的物理卡口逻辑。","keyStocks":[{"code":"688019","name":"安集科技","note":"CMP抛光液国产第一·国内≈30-35%·本链唯一顶层chokePoint·barrier=5·moat=94全链最高"},{"code":"300054","name":"鼎龙股份","note":"CMP抛光垫国产第一·先进封装配套·全球份额<15%·barrier=高"}],"barrierNote":"全球CMP抛光液CR3≈55%·晶圆厂导入认证12-18个月+配方体系深度绑定制程节点·安集科技国内第一(≈30-35%)·符合§10 5分档物理卡口标准","source":"TECHCET 2026 CMP Slurry Market Analysis + SEMI 2025 CMP Consumables Report + 安集科技2025年报(L1·巨潮)"},{"step":4,"name":"GMC 塑封料 / 硅微粉","barrier":"high","choke":false,"domestic":"华海诚科(GMC塑封料国内唯一·住友电木双寡头·⚠ Phase B试点moat=58/quadrant=skip)·联瑞新材(硅微粉国产第一·HBM封装填料)","desc":"堆叠好的HBM芯片需要\"穿衣服\"——GMC(颗粒状环氧塑封料)包裹住芯片，防潮、防震、散热、绝缘。全球仅日本住友电木(~70%)和华海诚科(~30%)两家可批量供应，看似双寡头格局但<strong>实际需求尚未起量</strong>——国内长鑫存储的HBM量产时间表未公开(2027?2028?)，华海诚科2025年营收反而同比-39.47%，说明HBM封装需求还没有转化为真实营收，公司仍处于验证→放量的过渡期。硅微粉则是塑封料的填料，联瑞新材在这个细分环节国产第一。","keyStocks":[{"code":"688535","name":"华海诚科","note":"GMC塑封料国内唯一·住友电木双寡头·⚠ Phase B试点moatScore=58·quadrant=skip·不构成正式卡口·仅作赛道展示"},{"code":"688300","name":"联瑞新材","note":"硅微粉国产第一·HBM封装填料"}],"barrierNote":"全球仅住友电木+华海诚科两家·但下游HBM量产时点未明确·华海诚科2025营收-39.47%说明需求尚未起量·不构成当前时点的物理卡口","source":"TECHCET 2026 GMC Market Report + 华海诚科2025年报(L1·巨潮·营收同比-39.47%⚠)"},{"step":5,"name":"前驱体 / 电子特气","barrier":"high","choke":false,"domestic":"雅克科技(前驱体材料·通过收购UP Chemical进入全球供应链)·南大光电(ARF光刻胶+前驱体材料)·华特气体(电子特气·HBM/DRAM制造关键耗材·国内唯一获ASML认证)","desc":"HBM和DRAM制造过程中需要上百种高纯度化学材料——前驱体(薄膜沉积的\"原料\")和电子特气(刻蚀/清洗的\"工具气体\")是消耗量最大的两类。雅克科技通过收购韩国UP Chemical进入全球前驱体供应链，南大光电在光刻胶之外也布局前驱体材料，华特气体是国内唯一通过ASML认证的电子特气供应商。这些材料虽然单价不高，但<strong>纯度要求极高(99.999%+)，一旦杂质超标整批晶圆报废</strong>。不过全球前驱体市场仍被默克/液化空气/林德等巨头主导，国产替代处于早期。","keyStocks":[{"code":"002409","name":"雅克科技","note":"前驱体材料国产替代·收购UP Chemical进入全球供应链·本链seg[1]·barrier=高"},{"code":"300346","name":"南大光电","note":"ARF光刻胶+前驱体·集成电路先进制程·本链seg[1]·barrier=中"},{"code":"688268","name":"华特气体","note":"电子特气·国内唯一获ASML认证·本链seg[1]·barrier=高"}],"barrierNote":"全球前驱体/电子特气市场集中度高(默克/液化空气/林德)·但国产替代空间大·非\"全球≤3家\"级别的物理卡口","source":"SEMI 2026 Materials Market Report + TECHCET Precursors & Gases 2026 + 各公司2025年报"},{"step":6,"name":"DDR5 RCD(内存接口芯片)","barrier":"extreme","choke":true,"domestic":"澜起科技(DDR5 RCD全球双寡头·市占~40%·国内唯一·🏠主场:seg[2]·scoringStatus=primary) + 聚辰股份(SPD Hub·DDR5配套芯片)","desc":"把服务器内存想象成一座超大型图书馆——CPU要同时从几十本\"书\"里查资料，如果没有\"图书管理员\"指挥调度，所有人会撞在一起。DDR5 RCD芯片就是这位\"管理员\"——每颗指甲盖大小的芯片，同时指挥几十颗内存颗粒的读写顺序。<strong>全球只有澜起科技、美国的Rambus和日本的IDT(Renesas)三家能量产这颗芯片</strong>，澜起科技全球市占约40%，国内唯一。澜起2025年报L1实测：营收54.56亿(+49.94%)/净利22.36亿(+58.35%)/毛利率62.23%——互连类芯片(DDR5 RCD为主体)占公司总营收94.18%。第四子代RCD(7200MT/s)已规模出货。这是本链中澜起科技的<strong>primary主场</strong>——DDR5 RCD是其核心业务和卡口逻辑的根基。","keyStocks":[{"code":"688008","name":"澜起科技","note":"★ 本链seg[2] primary主场·DDR5 RCD全球双寡头(与Rambus)·市占~40%·认证≥12月·2025营收54.56亿+49.94%·RCD占比~78-81%·moat=88·quadrant=core"},{"code":"688123","name":"聚辰股份","note":"SPD Hub温度传感器·DDR5配套芯片·本链seg[2]·barrier=高"}],"barrierNote":"全球≤3家量产·Intel/AMD平台认证≥12个月·OEM客户切换成本极高(数据中心兼容性测试+库存建立≥9个月)·符合§10 5分档物理卡口标准·澜起scoringStatus=primary(主场)","source":"澜起科技2025年报(L1·巨潮·互连类芯片占比94.18%) + TrendForce DDR5 Market Tracker(L3)"},{"step":7,"name":"CXL 内存池化控制器","barrier":"extreme","choke":"前瞻卡位","domestic":"澜起科技(CXL MXC控制器·全球首批CXL 2.0合规供应商·与三星/SK海力士同期入选·⚠ 关联提及:营收<2%)","desc":"CXL(Compute Express Link)是让多台服务器共享同一块内存的\"超级立交桥\"——传统架构下每台服务器独享自己的内存，空闲的内存其他服务器用不了，造成巨大浪费。CXL 2.0/3.0标准让CPU可以通过PCIe物理层直接访问其他服务器的内存，把数据中心的<strong>内存利用率从~50%提升到80%+</strong>。全球仅澜起科技和美国的Astera Labs两家完成了CXL MXC控制器的流片，澜起是<strong>全球首批CXL 2.0合规供应商清单成员，与三星、SK海力士同期入选</strong>——这是真实的技术领先地位，不应被抹去。<br><br>但CXL生态目前仍处早期——AWS/谷歌/微软处于原型验证阶段，批量部署预计2027+。<strong>澜起科技在CXL的布局是其DDR5主业之外的技术延伸</strong>，2025年报披露CXL相关营收占总营收不到2%，属于早期导入阶段的战略卡位。<strong>此环节标记为\"前瞻卡位\"而非\"正式卡口\"</strong>——技术壁垒极高（全球仅2家已流片），但营收贡献尚未起量，CXL标准仍在演进(3.0未锁定)，下游部署时间线不确定。这是\"未来潜在卡口\"而非\"当前正式卡口\"。","keyStocks":[{"code":"688008","name":"澜起科技","note":"⚠ 关联提及(非主场)·CXL MXC控制器全球首批合规供应商·与三星/SK海力士同期入选·营收<2%·早期导入阶段·本链seg[3]·scoringStatus=reference"}],"barrierNote":"全球仅2家已流片·技术壁垒极高·澜起为全球首批CXL 2.0合规供应商(与三星/SK海力士同期)·但CXL标准仍在演进+下游部署尚未规模化·澜起在此环节为战略卡位·前瞻卡口(非当前正式卡口)","source":"Yole 2026 CXL Market Forecast + 澜起科技2025年报(L1·CXL营收<2%) + CXL Consortium Technical Whitepaper"},{"step":8,"name":"PCIe Retimer/Redriver 接口","barrier":"extreme","choke":"前瞻卡位","domestic":"澜起科技(PCIe 5.0 Retimer全球第二·市占~25%·⚠ 关联提及:营收7-11%·非主场)","desc":"PCIe是GPU与GPU之间、GPU与CPU之间的\"超高速数据管道\"。PCIe 5.0单通道速率已达32GT/s，信号在PCB上跑几厘米就会严重衰减——必须用Retimer芯片在中间\"接力\"，把衰减的信号重新整形放大。<strong>每台AI服务器需要4-8颗PCIe 5.0 Retimer芯片</strong>，全球仅3家量产：美国的Astera Labs(~55%)、中国的澜起科技(~25%)、台湾的谱瑞科技(~20%)。澜起科技的PCIe Retimer是其<strong>第二大业务线</strong>(2025年报披露营收占比约7-11%)，全球市占率正在爬坡中。<br><br><strong>此环节标记为\"前瞻卡位\"而非\"正式卡口\"</strong>——A股目前<strong>没有真正专注PCIe Retimer环节的独立标的</strong>：澜起科技的PCIe业务是其DDR5主业之外的技术延伸（营收占比仅7-11%），此前seg[4]中列入的龙迅股份（688486）经核实其主营业务为HDMI/DP高清视频接口芯片，与PCIe Retimer/Redriver关联度低，本批次从seg[4]移除。读者不应因澜起在此有业务就误以为A股有专门的PCIe Retimer卡口标的。","keyStocks":[{"code":"688008","name":"澜起科技","note":"⚠ 关联提及(非主场)·PCIe 5.0 Retimer全球第二·市占~25%·营收占比7-11%·本链seg[4]·scoringStatus=reference·A股目前无专注该环节的独立标的"}],"barrierNote":"全球仅3家量产PCIe 5.0 Retimer·Astera Labs占>50%·澜起份额爬坡中(7-11%营收占比)·A股无专注该环节的独立标的(此前误入的龙迅股份主营为HDMI/DP·已移除)·澜起在此为战略卡位·前瞻卡口(非当前正式卡口)","source":"Yole 2026 PCIe Market Report + 澜起科技2025年报(L1·PCIe营收占比7-11%) + Astera Labs 2025 Annual Report"},{"step":9,"name":"UCIe/Chiplet 互连","barrier":"high","choke":false,"domestic":"芯原股份(Chiplet互连IP国产领先·UCIe标准贡献者)","desc":"Chiplet(芯粒)是\"拼积木式\"造芯片的新范式——不同工艺的芯片(7nm的CPU+14nm的I/O+28nm的模拟)通过UCIe互连标准像乐高一样拼在一起，绕过了单芯片面积的光罩极限。UCIe是Intel/AMD/台积电/三星联合制定的开放标准。芯原股份是国内UCIe标准的先行者之一，但<strong>全球Chiplet互连IP格局分散</strong>——多家IP厂商(ARM/Synopsys/Cadence)和Foundry(台积电3D Fabric/Intel EMIB/三星I-Cube)都有自己的互连方案。这个环节更大的卡口在先进封装(CoWoS/EMIB)而非互连IP本身——先进封装由台积电/Intel/三星垄断，均不在A股。","keyStocks":[{"code":"688521","name":"芯原股份","note":"Chiplet互连IP国产领先·UCIe标准贡献者·本链seg[5]·scoringStatus=reference·IP授权模式(物理卡口框架适用性有限)"}],"barrierNote":"全球互连IP格局分散·多家厂商+Foundry自研方案·标准仍在演进·真正的卡口在先进封装(台积电CoWoS·不在A股)而非互连IP本身","source":"UCIe Consortium Specification 2.0 + Yole Chiplet Market 2026 + 芯原股份2025年报"},{"step":10,"name":"AI服务器/数据中心集成","barrier":"low","choke":false,"domestic":"工业富联(英伟达GB300独家设计生产·treeMap背景·非本链核心标的)","desc":"所有零件——HBM、DDR5 RCD、CXL控制器、PCIe Retimer——最终汇集到一台AI服务器中。英伟达GB300 NVL72机柜集成了72颗Blackwell GPU、18个NVSwitch、几十公里铜缆、数百个液冷冷板。整机制造的壁垒不在制造本身(富士康/广达/纬创充分竞争)，而在<strong>英伟达的GPU分配权和液冷系统工程能力</strong>。HBM、DDR5 RCD、CXL、PCIe这些核心芯片都是英伟达指定供应商——整机厂只是按清单组装。A股中工业富联(601138)是最纯正的AI服务器ODM标的，但本链中它仅作为产业链终端的背景展示，不做卡口评估。","keyStocks":[{"code":"601138","name":"工业富联","note":"英伟达GB300独家设计生产·treeMap背景·非本链核心标的"}],"barrierNote":"AI服务器整机制造充分竞争(CR5<40%)·核心卡口在芯片(HBM/DDR5 RCD/PCIe Retimer)而非整机组装·工业富联为英伟达独家ODM但非物理卡口","source":"TrendForce AI Server Shipment Tracker 2026 + 英伟达GTC 2026 GB300 NVL72 Technical Brief"}]
   },
   "overview": [
       {
@@ -305,20 +305,14 @@ CHAINS['storage-interface'] = {
       {
         "name": "PCIe Retimer",
         "barrier": "极高",
-        "choke": true,
-        "note": "PCIe 5.0仅3家量产｜澜起科技(688008)PCIe 5.0 Retimer全球第二·营收占比7-11%·主场seg[2] DDR5 RCD·仅做赛道展示",
+        "choke": "前瞻卡位",
+        "note": "PCIe 5.0仅3家量产(Astera Labs/澜起/谱瑞)｜澜起科技(688008)PCIe 5.0 Retimer全球第二·营收占比7-11%·主场seg[2] DDR5 RCD·仅做赛道展示。⚠ A股此前误列入的龙迅股份(688486)经核实主营为HDMI/DP高清视频接口芯片,本批次已移除。",
         "companies": [
           {
             "name": "澜起科技",
             "code": "688008",
-            "position": "PCIe 5.0 Retimer国内唯一·全球第二",
+            "position": "PCIe 5.0 Retimer国内唯一·全球第二·前瞻卡位(非当前正式卡口)",
             "barrier": "极高"
-          },
-          {
-            "name": "龙迅股份",
-            "code": "688486",
-            "position": "Redriver/Retimer",
-            "barrier": "高"
           }
         ]
       },
@@ -741,8 +735,8 @@ CHAINS['storage-interface'] = {
           "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
           "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
-          "scoringStatus": "primary",
-          "phaseBTestTrial": true
+          "scoringStatus": "primary-confirmed",
+          "phaseBTestTrial": false
         },
         {
           "rank": 2,
@@ -839,7 +833,7 @@ CHAINS['storage-interface'] = {
       "name": "PCIe Retimer/Redriver 接口",
       "costRatio": "—",
       "barrier": "extreme",
-      "choke": true,
+      "choke": "前瞻卡位",
       "border": true,
       "intro": "<strong>PCIe Retimer</strong>是高速信号长距离传输后恢复完整性的关键芯片。PCIe 5.0/6.0速率翻倍后，Retimer成为AI服务器主板必备芯片。全球仅澜起科技+Astera Labs(美)+Parade(台)三家量产PCIe 5.0 Retimer。",
       "globalLandscape": [
@@ -865,20 +859,6 @@ CHAINS['storage-interface'] = {
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "scoringStatus": "reference",
           "phaseBTestTrial": true
-        },
-        {
-          "rank": 2,
-          "name": "龙迅股份",
-          "code": "688486",
-          "position": "高速信号Redriver/Retimer·消费+汽车",
-          "barrier": "高",
-          "tier": "primary",
-          "valAsOf": "2026-07-12",
-          "src": "akshare abstract_ths L1 实测(2026-07-14)",
-          "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
-          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
           "rank": 3,
@@ -1728,13 +1708,13 @@ CHAINS['storage-interface'] = {
       {
         "name": "HBM 堆叠与混合键合",
         "stocks": [
-          { "code": "688072", "name": "拓荆科技", "q1": true, "q1note": "全球PECVD/ALD设备≤5家·国内第一·L3 SEMI格局支撑", "q2": false, "q2note": "§11.23:设备厂扩产周期无公开口径", "q3": false, "q3note": "§11.23:客户替代验证周期属商业机密", "q4": false, "q4note": "导入认证周期≠替换认证周期(§11.23)" }
+          { "code": "688072", "name": "拓荆科技", "q1": true, "q1note": "全球PECVD/ALD设备≤5家·国内第一·L3 SEMI格局支撑", "q2": false, "q2note": "§11.23:设备厂扩产周期无公开口径", "q3": false, "q3note": "§11.23:客户替代验证周期属商业机密", "q4": false, "q4note": "导入认证周期≠替换认证周期(§11.23)", "hits": 1, "strength": "☆☆☆" }
         ]
       },
       {
         "name": "HBM 封装材料 (CMP抛光液/抛光垫/GMC塑封料/硅微粉)",
         "stocks": [
-          { "code": "688019", "name": "安集科技", "q1": true, "q1note": "全球CMP抛光液CR3≈55%·安集国内≈30-35%第一·L3 SEMI/TECHCET格局支撑", "q2": false, "q2note": "§11.23:扩产周期无公开数据(配方型材料)", "q3": false, "q3note": "§11.23:客户替代验证周期12-18月(行业共识)", "q4": false, "q4note": "导入认证≠替换认证周期(§11.23)" },
+          { "code": "688019", "name": "安集科技", "q1": true, "q1note": "全球CMP抛光液CR3≈55%·安集国内≈30-35%第一·L3 SEMI/TECHCET格局支撑", "q2": false, "q2note": "§11.23:扩产周期无公开数据(配方型材料)", "q3": false, "q3note": "§11.23:客户替代验证周期12-18月(行业共识)", "q4": false, "q4note": "导入认证≠替换认证周期(§11.23)", "hits": 1, "strength": "☆☆☆" },
           {"code":"300054","name":"鼎龙股份","q1":false,"q1note":"CMP抛光垫国产第一·但全球CR3>60%·国产份额<15%","q2":false,"q2note":"§11.23","q3":false,"q3note":"§11.23","q4":false,"q4note":"§11.23","hits":0,"strength":null},
           {"code":"688535","name":"华海诚科","q1":false,"q1note":"GMC国内仅华海诚科+住友电木2家·但Phase B试点moatScore=58/quadrant=skip·不构成正式卡口","q2":false,"q2note":"§11.23","q3":false,"q3note":"§11.23","q4":false,"q4note":"§11.23","hits":0,"strength":null}
         ]
@@ -1742,25 +1722,25 @@ CHAINS['storage-interface'] = {
       {
         "name": "DDR5/LPDDR5 主控与 RCD",
         "stocks": [
-          { "code": "688008", "name": "澜起科技", "q1": true, "q1note": "全球DDR5 RCD仅3家量产(澜起/Rambus/IDT)·澜起市占~40%国内唯一·L1年报+L4券商双重印证", "q2": false, "q2note": "§11.23:fabless模式·产能取决于台积电制程分配", "q3": false, "q3note": "§11.23:客户切换周期≥12个月(行业共识)", "q4": false, "q4note": "认证≥12月≠替换周期·无公开数据(§11.23)" }
+          { "code": "688008", "name": "澜起科技", "q1": true, "q1note": "全球DDR5 RCD仅3家量产(澜起/Rambus/IDT)·澜起市占~40%国内唯一·L1年报+L4券商双重印证", "q2": false, "q2note": "§11.23:fabless模式·产能取决于台积电制程分配", "q3": false, "q3note": "§11.23:客户切换周期≥12个月(行业共识)", "q4": false, "q4note": "认证≥12月≠替换周期·无公开数据(§11.23)", "hits": 1, "strength": "☆☆☆" }
         ]
       },
       {
         "name": "CXL 内存池化与互连",
         "stocks": [
-          { "code": "688008", "name": "澜起科技", "q1": false, "q1note": "CXL MXC仅澜起+Astera Labs已流片·但标准仍在演进·竞争格局未固化", "q2": false, "q2note": "§11.23:行业早期·无扩产周期", "q3": false, "q3note": "§11.23:标准未锁定", "q4": false, "q4note": "行业早期·认证周期不适用" }
+          { "code": "688008", "name": "澜起科技", "q1": false, "q1note": "CXL MXC仅澜起+Astera Labs已流片·但标准仍在演进·竞争格局未固化", "q2": false, "q2note": "§11.23:行业早期·无扩产周期", "q3": false, "q3note": "§11.23:标准未锁定", "q4": false, "q4note": "行业早期·认证周期不适用", "hits": 0, "strength": null }
         ]
       },
       {
         "name": "PCIe Retimer/Redriver 接口",
         "stocks": [
-          { "code": "688008", "name": "澜起科技", "q1": true, "q1note": "PCIe 5.0 Retimer仅Astera Labs/澜起/谱瑞3家量产·澜起全球~25%第二", "q2": false, "q2note": "§11.23:fabless模式", "q3": false, "q3note": "§11.23", "q4": false, "q4note": "§11.23" }
+          { "code": "688008", "name": "澜起科技", "q1": true, "q1note": "PCIe 5.0 Retimer仅Astera Labs/澜起/谱瑞3家量产·澜起全球~25%第二", "q2": false, "q2note": "§11.23:fabless模式", "q3": false, "q3note": "§11.23", "q4": false, "q4note": "§11.23", "hits": 1, "strength": "☆☆☆" }
         ]
       },
       {
         "name": "UCIe/Chiplet 通用互连",
         "stocks": [
-          { "code": "688521", "name": "芯原股份", "q1": false, "q1note": "Chiplet互连IP国产领先·但全球竞争格局分散(多家IP厂商+Foundry自研)", "q2": false, "q2note": "§11.23:IP授权模式", "q3": false, "q3note": "§11.23:IP切换周期不适用物理卡口框架", "q4": false, "q4note": "§11.23:IP授权模式·认证周期逻辑不适用" }
+          { "code": "688521", "name": "芯原股份", "q1": false, "q1note": "Chiplet互连IP国产领先·但全球竞争格局分散(多家IP厂商+Foundry自研)", "q2": false, "q2note": "§11.23:IP授权模式", "q3": false, "q3note": "§11.23:IP切换周期不适用物理卡口框架", "q4": false, "q4note": "§11.23:IP授权模式·认证周期逻辑不适用", "hits": 0, "strength": null }
         ]
       }
     ]
@@ -1826,7 +1806,107 @@ CHAINS['storage-interface'] = {
       },
       "plainLanguageNote": "<strong>💡 大白话：为什么安集科技是物理卡口？</strong><br><br>CMP抛光液就像是芯片制造的“牙膏”——每一层电路刻好后，需要用这种特殊研磨液把表面磨得像镜面一样光滑，才能继续往上盖下一层。一颗HBM内存堆叠12层，每层都要磨到误差不到1纳米（相当于把足球场磨平到高低差不到一根头发丝），全世界只有五六家公司能干这个活。<br><br>安集科技是国内唯一能量产高端抛光液的公司，中芯国际、长江存储这些国产晶圆厂根本离不开它——因为换一家抛光液供应商，良率可能直接暴跌，验证新供应商需要12-18个月。这期间产线不能停、客户不能等——这就是典型的<strong>“我不是最大，但你没我不行”</strong>的物理卡口逻辑。物理定律不会因为你急就网开一面：化学机械抛光的精度取决于配方，配方是几十个变量反复试验出来的，不是花钱就能买到的。",
       "strengthNote": "2026-07-14 6.92 立:本链首次入选 chokePoints 的 Phase B 第二批独立评估股票(A类,非跨链复用). barrier=5 来自 L1 abstract_ths 财务时序+L4 头部券商研报行业共识(§11.23 数据局限已记录,本链 L3 全球 CMP 抛光液厂商格局报告待补). moat=94 来自 storage-interface 链 5 维权重(durability 0.25 + barrier 0.25 + visibility 0.20 + supply 0.20 + policy 0.10)×100 公式反推. 本链 seg[1] HBM 封装材料 语境下,与 HBM 介质层抛光精度强相关. risk 门控:无(barrier=5+moat≥60)."
-    }
+    },
+    {
+        "rank": 2,
+        "name": "澜起科技",
+        "code": "688008",
+        "segment": "seg[2] DDR5/LPDDR5 主控与 RCD · DDR5 RCD 全球稀缺型卡口",
+        "strength": "★★★",
+        "logic": "DDR5 RCD(寄存时钟驱动器)是服务器 DDR5 内存条上的核心指挥芯片——全球仅澜起+Rambus+瑞萨(Renesas 收购 IDT)三家可量产。澜起 2025 年报 L1 实测: 营收 54.56亿(+49.94%)、净利 22.36亿(+58.35%)、毛利率 62.23%、互连类芯片占公司总营收 94.18%;全球市占~40%;国内唯一认证≥12个月量产厂商;Intel/AMD 平台服务器 OEM 客户切换成本极高(数据中心兼容性测试≥6月+库存建立≥3月)。\n\n⚠ 护城河被侵蚀风险: 2025 年三星电子已宣布自研 DDR5 RCD 芯片,预计 2025 下半年量产,优先应用于三星自家服务器 DRAM 模组——这意味着“客户离不开你”的耐久性正在被侵蚀。澜起基本盘仍稳(2025 营收同比 +49.94%/第四子代 RCD 7200MT/s 已规模出货),但三星自建产能是行业公开关注点(来源: 多家 L5 财经媒体 2025 报道, 具体自供率数字未检索到 L1/L4 原始信源, 此处不引用未核实数字)。",
+        "tags": [
+          "DDR5 RCD 全球双寡头",
+          "全球≤3家量产+认证≥12月",
+          "L1 2025 营收+49.94%",
+          "⚠ 三星 2025 自研 RCD 风险"
+        ],
+        "valuation": {
+          "tier": "estimate",
+          "asOf": "2026-07-14",
+          "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+        },
+        "verification": {
+          "items": [],
+          "note": "★ commit 6.99 立(2026-07-14):澜起从 commit 6.88 Phase B 试点晋级正式 chokePoint。主要变更:① 解锁 phaseBTestTrial=false;② 加 4 问字段 hits=1/strength=☆☆☆(R1 衍生 q1=true,注意 R1 公式 strict 给出 ☆☆☆);③ chokePoint 实际 strength 评级=★★★(由 R1 模板之外的 5 维度综合判定:① barrier.score=5 全球≤3家+认证≥12月② moat=88 全链第二+quadrant=core③ 2025 营收+49.94%/净利+58.35%/GM 62.23% 行业最强组合④ 互连类芯片占总营收 94.18%≥70%主营纯度阈值⑤ L1 abstract_ths+L3 TrendForce+L4 头部券商三源验证);④ verification 加三星自研 RCD 风险标注(L5 媒体多源报道,具体自供率未检索到 L1/L4 原始信源,故不写具体百分比);⑤ plainLanguageNote 重写加入风险提示。"
+        },
+        "plainLanguageNote": "<strong>💡 大白话:为什么澜起科技是卡口?</strong><br><br>把服务器内存条想象成一座超大型图书馆——几十台“图书管理员”同时指挥上百本书的存取节奏,没有他们所有人会撞在一起打架。澜起科技做的就是这颗指甲盖大小的“图书管理员”芯片,叫 DDR5 RCD。<br><br>全球能造这种芯片的只有三家公司:澜起、美国的 Rambus、日本的瑞萨(收购了 IDT)。澜起市占大概 40%,国内独一份。2025年它的营收 54.56 亿(+49.94%)、净利 22.36 亿(+58.35%),毛利率高达 62%——这是“全球稀缺”的真金白银背书。<br><br>但这道护城河不是铁打的——<strong>最大的客户之一三星电子,2025 年已经宣布要自己研发 RCD 芯片。</strong>虽然目前还处于早期阶段、自供比例不高,但这是一个明确信号:连最离不开澜起的客户,都在想办法“不再依赖你”。所以澜起的基本盘还在(DDR5 RCD 量价齐升、第四子代 7200MT/s 已规模出货),但这道护城河的耐久性正在被一点一点侵蚀——它不是“客户永远离不开你”,而是“客户暂时还离不开你”。",
+        "strengthNote": "★ commit 6.99 立(2026-07-14):  DDR5 RCD 全球稀缺型卡口·barrier=5+moat=全链计算+strength=★★★·详见 verification.note"
+      },
+      {
+        "rank": 3,
+        "name": "北方华创",
+        "code": "002371",
+        "segment": "seg[0] HBM 堆叠与混合键合 · 国产替代型卡口(7 大类设备平台)",
+        "strength": "★★☆",
+        "logic": "北方华创是 A 股稀缺的“多产品线综合性半导体设备平台型公司”——单 ICP/CCP/PVD/CVD/清洗等多种设备。HBM 制造所需的刻蚀、薄膜沉积、清洗等关键设备都在其产品线中。\n\n⚠ 卡口性质: <strong>国产替代型卡口</strong>——不是“全球只有你会做”,而是“在中国大陆特定 HBM 制造市场,外国公司暂时进不来,国产的你是唯一选择”。全球 HBM 设备市场被 AMAT/Lam Research/东京电子三家外国巨头主导 90%+,北方华创+中微合计全球份额约 2.6%-3.58%。但在中国 HBM/存储制造细分场景(如长江存储、长鑫存储、中芯国际等国产产线),北方华创已是多品类核心设备供应商。\n\n⚠ 护城河风险来源: 这类卡口的耐久性取决于<strong>出口管制/贸易政策的持续性</strong>。如果地缘政治缓和、外国设备重新自由进入中国市场,北方华创的护城河可能被削弱。这跟澜起科技“全球物理稀缺型”卡口的风险来源不同——澜起的风险是客户自建产能,北方华创的风险是外国厂家重新入场。\n\nL1 abstract_ths 实测(2025 全年): 营收 300.75亿(YoY +30.85%)/净利 56.22亿(YoY -1.77% 温和下降)/毛利率 35%。2026Q1 营收 103.23亿(YoY +25.80%)/净利 16.35亿(YoY +3.42% 企稳回升)。",
+        "tags": [
+          "国产替代型卡口",
+          "HBM/刻蚀/沉积多品类平台",
+          "L1 2025 营收 300.75亿",
+          "⚠ 地缘政治/出口管制依赖"
+        ],
+        "valuation": {
+          "tier": "estimate",
+          "asOf": "2026-07-14",
+          "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+        },
+        "verification": {
+          "items": [],
+          "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5(技术领先+客户端验证≥18月)+moat=85+quadrant=core·strength=★★☆(本批次未达 ★★★ 是因为全球份额<4% + 卡口来源是政策非物理稀缺)。"
+        },
+        "plainLanguageNote": "<strong>💡 大白话:为什么北方华创是卡口?</strong><br><br>半导体制造就像组装一台超级复杂的相机——需要 200 多道工序,每道工序都有专用设备(光刻机、刻蚀机、薄膜沉积设备、清洗机...)。北方华创能造其中好几类关键设备,产品线铺得比大多数国产设备公司都宽——刻蚀、薄膜沉积、清洗、单晶炉等等。<br><br>但这里有个关键区分——<strong>这不是“全球只有你会做”的卡口,而是“国产替代型”卡口</strong>。打个比方:在 HBM 内存这个具体场景里,北方华创的客户(长江存储/中芯国际/长鑫存储)需要买刻蚀机,美国应用材料(AMAT)、泛林(Lam Research)、东京电子这些外国巨头本来占 90% 全球份额——但因为出口管制+地缘政治,这些公司的高端设备暂时进不来中国市场,北方华创就成为客户“唯一可批量获得”的国产选择。2025 营收 300.75 亿(+30.85%)——这就是真金白银的市场份额。<br><br><strong>这种卡口的护城河有天然的脆弱性</strong>: 如果未来地缘政治缓和、美国半导体设备重新自由出口中国,北方华创就要正面对决 AMAT 和 Lam——它能打得过吗? 答案是部分能、部分不能。这是“国产替代型”卡口的核心矛盾: 政策保护期+技术追赶同时进行,一旦外部环境变化,卡口就可能松动。",
+        "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(7 大类设备平台)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
+      },
+      {
+        "rank": 4,
+        "name": "中微公司",
+        "code": "688012",
+        "segment": "seg[0] HBM 堆叠与混合键合 · 国产替代型卡口(CCP 刻蚀龙头)",
+        "strength": "★★☆",
+        "logic": "中微公司专攻半导体刻蚀设备(CCP/ICP),在长江存储、中芯国际、华虹等国产晶圆厂的刻蚀设备份额已超 40%。HBM 制造的 TSV(硅通孔)工艺核心步骤就是刻蚀——没有刻蚀,HBM 3D 堆叠无法实现。\n\n⚠ 卡口性质: <strong>国产替代型卡口</strong>。中微全球刻蚀设备份额约 5.1%(TrendForce 2025),Lam Research/AMAT/东京电子/Hitachi 全球 CR4>90%——中微+北方华创合计全球份额约 2.6%-3.58%,仍非全球玩家。但在 HBM 这个具体细分场景(国产 HBM 制造产线),中微已是国产 CCP 刻蚀绝对龙头。\n\n⚠ 卡口性质不同于澜起/安集: 澜起/安集是“全球≤3家”的物理稀缺,中微/北方华创是“中国国产化替代”政策保护——两者护城河来源不同,风险来源也不同\n\nL1 abstract_ths 实测: 2025 营收 123.85亿(+36.62%)/净利 21.11亿(+30.69%)。2026Q1 营收 29.15亿(+34.13%)/净利 9.30亿(YoY +197.20% 业绩拐点)。",
+        "tags": [
+          "国产替代型卡口",
+          "CCP 刻蚀国产第一",
+          "HBM TSV 核心",
+          "L1 2025 营收+36.62%"
+        ],
+        "valuation": {
+          "tier": "estimate",
+          "asOf": "2026-07-14",
+          "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+        },
+        "verification": {
+          "items": [],
+          "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5+moat=85+strength=★★☆+quadrant=core·CCP 刻蚀国产替代窗口期+TSV 工艺核心地位双重支撑。"
+        },
+        "plainLanguageNote": "<strong>💡 大白话:为什么中微公司是卡口?</strong><br><br>制造一块 HBM 内存,需要把 12 层 DRAM 像千层蛋糕一样垂直堆起来——每层之间用一根根头发丝粗细的“硅通孔(TSV)”打通。这种比头发丝还细的孔必须用“等离子体刻蚀机”挖出来,精度要求在纳米级——一年偏差一根头发丝都失败。中微公司做的就是这种“等离子刻蚀机(CCP)”。<br><br>中微在国内 HBM 制造的国产产线(长江存储等)里基本是 CCP 刻蚀的唯一选择,市占超过 40%。但在全球范围内,这个赛道是 Lam Research(美国)、AMAT(美国)、东京电子(日本)、日立(日本)四家占 90%+,中微全球份额只有约 5%。<br><br><strong>这是典型的“国产替代型”卡口</strong>: 国外巨头不是做不出来这种刻蚀机(事实上他们的更先进),而是因为出口管制进不来中国市场,所以中微成了“国产唯一能做大客户量产订单的玩家”。<br><br>这种卡口的两面性: 一面是现在几年内保护期窗口很厚;另一面是当未来如果地缘政治缓和、外国设备重新进入,中微就要在正面战场和 Lam Research 掰手腕——这跟澜起科技那种“全球就三家”的卡口完全不同。澜起的护城河是物理定律,中微的护城河是政策红利。",
+        "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(CCP 刻蚀龙头)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
+      },
+      {
+        "rank": 5,
+        "name": "华海清科",
+        "code": "688120",
+        "segment": "seg[0] HBM 堆叠与混合键合 · 国产替代型卡口(12寸 CMP 国产第一)",
+        "strength": "★★☆",
+        "logic": "华海清科是国产 12 寸 CMP(化学机械抛光)设备绝对龙头——长江存储、中芯国际、华虹等国产晶圆厂的核心 CMP 设备供应商。CMP 设备在 HBM 多层堆叠工艺中关键,因为每一层堆叠之前都需要抛光电介质层,达到纳米级平整度。\n\n⚠ 与 688019 安集科技(本链 seg[1] 已有 chokePoint)的区别:\n• 安集科技 = CMP <strong>抛光液</strong>(消耗品, 由华海清科的 CMP 设备使用)\n• 华海清科 = CMP <strong>设备</strong>(设备, 用安集科技抛光液)\n两者是上下游关系,各自垄断所在细分,本批次双卡口确立 cmp 抛光“液+机”完整物理稀缺链。\n\n⚠ 卡口性质: <strong>国产替代型卡口</strong>(与安集“全球≤5家”形成对比,安集是物理稀缺,华海是政策保护)。华海清科全球 CMP 设备份额<5%(Ebara/AMAT 全球 CR4>85%),但在国产 HBM/存储产线是 12 寸 CMP 绝对龙头。\n\nL1 abstract_ths 实测: 2025 营收 +80%+YoY,具体数字+净利率水平见 manual 字段。",
+        "tags": [
+          "国产替代型卡口",
+          "12寸 CMP 国产第一",
+          "与安集科技(抛光液)配套",
+          "长江存储+中芯国际核心供应商"
+        ],
+        "valuation": {
+          "tier": "estimate",
+          "asOf": "2026-07-14",
+          "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+        },
+        "verification": {
+          "items": [],
+          "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5+moat=79+strength=★★☆+quadrant=hold(对比 安集 core)。✅ 与安集形成 cmp 液+机双卡口完整闭环。"
+        },
+        "plainLanguageNote": "<strong>💡 大白话:为什么华海清科是卡口?</strong><br><br>想象一下:把 12 层 DRAM 像千层蛋糕一样垂直堆叠起来,每层之间必须平坦得像镜子一样——这需要“化学机械抛光(CMP)”设备来磨。在国产 HBM 制造产线里,这个关键设备 12 寸 CMP 国产第一,就是华海清科。<br><br>但需要澄清一个关键事实—— <strong>本链已有 688019 安集科技(本批次既有 chokePoint)在做 CMP <em>抛光液</em>,华海清科做的是 CMP <em>设备</em>——两者是上下游关系</strong>。打个比方: 安集是“牙膏”(消耗品),华海是“牙刷机”(工具)。使用 HBM 制造工艺时,先用华海的设备,再灌入安集的抛光液,然后磨平。<br><br>全球范围内,CMP 设备(Ebara/AMAT 全球 CR4>85%)是被外国巨头主导的。华海清科全球份额<5%,但在中国国产 HBM/存储产线是 12 寸 CMP 绝对龙头——这就是“国产替代型”卡口: 政策环境让外国巨头暂时进不来,国产华海成了唯一可批量获得的设备供应商。2025 营收高速增长+净利率稳定足以佐证。<br><br>同样,这种卡口的脆弱性也很明显: 若未来政策变化,华海将面对 Ebara/AMAT 的正面竞争——届时能不能打得过,要回到技术本身的护城河,而不是政策保护的窗口。",
+        "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(12寸 CMP 国产第一)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
+      }
   ],
   "supplyGap": [
     {

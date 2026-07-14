@@ -170,7 +170,8 @@ window.STORAGE_INTERFACE_MANUAL = window.STORAGE_INTERFACE_MANUAL || {};
         { idx: 3, name: 'CXL 内存池化与互连' },
         { idx: 4, name: 'PCIe Retimer/Redriver 接口' }
       ];
-      stock.investableReason = '🏠 主场:seg[2] DDR5 RCD 全球双寡头(与Rambus)·2025营收54.56亿(+49.94%)·DDR5 RCD占比~78-81%·基于akshare abstract_ths L1实证 | 关联提及(不重复计分):seg[3] CXL MXC(<2%)·seg[4] PCIe Retimer(7-11%) | Phase B 试点 (phaseBTestTrial=true) | verifiedAt 2026-07-13';
+      stock.phaseBTestTrial = false;  // ★ 2026-07-14 6.99 解锁 R6 · 原 commit 6.88 试点已晋级 chokePoint
+      stock.investableReason = '🏠 主场:seg[2] DDR5 RCD 全球双寡头(与Rambus)·2025营收54.56亿(+49.94%)·DDR5 RCD占比~78-81%·基于akshare abstract_ths L1实证 | 关联提及(不重复计分):seg[3] CXL MXC(<2%)·seg[4] PCIe Retimer(7-11%) | 6.99 解锁 Phase B 试点(原 commit 6.88) | verifiedAt 2026-07-14';
       stock.plainLanguageNote = '<strong>💡 大白话：为什么澜起科技的DDR5内存接口芯片是物理卡口？</strong><br><br>把服务器内存想象成一座超大型图书馆——CPU要同时从几十本“书”里查资料，如果没有一个“图书管理员”来指挥调度，所有人会撞在一起、谁也拿不到书。DDR5 RCD芯片就是这位“管理员”——每颗指甲盖大小的芯片，同时指挥几十颗内存颗粒的读写顺序。全世界只有澜起科技和美国的Rambus两家公司能量产这颗芯片——不是没人想造，而是要通过英特尔、AMD的兼容性认证需要12-18个月，期间要跟几百种主板、几十种内存条逐一验证。服务器厂商一旦选定了哪家的RCD方案，整个产品周期3-5年都不会换——换一家意味着把所有认证流程重做一遍，光测试成本就是天文数字。这就是<strong>“我不是最大，但你没我不行、而且你不敢换”</strong>的物理卡口。';
     } else if (code === '688072') {
       stock.segments = [

@@ -2456,6 +2456,10 @@ function renderChain(chainId) {
   //   视觉上：Hero → 数据截止模块 → treeMap（treeMap 默认展开·属第一层）
   //   Quick Nav "🏛️ 认识赛道" 跳转到此位置（滚动到 Hero 顶部）
   h += `<div id="section-overview" style="padding-top:4px;"></div>`;
+  // ★ commit 6.98b：核心卡口速览(always-visible) — 插入到 overview 锚点正下方,不依赖任何 section 折叠
+  //   设计意图:用户在第一屏(顶部未滚动)就能看到 2 只代表卡口 + 白话解读,大幅降低"从顶部打开看不到"的可用性问题
+  //   位置在 ③ 赛道概览之前,内容从 chokePoints[0..1] 提炼 ★★★ + 第一句短白话
+  h += renderChokeSpeedDial(d, chainId);
   // Section 1/2: Overview (新顺序：③ 景气六维+周期位置+宏观数据)
   const sec1Label = _sOverview;
   h += `<div class="section" id="section-prosperity"><div class="section-title"><span class="num num-macro">${sec1Label}</span> 赛道概览 — 宏观数据 + 景气六维 + 周期位置</div>`;
@@ -3022,6 +3026,81 @@ function renderChain(chainId) {
     const ms = manual.stocks[s.code];
     if (!ms || !ms.plainLanguageNote) return '';
     return ' <details style="display:inline-block;margin-left:6px;font-size:11px;font-weight:400;vertical-align:middle;"><summary style="cursor:pointer;display:inline-block;padding:2px 8px;background:rgba(14,203,129,0.08);border:1px solid rgba(14,203,129,0.35);border-radius:10px;color:var(--green);font-weight:600;">💡 白话 ▾</summary><div style="margin-top:6px;padding:10px 14px;background:rgba(240,185,11,0.04);border-radius:6px;border-left:3px solid var(--accent);font-size:13px;line-height:1.85;color:var(--text);max-width:560px;">' + ms.plainLanguageNote + '</div></details>';
+  }
+  // ===== ★ commit 6.98a：核心卡口速览 · 始终可见（顶层渲染 · 不受 section-decision 默认折叠影响）=====
+  //   解决"白话解读在 ⑩ 投资决策板块（page top 16478px+）,用户从顶部打开页面看不到"的可用性问题
+  //
+  // ★ commit 6.98c：硬编码指定速度展示股 — 投顾视角决定,不用自动排序
+  //   原因:速度板块作用是让完全不懂投资的人第一眼看懂"这条产业链的核心逻辑"
+  //         选择需投顾从"故事代表性 + 行业认知度"判断,不能让 PE 分位这类纯技术指标决定
+  //         这与今日发现的 R6 筛选问题是同一类风险
+  //   PCB 链: 300476 胜宏科技 + 002463 沪电股份  (AI PCB 卡口双龙头,故事最清晰)
+  //   SE  链: 688729 屹唐股份 + 688012 中微公司    (离子注入 + 刻蚀双龙头)
+  //   其它链: 不渲染(未来按需追加)
+  function renderChokeSpeedDial(d, chainId) {
+    if (!d || !Array.isArray(d.chokePoints) || d.chokePoints.length < 1) return '';
+    // 1. 投顾硬编码指定 2 只代表股票(按 chainId 区分)
+    const SPEED_DIAL_PICKS = {
+      'pcb':           ['300476', '002463'],
+      'semicon-equip': ['688729', '688012'],
+    };
+    const picks = SPEED_DIAL_PICKS[chainId];
+    if (!picks || picks.length < 2) return '';
+    // 2. 从 chokePoints 中按指定 code 顺序提取数据
+    const top2 = picks.map(code => {
+      const c = d.chokePoints.find(x => x && x.code === code);
+      if (!c || !c.plainLanguageNote) return null;
+      // ★ commit 6.98d：完整 plainLanguageNote,绝不截断
+      //   之前 shortNote 用第一句截断的设计违反了"用户能读到完整解读"的可用性铁律
+      //   现在改成渲染全文,容器自然撑高(单卡 250-400px,在 viewport 1 屏内可显示一对卡)
+      const fullNote = String(c.plainLanguageNote || '');
+      // PE 分位
+      const pe = (c.valuation && typeof c.valuation.pePercentile === 'number') ? c.valuation.pePercentile : null;
+      // 找 trend
+      let trend = null;
+      if (d.segments) for (const seg of d.segments) {
+        const m = (seg.stocks || []).find(s => s.code === c.code);
+        if (m && m.trend) { trend = m.trend; break; }
+      }
+      if (!trend && d.midstream) {
+        const m = (d.midstream.stocks || []).find(s => s.code === c.code);
+        if (m && m.trend) trend = m.trend;
+      }
+      return { code: c.code, name: c.name, strength: c.strength || '', fullNote, pe, trend };
+    }).filter(Boolean);
+    if (top2.length < 2) return '';
+    const totalCount = d.chokePoints.length;
+
+    let html = `<div id="choke-speed-dial" style="margin:24px 0 8px;padding:18px 20px;background:linear-gradient(135deg,rgba(240,185,11,0.06),rgba(240,185,11,0.02));border:1px solid rgba(240,185,11,0.30);border-radius:10px;">`;
+    html += `<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">`;
+    html += `<span style="font-size:16px;">🔒</span>`;
+    html += `<span style="font-size:15px;font-weight:700;color:var(--accent);">核心卡口速览</span>`;
+    html += `<span style="font-size:12px;color:var(--muted);margin-left:6px;">${totalCount} 只全链卡口中精选 ${top2.length} 只代表</span>`;
+    html += `<span style="margin-left:auto;font-size:11px;color:var(--muted);"><a href="#section-decision" onclick="event.preventDefault();document.getElementById('section-decision').scrollIntoView({behavior:'smooth',block:'start'});" style="color:var(--accent);text-decoration:none;border-bottom:1px dashed var(--accent);">💼 完整 ${totalCount} 只卡口结论 →</a></span>`;
+    html += `</div>`;
+    html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">`;
+    top2.forEach(c => {
+      const starColor = (c.strength || '').indexOf('★★★') === 0 ? 'tg-extreme' : 'tg-mid';
+      const trendIcon = c.trend === 'up' ? '↑' : c.trend === 'down' ? '↓' : '→';
+      const trendColor = c.trend === 'up' ? 'var(--green)' : c.trend === 'down' ? 'var(--red)' : 'var(--muted)';
+      const peBadge = (c.pe !== null && c.pe !== undefined)
+        ? ` <span class="tag" style="font-size:10px;margin-left:4px;background:${c.pe>=80?'rgba(248,81,73,0.12)':c.pe>=50?'rgba(240,185,11,0.12)':'rgba(14,203,129,0.12)'};color:${c.pe>=80?'var(--red)':c.pe>=50?'var(--accent)':'var(--green)'};">PE分位 ${c.pe.toFixed(0)}%</span>`
+        : '';
+      const trendBadge = c.trend ? ` <span style="font-size:11px;color:${trendColor};margin-left:4px;">${trendIcon}</span>` : '';
+      html += `<div style="padding:12px 14px;background:var(--card2);border-radius:8px;border-left:3px solid var(--accent);">`;
+      html += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">`;
+      html += `<strong style="font-size:14px;">${c.name}</strong>`;
+      html += `<span style="font-size:11px;color:var(--muted);">${c.code}</span>`;
+      html += `<span class="tag ${starColor}" style="font-size:10px;">${c.strength || '—'}</span>`;
+      html += peBadge;
+      html += trendBadge;
+      html += `</div>`;
+      // ★ commit 6.98d：大白话解读完整全文（不截断·不省略）
+      html += `<div style="font-size:12.5px;line-height:1.85;color:var(--text);white-space:pre-wrap;word-break:break-word;">${c.fullNote}</div>`;
+      html += `</div>`;
+    });
+    html += `</div></div>`;
+    return html;
   }
   function stockDims6Badge(s, chainId) {
     const dims = getEffectiveDims6(s, chainId);
@@ -3744,10 +3823,6 @@ function renderChain(chainId) {
     } else {
       h += `<div class="logic">${_logicText}</div>`;
     }
-    // ★ commit 6.94：白话解读(plainLanguageNote)——chokePoint 专属·通俗卡口叙事
-    if (c.plainLanguageNote) {
-      h += `<div style="margin:10px 0;padding:14px 16px;background:rgba(240,185,11,0.06);border-radius:8px;border-left:3px solid var(--accent);font-size:13px;line-height:1.85;color:var(--text);">${c.plainLanguageNote}</div>`;
-    }
     const _hasPct = c.valuation && typeof c.valuation.pePercentile === 'number';
     const _hasEZ  = c.valuation && c.valuation.entryZone && typeof c.valuation.entryZone.p30 === 'number' && typeof c.valuation.entryZone.p70 === 'number';
     if (c.valuation && (_hasPct || _hasEZ)) {
@@ -3864,6 +3939,10 @@ function renderChain(chainId) {
     }
     // ★ commit 4.41：关闭 <details> 包裹（持仓/减仓 stock 默认展开·其余折叠）
     h += `</details>`;
+    // ★ commit 6.97：白话解读(plainLanguageNote)·金色高亮框始终可见（不依赖 <details> 展开状态）
+    if (c.plainLanguageNote) {
+      h += `<div style="margin:10px 0 0;padding:14px 16px;background:rgba(240,185,11,0.06);border-radius:8px;border-left:3px solid var(--accent);font-size:13px;line-height:1.85;color:var(--text);">${c.plainLanguageNote}</div>`;
+    }
     h += `</div>`;
   });
   h += `</div>`;  // ① section-content 闭合（choke-grid 之后）

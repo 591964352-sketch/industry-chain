@@ -314,20 +314,15 @@ function checkR5(chain) {
 }
 
 // ===== R6: barrier=5 候选新增扫描 =====
+// ★ commit 6.99 修正: 用绝对阈值 barrier=5 + moat≥60 替代"跟现有最低 moat 比较"
+//   原逻辑用 lowestMoat = Math.min(...现有chokeMoats) 导致门槛自我强化排他
 function checkR6(chain) {
   var issues = [];
   var chokes = new Set();
   (chain.auto.chokePoints || []).forEach(function(cp) { chokes.add(cp.code); });
 
-  // 计算现有 chokePoints moat 最低值
-  var chokeMoats = [];
-  (chain.auto.chokePoints || []).forEach(function(cp) {
-    var ms = chain.manual.stocks[cp.code];
-    if (ms && ms.dims6) {
-      chokeMoats.push(computeMoatTiming(ms.dims6).moatScore);
-    }
-  });
-  var lowestMoat = chokeMoats.length > 0 ? Math.min.apply(null, chokeMoats) : 60;
+  // ★ 6.99: 绝对阈值,不再使用相对比较
+  var ABSOLUTE_MOAT_THRESHOLD = 60;
 
   // 扫描全部 segments
   var allStocks = [];
@@ -352,11 +347,11 @@ function checkR6(chain) {
     if (!b || b.score < 5) return;
 
     var moat = computeMoatTiming(ms.dims6).moatScore;
-    if (moat >= lowestMoat) {
+    if (moat >= ABSOLUTE_MOAT_THRESHOLD) {
       issues.push({
         severity: 'WARN',
         code: s.code, name: s.name,
-        msg: '🔍 barrier=5(极高) + moat=' + moat + ' ≥ 最低 choke moat(' + lowestMoat +
+        msg: '🔍 barrier=5(极高) + moat=' + moat + ' ≥ 绝对阈值(' + ABSOLUTE_MOAT_THRESHOLD +
           ') 但不在 chokePoints 中 —— 候选新增，需人工核实是否纳入'
       });
     }
