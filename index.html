@@ -3388,8 +3388,11 @@ function renderChain(chainId) {
         h += `<td>${s.q3 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q3note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q3note+'</span>' : ''}</td>`;
         h += `<td>${s.q4 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q4note+'</span>' : ''}</td>`;
         const hCls = s.hits === 4 ? 'h4' : s.hits === 3 ? 'h3' : s.hits === 2 ? 'h2' : s.hits === 1 ? 'h1' : 'h0';
-        h += `<td><span class="hit-dot ${hCls}">${s.hits}</span></td>`;
-        h += `<td>${s.strength ? '<span class="stars '+(s.strength==='★★★'?'s3':'s2')+'">'+s.strength+'</span>' : '<span style="color:var(--color-muted);">不通过</span>'}</td>`;
+        const _fhits = s.hits != null ? s.hits : ((s.q1?1:0)+(s.q2?1:0)+(s.q3?1:0)+(s.q4?1:0));
+        const _fcls = _fhits === 4 ? 'h4' : _fhits === 3 ? 'h3' : _fhits === 2 ? 'h2' : _fhits === 1 ? 'h1' : 'h0';
+        const _fstrength = s.strength || (_fhits >= 4 ? '★★★' : _fhits >= 3 ? '★★☆' : null);
+        h += `<td><span class="hit-dot ${_fcls}">${_fhits}</span></td>`;
+        h += `<td>${_fstrength ? '<span class="stars '+(_fstrength==='★★★'?'s3':'s2')+'">'+_fstrength+'</span>' : '<span style="color:var(--color-muted);">不通过</span>'}</td>`;
         h += `</tr>`;
       });
     } else {
