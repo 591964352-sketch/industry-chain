@@ -796,7 +796,7 @@ window.OPTICAL_MODULE_MANUAL = {
   },
   "300548": {
     "code": "300548",
-    "name": "博创科技",
+    "name": "长芯博创",
     "rank": 8,
     "barrier": "高",
     "tier": "A",
@@ -5253,5 +5253,17 @@ window.OPTICAL_MODULE_MANUAL = {
   }
 }
 };
+
+
+  window.__DROP_STOCKS__ = ["688322","600330","002428","688337","688112","688167","001269","300395","300476","002384","002463","600183"];
+  // ★ 2026-07-14 optical-module 6.90 调整(B1 移段 + B2 剔除 + C 剔除 + 300548 改名)
+  // 防御性保险:使用 window.OPTICAL_MODULE_MANUAL(非 MANUAL 变量,后者不在本文件的 IIFE 作用域)
+  if (window.__DROP_STOCKS__) {
+    window.__DROP_STOCKS__.forEach(function(code){
+      if (window.OPTICAL_MODULE_MANUAL && window.OPTICAL_MODULE_MANUAL.stocks && window.OPTICAL_MODULE_MANUAL.stocks[code]) {
+        delete window.OPTICAL_MODULE_MANUAL.stocks[code];
+      }
+    });
+  }
 
 console.log('[optical-module.manual] loaded · stocks=' + Object.keys(window.OPTICAL_MODULE_MANUAL.stocks).length + ' · PhaseB-schema-aligned-PCB');

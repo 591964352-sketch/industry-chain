@@ -234,7 +234,7 @@ CHAINS['optical-module'] = {
           },
           {
             "code": "300548",
-            "name": "博创科技"
+            "name": "长芯博创"
           },
           {
             "code": "300570",
@@ -259,16 +259,8 @@ CHAINS['optical-module'] = {
             "name": "三安光电"
           },
           {
-            "code": "002428",
-            "name": "云南锗业"
-          },
-          {
             "code": "600206",
             "name": "有研新材"
-          },
-          {
-            "code": "600330",
-            "name": "天通股份"
           }
         ],
         "sourceSegment": "硅光 PIC + 调制材料"
@@ -289,16 +281,7 @@ CHAINS['optical-module'] = {
         "name": "光学石英(光芯片衬底基础材料)",
         "barrier": "high",
         "note": "菲利华国产龙头 + 欧晶科技·石英材料全球 <5 家",
-        "companies": [
-          {
-            "code": "300395",
-            "name": "菲利华"
-          },
-          {
-            "code": "001269",
-            "name": "欧晶科技"
-          }
-        ],
+        "companies": [],
         "sourceSegment": "硅光 PIC + 调制材料"
       },
       {
@@ -387,16 +370,7 @@ CHAINS['optical-module'] = {
         "name": "通用电子测试测量仪器",
         "barrier": "mid",
         "note": "普源精电 / 鼎阳科技 · 光芯片研发测试基础仪器",
-        "companies": [
-          {
-            "code": "688337",
-            "name": "普源精电"
-          },
-          {
-            "code": "688112",
-            "name": "鼎阳科技"
-          }
-        ],
+        "companies": [],
         "sourceSegment": "光芯片 + 模块测试封装设备"
       }
     ],
@@ -472,51 +446,6 @@ CHAINS['optical-module'] = {
           "trend": "up",
           "trendNote": "半导体激光器 DFB/EML/VCSEL 三产品线 阶段 2 commit · auto 层精简 11 字段",
           "logic": "半导体激光器 DFB/EML/VCSEL 三产品线 (stage 2 commit · seg0 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
-          "rank": 3,
-          "name": "永鼎股份",
-          "code": "600105",
-          "position": "光通信激光器芯片",
-          "barrier": "极高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "光通信激光器芯片 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "光通信激光器芯片 (stage 2 commit · seg0 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
-          "rank": 4,
-          "name": "炬光科技",
-          "code": "688167",
-          "position": "光电探测器+激光器",
-          "barrier": "极高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "光电探测器+激光器 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "光电探测器+激光器 (stage 2 commit · seg0 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
-          "rank": 5,
-          "name": "奥比中光",
-          "code": "688322",
-          "position": "SPAD 单光子探测器",
-          "barrier": "极高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "SPAD 单光子探测器 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "SPAD 单光子探测器 (stage 2 commit · seg0 归属)",
           "hits": 4,
           "strength": "★★★"
         },
@@ -638,21 +567,6 @@ CHAINS['optical-module'] = {
           "strength": "★★★"
         },
         {
-          "rank": 6,
-          "name": "云南锗业",
-          "code": "002428",
-          "position": "InP/锗 衬底",
-          "barrier": "极高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "InP/锗 衬底 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "InP/锗 衬底 (stage 2 commit · seg1 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
           "rank": 7,
           "name": "有研新材",
           "code": "600206",
@@ -664,51 +578,6 @@ CHAINS['optical-module'] = {
           "trend": "up",
           "trendNote": "高纯靶材+半导体材料 阶段 2 commit · auto 层精简 11 字段",
           "logic": "高纯靶材+半导体材料 (stage 2 commit · seg1 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
-          "rank": 8,
-          "name": "天通股份",
-          "code": "600330",
-          "position": "磁性材料+光学石英",
-          "barrier": "极高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "磁性材料+光学石英 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "磁性材料+光学石英 (stage 2 commit · seg1 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
-          "rank": 9,
-          "name": "菲利华",
-          "code": "300395",
-          "position": "光学石英(光芯片衬底基础)",
-          "barrier": "极高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "光学石英(光芯片衬底基础) 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "光学石英(光芯片衬底基础) (stage 2 commit · seg1 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
-          "rank": 10,
-          "name": "欧晶科技",
-          "code": "001269",
-          "position": "光学石英(PCB 链共享)",
-          "barrier": "极高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "光学石英(PCB 链共享) 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "光学石英(PCB 链共享) (stage 2 commit · seg1 归属)",
           "hits": 4,
           "strength": "★★★"
         }
@@ -815,21 +684,6 @@ CHAINS['optical-module'] = {
           "strength": "★★★"
         },
         {
-          "rank": 6,
-          "name": "华工科技",
-          "code": "000988",
-          "position": "激光设备+硅光模块",
-          "barrier": "高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "激光设备+硅光模块 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "激光设备+硅光模块 (stage 2 commit · seg2 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
           "rank": 7,
           "name": "天孚通信",
           "code": "300394",
@@ -846,7 +700,7 @@ CHAINS['optical-module'] = {
         },
         {
           "rank": 8,
-          "name": "博创科技",
+          "name": "长芯博创",
           "code": "300548",
           "position": "AWG/VOA 光器件",
           "barrier": "高",
@@ -886,21 +740,6 @@ CHAINS['optical-module'] = {
           "trend": "up",
           "trendNote": "光通信陶瓷封装 阶段 2 commit · auto 层精简 11 字段",
           "logic": "光通信陶瓷封装 (stage 2 commit · seg2 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
-          "rank": 11,
-          "name": "特发信息",
-          "code": "000070",
-          "position": "光通信设备",
-          "barrier": "高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "光通信设备 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "光通信设备 (stage 2 commit · seg2 归属)",
           "hits": 4,
           "strength": "★★★"
         },
@@ -1038,32 +877,17 @@ CHAINS['optical-module'] = {
           "strength": "★★★"
         },
         {
-          "rank": 5,
-          "name": "普源精电",
-          "code": "688337",
-          "position": "电子测试测量仪器",
-          "barrier": "高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "电子测试测量仪器 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "电子测试测量仪器 (stage 2 commit · seg4 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
           "rank": 6,
-          "name": "鼎阳科技",
-          "code": "688112",
-          "position": "通用电子测试仪器",
+          "name": "华工科技",
+          "code": "000988",
+          "position": "激光设备+硅光模块",
           "barrier": "高",
           "tier": "A",
           "valAsOf": "2026Q1",
           "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
           "trend": "up",
-          "trendNote": "通用电子测试仪器 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "通用电子测试仪器 (stage 2 commit · seg4 归属)",
+          "trendNote": "激光设备+硅光模块 阶段 2 commit · auto 层精简 11 字段",
+          "logic": "激光设备+硅光模块 (stage 2 commit · seg2 归属)",
           "hits": 4,
           "strength": "★★★"
         }
@@ -1121,6 +945,36 @@ CHAINS['optical-module'] = {
           "trend": "up",
           "trendNote": "5G 电信+硅光技术储备(原拟入 seg3 CPO · 用户方案 B 调整至 seg5 侧枝 · 它们有 CPO 概念但未规模商业化) 阶段 2 commit · auto 层精简 11 字段",
           "logic": "5G 电信+硅光技术储备(原拟入 seg3 CPO · 用户方案 B 调整至 seg5 侧枝 · 它们有 CPO 概念但未规模商业化) (stage 2 commit · seg5 归属)",
+          "hits": 4,
+          "strength": "★★★"
+        },
+        {
+          "rank": 3,
+          "name": "永鼎股份",
+          "code": "600105",
+          "position": "光通信激光器芯片",
+          "barrier": "极高",
+          "tier": "A",
+          "valAsOf": "2026Q1",
+          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
+          "trend": "up",
+          "trendNote": "光通信激光器芯片 阶段 2 commit · auto 层精简 11 字段",
+          "logic": "光通信激光器芯片 (stage 2 commit · seg0 归属)",
+          "hits": 4,
+          "strength": "★★★"
+        },
+        {
+          "rank": 11,
+          "name": "特发信息",
+          "code": "000070",
+          "position": "光通信设备",
+          "barrier": "高",
+          "tier": "A",
+          "valAsOf": "2026Q1",
+          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
+          "trend": "up",
+          "trendNote": "光通信设备 阶段 2 commit · auto 层精简 11 字段",
+          "logic": "光通信设备 (stage 2 commit · seg2 归属)",
           "hits": 4,
           "strength": "★★★"
         }
@@ -1188,7 +1042,7 @@ CHAINS['optical-module'] = {
       },
       {
         "rank": 8,
-        "name": "博创科技",
+        "name": "长芯博创",
         "code": "300548",
         "barrier": "中",
         "note": "光器件 AWG/VOA",
@@ -1453,18 +1307,6 @@ CHAINS['optical-module'] = {
         "1.6T 硅光批量",
         "代工依赖台积电",
         "特种光纤壁垒"
-      ]
-    },
-    {
-      "rank": 7,
-      "name": "普源精电",
-      "code": "688337",
-      "segment": "通用电子测试测量仪器",
-      "strength": "★★☆",
-      "logic": "光芯片研发测试基础仪器国产替代。",
-      "tags": [
-        "测试仪器",
-        "光芯片"
       ]
     }
   ],
