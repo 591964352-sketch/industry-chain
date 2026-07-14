@@ -184,6 +184,16 @@ window.STORAGE_INTERFACE_MANUAL = window.STORAGE_INTERFACE_MANUAL || {};
     }
   });
 
+  window.__DROP_STOCKS__ = ["002559","300398","605589","688733","600641"];
+
+  // ★ 2026-07-14 剔除 5 只占位 stock(已三重验证与本链不匹配),降维至真实产业链范围
+  // DROP_LIST 由前置代码传入;manual.stocks 已在 Part B 内存中 delete,本 patch 防御性保险
+  if (window.__DROP_STOCKS__) {
+    window.__DROP_STOCKS__.forEach(function(code){
+      if (MANUAL.stocks[code]) delete MANUAL.stocks[code];
+    });
+  }
+
 console.log('[storage-interface.manual] loaded · stocks=' + Object.keys(MANUAL.stocks).length + ' · PhaseA-aligned');
 
 })(window.STORAGE_INTERFACE_MANUAL);

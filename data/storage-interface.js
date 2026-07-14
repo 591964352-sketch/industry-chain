@@ -317,12 +317,6 @@ CHAINS['storage-interface'] = {
             "code": "688300",
             "position": "硅微粉国产第一",
             "barrier": "高"
-          },
-          {
-            "name": "壹石通",
-            "code": "688733",
-            "position": "硅微粉填料",
-            "barrier": "中"
           }
         ]
       },
