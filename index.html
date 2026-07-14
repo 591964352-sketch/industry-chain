@@ -598,36 +598,33 @@
             style="padding:6px 10px;background:var(--accent);color:#0f1117;border:none;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;line-height:1;">+</button>
   </div>
   <div class="sidebar-nav" id="nav-list">
-    <!-- 主区·算力链主线(激活 4 条·2026-07-13 升级:加入存储与接口) -->
+    <!-- 主区·算力链主线(5条·2026-07-14 重组:先进封装加入主线) -->
     <span class="nav-item active" data-chain="pcb" onclick="switchChain('pcb')">🔌 PCB 印制电路板</span>
     <span class="nav-item" data-chain="semicon-equip" onclick="switchChain('semicon-equip')">🔩 半导体设备</span>
     <span class="nav-item" data-chain="optical-module" onclick="switchChain('optical-module')">🔦 光模块·光互联</span>
-    <span class="nav-item" data-chain="storage-interface" onclick="switchChain('storage-interface')">💾 存储与接口 <sup style="font-size:9px;color:var(--muted);">Phase A</sup></span>
-    <!-- ★ 先进封装 本次仍不激活(逻辑占位·不渲染) -->
-    <span class="nav-item nav-toggle" id="chain-toggle" onclick="toggleSidebarChains()">▶ 更多赛道 ()</span>
+    <span class="nav-item" data-chain="storage-interface" onclick="switchChain('storage-interface')">💾 存储与接口</span>
+    <span class="nav-item" data-chain="advanced-packaging" onclick="switchChain('advanced-packaging')">📦 先进封装 <sup style="font-size:9px;color:var(--muted);">骨架</sup></span>
+    <span class="nav-item nav-toggle" id="chain-toggle" onclick="toggleSidebarChains()">▶ 算力基础+应用终端 ()</span>
     <div class="sidebar-collapsible collapsed" id="chain-collapsed">
-      <!-- ★ 第一组·算力链剩余队列(保留·全部可见·commit 6.71 调整) -->
+      <!-- ★ 副区分类一·算力基础设施(10条·2026-07-14 重组) -->
+      <span class="nav-item nav-group-label" style="display:block;border-top:1px solid var(--border);margin:4px 8px 0 8px;padding:6px 0 2px 0;font-size:10px;color:var(--muted);opacity:0.7;pointer-events:none;cursor:default;">━ 算力基础设施</span>
+      <span class="nav-item" data-chain="semicon-materials" onclick="switchChain('semicon-materials')">🧪 半导体材料</span>
       <span class="nav-item" data-chain="liquid-cooling" onclick="switchChain('liquid-cooling')">❄️ 液冷散热</span>
-      <!-- ★ 存储与接口 已升级到主区主线(2026-07-13)·此处不再显示 -->
-      <!-- 半导体材料·规划中(占位·不渲染·仅注释记录) -->
-      <!-- AI芯片·规划中(占位·不渲染·仅注释记录) -->
-      <span class="nav-item" data-chain="power-semi" onclick="switchChain('power-semi')">⚡ 功率半导体/SiC</span>
-      <span class="nav-item" data-chain="ai-server" onclick="switchChain('ai-server')">🖥️ AI服务器</span>
-      <span class="nav-item" data-chain="ai-apps" onclick="switchChain('ai-apps')">🧠 AI应用</span>
-      <span class="nav-item" data-chain="low-altitude" onclick="switchChain('low-altitude')">✈️ 低空经济</span>
-      <!-- ★ 第二组·4条独立产业链(保留·全部可见·commit 6.71 调整) -->
-      <span class="nav-item" data-chain="commercial-aero" onclick="switchChain('commercial-aero')">🚀 商业航天</span>
-      <span class="nav-item" data-chain="robotics" onclick="switchChain('robotics')">🤖 人形机器人</span>
+      <span class="nav-item" data-chain="ai-chip" onclick="switchChain('ai-chip')">🧮 AI芯片</span>
+      <span class="nav-item" data-chain="network-switch" onclick="switchChain('network-switch')">🔀 网络交换芯片/交换机</span>
+      <span class="nav-item" data-chain="data-center" onclick="switchChain('data-center')">🏗️ 数据中心（园区级基建）</span>
+      <span class="nav-item" data-chain="power-supply" onclick="switchChain('power-supply')">⚡ 电源供电链</span>
+      <span class="nav-item" data-chain="copper-connect" onclick="switchChain('copper-connect')">🔗 高速铜连接/连接器</span>
+      <span class="nav-item" data-chain="ai-server" onclick="switchChain('ai-server')">🖥️ AI服务器（整机集成）</span>
+      <span class="nav-item" data-chain="server-odm" onclick="switchChain('server-odm')">🏭 服务器整机ODM</span>
+      <span class="nav-item" data-chain="ai-cloud" onclick="switchChain('ai-cloud')">☁️ AI云服务/算力租赁</span>
+      <!-- ★ 副区分类二·应用终端(4条·2026-07-14 重组) -->
+      <span class="nav-item nav-group-label" style="display:block;border-top:1px solid var(--border);margin:4px 8px 0 8px;padding:6px 0 2px 0;font-size:10px;color:var(--muted);opacity:0.7;pointer-events:none;cursor:default;">━ 应用终端</span>
       <span class="nav-item" data-chain="autonomous-driving" onclick="switchChain('autonomous-driving')">🚗 智能驾驶</span>
+      <span class="nav-item" data-chain="robotics" onclick="switchChain('robotics')">🤖 人形机器人</span>
+      <span class="nav-item" data-chain="commercial-aero" onclick="switchChain('commercial-aero')">🚀 商业航天</span>
       <span class="nav-item" data-chain="solid-battery" onclick="switchChain('solid-battery')">🔋 固态电池</span>
-      <!-- ★ 过渡/对账用(保留·本次不动·commit 6.71 调整) -->
-      <span class="nav-item coming" data-chain="semi-equipment" title="⚠️ deprecated · 已重构为 semicon-equip · 仅作数据对账参考">🔧 半导体设备(旧)</span>
-      <!-- ★ 7天过渡期灰显·合并至光模块·光互联的旧入口(commit 6.71 登记 CLAUDE.md §11.18) -->
-      <span class="nav-item coming" data-chain="cpo" title="⚠️ 已合并至光模块·光互联 · 7天过渡期后移除">💡 CPO(旧)</span>
-      <span class="nav-item coming" data-chain="optical-chip" title="⚠️ 已合并至光模块·光互联 · 7天过渡期后移除">🔬 光芯片(旧)</span>
     </div>
-    <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 整合视图</span>
-    <span class="nav-item" data-chain="ai-full-chain" onclick="switchChain('ai-full-chain')">🧠 AI 全产业链</span>
     <span class="nav-item" data-chain="arena" onclick="window.location.hash='arena'">🏟️ 赛道擂台</span>
     <span class="nav-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;font-size:11px;color:var(--muted);">━ 我的决策</span>
     <span class="nav-item" data-chain="cards" onclick="window.location.hash='cards'">📋 决策卡片库</span>
@@ -668,20 +665,21 @@
   // 让浏览器忽略旧缓存、走新版。下次 commit 同时同步这行。
   // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写) / v2=20260614 (新增 optical 骨架) / v3=20260615 (新增 liquid-cooling 骨架) / v4=20260616 (新增 optical-chip 骨架) / v5=20260618 (液冷链 A 类注入 36 只 + 4 只 PE 失真) / v6=20260618c (液冷链第3轮注入 4 模块 + G8 4 项不达标) / v7=20260618d (Phase 1 验证:巨化 1 只 Gemini 联网 position broker 注入) / v8=20260618e (Phase 1 验证:英维克/永贵 position + 永贵降级 ★★★→★★☆ + supplyGap[0] src PFAS 法规) / v9=20260618f (Phase 2 完成·49 项 G8 达标·30 只 stock position 联网核实 + 16 sub-card note 占比补 + 2 overview 卡 + supplyGap[1] CDU 4 项 + meta.status 改 active) / v10=20260618g (Phase 3 双跑试点完成·DeepSeek 5/5 vs Gemini 3 Pro 0/5·5 只 ⚪media 单源升级双源:高澜🟢primary + 申菱🔵broker + 中科曙光🔵broker + 浪潮🔵broker + 工业富联🔵broker) / v11=20260618h (Phase 4 全量 42 项 DeepSeek 智能搜索完成·6 项 ✅ 升级双源 + 12 项 ⚠️ 部分找到 + 24 项 ❌ 维持稀缺区·包含 14 只 stock position + 3 sub-card note + 1 supplyGap demand + 1 overview 氟化液市场规模 + 汉威科技反向证据降级) / v12=20260618i (Phase 5 单项深挖完成·10 项 DeepSeek 智能搜索核实·5 项升级:4 stock 部分项(川环/中石/飞荣达/数据港)+ 1 sub-card B1 液冷数据中心冲突解决(480 亿=产业规模赛迪顾问 vs 149.4 亿=基础设施 IDC)+ supplyGap[1] CDU capacity/gap/rate 验证全球研究均不提供产能数据(行业真实缺口)) / v13=20260618j (Phase 6 最后清仓完成·13 项 stock 全部处理完毕·barrier 全部合理化:6 只 barrier 1(芯原/四方/海容/中颖/雪迪龙/精测 几乎无液冷关联)+ 7 只 barrier 2(天赐/多氟多/昊华氟化液主业占比>72% 液冷<2% + 奥飞/博威/双良/华工数据存在但未拆分)·数据治理闭环) / v14=20260618k (Phase 7 全量 24 项最后清仓完成·A 8 只 midstream 全部升级(曙光 58.8%/浪潮 45%/申菱赛迪+国金)+ B 9 个 sub-card 升级(CDU 30-40%/液冷板 40-45%/UQD 15-20%/TrendForce HPC 8%/储能 92.7% 渗透等)+ C 反推法补 CDU capacity 厂商碎片数据(英维克 50 万套/CoolIT 多吉瓦/Asetek 10 万台)·液冷链数据治理终章) / v15=20260618l (Phase 8 行业协会专项突破·7/8 项找到·A 4 个 sub-card 升级含 CDU 内部成本拆解首次出现(泵 22-40%/换热器 15-25%/阀门 10-15%)+ 一次侧 vs 二次侧价值(冷板式一次侧 20-30%/二次侧 70-80%)+ B rate 20-25% 缺口率首次量化+ C 联想 Neptune 8 万套/工业富联液冷营收 300 亿同比+200%) / v16=20260619a (Phase 9 PCB 短板补充·34 只 stock 补 tier 标记:🟢primary 6/🔵broker 21/⚪media 6/🆪estimate 1·首次数据治理精度与液冷链对齐·pcb.js 35 只 stock ②待补 = 0·8 阶段同步高数据精度)
 // 历史：v1=20260613 (B5 周期：pcb/hbm 修复 + stockHint 重写) / v2=20260614 (新增 optical 骨架) / v3=20260615 (新增 liquid-cooling 骨架) / v4=20260616 (新增 optical-chip 骨架) / v5=20260618 (液冷链 A 类注入 36 只 + 4 只 PE 失真) / v6=20260618c (液冷链第3轮注入 4 模块 + G8 4 项不达标) / v7=20260618d (Phase 1 验证:巨化 1 只 Gemini 联网 position broker 注入) / v8=20260618e (Phase 1 验证:英维克/永贵 position + 永贵降级 ★★★→★★☆ + supplyGap[0] src PFAS 法规) / v9=20260618f (Phase 2 完成·49 项 G8 达标·30 只 stock position 联网核实 + 16 sub-card note 占比补 + 2 overview 卡 + supplyGap[1] CDU 4 项 + meta.status 改 active) / v10=20260618g (Phase 3 双跑试点完成·DeepSeek 5/5 vs Gemini 3 Pro 0/5·5 只 ⚪media 单源升级双源:高澜🟢primary + 申菱🔵broker + 中科曙光🔵broker + 浪潮🔵broker + 工业富联🔵broker) / v11=20260618h (Phase 4 全量 42 项 DeepSeek 智能搜索完成·6 项 ✅ 升级双源 + 12 项 ⚠️ 部分找到 + 24 项 ❌ 维持稀缺区·包含 14 只 stock position + 3 sub-card note + 1 supplyGap demand + 1 overview 氟化液市场规模 + 汉威科技反向证据降级) / v12=20260618i (Phase 5 单项深挖完成·10 项 DeepSeek 智能搜索核实·5 项升级:4 stock 部分项(川环/中石/飞荣达/数据港)+ 1 sub-card B1 液冷数据中心冲突解决(480 亿=产业规模赛迪顾问 vs 149.4 亿=基础设施 IDC)+ supplyGap[1] CDU capacity/gap/rate 验证全球研究均不提供产能数据(行业真实缺口)) / v13=20260618j (Phase 6 最后清仓完成·13 项 stock 全部处理完毕·barrier 全部合理化:6 只 barrier 1(芯原/四方/海容/中颖/雪迪龙/精测 几乎无液冷关联)+ 7 只 barrier 2(天赐/多氟多/昊华氟化液主业占比>72% 液冷<2% + 奥飞/博威/双良/华工数据存在但未拆分)·数据治理闭环) / v14=20260618k (Phase 7 全量 24 项最后清仓完成·A 8 只 midstream 全部升级(曙光 58.8%/浪潮 45%/申菱赛迪+国金)+ B 9 个 sub-card 升级(CDU 30-40%/液冷板 40-45%/UQD 15-20%/TrendForce HPC 8%/储能 92.7% 渗透等)+ C 反推法补 CDU capacity 厂商碎片数据(英维克 50 万套/CoolIT 多吉瓦/Asetek 10 万台)·液冷链数据治理终章) / v15=20260618l (Phase 8 行业协会专项突破·7/8 项找到·A 4 sub-card 升级含 CDU 内部成本拆解首次出现(泵 22-40%/换热器 15-25%/阀门 10-15%)+ 一次侧 vs 二次侧价值(冷板式一次侧 20-30%/二次侧 70-80%)+ B rate 20-25% 缺口率首次量化+ C 联想 Neptune 8 万套/工业富联液冷营收 300 亿同比+200%) / v16=20260619a (Phase 9 PCB 短板补充·34 只 stock 补 tier 标记:🟢primary 6/🔵broker 21/⚪media 6/🆪estimate 1·首次数据治理精度与液冷链对齐·pcb.js 35 只 stock ②待补 = 0·8 阶段同步高数据精度) / v17=20260619b (Phase 10 半导体设备新增·28 只 stock + 6 segments + 3 卡口(中微★★★/北方华创★★★/拓荆★★☆)+ 4 supplyGap(100%/55%/70%/60%)+ 6 维景气 + 5 列 treeMap + midstream 10 只·17 赛道数据治理精度对齐 PCB/液冷链 93%)
-  var DATA_VERSION = '?v=20260711e';  // ★ 6.75 fix: getEffectiveDims6 manual层优先(修复auto层旧dims6屏蔽manual层更新)
+  var DATA_VERSION = '?v=20260714a';  // ★ 6.93+ 产业链版图重组:主区5条+副区10条+应用终端4条+9条新骨架
   var DATA_MANIFEST = [
     'pcb.manual',   // ★ 阶段二 commit 2.1：手动层（必须先于 pcb.js 加载·注入 STOCK_REGISTRY）
     // 'pcb.auto',     // ★ 阶段二 commit 2.2：自动层（估值字段全 null·commit 3.1+ 脚本回填）· commit 6.34 临时禁用· 文件保留可恢复·减重 4.1MB
     // 'pcb.close_history', // ★ commit 4.57：信号 C 历史回放数据层（独立文件·避免 pcb.auto.js 膨胀 +55%）· commit 6.34 临时禁用· 文件保留可恢复·减重 1.7MB
-    'pcb','semi','ai-server','robotics','autonomous-driving',
-    'power-semi','semi-equipment','ai-apps','solid-battery','low-altitude','commercial-aero',
+    'pcb','ai-server','robotics','autonomous-driving',
+    'solid-battery','low-altitude','commercial-aero',
     'liquid-cooling','semicon-equip.manual', // ★ P0-1: 手动层先于 semicon-equip.js 加载,注入 window.SEMICON_EQUIP_MANUAL.stocks[code]
     'semicon-equip',
     'optical-module.manual', // ★ 阶段 2: 手动层先于 optical-module.js 加载,注入 window.OPTICAL_MODULE_MANUAL.stocks[code] (commit 6.71)
     'optical-module',        // ★ 阶段 2: 光模块·光互联合并链 auto 层 (commit 6.71 · cpo.js + optical-chip.js 已合并·旧文件 rename 存档)
     'storage-interface.manual', // ★ 2026-07-13: 手动层先于 storage-interface.js 加载,注入 window.STORAGE_INTERFACE_MANUAL.stocks[code] (Phase A 骨架接入 manifest)
     'storage-interface',        // ★ 2026-07-13: 存储与接口链 auto 层 (Phase A 骨架 · 7 segment + 3 chokePoint + 35 只 manual stocks)
-    'ai-full-chain'
+    'advanced-packaging','semicon-materials','ai-chip','network-switch','data-center',
+    'power-supply','copper-connect','server-odm','ai-cloud'
   ];
   DATA_MANIFEST.forEach(function(id){
     document.write('<script src="data/' + id + '.js' + DATA_VERSION + '"><\/script>');
@@ -4185,8 +4183,8 @@ function renderChangelog() {
     //   panel 保留 line 695 静态 HTML 默认的"暂无变更记录"
     //   修复方法:用 (typeof c.pct === 'string') 守卫,缺失时 dir = null(无方向徽章,正常显示其他字段)
     const dir = (c.pct === 'NEW' || c.pct === 'FIX' || c.pct === 'BRAND') ? null : ((typeof c.pct === 'string' && c.pct.startsWith('+')) ? 'up' : (typeof c.pct === 'string' ? 'down' : null));
-    const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'power-semi' ? '功率半导/SiC' : c.sector === 'semi-equipment' ? '半导体设备(旧)' : c.sector === 'semicon-equip' ? '半导体设备' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'optical-module' ? '光模块' : c.sector === 'optical-chip' ? '光芯片' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'liquid-cooling' ? '液冷' : c.sector === 'storage-interface' ? '存储与接口' : c.sector === 'ai-full-chain' ? 'AI全产业链' : c.sector === 'system' ? '系统升级' : c.sector;
-    const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'power-semi' ? '#f6465d' : c.sector === 'semi-equipment' ? '#7c3aed' : c.sector === 'semicon-equip' ? '#0d9488' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'optical-module' ? '#06b6d4' : c.sector === 'optical-chip' ? '#0891b2' : c.sector === 'optical' ? '#06b6d4' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'liquid-cooling' ? 'var(--blue)' : c.sector === 'storage-interface' ? '#14b8a6' : c.sector === 'ai-full-chain' ? 'var(--accent)' : c.sector === 'system' ? '#3b82f6' : 'var(--muted)';
+    const sectorName = c.sector === 'pcb' ? 'PCB' : c.sector === 'semi' ? '半导体' : c.sector === 'ai-server' ? 'AI服务器' : c.sector === 'hbm' ? 'HBM/存储' : c.sector === 'robotics' ? '人形机器人' : c.sector === 'autonomous-driving' ? '智能驾驶' : c.sector === 'semi-equipment' ? '半导体设备(旧)' : c.sector === 'semicon-equip' ? '半导体设备' : c.sector === 'ai-apps' ? 'AI应用' : c.sector === 'cpo' ? 'CPO光通信' : c.sector === 'optical-module' ? '光模块' : c.sector === 'optical-chip' ? '光芯片' : c.sector === 'solid-battery' ? '固态电池' : c.sector === 'low-altitude' ? '低空经济' : c.sector === 'commercial-aero' ? '商业航天' : c.sector === 'liquid-cooling' ? '液冷' : c.sector === 'storage-interface' ? '存储与接口' : c.sector === 'advanced-packaging' ? '先进封装' : c.sector === 'semicon-materials' ? '半导体材料' : c.sector === 'ai-chip' ? 'AI芯片' : c.sector === 'network-switch' ? '网络交换' : c.sector === 'data-center' ? '数据中心' : c.sector === 'power-supply' ? '电源供电' : c.sector === 'copper-connect' ? '铜连接' : c.sector === 'server-odm' ? '服务器ODM' : c.sector === 'ai-cloud' ? 'AI云服务' : c.sector === 'system' ? '系统升级' : c.sector;
+    const sectorColor = c.sector === 'pcb' ? 'var(--blue)' : c.sector === 'semi' ? 'var(--purple)' : c.sector === 'ai-server' ? '#3b82f6' : c.sector === 'hbm' ? '#a855f7' : c.sector === 'robotics' ? '#f97316' : c.sector === 'autonomous-driving' ? '#eab308' : c.sector === 'semi-equipment' ? '#7c3aed' : c.sector === 'semicon-equip' ? '#0d9488' : c.sector === 'ai-apps' ? '#0ecb81' : c.sector === 'cpo' ? '#3b82f6' : c.sector === 'optical-module' ? '#06b6d4' : c.sector === 'optical-chip' ? '#0891b2' : c.sector === 'optical' ? '#06b6d4' : c.sector === 'solid-battery' ? '#eab308' : c.sector === 'low-altitude' ? '#0ecb81' : c.sector === 'commercial-aero' ? '#f97316' : c.sector === 'liquid-cooling' ? 'var(--blue)' : c.sector === 'storage-interface' ? '#14b8a6' : c.sector === 'advanced-packaging' ? '#8b5cf6' : c.sector === 'semicon-materials' ? '#10b981' : c.sector === 'ai-chip' ? '#ef4444' : c.sector === 'network-switch' ? '#f59e0b' : c.sector === 'data-center' ? '#6366f1' : c.sector === 'power-supply' ? '#f6465d' : c.sector === 'copper-connect' ? '#d946ef' : c.sector === 'server-odm' ? '#84cc16' : c.sector === 'ai-cloud' ? '#06b6d4' : c.sector === 'system' ? '#3b82f6' : 'var(--muted)';
     return `<div class="changelog-item" onclick="switchChain('${c.sector}')">
       <div class="cl-date">${c.date}</div>
       <div class="cl-sector" style="color:${sectorColor};">${sectorName}</div>
@@ -5624,7 +5622,7 @@ function updateSidebarCount() {
   if (!container || !toggle) return;
   const count = container.querySelectorAll('.nav-item[data-chain]').length;
   const collapsed = container.classList.contains('collapsed');
-  toggle.textContent = collapsed ? `▶ 更多赛道 (${count})` : `▼ 更多赛道 (${count})`;
+  toggle.textContent = collapsed ? `▶ 算力基础+应用终端 (${count})` : `▼ 算力基础+应用终端 (${count})`;
 }
 function toggleSidebarChains() {
   const container = document.getElementById('chain-collapsed');

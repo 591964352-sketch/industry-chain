@@ -23,7 +23,7 @@ try {
 
 // 13 链条加载
 global.window = {};
-const manifest = ['pcb','semi','ai-server','hbm','robotics','autonomous-driving','power-semi','ai-apps','cpo','solid-battery','low-altitude','commercial-aero','ai-full-chain'];
+const manifest = ['pcb','ai-server','robotics','autonomous-driving','ai-apps','solid-battery','low-altitude','commercial-aero','liquid-cooling','semicon-equip','optical-module','storage-interface','advanced-packaging','semicon-materials','ai-chip','network-switch','data-center','power-supply','copper-connect','server-odm','ai-cloud'];
 let loaded = 0;
 for (const id of manifest) {
   try {

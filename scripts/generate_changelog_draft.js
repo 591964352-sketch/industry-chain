@@ -72,10 +72,12 @@ const USAGE = `用法:
 // ---------- 常量 ----------
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const SECTOR_WHITELIST = [
-  'pcb', 'hbm', 'optical-chip', 'optical-module', 'liquid-cooling',
-  'ai-server', 'robotics', 'autonomous-driving', 'power-semi', 'ai-apps',
-  'cpo', 'solid-battery', 'low-altitude', 'commercial-aero',
-  'semi-equipment', 'semi', 'system', 'ai-full-chain',
+  'pcb', 'hbm', 'optical-module', 'liquid-cooling',
+  'ai-server', 'robotics', 'autonomous-driving', 'ai-apps',
+  'solid-battery', 'low-altitude', 'commercial-aero', 'system',
+  'semicon-equip', 'storage-interface',
+  'advanced-packaging', 'semicon-materials', 'ai-chip', 'network-switch', 'data-center',
+  'power-supply', 'copper-connect', 'server-odm', 'ai-cloud',
 ];
 
 // ---------- git log 拉取 ----------
@@ -164,21 +166,26 @@ function shouldExclude(commit) {
 const SECTOR_KEYWORDS = [
   { sector: 'pcb',            kws: [/pcb/i, /chokepoint/i, /概念票/, /6\s*维/i, /\btier\b/i, /\bvaluation\b/i, /\breason\b/i, /\bbarrier\b/i, /信源精度/, /风险扫描/, /\bcagr\b/i, /301217/, /600110/, /603228/, /002384/, /300522/, /002938/] },
   { sector: 'hbm',            kws: [/HBM/i, /\bhbm\b/i] },
-  { sector: 'optical-chip',   kws: [/光芯片/] },
-  { sector: 'optical-module', kws: [/光模块/, /CPO/] },
+  { sector: 'optical-module', kws: [/光模块/, /CPO/, /光芯片/] },
   { sector: 'liquid-cooling', kws: [/liquid-cooling/i, /液冷/] },
   { sector: 'ai-server',      kws: [/ai-server/i, /AI\s*服务器/] },
-  { sector: 'semi-equipment', kws: [/semi-equipment/i, /半导体设备/] },
   { sector: 'robotics',       kws: [/机器人/i, /robotics/i] },
   { sector: 'autonomous-driving', kws: [/智能驾驶/i, /autonomous-driving/i] },
-  { sector: 'power-semi',     kws: [/功率半导/i, /power-semi/i, /SiC/] },
   { sector: 'ai-apps',        kws: [/AI\s*应用/i, /ai-apps/i] },
-  { sector: 'cpo',            kws: [/CPO/] },
   { sector: 'solid-battery',  kws: [/固态电池/i] },
   { sector: 'low-altitude',   kws: [/低空经济/i] },
   { sector: 'commercial-aero',kws: [/商业航天/i] },
-  { sector: 'semi',           kws: [/半导体(?!设备)/i] },
-  { sector: 'ai-full-chain',  kws: [/AI\s*全产业链/i] },
+  { sector: 'semicon-equip',  kws: [/semicon-equip/i, /半导体设备/] },
+  { sector: 'storage-interface', kws: [/storage-interface/i, /存储与接口/] },
+  { sector: 'advanced-packaging', kws: [/advanced-packaging/i, /先进封装/] },
+  { sector: 'semicon-materials', kws: [/semicon-materials/i, /半导体材料/] },
+  { sector: 'ai-chip',        kws: [/ai-chip/i, /AI芯片/] },
+  { sector: 'network-switch', kws: [/network-switch/i, /网络交换/] },
+  { sector: 'data-center',    kws: [/data-center/i, /数据中心/] },
+  { sector: 'power-supply',   kws: [/power-supply/i, /电源供电/] },
+  { sector: 'copper-connect', kws: [/copper-connect/i, /铜连接/] },
+  { sector: 'server-odm',     kws: [/server-odm/i, /服务器ODM/] },
+  { sector: 'ai-cloud',       kws: [/ai-cloud/i, /AI云服务/] },
 ];
 
 const SYSTEM_INDICATORS = [

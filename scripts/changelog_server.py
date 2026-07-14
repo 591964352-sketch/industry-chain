@@ -23,13 +23,20 @@ CHAIN_KEYWORDS = {
     'hbm': ['hbm', 'HBM'],
     'robotics': ['robotics', '人形机器人', '机器人'],
     'autonomous-driving': ['autonomous', '自动驾驶', '智能驾驶'],
-    'power-semi': ['power-semi', '功率半导', 'SiC', 'sic'],
     'ai-apps': ['ai-apps', 'AI应用'],
-    'cpo': ['cpo', 'CPO', '光模块'],
     'solid-battery': ['solid-battery', '固态电池'],
     'low-altitude': ['low-altitude', '低空经济'],
     'commercial-aero': ['commercial-aero', '商业航天'],
-    'ai-full-chain': ['ai-full-chain', 'AI全产业链'],
+    'liquid-cooling': ['liquid-cooling', '液冷'],
+    'advanced-packaging': ['advanced-packaging', '先进封装'],
+    'semicon-materials': ['semicon-materials', '半导体材料'],
+    'ai-chip': ['ai-chip', 'AI芯片'],
+    'network-switch': ['network-switch', '网络交换'],
+    'data-center': ['data-center', '数据中心'],
+    'power-supply': ['power-supply', '电源供电'],
+    'copper-connect': ['copper-connect', '铜连接'],
+    'server-odm': ['server-odm', '服务器ODM'],
+    'ai-cloud': ['ai-cloud', 'AI云服务'],
 }
 
 
