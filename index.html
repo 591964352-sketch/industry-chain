@@ -3058,8 +3058,9 @@ function renderChain(chainId) {
     if (!d || !Array.isArray(d.chokePoints) || d.chokePoints.length < 1) return '';
     // 1. 投顾硬编码指定 2 只代表股票(按 chainId 区分)
     const SPEED_DIAL_PICKS = {
-      'pcb':           ['300476', '002463'],
-      'semicon-equip': ['688729', '688012'],
+      'pcb':                ['300476', '002463'],
+      'semicon-equip':      ['688729', '688012'],
+      'storage-interface':  ['688019', '688008'],
     };
     const picks = SPEED_DIAL_PICKS[chainId];
     if (!picks || picks.length < 2) return '';
@@ -3433,7 +3434,7 @@ function renderChain(chainId) {
     h += `<div class="card"><h4 style="margin-bottom:16px;font-size:15px;">📊 供需缺口量化（2026E）</h4>`;
     h += `<table class="stock-tbl"><colgroup><col style="width:20%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:10%"><col style="width:32%"></colgroup><thead><tr><th>卡口环节</th><th>2026E全球需求</th><th>2026E有效产能</th><th>缺口</th><th>缺口率</th><th>核心瓶颈</th></tr></thead><tbody>`;
     d.supplyGap.forEach(g => {
-      h += `<tr><td style="font-weight:600;">${g.segment || g.name}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand||'—'}</td><td>${g.capacity||'—'}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap||'—'}</span></td><td style="color:var(--red);font-weight:700;">${g.rate||'—'}</td><td style="font-size:12px;">${g.bottleneck||'—'}</td></tr>`;
+      h += `<tr><td style="font-weight:600;">${g.segment || g.name}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand||'—'}</td><td>${g.capacity||'—'}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap||'—'}</span></td><td style="color:var(--red);font-weight:700;max-width:140px;white-space:normal;word-break:break-word;line-height:1.5;">${g.rate||'—'}</td><td style="font-size:12px;">${g.bottleneck||'—'}</td></tr>`;
     });
     h += `</tbody></table></div>`;
   }
