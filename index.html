@@ -2191,7 +2191,9 @@ function renderChain(chainId) {
   // ★ 2026-07-12: 动态连续序号——每条链按实际渲染顺序 ②→③→... 依次递增，消除 ⑥-⑥ 重复
   //   semicon-equip(无demandChainMeta): ②③→④上游→⑤中游→⑥后段→⑦四问→⑧白话
   //   PCB(有demandChainMeta):      ②③→④需求传导→⑤上游→⑥中游→⑦后段→⑧四问→⑨白话
-  const _hasDemand = !!(d.demandChainMeta && d.demandChainMeta.segments);
+  //   storage-interface(有demandChainMeta但全是占位符): 按无demand处理(同semicon-equip)
+  const _hasDemand = !!(d.demandChainMeta && d.demandChainMeta.segments &&
+    d.demandChainMeta.segments.some(s => typeof s.sharePct === 'number' && !isNaN(s.sharePct)));
   const _sTreeMap  = '②';
   const _sOverview = '③';
   const _sDemand   = '④';
@@ -2858,7 +2860,10 @@ function renderChain(chainId) {
   // ★ 阶段五 commit 4.20：下游需求传导 card（在 ④ 树状图 section 之后 · 仅 pcb 试点）
   //   读取 CHAINS.pcb.demandChainMeta（pcb.js 注入）
   //   4 个下游细分横向排列 + AI 服务器价值量倍数 + 传导系数待补充说明
-  if (d.demandChainMeta && d.demandChainMeta.segments) {
+  // ★ commit 7.05: 至少 1 个 segment 的 sharePct 是真实数字(非占位符/null)才渲染
+  const _hasDemandData = d.demandChainMeta && d.demandChainMeta.segments &&
+    d.demandChainMeta.segments.some(s => typeof s.sharePct === 'number' && !isNaN(s.sharePct));
+  if (_hasDemandData) {
     const dcm = d.demandChainMeta;
     h += `<div class="section collapsible collapsed" data-key="demand" id="section-demand-chain"><div class="section-title" onclick="toggleSection('demand')"><span class="num num-chain">${_sDemand}</span> 下游需求传导 · <span style="color:var(--accent);">CAGR 量化锚点</span><span class="collapse-arrow">▼</span></div>`;
     h += `<div class="section-desc">${dcm.segments.length} 个下游细分 ${dcm.config.period} CAGR·${dcm.config.note.includes('broker')?'broker':'L3/L4'} 多源核实${dcm.segments.some(s=>s.valueMult)?'·AI 服务器额外标注单台 PCB 价值量倍数（vs 普通服务器）':''}</div>`;
@@ -3434,7 +3439,7 @@ function renderChain(chainId) {
     h += `<div class="card"><h4 style="margin-bottom:16px;font-size:15px;">📊 供需缺口量化（2026E）</h4>`;
     h += `<table class="stock-tbl"><colgroup><col style="width:20%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:10%"><col style="width:32%"></colgroup><thead><tr><th>卡口环节</th><th>2026E全球需求</th><th>2026E有效产能</th><th>缺口</th><th>缺口率</th><th>核心瓶颈</th></tr></thead><tbody>`;
     d.supplyGap.forEach(g => {
-      h += `<tr><td style="font-weight:600;">${g.segment || g.name}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand||'—'}</td><td>${g.capacity||'—'}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap||'—'}</span></td><td style="color:var(--red);font-weight:700;max-width:140px;white-space:normal;word-break:break-word;line-height:1.5;">${g.rate||'—'}</td><td style="font-size:12px;">${g.bottleneck||'—'}</td></tr>`;
+      h += `<tr><td style="font-weight:600;">${g.segment || g.name}${sourceTierBadge(g.tier, g.src)}</td><td>${g.demand||'—'}</td><td>${g.capacity||'—'}</td><td><span class="tag tg-extreme" style="font-size:13px;">${g.gap||'—'}</span></td><td style="color:var(--red);font-weight:700;">${g.rate||'—'}</td><td style="font-size:12px;">${g.bottleneck||'—'}</td></tr>`;
     });
     h += `</tbody></table></div>`;
   }
