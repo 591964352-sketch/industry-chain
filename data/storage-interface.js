@@ -285,6 +285,22 @@ CHAINS['storage-interface'] = {
             "code": "688123",
             "position": "SPD Hub·DDR5配套",
             "barrier": "高"
+          },
+          {
+            "name": "兆易创新",
+            "code": "603986",
+            "position": "NOR Flash+DDR3/4 DRAM·DDR5存储主控布局",
+            "barrier": "高"
+          ,
+        "sourceSegment": "seg[2]"
+          },
+          {
+            "name": "普冉股份",
+            "code": "688766",
+            "position": "NOR Flash+EEPROM·DDR5 配套存储芯片",
+            "barrier": "中"
+          ,
+        "sourceSegment": "seg[2]"
           }
         ]
       },
@@ -313,6 +329,22 @@ CHAINS['storage-interface'] = {
             "code": "688008",
             "position": "PCIe 5.0 Retimer国内唯一·全球第二·前瞻卡位(非当前正式卡口)",
             "barrier": "极高"
+          },
+          {
+            "name": "纳芯微",
+            "code": "688052",
+            "position": "高速SerDes PHY·PCIe物理层国产替代",
+            "barrier": "中"
+          ,
+        "sourceSegment": "seg[4]"
+          },
+          {
+            "name": "裕太微",
+            "code": "688515",
+            "position": "以太网+PCIe物理层模拟芯片",
+            "barrier": "中"
+          ,
+        "sourceSegment": "seg[4]"
           }
         ]
       },
@@ -327,6 +359,22 @@ CHAINS['storage-interface'] = {
             "code": "688521",
             "position": "Chiplet互连IP国产领先",
             "barrier": "高"
+          }
+        ]
+      },
+      {
+        "name": "CMP 抛光设备(12寸)",
+        "barrier": "极高",
+        "choke": true,
+        "note": "★ 新增节点 (commit 7.02)｜12寸 CMP 设备 A 股唯一双寡头格局(华海清科+Ebara 主导)·全球抛光工艺精度由「化学机械抛光配方+设备」共同决定·与 688019 安集科技(CMP 抛光液)形成「机+液」双卡口闭环·详情 seg[0]",
+        "companies": [
+          {
+            "name": "华海清科",
+            "code": "688120",
+            "position": "12寸 CMP 国产第一·正式 chokePoint rank 5·moat=79·与 688019 安集配套",
+            "barrier": "极高"
+          ,
+        "sourceSegment": "seg[0]"
           }
         ]
       }
@@ -385,6 +433,54 @@ CHAINS['storage-interface'] = {
         "sourceSegment": "seg[1]"
       }
         ]
+      },
+      {
+        "name": "CMP 抛光液/抛光垫",
+        "barrier": "极高",
+        "choke": true,
+        "note": "★ 新增节点 (commit 7.02)｜CMP 化学机械抛光关键耗材·HBM 制造每堆叠一层 DRAM 都需 CMP 抛光·全球 CMP 抛光液 CR3≈55%(Entegris/Fujimi/DuPont)+ 安集是国内唯一进入全球前六的国产厂商·与 688120 华海清科(CMP 抛光设备)形成「液+机」双卡口闭环·详情 seg[1]",
+        "companies": [
+          {
+            "name": "安集科技",
+            "code": "688019",
+            "position": "CMP 抛光液国产第一·国内≈30-35%·正式 chokePoint rank 1·moat=94 全链最高",
+            "barrier": "极高"
+          ,
+        "sourceSegment": "seg[1]"
+          },
+          {
+            "name": "鼎龙股份",
+            "code": "300054",
+            "position": "CMP 抛光垫国产第一·先进封装配套",
+            "barrier": "高"
+          ,
+        "sourceSegment": "seg[1]"
+          }
+        ]
+      },
+      {
+        "name": "电子特气/光刻胶",
+        "barrier": "高",
+        "choke": false,
+        "note": "★ 新增节点 (commit 7.02)｜HBM/DRAM 制造关键耗材·纯度要求极高(99.999%+)·一旦杂质超标整批晶圆报废·全球被默克/液化空气/林德等巨头主导·国产替代处于早期阶段",
+        "companies": [
+          {
+            "name": "南大光电",
+            "code": "300346",
+            "position": "ARF 光刻胶+前驱体·集成电路先进制程",
+            "barrier": "中"
+          ,
+        "sourceSegment": "seg[1]"
+          },
+          {
+            "name": "华特气体",
+            "code": "688268",
+            "position": "电子特气·国内唯一获 ASML 认证",
+            "barrier": "高"
+          ,
+        "sourceSegment": "seg[1]"
+          }
+        ]
       }
     ],
     "equipment": [
@@ -436,18 +532,12 @@ CHAINS['storage-interface'] = {
         "name": "测试分选/老化",
         "barrier": "高",
         "choke": false,
-        "note": "后道测试设备",
+        "note": "后道测试设备｜⚠️ commit 7.02: 长川科技(300604)非 manual.js 24 只正式清单·已从本节点移除(数据准确性优先)",
         "companies": [
           {
             "name": "华峰测控",
             "code": "688200",
             "position": "模拟测试机国产第一",
-            "barrier": "高"
-          },
-          {
-            "name": "长川科技",
-            "code": "300604",
-            "position": "数字测试机国产第一",
             "barrier": "高"
           ,
         "sourceSegment": "seg[0]"
@@ -500,8 +590,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 65.19亿(+58.87%)/归母净利 9.27亿(+34.67%)/GM 34.95%·2025Q1 -1.47亿亏损已扭亏(Q2-Q4 持续改善)+2026Q1 反弹至 5.71亿(+488.29% YoY)V 型反转确立 (akshare abstract_ths L1 实测)",
+          "logic": "PECVD/ALD/混合键合设备国产突破:HBM 多层堆叠 TSV 工艺核心卡口设备(国产唯一能覆盖 12 寸 HBM 量产线),与海外巨头(AMAT/Lam/东京电子)存在 1 代以上技术代差,客户已覆盖三星/SK Hynix/中芯国际/长江存储导入验证(认证 ≥18 月),但量产线尚未规模采用——卡口属性属\"技术领先+验证阶段\"而非\"全球≤3 家物理稀缺\"。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "phaseBTestTrial": true
         },
@@ -515,8 +605,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 393.53亿(+30.85% 连续两年 30%+)/归母净利 55.22亿(-1.77% 温和下降)/GM 40.1%/ROE 16.41%·2026Q1 净利 +3.42% 企稳回升 (abstract_ths L1 实测, 2026-07-08)",
+          "logic": "ICP/CCP/PVD/CVD/清洗多平台半导体设备国产龙头:HBM 制造的刻蚀/薄膜/清洗核心环节全部覆盖(国产 HBM 替代细分场景如长江存储/长鑫存储/中芯国际多品类核心供应);护城河来源 = 国产替代政策保护(AMAT/Lam/东京电子 90%+ 全球主导),风险来源 = 地缘政治缓和则护城河削弱。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -529,8 +619,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 123.85亿(+36.62% 连续两年 35%+)/归母净利 21.11亿(+30.69%)/GM 39.17%/ROE 9.97%·2026Q1 营收 29.15亿(+34.13%)/净利 9.30亿(+197.20%) 业绩拐点确立 (abstract_ths L1 实测)",
+          "logic": "CCP 刻蚀国产绝对龙头:HBM TSV 工艺核心步骤(无刻蚀,HBM 3D 堆叠无法实现),国产晶圆厂刻蚀份额 40%+;全球刻蚀份额 ≈5.1%(TrendForce 2025),Lam/AMAT/东京电子/Hitachi 全球 CR4>90%;卡口属性 = 国产替代政策保护,非全球物理稀缺,与澜起/安集\"全球≤3 家\"卡口性质不同。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -543,8 +633,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 +36.46% YoY(连续三期 30%+)/归母净利 +5.89%/GM 41.81%/ROE 15.52%·2026Q1 营收 +31.66% YoY·⚠ 净利率持续下行(30.05%→23.31%→20.58%),定价压力隐忧(abstract_ths L1 实测)",
+          "logic": "12 寸 CMP(化学机械抛光)设备国产绝对龙头:中芯国际/长江存储/华虹核心供应;CMP 设备与安集科技(抛光液)上下游关系(华海用安集的消耗品,各自垄断所在细分);全球份额 <5%(Ebara/AMAT CR4>85%),国产 HBM 产线是 12 寸 CMP 唯一龙头——卡口 = 国产替代政策保护,与安集\"全球≤5 家\"形成\"液+机\"完整物理稀缺链。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -557,8 +647,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收稳健(abstract_ths L1 实测), 2026Q1 TC B 设备国产替代订单可见度提升·具体数字见 stock.dims6.fundamentals",
+          "logic": "TCB(热压键合)设备国产替代:HBM 堆叠前的芯片-芯片互连核心设备,介于传统回流焊与混合键合之间;全球 TCB 设备被 ASMPT/K&S 主导,国产替代空间明确但量产数据公开有限(§11.23 数据局限)。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -571,8 +661,22 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收稳健(abstract_ths L1 实测), 2026Q1 检测分选国产替代加速·具体数字见 stock.dims6.fundamentals",
+          "logic": "半导体检测分选设备国产替代:HBM 后道测试(老化/分选/FT 测试)专用;全球 Teradyne/Xcerra 主导,国产替代处于行业第一梯队但份额仍偏低。",
+          "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
+        },
+        {
+          "rank": 7,
+          "name": "华峰测控",
+          "code": "688200",
+          "position": "模拟测试机国产第一·HBM/DRAM制造后道测试",
+          "barrier": "高",
+          "tier": "primary",
+          "valAsOf": "2026-07-12",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "trend": "flat",
+          "trendNote": "★ commit 7.02: 华峰测控(688200)从 manual.js 24 只正式清单补入 seg[0]·业务定位:模拟测试机国产第一(后道测试设备)·treeMap equipment[3] 测试分选/老化 节点已有·现补入段位归属与产业链流程对齐(测试是 HBM 工艺链的最后一环)",
+          "logic": "模拟测试机国产第一·HBM/DRAM 制造后道测试(wafer level + final test)·2025 营收 18.5 亿 / 模拟测试机全球市占率前三 / 国产第一·基于 akshare abstract_ths L1 实测·详见 stock.dims6",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         }
       ]
@@ -602,8 +706,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "⚠ 2025 营收 4.58亿(-39.47% 连续 4 季同比为负)/归母净利 2425万/GM 26.66%/净利率仅 5.24%·2026Q1 反弹至 2.23亿(+165.58% 低基数);⚠ §11.23 数据稀缺,业绩拐点未确立,需投顾核实 (akshare abstract_ths L1 实测 2026-07-13)",
+          "logic": "GMC 颗粒状环氧塑封料国内唯一具备 28 英寸石英坩埚量产能力:堆叠 HBM 芯片\"穿衣服\"核心材料,海外住友电木双寡头(住友约 70% + 华海约 30%);⚠ 全球供给端实际可获取住友电木产品 → 国内独家但非全球独家(全球住友电木仍可获取),卡口属性偏弱于全球≤3 家标准,客户验证周期 ≥18 月,产品迭代风险存在。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "phaseBTestTrial": true
         },
@@ -617,8 +721,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 15.47亿(+32.61%)/归母净利 1.08亿(+10.45%)/GM 27.50%·HBM 封装材料国产替代 (abstract_ths L1 实测)",
+          "logic": "HBM 封装底部填充剂(underfill)国产替代龙头:芯片倒装后底部缝隙用 underfill 分散热应力+防潮气,与 688019 安集(CMP 抛光液)/688535 华海(GMC 塑封料)分属 HBM 封装产业链不同环节;⚠ 公开数据稀缺(§11.23),具体客户份额不可得。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -631,8 +735,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 11.16亿(+16.15%)/归母净利 2.93亿(+16.42%)/GM 40.66%/ROE 18.38%·增长由下游需求拉动非供给紧缺(abstract_ths L1 实测)",
+          "logic": "球形硅微粉国产第一:HBM 封装关键填料(球形硅微粉是 GMC 塑封料/EMC 环氧塑封料的高纯填料,粒径 ≤50 微米球形化);⚠ 下游 HBM 量产时点未明确(三星/SK Hynix/Micron 扩产节奏公开数据有限),需求侧可见度制约供给扩张,卡口属性受下游节奏制约。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -645,8 +749,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 86.11亿(+25.49%)/归母净利 10.00亿(+14.77%)/GM 30.96%/净利率 11.96%/ROE 12.59%·稳健增长(abstract_ths L1 实测)",
+          "logic": "前驱体材料(薄膜沉积的\"原料\")国产替代龙头:通过收购韩国 UP Chemical 进入全球供应链;HBM 制造关键耗材(99.999%+ 纯度,杂质超标整批晶圆报废);⚠ 全球前驱体市场仍被默克/液化空气/林德等巨头主导,国产替代处于早期阶段。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -673,8 +777,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 36.60亿(+9.66%)/归母净利 7.20亿(+38.32%)/GM 50.85%/ROE 12.83%·CMP 抛光垫龙头 收入增速低于行业(abstract_ths L1 实测 2026-07-14)",
+          "logic": "CMP 抛光垫国产第一龙头:HBM 多层堆叠介质抛光核心耗材(每堆叠一层 DRAM 需 CMP 抛光→纳米级平整度才可堆叠下一层);与安集科技(CMP 抛光液)/华海清科(CMP 设备)分属 CMP 产业链不同环节——抛光垫+抛光液+抛光设备三件套各自垄断所在细分;全球抛光垫 CR3≈85%(陶氏/Cabot/富士),鼎龙股份全球份额 <15% 但国产第一,晶圆厂一旦选定抛光垫供应商不轻易切换(配方体系深度绑定制程节点,验证 ≥12 月)。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -687,8 +791,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026Q1",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "★ Phase B 第二批试点写入(akshare abstract_ths L1)",
-          "logic": "按 §6.16 dims6Audit 优化:本链 HBM/存储接口语境,光刻胶+前驱体材料与 seg[1] HBM 封装材料 强相关;六维 score 经抽象_ths L1 财务实测验证,详见 stock.dims6",
+          "trendNote": "2025 营收稳健(ARF 光刻胶+前驱体双业务,abstract_ths L1 实测), 2026Q1 HBM 光刻胶国产替代·具体数字见 stock.dims6.fundamentals",
+          "logic": "ARF 光刻胶+前驱体材料双业务国产替代:HBM/DRAM 制造关键耗材(光刻机+薄膜沉积核心原料);⚠ 与 002409 雅克科技(前驱体领域)和 688268 华特气体(特气领域)在 HBM 配套材料赛道部分重叠,前驱体直接竞争雅克科技,光刻胶独立赛道。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -701,8 +805,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026Q1",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "down",
-          "trendNote": "★ Phase B 第二批试点写入(akshare abstract_ths L1)",
-          "logic": "按 §6.16 dims6Audit 优化:本链 HBM/存储接口语境,电子特气(HBM/DRAM 制造关键耗材)与 seg[1] HBM 封装材料 直接相关;六维 score 经抽象_ths L1 财务实测验证,详见 stock.dims6",
+          "trendNote": "2025 营收稳健(电子特气 ASML 认证供应商,abstract_ths L1 实测), 2026Q1 HBM 电子特气国产替代订单可见·具体数字见 stock.dims6.fundamentals",
+          "logic": "电子特气国产替代龙头(HBM/DRAM 制造关键耗材,刻蚀/清洗的\"工具气体\"):国内唯一通过 ASML 认证的电子特气供应商;99.999%+ 高纯度,⚠ 一旦杂质超标整批晶圆报废;全球电子特气被液化空气/林德/空气化工主导,国产替代处于早期,卡口属性 = 验证客户严苛筛选。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         }
       ]
@@ -732,8 +836,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 54.56亿(+49.94%)/归母净利 22.36亿(+58.35%)/GM 62.23%/净利率 39.03%/ROE 18.25%·互连类芯片占 94.18%·2025 连续 4 季同比正增,Q4 7200MT/s 子代规模出货·2026Q1 营收 14.61亿(+19.51%)/净利 8.47亿(+61.30%) 加速(abstract_ths L1 实测 2026-07-13)",
+          "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占 ~40%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "scoringStatus": "primary-confirmed",
           "phaseBTestTrial": false
@@ -748,8 +852,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 12.21亿(+18.77%)/归母净利 3.64亿(+25.25%)/GM 57.29%·SPD Hub DDR5 国产配套 (abstract_ths L1 实测)",
+          "logic": "DDR5 内存模组必备 SPD Hub(串行检测集线器)国产配套:与 688008 澜起科技(DDR5 RCD)在 DDR5 内存条生态中配套,澜起决定 RCD,聚辰提供 SPD Hub;⚠ 全球 SPD 厂商极少但产品同质化严重,卡口属性偏弱,主要绑定澜起的下游 DDR5 生态放量。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -762,8 +866,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 92.03亿(+25.12%)/归母净利 16.48亿(+49.47%)/GM 40.22%·NOR Flash+自研 DRAM 双驱动 (abstract_ths L1 实测)",
+          "logic": "NOR Flash 全球前三+自研 DRAM(国产 DDR4):HBM 国产替代背景下面向 DDR5 端存储生态,与澜起/聚辰不同——兆易是存储芯片本身而非接口芯片;⚠ 卡口取决于 DRAM 自研量产节奏,DDR5 端位比 DDR4 复杂。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -776,8 +880,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 23.20亿(+28.62%)/归母净利 2.08亿(-29.03%)/GM 28.37%·中小容量 NOR Flash 跟随行业 β (abstract_ths L1 实测)",
+          "logic": "NOR Flash+EEPROM 双业务中小厂商:HBM/DDR5 配套产业边缘·非核心卡口,主营中小容量存储;与 603986 兆易创新在 NOR Flash 赛道错位竞争(兆易主打中高容量,普冉中小容量);⚠ 卡口属性弱,跟随行业 β 收益。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         }
       ]
@@ -807,8 +911,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 54.56亿(+49.94%)/归母净利 22.36亿(+58.35%)/GM 62.23%/净利率 39.03%/ROE 18.25%·互连类芯片占 94.18%·2025 连续 4 季同比正增,Q4 7200MT/s 子代规模出货·2026Q1 营收 14.61亿(+19.51%)/净利 8.47亿(+61.30%) 加速(abstract_ths L1 实测 2026-07-13)",
+          "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占 ~40%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "scoringStatus": "reference",
           "phaseBTestTrial": true
@@ -823,8 +927,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 +54.41%/归母净利 +0.30%/GM 47.36%·GPU 国产替代在军工/工控/嵌入式场景订单可见 (abstract_ths L1 实测)",
+          "logic": "国产 GPU(图形处理器)+CXL 内存池化布局:⚠ 公开渠道未发现实际 CXL 量产产品(仍处于\"在研\"阶段),本链 CXL 节点标注属\"赛道展示用\",非已确立物理卡口;主营 GPU 国产替代在军工/工控/嵌入式场景(CX1100/JM7200/JM9 系列),不涉消费 GPU。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         }
       ]
@@ -854,8 +958,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 54.56亿(+49.94%)/归母净利 22.36亿(+58.35%)/GM 62.23%/净利率 39.03%/ROE 18.25%·互连类芯片占 94.18%·2025 连续 4 季同比正增,Q4 7200MT/s 子代规模出货·2026Q1 营收 14.61亿(+19.51%)/净利 8.47亿(+61.30%) 加速(abstract_ths L1 实测 2026-07-13)",
+          "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占 ~40%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "scoringStatus": "reference",
           "phaseBTestTrial": true
@@ -870,8 +974,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收稳健(abstract_ths L1 实测), 2026Q1 高速 SerDes PHY 国产替代订单随 AI 服务器加速·具体数字见 stock.dims6.fundamentals",
+          "logic": "高速 SerDes PHY(串行解串器物理层,PCIe Retimer/Switch 核心组件)国产替代:56-112Gbps 信号完整性壁垒高,全球博通/Marvell/Inphi 主导;⚠ PCIe Retimer/PCIe Switch 国内市场预计随 AI 服务器放量加速,但国产份额仍 0% 起步。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -884,8 +988,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "⚠ 2025 营收 33.68亿(+71.80%)/归母净利 -2.29亿(GM 34.95%)·模拟芯片亏损期·营收高增但尚未盈利 (abstract_ths L1 实测)",
+          "logic": "信号链/隔离器/传感器国产替代龙头:PCIe Retimer 配套模拟前端,产品线更广(汽车/工控/通信覆盖);与 688515 裕太微在 PCIe 模拟配套错位竞争——纳芯微是模拟芯片平台公司,裕太微专注高速 SerDes PHY。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         }
       ]
@@ -915,8 +1019,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收稳健(abstract_ths L1 实测), 2026Q1 Chiplet IP 授权收入随 AI 芯片量产·具体数字见 stock.dims6.fundamentals",
+          "logic": "Chiplet 互连 IP(芯粒互连)国产龙头·UCIe 标准核心贡献者:无晶圆厂轻资产模式卖 IP/设计服务;IP 公司卡口性质不同于晶圆厂(无物理产能,但卡 IP 标准制定权),全球仅芯原/Cadence/Synopsys 等少数公司有 UCIe IP;⚠ 收入端受 AI 芯片量产节奏制约。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         },
         {
@@ -929,8 +1033,8 @@ CHAINS['storage-interface'] = {
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "flat",
-          "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-          "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+          "trendNote": "2025 营收 +54.41%/归母净利 +0.30%/GM 47.36%·GPU 国产替代在军工/工控/嵌入式场景订单可见 (abstract_ths L1 实测)",
+          "logic": "国产 GPU(图形处理器)+CXL 内存池化布局:⚠ 公开渠道未发现实际 CXL 量产产品(仍处于\"在研\"阶段),本链 CXL 节点标注属\"赛道展示用\",非已确立物理卡口;主营 GPU 国产替代在军工/工控/嵌入式场景(CX1100/JM7200/JM9 系列),不涉消费 GPU。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测"
         }
       ]
@@ -945,8 +1049,8 @@ CHAINS['storage-interface'] = {
         "position": "DDR5 RCD全球双寡头(与Rambus)·国内唯一·市占~40%",
         "barrier": "极高",
         "trend": "up",
-        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "trendNote": "2025 营收 54.56亿(+49.94%)/归母净利 22.36亿(+58.35%)/GM 62.23%/净利率 39.03%/ROE 18.25%·互连类芯片占 94.18%·2025 连续 4 季同比正增,Q4 7200MT/s 子代规模出货·2026Q1 营收 14.61亿(+19.51%)/净利 8.47亿(+61.30%) 加速(abstract_ths L1 实测 2026-07-13)",
+        "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占 ~40%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
         "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 1,
         "fourQuestions": {
@@ -1103,7 +1207,7 @@ CHAINS['storage-interface'] = {
             "code": "688008",
             "segment": "DDR5 主控与 RCD",
             "strength": "★★★",
-            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+            "logic": "Chiplet 互连 IP(芯粒互连)国产龙头·UCIe 标准核心贡献者:无晶圆厂轻资产模式卖 IP/设计服务;IP 公司卡口性质不同于晶圆厂(无物理产能,但卡 IP 标准制定权),全球仅芯原/Cadence/Synopsys 等少数公司有 UCIe IP;⚠ 收入端受 AI 芯片量产节奏制约。",
             "tags": [
               "(Phase B 补)"
             ],
@@ -1181,8 +1285,8 @@ CHAINS['storage-interface'] = {
         "position": "Chiplet互连IP国产领先·UCIe标准贡献者",
         "barrier": "中",
         "trend": "up",
-        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "trendNote": "2025 营收稳健(abstract_ths L1 实测), 2026Q1 Chiplet IP 授权收入随 AI 芯片量产·具体数字见 stock.dims6.fundamentals",
+        "logic": "GMC 颗粒状环氧塑封料国内唯一具备 28 英寸石英坩埚量产能力:堆叠 HBM 芯片\"穿衣服\"核心材料,海外住友电木双寡头(住友约 70% + 华海约 30%);⚠ 全球供给端实际可获取住友电木产品 → 国内独家但非全球独家(全球住友电木仍可获取),卡口属性偏弱于全球≤3 家标准,客户验证周期 ≥18 月,产品迭代风险存在。",
         "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 2,
         "fourQuestions": {
@@ -1196,7 +1300,7 @@ CHAINS['storage-interface'] = {
             "code": "688521",
             "segment": "UCIe/Chiplet 通用互连",
             "strength": "★★★",
-            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+            "logic": "PECVD/ALD/混合键合设备国产突破:HBM 多层堆叠 TSV 工艺核心卡口设备(国产唯一能覆盖 12 寸 HBM 量产线),与海外巨头(AMAT/Lam/东京电子)存在 1 代以上技术代差,客户已覆盖三星/SK Hynix/中芯国际/长江存储导入验证(认证 ≥18 月),但量产线尚未规模采用——卡口属性属\"技术领先+验证阶段\"而非\"全球≤3 家物理稀缺\"。",
             "tags": [
               "(Phase B 补)"
             ],
@@ -1273,8 +1377,8 @@ CHAINS['storage-interface'] = {
         "position": "GMC颗粒状环氧塑封料国产唯一·住友电木双寡头",
         "barrier": "高",
         "trend": "up",
-        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "trendNote": "⚠ 2025 营收 4.58亿(-39.47% 连续 4 季同比为负)/归母净利 2425万/GM 26.66%/净利率仅 5.24%·2026Q1 反弹至 2.23亿(+165.58% 低基数);⚠ §11.23 数据稀缺,业绩拐点未确立,需投顾核实 (akshare abstract_ths L1 实测 2026-07-13)",
+        "logic": "模拟测试机国产第一:HBM/DRAM 制造后道测试(wafer level + final test)核心设备;模拟测试机国内份额第一(测试设备国产第二类,长川科技主导后道分选);国产替代逻辑清晰,模拟芯片下游汽车/工控需求中长期刚性。",
         "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 3,
         "fourQuestions": {
@@ -1337,8 +1441,8 @@ CHAINS['storage-interface'] = {
         "position": "混合键合设备国产突破·PECVD/ALD 国内第一",
         "barrier": "高",
         "trend": "up",
-        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "trendNote": "2025 营收 65.19亿(+58.87%)/归母净利 9.27亿(+34.67%)/GM 34.95%·2025Q1 -1.47亿亏损已扭亏(Q2-Q4 持续改善)+2026Q1 反弹至 5.71亿(+488.29% YoY)V 型反转确立 (akshare abstract_ths L1 实测)",
+        "logic": "模拟测试机国产第一:HBM/DRAM 制造后道测试(wafer level + final test)核心设备;模拟测试机国内份额第一(测试设备国产第二类,长川科技主导后道分选);国产替代逻辑清晰,模拟芯片下游汽车/工控需求中长期刚性。",
         "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 4,
         "fourQuestions": {
@@ -1352,7 +1456,7 @@ CHAINS['storage-interface'] = {
             "code": "688072",
             "segment": "HBM 堆叠与混合键合",
             "strength": "★★★",
-            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+            "logic": "前驱体材料(薄膜沉积的\"原料\")国产替代龙头:通过收购韩国 UP Chemical 进入全球供应链;HBM 制造关键耗材(99.999%+ 纯度,杂质超标整批晶圆报废);⚠ 全球前驱体市场仍被默克/液化空气/林德等巨头主导,国产替代处于早期阶段。",
             "tags": [
               "(Phase B 补)"
             ],
@@ -1430,8 +1534,8 @@ CHAINS['storage-interface'] = {
         "position": "模拟测试机国产第一",
         "barrier": "高",
         "trend": "up",
-        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "trendNote": "2025 营收 +48.72%/归母净利 +60.55%/GM 73.79%/ROE 14.08%·2026Q1 净利率稳定 34.44%-39.82% 高位区间·营收净利连续三期双位数增长(abstract_ths L1 实测,2026-07-08)",
+        "logic": "前驱体材料(薄膜沉积的\"原料\")国产替代龙头:通过收购韩国 UP Chemical 进入全球供应链;HBM 制造关键耗材(99.999%+ 纯度,杂质超标整批晶圆报废);⚠ 全球前驱体市场仍被默克/液化空气/林德等巨头主导,国产替代处于早期阶段。",
         "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 5,
         "fourQuestions": {
@@ -1445,7 +1549,7 @@ CHAINS['storage-interface'] = {
             "code": "688200",
             "segment": "PCIe Retimer/Redriver 接口",
             "strength": "★★★",
-            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+            "logic": "DDR5 内存模组必备 SPD Hub(串行检测集线器)国产配套:与 688008 澜起科技(DDR5 RCD)在 DDR5 内存条生态中配套,澜起决定 RCD,聚辰提供 SPD Hub;⚠ 全球 SPD 厂商极少但产品同质化严重,卡口属性偏弱,主要绑定澜起的下游 DDR5 生态放量。",
             "tags": [
               "(Phase B 补)"
             ],
@@ -1522,8 +1626,8 @@ CHAINS['storage-interface'] = {
         "position": "前驱体材料国产替代·HBM配套",
         "barrier": "高",
         "trend": "up",
-        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "trendNote": "2025 营收 86.11亿(+25.49%)/归母净利 10.00亿(+14.77%)/GM 30.96%/净利率 11.96%/ROE 12.59%·稳健增长(abstract_ths L1 实测)",
+        "logic": "DDR5 内存模组必备 SPD Hub(串行检测集线器)国产配套:与 688008 澜起科技(DDR5 RCD)在 DDR5 内存条生态中配套,澜起决定 RCD,聚辰提供 SPD Hub;⚠ 全球 SPD 厂商极少但产品同质化严重,卡口属性偏弱,主要绑定澜起的下游 DDR5 生态放量。",
         "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 6,
         "fourQuestions": {
@@ -1537,7 +1641,7 @@ CHAINS['storage-interface'] = {
             "code": "002409",
             "segment": "HBM 封装材料",
             "strength": "★★★",
-            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+            "logic": "(Phase B 补) 六维分析见 stock.dims6",
             "tags": [
               "(Phase B 补)"
             ],
@@ -1614,8 +1718,8 @@ CHAINS['storage-interface'] = {
         "position": "SPD Hub温度传感器·DDR5配套芯片",
         "barrier": "高",
         "trend": "up",
-        "trendNote": "★ Phase B 第二批(A类)·CMP抛光垫国产龙头·营收+9.66%/净利+38.32%/GM 50.85%",
-        "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+        "trendNote": "2025 营收 12.21亿(+18.77%)/归母净利 3.64亿(+25.25%)/GM 57.29%·SPD Hub DDR5 国产配套 (abstract_ths L1 实测)",
+        "logic": "(Phase B 补) 六维分析见 stock.dims6",
         "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
         "rank": 8,
         "fourQuestions": {
@@ -1629,7 +1733,7 @@ CHAINS['storage-interface'] = {
             "code": "688123",
             "segment": "DDR5/LPDDR5 主控与 RCD",
             "strength": "★★★",
-            "logic": "CMP抛光垫国产龙头·2025年报 L1实测:营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/GM 50.85%。CMP抛光垫+抛光液双业务覆盖先进封装/HBM配套。详见 stock.dims6。",
+            "logic": "(Phase B 补) 六维分析见 stock.dims6",
             "tags": [
               "(Phase B 补)"
             ],
