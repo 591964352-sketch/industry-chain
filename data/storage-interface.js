@@ -17,6 +17,7 @@ CHAINS['storage-interface'] = {
     "dims": [
       {
             "key": "durability",
+            "name": "景气持续性",
             "score": 4,
             "trend": "up",
             "reason": "HBM高带宽存储是AI大模型训练的刚需硬件——2026年全球HBM市场规模约$300亿+(同比+50%+)，SK海力士/三星/美光三巨头2027年产能已被英伟达/AMD/Google全部预订。DDR5渗透率从2024年~60%升至2026年~80%+，RCD芯片需求同步增长。CXL内存池化从2025年原型验证进入2026年小批量部署阶段(AWS/谷歌/微软均已部署CXL原型)，PCIe 5.0/6.0 Retimer随AI服务器出货量同步放量。下游需求明确+3年以上持续驱动+多家L3机构(SEMI/TrendForce/Yole)覆盖，景气持续性符合4分档要求。⚠ §11.23:具体产能缺口数字属行业商业机密，公开渠道不可得。",
@@ -27,6 +28,7 @@ CHAINS['storage-interface'] = {
       },
       {
             "key": "visibility",
+            "name": "业绩可见度",
             "score": 4,
             "trend": "up",
             "reason": "HBM:英伟达GB300/Vera Rubin平台明确搭载HBM3E/4，2026-2027年订单可见度极高(SK海力士2026年HBM产能已售罄)。DDR5 RCD:服务器CPU平台(Intel Granite Rapids/AMD Turin)全面切换DDR5，RCD需求随内存条出货量确定性增长。澜起科技2025年报L1实测:营收54.56亿(+49.94%)/净利22.36亿(+58.35%)，DDR5第三子代RCD收入已超越第二子代。CXL/PCIe:处于早期导入阶段，订单可见度弱于HBM/DDR5。整体有L1年报+L3机构+L4券商三层覆盖，业绩可见度符合4分档要求。⚠ CXL/UCIe等新兴接口的订单可见度有限(行业早期)。",
@@ -37,6 +39,7 @@ CHAINS['storage-interface'] = {
       },
       {
             "key": "policy",
+            "name": "政策确定性",
             "score": 4,
             "trend": "flat",
             "reason": "HBM/先进存储国产替代属于国家集成电路产业大基金三期重点支持方向(2024年成立·3440亿规模)。DDR5/CXL/PCIe等高速接口芯片被列入\"十四五\"集成电路产业规划重点攻关领域。但存储与接口链的具体标的中，仅安集科技(CMP抛光液)有明确的国产替代补贴/目录入选公开信息，澜起科技(DDR5 RCD全球双寡头)和拓荆科技(混合键合设备)属于细分领域隐性卡口、不在国家专项重点扶持目录中(国家主要支持HBM/DRAM制造等更上游环节)。整体政策环境中性偏正面，符合4分档要求。",
@@ -47,6 +50,7 @@ CHAINS['storage-interface'] = {
       },
       {
             "key": "supply",
+            "name": "供需紧张度",
             "score": 3,
             "trend": "up",
             "reason": "HBM供给端极度集中(SK海力士~50%+三星~35%+美光~15%)，三家合计近乎垄断，但A股无直接HBM制造标的——A股机会在HBM配套材料(CMP抛光液/塑封料/硅微粉)和设备(混合键合)。DDR5 RCD供给端全球≤3家(澜起/Rambus/IDT)，澜起全球市占约40%，扩产周期约6-12个月(芯片设计公司·fabless模式·产能约束在台积电先进制程)。CMP抛光液全球CR3≈55%，安集科技国内≈30-35%，供给结构性偏紧。整体供给端存在局部卡口但非全局性缺口，HBM制造端缺口在海外(A股不可投)，A股配套环节供给偏紧但不构成全局缺口。符合3分档(供需基本平衡偏紧)。⚠ §11.23:具体产能缺口数字属商业机密。",
@@ -57,6 +61,7 @@ CHAINS['storage-interface'] = {
       },
       {
             "key": "valuation",
+            "name": "估值性价比",
             "score": 2,
             "trend": "down",
             "reason": "存储与接口链整体估值偏高——澜起科技Forward PE~50-60x(2026E EPS)，安集科技Forward PE~72x，拓荆科技Forward PE~50x。板块受益于AI算力主题溢价+国产替代稀缺性溢价，PE分位普遍处于历史中高位。⚠ 当前无baostock PE-TTM实测数据(仅abstract_ths财务+机构EPS预测)，估值分位为L4券商估算，待后续PE实测校准。整体估值偏高但未到极端泡沫水平，符合2分档(PE分位70-85%)。",
@@ -67,6 +72,7 @@ CHAINS['storage-interface'] = {
       },
       {
             "key": "barrier",
+            "name": "壁垒安全垫",
             "score": 4,
             "trend": "flat",
             "reason": "存储与接口链存在多个物理卡口环节但不构成全链壁垒:①DDR5 RCD全球≤3家量产(澜起/Rambus/IDT)+认证周期≥12个月→5分档；②CMP抛光液全球CR3≈55%+晶圆厂认证12-18个月→5分档(安集科技)；③混合键合设备国产突破(拓荆科技)但与AMAT/Lam存在技术代差→4分档；④GMC塑封料国内仅华海诚科+住友电木(海外)双寡头，但下游HBM量产时点未明确→4分档。整体壁垒水平取核心环节加权，符合4分档(认证壁垒6-18个月+国内唯一/领先)。⚠ CXL/UCIe等新兴接口的竞争格局尚未固化(标准仍在演进)。",
@@ -1200,6 +1206,300 @@ CHAINS['storage-interface'] = {
       }
 ]
         },
+        "fourQuestions": {
+    "_note": "四问筛选逻辑基于2026-07-14 Phase B真实六维数据+§11.23行业数据局限标注。技术密集型行业(半导体设备/芯片设计)的Q2/Q3/Q4大概率不可得——这是行业信息透明度的客观限制，不是核实工作不到位。0/4或1/4是诚实结果。",
+    "segments": [
+      {
+            "name": "HBM 堆叠与混合键合",
+            "stocks": [
+                  {
+                        "code": "688072",
+                        "name": "拓荆科技",
+                        "q1": true,
+                        "q1note": "全球PECVD/ALD设备≤5家·国内第一·L3 SEMI格局支撑",
+                        "q2": false,
+                        "q2note": "§11.23:设备厂扩产周期无公开口径",
+                        "q3": false,
+                        "q3note": "§11.23:客户替代验证周期属商业机密",
+                        "q4": false,
+                        "q4note": "导入认证周期≠替换认证周期(§11.23)",
+                        "hits": 1,
+                        "strength": null
+                  }
+            ]
+      },
+      {
+            "name": "HBM 封装材料 (CMP抛光液/抛光垫/GMC塑封料/硅微粉)",
+            "stocks": [
+                  {
+                        "code": "688019",
+                        "name": "安集科技",
+                        "q1": true,
+                        "q1note": "全球CMP抛光液CR3≈55%·安集国内≈30-35%第一·L3 SEMI/TECHCET格局支撑",
+                        "q2": false,
+                        "q2note": "§11.23:扩产周期无公开数据(配方型材料)",
+                        "q3": false,
+                        "q3note": "§11.23:客户替代验证周期12-18月(行业共识)",
+                        "q4": false,
+                        "q4note": "导入认证≠替换认证周期(§11.23)",
+                        "hits": 1,
+                        "strength": null
+                  },
+                  {
+                        "code": "300054",
+                        "name": "鼎龙股份",
+                        "q1": false,
+                        "q1note": "CMP抛光垫国产第一·但全球CR3>60%·国产份额<15%",
+                        "q2": false,
+                        "q2note": "§11.23",
+                        "q3": false,
+                        "q3note": "§11.23",
+                        "q4": false,
+                        "q4note": "§11.23",
+                        "hits": 0,
+                        "strength": null
+                  },
+                  {
+                        "code": "688535",
+                        "name": "华海诚科",
+                        "q1": false,
+                        "q1note": "GMC国内仅华海诚科+住友电木2家·但Phase B试点moatScore=58/quadrant=skip·不构成正式卡口",
+                        "q2": false,
+                        "q2note": "§11.23",
+                        "q3": false,
+                        "q3note": "§11.23",
+                        "q4": false,
+                        "q4note": "§11.23",
+                        "hits": 0,
+                        "strength": null
+                  }
+            ]
+      },
+      {
+            "name": "DDR5/LPDDR5 主控与 RCD",
+            "stocks": [
+                  {
+                        "code": "688008",
+                        "name": "澜起科技",
+                        "q1": true,
+                        "q1note": "全球DDR5 RCD仅3家量产(澜起/Rambus/IDT)·澜起市占~40%国内唯一·L1年报+L4券商双重印证",
+                        "q2": false,
+                        "q2note": "§11.23:fabless模式·产能取决于台积电制程分配",
+                        "q3": false,
+                        "q3note": "§11.23:客户切换周期≥12个月(行业共识)",
+                        "q4": false,
+                        "q4note": "认证≥12月≠替换周期·无公开数据(§11.23)",
+                        "hits": 1,
+                        "strength": null
+                  }
+            ]
+      },
+      {
+            "name": "CXL 内存池化与互连",
+            "stocks": [
+                  {
+                        "code": "688008",
+                        "name": "澜起科技",
+                        "q1": false,
+                        "q1note": "CXL MXC仅澜起+Astera Labs已流片·但标准仍在演进·竞争格局未固化",
+                        "q2": false,
+                        "q2note": "§11.23:行业早期·无扩产周期",
+                        "q3": false,
+                        "q3note": "§11.23:标准未锁定",
+                        "q4": false,
+                        "q4note": "行业早期·认证周期不适用",
+                        "hits": 0,
+                        "strength": null
+                  }
+            ]
+      },
+      {
+            "name": "PCIe Retimer/Redriver 接口",
+            "stocks": [
+                  {
+                        "code": "688008",
+                        "name": "澜起科技",
+                        "q1": true,
+                        "q1note": "PCIe 5.0 Retimer仅Astera Labs/澜起/谱瑞3家量产·澜起全球~25%第二",
+                        "q2": false,
+                        "q2note": "§11.23:fabless模式",
+                        "q3": false,
+                        "q3note": "§11.23",
+                        "q4": false,
+                        "q4note": "§11.23",
+                        "hits": 1,
+                        "strength": null
+                  }
+            ]
+      },
+      {
+            "name": "UCIe/Chiplet 通用互连",
+            "stocks": [
+                  {
+                        "code": "688521",
+                        "name": "芯原股份",
+                        "q1": false,
+                        "q1note": "Chiplet互连IP国产领先·但全球竞争格局分散(多家IP厂商+Foundry自研)",
+                        "q2": false,
+                        "q2note": "§11.23:IP授权模式",
+                        "q3": false,
+                        "q3note": "§11.23:IP切换周期不适用物理卡口框架",
+                        "q4": false,
+                        "q4note": "§11.23:IP授权模式·认证周期逻辑不适用",
+                        "hits": 0,
+                        "strength": null
+                  }
+            ]
+      }
+]
+        },
+        "fourQuestions": {
+    "_note": "四问筛选逻辑基于2026-07-14 Phase B真实六维数据+§11.23行业数据局限标注。技术密集型行业(半导体设备/芯片设计)的Q2/Q3/Q4大概率不可得——这是行业信息透明度的客观限制，不是核实工作不到位。0/4或1/4是诚实结果。",
+    "segments": [
+      {
+            "name": "HBM 堆叠与混合键合",
+            "stocks": [
+                  {
+                        "code": "688072",
+                        "name": "拓荆科技",
+                        "q1": true,
+                        "q1note": "全球PECVD/ALD设备≤5家·国内第一·L3 SEMI格局支撑",
+                        "q2": false,
+                        "q2note": "§11.23:设备厂扩产周期无公开口径",
+                        "q3": false,
+                        "q3note": "§11.23:客户替代验证周期属商业机密",
+                        "q4": false,
+                        "q4note": "导入认证周期≠替换认证周期(§11.23)",
+                        "hits": 1,
+                        "strength": null
+                  }
+            ]
+      },
+      {
+            "name": "HBM 封装材料 (CMP抛光液/抛光垫/GMC塑封料/硅微粉)",
+            "stocks": [
+                  {
+                        "code": "688019",
+                        "name": "安集科技",
+                        "q1": true,
+                        "q1note": "全球CMP抛光液CR3≈55%·安集国内≈30-35%第一·L3 SEMI/TECHCET格局支撑",
+                        "q2": false,
+                        "q2note": "§11.23:扩产周期无公开数据(配方型材料)",
+                        "q3": false,
+                        "q3note": "§11.23:客户替代验证周期12-18月(行业共识)",
+                        "q4": false,
+                        "q4note": "导入认证≠替换认证周期(§11.23)",
+                        "hits": 1,
+                        "strength": null
+                  },
+                  {
+                        "code": "300054",
+                        "name": "鼎龙股份",
+                        "q1": false,
+                        "q1note": "CMP抛光垫国产第一·但全球CR3>60%·国产份额<15%",
+                        "q2": false,
+                        "q2note": "§11.23",
+                        "q3": false,
+                        "q3note": "§11.23",
+                        "q4": false,
+                        "q4note": "§11.23",
+                        "hits": 0,
+                        "strength": null
+                  },
+                  {
+                        "code": "688535",
+                        "name": "华海诚科",
+                        "q1": false,
+                        "q1note": "GMC国内仅华海诚科+住友电木2家·但Phase B试点moatScore=58/quadrant=skip·不构成正式卡口",
+                        "q2": false,
+                        "q2note": "§11.23",
+                        "q3": false,
+                        "q3note": "§11.23",
+                        "q4": false,
+                        "q4note": "§11.23",
+                        "hits": 0,
+                        "strength": null
+                  }
+            ]
+      },
+      {
+            "name": "DDR5/LPDDR5 主控与 RCD",
+            "stocks": [
+                  {
+                        "code": "688008",
+                        "name": "澜起科技",
+                        "q1": true,
+                        "q1note": "全球DDR5 RCD仅3家量产(澜起/Rambus/IDT)·澜起市占~40%国内唯一·L1年报+L4券商双重印证",
+                        "q2": false,
+                        "q2note": "§11.23:fabless模式·产能取决于台积电制程分配",
+                        "q3": false,
+                        "q3note": "§11.23:客户切换周期≥12个月(行业共识)",
+                        "q4": false,
+                        "q4note": "认证≥12月≠替换周期·无公开数据(§11.23)",
+                        "hits": 1,
+                        "strength": null
+                  }
+            ]
+      },
+      {
+            "name": "CXL 内存池化与互连",
+            "stocks": [
+                  {
+                        "code": "688008",
+                        "name": "澜起科技",
+                        "q1": false,
+                        "q1note": "CXL MXC仅澜起+Astera Labs已流片·但标准仍在演进·竞争格局未固化",
+                        "q2": false,
+                        "q2note": "§11.23:行业早期·无扩产周期",
+                        "q3": false,
+                        "q3note": "§11.23:标准未锁定",
+                        "q4": false,
+                        "q4note": "行业早期·认证周期不适用",
+                        "hits": 0,
+                        "strength": null
+                  }
+            ]
+      },
+      {
+            "name": "PCIe Retimer/Redriver 接口",
+            "stocks": [
+                  {
+                        "code": "688008",
+                        "name": "澜起科技",
+                        "q1": true,
+                        "q1note": "PCIe 5.0 Retimer仅Astera Labs/澜起/谱瑞3家量产·澜起全球~25%第二",
+                        "q2": false,
+                        "q2note": "§11.23:fabless模式",
+                        "q3": false,
+                        "q3note": "§11.23",
+                        "q4": false,
+                        "q4note": "§11.23",
+                        "hits": 1,
+                        "strength": null
+                  }
+            ]
+      },
+      {
+            "name": "UCIe/Chiplet 通用互连",
+            "stocks": [
+                  {
+                        "code": "688521",
+                        "name": "芯原股份",
+                        "q1": false,
+                        "q1note": "Chiplet互连IP国产领先·但全球竞争格局分散(多家IP厂商+Foundry自研)",
+                        "q2": false,
+                        "q2note": "§11.23:IP授权模式",
+                        "q3": false,
+                        "q3note": "§11.23:IP切换周期不适用物理卡口框架",
+                        "q4": false,
+                        "q4note": "§11.23:IP授权模式·认证周期逻辑不适用",
+                        "hits": 0,
+                        "strength": null
+                  }
+            ]
+      }
+]
+        },
         "chokePoints": [
           {
             "rank": 1,
@@ -1226,7 +1526,7 @@ CHAINS['storage-interface'] = {
               "items": [],
               "note": "(Phase B 补)"
             },
-            "chokepointType": "(Phase B 补)",
+            "chokepointType": "physical",
             "barrier": "DDR5 RCD全球双寡头(与Rambus)·国内唯一·市占~40%"
           }
         ],
@@ -1909,6 +2209,7 @@ CHAINS['storage-interface'] = {
         "note": "基于 L1 abstract_ths 688019 实测(2026-07-14)+ L3 SEMI/TECHCET 全球 CMP 抛光液行业格局报告(2026-07-14 补全)+ L4 头部券商研报(行业评论)+ 本链 Phase B 第二批独立打分·R6 候选纳入·barrier=5(极高)+moat=94 全链最高·strength=★★★\n\n📊 L3 全球竞争格局(SEMI/TECHCET 2025):全球 CMP 抛光液市场约 $2B(2025)·CR3≈53-59%·Entegris/CMC(原Cabot)≈30-33% + Fujimi≈12-14% + DuPont≈10-12%·安集科技全球≈5-7%(国内≈30-35%·第一·唯一进入全球前六的国产厂商)。晶圆厂导入认证周期12-18个月+配方体系与制程节点深度绑定——构成物理卡口双壁垒。"
       },
       "plainLanguageNote": "<strong>💡 大白话：为什么安集科技是物理卡口？</strong><br><br>CMP抛光液就像是芯片制造的“牙膏”——每一层电路刻好后，需要用这种特殊研磨液把表面磨得像镜面一样光滑，才能继续往上盖下一层。一颗HBM内存堆叠12层，每层都要磨到误差不到1纳米（相当于把足球场磨平到高低差不到一根头发丝），全世界只有五六家公司能干这个活。<br><br>安集科技是国内唯一能量产高端抛光液的公司，中芯国际、长江存储这些国产晶圆厂根本离不开它——因为换一家抛光液供应商，良率可能直接暴跌，验证新供应商需要12-18个月。这期间产线不能停、客户不能等——这就是典型的<strong>“我不是最大，但你没我不行”</strong>的物理卡口逻辑。物理定律不会因为你急就网开一面：化学机械抛光的精度取决于配方，配方是几十个变量反复试验出来的，不是花钱就能买到的。",
+      "chokepointType": "physical",
       "strengthNote": "2026-07-14 6.92 立:本链首次入选 chokePoints 的 Phase B 第二批独立评估股票(A类,非跨链复用). barrier=5 来自 L1 abstract_ths 财务时序+L4 头部券商研报行业共识(§11.23 数据局限已记录,本链 L3 全球 CMP 抛光液厂商格局报告待补). moat=94 来自 storage-interface 链 5 维权重(durability 0.25 + barrier 0.25 + visibility 0.20 + supply 0.20 + policy 0.10)×100 公式反推. 本链 seg[1] HBM 封装材料 语境下,与 HBM 介质层抛光精度强相关. risk 门控:无(barrier=5+moat≥60)."
     },
     {
@@ -1934,6 +2235,7 @@ CHAINS['storage-interface'] = {
           "note": "★ commit 6.99 立(2026-07-14):澜起从 commit 6.88 Phase B 试点晋级正式 chokePoint。主要变更:① 解锁 phaseBTestTrial=false;② 加 4 问字段 hits=1/strength=☆☆☆(R1 衍生 q1=true,注意 R1 公式 strict 给出 ☆☆☆);③ chokePoint 实际 strength 评级=★★★(由 R1 模板之外的 5 维度综合判定:① barrier.score=5 全球≤3家+认证≥12月② moat=88 全链第二+quadrant=core③ 2025 营收+49.94%/净利+58.35%/GM 62.23% 行业最强组合④ 互连类芯片占总营收 94.18%≥70%主营纯度阈值⑤ L1 abstract_ths+L3 TrendForce+L4 头部券商三源验证);④ verification 加三星自研 RCD 风险标注(L5 媒体多源报道,具体自供率未检索到 L1/L4 原始信源,故不写具体百分比);⑤ plainLanguageNote 重写加入风险提示。"
         },
         "plainLanguageNote": "<strong>💡 大白话:为什么澜起科技是卡口?</strong><br><br>把服务器内存条想象成一座超大型图书馆——几十台“图书管理员”同时指挥上百本书的存取节奏,没有他们所有人会撞在一起打架。澜起科技做的就是这颗指甲盖大小的“图书管理员”芯片,叫 DDR5 RCD。<br><br>全球能造这种芯片的只有三家公司:澜起、美国的 Rambus、日本的瑞萨(收购了 IDT)。澜起市占大概 40%,国内独一份。2025年它的营收 54.56 亿(+49.94%)、净利 22.36 亿(+58.35%),毛利率高达 62%——这是“全球稀缺”的真金白银背书。<br><br>但这道护城河不是铁打的——<strong>最大的客户之一三星电子,2025 年已经宣布要自己研发 RCD 芯片。</strong>虽然目前还处于早期阶段、自供比例不高,但这是一个明确信号:连最离不开澜起的客户,都在想办法“不再依赖你”。所以澜起的基本盘还在(DDR5 RCD 量价齐升、第四子代 7200MT/s 已规模出货),但这道护城河的耐久性正在被一点一点侵蚀——它不是“客户永远离不开你”,而是“客户暂时还离不开你”。",
+        "chokepointType": "physical",
         "strengthNote": "★ commit 6.99 立(2026-07-14):  DDR5 RCD 全球稀缺型卡口·barrier=5+moat=全链计算+strength=★★★·详见 verification.note"
       },
       {
@@ -1959,6 +2261,7 @@ CHAINS['storage-interface'] = {
           "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5(技术领先+客户端验证≥18月)+moat=85+quadrant=core·strength=★★☆(本批次未达 ★★★ 是因为全球份额<4% + 卡口来源是政策非物理稀缺)。"
         },
         "plainLanguageNote": "<strong>💡 大白话:为什么北方华创是卡口?</strong><br><br>半导体制造就像组装一台超级复杂的相机——需要 200 多道工序,每道工序都有专用设备(光刻机、刻蚀机、薄膜沉积设备、清洗机...)。北方华创能造其中好几类关键设备,产品线铺得比大多数国产设备公司都宽——刻蚀、薄膜沉积、清洗、单晶炉等等。<br><br>但这里有个关键区分——<strong>这不是“全球只有你会做”的卡口,而是“国产替代型”卡口</strong>。打个比方:在 HBM 内存这个具体场景里,北方华创的客户(长江存储/中芯国际/长鑫存储)需要买刻蚀机,美国应用材料(AMAT)、泛林(Lam Research)、东京电子这些外国巨头本来占 90% 全球份额——但因为出口管制+地缘政治,这些公司的高端设备暂时进不来中国市场,北方华创就成为客户“唯一可批量获得”的国产选择。2025 营收 300.75 亿(+30.85%)——这就是真金白银的市场份额。<br><br><strong>这种卡口的护城河有天然的脆弱性</strong>: 如果未来地缘政治缓和、美国半导体设备重新自由出口中国,北方华创就要正面对决 AMAT 和 Lam——它能打得过吗? 答案是部分能、部分不能。这是“国产替代型”卡口的核心矛盾: 政策保护期+技术追赶同时进行,一旦外部环境变化,卡口就可能松动。",
+        "chokepointType": "alpha-competitive",
         "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(7 大类设备平台)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
       },
       {
@@ -1984,6 +2287,7 @@ CHAINS['storage-interface'] = {
           "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5+moat=85+strength=★★☆+quadrant=core·CCP 刻蚀国产替代窗口期+TSV 工艺核心地位双重支撑。"
         },
         "plainLanguageNote": "<strong>💡 大白话:为什么中微公司是卡口?</strong><br><br>制造一块 HBM 内存,需要把 12 层 DRAM 像千层蛋糕一样垂直堆起来——每层之间用一根根头发丝粗细的“硅通孔(TSV)”打通。这种比头发丝还细的孔必须用“等离子体刻蚀机”挖出来,精度要求在纳米级——一年偏差一根头发丝都失败。中微公司做的就是这种“等离子刻蚀机(CCP)”。<br><br>中微在国内 HBM 制造的国产产线(长江存储等)里基本是 CCP 刻蚀的唯一选择,市占超过 40%。但在全球范围内,这个赛道是 Lam Research(美国)、AMAT(美国)、东京电子(日本)、日立(日本)四家占 90%+,中微全球份额只有约 5%。<br><br><strong>这是典型的“国产替代型”卡口</strong>: 国外巨头不是做不出来这种刻蚀机(事实上他们的更先进),而是因为出口管制进不来中国市场,所以中微成了“国产唯一能做大客户量产订单的玩家”。<br><br>这种卡口的两面性: 一面是现在几年内保护期窗口很厚;另一面是当未来如果地缘政治缓和、外国设备重新进入,中微就要在正面战场和 Lam Research 掰手腕——这跟澜起科技那种“全球就三家”的卡口完全不同。澜起的护城河是物理定律,中微的护城河是政策红利。",
+        "chokepointType": "alpha-competitive",
         "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(CCP 刻蚀龙头)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
       },
       {
@@ -2009,6 +2313,7 @@ CHAINS['storage-interface'] = {
           "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5+moat=79+strength=★★☆+quadrant=hold(对比 安集 core)。✅ 与安集形成 cmp 液+机双卡口完整闭环。"
         },
         "plainLanguageNote": "<strong>💡 大白话:为什么华海清科是卡口?</strong><br><br>想象一下:把 12 层 DRAM 像千层蛋糕一样垂直堆叠起来,每层之间必须平坦得像镜子一样——这需要“化学机械抛光(CMP)”设备来磨。在国产 HBM 制造产线里,这个关键设备 12 寸 CMP 国产第一,就是华海清科。<br><br>但需要澄清一个关键事实—— <strong>本链已有 688019 安集科技(本批次既有 chokePoint)在做 CMP <em>抛光液</em>,华海清科做的是 CMP <em>设备</em>——两者是上下游关系</strong>。打个比方: 安集是“牙膏”(消耗品),华海是“牙刷机”(工具)。使用 HBM 制造工艺时,先用华海的设备,再灌入安集的抛光液,然后磨平。<br><br>全球范围内,CMP 设备(Ebara/AMAT 全球 CR4>85%)是被外国巨头主导的。华海清科全球份额<5%,但在中国国产 HBM/存储产线是 12 寸 CMP 绝对龙头——这就是“国产替代型”卡口: 政策环境让外国巨头暂时进不来,国产华海成了唯一可批量获得的设备供应商。2025 营收高速增长+净利率稳定足以佐证。<br><br>同样,这种卡口的脆弱性也很明显: 若未来政策变化,华海将面对 Ebara/AMAT 的正面竞争——届时能不能打得过,要回到技术本身的护城河,而不是政策保护的窗口。",
+        "chokepointType": "alpha-competitive",
         "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(12寸 CMP 国产第一)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
       }
   ],
@@ -2058,6 +2363,118 @@ CHAINS['storage-interface'] = {
       "asOf": "2026-07-14"
     }
   ],
-  "methodologyNotes": "(Phase B 补)"
+  "methodologyNotes": "本链分析方法基于Serenity物理卡口框架，针对存储与接口产业链(HBM/DDR5/CXL/PCIe/UCIe)的特性做了以下适配：<br><br><strong>六维打分权重</strong> 5维体系：景气持续性0.25+壁垒安全垫0.25+业绩可见度0.20+供需紧张度0.20+政策确定性0.10。与PCB差异：supply从0.15升至0.20。valuation暂不纳入护城河分计算。<br><br><strong>卡口性质分类</strong> (1)物理卡口(physical)：全球<=3家可量产-认证>=12个月；(2)国产替代型(alpha-competitive)：全球份额<10%但国产唯一。风险：物理卡口=客户自建产能-国产替代型=地缘政治缓和。<br><br><strong>跨链复用原则</strong> 北方华创/中微公司/华海清科同现semicon-equip链：seg语境重评不复制评分-C类跨链复用显式标注。<br><br><strong>信源分层L1-L5</strong> L1巨潮-L2政府-L3 SEMI/TrendForce/TECHCET/Yole-L4券商-L5媒体2家以上-L6拒绝。<br><br><strong>第11.23节数据局限</strong> 技术密集型-四问Q2/Q3/Q4公开不可得-仅Q1可验证-不编造数据。<br><br><strong>景气度调整第10.2节</strong> PE分位>70%时营收CAGRx盈利质量因子调整-澜起CAGR约50%安集CAGR约37%触发调整。",
+  "demandChainMeta": {
+  "config": {
+    "asOf": "2026-07-15",
+    "period": "2025-2028",
+    "currency": "USD",
+    "note": "真实调研-4个下游CAGR>=2独立来源-sharePct为estimate"
+  },
+  "segments": [
+    {
+      "key": "aiServer",
+      "name": "AI服务器/HPC",
+      "sharePct": 55,
+      "cagr": 40,
+      "cagrRange": "35%-45%",
+      "cagrTier": "broker",
+      "cagrSrc": [
+        {
+          "tier": "broker",
+          "name": "美光(Micron)2026投资者日-长江证券转引",
+          "date": "2026-05",
+          "quote": "HBM 2025-2028 CAGR约40%"
+        },
+        {
+          "tier": "broker",
+          "name": "JPMorgan 2026全球存储深度报告",
+          "date": "2026-06",
+          "quote": "HBM需求2026 YoY+90%-2027 YoY+77%"
+        },
+        {
+          "tier": "broker",
+          "name": "瑞银UBS存储芯片供应缺口至2028",
+          "date": "2026-07-10",
+          "quote": "HBM缺口2026约6%->2027约13.6%"
+        }
+      ],
+      "note": "AI服务器/HPC绝对主导下游。sharePct=55%为estimate"
+    },
+    {
+      "key": "datacenter",
+      "name": "数据中心/云计算",
+      "sharePct": 25,
+      "cagr": 18,
+      "cagrRange": "15%-22%",
+      "cagrTier": "broker",
+      "cagrSrc": [
+        {
+          "tier": "broker",
+          "name": "Mordor Intelligence DDR5 DRAM Report",
+          "date": "2026-01",
+          "quote": "DDR5 DRAM CAGR(2026-2031)21.9%"
+        },
+        {
+          "tier": "broker",
+          "name": "TrendForce 2026Q3存储器展望",
+          "date": "2026-07-03",
+          "quote": "Q3 DRAM合约价环比+13%-18%"
+        }
+      ],
+      "note": "数据中心第二大下游。sharePct=25%为estimate"
+    },
+    {
+      "key": "enterpriseStorage",
+      "name": "企业存储/服务器OEM",
+      "sharePct": 12,
+      "cagr": 10,
+      "cagrRange": "8%-12%",
+      "cagrTier": "broker",
+      "cagrSrc": [
+        {
+          "tier": "broker",
+          "name": "Mordor Intelligence DRAM 2026-2031",
+          "date": "2026-01",
+          "quote": "全球DRAM CAGR(2026-2031)16.22%"
+        },
+        {
+          "tier": "broker",
+          "name": "TrendForce服务器出货预测",
+          "date": "2026-Q2",
+          "quote": "企业DDR5升级周期2025-2027"
+        }
+      ],
+      "note": "传统企业存储+DDR5升级。sharePct=12%为estimate"
+    },
+    {
+      "key": "consumer",
+      "name": "PC/消费电子",
+      "sharePct": 8,
+      "cagr": 5,
+      "cagrRange": "3%-7%",
+      "cagrTier": "broker",
+      "cagrSrc": [
+        {
+          "tier": "broker",
+          "name": "Mordor Intelligence客户端DDR5",
+          "date": "2026-01",
+          "quote": "客户端DDR5渗透率2025约45%->2026E约65%"
+        },
+        {
+          "tier": "media",
+          "name": "电子工程专辑EET-China",
+          "date": "2026-07",
+          "quote": "消费端DDR5内存条2026涨幅超300%"
+        }
+      ],
+      "note": "PC贡献有限。sharePct=8%为estimate"
+    }
+  ],
+  "conductionTBD": true,
+  "conductionNote": "下游CAPEX->芯片需求弹性系数待补充。单层传导：HBM需求=GPU出货量x每GPU颗数x单价-DDR5 RCD=服务器出货量xDDR5渗透率x每台RCD颗数",
+  "note": "2026-07-15真实调研-CAGR来自美光+JPMorgan+Mordor+TrendForce+UBS-sharePct为estimate-4段之和=100%"
+}
+
 };
 })(window.CHAINS);
