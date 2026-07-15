@@ -163,6 +163,8 @@ window.STORAGE_INTERFACE_MANUAL = window.STORAGE_INTERFACE_MANUAL || {};
     stock.quadrant = data.quadrant;
     stock.moatComputedAt = '2026-07-13';
     stock.phaseBTestTrial = true;  // ★ Phase B 试点性质标记
+    // ★ commit 7.02: 修正 name 字段(原本 '(Phase B 补)' 占位) —— 数据准确性优先
+    stock.name = code === '688008' ? '澜起科技' : code === '688072' ? '拓荆科技' : code === '688535' ? '华海诚科' : stock.name;
     // 更新 segments 字段反映真实归属
     if (code === '688008') {
       stock.segments = [

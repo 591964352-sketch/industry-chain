@@ -2361,8 +2361,25 @@ function renderChain(chainId) {
                 _hit = _substrs.some(s => s.length === 2 && _in.includes(s));
               }
               if (_hit) {
-                const n = parseFloat(String(g.rate).replace(/[^\d.]/g, ''));
-                _gapRate = isNaN(n) ? null : n;
+                // ★ commit 7.02: 防"缺口 -2025%" / "-1015%" 乱码
+                //   原逻辑 parseFloat("20-25%".replace(/[^\d.]/g, '')) = parseFloat("2025") = 2025
+                //   破折号区间格式 "20-25%" / 长描述 "PCIe~10-15%偏紧 / CXL需求未起量·不构成缺口" 都会被错乱解析
+                //   修复: 只在 rate 是"纯数字+%+可选前缀(~/>)" 或 "X-Y%"(纯区间)时才解析, 其他情况视作"N/A"不显示缺口率
+                const _rateStr = String(g.rate || '');
+                let _n = null;
+                // 形式 1: "~63%" / ">40%" / "20%"(纯数字 + 单一 % )
+                const _simplePct = _rateStr.match(/^[~\s>]*(\d{1,3}(?:\.\d+)?)%$/);
+                if (_simplePct) {
+                  _n = parseFloat(_simplePct[1]);
+                }
+                // 形式 2: "20-25%"(破折号区间 + 数字 + %) - 取 lower bound 或两数平均
+                if (_n === null) {
+                  const _range = _rateStr.match(/^[~\s>]*(\d{1,3}(?:\.\d+)?)\s*[-~到]\s*(\d{1,3}(?:\.\d+)?)%$/);
+                  if (_range) {
+                    _n = parseFloat(_range[1]);
+                  }
+                }
+                _gapRate = _n;
                 _gapMatch = g;
                 break;
               }
@@ -4110,7 +4127,11 @@ const CHANGELOG = [
   { date:'2026-07-12', sector:'semicon-equip', desc:'🔗 半导体设备链补建 chainStory 产业链叙事·11 step 完整覆盖(上游材料→前道设备→检测零部件→下游晶圆厂)·Step 7-8 拆分决策:原草案CMP/清洗/去胶合并为1步·拆分后Step 7=CMP/清洗设备·Step 8=去胶/热处理设备(去胶有独立segment+屹唐moat=86全链最高·合并会降低叙事权重)·每步含desc/barrier/choke/domestic/barrierNote/keyStocks/source 7字段·60个数据点全部有信源引用(SEMI/Gartner/各券商深度研报+2025年报实测)·keyStocks按§11.25验证边界区分:Step 4-10核心segment股票(Phase B六维核实)·Step 1-3+11 treeMap背景公司(未经六维打分仅作产业链全貌参考)·影响:页面白话解读区新增产业链全景11卡片·用户可快速理解从硅片到晶圆厂的完整叙事链', pct:'NEW' },
   // ── 2026-07-12 本轮: 代码排查+UX优化+§11.27案例(多 commit) ──
   { date:'2026-07-12', sector:'semicon-equip', desc:'🔩 半导体设备链大扩容·新增3只+移除1只+segment 6→8重构+chokePoints 4→5·(1)屹唐股份688729纳入第5只chokePoint(★★★·moat=86全链最高·去胶设备PSK+屹唐双寡头>70%全球市占·barrier=5极高)·(2)富创精密688409(精密零部件龙头·营收35.43亿+36.9%·§6.15亏损扭亏处理)+京仪装备688652(温控国内#1 35.73%)新纳入关键零部件segment·(3)先导智能300450按§6.5规则移出核心segment(半导体业务占比<5%·主业锂电设备)→归入treeMap sideBranches作为概念延伸·(4)segment从6段重构为8段:新增去胶/热处理设备+关键零部件两段·离子注入/晶体生长/封测→离子注入/晶体生长设备(移除封测·封测待P1新益昌/光力科技后续补充)·(5)fourQuestions恢复(commit 6.79·从0ce7073恢复+按§11.23更新·21只→23只·8段全覆)·注:新增富创/京仪dim6已完成+屹唐为全链最高moat(86)·去胶/零部件两新段标注低于≥5标准段规模(行业现状)', pct:'NEW' },
-  { date:'2026-07-12', sector:'system', desc:'🔴 股票代码全量排查·100只(Sina API)×双链交叉验证·发现并修复2处核心段位代码错误:南亚新材603519→688519(立霸股份)+微导纳米688765→688147(禾元生物)·微导纳米案例为全仓库最严重级别:基于禾元生物数据将年营收27亿/净利2.19亿的成熟ALD龙头误判为\"极端早期·随时倒闭\"·moat从38→71(+33)·quadrant从skip→hold完全反转·§11.27正式登记为永久警示案例·新增4条Phase A代码验证防御规则·修复3处treeMap代码(长鑫科技/西安瑞联/连城数控)', pct:'FIX' },
+  // ★ commit 7.02: 修正 sector 误标
+  //   原 sector='system' 是错误: 此条专门记录微导纳米 (semicon-equip 链内部代码事故) + 南亚新材 (PCB 链内部代码事故)
+  //   实际是 semicon-equip 链的"全仓库全量排查结果"一部分, 应归 semicon-equip
+  //   修正理由: 描述明确含特定股票代码 (微导纳米/禾元生物/南亚新材) + 特定链术语 (semicon-equip/PCB) → 不是全站通用变更
+  { date:'2026-07-12', sector:'semicon-equip', desc:'🔴 股票代码全量排查·100只(Sina API)×双链交叉验证·发现并修复2处核心段位代码错误:南亚新材603519→688519(立霸股份)+微导纳米688765→688147(禾元生物)·微导纳米案例为全仓库最严重级别:基于禾元生物数据将年营收27亿/净利2.19亿的成熟ALD龙头误判为\"极端早期·随时倒闭\"·moat从38→71(+33)·quadrant从skip→hold完全反转·§11.27正式登记为永久警示案例·新增4条Phase A代码验证防御规则·修复3处treeMap代码(长鑫科技/西安瑞联/连城数控)', pct:'FIX' },
   { date:'2026-07-12', sector:'pcb', desc:'🔧 PCB遗留问题全量处理·(1)世名科技300522六维reason补全(barrier=1有充分L1事实支撑·非电子材料企业·概念性参与)·(2)南亚新材代码修正后六维重评(营收52.28亿+55.5%/净利2.40亿V型反转/PE≈202·valuation scoreNote⚠️§10偏差+1档)·(3)scoreNote§10偏差标注机制上线:德福科技301511+金安国纪002636 PE实测远超85%分位→+2档橙色标注·渲染层级+2档=橙色/+1档=灰色·(4)chokePoints子标题\"全链核心卡口标的(N只·精选·非段内排名)\"+segment个股表\"本段内N只标的\"双链同步·消除段内排名vs全链精选视觉混淆', pct:'FIX' },
   { date:'2026-07-12', sector:'semicon-equip', desc:'🔩 半导体设备链·微导纳米688765→688147代码错误紧急修复+六维全量重评·关键反转:此前基于禾元生物(生物科技公司)数据的\"营收不足5000万·持续大额亏损·极端早期\"等结论全部作废·真实微导纳米年营收26.33亿/净利2.19亿/ROE7.92%/毛利率32.69%·六维评分durability2→4/visibility1→3/policy3→4/supply2→4/barrier2→3·moat38→71 quadrant skip→hold·§11.27+§14.8同步修正', pct:'FIX' },
   // ── 2026-07-12 本轮数据准确性专项复核+可信度标注建设(多 commit) ──
@@ -4236,11 +4257,16 @@ function renderChangelog() {
   //   原因：内置 CHANGELOG 是用户手动维护的历史快照（不应被 7 天过滤掉，否则最近 PCB 变更 06-12 看不到）
   //   git 接口路径也用 30 天（避免一次显示过多 commit）
   const WINDOW_DAYS = 30;
+  const SYSTEM_WINDOW_DAYS = 3;  // ★ commit 7.02: 在 chainFilter 模式下, sector='system' 记录仅显示 3 天内, 避免其他链的系统性修复污染当前链
   const recentChanges = dataSource.filter(c => {
     const d = new Date(c.date);
-    const within = (now - d) / (1000 * 60 * 60 * 24) <= WINDOW_DAYS;
-    if (chainFilter && c.sector !== 'system') {
-      return within && c.sector === chainFilter;
+    const days = (now - d) / (1000 * 60 * 60 * 24);
+    const within = days <= WINDOW_DAYS;
+    if (chainFilter) {
+      if (c.sector === chainFilter) return within;
+      // 特殊处理: sector='system' 的"全站修复"类记录, 在特定 chainFilter 模式下仅显示极近期
+      if (c.sector === 'system') return days <= SYSTEM_WINDOW_DAYS;
+      return false;
     }
     return within;
   });
