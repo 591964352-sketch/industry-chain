@@ -3485,22 +3485,34 @@ function renderChain(chainId) {
   h += `<div class="card" style="padding:16px;"><div class="fourq-wrap"><table class="fourq-tbl"><colgroup><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:5%"><col style="width:11%"></colgroup><thead><tr><th>产业链环节</th><th>标的</th><th>①供给端<br>寡头垄断?</th><th>②产能端<br>扩产≥12月?</th><th>③替代端<br>无替代?</th><th>④需求端<br>下游刚需?</th><th>命中</th><th>卡口强度</th></tr></thead><tbody>`;
   d.fourQuestions.segments.forEach(seg => {
     const segLabel = seg.name || seg.segmentName || '—';
-    h += `<tr class="seg-div"><td colspan="8">${segLabel}</td></tr>`;
+    h += `<tr class="seg-div"><td colspan="8">${segLabel}${seg.variant==='techBarrier'?' · <span style="color:var(--accent);font-size:11px;">🔬 技术壁垒型评估</span>':''}</td></tr>`;
+    if (seg.variant === 'techBarrier') {
+      h += `<tr class="variant-legend"><td colspan="8" style="padding:4px 12px;font-size:11px;color:var(--accent);background:rgba(240,185,11,0.06);border-left:3px solid var(--accent);line-height:1.5;">🔬 <b>技术壁垒型评估</b> · ①核心客户认证壁垒 · ②技术制造独家壁垒 · ③全球竞争位次 · ④技术路线确定性<br><span style="color:var(--muted);">制造段标准四问（q1:全球≤3家）不适用，改以技术壁垒维度评估，不影响卡口强度综合判定</span></td></tr>`;
+    }
     if (seg.stocks && seg.stocks.length) {
       // 个股级 schema (PCB 模式):每只票一行
       seg.stocks.forEach(s => {
-        h += `<tr>`;
+        const isVariant = seg.variant === 'techBarrier' && s.q1p != null;
+        const rowBg = isVariant ? ' style="background:rgba(240,185,11,0.03);"' : '';
+        h += `<tr${rowBg}>`;
         h += `<td style="font-size:11px;color:var(--muted);">${segLabel}</td>`;
-        h += `<td style="font-weight:600;">${s.name}<br><span style="font-size:11px;color:var(--muted);">${s.code}</span></td>`;
-        h += `<td>${s.q1 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q1note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q1note+'</span>' : ''}</td>`;
-        h += `<td>${s.q2 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q2note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q2note+'</span>' : ''}</td>`;
-        h += `<td>${s.q3 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q3note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q3note+'</span>' : ''}</td>`;
-        h += `<td>${s.q4 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q4note+'</span>' : ''}</td>`;
+        h += `<td style="font-weight:600;">${s.name}<br><span style="font-size:11px;color:var(--muted);">${s.code}</span>${isVariant?'<br><span style="font-size:10px;color:var(--accent);">🔬 技术壁垒型评估</span>':''}</td>`;
+        if (isVariant) {
+          h += `<td>${s.q1p ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q1pClaim ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q1pClaim+'</span>' : ''}</td>`;
+          h += `<td>${s.q2p ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q2pClaim ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q2pClaim+'</span>' : ''}</td>`;
+          h += `<td>${s.q3p ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q3pClaim ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q3pClaim+'</span>' : ''}</td>`;
+          h += `<td>${s.q4p ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4pClaim ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q4pClaim+'</span>' : ''}</td>`;
+        } else {
+          h += `<td>${s.q1 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q1note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q1note+'</span>' : ''}</td>`;
+          h += `<td>${s.q2 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q2note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q2note+'</span>' : ''}</td>`;
+          h += `<td>${s.q3 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q3note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q3note+'</span>' : ''}</td>`;
+          h += `<td>${s.q4 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q4note+'</span>' : ''}</td>`;
+        }
         const hCls = s.hits === 4 ? 'h4' : s.hits === 3 ? 'h3' : s.hits === 2 ? 'h2' : s.hits === 1 ? 'h1' : 'h0';
-        const _fhits = s.hits != null ? s.hits : ((s.q1?1:0)+(s.q2?1:0)+(s.q3?1:0)+(s.q4?1:0));
+        const _fhits = s.hits != null ? s.hits : (isVariant ? ((s.q1p?1:0)+(s.q2p?1:0)+(s.q3p?1:0)+(s.q4p?1:0)) : ((s.q1?1:0)+(s.q2?1:0)+(s.q3?1:0)+(s.q4?1:0)));
         const _fcls = _fhits === 4 ? 'h4' : _fhits === 3 ? 'h3' : _fhits === 2 ? 'h2' : _fhits === 1 ? 'h1' : 'h0';
         const _fstrength = s.strength || (_fhits >= 4 ? '★★★' : _fhits >= 3 ? '★★☆' : null);
-        h += `<td><span class="hit-dot ${_fcls}">${_fhits}</span></td>`;
+        h += `<td><span class="hit-dot ${_fcls}">${_fhits}</span>${isVariant?' <span style="font-size:10px;color:var(--accent);">(技术壁垒评估)</span>':''}</td>`;
         h += `<td>${_fstrength ? '<span class="stars '+(_fstrength==='★★★'?'s3':'s2')+'">'+_fstrength+'</span>' : '<span style="color:var(--color-muted);">不通过</span>'}</td>`;
         h += `</tr>`;
       });

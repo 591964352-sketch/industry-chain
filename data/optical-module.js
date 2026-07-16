@@ -1317,7 +1317,7 @@ CHAINS["optical-module"] = {
             "q3note": "1.6T 可替(新易盛/光迅/Finisar)",
             "q4": true,
             "q4note": "英伟达 2000 万只刚需",
-            "hits": 2,
+            "hits": null,
             "strength": "★★☆"
           },
           {
@@ -1383,7 +1383,7 @@ CHAINS["optical-module"] = {
             "q3note": "1.6T 可替",
             "q4": true,
             "q4note": "AI 数据中心刚需",
-            "hits": 2,
+            "hits": null,
             "strength": "★★☆"
           }
         ]
