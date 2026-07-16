@@ -1,34 +1,11 @@
 // data/optical-module.js — 光模块·光互联合并链 auto 估值层 (stage 2 commit 6.70 立)
-//
-// 触发:阶段1 CPO treeMap schema 标准化清洗(commit 6.69)+ 阶段2 三链合一合并(commit 6.70)
-// 命名空间:window.CHAINS['optical-module'] (与 manual.js OPTICAL_MODULE_MANUAL 配合)
-// 设计:精简 11 字段 auto 估值层(无 dims6)+ 6 个 segment + seg3 sub-card only + 41 unique stocks
-//
-// 命名空间兼容:
-//   - manual.js: window.OPTICAL_MODULE_MANUAL(本文件 P0 命名空间 bug 修复)
-//   - helper 必须 chainId.toUpperCase().replace(/-/g, '_') 双词 chainId 兼容公式
-//
-// 数据来源迁移(8 个独立文件 → 1 个):
-//   ✅ data/optical-module.js (87487 bytes · 已 rename → data/optical-module.js.pre-merge-backup)
-//   ✅ data/cpo.js           (14817 bytes · 已 rename → data/cpo.js.deprecated)
-//   ✅ data/optical-chip.js  (180223 bytes · 已 rename → data/optical-chip.js.deprecated)
-// 三链总 union 41 unique stocks(去重后)
-//
-// 关键归类调整(commit message 显式说明):
-//   1. 烽火通信 600498 + 中兴通讯 000063 原本预入 seg3 (CPO 共封装光学)
-//      实际身份 = 5G 电信光模块应用方,不是 CPO 核心持股
-//      调整至 seg5 侧枝应用(方案 B 决定,用户 review 通过)
-//   2. seg3 保留为空段 + sub-card only 工艺说明
-//      引用 seg2 中际旭创/新易盛/光迅作为"光模块整机出货方向 CPO 应用演进"的方向说明
-//      类似 PCB 链 sideBranches "只做工艺说明不占实际持股" 的处理方式
-//
-// 治理纪律:§6.7.3 hallucination 防御 + §6.13 主营占比核实 + §6.14 百分比口径 + §6.16 5 分维度 reason 完整性
-// 阶段状态:Phase B 启动 / Phase C 待执行(stage 2 commit 6.70 的 dims6 全部在 manual.js,auto 层无 dims6)
+// (归属核实修正: 600105 永鼎 seg[5]→seg[0] / 000070 特发 position 修正)
+// 命名空间: window.CHAINS["optical-module"] (与 manual.js OPTICAL_MODULE_MANUAL 配合)
 
 window.CHAINS = window.CHAINS || {};
 (function(CHAINS){
 
-CHAINS['optical-module'] = {
+CHAINS["optical-module"] = {
   "id": "optical-module",
   "name": "光模块·光互联",
   "icon": "🔦",
@@ -461,6 +438,21 @@ CHAINS['optical-module'] = {
           "trend": "up",
           "trendNote": "光学元件+激光器 阶段 2 commit · auto 层精简 11 字段",
           "logic": "光学元件+激光器 (stage 2 commit · seg0 归属)",
+          "hits": 4,
+          "strength": "★★★"
+        },
+        {
+          "rank": 4,
+          "name": "永鼎股份",
+          "code": "600105",
+          "position": "光通信激光器芯片(子公司鼎芯光电·IDM模式)·100G EML已批量供货·光通信业务仅占公司总营收20%,光芯片产品由子公司鼎芯光电运营,与源杰科技(专营光芯片)存在本质差异",
+          "barrier": "极高",
+          "tier": "A",
+          "valAsOf": "2026Q1",
+          "src": "company 2026Q1 季报(L1)+ 行业共识(L3)+ 券商研报(L4)",
+          "trend": "up",
+          "trendNote": "光通信激光器芯片(鼎芯光电 IDM·100G EML稳定供货·CW HP研发中) auto层·归属核实后修正(原误入seg[5])",
+          "logic": "光通信激光器芯片(子公司鼎芯光电·IDM模式·100G EML打破国外垄断稳定供货·100mW/70mW CW HP研发中) 光通信仅占公司总营收20%,与源杰科技(专营光芯片)存在本质差异",
           "hits": 4,
           "strength": "★★★"
         }
@@ -949,32 +941,17 @@ CHAINS['optical-module'] = {
           "strength": "★★★"
         },
         {
-          "rank": 3,
-          "name": "永鼎股份",
-          "code": "600105",
-          "position": "光通信激光器芯片",
-          "barrier": "极高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "光通信激光器芯片 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "光通信激光器芯片 (stage 2 commit · seg0 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
           "rank": 11,
           "name": "特发信息",
           "code": "000070",
-          "position": "光通信设备",
+          "position": "光通信设备(线缆业务占公司营收80%·MPO连接器仅为产品线之一·公司整体定位为通信基础设施提供商而非光器件专营公司)",
           "barrier": "高",
           "tier": "A",
           "valAsOf": "2026Q1",
           "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
           "trend": "up",
-          "trendNote": "光通信设备 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "光通信设备 (stage 2 commit · seg2 归属)",
+          "trendNote": "光通信设备(线缆业务80%·光纤光缆+MPO连接器+电力线缆) auto层·归属核实后修正(明确标注业务实质)",
+          "logic": "光通信设备(线缆业务占公司营收80%·MPO连接器仅为产品线之一·2025年归母净利润亏损4.96亿(计提资产减值4.21亿)按§6.15亏损公司规则处理) 公司整体定位为通信基础设施提供商而非光器件专营公司",
           "hits": 4,
           "strength": "★★★"
         }
