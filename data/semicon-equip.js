@@ -488,7 +488,7 @@ CHAINS["semicon-equip"] = {
       },
       {
         "name": "CMP 抛光/清洗",
-        "barrier": "high",
+        "barrier": "extreme",
         "note": "CMP 占后道 ~8% · 清洗占 ~5% · 国产化率 30-40% · SEMI 2025",
         "companies": [
           {
@@ -808,7 +808,7 @@ CHAINS["semicon-equip"] = {
       },
       {
         "name": "退火/快速热处理",
-        "barrier": "high",
+        "barrier": "extreme",
         "note": "RTP AMAT 主导 · 国产化率 30%",
         "companies": [
           {

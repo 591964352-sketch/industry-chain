@@ -482,7 +482,7 @@ CHAINS.pcb = {
       },
       {
         "name": "汽车 PCB",
-        "barrier": "mid",
+        "barrier": "high",
         "note": "占中游产值 20-25%(CPCA 2025) · 车规级 AEC-Q 认证 · 单车 PCB 价值 1000-3000 元",
         "companies": [
           {
@@ -507,7 +507,7 @@ CHAINS.pcb = {
       },
       {
         "name": "消费类 PCB",
-        "barrier": "low",
+        "barrier": "extreme",
         "note": "占中游产值 30-40%(Prismark 2026) · 中低端 FPC/RFPCB · 充分竞争 · 利润薄",
         "companies": [
           {

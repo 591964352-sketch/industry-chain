@@ -339,7 +339,7 @@ CHAINS["optical-module"] = {
     "midstream": [
       {
         "name": "光器件 + 模块整链 800G/1.6T",
-        "barrier": "mid",
+        "barrier": "high",
         "note": "中际旭创领跑全球(800G/1.6T第一)+新易盛LPO领先+光迅/剑桥/联特·光器件FA/MPO由天孚/长芯博创/太辰光+中瓷电子配套",
         "companies": [
           {
@@ -394,7 +394,7 @@ CHAINS["optical-module"] = {
     "materials": [
       {
         "name": "InP 衬底(外延片)",
-        "barrier": "mid",
+        "barrier": "low",
         "note": "CPO 时代核心材料·MOCVD 生长·全球 InP 衬底供应<5 家·三安/云南锗业/有研/天通布局中",
         "companies": [
           {
