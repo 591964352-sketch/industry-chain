@@ -161,7 +161,15 @@ node -e "global.window={};require('./data/pcb.js');const c=global.window.CHAINS.
 node -e "global.window={};['pcb','semi','ai-server','hbm','robotics','autonomous-driving','power-semi','ai-apps','cpo','solid-battery','low-altitude','commercial-aero','ai-full-chain'].forEach(id=>require('./data/'+id+'.js'));console.log(Object.keys(global.window.CHAINS).length+' 条');"
 
 # 本地预览（必须用 http server，因为 file:// 下 <script src> 可能受同源限制）
-py -m http.server 8000   # 浏览器开 http://localhost:8000/index.html
+# ⚠️ 禁止使用 python -m http.server！
+# Python http.server 默认不发送 Cache-Control 头，
+# 浏览器会对 JS/HTML 文件使用启发式缓存——文件修改后用户可能看到旧版本。
+# 这曾导致两次误判：用户报告页面显示问题，排查发现数据文件正确，
+# 但用户浏览器实际加载的是旧缓存副本。浪费大量排查时间。
+# 
+# 根治方案：使用 scripts/serve_no_cache.py（对所有响应强制添加 Cache-Control: no-store）
+# 见 commit 7.12 (2026-07-16) 的事件记录
+python scripts/serve_no_cache.py 8765   # 浏览器开 http://localhost:8765/index.html
 ```
 
 **升级九 STEP 4 后不再需要 `diff -q index.html 产业链全景.html`** —— 产业链全景.html 已收敛为 16 行 meta-refresh 跳转页。
