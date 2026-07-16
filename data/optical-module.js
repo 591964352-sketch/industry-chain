@@ -1535,7 +1535,10 @@ CHAINS["optical-module"] = {
       "capacity": "全球 <5 家有效产能 ~ 1500 万颗(源杰 2026 扩至 7000 万颗含其他产品)",
       "gap": "~1500万颗",
       "rate": ">50%",
-      "bottleneck": "100mW CW芯片良率+产能扩产>12月·全球<5家有效产能约1500万颗vs英伟达2000万只需求→缺口500-1500万颗(2026)·中际旭创预付定金锁定CW供应"
+      "bottleneck": "100mW CW芯片良率+产能扩产>12月·全球<5家有效产能约1500万颗vs英伟达2000万只需求→缺口500-1500万颗(2026)·中际旭创预付定金锁定CW供应",
+      "treeMapMatches": [
+        "CW 100mW 激光器外置光源(2026 CPO 标配)"
+      ]
     },
     {
       "segment": "硅光 PIC 代工(台积电 COUPE)",
@@ -1543,7 +1546,10 @@ CHAINS["optical-module"] = {
       "capacity": "台积电 COUPE 产能有限",
       "gap": "~30%缺口",
       "rate": "~30%",
-      "bottleneck": "台积电COUPE平台独供硅光PIC代工·产能扩产慢(COUPE为先进封装产能,需与3D Fabric共用)·A股无直接硅光代工标的·全球硅光PIC代工产能缺口约30%"
+      "bottleneck": "台积电COUPE平台独供硅光PIC代工·产能扩产慢(COUPE为先进封装产能,需与3D Fabric共用)·A股无直接硅光代工标的·全球硅光PIC代工产能缺口约30%",
+      "treeMapMatches": [
+        "硅光 PIC 设计+代工/材料"
+      ]
     },
     {
       "segment": "光芯片测试设备(国产替代)",
@@ -1551,7 +1557,10 @@ CHAINS["optical-module"] = {
       "capacity": "华峰测控+长川+精测国内一线·但与 Teradyne/Advantest 仍有差距",
       "gap": "<30%",
       "rate": "~30-40%",
-      "bottleneck": "高端光芯片/光模块测试设备(眼图/BER/光谱分析)由Keysight/VIAVI/Anritsu垄断·国产化率<30%·华峰/长川/精测在模拟/数字/量测各有所长但高端综合测试仍依赖进口·测试精度与一致性差距"
+      "bottleneck": "高端光芯片/光模块测试设备(眼图/BER/光谱分析)由Keysight/VIAVI/Anritsu垄断·国产化率<30%·华峰/长川/精测在模拟/数字/量测各有所长但高端综合测试仍依赖进口·测试精度与一致性差距",
+      "treeMapMatches": [
+        "光芯片 + 模块测试分选机"
+      ]
     }
   ],
   "methodologyNotes": "🔦 光模块·光互联合并链(stage 2 commit 6.70 立) · 由原光模块(33 股)+ 光芯片(54 股) + CPO(7 股)三链合一 · unique 去重 41 只 · 6 个 segment · 双层架构(参照 semicon-equip P0 经验,避免返工) · PE/PB 实盘接口本机不可用 → valuation tier 全部降级 estimate · 等§10 景气度调整系数设计 + akshare PE 接口恢复后重新核算 · 【关键归类调整(commit message 显式说明)】 · 1. 烽火通信 600498 + 中兴通讯 000063 原本预入 seg3 (CPO 共封装光学) · 实际身份 = 5G 电信光模块应用方,不是 CPO 核心持股 · 调整至 seg5 侧枝应用(方案 B 决定,用户 review 通过) · 2. seg3 保留为空段 + sub-card only 工艺说明 · 引用 seg2 中际旭创/新易盛/光迅作为光模块整机出货方向 CPO 应用演进的方向说明 · 类似 PCB 链 sideBranches 只做工艺说明不占实际持股 的处理方式",

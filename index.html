@@ -2354,13 +2354,13 @@ function renderChain(chainId) {
                   }
                 }
               }
-              if (!_hit) {
-                // 兜底：segment 任何 ≥2 字连续子串命中 item.name
-                const _substrs = [];
-                for (let i = 0; i < _sg.length - 1; i++) {
-                  _substrs.push(_sg.substr(i, 2));
-                }
-                _hit = _substrs.some(s => s.length === 2 && _in.includes(s));
+              // ★ commit 7.12: 删除 L4 兜底（任意≥2字子串命中）+ 引入显式匹配。
+              //   L4 规则在光模块链产生大量假阳性——"设备""测试""光芯"等通用2字词
+              //   导致同一条 supplyGap 被匹配到5个不相关节点。
+              //   修复: 若 supplyGap 条目有 treeMapMatches 字段→只做显式节点名精确匹配；
+              //   若无 treeMapMatches（PCB/semicon-equip 兼容）→保留原 L1-L3 模糊匹配。
+              if (!_hit && g.treeMapMatches && Array.isArray(g.treeMapMatches)) {
+                _hit = g.treeMapMatches.includes(item.name);
               }
               if (_hit) {
                 // ★ commit 7.02: 防"缺口 -2025%" / "-1015%" 乱码
