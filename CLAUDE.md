@@ -2888,6 +2888,31 @@ function validateNoDevTerms(text, fieldName, stockCode) {
 
 **违反本节**：无（仅为待办登记·不构成违规）。
 
+#### §11.20.1 开发注释进入用户可见字段防范规则（2026-07-16 光模块链 treeMap 排查立·永久生效）
+
+> **触发**：光模块链 treeMap 节点排查发现两处用户可见字段含开发注释残留——downstream[1] note 含"方案 B 由 seg3 移入"、downstream[2] note 含"按 storage-interface 方案 B 处理思路清理(2026-07-13)"。这些是 commit message 级别的内部设计讨论，普通读者完全看不懂。
+
+**强制规则**：
+
+任何写入面向用户展示的字段（`note`/`desc`/`position`/`logic`/`paragraph`/`barrierNote` 以及 treeMap 节点的所有文本字段），写入完成后**必须自查**：
+- 是否包含内部 commit 记录（如"方案 B""stage 2 commit""Phase A"）
+- 是否包含内部规则编号（如"§6.15""§11.23"）
+- 是否包含开发讨论用语（如"由 XXX 移入""处理思路清理""auto 层精简"）
+- 是否包含模板占位符（如"（Phase B 补）""（待填写）"）
+
+**反例（禁止）**：
+- ❌ "方案 B 由 seg3 移入" — 应改写为"5G光通信设备商·CPO应用方"
+- ❌ "已按 storage-interface 方案 B 处理思路清理" — 应改写为"不含AI服务器PCB配套"
+- ❌ "stage 2 commit · auto 层精简 11 字段" — 应改写为正常的业务描述
+
+**与 §11.20 的关系**：§11.20 通过 `FORBIDDEN_DEV_TERMS` 黑名单在脚本层面拦截开发术语。对于**手动写入**或**脚本未覆盖**的字段，本规则要求在写入后人工自查。两条规则互补——脚本拦截已知模式，人工自查覆盖遗漏。
+
+**事故案例归档**（本次 2 例）：
+- **2026-07-16 downstream[1] note**："方案 B 由 seg3 移入"（开发讨论记录）
+- **2026-07-16 downstream[2] note**："已按 storage-interface 方案 B 处理思路清理(2026-07-13)"（跨链治理记录）
+
+**登记 commit**：本次（待 commit）
+
 ### §11.22 300522 世名科技·6 维 reason 全部缺失（2026-07-11 commit 6.75 登记 · 后续补全）
 
 > **触发原因**：commit 6.75 auto 层旧 dims6 清理审计发现 300522 在 manual 层 6 维全部缺失 reason 字段（0 字符），且 auto 层 Phase A 占位值与 manual 层差异达 ±3 档（durability 4→1/supply 4→1/barrier 4→1）。核实后确认 manual 层为后续批次重新评估的真实评分，非数据错误——但 6 维 reason 全部缺失构成数据治理缺口。
