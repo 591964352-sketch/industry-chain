@@ -53,7 +53,7 @@ CHAINS['storage-interface'] = {
             "name": "供需紧张度",
             "score": 3,
             "trend": "up",
-            "reason": "HBM供给端极度集中(SK海力士~50%+三星~35%+美光~15%)，三家合计近乎垄断，但A股无直接HBM制造标的——A股机会在HBM配套材料(CMP抛光液/塑封料/硅微粉)和设备(混合键合)。DDR5 RCD供给端全球≤3家(澜起/Rambus/IDT)，澜起全球市占约40%，扩产周期约6-12个月(芯片设计公司·fabless模式·产能约束在台积电先进制程)。CMP抛光液全球CR3≈55%，安集科技国内≈30-35%，供给结构性偏紧。整体供给端存在局部卡口但非全局性缺口，HBM制造端缺口在海外(A股不可投)，A股配套环节供给偏紧但不构成全局缺口。符合3分档(供需基本平衡偏紧)。⚠ §11.23:具体产能缺口数字属商业机密。",
+            "reason": "HBM供给端极度集中(SK海力士~50%+三星~35%+美光~15%)，三家合计近乎垄断，但A股无直接HBM制造标的——A股机会在HBM配套材料(CMP抛光液/塑封料/硅微粉)和设备(混合键合)。DDR5 RCD供给端全球≤3家(澜起/Rambus/IDT)，澜起全球市占率36.8%，扩产周期约6-12个月(芯片设计公司·fabless模式·产能约束在台积电先进制程)。CMP抛光液全球CR3≈55%，安集科技国内≈30-35%，供给结构性偏紧。整体供给端存在局部卡口但非全局性缺口，HBM制造端缺口在海外(A股不可投)，A股配套环节供给偏紧但不构成全局缺口。符合3分档(供需基本平衡偏紧)。⚠ §11.23:具体产能缺口数字属商业机密。",
             "evidence": "SEMI HBM Supply Chain 2026 + TECHCET CMP Slurry 2026 + 澜起科技2025年报(产能描述)",
             "flag": "📊",
             "tier": "L3+L4",
@@ -83,9 +83,9 @@ CHAINS['storage-interface'] = {
       }
 ],
     "verdict": {
-      "longTermFit": "💾 存储与接口链处于AI算力基础设施超级上行周期。HBM:需求端英伟达年更架构(GB300→Vera Rubin)推动HBM3E/4量价齐升，供给端三巨头垄断但扩产速度跟不上需求增速(2026-2027年产能已被预定)，HBM市场规模从2024年~$140亿→2026E~$300亿+。DDR5 RCD:受益于服务器CPU平台全面切换DDR5，澜起科技全球双寡头地位稳固(市占~40%)，核心卡口逻辑清晰。CXL/PCIe/UCIe:处于行业早期，中长期逻辑明确但短期业绩贡献有限(澜起CXL<2%/PCIe 7-11%营收占比)。A股可抓卡口集中在HBM配套材料(安集科技CMP抛光液)和设备(拓荆科技混合键合)环节，非HBM制造本身。⚠ 最大遗憾:HBM制造三巨头(SK海力士/三星/美光)均不在A股——这是存储链与PCB链的本质差异:PCB链核心卡口(AI PCB+材料)大部分在A股，存储链核心卡口(HBM制造)完全在海外。",
+      "longTermFit": "💾 存储与接口链处于AI算力基础设施超级上行周期。HBM:需求端英伟达年更架构(GB300→Vera Rubin)推动HBM3E/4量价齐升，供给端三巨头垄断但扩产速度跟不上需求增速(2026-2027年产能已被预定)，HBM市场规模从2024年~$140亿→2026E~$300亿+。DDR5 RCD:受益于服务器CPU平台全面切换DDR5，澜起科技全球双寡头地位稳固(市占率36.8%)，核心卡口逻辑清晰。CXL/PCIe/UCIe:处于行业早期，中长期逻辑明确但短期业绩贡献有限(澜起CXL<2%/PCIe 7-11%营收占比)。A股可抓卡口集中在HBM配套材料(安集科技CMP抛光液)和设备(拓荆科技混合键合)环节，非HBM制造本身。⚠ 最大遗憾:HBM制造三巨头(SK海力士/三星/美光)均不在A股——这是存储链与PCB链的本质差异:PCB链核心卡口(AI PCB+材料)大部分在A股，存储链核心卡口(HBM制造)完全在海外。",
       "oneLine": "💾 存储与接口是AI算力基础设施的核心瓶颈——HBM高带宽存储、DDR5主控、CXL内存池化、PCIe/CXL高速接口芯片共同构成数据从存储到计算的完整通路",
-      "stockHint": "核心卡口:安集科技(CMP抛光液国产第一·全球CR3≈55%·晶圆厂认证12-18月)→倾向\"卡口持有\"。次要关注:澜起科技(DDR5 RCD全球双寡头·市占~40%·营收54.56亿+49.94%·moat=88)→倾向\"成长持有\"。配套观察:拓荆科技(混合键合设备·2025营收65亿+59%)、雅克科技(前驱体材料·HBM配套)、聚辰股份(SPD Hub·DDR5配套)。⚠ 华北华创/中微公司在本链为跨链复用打分(C类·seg语境重评·非独立卡口认定)。⚠ HBM制造(海力士/三星/美光)不在A股——本链最大投资遗憾。"
+      "stockHint": "核心卡口:安集科技(CMP抛光液国产第一·全球CR3≈55%·晶圆厂认证12-18月)→倾向\"卡口持有\"。次要关注:澜起科技(DDR5 RCD全球双寡头·市占率36.8%·营收54.56亿+49.94%·moat=88)→倾向\"成长持有\"。配套观察:拓荆科技(混合键合设备·2025营收65亿+59%)、雅克科技(前驱体材料·HBM配套)、聚辰股份(SPD Hub·DDR5配套)。⚠ 华北华创/中微公司在本链为跨链复用打分(C类·seg语境重评·非独立卡口认定)。⚠ HBM制造(海力士/三星/美光)不在A股——本链最大投资遗憾。"
     }
   },
   "cyclePosition": {
@@ -108,7 +108,7 @@ CHAINS['storage-interface'] = {
       "AI服务器/数据中心"
     ],
     "highlightBox": "<strong>💡 物理卡口视角：存储与接口链的\"河道收窄处\"在哪？</strong><br>① <strong>HBM高带宽存储</strong>：AI大模型训练的\"数据高速公路\"——GPU算力再强，没有HBM高速喂数据也是空转。但HBM制造被SK海力士/三星/美光100%垄断——<strong>均不在A股</strong>，A股只能抓配套(安集科技CMP抛光液+拓荆科技混合键合设备)。② <strong>DDR5 RCD(内存接口芯片)</strong>：每台服务器内存条上的\"交通指挥员\"——全球只有澜起科技/Rambus/IDT三家能量产，认证周期≥12个月。澜起科技是全球唯二的独立RCD供应商(另一家Rambus为IP授权模式)，国内唯一。③ <strong>CXL/PCIe高速接口</strong>：AI服务器GPU之间的\"超高速数据管道\"——PCIe 5.0 Retimer全球仅Astera Labs/澜起科技/谱瑞三家量产，CXL 2.0/3.0是下一代内存池化的关键标准。④ <strong>物理约束的本质不同</strong>：PCB链的卡口在\"材料和工艺\"(M9树脂/Q布/HVLP4铜箔——全球≤3家)，存储链的卡口在\"芯片设计+认证壁垒\"(RCD/Retimer/CMP抛光液——全球≤3家+认证≥12月)。存储链的A股机会比PCB链更\"间接\"——抓的是\"卖铲人\"和\"材料商\"，而非核心芯片制造商本身。",
-    "chainStory": [{"step":1,"name":"硅晶圆 → DRAM 颗粒","barrier":"low","choke":false,"domestic":"沪硅产业(12英寸硅片·国产替代早期)·中芯国际(DRAM代工·制程落后于三星/海力士)","desc":"从高纯硅拉制12英寸硅片起步，经过上千道工序制造DRAM存储颗粒。全球DRAM市场被三星(~40%)、SK海力士(~30%)、美光(~25%)三巨头垄断——<strong>三大DRAM厂均不在A股</strong>。这是存储链与PCB链的本质差异：PCB的核心卡口(AI PCB+材料)大部分在A股，存储链的核心卡口(HBM/DRAM制造)完全在海外。A股在这一步的角色是\"卖铲人\"和\"材料商\"，而非制造商本身。","keyStocks": ["688126"],"barrierNote":"DRAM制造本身壁垒极高(全球仅3家)·但A股无直接标的·本步仅作产业链全景展示","source":"SEMI 2026 DRAM Market Report + TrendForce DRAM Quarterly"},{"step":2,"name":"HBM 3D 堆叠键合","barrier":"extreme","choke":true,"domestic":"拓荆科技(PECVD/ALD国内第一·混合键合设备国产突破)·北方华创(多产品线综合设备·C类跨链复用)·中微公司(CCP刻蚀国产第一·C类跨链复用)","desc":"把12层DRAM颗粒像千层蛋糕一样垂直堆叠在一起——每层通过TSV(硅通孔)连接，用混合键合(Hybrid Bonding)代替传统微凸点，把层间距从45μm缩小到10μm以下。这是HBM制造最核心的物理门槛：<strong>TSV刻蚀精度+混合键合对准精度+堆叠良率</strong>三者缺一不可。台积电CoWoS封装垄断了全球HBM封装产能，是比HBM制造本身更大的产能瓶颈。A股机会在设备端(拓荆科技混合键合国产突破)，但全球设备霸主仍是AMAT和Lam Research。","keyStocks": ["688072","002371","688012"],"barrierNote":"全球PECVD/ALD设备≤5家·混合键合设备AMAT/Lam垄断·拓荆科技国产唯一但存在1代以上技术代差·符合§11.23数据局限(设备厂扩产周期不可得)","source":"SEMI 2026 HBM Equipment Report + Yole Hybrid Bonding 2026 + 各公司2025年报"},{"step":3,"name":"CMP 抛光液 / 抛光垫","barrier":"extreme","choke":true,"domestic":"安集科技(CMP抛光液国产第一·国内≈30-35%·唯一进入全球前六的国产厂商)·鼎龙股份(CMP抛光垫国产第一·先进封装配套)","desc":"HBM每堆叠一层DRAM，必须用CMP(化学机械抛光)把表面磨到<strong>误差不到1纳米</strong>——相当于把足球场磨平到高低差不到一根头发丝。抛光液是消耗品，每片晶圆需要经过数十次CMP步骤。全球CMP抛光液市场约$2B，CR3≈55%(Entegris/Fujimi/DuPont)，安集科技全球≈5-7%但国内≈30-35%遥遥领先。晶圆厂一旦选定抛光液供应商就不会轻易更换——<strong>验证新供应商需要12-18个月，期间良率可能暴跌</strong>，这是典型的\"我不是最大，但你没我不行\"的物理卡口逻辑。","keyStocks": ["688019","300054"],"barrierNote":"全球CMP抛光液CR3≈55%·晶圆厂导入认证12-18个月+配方体系深度绑定制程节点·安集科技国内第一(≈30-35%)·符合§10 5分档物理卡口标准","source":"TECHCET 2026 CMP Slurry Market Analysis + SEMI 2025 CMP Consumables Report + 安集科技2025年报(L1·巨潮)"},{"step":4,"name":"GMC 塑封料 / 硅微粉","barrier":"high","choke":false,"domestic":"华海诚科(GMC塑封料国内唯一·住友电木双寡头·⚠ Phase B试点moat=58/quadrant=skip)·联瑞新材(硅微粉国产第一·HBM封装填料)","desc":"堆叠好的HBM芯片需要\"穿衣服\"——GMC(颗粒状环氧塑封料)包裹住芯片，防潮、防震、散热、绝缘。全球仅日本住友电木(~70%)和华海诚科(~30%)两家可批量供应，看似双寡头格局但<strong>实际需求尚未起量</strong>——国内长鑫存储的HBM量产时间表未公开(2027?2028?)，华海诚科2025年营收反而同比-39.47%，说明HBM封装需求还没有转化为真实营收，公司仍处于验证→放量的过渡期。硅微粉则是塑封料的填料，联瑞新材在这个细分环节国产第一。","keyStocks": ["688535","688300"],"barrierNote":"全球仅住友电木+华海诚科两家·但下游HBM量产时点未明确·华海诚科2025营收-39.47%说明需求尚未起量·不构成当前时点的物理卡口","source":"TECHCET 2026 GMC Market Report + 华海诚科2025年报(L1·巨潮·营收同比-39.47%⚠)"},{"step":5,"name":"前驱体 / 电子特气","barrier":"high","choke":false,"domestic":"雅克科技(前驱体材料·通过收购UP Chemical进入全球供应链)·南大光电(ARF光刻胶+前驱体材料)·华特气体(电子特气·HBM/DRAM制造关键耗材·国内唯一获ASML认证)","desc":"HBM和DRAM制造过程中需要上百种高纯度化学材料——前驱体(薄膜沉积的\"原料\")和电子特气(刻蚀/清洗的\"工具气体\")是消耗量最大的两类。雅克科技通过收购韩国UP Chemical进入全球前驱体供应链，南大光电在光刻胶之外也布局前驱体材料，华特气体是国内唯一通过ASML认证的电子特气供应商。这些材料虽然单价不高，但<strong>纯度要求极高(99.999%+)，一旦杂质超标整批晶圆报废</strong>。不过全球前驱体市场仍被默克/液化空气/林德等巨头主导，国产替代处于早期。","keyStocks": ["002409","300346","688268"],"barrierNote":"全球前驱体/电子特气市场集中度高(默克/液化空气/林德)·但国产替代空间大·非\"全球≤3家\"级别的物理卡口","source":"SEMI 2026 Materials Market Report + TECHCET Precursors & Gases 2026 + 各公司2025年报"},{"step":6,"name":"DDR5 RCD(内存接口芯片)","barrier":"extreme","choke":true,"domestic":"澜起科技(DDR5 RCD全球双寡头·市占~40%·国内唯一·🏠主场:seg[2]·scoringStatus=primary) + 聚辰股份(SPD Hub·DDR5配套芯片)","desc":"把服务器内存想象成一座超大型图书馆——CPU要同时从几十本\"书\"里查资料，如果没有\"图书管理员\"指挥调度，所有人会撞在一起。DDR5 RCD芯片就是这位\"管理员\"——每颗指甲盖大小的芯片，同时指挥几十颗内存颗粒的读写顺序。<strong>全球只有澜起科技、美国的Rambus和日本的IDT(Renesas)三家能量产这颗芯片</strong>，澜起科技全球市占约40%，国内唯一。澜起2025年报L1实测：营收54.56亿(+49.94%)/净利22.36亿(+58.35%)/毛利率62.23%——互连类芯片(DDR5 RCD为主体)占公司总营收94.18%。第四子代RCD(7200MT/s)已规模出货。这是本链中澜起科技的<strong>primary主场</strong>——DDR5 RCD是其核心业务和卡口逻辑的根基。","keyStocks": ["688008","688123"],"barrierNote":"全球≤3家量产·Intel/AMD平台认证≥12个月·OEM客户切换成本极高(数据中心兼容性测试+库存建立≥9个月)·符合§10 5分档物理卡口标准·澜起scoringStatus=primary(主场)","source":"澜起科技2025年报(L1·巨潮·互连类芯片占比94.18%) + TrendForce DDR5 Market Tracker(L3)"},{"step":7,"name":"CXL 内存池化控制器","barrier":"extreme","choke":"前瞻卡位","domestic":"澜起科技(CXL MXC控制器·全球首批CXL 2.0合规供应商·与三星/SK海力士同期入选·⚠ 关联提及:营收<2%)","desc":"CXL(Compute Express Link)是让多台服务器共享同一块内存的\"超级立交桥\"——传统架构下每台服务器独享自己的内存，空闲的内存其他服务器用不了，造成巨大浪费。CXL 2.0/3.0标准让CPU可以通过PCIe物理层直接访问其他服务器的内存，把数据中心的<strong>内存利用率从~50%提升到80%+</strong>。全球仅澜起科技和美国的Astera Labs两家完成了CXL MXC控制器的流片，澜起是<strong>全球首批CXL 2.0合规供应商清单成员，与三星、SK海力士同期入选</strong>——这是真实的技术领先地位，不应被抹去。<br><br>但CXL生态目前仍处早期——AWS/谷歌/微软处于原型验证阶段，批量部署预计2027+。<strong>澜起科技在CXL的布局是其DDR5主业之外的技术延伸</strong>，2025年报披露CXL相关营收占总营收不到2%，属于早期导入阶段的战略卡位。<strong>此环节标记为\"前瞻卡位\"而非\"正式卡口\"</strong>——技术壁垒极高（全球仅2家已流片），但营收贡献尚未起量，CXL标准仍在演进(3.0未锁定)，下游部署时间线不确定。这是\"未来潜在卡口\"而非\"当前正式卡口\"。","keyStocks": ["688008"],"barrierNote":"全球仅2家已流片·技术壁垒极高·澜起为全球首批CXL 2.0合规供应商(与三星/SK海力士同期)·但CXL标准仍在演进+下游部署尚未规模化·澜起在此环节为战略卡位·前瞻卡口(非当前正式卡口)","source":"Yole 2026 CXL Market Forecast + 澜起科技2025年报(L1·CXL营收<2%) + CXL Consortium Technical Whitepaper"},{"step":8,"name":"PCIe Retimer/Redriver 接口","barrier":"extreme","choke":"前瞻卡位","domestic":"澜起科技(PCIe 5.0 Retimer全球第二·市占~25%·⚠ 关联提及:营收7-11%·非主场)","desc":"PCIe是GPU与GPU之间、GPU与CPU之间的\"超高速数据管道\"。PCIe 5.0单通道速率已达32GT/s，信号在PCB上跑几厘米就会严重衰减——必须用Retimer芯片在中间\"接力\"，把衰减的信号重新整形放大。<strong>每台AI服务器需要4-8颗PCIe 5.0 Retimer芯片</strong>，全球仅3家量产：美国的Astera Labs(~55%)、中国的澜起科技(~25%)、台湾的谱瑞科技(~20%)。澜起科技的PCIe Retimer是其<strong>第二大业务线</strong>(2025年报披露营收占比约7-11%)，全球市占率正在爬坡中。<br><br><strong>此环节标记为\"前瞻卡位\"而非\"正式卡口\"</strong>——A股目前<strong>没有真正专注PCIe Retimer环节的独立标的</strong>：澜起科技的PCIe业务是其DDR5主业之外的技术延伸（营收占比仅7-11%），此前seg[4]中列入的龙迅股份（688486）经核实其主营业务为HDMI/DP高清视频接口芯片，与PCIe Retimer/Redriver关联度低，本批次从seg[4]移除。读者不应因澜起在此有业务就误以为A股有专门的PCIe Retimer卡口标的。","keyStocks": ["688008"],"barrierNote":"全球仅3家量产PCIe 5.0 Retimer·Astera Labs占>50%·澜起份额爬坡中(7-11%营收占比)·A股无专注该环节的独立标的(此前误入的龙迅股份主营为HDMI/DP·已移除)·澜起在此为战略卡位·前瞻卡口(非当前正式卡口)","source":"Yole 2026 PCIe Market Report + 澜起科技2025年报(L1·PCIe营收占比7-11%) + Astera Labs 2025 Annual Report"},{"step":9,"name":"UCIe/Chiplet 互连","barrier":"high","choke":false,"domestic":"芯原股份(Chiplet互连IP国产领先·UCIe标准贡献者)","desc":"Chiplet(芯粒)是\"拼积木式\"造芯片的新范式——不同工艺的芯片(7nm的CPU+14nm的I/O+28nm的模拟)通过UCIe互连标准像乐高一样拼在一起，绕过了单芯片面积的光罩极限。UCIe是Intel/AMD/台积电/三星联合制定的开放标准。芯原股份是国内UCIe标准的先行者之一，但<strong>全球Chiplet互连IP格局分散</strong>——多家IP厂商(ARM/Synopsys/Cadence)和Foundry(台积电3D Fabric/Intel EMIB/三星I-Cube)都有自己的互连方案。这个环节更大的卡口在先进封装(CoWoS/EMIB)而非互连IP本身——先进封装由台积电/Intel/三星垄断，均不在A股。","keyStocks": ["688521"],"barrierNote":"全球互连IP格局分散·多家厂商+Foundry自研方案·标准仍在演进·真正的卡口在先进封装(台积电CoWoS·不在A股)而非互连IP本身","source":"UCIe Consortium Specification 2.0 + Yole Chiplet Market 2026 + 芯原股份2025年报"},{"step":10,"name":"AI服务器/数据中心集成","barrier":"low","choke":false,"domestic":"工业富联(英伟达GB300独家设计生产·treeMap背景·非本链核心标的)","desc":"所有零件——HBM、DDR5 RCD、CXL控制器、PCIe Retimer——最终汇集到一台AI服务器中。英伟达GB300 NVL72机柜集成了72颗Blackwell GPU、18个NVSwitch、几十公里铜缆、数百个液冷冷板。整机制造的壁垒不在制造本身(富士康/广达/纬创充分竞争)，而在<strong>英伟达的GPU分配权和液冷系统工程能力</strong>。HBM、DDR5 RCD、CXL、PCIe这些核心芯片都是英伟达指定供应商——整机厂只是按清单组装。A股中工业富联(601138)是最纯正的AI服务器ODM标的，但本链中它仅作为产业链终端的背景展示，不做卡口评估。","keyStocks": ["601138"],"barrierNote":"AI服务器整机制造充分竞争(CR5<40%)·核心卡口在芯片(HBM/DDR5 RCD/PCIe Retimer)而非整机组装·工业富联为英伟达独家ODM但非物理卡口","source":"TrendForce AI Server Shipment Tracker 2026 + 英伟达GTC 2026 GB300 NVL72 Technical Brief"}]
+    "chainStory": [{"step":1,"name":"硅晶圆 → DRAM 颗粒","barrier":"low","choke":false,"domestic":"沪硅产业(12英寸硅片·国产替代早期)·中芯国际(DRAM代工·制程落后于三星/海力士)","desc":"从高纯硅拉制12英寸硅片起步，经过上千道工序制造DRAM存储颗粒。全球DRAM市场被三星(~40%)、SK海力士(~30%)、美光(~25%)三巨头垄断——<strong>三大DRAM厂均不在A股</strong>。这是存储链与PCB链的本质差异：PCB的核心卡口(AI PCB+材料)大部分在A股，存储链的核心卡口(HBM/DRAM制造)完全在海外。A股在这一步的角色是\"卖铲人\"和\"材料商\"，而非制造商本身。","keyStocks": ["688126"],"barrierNote":"DRAM制造本身壁垒极高(全球仅3家)·但A股无直接标的·本步仅作产业链全景展示","source":"SEMI 2026 DRAM Market Report + TrendForce DRAM Quarterly"},{"step":2,"name":"HBM 3D 堆叠键合","barrier":"extreme","choke":true,"domestic":"拓荆科技(PECVD/ALD国内第一·混合键合设备国产突破)·北方华创(多产品线综合设备·C类跨链复用)·中微公司(CCP刻蚀国产第一·C类跨链复用)","desc":"把12层DRAM颗粒像千层蛋糕一样垂直堆叠在一起——每层通过TSV(硅通孔)连接，用混合键合(Hybrid Bonding)代替传统微凸点，把层间距从45μm缩小到10μm以下。这是HBM制造最核心的物理门槛：<strong>TSV刻蚀精度+混合键合对准精度+堆叠良率</strong>三者缺一不可。台积电CoWoS封装垄断了全球HBM封装产能，是比HBM制造本身更大的产能瓶颈。A股机会在设备端(拓荆科技混合键合国产突破)，但全球设备霸主仍是AMAT和Lam Research。","keyStocks": ["688072","002371","688012"],"barrierNote":"全球PECVD/ALD设备≤5家·混合键合设备AMAT/Lam垄断·拓荆科技国产唯一但存在1代以上技术代差·符合§11.23数据局限(设备厂扩产周期不可得)","source":"SEMI 2026 HBM Equipment Report + Yole Hybrid Bonding 2026 + 各公司2025年报"},{"step":3,"name":"CMP 抛光液 / 抛光垫","barrier":"extreme","choke":true,"domestic":"安集科技(CMP抛光液国产第一·国内≈30-35%·唯一进入全球前六的国产厂商)·鼎龙股份(CMP抛光垫国产第一·先进封装配套)","desc":"HBM每堆叠一层DRAM，必须用CMP(化学机械抛光)把表面磨到<strong>误差不到1纳米</strong>——相当于把足球场磨平到高低差不到一根头发丝。抛光液是消耗品，每片晶圆需要经过数十次CMP步骤。全球CMP抛光液市场约$2B，CR3≈55%(Entegris/Fujimi/DuPont)，安集科技全球≈5-7%但国内≈30-35%遥遥领先。晶圆厂一旦选定抛光液供应商就不会轻易更换——<strong>验证新供应商需要12-18个月，期间良率可能暴跌</strong>，这是典型的\"我不是最大，但你没我不行\"的物理卡口逻辑。","keyStocks": ["688019","300054"],"barrierNote":"全球CMP抛光液CR3≈55%·晶圆厂导入认证12-18个月+配方体系深度绑定制程节点·安集科技国内第一(≈30-35%)·符合§10 5分档物理卡口标准","source":"TECHCET 2026 CMP Slurry Market Analysis + SEMI 2025 CMP Consumables Report + 安集科技2025年报(L1·巨潮)"},{"step":4,"name":"GMC 塑封料 / 硅微粉","barrier":"high","choke":false,"domestic":"华海诚科(GMC塑封料国内唯一·住友电木双寡头·⚠ Phase B试点moat=58/quadrant=skip)·联瑞新材(硅微粉国产第一·HBM封装填料)","desc":"堆叠好的HBM芯片需要\"穿衣服\"——GMC(颗粒状环氧塑封料)包裹住芯片，防潮、防震、散热、绝缘。全球仅日本住友电木(~70%)和华海诚科(~30%)两家可批量供应，看似双寡头格局但<strong>实际需求尚未起量</strong>——国内长鑫存储的HBM量产时间表未公开(2027?2028?)，华海诚科2025年营收反而同比-39.47%，说明HBM封装需求还没有转化为真实营收，公司仍处于验证→放量的过渡期。硅微粉则是塑封料的填料，联瑞新材在这个细分环节国产第一。","keyStocks": ["688535","688300"],"barrierNote":"全球仅住友电木+华海诚科两家·但下游HBM量产时点未明确·华海诚科2025营收-39.47%说明需求尚未起量·不构成当前时点的物理卡口","source":"TECHCET 2026 GMC Market Report + 华海诚科2025年报(L1·巨潮·营收同比-39.47%⚠)"},{"step":5,"name":"前驱体 / 电子特气","barrier":"high","choke":false,"domestic":"雅克科技(前驱体材料·通过收购UP Chemical进入全球供应链)·南大光电(ARF光刻胶+前驱体材料)·华特气体(电子特气·HBM/DRAM制造关键耗材·国内唯一获ASML认证)","desc":"HBM和DRAM制造过程中需要上百种高纯度化学材料——前驱体(薄膜沉积的\"原料\")和电子特气(刻蚀/清洗的\"工具气体\")是消耗量最大的两类。雅克科技通过收购韩国UP Chemical进入全球前驱体供应链，南大光电在光刻胶之外也布局前驱体材料，华特气体是国内唯一通过ASML认证的电子特气供应商。这些材料虽然单价不高，但<strong>纯度要求极高(99.999%+)，一旦杂质超标整批晶圆报废</strong>。不过全球前驱体市场仍被默克/液化空气/林德等巨头主导，国产替代处于早期。","keyStocks": ["002409","300346","688268"],"barrierNote":"全球前驱体/电子特气市场集中度高(默克/液化空气/林德)·但国产替代空间大·非\"全球≤3家\"级别的物理卡口","source":"SEMI 2026 Materials Market Report + TECHCET Precursors & Gases 2026 + 各公司2025年报"},{"step":6,"name":"DDR5 RCD(内存接口芯片)","barrier":"extreme","choke":true,"domestic":"澜起科技(DDR5 RCD全球双寡头·市占率36.8%·国内唯一·🏠主场:seg[2]·scoringStatus=primary) + 聚辰股份(SPD Hub·DDR5配套芯片)","desc":"把服务器内存想象成一座超大型图书馆——CPU要同时从几十本\"书\"里查资料，如果没有\"图书管理员\"指挥调度，所有人会撞在一起。DDR5 RCD芯片就是这位\"管理员\"——每颗指甲盖大小的芯片，同时指挥几十颗内存颗粒的读写顺序。<strong>全球只有澜起科技、美国的Rambus和日本的IDT(Renesas)三家能量产这颗芯片</strong>，澜起科技DDR5内存接口芯片全球市占率36.8%(2024年·连续6年行业第一)，国内唯一。澜起2025年报L1实测：营收54.56亿(+49.94%)/净利22.36亿(+58.35%)/毛利率62.23%——互连类芯片(DDR5 RCD为主体)占公司总营收94.18%。第四子代RCD(7200MT/s)已规模出货。这是本链中澜起科技的<strong>primary主场</strong>——DDR5 RCD是其核心业务和卡口逻辑的根基。","keyStocks": ["688008","688123"],"barrierNote":"全球≤3家量产·Intel/AMD平台认证≥12个月·OEM客户切换成本极高(数据中心兼容性测试+库存建立≥9个月)·符合§10 5分档物理卡口标准·澜起scoringStatus=primary(主场)","source":"澜起科技2025年报(L1·巨潮·互连类芯片占比94.18%) + TrendForce DDR5 Market Tracker(L3)"},{"step":7,"name":"CXL 内存池化控制器","barrier":"extreme","choke":"前瞻卡位","domestic":"澜起科技(CXL MXC控制器·全球首批CXL 2.0合规供应商·与三星/SK海力士同期入选·⚠ 关联提及:营收<2%)","desc":"CXL(Compute Express Link)是让多台服务器共享同一块内存的\"超级立交桥\"——传统架构下每台服务器独享自己的内存，空闲的内存其他服务器用不了，造成巨大浪费。CXL 2.0/3.0标准让CPU可以通过PCIe物理层直接访问其他服务器的内存，把数据中心的<strong>内存利用率从~50%提升到80%+</strong>。全球仅澜起科技和美国的Astera Labs两家完成了CXL MXC控制器的流片，澜起是<strong>全球首批CXL 2.0合规供应商清单成员，与三星、SK海力士同期入选</strong>——这是真实的技术领先地位，不应被抹去。<br><br>但CXL生态目前仍处早期——AWS/谷歌/微软处于原型验证阶段，批量部署预计2027+。<strong>澜起科技在CXL的布局是其DDR5主业之外的技术延伸</strong>，2025年报披露CXL相关营收占总营收不到2%，属于早期导入阶段的战略卡位。<strong>此环节标记为\"前瞻卡位\"而非\"正式卡口\"</strong>——技术壁垒极高（全球仅2家已流片），但营收贡献尚未起量，CXL标准仍在演进(3.0未锁定)，下游部署时间线不确定。这是\"未来潜在卡口\"而非\"当前正式卡口\"。","keyStocks": ["688008"],"barrierNote":"全球仅2家已流片·技术壁垒极高·澜起为全球首批CXL 2.0合规供应商(与三星/SK海力士同期)·但CXL标准仍在演进+下游部署尚未规模化·澜起在此环节为战略卡位·前瞻卡口(非当前正式卡口)","source":"Yole 2026 CXL Market Forecast + 澜起科技2025年报(L1·CXL营收<2%) + CXL Consortium Technical Whitepaper"},{"step":8,"name":"PCIe Retimer/Redriver 接口","barrier":"extreme","choke":"前瞻卡位","domestic":"澜起科技(PCIe 5.0 Retimer全球第二·市占~25%·⚠ 关联提及:营收7-11%·非主场)","desc":"PCIe是GPU与GPU之间、GPU与CPU之间的\"超高速数据管道\"。PCIe 5.0单通道速率已达32GT/s，信号在PCB上跑几厘米就会严重衰减——必须用Retimer芯片在中间\"接力\"，把衰减的信号重新整形放大。<strong>每台AI服务器需要4-8颗PCIe 5.0 Retimer芯片</strong>，全球仅3家量产：美国的Astera Labs(~55%)、中国的澜起科技(~25%)、台湾的谱瑞科技(~20%)。澜起科技的PCIe Retimer是其<strong>第二大业务线</strong>(2025年报披露营收占比约7-11%)，全球市占率正在爬坡中。<br><br><strong>此环节标记为\"前瞻卡位\"而非\"正式卡口\"</strong>——A股目前<strong>没有真正专注PCIe Retimer环节的独立标的</strong>：澜起科技的PCIe业务是其DDR5主业之外的技术延伸（营收占比仅7-11%），此前seg[4]中列入的龙迅股份（688486）经核实其主营业务为HDMI/DP高清视频接口芯片，与PCIe Retimer/Redriver关联度低，本批次从seg[4]移除。读者不应因澜起在此有业务就误以为A股有专门的PCIe Retimer卡口标的。","keyStocks": ["688008"],"barrierNote":"全球仅3家量产PCIe 5.0 Retimer·Astera Labs占>50%·澜起份额爬坡中(7-11%营收占比)·A股无专注该环节的独立标的(此前误入的龙迅股份主营为HDMI/DP·已移除)·澜起在此为战略卡位·前瞻卡口(非当前正式卡口)","source":"Yole 2026 PCIe Market Report + 澜起科技2025年报(L1·PCIe营收占比7-11%) + Astera Labs 2025 Annual Report"},{"step":9,"name":"UCIe/Chiplet 互连","barrier":"high","choke":false,"domestic":"芯原股份(Chiplet互连IP国产领先·UCIe标准贡献者)","desc":"Chiplet(芯粒)是\"拼积木式\"造芯片的新范式——不同工艺的芯片(7nm的CPU+14nm的I/O+28nm的模拟)通过UCIe互连标准像乐高一样拼在一起，绕过了单芯片面积的光罩极限。UCIe是Intel/AMD/台积电/三星联合制定的开放标准。芯原股份是国内UCIe标准的先行者之一，但<strong>全球Chiplet互连IP格局分散</strong>——多家IP厂商(ARM/Synopsys/Cadence)和Foundry(台积电3D Fabric/Intel EMIB/三星I-Cube)都有自己的互连方案。这个环节更大的卡口在先进封装(CoWoS/EMIB)而非互连IP本身——先进封装由台积电/Intel/三星垄断，均不在A股。","keyStocks": ["688521"],"barrierNote":"全球互连IP格局分散·多家厂商+Foundry自研方案·标准仍在演进·真正的卡口在先进封装(台积电CoWoS·不在A股)而非互连IP本身","source":"UCIe Consortium Specification 2.0 + Yole Chiplet Market 2026 + 芯原股份2025年报"},{"step":10,"name":"AI服务器/数据中心集成","barrier":"low","choke":false,"domestic":"工业富联(英伟达GB300独家设计生产·treeMap背景·非本链核心标的)","desc":"所有零件——HBM、DDR5 RCD、CXL控制器、PCIe Retimer——最终汇集到一台AI服务器中。英伟达GB300 NVL72机柜集成了72颗Blackwell GPU、18个NVSwitch、几十公里铜缆、数百个液冷冷板。整机制造的壁垒不在制造本身(富士康/广达/纬创充分竞争)，而在<strong>英伟达的GPU分配权和液冷系统工程能力</strong>。HBM、DDR5 RCD、CXL、PCIe这些核心芯片都是英伟达指定供应商——整机厂只是按清单组装。A股中工业富联(601138)是最纯正的AI服务器ODM标的，但本链中它仅作为产业链终端的背景展示，不做卡口评估。","keyStocks": ["601138"],"barrierNote":"AI服务器整机制造充分竞争(CR5<40%)·核心卡口在芯片(HBM/DDR5 RCD/PCIe Retimer)而非整机组装·工业富联为英伟达独家ODM但非物理卡口","source":"TrendForce AI Server Shipment Tracker 2026 + 英伟达GTC 2026 GB300 NVL72 Technical Brief"}]
   },
   "overview": [
       {
@@ -146,7 +146,7 @@ CHAINS['storage-interface'] = {
       {
             "label": "🔒 DDR5 RCD全球供给",
             "value": "≤3家",
-            "note": "澜起科技~40%/Rambus~35%/IDT(Renesas)~25%",
+            "note": "澜起科技36.8%/Rambus~35%/IDT(Renesas)~25%",
             "color": "var(--accent)",
             "tier": "primary",
             "src": "澜起科技2025年报·巨潮L1"
@@ -577,14 +577,27 @@ CHAINS['storage-interface'] = {
       "border": true,
       "intro": "<strong>HBM(高带宽存储)</strong>通过TSV硅通孔将多层DRAM芯片垂直堆叠，配合混合键合(Hybrid Bonding)技术实现超高带宽。HBM3e 12层堆叠带宽>1TB/s，HBM4 16层堆叠预计2026年量产。混合键合设备是HBM先进封装最核心的物理卡口——全球仅3家可批量供货。",
       "globalLandscape": [
-        {
-          "lbl": "(Phase B 补)",
-          "val": "—",
-          "note": "—"
-        ,
-        "sourceSegment": "seg[4]"
-      }
-      ],
+          {
+                    "lbl": "🥇 Hanmi Semiconductor（韩）",
+                    "val": "HBM TC Bonder全球~65%·HBM3E细分~90%",
+                    "note": "SK海力士主力供应商·TC键合机绝对霸主·2025营收同比大幅增长"
+          },
+          {
+                    "lbl": "🥈 AMAT（美）",
+                    "val": "HBM FY2025营收$1.5B·Kinex混合键合平台",
+                    "note": "业界首款集成式晶粒到晶圆混合键合机·已导入逻辑/内存/OSAT客户·BESI持股9%为最大股东"
+          },
+          {
+                    "lbl": "BESI（荷兰）",
+                    "val": "混合键合纯play龙头·AMAT持股9%",
+                    "note": "Lam Research洽谈收购中·若JEDEC放宽HBM厚度标准可能延缓混合键合导入·非上市公司精确份额不可得"
+          },
+          {
+                    "lbl": "拓荆科技（中）",
+                    "val": "PECVD/ALD国内第一·混合键合国产突破",
+                    "note": "与AMAT/Lam存在1代以上技术代差·国内HBM产线国产唯一选择·2025营收65亿(+59%)(L1年报实测)"
+          }
+],
       "stocks": [
         {
           "rank": 1,
@@ -695,12 +708,27 @@ CHAINS['storage-interface'] = {
       "border": true,
       "intro": "<strong>HBM封装材料</strong>包括GMC颗粒状环氧塑封料、underfill底部填充胶、硅微粉填料、EMC环氧模塑料等。GMC是HBM堆叠封装最核心的材料卡口——全球仅住友电木+华海诚科两家通过认证，认证周期18-24个月。",
       "globalLandscape": [
-        {
-          "lbl": "(Phase B 补)",
-          "val": "—",
-          "note": "—"
-        }
-      ],
+          {
+                    "lbl": "🥇 住友电木（日）",
+                    "val": "全球EMC市占~35%(按收入)·HBM用GMC约50%",
+                    "note": "长期垄断HBM封装塑封料·2026年涨价10-20%·面临产能瓶颈·全球仅住友电木+华海诚科+少量日立/Resonac可量产HBM用GMC"
+          },
+          {
+                    "lbl": "🥈 Entegris/CMC Materials（美）+Fujimi（日）",
+                    "val": "CMP抛光液双龙头·全球CR3≈55%",
+                    "note": "Entegris/CMC≈30-33%+Fujimi≈12-14%+DuPont≈10-12%·安集科技全球≈5-7%(国内≈30-35%第一·唯一进入全球前六的国产厂商)"
+          },
+          {
+                    "lbl": "DuPont→QNITY（美）",
+                    "val": "CMP抛光垫全球>70%",
+                    "note": "抛光垫绝对垄断·安集科技(抛光液)+华海清科(抛光设备)为国内配套·形成液+机+垫完整国产替代链"
+          },
+          {
+                    "lbl": "华海诚科+衡所华威（中）",
+                    "val": "并购后全球EMC约18%·国内第一(~35%)",
+                    "note": "国内唯一HBM用GMC量产·已进SK海力士供应链·华为哈勃战略入股·2025营收同比-39.47%⚠(HBM封装需求尚未转化为真实营收)"
+          }
+],
       "stocks": [
         {
           "rank": 1,
@@ -713,7 +741,7 @@ CHAINS['storage-interface'] = {
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
           "trendNote": "⚠ 2025 营收 4.58亿(-39.47% 连续 4 季同比为负)/归母净利 2425万/GM 26.66%/净利率仅 5.24%·2026Q1 反弹至 2.23亿(+165.58% 低基数);⚠ §11.23 数据稀缺,业绩拐点未确立,需投顾核实 (akshare abstract_ths L1 实测 2026-07-13)",
-          "logic": "GMC 颗粒状环氧塑封料国内唯一具备 28 英寸石英坩埚量产能力:堆叠 HBM 芯片\"穿衣服\"核心材料,海外住友电木双寡头(住友约 70% + 华海约 30%);⚠ 全球供给端实际可获取住友电木产品 → 国内独家但非全球独家(全球住友电木仍可获取),卡口属性偏弱于全球≤3 家标准,客户验证周期 ≥18 月,产品迭代风险存在。",
+          "logic": "GMC 颗粒状环氧塑封料国内唯一量产:堆叠 HBM 芯片\"穿衣服\"核心材料,海外住友电木双寡头(住友约 70% + 华海约 30%);⚠ 全球供给端实际可获取住友电木产品 → 国内独家但非全球独家(全球住友电木仍可获取),卡口属性偏弱于全球≤3 家标准,客户验证周期 ≥18 月,产品迭代风险存在。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "phaseBTestTrial": true
         },
@@ -825,25 +853,35 @@ CHAINS['storage-interface'] = {
       "border": true,
       "intro": "<strong>DDR5 RCD(寄存时钟驱动器)</strong>是服务器DDR5内存条上的核心芯片。全球仅澜起科技+Rambus+IDT(Renesas)三家可量产，认证周期≥12个月。LPDDR5主控用于手机/汽车等低功耗场景。",
       "globalLandscape": [
-        {
-          "lbl": "(Phase B 补)",
-          "val": "—",
-          "note": "—"
-        }
-      ],
+          {
+                    "lbl": "🥇 澜起科技 Montage Tech（中）",
+                    "val": "DDR5内存接口芯片全球市占率36.8%(2024年·连续6年行业第一)",
+                    "note": "全球仅澜起/Rambus/瑞萨(IDT)三家可量产DDR5 RCD·澜起国内唯一·2025营收54.56亿(+50%)·MRCD/MDB下一战场已领先·JEDEC董事会成员·L1年报实测"
+          },
+          {
+                    "lbl": "🥈 Rambus（美）",
+                    "val": "DDR5 RCD三大供应商之一·精确份额未公开",
+                    "note": "行业公认为全球主要供应商(澜起/Rambus/瑞萨三家)·2025产品收入$3.48B(+41%YoY)·MRCD/MDB预计2027起量"
+          },
+          {
+                    "lbl": "Renesas/IDT（日/美）",
+                    "val": "DDR5 RCD三大供应商之一·精确份额未公开",
+                    "note": "2019年瑞萨收购IDT进入RCD市场·提供多供应商安全保障·参考公司2024年报表述\"全球主要供应商三家\""
+          }
+],
       "stocks": [
         {
           "rank": 1,
           "name": "澜起科技",
           "code": "688008",
-          "position": "DDR5 RCD全球双寡头(与Rambus)·国内唯一·市占~40%",
+          "position": "DDR5 RCD全球双寡头(与Rambus)·国内唯一·市占率36.8%",
           "barrier": "极高",
           "tier": "primary",
           "valAsOf": "2026-07-12",
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
           "trendNote": "2025 营收 54.56亿(+49.94%)/归母净利 22.36亿(+58.35%)/GM 62.23%/净利率 39.03%/ROE 18.25%·互连类芯片占 94.18%·2025 连续 4 季同比正增,Q4 7200MT/s 子代规模出货·2026Q1 营收 14.61亿(+19.51%)/净利 8.47亿(+61.30%) 加速(abstract_ths L1 实测 2026-07-13)",
-          "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占 ~40%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
+          "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占率36.8%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "scoringStatus": "primary-confirmed",
           "phaseBTestTrial": false
@@ -900,12 +938,22 @@ CHAINS['storage-interface'] = {
       "border": true,
       "intro": "<strong>CXL(Compute Express Link)</strong>是基于PCIe物理层的高速互连协议，实现CPU-GPU-加速器-内存之间的缓存一致性共享和内存池化。CXL 2.0/3.0是AI服务器内存墙问题的核心解决方案。",
       "globalLandscape": [
-        {
-          "lbl": "(Phase B 补)",
-          "val": "—",
-          "note": "—"
-        }
-      ],
+          {
+                    "lbl": "🥇 Marvell Technology（美）",
+                    "val": "CXL控制器市场整体领先·数据中心营收$1.83B(Q1FY26)",
+                    "note": "CXL收入预计2027达$1B·2028达$2B·AI定制ASIC+数据中心双轮驱动·CXL 2.0/3.0布局最早"
+          },
+          {
+                    "lbl": "🥈 澜起科技 Montage Tech（中）",
+                    "val": "CXL MXC芯片全球首批合规供应商·与三星/SK海力士同期入选",
+                    "note": "CXL MXC控制器份额自报·行业早期精确数据待第三方验证·成本较Marvell低约30%·2025 CXL营收<2%·早期导入阶段"
+          },
+          {
+                    "lbl": "Astera Labs（美）",
+                    "val": "Leo CXL控制器~$25M年收入·Microsoft主客户",
+                    "note": "H2 2026预期放量·新获美国hyperscaler设计win·Scorpio X系列2026末量产·CXL生态整体仍处早期"
+          }
+],
       "stocks": [
         {
           "rank": 1,
@@ -918,7 +966,7 @@ CHAINS['storage-interface'] = {
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
           "trendNote": "2025 营收 54.56亿(+49.94%)/归母净利 22.36亿(+58.35%)/GM 62.23%/净利率 39.03%/ROE 18.25%·互连类芯片占 94.18%·2025 连续 4 季同比正增,Q4 7200MT/s 子代规模出货·2026Q1 营收 14.61亿(+19.51%)/净利 8.47亿(+61.30%) 加速(abstract_ths L1 实测 2026-07-13)",
-          "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占 ~40%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
+          "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占率36.8%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "scoringStatus": "reference",
           "phaseBTestTrial": true
@@ -947,12 +995,22 @@ CHAINS['storage-interface'] = {
       "border": true,
       "intro": "<strong>PCIe Retimer</strong>是高速信号长距离传输后恢复完整性的关键芯片。PCIe 5.0/6.0速率翻倍后，Retimer成为AI服务器主板必备芯片。全球仅澜起科技+Astera Labs(美)+Parade(台)三家量产PCIe 5.0 Retimer。",
       "globalLandscape": [
-        {
-          "lbl": "(Phase B 补)",
-          "val": "—",
-          "note": "—"
-        }
-      ],
+          {
+                    "lbl": "🥇 Astera Labs（美）",
+                    "val": "PCIe Retimer全球销售额第一·绝对主导",
+                    "note": "PCIe 6.0 Switch 2025Q2已提前出货·英伟达定制Switch合作·UALink联盟成员·前三大厂商(Astera+谱瑞+Analogix)合计约占PCIe/USB Retimer广义市场86%"
+          },
+          {
+                    "lbl": "🥈 澜起科技 Montage Tech（中）",
+                    "val": "全球第二·2024市占约10.9%(东海证券2026.05深度报告)",
+                    "note": "2025推出PCIe 6.x/CXL 3.x Retimer·自研SerDes IP(32GT/s·64GT/s)·PCIe 7.0在研·2025营收占比约7-11%(L1年报)"
+          },
+          {
+                    "lbl": "🥉 谱瑞 Parade Technologies（台）",
+                    "val": "PCIe+USB Retimer全球前三",
+                    "note": "PCIe和USB Retimer双线布局·精确PCIe 5.0 Retimer细分份额未单独披露·全球主要厂商排名中始终位列前茅"
+          }
+],
       "stocks": [
         {
           "rank": 1,
@@ -965,7 +1023,7 @@ CHAINS['storage-interface'] = {
           "src": "akshare abstract_ths L1 实测(2026-07-14)",
           "trend": "up",
           "trendNote": "2025 营收 54.56亿(+49.94%)/归母净利 22.36亿(+58.35%)/GM 62.23%/净利率 39.03%/ROE 18.25%·互连类芯片占 94.18%·2025 连续 4 季同比正增,Q4 7200MT/s 子代规模出货·2026Q1 营收 14.61亿(+19.51%)/净利 8.47亿(+61.30%) 加速(abstract_ths L1 实测 2026-07-13)",
-          "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占 ~40%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
+          "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占率36.8%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
           "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
           "scoringStatus": "reference",
           "phaseBTestTrial": true
@@ -1008,12 +1066,27 @@ CHAINS['storage-interface'] = {
       "border": true,
       "intro": "<strong>UCIe(Universal Chiplet Interconnect Express)</strong>是2022年发布的Chiplet芯片间互连国际标准。UCIe标准化了Die-to-Die互连，使不同厂商的Chiplet可在同一封装内互连。",
       "globalLandscape": [
-        {
-          "lbl": "(Phase B 补)",
-          "val": "—",
-          "note": "—"
-        }
-      ],
+          {
+                    "lbl": "🥇 Synopsys（美）",
+                    "val": "设计IP许可全球第一·32%份额",
+                    "note": "DesignWare UCIe PHY/控制器IP·UCIe联盟活跃成员·与全球主要Foundry深度绑定·8年累计增长326%远超ARM的124%"
+          },
+          {
+                    "lbl": "🥈 Cadence（美）",
+                    "val": "HPC有线接口IP强劲·3D Fabric IP毛利率89%",
+                    "note": "2026.01发布Chiplet Partner Ecosystem(含ARM/Samsung)·与Intel UCIe-S互通演示·在HPC接口IP领域增长超ARM"
+          },
+          {
+                    "lbl": "ARM（英）",
+                    "val": "处理器IP约30%份额·HPC份额仅为Synopsys的~1/3",
+                    "note": "Neoverse V3用于AWS Graviton4·处理器IP从48%峰值(2016)降至44%(2024)·HPC有线接口非主场·UCIe生态参与但不主导"
+          },
+          {
+                    "lbl": "芯原股份 VeriSilicon（中）",
+                    "val": "国内Chiplet IP先行者·UCIe标准贡献者",
+                    "note": "IP授权模式(物理卡口框架适用性有限)·UCIe Consortium成员·2025年营收数据见manual层(L1年报)"
+          }
+],
       "stocks": [
         {
           "rank": 1,
@@ -1047,1212 +1120,918 @@ CHAINS['storage-interface'] = {
     }
   ],
   "midstream": {
-    "description": "存储与接口链中游环节——DDR5 RCD/SPD Hub/CXL控制器/PCIe Retimer/UCIe互连IP等芯片设计公司，以及HBM封装材料(GMC塑封料/硅微粉/Underfill)和混合键合设备。按本链设计，中游以芯片设计和关键材料/设备为主，制造端(DRAM/HBM制造)集中在半导体产业链。",
-    "stocks": [
-      {
-        "name": "澜起科技",
-        "code": "688008",
-        "position": "DDR5 RCD全球双寡头(与Rambus)·国内唯一·市占~40%",
-        "barrier": "极高",
-        "trend": "up",
-        "trendNote": "2025 营收 54.56亿(+49.94%)/归母净利 22.36亿(+58.35%)/GM 62.23%/净利率 39.03%/ROE 18.25%·互连类芯片占 94.18%·2025 连续 4 季同比正增,Q4 7200MT/s 子代规模出货·2026Q1 营收 14.61亿(+19.51%)/净利 8.47亿(+61.30%) 加速(abstract_ths L1 实测 2026-07-13)",
-        "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占 ~40%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
-        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
-        "rank": 1,
-        "fourQuestions": {
-    "_note": "四问筛选逻辑基于2026-07-14 Phase B真实六维数据+§11.23行业数据局限标注。技术密集型行业(半导体设备/芯片设计)的Q2/Q3/Q4大概率不可得——这是行业信息透明度的客观限制，不是核实工作不到位。0/4或1/4是诚实结果。",
-    "segments": [
-      {
+  "description": "存储与接口链中游环节——DDR5 RCD/SPD Hub/CXL控制器/PCIe Retimer/UCIe互连IP等芯片设计公司，以及HBM封装材料(GMC塑封料/硅微粉/Underfill)和混合键合设备。按本链设计，中游以芯片设计和关键材料/设备为主，制造端(DRAM/HBM制造)集中在半导体产业链。",
+  "stocks": [
+    {
+      "name": "澜起科技",
+      "code": "688008",
+      "position": "DDR5 RCD全球双寡头(与Rambus)·国内唯一·市占率36.8%",
+      "barrier": "极高",
+      "trend": "up",
+      "trendNote": "2025 营收 54.56亿(+49.94%)/归母净利 22.36亿(+58.35%)/GM 62.23%/净利率 39.03%/ROE 18.25%·互连类芯片占 94.18%·2025 连续 4 季同比正增,Q4 7200MT/s 子代规模出货·2026Q1 营收 14.61亿(+19.51%)/净利 8.47亿(+61.30%) 加速(abstract_ths L1 实测 2026-07-13)",
+      "logic": "DDR5 RCD(寄存时钟驱动器)全球量产厂商仅 3 家(IDT/Renesas+Rambus+澜起),澜起全球市占率36.8%,国内唯一·认证周期 ≥12 月;客户切换成本极高(数据中心兼容性测试 ≥6 月 + 库存建立 ≥3 月);⚠ 护城河侵蚀风险:三星 2025 宣布自研 DDR5 RCD 2025H2 量产,基本盘仍稳但行业关注点(多家 L5 媒体 2025 报道,具体自供率未检索到 L1/L4 原始信源)。",
+      "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
+      "rank": 1,
+      "fourQuestions": {
+        "_note": "四问筛选逻辑基于2026-07-14 Phase B真实六维数据+§11.23行业数据局限标注。技术密集型行业(半导体设备/芯片设计)的Q2/Q3/Q4大概率不可得——这是行业信息透明度的客观限制，不是核实工作不到位。0/4或1/4是诚实结果。",
+        "segments": [
+          {
             "name": "HBM 堆叠与混合键合",
             "stocks": [
-                  {
-                        "code": "688072",
-                        "name": "拓荆科技",
-                        "q1": true,
-                        "q1note": "全球PECVD/ALD设备≤5家·国内第一·L3 SEMI格局支撑",
-                        "q2": false,
-                        "q2note": "§11.23:设备厂扩产周期无公开口径",
-                        "q3": false,
-                        "q3note": "§11.23:客户替代验证周期属商业机密",
-                        "q4": false,
-                        "q4note": "导入认证周期≠替换认证周期(§11.23)",
-                        "hits": 1,
-                        "strength": null
-                  }
+              {
+                "code": "688072",
+                "name": "拓荆科技",
+                "q1": true,
+                "q1note": "全球PECVD/ALD设备≤5家·国内第一·L3 SEMI格局支撑",
+                "q2": false,
+                "q2note": "§11.23:设备厂扩产周期无公开口径",
+                "q3": false,
+                "q3note": "§11.23:客户替代验证周期属商业机密",
+                "q4": false,
+                "q4note": "导入认证周期≠替换认证周期(§11.23)",
+                "hits": 1,
+                "strength": null
+              }
             ]
-      },
-      {
+          },
+          {
             "name": "HBM 封装材料 (CMP抛光液/抛光垫/GMC塑封料/硅微粉)",
             "stocks": [
-                  {
-                        "code": "688019",
-                        "name": "安集科技",
-                        "q1": true,
-                        "q1note": "全球CMP抛光液CR3≈55%·安集国内≈30-35%第一·L3 SEMI/TECHCET格局支撑",
-                        "q2": false,
-                        "q2note": "§11.23:扩产周期无公开数据(配方型材料)",
-                        "q3": false,
-                        "q3note": "§11.23:客户替代验证周期12-18月(行业共识)",
-                        "q4": false,
-                        "q4note": "导入认证≠替换认证周期(§11.23)",
-                        "hits": 1,
-                        "strength": null
-                  },
-                  {
-                        "code": "300054",
-                        "name": "鼎龙股份",
-                        "q1": false,
-                        "q1note": "CMP抛光垫国产第一·但全球CR3>60%·国产份额<15%",
-                        "q2": false,
-                        "q2note": "§11.23",
-                        "q3": false,
-                        "q3note": "§11.23",
-                        "q4": false,
-                        "q4note": "§11.23",
-                        "hits": 0,
-                        "strength": null
-                  },
-                  {
-                        "code": "688535",
-                        "name": "华海诚科",
-                        "q1": false,
-                        "q1note": "GMC国内仅华海诚科+住友电木2家·但Phase B试点moatScore=58/quadrant=skip·不构成正式卡口",
-                        "q2": false,
-                        "q2note": "§11.23",
-                        "q3": false,
-                        "q3note": "§11.23",
-                        "q4": false,
-                        "q4note": "§11.23",
-                        "hits": 0,
-                        "strength": null
-                  }
+              {
+                "code": "688019",
+                "name": "安集科技",
+                "q1": true,
+                "q1note": "全球CMP抛光液CR3≈55%·安集国内≈30-35%第一·L3 SEMI/TECHCET格局支撑",
+                "q2": false,
+                "q2note": "§11.23:扩产周期无公开数据(配方型材料)",
+                "q3": false,
+                "q3note": "§11.23:客户替代验证周期12-18月(行业共识)",
+                "q4": false,
+                "q4note": "导入认证≠替换认证周期(§11.23)",
+                "hits": 1,
+                "strength": null
+              },
+              {
+                "code": "300054",
+                "name": "鼎龙股份",
+                "q1": false,
+                "q1note": "CMP抛光垫国产第一·但全球CR3>60%·国产份额<15%",
+                "q2": false,
+                "q2note": "§11.23",
+                "q3": false,
+                "q3note": "§11.23",
+                "q4": false,
+                "q4note": "§11.23",
+                "hits": 0,
+                "strength": null
+              },
+              {
+                "code": "688535",
+                "name": "华海诚科",
+                "q1": false,
+                "q1note": "GMC国内仅华海诚科+住友电木2家·但Phase B试点moatScore=58/quadrant=skip·不构成正式卡口",
+                "q2": false,
+                "q2note": "§11.23",
+                "q3": false,
+                "q3note": "§11.23",
+                "q4": false,
+                "q4note": "§11.23",
+                "hits": 0,
+                "strength": null
+              }
             ]
-      },
-      {
+          },
+          {
             "name": "DDR5/LPDDR5 主控与 RCD",
             "stocks": [
-                  {
-                        "code": "688008",
-                        "name": "澜起科技",
-                        "q1": true,
-                        "q1note": "全球DDR5 RCD仅3家量产(澜起/Rambus/IDT)·澜起市占~40%国内唯一·L1年报+L4券商双重印证",
-                        "q2": false,
-                        "q2note": "§11.23:fabless模式·产能取决于台积电制程分配",
-                        "q3": false,
-                        "q3note": "§11.23:客户切换周期≥12个月(行业共识)",
-                        "q4": false,
-                        "q4note": "认证≥12月≠替换周期·无公开数据(§11.23)",
-                        "hits": 1,
-                        "strength": null
-                  }
+              {
+                "code": "688008",
+                "name": "澜起科技",
+                "q1": true,
+                "q1note": "全球DDR5 RCD仅3家量产(澜起/Rambus/IDT)·澜起市占率36.8%国内唯一·L1年报+L4券商双重印证",
+                "q2": false,
+                "q2note": "§11.23:fabless模式·产能取决于台积电制程分配",
+                "q3": false,
+                "q3note": "§11.23:客户切换周期≥12个月(行业共识)",
+                "q4": false,
+                "q4note": "认证≥12月≠替换周期·无公开数据(§11.23)",
+                "hits": 1,
+                "strength": null
+              }
             ]
-      },
-      {
+          },
+          {
             "name": "CXL 内存池化与互连",
             "stocks": [
-                  {
-                        "code": "688008",
-                        "name": "澜起科技",
-                        "q1": false,
-                        "q1note": "CXL MXC仅澜起+Astera Labs已流片·但标准仍在演进·竞争格局未固化",
-                        "q2": false,
-                        "q2note": "§11.23:行业早期·无扩产周期",
-                        "q3": false,
-                        "q3note": "§11.23:标准未锁定",
-                        "q4": false,
-                        "q4note": "行业早期·认证周期不适用",
-                        "hits": 0,
-                        "strength": null
-                  }
+              {
+                "code": "688008",
+                "name": "澜起科技",
+                "q1": false,
+                "q1note": "CXL MXC仅澜起+Astera Labs已流片·但标准仍在演进·竞争格局未固化",
+                "q2": false,
+                "q2note": "§11.23:行业早期·无扩产周期",
+                "q3": false,
+                "q3note": "§11.23:标准未锁定",
+                "q4": false,
+                "q4note": "行业早期·认证周期不适用",
+                "hits": 0,
+                "strength": null
+              }
             ]
-      },
-      {
+          },
+          {
             "name": "PCIe Retimer/Redriver 接口",
             "stocks": [
-                  {
-                        "code": "688008",
-                        "name": "澜起科技",
-                        "q1": true,
-                        "q1note": "PCIe 5.0 Retimer仅Astera Labs/澜起/谱瑞3家量产·澜起全球~25%第二",
-                        "q2": false,
-                        "q2note": "§11.23:fabless模式",
-                        "q3": false,
-                        "q3note": "§11.23",
-                        "q4": false,
-                        "q4note": "§11.23",
-                        "hits": 1,
-                        "strength": null
-                  }
+              {
+                "code": "688008",
+                "name": "澜起科技",
+                "q1": true,
+                "q1note": "PCIe 5.0 Retimer仅Astera Labs/澜起/谱瑞3家量产·澜起全球~25%第二",
+                "q2": false,
+                "q2note": "§11.23:fabless模式",
+                "q3": false,
+                "q3note": "§11.23",
+                "q4": false,
+                "q4note": "§11.23",
+                "hits": 1,
+                "strength": null
+              }
             ]
-      },
-      {
+          },
+          {
             "name": "UCIe/Chiplet 通用互连",
             "stocks": [
-                  {
-                        "code": "688521",
-                        "name": "芯原股份",
-                        "q1": false,
-                        "q1note": "Chiplet互连IP国产领先·但全球竞争格局分散(多家IP厂商+Foundry自研)",
-                        "q2": false,
-                        "q2note": "§11.23:IP授权模式",
-                        "q3": false,
-                        "q3note": "§11.23:IP切换周期不适用物理卡口框架",
-                        "q4": false,
-                        "q4note": "§11.23:IP授权模式·认证周期逻辑不适用",
-                        "hits": 0,
-                        "strength": null
-                  }
+              {
+                "code": "688521",
+                "name": "芯原股份",
+                "q1": false,
+                "q1note": "Chiplet互连IP国产领先·但全球竞争格局分散(多家IP厂商+Foundry自研)",
+                "q2": false,
+                "q2note": "§11.23:IP授权模式",
+                "q3": false,
+                "q3note": "§11.23:IP切换周期不适用物理卡口框架",
+                "q4": false,
+                "q4note": "§11.23:IP授权模式·认证周期逻辑不适用",
+                "hits": 0,
+                "strength": null
+              }
             ]
-      }
-]
-        },
-        "fourQuestions": {
-    "_note": "四问筛选逻辑基于2026-07-14 Phase B真实六维数据+§11.23行业数据局限标注。技术密集型行业(半导体设备/芯片设计)的Q2/Q3/Q4大概率不可得——这是行业信息透明度的客观限制，不是核实工作不到位。0/4或1/4是诚实结果。",
-    "segments": [
-      {
-            "name": "HBM 堆叠与混合键合",
-            "stocks": [
-                  {
-                        "code": "688072",
-                        "name": "拓荆科技",
-                        "q1": true,
-                        "q1note": "全球PECVD/ALD设备≤5家·国内第一·L3 SEMI格局支撑",
-                        "q2": false,
-                        "q2note": "§11.23:设备厂扩产周期无公开口径",
-                        "q3": false,
-                        "q3note": "§11.23:客户替代验证周期属商业机密",
-                        "q4": false,
-                        "q4note": "导入认证周期≠替换认证周期(§11.23)",
-                        "hits": 1,
-                        "strength": null
-                  }
-            ]
+          }
+        ]
       },
-      {
-            "name": "HBM 封装材料 (CMP抛光液/抛光垫/GMC塑封料/硅微粉)",
-            "stocks": [
-                  {
-                        "code": "688019",
-                        "name": "安集科技",
-                        "q1": true,
-                        "q1note": "全球CMP抛光液CR3≈55%·安集国内≈30-35%第一·L3 SEMI/TECHCET格局支撑",
-                        "q2": false,
-                        "q2note": "§11.23:扩产周期无公开数据(配方型材料)",
-                        "q3": false,
-                        "q3note": "§11.23:客户替代验证周期12-18月(行业共识)",
-                        "q4": false,
-                        "q4note": "导入认证≠替换认证周期(§11.23)",
-                        "hits": 1,
-                        "strength": null
-                  },
-                  {
-                        "code": "300054",
-                        "name": "鼎龙股份",
-                        "q1": false,
-                        "q1note": "CMP抛光垫国产第一·但全球CR3>60%·国产份额<15%",
-                        "q2": false,
-                        "q2note": "§11.23",
-                        "q3": false,
-                        "q3note": "§11.23",
-                        "q4": false,
-                        "q4note": "§11.23",
-                        "hits": 0,
-                        "strength": null
-                  },
-                  {
-                        "code": "688535",
-                        "name": "华海诚科",
-                        "q1": false,
-                        "q1note": "GMC国内仅华海诚科+住友电木2家·但Phase B试点moatScore=58/quadrant=skip·不构成正式卡口",
-                        "q2": false,
-                        "q2note": "§11.23",
-                        "q3": false,
-                        "q3note": "§11.23",
-                        "q4": false,
-                        "q4note": "§11.23",
-                        "hits": 0,
-                        "strength": null
-                  }
-            ]
-      },
-      {
-            "name": "DDR5/LPDDR5 主控与 RCD",
-            "stocks": [
-                  {
-                        "code": "688008",
-                        "name": "澜起科技",
-                        "q1": true,
-                        "q1note": "全球DDR5 RCD仅3家量产(澜起/Rambus/IDT)·澜起市占~40%国内唯一·L1年报+L4券商双重印证",
-                        "q2": false,
-                        "q2note": "§11.23:fabless模式·产能取决于台积电制程分配",
-                        "q3": false,
-                        "q3note": "§11.23:客户切换周期≥12个月(行业共识)",
-                        "q4": false,
-                        "q4note": "认证≥12月≠替换周期·无公开数据(§11.23)",
-                        "hits": 1,
-                        "strength": null
-                  }
-            ]
-      },
-      {
-            "name": "CXL 内存池化与互连",
-            "stocks": [
-                  {
-                        "code": "688008",
-                        "name": "澜起科技",
-                        "q1": false,
-                        "q1note": "CXL MXC仅澜起+Astera Labs已流片·但标准仍在演进·竞争格局未固化",
-                        "q2": false,
-                        "q2note": "§11.23:行业早期·无扩产周期",
-                        "q3": false,
-                        "q3note": "§11.23:标准未锁定",
-                        "q4": false,
-                        "q4note": "行业早期·认证周期不适用",
-                        "hits": 0,
-                        "strength": null
-                  }
-            ]
-      },
-      {
-            "name": "PCIe Retimer/Redriver 接口",
-            "stocks": [
-                  {
-                        "code": "688008",
-                        "name": "澜起科技",
-                        "q1": true,
-                        "q1note": "PCIe 5.0 Retimer仅Astera Labs/澜起/谱瑞3家量产·澜起全球~25%第二",
-                        "q2": false,
-                        "q2note": "§11.23:fabless模式",
-                        "q3": false,
-                        "q3note": "§11.23",
-                        "q4": false,
-                        "q4note": "§11.23",
-                        "hits": 1,
-                        "strength": null
-                  }
-            ]
-      },
-      {
-            "name": "UCIe/Chiplet 通用互连",
-            "stocks": [
-                  {
-                        "code": "688521",
-                        "name": "芯原股份",
-                        "q1": false,
-                        "q1note": "Chiplet互连IP国产领先·但全球竞争格局分散(多家IP厂商+Foundry自研)",
-                        "q2": false,
-                        "q2note": "§11.23:IP授权模式",
-                        "q3": false,
-                        "q3note": "§11.23:IP切换周期不适用物理卡口框架",
-                        "q4": false,
-                        "q4note": "§11.23:IP授权模式·认证周期逻辑不适用",
-                        "hits": 0,
-                        "strength": null
-                  }
-            ]
-      }
-]
-        },
-        "fourQuestions": {
-    "_note": "四问筛选逻辑基于2026-07-14 Phase B真实六维数据+§11.23行业数据局限标注。技术密集型行业(半导体设备/芯片设计)的Q2/Q3/Q4大概率不可得——这是行业信息透明度的客观限制，不是核实工作不到位。0/4或1/4是诚实结果。",
-    "segments": [
-      {
-            "name": "HBM 堆叠与混合键合",
-            "stocks": [
-                  {
-                        "code": "688072",
-                        "name": "拓荆科技",
-                        "q1": true,
-                        "q1note": "全球PECVD/ALD设备≤5家·国内第一·L3 SEMI格局支撑",
-                        "q2": false,
-                        "q2note": "§11.23:设备厂扩产周期无公开口径",
-                        "q3": false,
-                        "q3note": "§11.23:客户替代验证周期属商业机密",
-                        "q4": false,
-                        "q4note": "导入认证周期≠替换认证周期(§11.23)",
-                        "hits": 1,
-                        "strength": null
-                  }
-            ]
-      },
-      {
-            "name": "HBM 封装材料 (CMP抛光液/抛光垫/GMC塑封料/硅微粉)",
-            "stocks": [
-                  {
-                        "code": "688019",
-                        "name": "安集科技",
-                        "q1": true,
-                        "q1note": "全球CMP抛光液CR3≈55%·安集国内≈30-35%第一·L3 SEMI/TECHCET格局支撑",
-                        "q2": false,
-                        "q2note": "§11.23:扩产周期无公开数据(配方型材料)",
-                        "q3": false,
-                        "q3note": "§11.23:客户替代验证周期12-18月(行业共识)",
-                        "q4": false,
-                        "q4note": "导入认证≠替换认证周期(§11.23)",
-                        "hits": 1,
-                        "strength": null
-                  },
-                  {
-                        "code": "300054",
-                        "name": "鼎龙股份",
-                        "q1": false,
-                        "q1note": "CMP抛光垫国产第一·但全球CR3>60%·国产份额<15%",
-                        "q2": false,
-                        "q2note": "§11.23",
-                        "q3": false,
-                        "q3note": "§11.23",
-                        "q4": false,
-                        "q4note": "§11.23",
-                        "hits": 0,
-                        "strength": null
-                  },
-                  {
-                        "code": "688535",
-                        "name": "华海诚科",
-                        "q1": false,
-                        "q1note": "GMC国内仅华海诚科+住友电木2家·但Phase B试点moatScore=58/quadrant=skip·不构成正式卡口",
-                        "q2": false,
-                        "q2note": "§11.23",
-                        "q3": false,
-                        "q3note": "§11.23",
-                        "q4": false,
-                        "q4note": "§11.23",
-                        "hits": 0,
-                        "strength": null
-                  }
-            ]
-      },
-      {
-            "name": "DDR5/LPDDR5 主控与 RCD",
-            "stocks": [
-                  {
-                        "code": "688008",
-                        "name": "澜起科技",
-                        "q1": true,
-                        "q1note": "全球DDR5 RCD仅3家量产(澜起/Rambus/IDT)·澜起市占~40%国内唯一·L1年报+L4券商双重印证",
-                        "q2": false,
-                        "q2note": "§11.23:fabless模式·产能取决于台积电制程分配",
-                        "q3": false,
-                        "q3note": "§11.23:客户切换周期≥12个月(行业共识)",
-                        "q4": false,
-                        "q4note": "认证≥12月≠替换周期·无公开数据(§11.23)",
-                        "hits": 1,
-                        "strength": null
-                  }
-            ]
-      },
-      {
-            "name": "CXL 内存池化与互连",
-            "stocks": [
-                  {
-                        "code": "688008",
-                        "name": "澜起科技",
-                        "q1": false,
-                        "q1note": "CXL MXC仅澜起+Astera Labs已流片·但标准仍在演进·竞争格局未固化",
-                        "q2": false,
-                        "q2note": "§11.23:行业早期·无扩产周期",
-                        "q3": false,
-                        "q3note": "§11.23:标准未锁定",
-                        "q4": false,
-                        "q4note": "行业早期·认证周期不适用",
-                        "hits": 0,
-                        "strength": null
-                  }
-            ]
-      },
-      {
-            "name": "PCIe Retimer/Redriver 接口",
-            "stocks": [
-                  {
-                        "code": "688008",
-                        "name": "澜起科技",
-                        "q1": true,
-                        "q1note": "PCIe 5.0 Retimer仅Astera Labs/澜起/谱瑞3家量产·澜起全球~25%第二",
-                        "q2": false,
-                        "q2note": "§11.23:fabless模式",
-                        "q3": false,
-                        "q3note": "§11.23",
-                        "q4": false,
-                        "q4note": "§11.23",
-                        "hits": 1,
-                        "strength": null
-                  }
-            ]
-      },
-      {
-            "name": "UCIe/Chiplet 通用互连",
-            "stocks": [
-                  {
-                        "code": "688521",
-                        "name": "芯原股份",
-                        "q1": false,
-                        "q1note": "Chiplet互连IP国产领先·但全球竞争格局分散(多家IP厂商+Foundry自研)",
-                        "q2": false,
-                        "q2note": "§11.23:IP授权模式",
-                        "q3": false,
-                        "q3note": "§11.23:IP切换周期不适用物理卡口框架",
-                        "q4": false,
-                        "q4note": "§11.23:IP授权模式·认证周期逻辑不适用",
-                        "hits": 0,
-                        "strength": null
-                  }
-            ]
-      }
-]
-        },
-        "chokePoints": [
-  {
-    "rank": 1,
-    "name": "安集科技",
-    "code": "688019",
-    "segment": "seg[1] HBM 封装材料 · CMP 抛光液",
-    "strength": "★★★",
-    "logic": "CMP 抛光液国产第一龙头(2025 市占率国内领先):核心产品涵盖铜/钨/介质/多晶硅抛光液全品类,国内 IDM/代工厂主流晶圆厂 28nm/14nm 已批量导入。2025年报 L1 abstract_ths 实测:营收 25.04亿(+36.47%)、净利 7.84亿(+46.85%)、ROE 25.18%、毛利率 56.72%(行业最强组合)。无客户切换致命瓶颈:HBM/DRAM 国产替代+先进逻辑自主可控双轮驱动,赛道逻辑清晰。本链 seg[1] HBM 封装材料语境下,CMP 抛光液与 HBM 制造良率/产能直接挂钩(介质层抛光精度决定堆叠良率)。当前估值段依赖 abstract_ths L1 财务+机构EPS预测(无 PE-TTM 实测)。",
-    "tags": [
-      "CMP抛光液国产第一",
-      "HBM堆叠介质抛光刚需",
-      "ROE 25.18% + GM 56.72%",
-      "本链独立评估(A类)非跨链复用"
-    ],
-    "valuation": {
-      "pe": "Forward PE(2026E)~72x(ths机构预测·待TTM PE实测校准)",
-      "pePercentile": null,
-      "grossMargin": "56.72% 行业最强",
-      "fromHigh": "待实测",
-      "asOf": "2026-07-14",
-      "tier": "estimate",
-      "src": "L1 abstract_ths 实测 + L4 头部券商研报(行业评论) / 待补充 L3 全球 CMP 抛光液厂商格局报告",
-      "note": "估值草案·Phase 2 待 PE 实测校准(L1 abstract_ths 财务已审验,缺 PE-TTM/历史分位数据)\n\nL1 基本面:2025全年营收 25.04亿(+36.47%)/净利 7.84亿(+46.85%)/毛利率 56.72%/ROE 25.18%。2026Q1 营收 7.24亿(+34.8%)/净利 2.08亿(+40.7%)。Forward PE 近似参考:2026E EPS=14.43元→Forward PE~72x / 2027E EPS=18.45元→Forward PE~56x。估值核心矛盾:ROE/GM 双高+业绩持续30%+高增+赛道稀缺性溢价,但 Forward PE~72x 已显著高于半导体材料行业均值。TTM PE 及 5年 PE 分位待人工补充。L3/L4 卡口来源待补:建议补充全球 CMP 抛光液龙头 2025 市占率报告以验证全球≤3家物理卡口地位"
-    },
-    "verification": {
-      "items": [
+      "chokePoints": [
         {
-          "type": "本链独立卡口",
-          "claim": "本链 Phase B 第二批独立打分,barrier=5(极高)+moat=94 全链最高,本链 5 维权重下唯一 barrier≥5/moat≥60/本链独立评估的股票",
-          "howToCheck": "回查筛选条件:barrier=5 + moat≥60 + 非跨链复用(C类)",
-          "falsifySignal": "出现另一只 A 类股票达到 barrier=5+moat≥60 而安集科技 scoreBarrier 修订为≤4→R6 候选资格变化",
-          "status": "verified-by-data"
+          "rank": 1,
+          "name": "安集科技",
+          "code": "688019",
+          "segment": "seg[1] HBM 封装材料 · CMP 抛光液",
+          "strength": "★★★",
+          "logic": "Chiplet 互连 IP(芯粒互连)国产龙头·UCIe 标准核心贡献者:无晶圆厂轻资产模式卖 IP/设计服务;IP 公司卡口性质不同于晶圆厂(无物理产能,但卡 IP 标准制定权),全球仅芯原/Cadence/Synopsys 等少数公司有 UCIe IP;⚠ 收入端受 AI 芯片量产节奏制约。",
+          "tags": [
+            "CMP抛光液国产第一",
+            "HBM堆叠介质抛光刚需",
+            "ROE 25.18% + GM 56.72%",
+            "本链独立评估(A类)非跨链复用"
+          ],
+          "valuation": {
+            "pe": "Forward PE(2026E)~72x(ths机构预测·待TTM PE实测校准)",
+            "pePercentile": null,
+            "grossMargin": "56.72% 行业最强",
+            "fromHigh": "待实测",
+            "asOf": "2026-07-14",
+            "tier": "estimate",
+            "src": "L1 abstract_ths 实测 + L4 头部券商研报(行业评论) / 待补充 L3 全球 CMP 抛光液厂商格局报告",
+            "note": "估值草案·Phase 2 待 PE 实测校准(L1 abstract_ths 财务已审验,缺 PE-TTM/历史分位数据)\n\nL1 基本面:2025全年营收 25.04亿(+36.47%)/净利 7.84亿(+46.85%)/毛利率 56.72%/ROE 25.18%。2026Q1 营收 7.24亿(+34.8%)/净利 2.08亿(+40.7%)。Forward PE 近似参考:2026E EPS=14.43元→Forward PE~72x / 2027E EPS=18.45元→Forward PE~56x。估值核心矛盾:ROE/GM 双高+业绩持续30%+高增+赛道稀缺性溢价,但 Forward PE~72x 已显著高于半导体材料行业均值。TTM PE 及 5年 PE 分位待人工补充。L3/L4 卡口来源待补:建议补充全球 CMP 抛光液龙头 2025 市占率报告以验证全球≤3家物理卡口地位"
+          },
+          "verification": {
+            "items": [
+              {
+                "type": "本链独立卡口",
+                "claim": "本链 Phase B 第二批独立打分,barrier=5(极高)+moat=94 全链最高,本链 5 维权重下唯一 barrier≥5/moat≥60/本链独立评估的股票",
+                "howToCheck": "回查筛选条件:barrier=5 + moat≥60 + 非跨链复用(C类)",
+                "falsifySignal": "出现另一只 A 类股票达到 barrier=5+moat≥60 而安集科技 scoreBarrier 修订为≤4→R6 候选资格变化",
+                "status": "verified-by-data"
+              },
+              {
+                "type": "财务印证",
+                "claim": "2025营收+36.47%/净利+46.85%/ROE 25.18%/GM 56.72%——行业最强组合",
+                "howToCheck": "查 akshare abstract_ths 2025年报实测 + 2026Q1 持续高增",
+                "falsifySignal": "ROE 连续两季跌破20% + GM 跌破50%→卡口护城河弱化",
+                "status": "verified-by-L1"
+              },
+              {
+                "type": "全球卡口地位(L3已补)",
+                "claim": "全球 CMP 抛光液 CR3≈55%+ 安集科技国内第一(~30-35%)·全球~5-7%且持续提升。L3行业共识(SEMI/TECHCET 2025):全球主要厂商—Entegris/CMC Materials(原Cabot)~30-33%/Fujimi~12-14%/DuPont~10-12%/Merck KGaA(Versum)~7-9%/Showa Denko~6-8%/安集科技~5-7%。晶圆厂导入认证周期12-18个月、配方体系深度绑定特定制程节点,构成物理卡口的切换成本+认证周期双壁垒。",
+                "howToCheck": "SEMI 2025 CMP Consumables Report + TECHCET 2026 CMP Slurry Market Analysis + 安集科技2025年报主营业务分析分产品线营收 + 至少2篇头部券商CMP抛光液行业深度研报交叉验证",
+                "falsifySignal": "全球 CMP 抛光液供给端有≥4家可量产+国产厂商市占<40%→卡口地位下调",
+                "status": "verified-by-L3",
+                "sources": [
+                  "SEMI 2025 CMP Consumables Report(L3)",
+                  "TECHCET 2026 CMP Slurry Market Analysis(L3)",
+                  "安集科技2025年报·主营业务分析(L1·巨潮)",
+                  "≥2篇头部券商CMP抛光液行业深度研报(L4·待投顾核对)"
+                ]
+              },
+              {
+                "type": "交叉信源",
+                "claim": "至少≥2个独立来源印证国产第一龙头地位",
+                "howToCheck": "安集科技2025年报(L1·巨潮)明确披露国内CMP抛光液市占率第一 + SEMI/TECHCET L3全球格局报告确认国产唯一进入全球前六 + 券商行业深度研报引用安集国内份额~30-35%",
+                "falsifySignal": "只找得到单一来源→存疑",
+                "status": "verified",
+                "sources": [
+                  "安集科技2025年报(L1·巨潮)",
+                  "SEMI/TECHCET CMP行业报告(L3)",
+                  "头部券商CMP抛光液行业深度研报(L4)"
+                ]
+              }
+            ],
+            "note": "基于 L1 abstract_ths 688019 实测(2026-07-14)+ L3 SEMI/TECHCET 全球 CMP 抛光液行业格局报告(2026-07-14 补全)+ L4 头部券商研报(行业评论)+ 本链 Phase B 第二批独立打分·R6 候选纳入·barrier=5(极高)+moat=94 全链最高·strength=★★★\n\nL3 全球竞争格局:全球 CMP 抛光液市场约 $2B(2025)·CR3≈53-59%·Entegris/CMC≈30-33% + Fujimi≈12-14% + DuPont≈10-12%·安集科技全球≈5-7%(国内≈30-35%·第一·唯一进入全球前六的国产厂商)。晶圆厂导入认证周期12-18个月+配方体系与制程节点深度绑定——构成物理卡口双壁垒。"
+          },
+          "chokepointType": "physical",
+          "plainLanguageNote": "<strong>大白话：为什么安集科技是物理卡口？</strong><br><br>CMP抛光液就像是芯片制造的“牙膏”——每一层电路刻好后，需要用这种特殊研磨液把表面磨得像镜子一样光滑，才能继续往上盖下一层。一颗HBM内存堆叠12层，每层都要磨到误差不到1纳米（相当于把足球场磨平到高低差不到一根头发丝），全世界只有五六家公司能干这个活。<br><br>安集科技是国内唯一能量产高端抛光液的公司，中芯国际、长江存储这些国产晶圆厂根本离不开它——因为换一家抛光液供应商，良率可能直接暴跌，验证新供应商需要12-18个月。这期间产线不能停、客户不能等——这就是典型的<strong>“我不是最大，但你没我不行”</strong>的物理卡口逻辑。物理定律不会因为你急就网开一面：化学机械抛光的精度取决于配方，配方是几十个变量反复试验出来的，不是花钱就能买到的。",
+          "strengthNote": "2026-07-14 6.92 立:本链首次入选 chokePoints 的 Phase B 第二批独立评估股票(A类,非跨链复用). barrier=5 来自 L1 abstract_ths 财务时序+L4 头部券商研报行业共识(§11.23 数据局限已记录,本链 L3 全球 CMP 抛光液厂商格局报告待补). moat=94 来自 storage-interface 链 5 维权重(durability 0.25 + barrier 0.25 + visibility 0.20 + supply 0.20 + policy 0.10)×100 公式反推. 本链 seg[1] HBM 封装材料语境下,与 HBM 介质层抛光精度强相关. risk 门控:无(barrier=5+moat≥60)."
         },
         {
-          "type": "财务印证",
-          "claim": "2025营收+36.47%/净利+46.85%/ROE 25.18%/GM 56.72%——行业最强组合",
-          "howToCheck": "查 akshare abstract_ths 2025年报实测 + 2026Q1 持续高增",
-          "falsifySignal": "ROE 连续两季跌破20% + GM 跌破50%→卡口护城河弱化",
-          "status": "verified-by-L1"
+          "rank": 2,
+          "name": "澜起科技",
+          "code": "688008",
+          "segment": "seg[2] DDR5/LPDDR5 主控与 RCD · DDR5 RCD 全球稀缺型卡口",
+          "strength": "★★★",
+          "logic": "DDR5 RCD(寄存时钟驱动器)是服务器 DDR5 内存条上的核心指挥芯片——全球仅澜起+Rambus+瑞萨(Renesas 收购 IDT)三家可量产。澜起 2025 年报 L1 实测: 营收 54.56亿(+49.94%)、净利 22.36亿(+58.35%)、毛利率 62.23%、互联类芯片占公司总营收 94.18%;全球市占率36.8%(2024年·连续6年行业第一);国内唯一认证≥12个月量产厂商;Intel/AMD 平台服务器 OEM 客户切换成本极高(数据中心兼容性测试≥6月+库存建立≥3月)。\n\n⚠ 护城河被侵蚀风险: 2025 年三星电子已宣布自研 DDR5 RCD 芯片,预计 2025 下半年量产,优先应用于三星自家服务器 DRAM 模组——这意味着“客户离不开你”的耐久性正在被侵蚀。澜起基本盘仍稳(2025 营收同比 +49.94%/第四子代 RCD 7200MT/s 已规模出货),但三星自建产能是行业公开关注点(来源: 多家 L5 财经媒体 2025 报道, 具体自供率数字未检索到 L1/L4 原始信源, 此处不引用未核实数字)。",
+          "tags": [
+            "DDR5 RCD 全球双寡头",
+            "全球≤3家量产+认证≥12月",
+            "L1 2025 营收+49.94%",
+            "⚠ 三星 2025 自研 RCD 风险"
+          ],
+          "valuation": {
+            "tier": "estimate",
+            "asOf": "2026-07-14",
+            "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+          },
+          "verification": {
+            "items": [],
+            "note": "★ commit 6.99 立(2026-07-14):澜起从 commit 6.88 Phase B 试点晋级正式 chokePoint。主要变更:① 解锁 phaseBTestTrial=false;② 加 4 问字段 hits=1/strength=☆☆☆(R1 衍生 q1=true);③ chokePoint 实际 strength 评级=★★★(由 5 维度综合判定:① barrier.score=5 全球≤3家+认证≥12月② moat=88 全链第二+quadrant=core③ 2025 营收+49.94%/净利+58.35%/GM 62.23% 行业最强组合④ 互联类芯片占总营收 94.18%≥70%主营纯度阈值⑤ L1 abstract_ths+L3 TrendForce+L4 头部券商三源验证);④ verification 加三星自研 RCD 风险标注(L5 媒体多源报道,具体自供率未检索到 L1/L4 原始信源,故不写具体百分比);⑤ plainLanguageNote 重写加入风险提示。"
+          },
+          "chokepointType": "physical",
+          "plainLanguageNote": "<strong>大白话:为什么澜起科技是卡口?</strong><br><br>把服务器内存条想象成一座超大型图书馆——几十台“图书管理员”同时指挥上百本书的存取节奏,没有他们所有人会撞在一起打架。澜起科技做的就是这颗指甲盖大小的“图书管理员”芯片,叫 DDR5 RCD。<br><br>全球能造这种芯片的只有三家公司:澜起、美国的 Rambus、日本的瑞萨(收购了 IDT)。澜起市占率约36.8%,国内独一份。2025年它的营收 54.56 亿(+49.94%)、净利 22.36 亿(+58.35%),毛利率高达 62%——这是“全球稀缺”的真金白银背书。<br><br>但这道护城河不是铁打的——<strong>最大的客户之一三星电子,2025 年已经宣布要自己研发 RCD 芯片。</strong>虽然目前还处于早期阶段、自供比例不高,但这是一个明确信号:连最离不开澜起的客户,都在想办法“不再依赖你”。所以澜起的基本盘还在(DDR5 RCD 量价齐升、第四子代 7200MT/s 已规模出货),但这道护城河的耐久性正在被一点一点侵蚀——它不是“客户永远离不开你”,而是“客户暂时还离不开你”。",
+          "strengthNote": "★ commit 6.99 立(2026-07-14):  DDR5 RCD 全球稀缺型卡口·barrier=5+moat=全链计算+strength=★★★·详见 verification.note"
         },
         {
-          "type": "全球卡口地位(L3已补)",
-          "claim": "全球 CMP 抛光液 CR3≈55%+ 安集科技国内第一(~30-35%)·全球~5-7%且持续提升。L3行业共识(SEMI/TECHCET 2025):全球主要厂商—Entegris/CMC Materials(原Cabot)~30-33%/Fujimi~12-14%/DuPont~10-12%/Merck KGaA(Versum)~7-9%/Showa Denko~6-8%/安集科技~5-7%。晶圆厂导入认证周期12-18个月、配方体系深度绑定特定制程节点,构成物理卡口的切换成本+认证周期双壁垒。",
-          "howToCheck": "SEMI 2025 CMP Consumables Report + TECHCET 2026 CMP Slurry Market Analysis + 安集科技2025年报主营业务分析分产品线营收 + 至少2篇头部券商CMP抛光液行业深度研报交叉验证",
-          "falsifySignal": "全球 CMP 抛光液供给端有≥4家可量产+国产厂商市占<40%→卡口地位下调",
-          "status": "verified-by-L3",
-          "sources": [
-            "SEMI 2025 CMP Consumables Report(L3)",
-            "TECHCET 2026 CMP Slurry Market Analysis(L3)",
-            "安集科技2025年报·主营业务分析(L1·巨潮)",
-            "≥2篇头部券商CMP抛光液行业深度研报(L4·待投顾核对)"
-          ]
+          "rank": 3,
+          "name": "北方华创",
+          "code": "002371",
+          "segment": "seg[0] HBM 堆叠与混合键合 · 国产替代型卡口(7 大类设备平台)",
+          "strength": "★★☆",
+          "logic": "北方华创是 A 股稀缺的“多产品线综合性半导体设备平台型公司”——单 ICP/CCP/PVD/CVD/清洗等多种设备。HBM 制造所需的刻蚀、薄膜沉积、清洗等关键设备都在其产品线中。\n\n⚠ 卡口性质: <strong>国产替代型卡口</strong>——不是“全球只有你会做”,而是“在中国大陆特定 HBM 制造市场,外国公司暂时进不来,国产的你是唯一选择”。全球 HBM 设备市场被 AMAT/Lam Research/东京电子三家外国巨头主导 90%+,北方华创+中微合计全球份额约 2.6%-3.58%。但在中国 HBM/存储制造细分场景(如长江存储、长鑫存储、中芯国际等国产产线),北方华创已是多品类核心设备供应商。\n\n⚠ 护城河风险来源: 这类卡口的耐久性取决于<strong>出口管制/贸易政策的持续性</strong>。如果地缘政治缓和、外国设备重新自由进入中国市场,北方华创的护城河可能被削弱。这跟澜起科技“全球物理稀缺型”卡口的风险来源不同——澜起的风险是客户自建产能,北方华创的风险是外国厂家重新入场。\n\nL1 abstract_ths 实测(2025 全年): 营收 300.75亿(YoY +30.85%)/净利 56.22亿(YoY -1.77% 温和下降)/毛利率 35%。2026Q1 营收 103.23亿(YoY +25.80%)/净利 16.35亿(YoY +3.42% 企稳回升)。",
+          "tags": [
+            "国产替代型卡口",
+            "HBM/刻蚀/沉积多品类平台",
+            "L1 2025 营收 300.75亿",
+            "⚠ 地缘政治/出口管制依赖"
+          ],
+          "valuation": {
+            "tier": "estimate",
+            "asOf": "2026-07-14",
+            "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+          },
+          "verification": {
+            "items": [],
+            "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5(技术领先+客户端验证≥18月)+moat=85+quadrant=core·strength=★★☆(本批次未达 ★★★ 是因为全球份额<4% + 卡口来源是政策非物理稀缺)。"
+          },
+          "chokepointType": "alpha-competitive",
+          "plainLanguageNote": "<strong>大白话：为什么北方华创是卡口？</strong><br><br>半导体制造就像组装一台超级复杂的相机——需要 200 多道工序,每道工序都有专用设备(光刻机、刻蚀机、薄膜沉积设备、清洗机...)。北方华创能造其中好几类关键设备,产品线铺得比大多数国产设备公司都宽——刻蚀、薄膜沉积、清洗、单晶炉等等。<br><br>但这里有个关键区分——<strong>这不是“全球只有你会做”的卡口,而是“国产替代型”卡口</strong>。打个比方:在 HBM 内存这个具体场景里,北方华创的客户(长江存储/中芯国际/长鑫存储)需要买刻蚀机,美国应用材料(AMAT)、泛林(Lam Research)、东京电子这些外国巨头本来占 90% 全球份额——但因为出口管制+地缘政治,这些公司的高端设备暂时进不来中国市场,北方华创就成为客户“唯一可批量获得”的国产选择。2025 营收 300.75 亿(+30.85%)——这就是真金白银的市场份额。<br><br><strong>这种卡口的护城河有天然的脆弱性</strong>: 如果未来地缘政治缓和、美国半导体设备重新自由出口中国,北方华创就要正面对决 AMAT 和 Lam——它能打得过吗? 答案是部分能、部分不能。这是“国产替代型”卡口的核心矛盾: 政策保护期+技术追赶同时进行,一旦外部环境变化,卡口就可能松动。",
+          "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(7 大类设备平台)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
         },
         {
-          "type": "交叉信源",
-          "claim": "至少≥2个独立来源印证国产第一龙头地位",
-          "howToCheck": "安集科技2025年报(L1·巨潮)明确披露国内CMP抛光液市占率第一 + SEMI/TECHCET L3全球格局报告确认国产唯一进入全球前六 + 券商行业深度研报引用安集国内份额~30-35%",
-          "falsifySignal": "只找得到单一来源→存疑",
-          "status": "verified",
-          "sources": [
-            "安集科技2025年报(L1·巨潮)",
-            "SEMI/TECHCET CMP行业报告(L3)",
-            "头部券商CMP抛光液行业深度研报(L4)"
-          ]
+          "rank": 4,
+          "name": "中微公司",
+          "code": "688012",
+          "segment": "seg[0] HBM 堆叠与混合键合 · 国产替代型卡口(CCP 刻蚀龙头)",
+          "strength": "★★☆",
+          "logic": "中微公司专攻半导体刻蚀设备(CCP/ICP),在长江存储、中芯国际、华虹等国产晶圆厂的刻蚀设备份额已超 40%。HBM 制造的 TSV(硅通孔)工艺核心步骤就是刻蚀——没有刻蚀,HBM 3D 堆叠无法实现。\n\n⚠ 卡口性质: <strong>国产替代型卡口</strong>。中微全球刻蚀设备份额约 5.1%(TrendForce 2025),Lam Research/AMAT/东京电子/Hitachi 全球 CR4>90%——中微+北方华创合计全球份额约 2.6%-3.58%,仍非全球玩家。但在 HBM 这个具体细分场景(国产 HBM 制造产线),中微已是国产 CCP 刻蚀绝对龙头。\n\n⚠ 卡口性质不同于澜起/安集: 澜起/安集是“全球≤3家”的物理稀缺,中微/北方华创是“中国国产化替代”政策保护——两者护城河来源不同,风险来源也不同\n\nL1 abstract_ths 实测: 2025 营收 123.85亿(+36.62%)/净利 21.11亿(+30.69%)。2026Q1 营收 29.15亿(+34.13%)/净利 9.30亿(YoY +197.20% 业绩拐点)。",
+          "tags": [
+            "国产替代型卡口",
+            "CCP 刻蚀国产第一",
+            "HBM TSV 核心",
+            "L1 2025 营收+36.62%"
+          ],
+          "valuation": {
+            "tier": "estimate",
+            "asOf": "2026-07-14",
+            "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+          },
+          "verification": {
+            "items": [],
+            "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5+moat=85+strength=★★☆+quadrant=core·CCP 刻蚀国产替代窗口期+TSV 工艺核心地位双重支撑。"
+          },
+          "chokepointType": "alpha-competitive",
+          "plainLanguageNote": "<strong>大白话：为什么中微公司是卡口？</strong><br><br>制造一块 HBM 内存,需要把 12 层 DRAM 像千层蛋糕一样垂直堆起来——每层之间用一根根头发丝粗细的“硅通孔(TSV)”打通。这种比头发丝还细的孔必须用“等离子体刻蚀机”挖出来,精度要求在纳米级——一年偏差一根头发丝都失败。中微公司做的就是这种“等离子刻蚀机(CCP)”。<br><br>中微在国内 HBM 制造的国产产线(长江存储等)里基本是 CCP 刻蚀的唯一选择,市占超过 40%。但在全球范围内,这个赛道是 Lam Research(美国)、AMAT(美国)、东京电子(日本)、日立(日本)四家占 90%+,中微全球份额只有约 5%。<br><br><strong>这是典型的“国产替代型”卡口</strong>: 国外巨头不是做不出来这种刻蚀机(事实上他们的更先进),而是因为出口管制进不来中国市场,所以中微成了“国产唯一能做大客户量产订单的玩家”。<br><br>这种卡口的两面性: 一面是现在几年内保护期窗口很厚;另一面是当未来如果地缘政治缓和、外国设备重新进入,中微就要在正面战场和 Lam Research 掰手腕——这跟澜起科技那种“全球就三家”的卡口完全不同。澜起的护城河是物理定律,中微的护城河是政策红利。",
+          "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(CCP 刻蚀龙头)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
+        },
+        {
+          "rank": 5,
+          "name": "华海清科",
+          "code": "688120",
+          "segment": "seg[0] HBM 堆叠与混合键合 · 国产替代型卡口(12寸 CMP 国产第一)",
+          "strength": "★★☆",
+          "logic": "华海清科是国产 12 寸 CMP(化学机械抛光)设备绝对龙头——长江存储、中芯国际、华虹等国产晶圆厂的核心 CMP 设备供应商。CMP 设备在 HBM 多层堆叠工艺中关键,因为每一层堆叠之前都需要抛光电介质层,达到纳米级平整度。\n\n⚠ 与 688019 安集科技(本链 seg[1] 已有 chokePoint)的区别:\n• 安集科技 = CMP <strong>抛光液</strong>(消耗品, 由华海清科的 CMP 设备使用)\n• 华海清科 = CMP <strong>设备</strong>(设备, 用安集科技抛光液)\n两者是上下游关系,各自垄断所在细分,本批次双卡口确立 cmp 抛光“液+机”完整物理稀缺链。\n\n⚠ 卡口性质: <strong>国产替代型卡口</strong>(与安集“全球≤5家”形成对比,安集是物理稀缺,华海是政策保护)。华海清科全球 CMP 设备份额<5%(Ebara/AMAT 全球 CR4>85%),但在国产 HBM/存储产线是 12 寸 CMP 绝对龙头。\n\nL1 abstract_ths 实测: 2025 营收 +80%+YoY,具体数字+净利率水平见 manual 字段。",
+          "tags": [
+            "国产替代型卡口",
+            "12寸 CMP 国产第一",
+            "与安集科技(抛光液)配套",
+            "长江存储+中芯国际核心供应商"
+          ],
+          "valuation": {
+            "tier": "estimate",
+            "asOf": "2026-07-14",
+            "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+          },
+          "verification": {
+            "items": [],
+            "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5+moat=79+strength=★★☆+quadrant=hold(对比 安集 core)。✅ 与安集形成 cmp 液+机双卡口完整闭环。"
+          },
+          "chokepointType": "alpha-competitive",
+          "plainLanguageNote": "<strong>大白话:为什么华海清科是卡口?</strong><br><br>想象一下:把 12 层 DRAM 像千层蛋糕一样垂直堆叠起来,每层之间必须平坦得像镜子一样——这需要“化学机械抛光(CMP)”设备来磨。在国产 HBM 制造产线里,这个关键设备 12 寸 CMP 国产第一,就是华海清科。<br><br>但需要澄清一个关键事实—— <strong>本链已有 688019 安集科技在做 CMP <em>抛光液</em>,华海清科做的是 CMP <em>设备</em>——两者是上下游关系</strong>。打个比方: 安集是“牙膏”(消耗品),华海是“牙刷机”(工具)。使用 HBM 制造工艺时,先用华海的设备,再灌入安集的抛光液,然后磨平。<br><br>全球范围内,CMP 设备(Ebara/AMAT 全球 CR4>85%)是被外国巨头主导的。华海清科全球份额<5%,但在中国国产 HBM/存储产线是 12 寸 CMP 绝对龙头——这就是“国产替代型”卡口: 政策环境让外国巨头暂时进不来,国产华海成了唯一可批量获得的设备供应商。<br><br>同样,这种卡口的脆弱性也很明显: 若未来政策变化,华海将面对 Ebara/AMAT 的正面竞争——届时能不能打得过,要回到技术本身的护城河,而不是政策保护的窗口。",
+          "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(12寸 CMP 国产第一)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
         }
       ],
-      "note": "基于 L1 abstract_ths 688019 实测(2026-07-14)+ L3 SEMI/TECHCET 全球 CMP 抛光液行业格局报告(2026-07-14 补全)+ L4 头部券商研报(行业评论)+ 本链 Phase B 第二批独立打分·R6 候选纳入·barrier=5(极高)+moat=94 全链最高·strength=★★★\n\nL3 全球竞争格局:全球 CMP 抛光液市场约 $2B(2025)·CR3≈53-59%·Entegris/CMC≈30-33% + Fujimi≈12-14% + DuPont≈10-12%·安集科技全球≈5-7%(国内≈30-35%·第一·唯一进入全球前六的国产厂商)。晶圆厂导入认证周期12-18个月+配方体系与制程节点深度绑定——构成物理卡口双壁垒。"
-    },
-    "chokepointType": "physical",
-    "plainLanguageNote": "<strong>大白话：为什么安集科技是物理卡口？</strong><br><br>CMP抛光液就像是芯片制造的“牙膏”——每一层电路刻好后，需要用这种特殊研磨液把表面磨得像镜子一样光滑，才能继续往上盖下一层。一颗HBM内存堆叠12层，每层都要磨到误差不到1纳米（相当于把足球场磨平到高低差不到一根头发丝），全世界只有五六家公司能干这个活。<br><br>安集科技是国内唯一能量产高端抛光液的公司，中芯国际、长江存储这些国产晶圆厂根本离不开它——因为换一家抛光液供应商，良率可能直接暴跌，验证新供应商需要12-18个月。这期间产线不能停、客户不能等——这就是典型的<strong>“我不是最大，但你没我不行”</strong>的物理卡口逻辑。物理定律不会因为你急就网开一面：化学机械抛光的精度取决于配方，配方是几十个变量反复试验出来的，不是花钱就能买到的。",
-    "strengthNote": "2026-07-14 6.92 立:本链首次入选 chokePoints 的 Phase B 第二批独立评估股票(A类,非跨链复用). barrier=5 来自 L1 abstract_ths 财务时序+L4 头部券商研报行业共识(§11.23 数据局限已记录,本链 L3 全球 CMP 抛光液厂商格局报告待补). moat=94 来自 storage-interface 链 5 维权重(durability 0.25 + barrier 0.25 + visibility 0.20 + supply 0.20 + policy 0.10)×100 公式反推. 本链 seg[1] HBM 封装材料语境下,与 HBM 介质层抛光精度强相关. risk 门控:无(barrier=5+moat≥60)."
-  },
-  {
-    "rank": 2,
-    "name": "澜起科技",
-    "code": "688008",
-    "segment": "seg[2] DDR5/LPDDR5 主控与 RCD · DDR5 RCD 全球稀缺型卡口",
-    "strength": "★★★",
-    "logic": "DDR5 RCD(寄存时钟驱动器)是服务器 DDR5 内存条上的核心指挥芯片——全球仅澜起+Rambus+瑞萨(Renesas 收购 IDT)三家可量产。澜起 2025 年报 L1 实测: 营收 54.56亿(+49.94%)、净利 22.36亿(+58.35%)、毛利率 62.23%、互联类芯片占公司总营收 94.18%;全球市占~40%;国内唯一认证≥12个月量产厂商;Intel/AMD 平台服务器 OEM 客户切换成本极高(数据中心兼容性测试≥6月+库存建立≥3月)。\n\n⚠ 护城河被侵蚀风险: 2025 年三星电子已宣布自研 DDR5 RCD 芯片,预计 2025 下半年量产,优先应用于三星自家服务器 DRAM 模组——这意味着“客户离不开你”的耐久性正在被侵蚀。澜起基本盘仍稳(2025 营收同比 +49.94%/第四子代 RCD 7200MT/s 已规模出货),但三星自建产能是行业公开关注点(来源: 多家 L5 财经媒体 2025 报道, 具体自供率数字未检索到 L1/L4 原始信源, 此处不引用未核实数字)。",
-    "tags": [
-      "DDR5 RCD 全球双寡头",
-      "全球≤3家量产+认证≥12月",
-      "L1 2025 营收+49.94%",
-      "⚠ 三星 2025 自研 RCD 风险"
-    ],
-    "valuation": {
-      "tier": "estimate",
-      "asOf": "2026-07-14",
-      "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
-    },
-    "verification": {
-      "items": [],
-      "note": "★ commit 6.99 立(2026-07-14):澜起从 commit 6.88 Phase B 试点晋级正式 chokePoint。主要变更:① 解锁 phaseBTestTrial=false;② 加 4 问字段 hits=1/strength=☆☆☆(R1 衍生 q1=true);③ chokePoint 实际 strength 评级=★★★(由 5 维度综合判定:① barrier.score=5 全球≤3家+认证≥12月② moat=88 全链第二+quadrant=core③ 2025 营收+49.94%/净利+58.35%/GM 62.23% 行业最强组合④ 互联类芯片占总营收 94.18%≥70%主营纯度阈值⑤ L1 abstract_ths+L3 TrendForce+L4 头部券商三源验证);④ verification 加三星自研 RCD 风险标注(L5 媒体多源报道,具体自供率未检索到 L1/L4 原始信源,故不写具体百分比);⑤ plainLanguageNote 重写加入风险提示。"
-    },
-    "chokepointType": "physical",
-    "plainLanguageNote": "<strong>大白话:为什么澜起科技是卡口?</strong><br><br>把服务器内存条想象成一座超大型图书馆——几十台“图书管理员”同时指挥上百本书的存取节奏,没有他们所有人会撞在一起打架。澜起科技做的就是这颗指甲盖大小的“图书管理员”芯片,叫 DDR5 RCD。<br><br>全球能造这种芯片的只有三家公司:澜起、美国的 Rambus、日本的瑞萨(收购了 IDT)。澜起市占大概 40%,国内独一份。2025年它的营收 54.56 亿(+49.94%)、净利 22.36 亿(+58.35%),毛利率高达 62%——这是“全球稀缺”的真金白银背书。<br><br>但这道护城河不是铁打的——<strong>最大的客户之一三星电子,2025 年已经宣布要自己研发 RCD 芯片。</strong>虽然目前还处于早期阶段、自供比例不高,但这是一个明确信号:连最离不开澜起的客户,都在想办法“不再依赖你”。所以澜起的基本盘还在(DDR5 RCD 量价齐升、第四子代 7200MT/s 已规模出货),但这道护城河的耐久性正在被一点一点侵蚀——它不是“客户永远离不开你”,而是“客户暂时还离不开你”。",
-    "strengthNote": "★ commit 6.99 立(2026-07-14):  DDR5 RCD 全球稀缺型卡口·barrier=5+moat=全链计算+strength=★★★·详见 verification.note"
-  },
-  {
-    "rank": 3,
-    "name": "北方华创",
-    "code": "002371",
-    "segment": "seg[0] HBM 堆叠与混合键合 · 国产替代型卡口(7 大类设备平台)",
-    "strength": "★★☆",
-    "logic": "北方华创是 A 股稀缺的“多产品线综合性半导体设备平台型公司”——单 ICP/CCP/PVD/CVD/清洗等多种设备。HBM 制造所需的刻蚀、薄膜沉积、清洗等关键设备都在其产品线中。\n\n⚠ 卡口性质: <strong>国产替代型卡口</strong>——不是“全球只有你会做”,而是“在中国大陆特定 HBM 制造市场,外国公司暂时进不来,国产的你是唯一选择”。全球 HBM 设备市场被 AMAT/Lam Research/东京电子三家外国巨头主导 90%+,北方华创+中微合计全球份额约 2.6%-3.58%。但在中国 HBM/存储制造细分场景(如长江存储、长鑫存储、中芯国际等国产产线),北方华创已是多品类核心设备供应商。\n\n⚠ 护城河风险来源: 这类卡口的耐久性取决于<strong>出口管制/贸易政策的持续性</strong>。如果地缘政治缓和、外国设备重新自由进入中国市场,北方华创的护城河可能被削弱。这跟澜起科技“全球物理稀缺型”卡口的风险来源不同——澜起的风险是客户自建产能,北方华创的风险是外国厂家重新入场。\n\nL1 abstract_ths 实测(2025 全年): 营收 300.75亿(YoY +30.85%)/净利 56.22亿(YoY -1.77% 温和下降)/毛利率 35%。2026Q1 营收 103.23亿(YoY +25.80%)/净利 16.35亿(YoY +3.42% 企稳回升)。",
-    "tags": [
-      "国产替代型卡口",
-      "HBM/刻蚀/沉积多品类平台",
-      "L1 2025 营收 300.75亿",
-      "⚠ 地缘政治/出口管制依赖"
-    ],
-    "valuation": {
-      "tier": "estimate",
-      "asOf": "2026-07-14",
-      "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
-    },
-    "verification": {
-      "items": [],
-      "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5(技术领先+客户端验证≥18月)+moat=85+quadrant=core·strength=★★☆(本批次未达 ★★★ 是因为全球份额<4% + 卡口来源是政策非物理稀缺)。"
-    },
-    "chokepointType": "alpha-competitive",
-    "plainLanguageNote": "<strong>大白话：为什么北方华创是卡口？</strong><br><br>半导体制造就像组装一台超级复杂的相机——需要 200 多道工序,每道工序都有专用设备(光刻机、刻蚀机、薄膜沉积设备、清洗机...)。北方华创能造其中好几类关键设备,产品线铺得比大多数国产设备公司都宽——刻蚀、薄膜沉积、清洗、单晶炉等等。<br><br>但这里有个关键区分——<strong>这不是“全球只有你会做”的卡口,而是“国产替代型”卡口</strong>。打个比方:在 HBM 内存这个具体场景里,北方华创的客户(长江存储/中芯国际/长鑫存储)需要买刻蚀机,美国应用材料(AMAT)、泛林(Lam Research)、东京电子这些外国巨头本来占 90% 全球份额——但因为出口管制+地缘政治,这些公司的高端设备暂时进不来中国市场,北方华创就成为客户“唯一可批量获得”的国产选择。2025 营收 300.75 亿(+30.85%)——这就是真金白银的市场份额。<br><br><strong>这种卡口的护城河有天然的脆弱性</strong>: 如果未来地缘政治缓和、美国半导体设备重新自由出口中国,北方华创就要正面对决 AMAT 和 Lam——它能打得过吗? 答案是部分能、部分不能。这是“国产替代型”卡口的核心矛盾: 政策保护期+技术追赶同时进行,一旦外部环境变化,卡口就可能松动。",
-    "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(7 大类设备平台)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
-  },
-  {
-    "rank": 4,
-    "name": "中微公司",
-    "code": "688012",
-    "segment": "seg[0] HBM 堆叠与混合键合 · 国产替代型卡口(CCP 刻蚀龙头)",
-    "strength": "★★☆",
-    "logic": "中微公司专攻半导体刻蚀设备(CCP/ICP),在长江存储、中芯国际、华虹等国产晶圆厂的刻蚀设备份额已超 40%。HBM 制造的 TSV(硅通孔)工艺核心步骤就是刻蚀——没有刻蚀,HBM 3D 堆叠无法实现。\n\n⚠ 卡口性质: <strong>国产替代型卡口</strong>。中微全球刻蚀设备份额约 5.1%(TrendForce 2025),Lam Research/AMAT/东京电子/Hitachi 全球 CR4>90%——中微+北方华创合计全球份额约 2.6%-3.58%,仍非全球玩家。但在 HBM 这个具体细分场景(国产 HBM 制造产线),中微已是国产 CCP 刻蚀绝对龙头。\n\n⚠ 卡口性质不同于澜起/安集: 澜起/安集是“全球≤3家”的物理稀缺,中微/北方华创是“中国国产化替代”政策保护——两者护城河来源不同,风险来源也不同\n\nL1 abstract_ths 实测: 2025 营收 123.85亿(+36.62%)/净利 21.11亿(+30.69%)。2026Q1 营收 29.15亿(+34.13%)/净利 9.30亿(YoY +197.20% 业绩拐点)。",
-    "tags": [
-      "国产替代型卡口",
-      "CCP 刻蚀国产第一",
-      "HBM TSV 核心",
-      "L1 2025 营收+36.62%"
-    ],
-    "valuation": {
-      "tier": "estimate",
-      "asOf": "2026-07-14",
-      "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
-    },
-    "verification": {
-      "items": [],
-      "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5+moat=85+strength=★★☆+quadrant=core·CCP 刻蚀国产替代窗口期+TSV 工艺核心地位双重支撑。"
-    },
-    "chokepointType": "alpha-competitive",
-    "plainLanguageNote": "<strong>大白话：为什么中微公司是卡口？</strong><br><br>制造一块 HBM 内存,需要把 12 层 DRAM 像千层蛋糕一样垂直堆起来——每层之间用一根根头发丝粗细的“硅通孔(TSV)”打通。这种比头发丝还细的孔必须用“等离子体刻蚀机”挖出来,精度要求在纳米级——一年偏差一根头发丝都失败。中微公司做的就是这种“等离子刻蚀机(CCP)”。<br><br>中微在国内 HBM 制造的国产产线(长江存储等)里基本是 CCP 刻蚀的唯一选择,市占超过 40%。但在全球范围内,这个赛道是 Lam Research(美国)、AMAT(美国)、东京电子(日本)、日立(日本)四家占 90%+,中微全球份额只有约 5%。<br><br><strong>这是典型的“国产替代型”卡口</strong>: 国外巨头不是做不出来这种刻蚀机(事实上他们的更先进),而是因为出口管制进不来中国市场,所以中微成了“国产唯一能做大客户量产订单的玩家”。<br><br>这种卡口的两面性: 一面是现在几年内保护期窗口很厚;另一面是当未来如果地缘政治缓和、外国设备重新进入,中微就要在正面战场和 Lam Research 掰手腕——这跟澜起科技那种“全球就三家”的卡口完全不同。澜起的护城河是物理定律,中微的护城河是政策红利。",
-    "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(CCP 刻蚀龙头)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
-  },
-  {
-    "rank": 5,
-    "name": "华海清科",
-    "code": "688120",
-    "segment": "seg[0] HBM 堆叠与混合键合 · 国产替代型卡口(12寸 CMP 国产第一)",
-    "strength": "★★☆",
-    "logic": "华海清科是国产 12 寸 CMP(化学机械抛光)设备绝对龙头——长江存储、中芯国际、华虹等国产晶圆厂的核心 CMP 设备供应商。CMP 设备在 HBM 多层堆叠工艺中关键,因为每一层堆叠之前都需要抛光电介质层,达到纳米级平整度。\n\n⚠ 与 688019 安集科技(本链 seg[1] 已有 chokePoint)的区别:\n• 安集科技 = CMP <strong>抛光液</strong>(消耗品, 由华海清科的 CMP 设备使用)\n• 华海清科 = CMP <strong>设备</strong>(设备, 用安集科技抛光液)\n两者是上下游关系,各自垄断所在细分,本批次双卡口确立 cmp 抛光“液+机”完整物理稀缺链。\n\n⚠ 卡口性质: <strong>国产替代型卡口</strong>(与安集“全球≤5家”形成对比,安集是物理稀缺,华海是政策保护)。华海清科全球 CMP 设备份额<5%(Ebara/AMAT 全球 CR4>85%),但在国产 HBM/存储产线是 12 寸 CMP 绝对龙头。\n\nL1 abstract_ths 实测: 2025 营收 +80%+YoY,具体数字+净利率水平见 manual 字段。",
-    "tags": [
-      "国产替代型卡口",
-      "12寸 CMP 国产第一",
-      "与安集科技(抛光液)配套",
-      "长江存储+中芯国际核心供应商"
-    ],
-    "valuation": {
-      "tier": "estimate",
-      "asOf": "2026-07-14",
-      "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
-    },
-    "verification": {
-      "items": [],
-      "note": "★ commit 6.99 立:本链 seg[0] 国产替代型卡口·barrier=5+moat=79+strength=★★☆+quadrant=hold(对比 安集 core)。✅ 与安集形成 cmp 液+机双卡口完整闭环。"
-    },
-    "chokepointType": "alpha-competitive",
-    "plainLanguageNote": "<strong>大白话:为什么华海清科是卡口?</strong><br><br>想象一下:把 12 层 DRAM 像千层蛋糕一样垂直堆叠起来,每层之间必须平坦得像镜子一样——这需要“化学机械抛光(CMP)”设备来磨。在国产 HBM 制造产线里,这个关键设备 12 寸 CMP 国产第一,就是华海清科。<br><br>但需要澄清一个关键事实—— <strong>本链已有 688019 安集科技在做 CMP <em>抛光液</em>,华海清科做的是 CMP <em>设备</em>——两者是上下游关系</strong>。打个比方: 安集是“牙膏”(消耗品),华海是“牙刷机”(工具)。使用 HBM 制造工艺时,先用华海的设备,再灌入安集的抛光液,然后磨平。<br><br>全球范围内,CMP 设备(Ebara/AMAT 全球 CR4>85%)是被外国巨头主导的。华海清科全球份额<5%,但在中国国产 HBM/存储产线是 12 寸 CMP 绝对龙头——这就是“国产替代型”卡口: 政策环境让外国巨头暂时进不来,国产华海成了唯一可批量获得的设备供应商。<br><br>同样,这种卡口的脆弱性也很明显: 若未来政策变化,华海将面对 Ebara/AMAT 的正面竞争——届时能不能打得过,要回到技术本身的护城河,而不是政策保护的窗口。",
-    "strengthNote": "★ commit 6.99 立(2026-07-14):  国产替代型卡口(12寸 CMP 国产第一)·barrier=5+moat=全链计算+strength=★★☆·详见 verification.note"
-  }
-],
-  "supplyGap": [
-      {
-            "segment": "HBM 产能缺口",
-            "demand": "2026E全球HBM需求约15-18亿GB(等效12层HBM3E)·2027E约25-30亿GB",
-            "capacity": "2026E全球HBM产能约12-15亿GB(SK海力士~50%+三星~35%+美光~15%)",
-            "gap": "约3-5亿GB(缺口率20-25%)",
-            "rate": "20-25%",
-            "bottleneck": "⚠ §11.23:具体产能数字属行业商业机密，以上为SEMI/TrendForce 2026Q2行业报告的大致区间估算，并非精确的\"缺口=X吨/X亿颗\"数据。核心瓶颈:①TSV堆叠良率(HBM3E 12层良率<70%)②混合键合设备产能(台积电CoWoS产能是HBM封装最大瓶颈·2026年扩产中但交付周期≥12月)③HBM制造完全在海外(A股无直接标的)",
-            "tier": "L3",
-            "src": "SEMI 2026 HBM Market Report + TrendForce 2026Q2 HBM Supply Chain Analysis",
-            "asOf": "2026-07-14"
-      },
-      {
-            "segment": "DDR5 RCD 国产化",
-            "demand": "2026E全球DDR5服务器内存条出货量约1.2-1.5亿条·每条约需1颗RCD芯片",
-            "capacity": "全球RCD供给端≤3家:澜起科技~40%(fabless·产能取决于台积电先进制程分配)/Rambus~35%(IP授权+芯片销售)/IDT(Renesas)~25%",
-            "gap": "供给端格局稳定·无明显产能缺口(DDR5 RCD是芯片设计·非制造产能约束)",
-            "rate": "N/A",
-            "bottleneck": "⚠ DDR5 RCD的核心约束不在\"产能缺口\"而在\"认证壁垒\"——澜起科技已是全球双寡头(市占~40%)，扩产周期6-12个月(fabless模式·台积电代工)。真正瓶颈:①新进入者需通过Intel/AMD完整服务器平台认证(≥12个月)②客户切换成本极高(OEM验证+数据中心兼容性测试)。",
-            "tier": "L3+L1",
-            "src": "澜起科技2025年报(L1·巨潮) + TrendForce DDR5 Market Tracker(L3)",
-            "asOf": "2026-07-14"
-      },
-      {
-            "segment": "CXL/PCIe 接口芯片",
-            "demand": "2026E PCIe 5.0 Retimer全球需求约4000-6000万颗(AI服务器+通用服务器)·CXL控制器尚处早期(2026年约500-1000万颗)",
-            "capacity": "PCIe 5.0 Retimer量产仅3家:Astera Labs(美·~55%)/澜起科技(中·~25%)/谱瑞(台·~20%)。CXL MXC控制器仅澜起科技+Astera Labs两家已流片。",
-            "gap": "PCIe偏紧/CXL早期",
-            "rate": "PCIe~10-15%偏紧/CXL(需求未起量·不构成缺口)",
-            "bottleneck": "⚠ §11.23:PCIe/CXL接口芯片的具体出货量数字属商业机密(芯片公司不单独披露细分产品出货量)。核心瓶颈:①Astera Labs占据>50%份额·澜起科技份额仍在爬坡②CXL生态成熟度低(从控制器→交换机→软件栈完整部署还需2-3年)。",
-            "tier": "L3+estimate",
-            "src": "Yole 2026 PCIe/CXL Market Report + 澜起科技2025年报(L1)·CXL营收<2%·PCIe 7-11%",
-            "asOf": "2026-07-14"
-      },
-      {
-            "segment": "GMC 塑封料供给",
-            "demand": "2026E全球GMC需求约2000-3000吨(HBM封装+先进逻辑封装)·国内HBM封装需求取决于长鑫存储HBM量产进度",
-            "capacity": "全球仅住友电木(日·~70%)+华海诚科(中·~30%)两家可批量供应·华海诚科2025年报营收4.58亿(同比-39.47%⚠异常下降·待投顾核实业务拐点)",
-            "gap": "国内供给端有华海诚科独家但下游HBM量产时点未明确·需求侧尚未真正起量",
-            "rate": "N/A",
-            "bottleneck": "⚠ §11.23及Phase B试点结论:华海诚科(688535)经Phase B试点核算moatScore=58/quadrant=skip，不构成正式卡口。核心瓶颈:①下游长鑫存储HBM量产时间表未公开(2027?2028?)②华海诚科2025营收-39.47%说明HBM封装需求尚未转化为真实营收·公司仍处于验证→放量之间。",
-            "tier": "L3+estimate",
-            "src": "TECHCET 2026 GMC Market Report + SEMI Advanced Packaging Materials 2025 + 华海诚科2025年报(L1·营收同比-39.47%⚠)",
-            "asOf": "2026-07-14"
-      }
-],
-  "methodologyNotes": "(Phase B 补)",
-        "phaseBTestTrial": true
-      },
-      {
-        "name": "芯原股份",
-        "code": "688521",
-        "position": "Chiplet互连IP国产领先·UCIe标准贡献者",
-        "barrier": "中",
-        "trend": "up",
-        "trendNote": "2025 营收稳健(abstract_ths L1 实测), 2026Q1 Chiplet IP 授权收入随 AI 芯片量产·具体数字见 stock.dims6.fundamentals",
-        "logic": "GMC 颗粒状环氧塑封料国内唯一具备 28 英寸石英坩埚量产能力:堆叠 HBM 芯片\"穿衣服\"核心材料,海外住友电木双寡头(住友约 70% + 华海约 30%);⚠ 全球供给端实际可获取住友电木产品 → 国内独家但非全球独家(全球住友电木仍可获取),卡口属性偏弱于全球≤3 家标准,客户验证周期 ≥18 月,产品迭代风险存在。",
-        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
-        "rank": 2,
-        "fourQuestions": {
-          "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
-          "segments": []
+      "supplyGap": [
+        {
+          "segment": "HBM 产能缺口",
+          "demand": "2026E全球HBM需求约15-18亿GB(等效12层HBM3E)·2027E约25-30亿GB",
+          "capacity": "2026E全球HBM产能约12-15亿GB(SK海力士~50%+三星~35%+美光~15%)",
+          "gap": "约3-5亿GB(缺口率20-25%)",
+          "rate": "20-25%",
+          "bottleneck": "⚠ §11.23:具体产能数字属行业商业机密，以上为SEMI/TrendForce 2026Q2行业报告的大致区间估算，并非精确的\"缺口=X吨/X亿颗\"数据。核心瓶颈:①TSV堆叠良率(HBM3E 12层良率<70%)②混合键合设备产能(台积电CoWoS产能是HBM封装最大瓶颈·2026年扩产中但交付周期≥12月)③HBM制造完全在海外(A股无直接标的)",
+          "tier": "L3",
+          "src": "SEMI 2026 HBM Market Report + TrendForce 2026Q2 HBM Supply Chain Analysis",
+          "asOf": "2026-07-14"
         },
-        "chokePoints": [
-          {
-            "rank": 1,
-            "name": "芯原股份",
-            "code": "688521",
-            "segment": "UCIe/Chiplet 通用互连",
-            "strength": "★★★",
-            "logic": "PECVD/ALD/混合键合设备国产突破:HBM 多层堆叠 TSV 工艺核心卡口设备(国产唯一能覆盖 12 寸 HBM 量产线),与海外巨头(AMAT/Lam/东京电子)存在 1 代以上技术代差,客户已覆盖三星/SK Hynix/中芯国际/长江存储导入验证(认证 ≥18 月),但量产线尚未规模采用——卡口属性属\"技术领先+验证阶段\"而非\"全球≤3 家物理稀缺\"。",
-            "tags": [
-              "(Phase B 补)"
-            ],
-            "valuation": {
-              "pe": "(Phase B 补)",
-              "peAbsolute": "(Phase B 补)",
-              "pePercentile": null,
-              "grossMargin": "(Phase B 补)",
-              "fromHigh": "(Phase B 补)",
-              "asOf": null,
-              "note": "(Phase B 补)",
-              "tier": "(Phase B 补)",
-              "src": "akshare abstract_ths L1 实测(2026-07-14)"
-            },
-            "verification": {
-              "items": [],
-              "note": "(Phase B 补)"
-            },
-            "chokepointType": "(Phase B 补)",
-            "barrier": "Chiplet互连IP国产领先·UCIe标准贡献者"
-          }
-        ],
-        "supplyGap": [
-          {
-            "segment": "HBM 产能缺口",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "DDR5 RCD 国产化",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "CXL/PCIe 接口芯片",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "GMC 塑封料供给",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          }
-        ],
-        "methodologyNotes": "(Phase B 补)"
-      },
-      {
-        "name": "华海诚科",
-        "code": "688535",
-        "position": "GMC颗粒状环氧塑封料国产唯一·住友电木双寡头",
-        "barrier": "高",
-        "trend": "up",
-        "trendNote": "⚠ 2025 营收 4.58亿(-39.47% 连续 4 季同比为负)/归母净利 2425万/GM 26.66%/净利率仅 5.24%·2026Q1 反弹至 2.23亿(+165.58% 低基数);⚠ §11.23 数据稀缺,业绩拐点未确立,需投顾核实 (akshare abstract_ths L1 实测 2026-07-13)",
-        "logic": "模拟测试机国产第一:HBM/DRAM 制造后道测试(wafer level + final test)核心设备;模拟测试机国内份额第一(测试设备国产第二类,长川科技主导后道分选);国产替代逻辑清晰,模拟芯片下游汽车/工控需求中长期刚性。",
-        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
-        "rank": 3,
-        "fourQuestions": {
-          "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
-          "segments": []
+        {
+          "segment": "DDR5 RCD 国产化",
+          "demand": "2026E全球DDR5服务器内存条出货量约1.2-1.5亿条·每条约需1颗RCD芯片",
+          "capacity": "全球RCD供给端≤3家:澜起科技36.8%(fabless·产能取决于台积电先进制程分配)/Rambus~35%(IP授权+芯片销售)/IDT(Renesas)~25%",
+          "gap": "供给端格局稳定·无明显产能缺口(DDR5 RCD是芯片设计·非制造产能约束)",
+          "rate": "N/A",
+          "bottleneck": "⚠ DDR5 RCD的核心约束不在\"产能缺口\"而在\"认证壁垒\"——澜起科技已是全球双寡头(市占率36.8%)，扩产周期6-12个月(fabless模式·台积电代工)。真正瓶颈:①新进入者需通过Intel/AMD完整服务器平台认证(≥12个月)②客户切换成本极高(OEM验证+数据中心兼容性测试)。",
+          "tier": "L3+L1",
+          "src": "澜起科技2025年报(L1·巨潮) + TrendForce DDR5 Market Tracker(L3)",
+          "asOf": "2026-07-14"
         },
-        "chokePoints": [],
-        "supplyGap": [
-          {
-            "segment": "HBM 产能缺口",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "DDR5 RCD 国产化",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "CXL/PCIe 接口芯片",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "GMC 塑封料供给",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          }
-        ],
-        "methodologyNotes": "(Phase B 补)",
-        "phaseBTestTrial": true
-      },
-      {
-        "name": "拓荆科技",
-        "code": "688072",
-        "position": "混合键合设备国产突破·PECVD/ALD 国内第一",
-        "barrier": "高",
-        "trend": "up",
-        "trendNote": "2025 营收 65.19亿(+58.87%)/归母净利 9.27亿(+34.67%)/GM 34.95%·2025Q1 -1.47亿亏损已扭亏(Q2-Q4 持续改善)+2026Q1 反弹至 5.71亿(+488.29% YoY)V 型反转确立 (akshare abstract_ths L1 实测)",
-        "logic": "模拟测试机国产第一:HBM/DRAM 制造后道测试(wafer level + final test)核心设备;模拟测试机国内份额第一(测试设备国产第二类,长川科技主导后道分选);国产替代逻辑清晰,模拟芯片下游汽车/工控需求中长期刚性。",
-        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
-        "rank": 4,
-        "fourQuestions": {
-          "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
-          "segments": []
+        {
+          "segment": "CXL/PCIe 接口芯片",
+          "demand": "2026E PCIe 5.0 Retimer全球需求约4000-6000万颗(AI服务器+通用服务器)·CXL控制器尚处早期(2026年约500-1000万颗)",
+          "capacity": "PCIe 5.0 Retimer量产仅3家:Astera Labs(美·~55%)/澜起科技(中·~25%)/谱瑞(台·~20%)。CXL MXC控制器仅澜起科技+Astera Labs两家已流片。",
+          "gap": "PCIe偏紧/CXL早期",
+          "rate": "PCIe~10-15%偏紧/CXL(需求未起量·不构成缺口)",
+          "bottleneck": "⚠ §11.23:PCIe/CXL接口芯片的具体出货量数字属商业机密(芯片公司不单独披露细分产品出货量)。核心瓶颈:①Astera Labs占据>50%份额·澜起科技份额仍在爬坡②CXL生态成熟度低(从控制器→交换机→软件栈完整部署还需2-3年)。",
+          "tier": "L3+estimate",
+          "src": "Yole 2026 PCIe/CXL Market Report + 澜起科技2025年报(L1)·CXL营收<2%·PCIe 7-11%",
+          "asOf": "2026-07-14"
         },
-        "chokePoints": [
-          {
-            "rank": 1,
-            "name": "拓荆科技",
-            "code": "688072",
-            "segment": "HBM 堆叠与混合键合",
-            "strength": "★★★",
-            "logic": "前驱体材料(薄膜沉积的\"原料\")国产替代龙头:通过收购韩国 UP Chemical 进入全球供应链;HBM 制造关键耗材(99.999%+ 纯度,杂质超标整批晶圆报废);⚠ 全球前驱体市场仍被默克/液化空气/林德等巨头主导,国产替代处于早期阶段。",
-            "tags": [
-              "(Phase B 补)"
-            ],
-            "valuation": {
-              "pe": "(Phase B 补)",
-              "peAbsolute": "(Phase B 补)",
-              "pePercentile": null,
-              "grossMargin": "(Phase B 补)",
-              "fromHigh": "(Phase B 补)",
-              "asOf": null,
-              "note": "(Phase B 补)",
-              "tier": "(Phase B 补)",
-              "src": "akshare abstract_ths L1 实测(2026-07-14)"
-            },
-            "verification": {
-              "items": [],
-              "note": "(Phase B 补)"
-            },
-            "chokepointType": "(Phase B 补)",
-            "barrier": "混合键合设备国产突破·PECVD/ALD 国内第一"
-          }
-        ],
-        "supplyGap": [
-          {
-            "segment": "HBM 产能缺口",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "DDR5 RCD 国产化",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "CXL/PCIe 接口芯片",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "GMC 塑封料供给",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          }
-        ],
-        "methodologyNotes": "(Phase B 补)",
-        "phaseBTestTrial": true
+        {
+          "segment": "GMC 塑封料供给",
+          "demand": "2026E全球GMC需求约2000-3000吨(HBM封装+先进逻辑封装)·国内HBM封装需求取决于长鑫存储HBM量产进度",
+          "capacity": "全球仅住友电木(日·~70%)+华海诚科(中·~30%)两家可批量供应·华海诚科2025年报营收4.58亿(同比-39.47%⚠异常下降·待投顾核实业务拐点)",
+          "gap": "国内供给端有华海诚科独家但下游HBM量产时点未明确·需求侧尚未真正起量",
+          "rate": "N/A",
+          "bottleneck": "⚠ §11.23及Phase B试点结论:华海诚科(688535)经Phase B试点核算moatScore=58/quadrant=skip，不构成正式卡口。核心瓶颈:①下游长鑫存储HBM量产时间表未公开(2027?2028?)②华海诚科2025营收-39.47%说明HBM封装需求尚未转化为真实营收·公司仍处于验证→放量之间。",
+          "tier": "L3+estimate",
+          "src": "TECHCET 2026 GMC Market Report + SEMI Advanced Packaging Materials 2025 + 华海诚科2025年报(L1·营收同比-39.47%⚠)",
+          "asOf": "2026-07-14"
+        }
+      ],
+      "methodologyNotes": "(Phase B 补)",
+      "phaseBTestTrial": true
+    },
+    {
+      "name": "芯原股份",
+      "code": "688521",
+      "position": "Chiplet互连IP国产领先·UCIe标准贡献者",
+      "barrier": "中",
+      "trend": "up",
+      "trendNote": "2025 营收稳健(abstract_ths L1 实测), 2026Q1 Chiplet IP 授权收入随 AI 芯片量产·具体数字见 stock.dims6.fundamentals",
+      "logic": "Chiplet 互连 IP(芯粒互连)国产龙头·UCIe 标准核心贡献者:无晶圆厂轻资产模式卖 IP/设计服务;IP 公司卡口性质不同于晶圆厂(无物理产能,但卡 IP 标准制定权),全球仅芯原/Cadence/Synopsys 等少数公司有 UCIe IP;⚠ 收入端受 AI 芯片量产节奏制约。",
+      "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
+      "rank": 2,
+      "fourQuestions": {
+        "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
+        "segments": []
       },
-      {
-        "name": "华峰测控",
-        "code": "688200",
-        "position": "模拟测试机国产第一",
-        "barrier": "高",
-        "trend": "up",
-        "trendNote": "2025 营收 +48.72%/归母净利 +60.55%/GM 73.79%/ROE 14.08%·2026Q1 净利率稳定 34.44%-39.82% 高位区间·营收净利连续三期双位数增长(abstract_ths L1 实测,2026-07-08)",
-        "logic": "前驱体材料(薄膜沉积的\"原料\")国产替代龙头:通过收购韩国 UP Chemical 进入全球供应链;HBM 制造关键耗材(99.999%+ 纯度,杂质超标整批晶圆报废);⚠ 全球前驱体市场仍被默克/液化空气/林德等巨头主导,国产替代处于早期阶段。",
-        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
-        "rank": 5,
-        "fourQuestions": {
-          "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
-          "segments": []
+      "chokePoints": [
+        {
+          "rank": 1,
+          "name": "芯原股份",
+          "code": "688521",
+          "segment": "UCIe/Chiplet 通用互连",
+          "strength": "★★★",
+          "logic": "PECVD/ALD/混合键合设备国产突破:HBM 多层堆叠 TSV 工艺核心卡口设备(国产唯一能覆盖 12 寸 HBM 量产线),与海外巨头(AMAT/Lam/东京电子)存在 1 代以上技术代差,客户已覆盖三星/SK Hynix/中芯国际/长江存储导入验证(认证 ≥18 月),但量产线尚未规模采用——卡口属性属\"技术领先+验证阶段\"而非\"全球≤3 家物理稀缺\"。",
+          "tags": [
+            "(Phase B 补)"
+          ],
+          "valuation": {
+            "pe": "(Phase B 补)",
+            "peAbsolute": "(Phase B 补)",
+            "pePercentile": null,
+            "grossMargin": "(Phase B 补)",
+            "fromHigh": "(Phase B 补)",
+            "asOf": null,
+            "note": "(Phase B 补)",
+            "tier": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)"
+          },
+          "verification": {
+            "items": [],
+            "note": "(Phase B 补)"
+          },
+          "chokepointType": "(Phase B 补)",
+          "barrier": "Chiplet互连IP国产领先·UCIe标准贡献者"
+        }
+      ],
+      "supplyGap": [
+        {
+          "segment": "HBM 产能缺口",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
         },
-        "chokePoints": [
-          {
-            "rank": 1,
-            "name": "华峰测控",
-            "code": "688200",
-            "segment": "PCIe Retimer/Redriver 接口",
-            "strength": "★★★",
-            "logic": "DDR5 内存模组必备 SPD Hub(串行检测集线器)国产配套:与 688008 澜起科技(DDR5 RCD)在 DDR5 内存条生态中配套,澜起决定 RCD,聚辰提供 SPD Hub;⚠ 全球 SPD 厂商极少但产品同质化严重,卡口属性偏弱,主要绑定澜起的下游 DDR5 生态放量。",
-            "tags": [
-              "(Phase B 补)"
-            ],
-            "valuation": {
-              "pe": "(Phase B 补)",
-              "peAbsolute": "(Phase B 补)",
-              "pePercentile": null,
-              "grossMargin": "(Phase B 补)",
-              "fromHigh": "(Phase B 补)",
-              "asOf": null,
-              "note": "(Phase B 补)",
-              "tier": "(Phase B 补)",
-              "src": "akshare abstract_ths L1 实测(2026-07-14)"
-            },
-            "verification": {
-              "items": [],
-              "note": "(Phase B 补)"
-            },
-            "chokepointType": "(Phase B 补)",
-            "barrier": "模拟测试机国产第一"
-          }
-        ],
-        "supplyGap": [
-          {
-            "segment": "HBM 产能缺口",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "DDR5 RCD 国产化",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "CXL/PCIe 接口芯片",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "GMC 塑封料供给",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          }
-        ],
-        "methodologyNotes": "(Phase B 补)"
+        {
+          "segment": "DDR5 RCD 国产化",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "CXL/PCIe 接口芯片",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "GMC 塑封料供给",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        }
+      ],
+      "methodologyNotes": "(Phase B 补)"
+    },
+    {
+      "name": "华海诚科",
+      "code": "688535",
+      "position": "GMC颗粒状环氧塑封料国产唯一·住友电木双寡头",
+      "barrier": "高",
+      "trend": "up",
+      "trendNote": "⚠ 2025 营收 4.58亿(-39.47% 连续 4 季同比为负)/归母净利 2425万/GM 26.66%/净利率仅 5.24%·2026Q1 反弹至 2.23亿(+165.58% 低基数);⚠ §11.23 数据稀缺,业绩拐点未确立,需投顾核实 (akshare abstract_ths L1 实测 2026-07-13)",
+      "logic": "GMC 颗粒状环氧塑封料国内唯一量产:堆叠 HBM 芯片穿衣服核心材料,海外住友电木双寡头(住友约 70% + 华海约 30%);⚠ 全球供给端实际可获取住友电木产品 → 国内独家但非全球独家(全球住友电木仍可获取),卡口属性偏弱于全球≤3 家标准,客户验证周期 ≥18 月,产品迭代风险存在。",
+      "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
+      "rank": 3,
+      "fourQuestions": {
+        "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
+        "segments": []
       },
-      {
-        "name": "雅克科技",
-        "code": "002409",
-        "position": "前驱体材料国产替代·HBM配套",
-        "barrier": "高",
-        "trend": "up",
-        "trendNote": "2025 营收 86.11亿(+25.49%)/归母净利 10.00亿(+14.77%)/GM 30.96%/净利率 11.96%/ROE 12.59%·稳健增长(abstract_ths L1 实测)",
-        "logic": "DDR5 内存模组必备 SPD Hub(串行检测集线器)国产配套:与 688008 澜起科技(DDR5 RCD)在 DDR5 内存条生态中配套,澜起决定 RCD,聚辰提供 SPD Hub;⚠ 全球 SPD 厂商极少但产品同质化严重,卡口属性偏弱,主要绑定澜起的下游 DDR5 生态放量。",
-        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
-        "rank": 6,
-        "fourQuestions": {
-          "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
-          "segments": []
+      "chokePoints": [],
+      "supplyGap": [
+        {
+          "segment": "HBM 产能缺口",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
         },
-        "chokePoints": [
-          {
-            "rank": 1,
-            "name": "雅克科技",
-            "code": "002409",
-            "segment": "HBM 封装材料",
-            "strength": "★★★",
-            "logic": "(Phase B 补) 六维分析见 stock.dims6",
-            "tags": [
-              "(Phase B 补)"
-            ],
-            "valuation": {
-              "pe": "(Phase B 补)",
-              "peAbsolute": "(Phase B 补)",
-              "pePercentile": null,
-              "grossMargin": "(Phase B 补)",
-              "fromHigh": "(Phase B 补)",
-              "asOf": null,
-              "note": "(Phase B 补)",
-              "tier": "(Phase B 补)",
-              "src": "akshare abstract_ths L1 实测(2026-07-14)"
-            },
-            "verification": {
-              "items": [],
-              "note": "(Phase B 补)"
-            },
-            "chokepointType": "(Phase B 补)",
-            "barrier": "前驱体材料国产替代·HBM配套"
-          }
-        ],
-        "supplyGap": [
-          {
-            "segment": "HBM 产能缺口",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "DDR5 RCD 国产化",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "CXL/PCIe 接口芯片",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          },
-          {
-            "segment": "GMC 塑封料供给",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          }
-        ],
-        "methodologyNotes": "(Phase B 补)"
+        {
+          "segment": "DDR5 RCD 国产化",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "CXL/PCIe 接口芯片",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "GMC 塑封料供给",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        }
+      ],
+      "methodologyNotes": "(Phase B 补)",
+      "phaseBTestTrial": true
+    },
+    {
+      "name": "拓荆科技",
+      "code": "688072",
+      "position": "混合键合设备国产突破·PECVD/ALD 国内第一",
+      "barrier": "高",
+      "trend": "up",
+      "trendNote": "2025 营收 65.19亿(+58.87%)/归母净利 9.27亿(+34.67%)/GM 34.95%·2025Q1 -1.47亿亏损已扭亏(Q2-Q4 持续改善)+2026Q1 反弹至 5.71亿(+488.29% YoY)V 型反转确立 (akshare abstract_ths L1 实测)",
+      "logic": "PECVD/ALD/混合键合设备国产突破:HBM 多层堆叠 TSV 工艺核心卡口设备(国产唯一能覆盖 12 寸 HBM 量产线),与海外巨头(AMAT/Lam/东京电子)存在 1 代以上技术代差,客户已覆盖三星/SK Hynix/中芯国际/长江存储导入验证(认证 ≥18 月),但量产线尚未规模采用——卡口属性属技术领先+验证阶段而非全球≤3 家物理稀缺。",
+      "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
+      "rank": 4,
+      "fourQuestions": {
+        "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
+        "segments": []
       },
-      {
-        "name": "聚辰股份",
-        "code": "688123",
-        "position": "SPD Hub温度传感器·DDR5配套芯片",
-        "barrier": "高",
-        "trend": "up",
-        "trendNote": "2025 营收 12.21亿(+18.77%)/归母净利 3.64亿(+25.25%)/GM 57.29%·SPD Hub DDR5 国产配套 (abstract_ths L1 实测)",
-        "logic": "(Phase B 补) 六维分析见 stock.dims6",
-        "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
-        "rank": 8,
-        "fourQuestions": {
-          "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
-          "segments": []
+      "chokePoints": [
+        {
+          "rank": 1,
+          "name": "拓荆科技",
+          "code": "688072",
+          "segment": "HBM 堆叠与混合键合",
+          "strength": "★★★",
+          "logic": "前驱体材料(薄膜沉积的\"原料\")国产替代龙头:通过收购韩国 UP Chemical 进入全球供应链;HBM 制造关键耗材(99.999%+ 纯度,杂质超标整批晶圆报废);⚠ 全球前驱体市场仍被默克/液化空气/林德等巨头主导,国产替代处于早期阶段。",
+          "tags": [
+            "(Phase B 补)"
+          ],
+          "valuation": {
+            "pe": "(Phase B 补)",
+            "peAbsolute": "(Phase B 补)",
+            "pePercentile": null,
+            "grossMargin": "(Phase B 补)",
+            "fromHigh": "(Phase B 补)",
+            "asOf": null,
+            "note": "(Phase B 补)",
+            "tier": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)"
+          },
+          "verification": {
+            "items": [],
+            "note": "(Phase B 补)"
+          },
+          "chokepointType": "(Phase B 补)",
+          "barrier": "混合键合设备国产突破·PECVD/ALD 国内第一"
+        }
+      ],
+      "supplyGap": [
+        {
+          "segment": "HBM 产能缺口",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
         },
-        "chokePoints": [
-          {
-            "rank": 1,
-            "name": "聚辰股份",
-            "code": "688123",
-            "segment": "DDR5/LPDDR5 主控与 RCD",
-            "strength": "★★★",
-            "logic": "(Phase B 补) 六维分析见 stock.dims6",
-            "tags": [
-              "(Phase B 补)"
-            ],
-            "valuation": {
-              "pe": "(Phase B 补)",
-              "peAbsolute": "(Phase B 补)",
-              "pePercentile": null,
-              "grossMargin": "(Phase B 补)",
-              "fromHigh": "(Phase B 补)",
-              "asOf": null,
-              "note": "(Phase B 补)",
-              "tier": "(Phase B 补)",
-              "src": "akshare abstract_ths L1 实测(2026-07-14)"
-            },
-            "verification": {
-              "items": [],
-              "note": "(Phase B 补)"
-            },
-            "chokepointType": "(Phase B 补)",
-            "barrier": "SPD Hub温度传感器·DDR5配套芯片"
-          }
-        ],
-        "supplyGap": [
-          {
-            "segment": "HBM 产能缺口",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
+        {
+          "segment": "DDR5 RCD 国产化",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "CXL/PCIe 接口芯片",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "GMC 塑封料供给",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        }
+      ],
+      "methodologyNotes": "(Phase B 补)",
+      "phaseBTestTrial": true
+    },
+    {
+      "name": "华峰测控",
+      "code": "688200",
+      "position": "模拟测试机国产第一",
+      "barrier": "高",
+      "trend": "up",
+      "trendNote": "2025 营收 +48.72%/归母净利 +60.55%/GM 73.79%/ROE 14.08%·2026Q1 净利率稳定 34.44%-39.82% 高位区间·营收净利连续三期双位数增长(abstract_ths L1 实测,2026-07-08)",
+      "logic": "模拟测试机国产第一·HBM/DRAM 制造后道测试(wafer level + final test)·2025 营收 18.5 亿 / 模拟测试机全球市占率前三 / 国产第一·基于 akshare abstract_ths L1 实测·详见 stock.dims6",
+      "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
+      "rank": 5,
+      "fourQuestions": {
+        "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
+        "segments": []
+      },
+      "chokePoints": [
+        {
+          "rank": 1,
+          "name": "华峰测控",
+          "code": "688200",
+          "segment": "PCIe Retimer/Redriver 接口",
+          "strength": "★★★",
+          "logic": "DDR5 内存模组必备 SPD Hub(串行检测集线器)国产配套:与 688008 澜起科技(DDR5 RCD)在 DDR5 内存条生态中配套,澜起决定 RCD,聚辰提供 SPD Hub;⚠ 全球 SPD 厂商极少但产品同质化严重,卡口属性偏弱,主要绑定澜起的下游 DDR5 生态放量。",
+          "tags": [
+            "(Phase B 补)"
+          ],
+          "valuation": {
+            "pe": "(Phase B 补)",
+            "peAbsolute": "(Phase B 补)",
+            "pePercentile": null,
+            "grossMargin": "(Phase B 补)",
+            "fromHigh": "(Phase B 补)",
+            "asOf": null,
+            "note": "(Phase B 补)",
+            "tier": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)"
           },
-          {
-            "segment": "DDR5 RCD 国产化",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
+          "verification": {
+            "items": [],
+            "note": "(Phase B 补)"
           },
-          {
-            "segment": "CXL/PCIe 接口芯片",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
+          "chokepointType": "(Phase B 补)",
+          "barrier": "模拟测试机国产第一"
+        }
+      ],
+      "supplyGap": [
+        {
+          "segment": "HBM 产能缺口",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "DDR5 RCD 国产化",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "CXL/PCIe 接口芯片",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "GMC 塑封料供给",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        }
+      ],
+      "methodologyNotes": "(Phase B 补)"
+    },
+    {
+      "name": "雅克科技",
+      "code": "002409",
+      "position": "前驱体材料国产替代·HBM配套",
+      "barrier": "高",
+      "trend": "up",
+      "trendNote": "2025 营收 86.11亿(+25.49%)/归母净利 10.00亿(+14.77%)/GM 30.96%/净利率 11.96%/ROE 12.59%·稳健增长(abstract_ths L1 实测)",
+      "logic": "前驱体材料(薄膜沉积的\"原料\")国产替代龙头:通过收购韩国 UP Chemical 进入全球供应链;HBM 制造关键耗材(99.999%+ 纯度,杂质超标整批晶圆报废);⚠ 全球前驱体市场仍被默克/液化空气/林德等巨头主导,国产替代处于早期阶段。",
+      "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
+      "rank": 6,
+      "fourQuestions": {
+        "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
+        "segments": []
+      },
+      "chokePoints": [
+        {
+          "rank": 1,
+          "name": "雅克科技",
+          "code": "002409",
+          "segment": "HBM 封装材料",
+          "strength": "★★★",
+          "logic": "(Phase B 补) 六维分析见 stock.dims6",
+          "tags": [
+            "(Phase B 补)"
+          ],
+          "valuation": {
+            "pe": "(Phase B 补)",
+            "peAbsolute": "(Phase B 补)",
+            "pePercentile": null,
+            "grossMargin": "(Phase B 补)",
+            "fromHigh": "(Phase B 补)",
+            "asOf": null,
+            "note": "(Phase B 补)",
+            "tier": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)"
           },
-          {
-            "segment": "GMC 塑封料供给",
-            "demand": "(Phase B 补)",
-            "capacity": "(Phase B 补)",
-            "gap": "(Phase B 补)",
-            "rate": "(Phase B 补)",
-            "bottleneck": "(Phase B 补)",
-            "tier": "estimate",
-            "src": "akshare abstract_ths L1 实测(2026-07-14)",
-            "asOf": "2026-07-12"
-          }
-        ],
-        "methodologyNotes": "(Phase B 补)"
-      }
-    ]
-  },
+          "verification": {
+            "items": [],
+            "note": "(Phase B 补)"
+          },
+          "chokepointType": "(Phase B 补)",
+          "barrier": "前驱体材料国产替代·HBM配套"
+        }
+      ],
+      "supplyGap": [
+        {
+          "segment": "HBM 产能缺口",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "DDR5 RCD 国产化",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "CXL/PCIe 接口芯片",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "GMC 塑封料供给",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        }
+      ],
+      "methodologyNotes": "(Phase B 补)"
+    },
+    {
+      "name": "聚辰股份",
+      "code": "688123",
+      "position": "SPD Hub温度传感器·DDR5配套芯片",
+      "barrier": "高",
+      "trend": "up",
+      "trendNote": "2025 营收 12.21亿(+18.77%)/归母净利 3.64亿(+25.25%)/GM 57.29%·SPD Hub DDR5 国产配套 (abstract_ths L1 实测)",
+      "logic": "DDR5 内存模组必备 SPD Hub(串行检测集线器)国产配套:与 688008 澜起科技(DDR5 RCD)在 DDR5 内存条生态中配套,澜起决定 RCD,聚辰提供 SPD Hub;⚠ 全球 SPD 厂商极少但产品同质化严重,卡口属性偏弱,主要绑定澜起的下游 DDR5 生态放量。",
+      "dims6Note": "2026-07-14 akshare abstract_ths L1 实测",
+      "rank": 8,
+      "fourQuestions": {
+        "_note": "四问筛选数据待 Phase B+ 投顾设计 + CC 核实后填入",
+        "segments": []
+      },
+      "chokePoints": [
+        {
+          "rank": 1,
+          "name": "聚辰股份",
+          "code": "688123",
+          "segment": "DDR5/LPDDR5 主控与 RCD",
+          "strength": "★★★",
+          "logic": "(Phase B 补) 六维分析见 stock.dims6",
+          "tags": [
+            "(Phase B 补)"
+          ],
+          "valuation": {
+            "pe": "(Phase B 补)",
+            "peAbsolute": "(Phase B 补)",
+            "pePercentile": null,
+            "grossMargin": "(Phase B 补)",
+            "fromHigh": "(Phase B 补)",
+            "asOf": null,
+            "note": "(Phase B 补)",
+            "tier": "(Phase B 补)",
+            "src": "akshare abstract_ths L1 实测(2026-07-14)"
+          },
+          "verification": {
+            "items": [],
+            "note": "(Phase B 补)"
+          },
+          "chokepointType": "(Phase B 补)",
+          "barrier": "SPD Hub温度传感器·DDR5配套芯片"
+        }
+      ],
+      "supplyGap": [
+        {
+          "segment": "HBM 产能缺口",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "DDR5 RCD 国产化",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "CXL/PCIe 接口芯片",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        },
+        {
+          "segment": "GMC 塑封料供给",
+          "demand": "(Phase B 补)",
+          "capacity": "(Phase B 补)",
+          "gap": "(Phase B 补)",
+          "rate": "(Phase B 补)",
+          "bottleneck": "(Phase B 补)",
+          "tier": "estimate",
+          "src": "akshare abstract_ths L1 实测(2026-07-14)",
+          "asOf": "2026-07-12"
+        }
+      ],
+      "methodologyNotes": "(Phase B 补)"
+    }
+  ]
+},
   "fourQuestions": {
     "_note": "四问筛选逻辑基于2026-07-14 Phase B真实六维数据+§11.23行业数据局限标注。技术密集型行业(半导体设备/芯片设计)的Q2/Q3/Q4大概率不可得——这是行业信息透明度的客观限制。0/4或1/4是诚实结果。",
     "segments": [
@@ -2273,7 +2052,7 @@ CHAINS['storage-interface'] = {
       {
         "name": "DDR5/LPDDR5 主控与 RCD",
         "stocks": [
-          { "code": "688008", "name": "澜起科技", "q1": true, "q1note": "全球DDR5 RCD仅3家量产(澜起/Rambus/IDT)·澜起市占~40%国内唯一·L1年报+L4券商双重印证", "q2": false, "q2note": "§11.23:fabless模式·产能取决于台积电制程分配", "q3": false, "q3note": "§11.23:客户切换周期≥12个月(行业共识)", "q4": false, "q4note": "认证≥12月≠替换周期·无公开数据(§11.23)", "hits": 1, "strength": "☆☆☆" }
+          { "code": "688008", "name": "澜起科技", "q1": true, "q1note": "全球DDR5 RCD仅3家量产(澜起/Rambus/IDT)·澜起市占率36.8%国内唯一·L1年报+L4券商双重印证", "q2": false, "q2note": "§11.23:fabless模式·产能取决于台积电制程分配", "q3": false, "q3note": "§11.23:客户切换周期≥12个月(行业共识)", "q4": false, "q4note": "认证≥12月≠替换周期·无公开数据(§11.23)", "hits": 1, "strength": "☆☆☆" }
         ]
       },
       {
@@ -2365,7 +2144,7 @@ CHAINS['storage-interface'] = {
         "code": "688008",
         "segment": "seg[2] DDR5/LPDDR5 主控与 RCD · DDR5 RCD 全球稀缺型卡口",
         "strength": "★★★",
-        "logic": "DDR5 RCD(寄存时钟驱动器)是服务器 DDR5 内存条上的核心指挥芯片——全球仅澜起+Rambus+瑞萨(Renesas 收购 IDT)三家可量产。澜起 2025 年报 L1 实测: 营收 54.56亿(+49.94%)、净利 22.36亿(+58.35%)、毛利率 62.23%、互连类芯片占公司总营收 94.18%;全球市占~40%;国内唯一认证≥12个月量产厂商;Intel/AMD 平台服务器 OEM 客户切换成本极高(数据中心兼容性测试≥6月+库存建立≥3月)。\n\n⚠ 护城河被侵蚀风险: 2025 年三星电子已宣布自研 DDR5 RCD 芯片,预计 2025 下半年量产,优先应用于三星自家服务器 DRAM 模组——这意味着“客户离不开你”的耐久性正在被侵蚀。澜起基本盘仍稳(2025 营收同比 +49.94%/第四子代 RCD 7200MT/s 已规模出货),但三星自建产能是行业公开关注点(来源: 多家 L5 财经媒体 2025 报道, 具体自供率数字未检索到 L1/L4 原始信源, 此处不引用未核实数字)。",
+        "logic": "DDR5 RCD(寄存时钟驱动器)是服务器 DDR5 内存条上的核心指挥芯片——全球仅澜起+Rambus+瑞萨(Renesas 收购 IDT)三家可量产。澜起 2025 年报 L1 实测: 营收 54.56亿(+49.94%)、净利 22.36亿(+58.35%)、毛利率 62.23%、互连类芯片占公司总营收 94.18%;全球市占率36.8%(2024年·连续6年行业第一);国内唯一认证≥12个月量产厂商;Intel/AMD 平台服务器 OEM 客户切换成本极高(数据中心兼容性测试≥6月+库存建立≥3月)。\n\n⚠ 护城河被侵蚀风险: 2025 年三星电子已宣布自研 DDR5 RCD 芯片,预计 2025 下半年量产,优先应用于三星自家服务器 DRAM 模组——这意味着“客户离不开你”的耐久性正在被侵蚀。澜起基本盘仍稳(2025 营收同比 +49.94%/第四子代 RCD 7200MT/s 已规模出货),但三星自建产能是行业公开关注点(来源: 多家 L5 财经媒体 2025 报道, 具体自供率数字未检索到 L1/L4 原始信源, 此处不引用未核实数字)。",
         "tags": [
           "DDR5 RCD 全球双寡头",
           "全球≤3家量产+认证≥12月",
@@ -2381,7 +2160,7 @@ CHAINS['storage-interface'] = {
           "items": [],
           "note": "★ commit 6.99 立(2026-07-14):澜起从 commit 6.88 Phase B 试点晋级正式 chokePoint。主要变更:① 解锁 phaseBTestTrial=false;② 加 4 问字段 hits=1/strength=☆☆☆(R1 衍生 q1=true,注意 R1 公式 strict 给出 ☆☆☆);③ chokePoint 实际 strength 评级=★★★(由 R1 模板之外的 5 维度综合判定:① barrier.score=5 全球≤3家+认证≥12月② moat=88 全链第二+quadrant=core③ 2025 营收+49.94%/净利+58.35%/GM 62.23% 行业最强组合④ 互连类芯片占总营收 94.18%≥70%主营纯度阈值⑤ L1 abstract_ths+L3 TrendForce+L4 头部券商三源验证);④ verification 加三星自研 RCD 风险标注(L5 媒体多源报道,具体自供率未检索到 L1/L4 原始信源,故不写具体百分比);⑤ plainLanguageNote 重写加入风险提示。"
         },
-        "plainLanguageNote": "<strong>💡 大白话:为什么澜起科技是卡口?</strong><br><br>把服务器内存条想象成一座超大型图书馆——几十台“图书管理员”同时指挥上百本书的存取节奏,没有他们所有人会撞在一起打架。澜起科技做的就是这颗指甲盖大小的“图书管理员”芯片,叫 DDR5 RCD。<br><br>全球能造这种芯片的只有三家公司:澜起、美国的 Rambus、日本的瑞萨(收购了 IDT)。澜起市占大概 40%,国内独一份。2025年它的营收 54.56 亿(+49.94%)、净利 22.36 亿(+58.35%),毛利率高达 62%——这是“全球稀缺”的真金白银背书。<br><br>但这道护城河不是铁打的——<strong>最大的客户之一三星电子,2025 年已经宣布要自己研发 RCD 芯片。</strong>虽然目前还处于早期阶段、自供比例不高,但这是一个明确信号:连最离不开澜起的客户,都在想办法“不再依赖你”。所以澜起的基本盘还在(DDR5 RCD 量价齐升、第四子代 7200MT/s 已规模出货),但这道护城河的耐久性正在被一点一点侵蚀——它不是“客户永远离不开你”,而是“客户暂时还离不开你”。",
+        "plainLanguageNote": "<strong>💡 大白话:为什么澜起科技是卡口?</strong><br><br>把服务器内存条想象成一座超大型图书馆——几十台“图书管理员”同时指挥上百本书的存取节奏,没有他们所有人会撞在一起打架。澜起科技做的就是这颗指甲盖大小的“图书管理员”芯片,叫 DDR5 RCD。<br><br>全球能造这种芯片的只有三家公司:澜起、美国的 Rambus、日本的瑞萨(收购了 IDT)。澜起市占率约36.8%,国内独一份。2025年它的营收 54.56 亿(+49.94%)、净利 22.36 亿(+58.35%),毛利率高达 62%——这是“全球稀缺”的真金白银背书。<br><br>但这道护城河不是铁打的——<strong>最大的客户之一三星电子,2025 年已经宣布要自己研发 RCD 芯片。</strong>虽然目前还处于早期阶段、自供比例不高,但这是一个明确信号:连最离不开澜起的客户,都在想办法“不再依赖你”。所以澜起的基本盘还在(DDR5 RCD 量价齐升、第四子代 7200MT/s 已规模出货),但这道护城河的耐久性正在被一点一点侵蚀——它不是“客户永远离不开你”,而是“客户暂时还离不开你”。",
         "chokepointType": "physical",
         "strengthNote": "★ commit 6.99 立(2026-07-14):  DDR5 RCD 全球稀缺型卡口·barrier=5+moat=全链计算+strength=★★★·详见 verification.note"
       },
@@ -2479,10 +2258,10 @@ CHAINS['storage-interface'] = {
     {
       "segment": "DDR5 RCD 国产化",
       "demand": "2026E全球DDR5服务器内存条约1.2-1.5亿条·每条约需1颗RCD芯片",
-      "capacity": "全球RCD供给端≤3家:澜起科技~40%(fabless·产能取决于台积电先进制程分配)/Rambus~35%(IP授权+芯片销售)/IDT(Renesas)~25%",
+      "capacity": "全球RCD供给端≤3家:澜起科技36.8%(fabless·产能取决于台积电先进制程分配)/Rambus~35%(IP授权+芯片销售)/IDT(Renesas)~25%",
       "gap": "无明显缺口",
       "rate": "N/A",
-      "bottleneck": "⚠ DDR5 RCD核心约束不在产能缺口而在认证壁垒:①新进入者需通过Intel/AMD完整服务器平台认证(≥12个月)②OEM客户切换成本极高(数据中心兼容性测试+库存建立周期)③澜起已是全球双寡头(市占~40%)·国内唯一·fabless模式扩产周期6-12月。L1来源:澜起科技2025年报(巨潮)·L3来源:TrendForce DDR5 Market Tracker",
+      "bottleneck": "⚠ DDR5 RCD核心约束不在产能缺口而在认证壁垒:①新进入者需通过Intel/AMD完整服务器平台认证(≥12个月)②OEM客户切换成本极高(数据中心兼容性测试+库存建立周期)③澜起已是全球双寡头(市占率36.8%)·国内唯一·fabless模式扩产周期6-12月。L1来源:澜起科技2025年报(巨潮)·L3来源:TrendForce DDR5 Market Tracker",
       "tier": "L3+L1",
       "src": "澜起科技2025年报(L1·巨潮) + TrendForce DDR5 Market Tracker(L3)",
       "asOf": "2026-07-14"
