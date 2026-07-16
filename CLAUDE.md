@@ -3929,6 +3929,34 @@ done
 
 **违反本节 = §6.2 红线（渲染显示内容与数据文件不一致·误导用户）+ §6.8 数据准确度优先原则违反**。
 
+#### §13.7.4 treeMap 节点数据结构强制规范（2026-07-16 commit 7.14 立·永久生效·所有新链/现有链通用）
+
+**一、companies 数组铁律**
+
+1. 每个 treeMap 节点**必须**包含自己独立、真实的 `companies` 数组，**禁止** `companies=[]` 后依赖 `sourceSegment` 做回退显示
+2. `sourceSegment` 字段**仅**用于表达"该节点归属于哪个 segment"这一归属关系，**不参与** companies 内容的计算或渲染
+3. 如果某个节点确实是纯概念性节点（没有对应的 A 股标的，如"AI 数据中心""CPO 应用端""硅光 PIC 晶圆代工"），`companies` 应明确设为 `[]`，**不做任何回退填充**，让页面静默不显示公司列表——**禁止**用其他数据源（segment stocks / midstream stocks / 跨链引用）顶替
+
+**二、treeMap 相关 commit 的强制前置检查**
+
+以下两项列为 treeMap 数据结构变更 commit 的强制前置条件，**一项 FAIL = 阻断 commit**：
+
+| 检查 | 工具 | 检测内容 |
+|------|------|------|
+| 业务身份错位 | `node scripts/check_business_identity_match.js <chainId>` | 公司间 logic/note/position 文本是否串位 |
+| sourceSegment 粒度陷阱 | `node scripts/check_tree_sourceseg.js <chainId>` | 是否存在 `sourceSegment` 被多节点共享 + 空 `companies` 的高危模式 |
+
+**三、新链 treeMap 建立后的强制视觉核查**
+
+任何新链的 treeMap 建立完成后（Phase A 骨架或 Phase B 完善阶段），**必须立即**执行一次逐节点视觉核查：
+
+1. 用 Playwright 截图完整 treeMap（`flow-canvas`），提取每个节点的实际显示 companies 列表
+2. 逐节点人工判断：显示的 companies 是否与节点主题相符
+3. 这一步列为新链"正式完工确认"的必要环节——与六维打分完整性、chokePoint 认定完整性**同等地位**，**不能省略、不能等到用户发现问题才补做**
+4. 核查报告格式参照 2026-07-16 PCB/半导体设备/存储与接口链的核查报告：节点名称 | 实际显示 companies | 相符性判断（✅/❌/⚠️）
+
+**事故案例**（2026-07-16 光模块链）：treeMap 建成后从未做过视觉核查——materials 列 4 个节点全部显示 seg[1] 的 6 只股票（赛微/光库/腾景/仕佳/三安/有研），其中"光学石英"节点下显示的公司与石英材料完全无关。连续三轮用户投诉才追溯到 `_buildFlowNode` 的 `sourceSegment` 优先级 bug。如果新链上线时有强制视觉核查这一步，问题会在第一时间被发现。
+
 ### §13.8 完整上线前执行序列（一次性跑通）
 
 ```bash
@@ -3936,6 +3964,7 @@ done
 python scripts/page_audit.py                    # 全局审计
 node scripts/check_<chainId>_sync.js            # 双层同步
 node scripts/check_unique_stock_codes.js <id>   # unique 基线
+node scripts/check_tree_sourceseg.js <id>       # sourceSegment 粒度陷阱(§13.7.4)
 node scripts/__scan_contamination.js            # 开发术语污染扫描
 
 # ===== 第 2 步：新链 vs PCB 结构对比（CC 执行）=====
