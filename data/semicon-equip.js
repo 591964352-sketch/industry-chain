@@ -457,7 +457,7 @@ CHAINS["semicon-equip"] = {
       },
       {
         "name": "光刻/涂胶显影(芯源微/茂莱)",
-        "barrier": "extreme",
+        "barrier": "high",
         "note": "EUV 光刻 100% ASML 垄断 · 国产仅涂胶显影·光刻配套有零星突破 · 14nm 验证中",
         "companies": [
           {
@@ -776,7 +776,7 @@ CHAINS["semicon-equip"] = {
     "equipment": [
       {
         "name": "涂胶显影(芯源微)",
-        "barrier": "extreme",
+        "barrier": "high",
         "note": "涂胶显影 TEL/DNS 主导 · 国产化率 25-30%",
         "companies": [
           {
@@ -789,7 +789,7 @@ CHAINS["semicon-equip"] = {
       },
       {
         "name": "离子注入(凯世通)",
-        "barrier": "extreme",
+        "barrier": "high",
         "note": "离子注入 AMAT/Axcelis 双寡头 100% · 国产化率 25%",
         "companies": [
           {
@@ -827,7 +827,7 @@ CHAINS["semicon-equip"] = {
       },
       {
         "name": "晶体生长(单晶炉)",
-        "barrier": "high",
+        "barrier": "mid",
         "note": "光伏单晶炉国产化率 90% · 半导体单晶炉 70%+ · 晶盛/京运通/连城数控主导",
         "companies": [
           {
@@ -904,7 +904,7 @@ CHAINS["semicon-equip"] = {
       },
       {
         "name": "石英/陶瓷零部件",
-        "barrier": "high",
+        "barrier": "mid",
         "note": "石英 Heraeus/GE 主导 · 国产化率 30%+ · 陶瓷 60%",
         "companies": [
           {

@@ -585,7 +585,7 @@ CHAINS.pcb = {
       },
       {
         "name": "CCL 上游硅微粉",
-        "barrier": "mid",
+        "barrier": "low",
         "note": "占 CCL 成本 5-10%(CPCA) · 国产化率 60%+ · 联瑞/凯盛二供格局",
         "companies": [
           {
