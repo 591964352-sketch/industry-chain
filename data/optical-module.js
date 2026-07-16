@@ -1,3 +1,5 @@
+// data/optical-module.js — 光模块·光互联合并链 auto 估值层
+// 2026-07-16更新:华工科技归属修正(seg[4]→seg[2])+重打分+demandChainMeta+treeMap调整
 window.CHAINS = window.CHAINS || {};
 (function(CHAINS){
 
@@ -219,6 +221,19 @@ CHAINS["optical-module"] = {
           }
         ],
         "sourceSegment": "光器件 + 光模块整链制造"
+      },
+      {
+        "name": "800G 硅光+CPO (华工正源)",
+        "barrier": "high",
+        "note": "华工正源光子·800G硅光全球第二大供应商(市占18-20%)·3.2T CPO全球首发量产·全栈自研硅光芯片·英伟达/Meta/微软/亚马逊供应链",
+        "companies": [
+          {
+            "code": "000988",
+            "name": "华工科技"
+          }
+        ],
+        "sourceSegment": "光器件 + 光模块整链制造",
+        "choke": false
       }
     ],
     "materials": [
@@ -281,6 +296,10 @@ CHAINS["optical-module"] = {
           {
             "code": "688195",
             "name": "腾景科技"
+          },
+          {
+            "code": "600105",
+            "name": "永鼎股份"
           }
         ],
         "sourceSegment": "硅光 PIC + 调制材料"
@@ -745,6 +764,21 @@ CHAINS["optical-module"] = {
           "logic": "光通信侧 (stage 2 commit · seg2 归属)",
           "hits": 4,
           "strength": "★★★"
+        },
+        {
+          "rank": 11,
+          "name": "华工科技",
+          "code": "000988",
+          "position": "800G硅光模块全球第二大供应商(市占18-20%)·3.2T CPO全球首发量产·全栈自研硅光(芯片设计→8寸晶圆流片→封装→模块·硅光芯片自给率>70%)·光互联业务42.5%为第一大主业(2026Q1超50%)·英伟达/Meta/微软/亚马逊供应链·微软3年超3亿美元CPO长单·产线满产至2027年",
+          "barrier": "高",
+          "tier": "A",
+          "valAsOf": "2026Q1",
+          "src": "abstract_ths L1实测·2026-07-16+LightCounting+L4券商研报",
+          "trend": "up",
+          "trendNote": "归属修正(2026-07-16核实):光互联42.5%为第一大主业(2026Q1>50%)·800G硅光全球第二大供应商(市占18-20%)·3.2T CPO全球首发量产(微软3年超3亿美元长单)·全栈自研硅光芯片自给率>70%·产线满产满销订单排至2027年·毛利率仅13.3%远低于龙头(中际42.6%/新易盛47.8%)",
+          "logic": "800G硅光模块全球第二大供应商(市占18-20%·2026-07-16核实)·3.2T CPO全球首发量产(微软3年超3亿美元长单·英伟达Spectrum-X定点)·全栈自研硅光(芯片设计→8寸晶圆流片→封装→模块·硅光芯片自给率>70%·与光迅科技依赖台积电COUPE形成对比)·光互联业务42.5%为第一大主业(2026Q1>50%)·英伟达/Meta/微软/亚马逊四大客户·产线24小时满产满销·800G+订单已排至2027年·核心短板:毛利率仅13.3%远低于龙头(中际42.6%/新易盛47.8%)",
+          "hits": 4,
+          "strength": "★★★"
         }
       ]
     },
@@ -861,21 +895,6 @@ CHAINS["optical-module"] = {
           "trend": "up",
           "trendNote": "前道量测+后道测试 阶段 2 commit · auto 层精简 11 字段",
           "logic": "前道量测+后道测试 (stage 2 commit · seg4 归属)",
-          "hits": 4,
-          "strength": "★★★"
-        },
-        {
-          "rank": 6,
-          "name": "华工科技",
-          "code": "000988",
-          "position": "激光设备+硅光模块",
-          "barrier": "高",
-          "tier": "A",
-          "valAsOf": "2026Q1",
-          "src": "company 2026Q1 季报(L1)+ 行业共识(L3) [stage 2 commit",
-          "trend": "up",
-          "trendNote": "激光设备+硅光模块 阶段 2 commit · auto 层精简 11 字段",
-          "logic": "激光设备+硅光模块 (stage 2 commit · seg2 归属)",
           "hits": 4,
           "strength": "★★★"
         }
@@ -1362,7 +1381,44 @@ CHAINS["optical-module"] = {
       "bottleneck": "测试精度与一致性 · 国产替代信任积累"
     }
   ],
-  "methodologyNotes": "🔦 光模块·光互联合并链(stage 2 commit 6.70 立) · 由原光模块(33 股)+ 光芯片(54 股) + CPO(7 股)三链合一 · unique 去重 41 只 · 6 个 segment · 双层架构(参照 semicon-equip P0 经验,避免返工) · PE/PB 实盘接口本机不可用 → valuation tier 全部降级 estimate · 等§10 景气度调整系数设计 + akshare PE 接口恢复后重新核算 · 【关键归类调整(commit message 显式说明)】 · 1. 烽火通信 600498 + 中兴通讯 000063 原本预入 seg3 (CPO 共封装光学) · 实际身份 = 5G 电信光模块应用方,不是 CPO 核心持股 · 调整至 seg5 侧枝应用(方案 B 决定,用户 review 通过) · 2. seg3 保留为空段 + sub-card only 工艺说明 · 引用 seg2 中际旭创/新易盛/光迅作为光模块整机出货方向 CPO 应用演进的方向说明 · 类似 PCB 链 sideBranches 只做工艺说明不占实际持股 的处理方式"
+  "methodologyNotes": "🔦 光模块·光互联合并链(stage 2 commit 6.70 立) · 由原光模块(33 股)+ 光芯片(54 股) + CPO(7 股)三链合一 · unique 去重 41 只 · 6 个 segment · 双层架构(参照 semicon-equip P0 经验,避免返工) · PE/PB 实盘接口本机不可用 → valuation tier 全部降级 estimate · 等§10 景气度调整系数设计 + akshare PE 接口恢复后重新核算 · 【关键归类调整(commit message 显式说明)】 · 1. 烽火通信 600498 + 中兴通讯 000063 原本预入 seg3 (CPO 共封装光学) · 实际身份 = 5G 电信光模块应用方,不是 CPO 核心持股 · 调整至 seg5 侧枝应用(方案 B 决定,用户 review 通过) · 2. seg3 保留为空段 + sub-card only 工艺说明 · 引用 seg2 中际旭创/新易盛/光迅作为光模块整机出货方向 CPO 应用演进的方向说明 · 类似 PCB 链 sideBranches 只做工艺说明不占实际持股 的处理方式",
+  "demandChainMeta": {
+    "_hasDemandData": true,
+    "source": "LightCounting 2026.04+Yole 2025+L4券商研报",
+    "updatedAt": "2026-07-16",
+    "segments": [
+      {
+        "name": "AI 数据中心 (800G/1.6T/3.2T)",
+        "sharePct": 62.6,
+        "cagr": 65,
+        "desc": "英伟达 Rubin/Blackwell+谷歌 TPU+华为昇腾·1.6T 2026 规模放量·3.2T CPO 2027 导入·需求超出供给 30%",
+        "sources": [
+          "LightCounting 2026.04",
+          "LC 以太网光模块 2026E +65%"
+        ]
+      },
+      {
+        "name": "云计算数据中心 (400G/800G)",
+        "sharePct": 24.3,
+        "cagr": 20,
+        "desc": "AWS/Azure/阿里云传统数据中心向 800G 升级·非 AI 通用计算需求稳健",
+        "sources": [
+          "LightCounting 2026.04",
+          "Yole 2025 数据中心占比"
+        ]
+      },
+      {
+        "name": "5G 电信 (25G/100G)",
+        "sharePct": 13.1,
+        "cagr": 5,
+        "desc": "5G 承载网+FTTx·建设高峰已过·增速放缓·占比持续下降",
+        "sources": [
+          "LightCounting 2026.04",
+          "LC 2026 电信市场占比"
+        ]
+      }
+    ]
+  }
 };
 
 })(window.CHAINS);
