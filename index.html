@@ -603,7 +603,7 @@
     <span class="nav-item" data-chain="semicon-equip" onclick="switchChain('semicon-equip')">🔩 半导体设备</span>
     <span class="nav-item" data-chain="optical-module" onclick="switchChain('optical-module')">🔦 光模块·光互联</span>
     <span class="nav-item" data-chain="storage-interface" onclick="switchChain('storage-interface')">💾 存储与接口</span>
-    <span class="nav-item" data-chain="advanced-packaging" onclick="switchChain('advanced-packaging')">📦 先进封装 <sup style="font-size:9px;color:var(--muted);">骨架</sup></span>
+    <span class="nav-item" data-chain="advanced-packaging" onclick="switchChain('advanced-packaging')">🧩 先进封装</span>
     <span class="nav-item nav-toggle" id="chain-toggle" onclick="toggleSidebarChains()">▶ 算力基础+应用终端 ()</span>
     <div class="sidebar-collapsible collapsed" id="chain-collapsed">
       <!-- ★ 副区分类一·算力基础设施(10条·2026-07-14 重组) -->
@@ -678,6 +678,7 @@
     'optical-module',        // ★ 阶段 2: 光模块·光互联合并链 auto 层 (commit 6.71 · cpo.js + optical-chip.js 已合并·旧文件 rename 存档)
     'storage-interface.manual', // ★ 2026-07-13: 手动层先于 storage-interface.js 加载,注入 window.STORAGE_INTERFACE_MANUAL.stocks[code] (Phase A 骨架接入 manifest)
     'storage-interface',        // ★ 2026-07-13: 存储与接口链 auto 层 (Phase A 骨架 · 7 segment + 3 chokePoint + 35 只 manual stocks)
+    'advanced-packaging.manual', // ★ 2026-07-16: 先进封装链 manual 层·10只新标的+7只C类跨链
     'advanced-packaging','semicon-materials','ai-chip','network-switch','data-center',
     'power-supply','copper-connect','server-odm','ai-cloud'
   ];
