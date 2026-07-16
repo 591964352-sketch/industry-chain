@@ -310,8 +310,7 @@ CHAINS["optical-module"] = {
         "name": "AI 数据中心(800G/1.6T/3.2T 标配)",
         "barrier": "extreme",
         "note": "英伟达 Rubin/Blackwell · 谷歌 TPU · 华为昇腾 · CUDA/TF 生态",
-        "companies": [],
-        "sourceSegment": "侧枝应用(5G 电信 · 数据中心)"
+        "companies": []
       },
       {
         "name": "5G 电信(CPO/光模块)",
@@ -334,7 +333,6 @@ CHAINS["optical-module"] = {
         "barrier": "—",
         "note": "数据中心企业级光网络接入·不含AI服务器PCB配套(已清理至PCB链)·光模块最终应用场景之一",
         "companies": [],
-        "sourceSegment": "侧枝应用(5G 电信 · 数据中心)",
         "choke": false
       }
     ],
@@ -426,8 +424,7 @@ CHAINS["optical-module"] = {
         "name": "光学石英(光芯片衬底基础材料)",
         "barrier": "high",
         "note": "菲利华国产龙头 + 欧晶科技·石英材料全球 <5 家",
-        "companies": [],
-        "sourceSegment": "硅光 PIC + 调制材料"
+        "companies": []
       },
       {
         "name": "硅光 PIC 设计+代工/材料",
@@ -515,8 +512,7 @@ CHAINS["optical-module"] = {
         "name": "通用电子测试测量仪器",
         "barrier": "mid",
         "note": "普源精电 / 鼎阳科技 · 光芯片研发测试基础仪器",
-        "companies": [],
-        "sourceSegment": "光芯片 + 模块测试封装设备"
+        "companies": []
       }
     ],
     "sideBranches": [

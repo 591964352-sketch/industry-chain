@@ -2949,6 +2949,32 @@ function validateNoDevTerms(text, fieldName, stockCode) {
 
 ---
 
+### §11.22b PCB 链 treeMap sourceSegment 回退依赖登记（2026-07-16 commit 7.14 立 · 待办）
+
+> **触发**：光模块链 sourceSegment fallback 机制修复后，对 PCB 链做同口径扫描，发现 6 个 treeMap 节点的 `companies=[]` 且依赖 `sourceSegment` 回退机制显示公司列表。
+
+**当前 6 个依赖节点**（`check_tree_sourceseg.js` 模式 B）：
+
+| 节点 | sourceSegment | 回退显示的 segment stocks |
+|------|------|------|
+| materials[0] 电子树脂 | "电子树脂（碳氢树脂/PPO）" | seg[1] 5 只（东材/圣泉/世名/宏昌/彤程） |
+| materials[1] 玻纤布/Q布 | "玻纤布/Q布（石英纤维布）" | seg[2] 5 只（菲利华/宏和/中材/巨石/山东玻纤） |
+| materials[2] HVLP4铜箔 | "铜箔（HVLP4超低轮廓铜箔）" | seg[3] 5 只（铜冠/德福/诺德/嘉元/中一） |
+| materials[3] CCL覆铜板 | "覆铜板 CCL" | seg[0] 4 只（生益/华正/南亚/金安国纪） |
+| equipment[0] PCB钻孔机 | "PCB专用设备" | seg[5] 3 只（大族/芯碁/东威） |
+| sideBranches[0] IC封装基板 | "IC封装基板（ABF载板）" | seg[4] 5 只（深南/兴森/华正/联瑞/博敏） |
+
+**当前状态**：这 6 个节点目前显示正确——因为 PCB 链的 segment 结构与 treeMap 节点恰好 1:1 对应（每个 sourceSegment 仅被 1 个节点引用）。**但这个正确性依赖 segment 结构的稳定，没有任何自动化保证。**
+
+**强制规则**（永久生效）：
+
+1. **PCB 链 segment 重构前强制预检**：任何对 PCB 链 `segments` 数组的合并/拆分/重命名操作，**必须**在修改前运行 `node scripts/check_tree_sourceseg.js pcb`，确认不会导致这 6 个节点显示错误内容
+2. **长期建议**（非强制·后续 Phase 12 维护期评估）：为这 6 个节点填充专属 `companies` 数组（从各自对应的 segment stocks 直接复制），然后删除 `sourceSegment` 字段——彻底消除对 fallback 机制的依赖
+
+**登记 commit**：7.14（本次）
+
+---
+
 ### §11.23 四问框架 Q2/Q3/Q4 在技术密集型行业的公开数据稀缺性（2026-07-12 · semicon-equip 四问核实立）
 
 > **2026-07-12 补充**：本节结论被 `scripts/check_rating_consistency.js` R3 规则（§R3 行业数据局限场景检测）直接引用——当 chokePoint 出现 q1=true + q2/q3/q4=false + barrier≥4 的状态时，R3 显式标注为 AUTHORIZED 并附"依据 §11.23+strengthNote+q1note"来源。**不要扩展 Q2/Q3/Q4 评估框架——本节的论证已经明确这些维度对半导体设备类技术密集型行业是结构性不可得的。**
@@ -3880,6 +3906,28 @@ done
 4. **新链建立时**：如需废弃旧链，必须将旧文件移入 `_archive/` 子目录（而非留在 `data/` 根目录），消除同名混淆风险
 
 ---
+
+### §13.8 完整上线前执行序列（一次性跑通）
+
+#### §13.7.3 treeMap sourceSegment fallback 粒度陷阱（2026-07-16 光模块链修复立·永久生效）
+
+> **触发**：光模块链 treeMap 渲染时，materials/equipment/downstream 列多个节点显示完全相同的公司列表。排查发现根因在 `index.html` 的 `_buildFlowNode` 函数——`sourceSegment` 字段的 fallback 机制在节点 `companies=[]` 时，回退显示该节点所属 segment 的**全部 stocks**。当多个 treeMap 节点共享同一个 `sourceSegment` 时（光模块链 4 个 materials 节点全部指向 "硅光 PIC + 调制材料"），所有节点显示完全相同的、与具体节点主题无关的公司列表。
+
+> **这个 fallback 机制本身是脆弱的**——它依赖 "segment 结构与 treeMap 节点结构 1:1 对齐" 这个假设，而这个假设没有任何自动化保证。PCB 链之所以没有暴露这个问题，是因为 PCB 链的 segment 被细分为 "电子树脂/玻纤布/铜箔/CCL 覆铜板" 等独立 segment，巧合般地保持了 1:1 对齐。一旦某个 segment 被合并或重构，bug 会立即暴露。
+
+**强制规则（新链建立/现有链重构时触发）**：
+
+1. **新链 treeMap 建立时**：如果某个 `sourceSegment` 被 ≥2 个 treeMap 节点同时引用（segment 粒度粗于 treeMap 节点粒度），每个节点**必须**有专属的 `companies` 数组，**禁止**依赖 `sourceSegment` 兜底来填充节点公司列表
+2. **现有链 segment 重构时**：任何 segment 的合并/拆分/重命名操作，**必须**同步检查该 segment 的 `sourceSegment` 引用方是否受影响——包括 treeMap 节点和 chainStory 的 `sourceSegment` 引用
+3. **空 companies 节点的 sourceSegment 清理**：如果某个 treeMap 节点的 `companies=[]` 且 `sourceSegment` 回退显示的 segment stocks 与该节点主题无关，**必须删除该节点的 `sourceSegment` 字段**，使节点静默不显示公司列表（而非显示错误内容）
+
+**自动化检测**（`scripts/check_tree_sourceseg.js`）：遍历所有 treeMap 节点，统计每个 `sourceSegment` 被引用的次数。若同一 `sourceSegment` 被 ≥2 个节点引用，且任一引用节点的 `companies=[]` → 标记为 ⚠️"粒度不匹配·易出现跨节点重复显示"。
+
+**事故案例归档**（2026-07-16）：
+- 光模块链 4 个 materials 节点全部 `sourceSegment="硅光 PIC + 调制材料"`，4 个 equipment 节点全部 `sourceSegment="光芯片 + 模块测试封装设备"` → 每个列内所有节点显示完全相同的公司列表
+- 修复：删除空 companies 节点的 `sourceSegment` 字段（4 处）+ 交换 `_buildFlowNode` 优先级（`item.companies` 优先于 `sourceSegment` fallback）
+
+**违反本节 = §6.2 红线（渲染显示内容与数据文件不一致·误导用户）+ §6.8 数据准确度优先原则违反**。
 
 ### §13.8 完整上线前执行序列（一次性跑通）
 

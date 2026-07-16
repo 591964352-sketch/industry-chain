@@ -2284,15 +2284,20 @@ function renderChain(chainId) {
       const bBg = barrierBadgeMap[bNorm] || 'badge-lo';
       const isChoke = !!item.choke;
       let companies = [];
-      if (item.sourceSegment) {
+      // ★ commit 7.14: 优先级交换——先用节点自己的 companies, 仅当为空时才回退到 sourceSegment。
+      //   原逻辑把 sourceSegment（segment归属标记）的优先级置于节点自己的 companies之上,
+      //   导致整个 segment 的股票列表被错误地当成每个节点专属的 companies。
+      //   在光模块链中,所有 materials/equipment 节点共享同一个 sourceSegment,
+      //   造成所有节点显示完全相同的公司列表,与节点实际业务无关。
+      if (item.companies && item.companies.length) {
+        companies = item.companies.slice(0, 5);
+      }
+      if (!companies.length && item.sourceSegment) {
         const seg = (d.segments || []).find(s => s.name === item.sourceSegment)
                  || (d.segments || []).find(s => s.name.includes(item.sourceSegment) || item.sourceSegment.includes(s.name));
         if (seg && seg.stocks && seg.stocks.length) {
           companies = seg.stocks.slice(0, 5).map(s => ({ name: s.name, code: s.code, position: s.position, barrier: s.barrier }));
         }
-      }
-      if (!companies.length && item.companies && item.companies.length) {
-        companies = item.companies.slice(0, 5);
       }
       return { bNorm, bCls, bLbl, bBg, isChoke, companies, idx };
     }
