@@ -97,85 +97,67 @@ window.CHAINS = window.CHAINS || {};
       {
         "step": 1,
         "name": "IC 载板与中介层",
-        "desc": "ABF/BT 载板·硅中介层·TGV 玻璃基板——先进封装的物理基础",
+        "desc": "ABF/BT 载板·硅中介层·TGV 玻璃基板——先进封装的物理基础。FC-BGA 载板全球仅约 5 家公司可量产（ibiden/Shinko/Unimicron/深南/兴森），ABF 膜 97% 依赖日本味之素——绝对物理卡口。深南电路为大陆唯一批量交付（★★★ global-scarcity·正式物理卡口·良率>80%·广州 60 亿工厂 2027 投产），兴森科技 FC-BGA 小批量出货·第二国产供应商（barrier=3·追赶者·战略备选价值）。⚠️ 重要注脚：深南电路处于卡口的下游加工端——真正的核心瓶颈在 ABF 膜（味之素 97% 垄断），深南解决的是\"谁能把 ABF 膜加工成合格的 FC-BGA 载板\"（全球约 5 家能做到），而不是\"谁能自己做 ABF 膜\"（只有味之素）。",
         "barrier": "extreme",
         "choke": true,
         "domestic": "ABF 载板国产化率~4%·深南/兴森小批量突围",
         "barrierNote": "ABF 膜 97% 依赖日本味之素——绝对卡口",
         "keyStocks": [
-          {
-            "name": "深南电路",
-            "code": "002916",
-            "note": "FC-BGA/FC-CSP 双龙头·C 类跨链"
-          }
+          "002916",
+          "002436"
         ],
-        "source": "L3 Prismark 2026·L4 券商产业链研究"
+        "source": "L3 Prismark 2026·L4 方正/国金证券 FC-BGA 行业分析"
       },
       {
         "step": 2,
         "name": "封装设备",
-        "desc": "键合机/临时键合/解键合·光刻·塑封·检测——先进封装的制造工具",
+        "desc": "键合机/临时键合/解键合·光刻·塑封·检测——先进封装的制造工具。芯源微（688037）临时键合/解键合国产唯一——全球仅 TEL/EVG/芯源微三家可批量供货（★★★ global-scarcity·正式物理卡口·barrier=5），已批量出货台积电/长电/华天（C 类跨链·moat=81·hold）。芯碁微装（688630）直写光刻 DI 国内唯一（PCB LDI 全球市占 18.8% 第一·FOPLP/TGV 第二增长曲线·PE 195x 极度高估·C 类跨链）。文一科技（600520）12 寸晶圆级塑封设备·样机交付华为-盛合晶微·⚠️ 验证阶段（watch·moat=50·_phaseB_checklist 四项中三项未查到）。快克智能（603203）TCB 热压键合国产追赶者（C 类跨链·全球 ASM Pacific/BESI 主导·踩线 hold·moat=60）。",
         "barrier": "extreme",
         "choke": true,
         "domestic": "键合设备国产化率<20%·光刻 DI 国产化率 30%",
         "barrierNote": "临时键合/解键合被 TEL/EVG 主导·芯源微国产唯一突破",
         "keyStocks": [
-          {
-            "name": "芯源微",
-            "code": "688037",
-            "note": "临时键合/解键合国产龙头·C 类跨链"
-          },
-          {
-            "name": "文一科技",
-            "code": "600520",
-            "note": "12寸晶圆级塑封·⚠️验证阶段"
-          }
+          "688037",
+          "688630",
+          "600520",
+          "603203"
         ],
-        "source": "L3 SEMI 2025·L4 东吴证券"
+        "source": "L3 SEMI 2025·L4 申万宏源/方正证券设备行业分析"
       },
       {
         "step": 3,
         "name": "封装材料",
-        "desc": "临时键合胶·PSPI 光刻胶·Underfill·环氧塑封料——先进封装的耗材弹药",
+        "desc": "PSPI 光刻胶·临时键合胶·CMP 抛光垫·溅射靶材·Underfill——先进封装的耗材弹药。鼎龙股份（300054）唯一同时覆盖 PSPI+CMP 抛光垫+临时键合胶三条线的国产供应商（★★☆ domestic-platform·准卡口·全链财务质量最优·ROE 12.8%/毛利率 50.9%/moat=80 core·C 类跨链）——单线均非全球寡头（PSPI 全球 HD Micro 主导>70%/CMP 抛光垫 Dow/Cabot 主导 CR2>60%/临时键合胶 Brewer Science 主导>70%），但三线广度构成国产唯一的平台型协同壁垒。江丰电子（300666）超高纯溅射靶材国产龙头（pure-play·B2 批次最高 moat=67·营收 46 亿+27.7%·全球非 top3·hold）。飞凯材料（300398）临时键合胶小批量销售（mixed·moat=60 踩线 hold）。艾森股份（688720）PSPI 量产（mixed·营收仅 5.93 亿·机构调研 330+次·moat=62 踩线 hold）。德邦科技（688035）CDAF+Underfill 国内首家量产（C 类跨链·通用封装>10 家供应商·毛利率 27.5% 偏低·moat=62 踩线 hold）。沃格光电（603773）TGV 玻璃基板产业导入期·⚠️ skip（§6.15 亏损扩大·营收增长+亏损扩大+毛利率三年最低·moat=50/timing=20——正确但太早）。",
         "barrier": "extreme",
         "choke": true,
         "domestic": "临时键合胶国产化率<10%·PSPI 国产化率<5%",
         "barrierNote": "飞凯/德邦/鼎龙从 0 到 1 突破·但距批量替代 Brewer Science/HD Micro 仍有距离",
         "keyStocks": [
-          {
-            "name": "飞凯材料",
-            "code": "300398",
-            "note": "临时键合材料·小批量销售"
-          },
-          {
-            "name": "艾森股份",
-            "code": "688720",
-            "note": "PSPI 光刻胶量产"
-          }
+          "300398",
+          "688720",
+          "300054",
+          "688035",
+          "300666",
+          "603773"
         ],
-        "source": "L3 SEMI 2025·L4 券商产业链研究"
+        "source": "L3 SEMI 2025 全球半导体材料报告·L4 券商材料行业分析"
       },
       {
         "step": 4,
         "name": "OSAT 封测代工",
-        "desc": "长电科技/通富微电/华天科技——承接台积电 CoWoS 外溢订单的核心载体",
+        "desc": "长电科技/通富微电/华天科技——承接台积电 CoWoS 外溢订单的核心载体。OSAT 环节非物理卡口（全球 CR5≈60%·竞争充分·>10 家供应商），价值在承接外溢订单的业绩弹性而非护城河壁垒。长电科技（600584）综合平台型·国内封测绝对龙头（营收 389 亿·全球第三·覆盖英伟达/华为/SK 海力士三大 AI 客户·moat=72·hold·XDFOI Chiplet 4nm 量产）。通富微电（002156）AMD 深度绑定型（全球 70% CPU/GPU 封测独家·营收 279 亿·moat=76 全链最高·hold·⚠️ 单一大客户依赖既是壁垒也是脆弱性来源）。华天科技（002185）高弹性追赶型（营收 172 亿·eSiFO 差异化路线·Q1 营收+34.5%·moat=62 踩线 hold）。甬矽电子（688362）124 亿投资押注 CoWoS-L·⚠️ watch（净利仅 8,173 万·负债率 73%·高杠杆微利·方向正确但太早）。晶方科技（603005）车载 CIS WLCSP 封装龙头·🔵 core（踩线·moat=60/timing=60·毛利率 47% 全链最高·负债率仅 10%）·⚠️ 非 AI 芯片赛道——与前三家面向的英伟达/AMD AI 芯片市场完全不同，产业逻辑不可对标。",
         "barrier": "high",
         "choke": false,
         "domestic": "全球 OSAT CR5≈60%·中国大陆占全球封测产能~25%",
         "barrierNote": "OSAT 环节非卡口（竞争充分）·价值集中在承接外溢订单的业绩弹性",
         "keyStocks": [
-          {
-            "name": "长电科技",
-            "code": "600584",
-            "note": "国内封测龙头·全球第三"
-          },
-          {
-            "name": "通富微电",
-            "code": "002156",
-            "note": "深度绑定AMD"
-          }
+          "600584",
+          "002156",
+          "002185",
+          "688362",
+          "603005"
         ],
-        "source": "L3 Prismark 2026·L4 方正证券"
+        "source": "L3 Prismark 2026 全球 OSAT 排名·L4 方正证券 2026-06"
       },
       {
         "step": 5,
@@ -1510,6 +1492,68 @@ window.CHAINS = window.CHAINS || {};
       ]
     }
   ],
-  "methodologyNotes": "先进封装产业链采用 Serenity 物理卡口（Choke Point）方法论。核心判断：① OSAT 封测代工环节竞争充分（全球 CR5≈60%），非物理卡口——价值在承接台积电 CoWoS 外溢订单的业绩弹性，而非护城河壁垒；② 真正的物理卡口在上游——封装设备（键合机/临时键合/解键合·国产化率<20%）和封装材料（键合胶/PSPI/ABF 膜·国产化率<15%）；③ 本链 10 只新标的 Phase A 骨架阶段 dims6 为占位符，Phase B 补真实六维数据（abstract_ths L1 实测+豆包 prompt v3+黑名单核实）；④ 7 只 C 类跨链复用标的从 semicon-equip/PCB/storage-interface 链引用已有 dims6 数据，在先进封装语境下需调整 reason 的行业背景描述（score 不变）。"
+  "methodologyNotes": "先进封装产业链采用 Serenity 物理卡口（Choke Point）方法论。核心判断：① OSAT 封测代工环节竞争充分（全球 CR5≈60%），非物理卡口——价值在承接台积电 CoWoS 外溢订单的业绩弹性，而非护城河壁垒；② 真正的物理卡口在上游——封装设备（键合机/临时键合/解键合·国产化率<20%）和封装材料（键合胶/PSPI/ABF 膜·国产化率<15%）；③ 本链 10 只新标的 Phase A 骨架阶段 dims6 为占位符，Phase B 补真实六维数据（abstract_ths L1 实测+豆包 prompt v3+黑名单核实）；④ 7 只 C 类跨链复用标的从 semicon-equip/PCB/storage-interface 链引用已有 dims6 数据，在先进封装语境下需调整 reason 的行业背景描述（score 不变）。",
+  "globalLandscape": [
+    {
+      "segmentName": "OSAT 综合封测龙头",
+      "globalPattern": "日月光(台·全球第一·市占~30%) | 安靠(美·全球第二·~18%) | 长电科技(中·全球第三·~14%) | 力成(台·第四) | 通富微电(中·全球第五·~8%) · 全球CR5≈60%",
+      "domesticPosition": "长电科技国内绝对龙头(营收389亿·覆盖英伟达/华为/SK海力士)·通富微电深度绑定AMD(70%CPU/GPU封测独家·营收279亿)·华天科技eSiFO差异化路线(营收172亿·追赶者)",
+      "chokeStatus": "非物理卡口——OSAT行业CR5≈60%·全球>10家供应商·竞争充分。价值在承接台积电CoWoS外溢订单的业绩弹性,非护城河壁垒",
+      "keyGap": "先进封装(CoWoS)产能缺口30-40%·台积电主导(>80%份额)·国内三巨头通过产能建设承接外溢·窗口期2-3年",
+      "sources": [
+        "L3 Prismark 2026全球OSAT排名",
+        "L4方正证券2026-06先进封装深度报告",
+        "L1 akshare abstract_ths长电/通富/华天2025年报实测"
+      ]
+    },
+    {
+      "segmentName": "细分领域先进封装",
+      "globalPattern": "台积电CoWoS/InFo/SoIC全栈主导(>80%先进封装份额) | 三星I-Cube/X-Cube | 英特尔EMIB/Foveros · CoWoS-L产能2026年预计60万片",
+      "domesticPosition": "甬矽电子(124亿投资2.5D堆叠·CoWoS-L产能爬坡·净利仅8,173万·追赶者) | 晶方科技(车载CIS WLCSP封装龙头·毛利率47%·非AI芯片赛道·与前三家产业逻辑完全不同)",
+      "chokeStatus": "非物理卡口——台积电技术绝对领先·国内追赶者体量和客户验证均处于早期。晶方科技在其细分赛道(车载CIS)有稳固壁垒但赛道增速天花板低于AI芯片封装",
+      "keyGap": "国内CoWoS产能严重不足(台积电主导·长电/通富/甬矽合计<20%)·产能建设周期18-24月·追赶需时间",
+      "sources": [
+        "L3 SEMI 2025先进封装技术路线图",
+        "L4券商台积电CoWoS产能分析",
+        "L1 akshare abstract_ths甬矽/晶方2025年报实测"
+      ]
+    },
+    {
+      "segmentName": "封装专用设备",
+      "globalPattern": "临时键合/解键合:TEL(日·>60%)+EVG(奥·~25%)+芯源微(中·<15%)全球仅三家 | DI光刻:海德堡(德)+Orc(日)+SCREEN(日)+芯碁微装(中·PCB LDI全球第一18.8%) | TCB键合:ASM Pacific(>50%)+BESI(~30%)+快克智能(中·追赶者)",
+      "domesticPosition": "芯源微★★★(临时键合国产唯一·全球≤3家·正式物理卡口) | 芯碁微装(直写光刻国内唯一·FOPLP/TGV第二增长曲线·PE195x高估) | 文一科技(12寸塑封设备·样机验证阶段·watch) | 快克智能(TCB国产追赶者·C类)",
+      "chokeStatus": "芯源微为正式物理卡口★★★(临时键合/解键合·全球仅三家可批量供货·国产唯一)。其他设备标的均为追赶者或验证阶段,不构成卡口",
+      "keyGap": "临时键合设备国产化率<20%·DI光刻国产化率~30%·TCB键合国产化率<10%——设备端是先进封装国产替代最薄弱的环节",
+      "sources": [
+        "L3 SEMI 2025全球半导体设备报告",
+        "L4申万宏源/方正证券设备行业分析",
+        "L1 akshare abstract_ths芯源微/芯碁/文一/快克2025年报实测"
+      ]
+    },
+    {
+      "segmentName": "封装材料",
+      "globalPattern": "PSPI:HD Micro(日·>70%)+Asahi Kasei(~15%)+Fujifilm(~10%) | 临时键合胶:Brewer Science(美·>70%) | CMP抛光垫:Dow(美)+Cabot(美)·CR2>60% | 溅射靶材:日矿金属+东曹+霍尼韦尔·CR3≈60% | Underfill:Namics/Henkel·全球>10家",
+      "domesticPosition": "鼎龙股份★★☆(三线国产唯一平台:PSPI+CMP抛光垫+临时键合胶·domestic-platform·全链财务最优·毛利率50.9%) | 江丰电子(靶材国产龙头·营收46亿·pure-play·全球非top3) | 飞凯材料(临时键合胶小批量·mixed) | 艾森股份(PSPI量产·营收5.9亿极小·mixed) | 德邦科技(CDAF+Underfill·C类·毛利率27.5%偏低) | 沃格光电(TGV产业导入期·skip)",
+      "chokeStatus": "单一材料线均非全球寡头(每条线>3家供应商)。鼎龙股份的壁垒性质为domestic-platform(三线广度·国产唯一),非global-scarcity——★★☆准卡口",
+      "keyGap": "PSPI国产化率<5%·临时键合胶<10%·CMP抛光垫20-30%·溅射靶材20-30%——每条材料线都存在显著的国产替代空间,但均非唯一国产供应商独占的局面",
+      "sources": [
+        "L3 SEMI 2025全球半导体材料报告",
+        "L4券商材料行业分析(PSPI/CMP/键合胶/靶材)",
+        "L1 akshare abstract_ths各公司2025年报实测"
+      ]
+    },
+    {
+      "segmentName": "IC 载板与中介层",
+      "globalPattern": "FC-BGA载板全球约5家可量产:ibiden(日·第一)+Shinko(日·第二)+Unimicron(台·第三)+深南电路(中·大陆唯一)·兴森科技(中·追赶者) | ABF膜:味之素(日·97%全球垄断)——绝对物理卡口",
+      "domesticPosition": "深南电路★★★(FC-BGA全球≤5家·大陆唯一批量交付·良率>80%·广州60亿工厂2027投产·正式物理卡口) | 兴森科技(FC-BGA小批量出货·第二国产供应商·追赶者·barrier=3·战略备选价值)",
+      "chokeStatus": "深南电路为正式物理卡口★★★(FC-BGA载板全球≤5家·大陆唯一)。但真正的核心瓶颈在ABF膜(味之素97%垄断)——深南电路处于卡口的下游加工端,非最核心的材料端",
+      "keyGap": "ABF膜97%依赖日本味之素(单一供应商风险)——这是先进封装全产业链最集中的供给瓶颈·国产替代尚无时间表。FC-BGA载板制造端国产化率~4%",
+      "sources": [
+        "L3 Prismark 2026全球IC载板排名",
+        "L4方正/国金证券ABF膜行业分析",
+        "L1 akshare abstract_ths深南/兴森2025年报实测"
+      ]
+    }
+  ]
 };
 })(window.CHAINS);
