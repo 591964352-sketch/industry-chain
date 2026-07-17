@@ -1366,7 +1366,8 @@ window.CHAINS = window.CHAINS || {};
       ],
       "asOf": "2026-07-16",
       "pctNote": "C 类跨链·估值/择时请参考 semicon-equip 链",
-      "strengthNote": "★★★保留:临时键合/解键合为 CoWoS/HBM 必选设备·全球仅三家可批量供货·国产唯一"
+      "strengthNote": "★★★保留:临时键合/解键合为 CoWoS/HBM 必选设备·全球仅三家可批量供货·国产唯一",
+      "plainLanguageNote": "<strong>💡 大白话：为什么芯源微是物理卡口？</strong><br><br>先进封装就像盖高楼——芯片一层层堆叠起来，每一层之间需要用一种叫'临时键合'的技术先粘住、加工完再'解键合'分开。这个粘住和分开的设备，全球只有三家能造：日本的 TEL、奥地利的 EVG，和中国的芯源微。芯源微的设备已经卖给了台积电、长电科技、华天科技这些大厂，在国产替代路径上没有第二家可选。"
     },
     {
       "code": "002916",
@@ -1386,7 +1387,8 @@ window.CHAINS = window.CHAINS || {};
       "verification": [],
       "asOf": "2026-07-16",
       "pctNote": "C 类跨链·估值/择时请参考 PCB 链",
-      "strengthNote": "★★★保留:FC-BGA 载板国产唯一·但需注意真卡口在 ABF 膜(味之素)"
+      "strengthNote": "★★★保留:FC-BGA 载板国产唯一·但需注意真卡口在 ABF 膜(味之素)",
+      "plainLanguageNote": "<strong>💡 大白话：为什么深南电路是物理卡口？</strong><br><br>AI 芯片封装需要一种叫 ABF 载板的'高级地基'——普通的 PCB 板子做不了这个精度。全球能做 ABF 载板的公司不超过 5 家，深南电路是中国唯一能量产 FC-BGA 封装基板的公司。但要注意：ABF 载板的核心原材料 ABF 膜，全球 97% 掌握在日本味之素手里——真正的物理卡口在上游材料，不在载板制造。"
     },
     {
       "code": "300054",
@@ -1406,7 +1408,8 @@ window.CHAINS = window.CHAINS || {};
       "verification": [],
       "asOf": "2026-07-17",
       "pctNote": "C 类跨链·估值/择时请参考 storage-interface 链",
-      "strengthNote": "★★☆准卡口:三线平台·国产唯一·但单线非全球≤3家——domestic-platform 类型首次使用"
+      "strengthNote": "★★☆准卡口:三线平台·国产唯一·但单线非全球≤3家——domestic-platform 类型首次使用",
+      "plainLanguageNote": "<strong>💡 大白话:为什么鼎龙股份是准卡口(★★☆)?</strong><br><br>鼎龙不像芯源微那样'全球只有三家能做',也不像深南电路那样'大陆只有一家能量产'。但它做了一件独特的事:PSPI 光刻胶(TSV 工艺必需)+CMP 抛光垫(平坦化工序必需)+临时键合胶(键合工艺必需)——这三样东西,全球每一家先进封装厂都需要,但全球没有第二家公司同时做这三样。鼎龙是国内唯一同时覆盖这三条核心材料线的公司,相当于你在小区里开了三家不同的便利店——每一家都能单独活下去,但三家一起开,顾客一站式采购的粘性就出来了。这不是单一品种的寡头壁垒,而是多品种覆盖的平台型壁垒。"
     }
   ],
   "supplyGap": [
@@ -1492,7 +1495,7 @@ window.CHAINS = window.CHAINS || {};
       ]
     }
   ],
-  "methodologyNotes": "先进封装产业链采用 Serenity 物理卡口（Choke Point）方法论。核心判断：① OSAT 封测代工环节竞争充分（全球 CR5≈60%），非物理卡口——价值在承接台积电 CoWoS 外溢订单的业绩弹性，而非护城河壁垒；② 真正的物理卡口在上游——封装设备（键合机/临时键合/解键合·国产化率<20%）和封装材料（键合胶/PSPI/ABF 膜·国产化率<15%）；③ 本链 10 只新标的 Phase A 骨架阶段 dims6 为占位符，Phase B 补真实六维数据（abstract_ths L1 实测+豆包 prompt v3+黑名单核实）；④ 7 只 C 类跨链复用标的从 semicon-equip/PCB/storage-interface 链引用已有 dims6 数据，在先进封装语境下需调整 reason 的行业背景描述（score 不变）。",
+  "methodologyNotes": "先进封装产业链采用 Serenity 物理卡口（Choke Point）方法论，17 只股票 Phase B 六维打分已全部完成（10 只新标的经 abstract_ths L1 实测+豆包 prompt v3+黑名单核实·7 只 C 类跨链复用从 semicon-equip/PCB/storage-interface 链引用已有财务数据并基于先进封装链语境重新评估六维评分）。核心判断：① OSAT 封测代工环节竞争充分（全球 CR5≈60%·>10 家供应商），非物理卡口——价值在承接台积电 CoWoS 外溢订单的业绩弹性，而非护城河壁垒；② 真正的物理卡口在上游——封装设备（临时键合/解键合·国产化率<20%）和封装材料（ABF 膜·味之素 97% 垄断）；③ 本链正式 chokePoint 三条：芯源微（★★★ global-scarcity·临时键合全球仅 TEL/EVG/芯源微三家·barrier=5）、深南电路（★★★ global-scarcity·FC-BGA 载板全球≤5 家·大陆唯一·唯真卡口在 ABF 膜材料端）、鼎龙股份（★★☆ domestic-platform·PSPI+CMP 抛光垫+临时键合胶三线国产唯一平台·单线非全球≤3家但广度构成协同壁垒）；④ 四问筛选采用双重评估体系——设备段（芯源微 q1=true·标准四问适用）与 OSAT/细分封装/材料/载板四段（标准 q1\"全球≤3家\"不适用·改以技术壁垒型四问 q1p-q4p 评估）；⑤ 六维打分严格遵循 §10 景气六维打分规则·visibility 按 §10.1 铁律（信息渠道层级≠业绩好坏）·亏损公司按 §6.15 专项规则（沃格光电·§6.15 亏损扩大模式）；⑥ 跨链复用的 C 类标的采用双轨原则——L1 财务数据直接复用 home 链已验证数据·六维评分基于先进封装链语境重新评估（非简单照搬 home 链分数）·tier 统一标注为 \"C\"。本链 17 只股票完整六维评分、3 条正式 chokePoint 认定及 4 段位 variant 技术壁垒型四问评估均已落地，具体个股评分和 chokePoint 类型判定详见各 segment 和 chokePoints 字段。",
   "globalLandscape": [
     {
       "segmentName": "OSAT 综合封测龙头",
@@ -1554,6 +1557,108 @@ window.CHAINS = window.CHAINS || {};
         "L1 akshare abstract_ths深南/兴森2025年报实测"
       ]
     }
-  ]
+  ],
+  "demandChainMeta": {
+    "config": {
+      "period": "2025-2028",
+      "note": "🆪 AI辅助测算·CAGR来自SEMI 2025/Prismark 2026/L4券商·部分细分市场为定性估计"
+    },
+    "segments": [
+      {
+        "key": "aiHpc",
+        "name": "AI/HPC 芯片(CoWoS/2.5D/3D)",
+        "sharePct": 55,
+        "cagr": 30,
+        "cagrRange": "25%-35%",
+        "cagrTier": "broker",
+        "cagrSrc": [
+          {
+            "tier": "broker",
+            "name": "SEMI 2025 先进封装市场报告",
+            "date": "2025-Q4",
+            "quote": "CoWoS产能2026年预计60万片(vs 2025年40万片)·AI芯片封装需求CAGR>30%·缺口延续至2027年"
+          },
+          {
+            "tier": "broker",
+            "name": "方正证券《先进封装深度报告》",
+            "date": "2026-06",
+            "quote": "AI算力驱动先进封装需求爆发·CoWoS/HBM封装2025-2028 CAGR 25-35%"
+          }
+        ],
+        "valueMult": 5,
+        "valueMultRange": "3-6 倍",
+        "valueMultNote": "单颗GPU CoWoS封装价值量占芯片总成本30-40%(SEMI 2025)·vs传统封装仅占5-10%",
+        "valueMultSrc": [
+          {
+            "tier": "broker",
+            "name": "SEMI 2025 先进封装成本结构分析",
+            "date": "2025-Q4",
+            "quote": "AI芯片封装价值量占芯片总成本30-40%"
+          }
+        ],
+        "note": "英伟达GB300/Rubin·AMD MI300·华为昇腾——CoWoS封装终极需求方。台积电产能缺口外溢至OSAT·长电/通富承接。⚠️ 口径说明：HBM存储封装是物理上独立的封装工艺（DRAM堆叠 vs 逻辑芯片CoWoS），SEMI/Prismark将两者分为独立子市场统计——合计75%不存在物理口径上的重复计算。但两者的需求驱动力高度相关（均来自AI算力投资），在需求周期性下行时可能同步收缩。"
+      },
+      {
+        "key": "hbm",
+        "name": "HBM 存储(堆叠键合)",
+        "sharePct": 20,
+        "cagr": 25,
+        "cagrRange": "20%-30%",
+        "cagrTier": "broker",
+        "cagrSrc": [
+          {
+            "tier": "broker",
+            "name": "SEMI 2025 HBM封装市场报告",
+            "date": "2025-Q4",
+            "quote": "SK海力士HBM3E 12Hi 2026年出货量预计同比+80%·单颗HBM需8-12层DRAM堆叠键合"
+          },
+          {
+            "tier": "broker",
+            "name": "方正证券《HBM封装产业链研究》",
+            "date": "2026-05",
+            "quote": "HBM封装市场2025-2028 CAGR 20-30%·TCB键合+MR-MUF为核心工艺"
+          }
+        ],
+        "note": "SK海力士HBM扩产(无锡/重庆厂)→拉动长电科技HBM封装外包+通富微电FC-BGA载板配套。⚠️ 与AI/HPC段的关系：HBM存储封装与AI芯片封装共享同一需求驱动力（AI算力capex），统计口径上是两个独立子市场但在周期性维度上高度相关。"
+      },
+      {
+        "key": "automotive",
+        "name": "汽车电子(Fan-Out/WLCSP)",
+        "sharePct": 15,
+        "cagr": 10,
+        "cagrRange": "8%-12%",
+        "cagrTier": "broker",
+        "cagrSrc": [
+          {
+            "tier": "broker",
+            "name": "Yole 2026 车载CIS封装市场预测",
+            "date": "2026-Q1",
+            "quote": "车载CIS封装市场2025-2028 CAGR≈8-12%·单车摄像头数量从5颗→12颗"
+          }
+        ],
+        "note": "晶方科技车载CIS封装直接受益·高通骁龙/特斯拉FSD采用Fan-Out封装·非AI芯片赛道·AEC-Q100车规认证12-18月"
+      },
+      {
+        "key": "consumer",
+        "name": "消费电子/物联网(SiP/WLCSP)",
+        "sharePct": 10,
+        "cagr": 5,
+        "cagrRange": "3%-8%",
+        "cagrTier": "estimate",
+        "cagrSrc": [
+          {
+            "tier": "estimate",
+            "name": "🆪 AI推算(基于Prismark消费电子PCB数据+智能手机/可穿戴出货量趋势)",
+            "date": "2026-07",
+            "quote": "消费电子封装需求增速平缓·CAGR估计3-8%·受智能手机/可穿戴出货量饱和约束"
+          }
+        ],
+        "note": "华天科技eSiFO扇出封装·消费电子/物联网芯片封装为差异化路线·增速低于AI/HPC"
+      }
+    ],
+    "conductionTBD": true,
+    "conductionNote": "下游X%→先进封装需求Y%的弹性系数未实装·当前阶段仅提供CAGR量化锚点",
+    "note": "先进封装产业链的下游需求传导以AI/HPC芯片(55%)为绝对主力——CoWoS产能缺口是核心驱动力。HBM(20%)与AI芯片需求强相关·两者合计75%说明先进封装周期与AI算力投资周期高度绑定。汽车电子(15%)为独立增长曲线·不受AI周期影响。消费电子(10%)为存量市场·增速平缓。"
+  }
 };
 })(window.CHAINS);
