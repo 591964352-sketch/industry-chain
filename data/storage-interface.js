@@ -1324,7 +1324,7 @@ CHAINS['storage-interface'] = {
             "asOf": "2026-07-14",
             "tier": "estimate",
             "src": "L1 abstract_ths 实测 + L4 头部券商研报(行业评论) / 待补充 L3 全球 CMP 抛光液厂商格局报告",
-            "note": "估值草案·Phase 2 待 PE 实测校准(L1 abstract_ths 财务已审验,缺 PE-TTM/历史分位数据)\n\nL1 基本面:2025全年营收 25.04亿(+36.47%)/净利 7.84亿(+46.85%)/毛利率 56.72%/ROE 25.18%。2026Q1 营收 7.24亿(+34.8%)/净利 2.08亿(+40.7%)。Forward PE 近似参考:2026E EPS=14.43元→Forward PE~72x / 2027E EPS=18.45元→Forward PE~56x。估值核心矛盾:ROE/GM 双高+业绩持续30%+高增+赛道稀缺性溢价,但 Forward PE~72x 已显著高于半导体材料行业均值。TTM PE 及 5年 PE 分位待人工补充。L3/L4 卡口来源待补:建议补充全球 CMP 抛光液龙头 2025 市占率报告以验证全球≤3家物理卡口地位"
+            "note": "当前估值判断仅基于L1财务数据和机构Forward PE预测（尚未获取PE-TTM和5年历史分位数据），因此估值评分趋于保守。待PE分位数据补全后，评分可能存在上调空间。\n\nL1基本面（abstract_ths实测）：2025全年营收25.04亿（+36.47%）/净利7.84亿（+46.85%）/毛利率56.72%/ROE 25.18%。2026Q1营收7.24亿（+34.8%）/净利2.08亿（+40.7%）——业绩持续高增长。\n\nForward PE近似参考：2026E EPS=14.43元→Forward PE约72x / 2027E EPS=18.45元→Forward PE约56x。\n\n估值核心矛盾：ROE和毛利率双高+业绩持续30%以上高增长+赛道稀缺性溢价——但Forward PE约72x已显著高于半导体材料行业均值。PE-TTM和5年PE分位数据待补全后重新校准。\n\nL3/L4卡口来源待补：目前仅依靠L1数据和L4券商行业评论，尚无全球CMP抛光液厂商（Cabot/Versum/Merck）市占率报告。建议补充后以验证全球≤3家物理卡口地位。"
           },
           "verification": {
             "items": [
@@ -1390,7 +1390,7 @@ CHAINS['storage-interface'] = {
           "valuation": {
             "tier": "estimate",
             "asOf": "2026-07-14",
-            "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+            "note": "澜起科技当前估值数据尚未补全（PE-TTM和5年历史分位待获取）。从L1基本面看：2025年营收54.56亿（+49.94%）、净利22.36亿（+58.35%）、毛利率62.23%、ROE 18.25%——均为历史新高。DDR5 RCD全球市占率36.8%、连续6年行业第一，基本面强劲。但需要持续跟踪的核心风险变量：三星电子自研DDR5 RCD的进度——如果三星在2026-2027年实现自研量产，全球DDR5 RCD的竞争格局将从三寡头变为四家，澜起的市占率可能承压。待PE分位数据补全后给出具体估值评分。"
           },
           "verification": {
             "items": [],
@@ -1416,7 +1416,7 @@ CHAINS['storage-interface'] = {
           "valuation": {
             "tier": "estimate",
             "asOf": "2026-07-14",
-            "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+            "note": "北方华创为跨链复用卡口——其在HBM堆叠设备环节的角色，请参见半导体设备链同名卡口的完整估值分析。简要背景：2025年营收394亿（+30.85%）为A股半导体设备最大标的，Forward PE约77x。PE-TTM和历史分位数据待补全。"
           },
           "verification": {
             "items": [],
@@ -1442,7 +1442,7 @@ CHAINS['storage-interface'] = {
           "valuation": {
             "tier": "estimate",
             "asOf": "2026-07-14",
-            "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+            "note": "中微公司为跨链复用卡口——其在HBM堆叠设备环节的角色，请参见半导体设备链同名卡口的完整估值分析。简要背景：2025年营收124亿（+36.62%），CCP刻蚀全球前三、已进入台积电5nm产线。2026Q1净利9.30亿（+197%）业绩加速兑现。Forward PE约127x处于板块高位，PE-TTM和历史分位数据待补全。"
           },
           "verification": {
             "items": [],
@@ -1468,7 +1468,7 @@ CHAINS['storage-interface'] = {
           "valuation": {
             "tier": "estimate",
             "asOf": "2026-07-14",
-            "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+            "note": "华海清科为跨链复用卡口——其在HBM堆叠设备环节的角色，请参见半导体设备链同名卡口的完整估值分析。简要背景：CMP设备全球仅三家可量产（应用材料/荏原/华海清科），2025年营收增速+36%但利润增速仅+5.89%（增收不增利）。PE-TTM和历史分位数据待补全。"
           },
           "verification": {
             "items": [],
@@ -2118,7 +2118,7 @@ CHAINS['storage-interface'] = {
         "grossMargin": "56.72% 行业最强",
         "fromHigh": "待实测",
         "asOf": "2026-07-14",
-        "note": "🆪 估值草案·Phase 2 待 PE 实测校准(L1 abstract_ths 财务已审验,缺 PE-TTM/历史分位数据)\n\n📊 L1 基本面(abstract_ths 实测):2025全年营收 25.04亿(+36.47%)/净利 7.84亿(+46.85%)/毛利率 56.72%/ROE 25.18%。2026Q1 营收 7.24亿(+34.8%)/净利 2.08亿(+40.7%)——业绩持续高增长\n\n📊 Forward PE 近似参考:2026E EPS=14.43元→Forward PE~72x / 2027E EPS=18.45元→Forward PE~56x\n\n⚠ 估值核心矛盾:ROE/GM 双高+业绩持续 30%+高增+赛道稀缺性溢价,但 Forward PE~72x 已显著高于半导体材料行业均值。⏳ TTM PE 及 5年 PE 分位待人工补充\n\n⚠ L3/L4 卡口来源待补:目前仅依靠 L1 abstract_ths 财务 + L4 头部券商研报行业评论(无全球 CMP 抛光液厂商格局报告)。建议补充 Cabot Microelectronics/Versum/Merck 三家全球 CMP 抛光液龙头 2025 市占率报告以验证全球≤3家物理卡口地位",
+        "note": "当前估值判断仅基于L1财务数据和机构Forward PE预测（尚未获取PE-TTM和5年历史分位数据），因此估值评分趋于保守。待PE分位数据补全后，评分可能存在上调空间。\n\n📊 L1基本面（abstract_ths实测）：2025全年营收25.04亿（+36.47%）/净利7.84亿（+46.85%）/毛利率56.72%/ROE 25.18%。2026Q1营收7.24亿（+34.8%）/净利2.08亿（+40.7%）——业绩持续高增长。\n\n📊 Forward PE近似参考：2026E EPS=14.43元→Forward PE约72x / 2027E EPS=18.45元→Forward PE约56x。\n\n⚠ 估值核心矛盾：ROE和毛利率双高+业绩持续30%以上高增长+赛道稀缺性溢价——但Forward PE约72x已显著高于半导体材料行业均值。PE-TTM和5年PE分位数据待补全后重新校准。\n\n⚠ L3/L4卡口来源待补：目前仅依靠L1数据和L4券商行业评论，尚无全球CMP抛光液厂商（Cabot/Versum/Merck）市占率报告。建议补充后以验证全球≤3家物理卡口地位。",
         "tier": "estimate",
         "src": "L1 abstract_ths 实测 + L4 头部券商研报(行业评论) / 待补充 L3 全球 CMP 抛光液厂商格局报告"
       },
@@ -2177,7 +2177,7 @@ CHAINS['storage-interface'] = {
         "valuation": {
           "tier": "estimate",
           "asOf": "2026-07-14",
-          "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+          "note": "澜起科技当前估值数据尚未补全（PE-TTM和5年历史分位待获取）。从L1基本面看：2025年营收54.56亿（+49.94%）、净利22.36亿（+58.35%）、毛利率62.23%、ROE 18.25%——均为历史新高。DDR5 RCD全球市占率36.8%、连续6年行业第一，基本面强劲。但需要持续跟踪的核心风险变量：三星电子自研DDR5 RCD的进度——如果三星在2026-2027年实现自研量产，全球DDR5 RCD的竞争格局将从三寡头变为四家，澜起的市占率可能承压。待PE分位数据补全后给出具体估值评分。"
         },
         "verification": {
           "items": [],
@@ -2203,7 +2203,7 @@ CHAINS['storage-interface'] = {
         "valuation": {
           "tier": "estimate",
           "asOf": "2026-07-14",
-          "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+          "note": "北方华创为跨链复用卡口——其在HBM堆叠设备环节的角色，请参见半导体设备链同名卡口的完整估值分析。简要背景：2025年营收394亿（+30.85%）为A股半导体设备最大标的，Forward PE约77x。PE-TTM和历史分位数据待补全。"
         },
         "verification": {
           "items": [],
@@ -2229,7 +2229,7 @@ CHAINS['storage-interface'] = {
         "valuation": {
           "tier": "estimate",
           "asOf": "2026-07-14",
-          "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+          "note": "中微公司为跨链复用卡口——其在HBM堆叠设备环节的角色，请参见半导体设备链同名卡口的完整估值分析。简要背景：2025年营收124亿（+36.62%），CCP刻蚀全球前三、已进入台积电5nm产线。2026Q1净利9.30亿（+197%）业绩加速兑现。Forward PE约127x处于板块高位，PE-TTM和历史分位数据待补全。"
         },
         "verification": {
           "items": [],
@@ -2255,7 +2255,7 @@ CHAINS['storage-interface'] = {
         "valuation": {
           "tier": "estimate",
           "asOf": "2026-07-14",
-          "note": "详见 §11.7 batch 2 supply+barrier reason 补全批次关联卡片 (估值待 Phase 2 实测校准)"
+          "note": "华海清科为跨链复用卡口——其在HBM堆叠设备环节的角色，请参见半导体设备链同名卡口的完整估值分析。简要背景：CMP设备全球仅三家可量产（应用材料/荏原/华海清科），2025年营收增速+36%但利润增速仅+5.89%（增收不增利）。PE-TTM和历史分位数据待补全。"
         },
         "verification": {
           "items": [],
