@@ -886,7 +886,8 @@ window.CHAINS = window.CHAINS || {};
         "position": "国内封测龙头·全球第三·XDFOI Chiplet 平台·4nm 量产",
         "barrier": "极高",
         "tier": "L4",
-        "note": "英伟达/华为昇腾/SK海力士 CoWoS 外溢订单承接方·上海临港 78 亿高端工厂"
+        "note": "英伟达/华为昇腾/SK海力士 CoWoS 外溢订单承接方·上海临港 78 亿高端工厂",
+        "rank": 1
       },
       {
         "name": "通富微电",
@@ -894,7 +895,8 @@ window.CHAINS = window.CHAINS || {};
         "position": "深度绑定 AMD·70% 高端 CPU/GPU 封测独家",
         "barrier": "极高",
         "tier": "L4",
-        "note": "AMD MI300 系列 CoWoS 封装独家供应商·2026Q1 净利+224%"
+        "note": "AMD MI300 系列 CoWoS 封装独家供应商·2026Q1 净利+224%",
+        "rank": 2
       },
       {
         "name": "华天科技",
@@ -902,7 +904,8 @@ window.CHAINS = window.CHAINS || {};
         "position": "eSiFO 扇出/TSV·高弹性追赶型",
         "barrier": "高",
         "tier": "L4",
-        "note": "2026Q1 净利+568%·南京基地先进封装产线·体量小于长电/通富"
+        "note": "2026Q1 净利+568%·南京基地先进封装产线·体量小于长电/通富",
+        "rank": 3
       },
       {
         "name": "甬矽电子",
@@ -910,7 +913,8 @@ window.CHAINS = window.CHAINS || {};
         "position": "2.5D 堆叠新星·124 亿投资·CoWoS-L 爬坡",
         "barrier": "中",
         "tier": "L4",
-        "note": "高弹性但客户验证阶段早·期权型标的"
+        "note": "高弹性但客户验证阶段早·期权型标的",
+        "rank": 4
       },
       {
         "name": "晶方科技",
@@ -918,7 +922,8 @@ window.CHAINS = window.CHAINS || {};
         "position": "车载 CIS 晶圆级封装龙头·非 AI 赛道",
         "barrier": "中",
         "tier": "L4",
-        "note": "聚焦车载+安防 CIS·与 AI 芯片封装市场增速不同步"
+        "note": "聚焦车载+安防 CIS·与 AI 芯片封装市场增速不同步",
+        "rank": 5
       },
       {
         "name": "芯源微",
@@ -926,7 +931,8 @@ window.CHAINS = window.CHAINS || {};
         "position": "临时键合/解键合国产龙头·C 类跨链",
         "barrier": "极高",
         "tier": "C",
-        "note": "已批量出货台积电/长电/华天·先进封装必选设备"
+        "note": "已批量出货台积电/长电/华天·先进封装必选设备",
+        "rank": 6
       },
       {
         "name": "文一科技",
@@ -934,7 +940,8 @@ window.CHAINS = window.CHAINS || {};
         "position": "12寸晶圆级塑封设备·⚠️验证阶段",
         "barrier": "中",
         "tier": "L4",
-        "note": "样机交付华为-盛合晶微·Phase B 强制核实商业化进展"
+        "note": "样机交付华为-盛合晶微·Phase B 强制核实商业化进展",
+        "rank": 7
       },
       {
         "name": "飞凯材料",
@@ -942,7 +949,8 @@ window.CHAINS = window.CHAINS || {};
         "position": "临时键合材料国产龙头",
         "barrier": "高",
         "tier": "L4",
-        "note": "小批量销售·从 0 到 1 突破关键期"
+        "note": "小批量销售·从 0 到 1 突破关键期",
+        "rank": 8
       },
       {
         "name": "艾森股份",
@@ -950,7 +958,8 @@ window.CHAINS = window.CHAINS || {};
         "position": "PSPI 光刻胶量产·机构高关注",
         "barrier": "高",
         "tier": "L4",
-        "note": "PSPI 国产化率<5%·替代空间大"
+        "note": "PSPI 国产化率<5%·替代空间大",
+        "rank": 9
       },
       {
         "name": "沃格光电",
@@ -958,7 +967,8 @@ window.CHAINS = window.CHAINS || {};
         "position": "TGV 玻璃基板全流程量产·国内唯一",
         "barrier": "中",
         "tier": "L4",
-        "note": "下一代中介层方案·产业导入期"
+        "note": "下一代中介层方案·产业导入期",
+        "rank": 10
       }
     ]
   },
@@ -1420,7 +1430,8 @@ window.CHAINS = window.CHAINS || {};
       "asOf": "2026-07-16",
       "pctNote": "C 类跨链·估值/择时请参考 semicon-equip 链",
       "strengthNote": "★★★保留:临时键合/解键合为 CoWoS/HBM 必选设备·全球仅三家可批量供货·国产唯一",
-      "plainLanguageNote": "<strong>💡 大白话：为什么芯源微是物理卡口？</strong><br><br>先进封装就像盖高楼——芯片一层层堆叠起来，每一层之间需要用一种叫'临时键合'的技术先粘住、加工完再'解键合'分开。这个粘住和分开的设备，全球只有三家能造：日本的 TEL、奥地利的 EVG，和中国的芯源微。芯源微的设备已经卖给了台积电、长电科技、华天科技这些大厂，在国产替代路径上没有第二家可选。"
+      "plainLanguageNote": "<strong>💡 大白话：为什么芯源微是物理卡口？</strong><br><br>先进封装就像盖高楼——芯片一层层堆叠起来，每一层之间需要用一种叫'临时键合'的技术先粘住、加工完再'解键合'分开。这个粘住和分开的设备，全球只有三家能造：日本的 TEL、奥地利的 EVG，和中国的芯源微。芯源微的设备已经卖给了台积电、长电科技、华天科技这些大厂，在国产替代路径上没有第二家可选。",
+      "segment": "封装专用设备"
     },
     {
       "code": "002916",
@@ -1441,7 +1452,8 @@ window.CHAINS = window.CHAINS || {};
       "asOf": "2026-07-16",
       "pctNote": "C 类跨链·估值/择时请参考 PCB 链",
       "strengthNote": "★★★保留:FC-BGA 载板国产唯一·但需注意真卡口在 ABF 膜(味之素)",
-      "plainLanguageNote": "<strong>💡 大白话：为什么深南电路是物理卡口？</strong><br><br>AI 芯片封装需要一种叫 ABF 载板的'高级地基'——普通的 PCB 板子做不了这个精度。全球能做 ABF 载板的公司不超过 5 家，深南电路是中国唯一能量产 FC-BGA 封装基板的公司。但要注意：ABF 载板的核心原材料 ABF 膜，全球 97% 掌握在日本味之素手里——真正的物理卡口在上游材料，不在载板制造。"
+      "plainLanguageNote": "<strong>💡 大白话：为什么深南电路是物理卡口？</strong><br><br>AI 芯片封装需要一种叫 ABF 载板的'高级地基'——普通的 PCB 板子做不了这个精度。全球能做 ABF 载板的公司不超过 5 家，深南电路是中国唯一能量产 FC-BGA 封装基板的公司。但要注意：ABF 载板的核心原材料 ABF 膜，全球 97% 掌握在日本味之素手里——真正的物理卡口在上游材料，不在载板制造。",
+      "segment": "IC 载板与中介层"
     },
     {
       "code": "300054",
@@ -1462,7 +1474,8 @@ window.CHAINS = window.CHAINS || {};
       "asOf": "2026-07-17",
       "pctNote": "C 类跨链·估值/择时请参考 storage-interface 链",
       "strengthNote": "★★☆准卡口:三线平台·国产唯一·但单线非全球≤3家——domestic-platform 类型首次使用",
-      "plainLanguageNote": "<strong>💡 大白话:为什么鼎龙股份是准卡口(★★☆)?</strong><br><br>鼎龙不像芯源微那样'全球只有三家能做',也不像深南电路那样'大陆只有一家能量产'。但它做了一件独特的事:PSPI 光刻胶(TSV 工艺必需)+CMP 抛光垫(平坦化工序必需)+临时键合胶(键合工艺必需)——这三样东西,全球每一家先进封装厂都需要,但全球没有第二家公司同时做这三样。鼎龙是国内唯一同时覆盖这三条核心材料线的公司,相当于你在小区里开了三家不同的便利店——每一家都能单独活下去,但三家一起开,顾客一站式采购的粘性就出来了。这不是单一品种的寡头壁垒,而是多品种覆盖的平台型壁垒。"
+      "plainLanguageNote": "<strong>💡 大白话:为什么鼎龙股份是准卡口(★★☆)?</strong><br><br>鼎龙不像芯源微那样'全球只有三家能做',也不像深南电路那样'大陆只有一家能量产'。但它做了一件独特的事:PSPI 光刻胶(TSV 工艺必需)+CMP 抛光垫(平坦化工序必需)+临时键合胶(键合工艺必需)——这三样东西,全球每一家先进封装厂都需要,但全球没有第二家公司同时做这三样。鼎龙是国内唯一同时覆盖这三条核心材料线的公司,相当于你在小区里开了三家不同的便利店——每一家都能单独活下去,但三家一起开,顾客一站式采购的粘性就出来了。这不是单一品种的寡头壁垒,而是多品种覆盖的平台型壁垒。",
+      "segment": "封装材料"
     }
   ],
   "supplyGap": [
@@ -1474,7 +1487,10 @@ window.CHAINS = window.CHAINS || {};
       "rate": "30-40%",
       "bottleneck": "台积电CoWoS产能为全球瓶颈·扩产周期18-24月·产能缺口预计延续至2027年",
       "tier": "broker",
-      "src": "SEMI 2025先进封装市场报告·方正证券2026-06"
+      "src": "SEMI 2025先进封装市场报告·方正证券2026-06",
+      "treeMapMatches": [
+        "AI/HPC 芯片(CoWoS/2.5D/3D)"
+      ]
     },
     {
       "segment": "临时键合/解键合设备",
@@ -1484,7 +1500,10 @@ window.CHAINS = window.CHAINS || {};
       "rate": "<20%",
       "bottleneck": "TEL/EVG双寡头主导·芯源微为国产唯一·设备交付周期长·产能扩张受限于核心零部件供给",
       "tier": "broker",
-      "src": "SEMI 2025全球半导体设备报告·申万宏源2026-06"
+      "src": "SEMI 2025全球半导体设备报告·申万宏源2026-06",
+      "treeMapMatches": [
+        "键合设备(临时键合/解键合/TCB)"
+      ]
     },
     {
       "segment": "ABF 载板",
@@ -1494,7 +1513,10 @@ window.CHAINS = window.CHAINS || {};
       "rate": "~4%",
       "bottleneck": "ABF膜味之素97%全球垄断为绝对物理卡口·载板制造端国产化率~4%·深南电路大陆唯一批量交付",
       "tier": "broker",
-      "src": "Prismark 2026全球IC载板排名·方正/国金证券ABF膜行业分析"
+      "src": "Prismark 2026全球IC载板排名·方正/国金证券ABF膜行业分析",
+      "treeMapMatches": [
+        "IC 载板与中介层"
+      ]
     },
     {
       "segment": "临时键合胶",
@@ -1504,7 +1526,10 @@ window.CHAINS = window.CHAINS || {};
       "rate": "<10%",
       "bottleneck": "Brewer Science绝对主导·国产替代处于小批量→规模放量过渡期·客户认证周期12-18月",
       "tier": "broker",
-      "src": "SEMI 2025全球半导体材料报告·券商材料行业分析"
+      "src": "SEMI 2025全球半导体材料报告·券商材料行业分析",
+      "treeMapMatches": [
+        "临时键合材料"
+      ]
     },
     {
       "segment": "PSPI 光刻胶",
@@ -1514,7 +1539,10 @@ window.CHAINS = window.CHAINS || {};
       "rate": "<5%",
       "bottleneck": "HD Micro绝对主导·PSPI量产技术壁垒极高(纯度/分辨率/热稳定性)·国产验证周期12-18月",
       "tier": "broker",
-      "src": "SEMI 2025全球半导体材料报告·券商PSPI行业分析"
+      "src": "SEMI 2025全球半导体材料报告·券商PSPI行业分析",
+      "treeMapMatches": [
+        "PSPI 光刻胶与塑封料"
+      ]
     }
   ],
   "methodologyNotes": "先进封装产业链采用 Serenity 物理卡口（Choke Point）方法论，17 只股票 Phase B 六维打分已全部完成（10 只新标的经 abstract_ths L1 实测+豆包 prompt v3+黑名单核实·7 只 C 类跨链复用从 semicon-equip/PCB/storage-interface 链引用已有财务数据并基于先进封装链语境重新评估六维评分）。核心判断：① OSAT 封测代工环节竞争充分（全球 CR5≈60%·>10 家供应商），非物理卡口——价值在承接台积电 CoWoS 外溢订单的业绩弹性，而非护城河壁垒；② 真正的物理卡口在上游——封装设备（临时键合/解键合·国产化率<20%）和封装材料（ABF 膜·味之素 97% 垄断）；③ 本链正式 chokePoint 三条：芯源微（★★★ global-scarcity·临时键合全球仅 TEL/EVG/芯源微三家·barrier=5）、深南电路（★★★ global-scarcity·FC-BGA 载板全球≤5 家·大陆唯一·唯真卡口在 ABF 膜材料端）、鼎龙股份（★★☆ domestic-platform·PSPI+CMP 抛光垫+临时键合胶三线国产唯一平台·单线非全球≤3家但广度构成协同壁垒）；④ 四问筛选采用双重评估体系——设备段（芯源微 q1=true·标准四问适用）与 OSAT/细分封装/材料/载板四段（标准 q1\"全球≤3家\"不适用·改以技术壁垒型四问 q1p-q4p 评估）；⑤ 六维打分严格遵循 §10 景气六维打分规则·visibility 按 §10.1 铁律（信息渠道层级≠业绩好坏）·亏损公司按 §6.15 专项规则（沃格光电·§6.15 亏损扩大模式）；⑥ 跨链复用的 C 类标的采用双轨原则——L1 财务数据直接复用 home 链已验证数据·六维评分基于先进封装链语境重新评估（非简单照搬 home 链分数）·tier 统一标注为 \"C\"。本链 17 只股票完整六维评分、3 条正式 chokePoint 认定及 4 段位 variant 技术壁垒型四问评估均已落地，具体个股评分和 chokePoint 类型判定详见各 segment 和 chokePoints 字段。",

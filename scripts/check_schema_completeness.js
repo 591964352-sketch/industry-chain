@@ -68,7 +68,7 @@ function checkChain(chainId) {
     });
   }
 
-  // === SUPPLYGAP ===
+  // === SUPPLYGAP (includes treeMapMatches for treeMap badge rendering) ===
   if (PCB && PCB.supplyGap && PCB.supplyGap[0] && CH.supplyGap) {
     const pcbSGKeys = Object.keys(PCB.supplyGap[0]);
     CH.supplyGap.forEach((g, i) => {
@@ -78,6 +78,11 @@ function checkChain(chainId) {
           errors++;
         }
       });
+      // treeMapMatches is needed for treeMap badge display
+      if (!g.treeMapMatches || !Array.isArray(g.treeMapMatches) || g.treeMapMatches.length === 0) {
+        console.log('  ⚠️ supplyGap[' + i + '].treeMapMatches: MISSING/EMPTY (' + (g.segment||g.name||'?') + ' · treeMap供需缺口框无法显示)');
+        warnings++;
+      }
     });
   }
 
@@ -105,14 +110,41 @@ function checkChain(chainId) {
     });
   }
 
-  // === MIDSTREAM ===
+  // === MIDSTREAM (upgraded to errors — missing rank causes visible undefined) ===
   if (PCB && PCB.midstream && PCB.midstream.stocks && PCB.midstream.stocks[0] && CH.midstream && CH.midstream.stocks) {
     const pcbMSKeys = Object.keys(PCB.midstream.stocks[0]);
     CH.midstream.stocks.forEach((s, i) => {
       pcbMSKeys.forEach(k => {
+        // rank/barrier/code are critical rendering fields — missing = visible undefined
+        const isCritical = ['rank','barrier','code','name'].includes(k);
         if (s[k] === undefined || s[k] === null) {
-          console.log('  ⚠️ midstream.stocks[' + i + '].' + k + ': MISSING (' + (s.code||'?') + ')');
-          warnings++;
+          if (isCritical) {
+            console.log('  ❌ midstream.stocks[' + i + '].' + k + ': MISSING (' + (s.code||'?') + ')');
+            errors++;
+          } else {
+            console.log('  ⚠️ midstream.stocks[' + i + '].' + k + ': MISSING (' + (s.code||'?') + ')');
+            warnings++;
+          }
+        }
+      });
+    });
+  }
+
+  // === CHOKEPOINTS (NEW — was completely missing before 2026-07-17) ===
+  if (PCB && PCB.chokePoints && PCB.chokePoints[0] && CH.chokePoints && CH.chokePoints.length > 0) {
+    const pcbCPKeys = Object.keys(PCB.chokePoints[0]);
+    CH.chokePoints.forEach((cp, i) => {
+      pcbCPKeys.forEach(k => {
+        // segment/strength/logic are critical — missing = visible "🔒 undefined"
+        const isCritical = ['segment','strength','logic','code','name'].includes(k);
+        if (cp[k] === undefined || cp[k] === null) {
+          if (isCritical) {
+            console.log('  ❌ chokePoints[' + i + '].' + k + ': MISSING (' + (cp.code||'?') + ')');
+            errors++;
+          } else {
+            console.log('  ⚠️ chokePoints[' + i + '].' + k + ': MISSING (' + (cp.code||'?') + ')');
+            warnings++;
+          }
         }
       });
     });
