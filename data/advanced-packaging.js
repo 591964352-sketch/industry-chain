@@ -359,7 +359,7 @@ window.CHAINS = window.CHAINS || {};
     "materials": [
       {
         "name": "临时键合材料",
-        "barrier": "extreme",
+        "barrier": "high",
         "note": "临时键合胶国产化率<10%·Brewer Science 主导·飞凯/鼎龙从 0 到 1",
         "companies": [
           {
@@ -384,7 +384,7 @@ window.CHAINS = window.CHAINS || {};
       },
       {
         "name": "PSPI 光刻胶与塑封料",
-        "barrier": "extreme",
+        "barrier": "high",
         "note": "PSPI 国产化率<5%·HD Micro 主导·艾森/强力新材国产突破",
         "companies": [
           {
@@ -501,7 +501,7 @@ window.CHAINS = window.CHAINS || {};
     "sideBranches": [
       {
         "name": "TGV 玻璃基板(下一代中介层)",
-        "barrier": "high",
+        "barrier": "low",
         "note": "TGV 玻璃基板是硅中介层的下一代替代方案·Intel/三星已宣布采用·国内仅沃格光电全流程量产",
         "companies": [
           {
