@@ -9,6 +9,112 @@ window.ADVANCED_PACKAGING_MANUAL = window.ADVANCED_PACKAGING_MANUAL || {};
   "stockCount": 10
 };
   MAN.stocks = {
+  "300054": {
+    "code": "300054",
+    "name": "鼎龙股份",
+    "tier": "C",
+    "homeChain": "storage-interface",
+    "dims6": [
+      {
+        "key": "durability",
+        "score": 4,
+        "trend": "up",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链durability=4在HBM语境下成立,先进封装语境下支撑同样充分——PSPI受益于TSV工艺密度增长(3D堆叠层数越多PSPI用量越大)+CMP抛光垫受益于先进封装平坦化工序增加+临时键合胶受益于临时键合/解键合设备放量(配套耗材)。毛利率50.85%/ROE12.83%在材料行业中属于优质水平,盈利质量验证了需求景气度的可持续性。维持4分。未达5分原因:营收+9.66%增速偏慢(成熟CMP抛光垫业务增长稳定但非爆发),先进封装相关的新业务(PSPI/键合胶)营收占比仍小。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测:2025营收36.60亿(+9.66%)/净利7.20亿(+38.32%)/ROE12.83%/毛利率50.85%",
+        "flag": "三线平台·先进封装新业务占比仍小",
+        "src": "akshare abstract_ths",
+        "weight": 1,
+        "asOf": "2025-12-31"
+      },
+      {
+        "key": "visibility",
+        "score": 4,
+        "trend": "up",
+        "tier": "L1+L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "L1+季报完整+L4券商覆盖充分。维持4分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测",
+        "flag": "",
+        "src": "akshare abstract_ths",
+        "weight": 1,
+        "asOf": "2026-03-31"
+      },
+      {
+        "key": "policy",
+        "score": 4,
+        "trend": "up",
+        "tier": "L2",
+        "verifiedAt": "2026-07-17",
+        "reason": "PSPI/临时键合胶列入国家新材料攻关重点方向。维持4分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L2 国家重点新材料目录·光刻胶国产替代",
+        "flag": "",
+        "src": "国家重点新材料目录",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "supply",
+        "score": 4,
+        "trend": "up",
+        "tier": "L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "PSPI国产化率<5%+临时键合胶国产化率<10%+CMP抛光垫国产化率约20-30%——三条线的国产供给均严重不足。鼎龙作为三条线同时布局的唯一国产供应商,在国产替代维度构成实质性的供给稀缺性(国内客户选择空间极少)。维持4分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L4 券商材料行业分析·SEMI 2025",
+        "flag": "",
+        "src": "SEMI|券商研究",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "valuation",
+        "score": 4,
+        "trend": "flat",
+        "tier": "estimate",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链估值评分4(相对优势)。鼎龙在先进封装链所有17只股票中财务质量最优(ROE12.8%/毛利率50.9%/净利率21.7%),且三条材料线均处于国产替代从0到1的成长期。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链估值判定·ROE12.8%/毛利率50.9%/净利率21.7%",
+        "flag": "财务质量全链最优",
+        "src": "akshare abstract_ths",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "barrier",
+        "score": 4,
+        "trend": "flat",
+        "tier": "L1+L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "维持4分,不升5分的关键判断:鼎龙的三线平台优势是广度壁垒(三条线同时布局的国产供应商仅鼎龙一家),但每条线单独都不是全球≤3家的卡口级别——PSPI全球HD Micro主导(>70%),CMP抛光垫Dow/Cabot主导(CR2>60%),临时键合胶Brewer Science主导(>70%)。'三条线同时布局'构成了独特的协同壁垒(客户一站式采购+研发协同+渠道共享),但这个壁垒的性质是'商业效率壁垒'而非'技术独占壁垒'。评分依据:§10五档表4分档位——国内唯一/领先(三线平台·国产唯一),非全球≤3家。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L4 SEMI 2025·PSPI/CMP抛光垫/临时键合胶全球格局分析",
+        "flag": "三线平台·国产唯一·但单线非全球≤3家",
+        "src": "SEMI|券商研究",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      }
+    ],
+    "fundamentals": {
+      "asOf": "2025-12-31",
+      "roe": 12.83,
+      "roeQuarterly": null,
+      "grossMargin": 50.85,
+      "grossMarginTrend": "up",
+      "revenueGrowth": 9.66,
+      "netProfitGrowth": 38.32,
+      "fcfPositive": null,
+      "scissorGap": null,
+      "note": "2025年报(营收36.60亿+9.66%/净利7.20亿+38.32%/ROE12.83%/毛利率50.85%) home=storage-interface链已验证·全链财务质量最优·PSPI+CMP抛光垫+临时键合胶三线国产唯一平台",
+      "source": "home链 akshare abstract_ths"
+    },
+    "moatScore": 80,
+    "timingScore": 80,
+    "quadrant": "core",
+    "quadrantNote": "moat=80/timing=80→core·先进封装链第二个core标的(与home链一致)。鼎龙是先进封装链中唯一同时满足moat≥60+timing≥50的标的——财务质量全链最优(ROE12.8%/毛利率50.9%/净利率21.7%)。准卡口★★☆:三线平台·国产唯一·但单线非全球≤3家——定义为'国产平台型壁垒(domestic-platform)'。",
+    "riskMetrics": {
+      "status": "deferred"
+    }
+  },
   "300398": {
     "code": "300398",
     "name": "飞凯材料",
@@ -530,6 +636,112 @@ window.ADVANCED_PACKAGING_MANUAL = window.ADVANCED_PACKAGING_MANUAL || {};
     "quadrant": "core",
     "quadrantNote": "晶方科技 moat=60 刚好踩线 core 下沿(0 分余量),timing=60 同样踩线(0 分余量)——双重踩线,是本批次最不稳定的 core 判定。本次踩线的直接原因:visibility 从初判 4 下修至 3(§10.1 铁律复查:L4 券商覆盖存在但无客户公开验证订单金额→不满足 4 分档位的'客户公开验证'条件)。向下风险推演(任一维度下修 1 档→moat 跌破 60 进入 hold):① durability 3→2(-5 分 to moat=55→hold)——触发条件:2026H1 营收增速回落至<10%(Q1 已降至+14.9%,若 Q2 继续放缓至个位数,durability 需下修);② barrier 3→2(-5 分 to moat=55→hold)——触发条件:华天科技或精材科技在车载 CIS 封装份额显著侵蚀晶方(毛利率从 47% 回落至<40% 为强信号);③ visibility 3→2(-4 分 to moat=56→hold)——触发条件:L4 券商停止覆盖(可能性低·但需监测)。向上空间:visibility 恢复至 4 的触发条件——L4 券商给出具体订单金额预测+客户(韦尔股份)公开确认晶方订单量→moat 回升至 64(+4 分回到修正前位置·不再踩线)。核心观察点:2026Q1 净利+0.1% 几乎零增长——如果这个趋势在 Q2 确认(连续两个季度零增长),durability 大概率从 3 下修至 2,晶方将从 core 退回 hold。当前 core 判定建立在'Q1 增速放缓是暂时性的单季波动'这个假设之上。"
   },
+  "603203": {
+    "code": "603203",
+    "name": "快克智能",
+    "tier": "C",
+    "homeChain": "storage-interface",
+    "dims6": [
+      {
+        "key": "durability",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链durability=3主要受2025净利-34.8%拖累——这个判断先进封装语境下维持不变。TCB设备的长期需求受益于Chiplet/2.5D/3D封装扩产,但快克智能的TCB仍处于'重大突破→商业化验证'的过渡期(不是批量供货),净利的恶化增加了durability的不确定性。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测:2025营收10.81亿(+14.3%)/净利1.38亿(-34.8%)/ROE9.3%/毛利率47.7%",
+        "flag": "TCB处于验证→商业化过渡期",
+        "src": "akshare abstract_ths",
+        "weight": 1,
+        "asOf": "2025-12-31"
+      },
+      {
+        "key": "visibility",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "§10.1铁律:L1年报+季报完整可查+L4覆盖。维持3分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测",
+        "flag": "",
+        "src": "akshare abstract_ths",
+        "weight": 1,
+        "asOf": "2026-03-31"
+      },
+      {
+        "key": "policy",
+        "score": 3,
+        "trend": "up",
+        "tier": "L2",
+        "verifiedAt": "2026-07-17",
+        "reason": "维持3分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L2 集成电路产业政策",
+        "flag": "",
+        "src": "集成电路产业政策",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "supply",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "TCB设备供给由ASM/BESI主导(供给充足),国产替代仍在早期。维持3分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L4 券商设备行业分析",
+        "flag": "",
+        "src": "券商研究",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "valuation",
+        "score": 2,
+        "trend": "flat",
+        "tier": "estimate",
+        "verifiedAt": "2026-07-17",
+        "reason": "维持2分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链估值判定",
+        "flag": "baostock不可用·定性评估",
+        "src": "akshare abstract_ths",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "barrier",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L1+L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链barrier=3基于'TCB设备国产替代早期+全球ASM/BESI主导'。在先进封装语境下,TCB的全球竞争格局不变——ASM Pacific(市占>50%)+BESI(≈30%)主导,快克智能是国产追赶者。不与芯源微(临时键合·全球仅3家)和芯碁微装(LDI·国内唯一高端)同档——维持3分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L4 券商TCB设备行业分析",
+        "flag": "国产追赶者·非寡头",
+        "src": "券商研究",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      }
+    ],
+    "fundamentals": {
+      "asOf": "2025-12-31",
+      "roe": 9.3,
+      "roeQuarterly": null,
+      "grossMargin": 47.67,
+      "grossMarginTrend": "flat",
+      "revenueGrowth": 14.33,
+      "netProfitGrowth": -34.78,
+      "fcfPositive": null,
+      "scissorGap": null,
+      "note": "2025年报(营收10.81亿+14.3%/净利1.38亿-34.8%/ROE9.3%/毛利率47.7%) home=storage-interface链已验证·TCB热压键合·国产替代早期",
+      "source": "home链 akshare abstract_ths"
+    },
+    "moatScore": 60,
+    "timingScore": 40,
+    "quadrant": "hold",
+    "quadrantNote": "moat=60踩线hold上沿(0分余量)。moat与home链完全一致(60=60)。核心风险:TCB商业化验证进度不确定+2025净利恶化。",
+    "riskMetrics": {
+      "status": "deferred"
+    }
+  },
   "603773": {
     "code": "603773",
     "name": "沃格光电",
@@ -634,6 +846,218 @@ window.ADVANCED_PACKAGING_MANUAL = window.ADVANCED_PACKAGING_MANUAL || {};
     "quadrant": "skip",
     "quadrantNote": "moat=50/timing=20→skip,为先进封装链 Phase B 覆盖的 10 只股票中唯一 skip 判定。双重不达标的根因:① durability=2——营收增长但亏损扩大+毛利率持续下降+负债率攀升至 70.7%,'增收增亏'是最危险的亏损模式;② valuation=1(§6.15 强制替代指标:PB/PS/亏损趋势)——亏损扩大(非收窄),§6.15 模式一(亏损收窄)的估值上修条件完全不满足。TGV 属于'产业导入期的正确方向+财务上尚未准备好'的典型——正确但太早。当且仅当(1)毛利率回升至>25%+(2)净亏损显著收窄(>-50%)+(3)负债率<60% 三者同时满足时,方有资格重新评估。"
   },
+  "688035": {
+    "code": "688035",
+    "name": "德邦科技",
+    "tier": "C",
+    "homeChain": "storage-interface",
+    "dims6": [
+      {
+        "key": "durability",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "下调理由:语境扩大→竞争格局更分散→景气持续性面临更多不确定性。home链durability=4在HBM专属语境下成立——HBM Underfill赛道窄、壁垒高、竞争少。在先进封装通用语境下,Underfill的全球供应商>10家(Namics/Henkel/德邦/Shin-Etsu等),且德邦的毛利率仅27.5%(在材料行业中偏低——对比鼎龙50.9%/艾森29.0%),说明产品溢价能力有限、竞争格局并不友好。营收+32.6%的高增速主要来自低基数而非结构性壁垒驱动的量价齐升。ROE仅4.66%——盈利质量不足以支撑4分档位。评分依据:§10五档表3分档位——需求存在但周期性强/竞争格局分散(>5家)。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测:2025营收15.47亿(+32.6%)/净利1.08亿(+10.5%)/ROE4.66%/毛利率27.50%",
+        "flag": "通用Underfill竞争格局>10家·毛利率偏低",
+        "src": "akshare abstract_ths",
+        "weight": 1,
+        "asOf": "2025-12-31"
+      },
+      {
+        "key": "visibility",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "§10.1铁律适用。维持3分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测",
+        "flag": "",
+        "src": "akshare abstract_ths",
+        "weight": 1,
+        "asOf": "2026-03-31"
+      },
+      {
+        "key": "policy",
+        "score": 4,
+        "trend": "up",
+        "tier": "L2",
+        "verifiedAt": "2026-07-17",
+        "reason": "先进封装材料国产替代政策覆盖Underfill/CDAF。维持4分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L2 集成电路产业政策·新材料目录",
+        "flag": "",
+        "src": "集成电路产业政策",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "supply",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "通用Underfill/包装材料供给充分。维持3分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L4 券商材料行业分析",
+        "flag": "",
+        "src": "券商研究",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "valuation",
+        "score": 2,
+        "trend": "flat",
+        "tier": "estimate",
+        "verifiedAt": "2026-07-17",
+        "reason": "维持2分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链估值判定",
+        "flag": "baostock不可用·定性评估",
+        "src": "akshare abstract_ths",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "barrier",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L1+L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "下调理由同durability。home链barrier=4的核心支撑是'HBM Underfill/底部填充胶赛道·国内首家量产CDAF',但这是HBM专属场景的判断。在通用先进封装语境下:①Underfill全球供应商>10家(非寡头垄断),德邦不是top 3;②CDAF的竞争格局在HBM场景下较集中(全球3-4家),但在通用封装场景下供应商>5家;③毛利率27.5%间接验证了德邦在材料价值链中处于中低端位置。评分依据:§10五档表3分档位——技术壁垒存在但竞争者>5家。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测:毛利率27.50%·通用Underfill>10家供应商",
+        "flag": "通用Underfill竞争格局>10家·HBM→通用语境下修",
+        "src": "德邦科技年报|券商研究",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      }
+    ],
+    "fundamentals": {
+      "asOf": "2025-12-31",
+      "roe": 4.66,
+      "roeQuarterly": null,
+      "grossMargin": 27.5,
+      "grossMarginTrend": "flat",
+      "revenueGrowth": 32.61,
+      "netProfitGrowth": 10.45,
+      "fcfPositive": null,
+      "scissorGap": null,
+      "note": "2025年报(营收15.47亿+32.6%/净利1.08亿+10.5%/ROE4.66%/毛利率27.50%) home=storage-interface链已验证·CDAF国内首家量产·Underfill通用语境竞争>10家",
+      "source": "home链 akshare abstract_ths"
+    },
+    "moatScore": 62,
+    "timingScore": 40,
+    "quadrant": "hold",
+    "quadrantNote": "moat=62踩线hold下沿(+2分·与华天/艾森同分)。moat从home链72→62(-10分):durability-1+barrier-1=语境从HBM专属扩大为通用先进封装导致竞争格局判断更严格。",
+    "riskMetrics": {
+      "status": "deferred"
+    }
+  },
+  "688037": {
+    "code": "688037",
+    "name": "芯源微",
+    "tier": "C",
+    "homeChain": "semicon-equip",
+    "dims6": [
+      {
+        "key": "durability",
+        "score": 4,
+        "trend": "up",
+        "tier": "L1+L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链 durability=3 主要受净利连续两年-60%+拖累。在先进封装语境下,临时键合/解键合是不同的逻辑:CoWoS/HBM产能缺口驱动的设备需求至少3年高景气(全球CoWoS扩产+台积电外包溢出+国内长电/通富/华天产能建设),芯源微作为国产唯一供应商,设备订单的确定性高于涂胶显影前道设备。但盈利端恶化(2025净利-64.6%/2026Q1净利仅400万)是同一家公司无法回避的——4分不能升到5分正是因为利润无法验证'订单→收入→利润'的完整传导。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1 akshare abstract_ths实测:2025营收19.48亿(+11.1%)/净利0.60亿(-64.6%)/ROE2.62%/毛利率35.4%",
+        "flag": "",
+        "src": "akshare abstract_ths|申万宏源",
+        "weight": 1,
+        "asOf": "2025-12-31"
+      },
+      {
+        "key": "visibility",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "§10.1铁律适用:L1年报+季报完整可查+L4券商覆盖(申万宏源维持买入评级·2026营收预测28亿)。芯源微的临时键合+解键合订单量可从L4券商研报中跟踪(2025年签单加速/键合品类收入占比大幅提升为公开信息),但无L4给出具体键合设备订单金额预测。home链已正确判定为3,先进封装语境不变。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1 akshare实测:2026Q1净利仅400万/净利率3.09%",
+        "flag": "",
+        "src": "akshare abstract_ths|申万宏源",
+        "weight": 1,
+        "asOf": "2026-03-31"
+      },
+      {
+        "key": "policy",
+        "score": 4,
+        "trend": "up",
+        "tier": "L2",
+        "verifiedAt": "2026-07-17",
+        "reason": "大基金三期重点投向封测设备——临时键合/解键合设备比涂胶显影更直接受益于先进封装政策倾斜。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L2 国务院集成电路产业发展推进纲要·大基金三期",
+        "flag": "",
+        "src": "集成电路产业政策|大基金三期",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "supply",
+        "score": 4,
+        "trend": "up",
+        "tier": "L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链supply=3的判定理由是'盈利短板压制供给扩张'。在先进封装语境下,supply应衡量临时键合设备的全行业供给紧张程度而非芯源微自身的盈利约束——TEL/EVG的交付周期拉长(>12月),全球CoWoS扩产→键合设备需求爆发→供给缺口>30%。芯源微是国产唯一可替代供给。评分依据:§10五档表4分档位——供给缺口10-30%+L3/L4来源。|L4 SEMI 2025设备市场报告。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L4 SEMI 2025设备市场报告",
+        "flag": "",
+        "src": "SEMI|券商设备研究",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "valuation",
+        "score": 2,
+        "trend": "down",
+        "tier": "estimate",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链估值判定正确且与语境无关(同一家公司的PE不受语境变化影响)。2025净利-64.6%/2026Q1净利仅400万——估值虚高。维持2分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测:2025净利-64.6%/2026Q1净利400万",
+        "flag": "baostock不可用·定性评估",
+        "src": "akshare abstract_ths",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "barrier",
+        "score": 5,
+        "trend": "flat",
+        "tier": "L1+L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "上调核心理由:临时键合/解键合 vs 涂胶显影是不同产品线、不同的竞争格局。home链barrier=4基于涂胶显影的全球格局(TEL/DNS双寡头+芯源微是追赶者→4分)。临时键合/解键合的全球格局是TEL/EVG/芯源微三家可批量供货——满足§10五档表barrier=5的核心硬指标:'全球≤3家'。扣分项(未达5分满分·仅刚好踩线):芯源微在临时键合领域的市占率仍远低于TEL(估计TEL>60%/EVG≈25%/芯源微<15%),是'三家之一'而非'三家之首'。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L4 SEMI 2025·申万宏源·全球临时键合设备CR3分析",
+        "flag": "全球≤3家但市占率第三(≈15%)",
+        "src": "SEMI|申万宏源",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      }
+    ],
+    "fundamentals": {
+      "asOf": "2025-12-31",
+      "roe": 2.62,
+      "roeQuarterly": 0.21,
+      "grossMargin": 35.39,
+      "grossMarginTrend": "flat",
+      "revenueGrowth": 11.11,
+      "netProfitGrowth": -64.64,
+      "fcfPositive": null,
+      "scissorGap": null,
+      "note": "2025年报(营收19.48亿+11.1%/净利0.60亿-64.6%/ROE2.62%/毛利率35.39%)+2026Q1(净利仅400万) home=semicon-equip链已验证·临时键合/解键合国产唯一·盈利端持续恶化",
+      "source": "home链 akshare abstract_ths"
+    },
+    "moatScore": 81,
+    "timingScore": 40,
+    "quadrant": "hold",
+    "quadrantNote": "moat=81稳居hold区间(+21分过60门槛)。moat从home链67→81(+14分)的驱动:durability+1(临时键合设备需求>涂胶显影前道)+barrier+1(全球≤3家 vs 涂胶显影的≥5家)+supply+1(键合设备供给更紧张)。核心风险:盈利端持续恶化(净利-64.6%/Q1仅400万)——moat虽高但timing仅40,高壁垒尚未转化为盈利兑现。",
+    "riskMetrics": {
+      "status": "deferred"
+    }
+  },
   "688362": {
     "code": "688362",
     "name": "甬矽电子",
@@ -737,6 +1161,112 @@ window.ADVANCED_PACKAGING_MANUAL = window.ADVANCED_PACKAGING_MANUAL || {};
     "timingScore": 40,
     "quadrant": "watch",
     "quadrantNote": "moat=50 深陷 watch 区间(-10 分)。核心症结:营收 44 亿但净利仅 8,173 万(净利率<1%)+资产负债率 73% 仍在攀升+124 亿投资产能尚未建成。唯有当产能利用率>70%且净利率回升至 8%+时(净利润>3.5 亿),barrier/durability 方有上调至 3 的可能。"
+  },
+  "688630": {
+    "code": "688630",
+    "name": "芯碁微装",
+    "tier": "C",
+    "homeChain": "pcb",
+    "dims6": [
+      {
+        "key": "durability",
+        "score": 4,
+        "trend": "up",
+        "tier": "L1+L3+L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "芯碁微装营收/净利/ROE三重稳健且加速增长(4年营收CAGR 30.2%,B2批次最高)。在先进封装语境下,FOPLP和TGV玻璃基板扩产为DI光刻打开第二增长曲线——但这条曲线的规模(估计<10亿)远小于PCB LDI(估计100+亿),短期内PCB业务仍是景气度的主力。维持4分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测:2025营收+48.6%/净利+80.4%/ROE12.6%/毛利率40.9%/4年营收CAGR 30.2%",
+        "flag": "",
+        "src": "akshare abstract_ths|Prismark",
+        "weight": 1,
+        "asOf": "2025-12-31"
+      },
+      {
+        "key": "visibility",
+        "score": 4,
+        "trend": "up",
+        "tier": "L1+L3+L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "L1年报+季报完整+L4覆盖+L3市占率数据。§10.1铁律:信息渠道层级充分→维持4分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测+PCB LDI全球市占18.8%(L3 Prismark)",
+        "flag": "",
+        "src": "akshare abstract_ths|Prismark",
+        "weight": 1,
+        "asOf": "2026-03-31"
+      },
+      {
+        "key": "policy",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L2",
+        "verifiedAt": "2026-07-17",
+        "reason": "半导体设备国产替代政策覆盖,但无FOPLP/TGV专项。维持3分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L2 集成电路产业政策",
+        "flag": "",
+        "src": "集成电路产业政策",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "supply",
+        "score": 4,
+        "trend": "up",
+        "tier": "L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "国内唯一高端IC载板LDI+先进封装DI供应商,海外竞品(海德堡/Orc/SCREEN)交付周期拉长。维持4分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L4 券商设备行业分析",
+        "flag": "",
+        "src": "券商研究",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "valuation",
+        "score": 1,
+        "trend": "down",
+        "tier": "L1+L3",
+        "verifiedAt": "2026-07-17",
+        "reason": "PE-TTM 195.3x/5y PE分位99.42%——极度高估。估值判定与语境无关。维持1分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测:PE195.3x/5y分位99.42%",
+        "flag": "PE极度高估·估值与语境无关",
+        "src": "akshare abstract_ths|baostock",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "barrier",
+        "score": 4,
+        "trend": "flat",
+        "tier": "L1+L3+L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链barrier=4基于'国内唯一IC载板3-4μm LDI+全球市占18.8%第一'。在FOPLP/TGV的先进封装应用场景下,芯碁微装同样是国内唯一可稳定交付的供应商(苏州源卓/上海微电子仅覆盖中低端PCB LDI)。但先进封装DI的全球竞争格局与PCB DI不同——日本SCREEN/ORC在FOPLP领域有更长的商业化历史。维持4分(不升5分因为全球维度非≤3家)。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L3 Prismark 2026·L1 芯碁微装年报",
+        "flag": "国内唯一·全球非≤3家",
+        "src": "Prismark|芯碁微装年报",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      }
+    ],
+    "fundamentals": {
+      "asOf": "2025-12-31",
+      "roe": 12.56,
+      "roeQuarterly": null,
+      "grossMargin": 40.94,
+      "grossMarginTrend": "up",
+      "revenueGrowth": 112.48,
+      "netProfitGrowth": 108.98,
+      "fcfPositive": null,
+      "scissorGap": null,
+      "note": "2025年报(营收+48.6%/净利+80.4%/ROE12.6%/毛利率40.9%) home=pcb链已验证·PCB LDI全球市占18.8%(第一)·FOPLP/TGV第二增长曲线",
+      "source": "home链 akshare abstract_ths"
+    },
+    "moatScore": 78,
+    "timingScore": 20,
+    "quadrant": "hold",
+    "quadrantNote": "moat=78稳居hold区间(+18分过60门槛)·moat与home链完全一致。timing仅20因PE极度高估——'好公司太贵'的典型案例(PE195x/5y分位99.4%)。",
+    "riskMetrics": {
+      "status": "deferred"
+    }
   },
   "688720": {
     "code": "688720",
@@ -1049,6 +1579,218 @@ window.ADVANCED_PACKAGING_MANUAL = window.ADVANCED_PACKAGING_MANUAL || {};
     "timingScore": 40,
     "quadrant": "hold",
     "quadrantNote": "华天科技 moat=62 踩线 hold 下沿(+2 分过 60 门槛)。推向 hold 侧的关键因素:① Q1 营收+34.5% 为三家最高(真实增长信号非纯低基数);② eSiFO 差异化路线避开 CoWoS 直接竞争,在消费电子/物联网封装市场有成本优势;③ 政策顺风(大基金三期先进封装方向)提供底层支撑。潜在反向风险(可能跌破 60 进入 watch):① 南京基地产能利用率若不及预期(<70%),折旧压力将拖累净利→durability 可能从 3 下修至 2(-5 分 to moat=57→watch);② Q1 净利+568% 本质是低基数效应(Q1 净利仅 8679 万、净利率 1.81%),若下半年营收增速回落至<15%,visibility 可能从 3 下修至 2(-4 分 to moat=58→watch);③ 体量劣势(营收仅为长电的 44%)在重资产 OSAT 行业意味着更弱的定价权和更低的设备利用率安全垫。"
+  },
+  "002916": {
+    "code": "002916",
+    "name": "深南电路",
+    "tier": "C",
+    "homeChain": "pcb",
+    "dims6": [
+      {
+        "key": "durability",
+        "score": 5,
+        "trend": "up",
+        "tier": "L1+L3",
+        "verifiedAt": "2026-07-17",
+        "reason": "上调理由:在先进封装语境下,FC-BGA载板的景气度直接绑定CoWoS/HBM封装需求,而非PCB链语境下的'PCB高端延伸'。FC-BGA载板全球仅约5家公司可量产(ibiden/Shinko/Unimicron/深南/兴森),且ABF膜97%依赖日本味之素(原料端的绝对卡口)——两层叠加意味着FC-BGA载板在先进封装中的供给约束极强、需求确定性极高。评分依据:§10五档表5分档位——有明确3年以上需求驱动+多家L3机构覆盖+客户锁单。深南电路广州60亿FC-BGA投资(2027量产)验证了下游客户的长期需求承诺。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测:2025营收+37.9%/净利+73.0%/ROE19.1%/毛利率29.2%+L3 Prismark 2026",
+        "flag": "FC-BGA全球≤5家量产·ABF膜97%依赖味之素",
+        "src": "akshare abstract_ths|Prismark",
+        "weight": 1,
+        "asOf": "2025-12-31"
+      },
+      {
+        "key": "visibility",
+        "score": 4,
+        "trend": "up",
+        "tier": "L1+L4",
+        "verifiedAt": "2026-07-17",
+        "reason": "L1年报+季报+客户公开验证(华为昇腾核心供货方·配套份额超六成)+L3 Prismark报告覆盖。维持4分。未达5分原因:华为昇腾的订单金额未在深南L1年报中单独披露(归入[6.未查到])。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测+华为昇腾核心供货(L4产业调研)",
+        "flag": "",
+        "src": "akshare abstract_ths|Prismark",
+        "weight": 1,
+        "asOf": "2026-03-31"
+      },
+      {
+        "key": "policy",
+        "score": 4,
+        "trend": "flat",
+        "tier": "L2",
+        "verifiedAt": "2026-07-17",
+        "reason": "维持4分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L2 集成电路产业政策",
+        "flag": "",
+        "src": "集成电路产业政策",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "supply",
+        "score": 4,
+        "trend": "up",
+        "tier": "L3",
+        "verifiedAt": "2026-07-17",
+        "reason": "上调理由:在先进封装语境下,FC-BGA载板的供给约束应与CoWoS产能缺口联系起来看——CoWoS产能缺口30-40%意味着FC-BGA载板的需求同样存在缺口(每片CoWoS晶圆需要≥1片FC-BGA载板),且ABF膜的供给约束(味之素97%)构成了'原料端的物理瓶颈'——这种双重约束使得先进封装链视角下的FC-BGA供给紧张程度高于PCB链视角。上调至4分。未达5分原因:日台韩2026-27年扩产后行业端供给约束将缓解(L3数据)。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L3 SEMI 2025·Prismark 2026·CoWoS产能缺口30-40%+ABF膜味之素97%",
+        "flag": "CoWoS缺口→FC-BGA需求缺口·ABF膜味之素瓶颈",
+        "src": "SEMI|Prismark",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "valuation",
+        "score": 1,
+        "trend": "down",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链PE 75.4x/5y PE分位98.6%——估值极度高估。维持1分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测:PE75.4x/5y分位98.6%",
+        "flag": "PE极度高估",
+        "src": "akshare abstract_ths|baostock",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "barrier",
+        "score": 5,
+        "trend": "flat",
+        "tier": "L1+L3",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链barrier=5·先进封装语境同样满分——FC-BGA载板全球≤5家可量产,深南电路是大陆唯一。barrier=5的硬指标在先进封装语境下同样成立:'PCB+封装基板+装联3-in-1全栈·ABF良率破80%·认证18-24月+客户锁定'。维持5分。重要注脚:卡口的真正核心瓶颈在ABF膜(味之素97%垄断),深南电路处于卡口的下游加工端而不是最核心的材料端。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L3 Prismark 2026·L1 深南电路年报·ABF膜味之素97%",
+        "flag": "FC-BGA全球≤5家·大陆唯一·但真卡口在ABF膜(味之素)",
+        "src": "Prismark|深南电路年报",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      }
+    ],
+    "fundamentals": {
+      "asOf": "2025-12-31",
+      "roe": 19.1,
+      "roeQuarterly": null,
+      "grossMargin": 29.17,
+      "grossMarginTrend": "up",
+      "revenueGrowth": 37.9,
+      "netProfitGrowth": 73.01,
+      "fcfPositive": null,
+      "scissorGap": null,
+      "note": "2025年报(营收+37.9%/净利+73.0%/ROE19.1%/毛利率29.2%) home=pcb链已验证·FC-BGA载板全球≤5家·大陆唯一·ABF膜97%依赖味之素为真卡口",
+      "source": "home链 akshare abstract_ths"
+    },
+    "moatScore": 90,
+    "timingScore": 20,
+    "quadrant": "hold",
+    "quadrantNote": "moat=90为先进封装链最高值(+30分过60门槛·barrier+durability双5分)。timing仅20(PE75.4x/5y分位98.6%)——典型'好公司太贵'。卡口核心瓶颈在ABF膜(味之素97%)·深南处于下游加工端。",
+    "riskMetrics": {
+      "status": "deferred"
+    }
+  },
+  "002436": {
+    "code": "002436",
+    "name": "兴森科技",
+    "tier": "C",
+    "homeChain": "pcb",
+    "dims6": [
+      {
+        "key": "durability",
+        "score": 4,
+        "trend": "up",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链durability=4基于'FC-BGA小批量出货+双AI巨头+台积电BT载板验证'。先进封装语境下维持4分——FC-BGA载板的长期需求逻辑与深南电路共享,但兴森的体量和客户验证进度构成差异化约束。维持4分不升5分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测:2025营收+15.1%/净利+100.0%(低基数0.42亿)/ROE2.52%/毛利率19.2%",
+        "flag": "FC-BGA小批量出货·追赶者",
+        "src": "akshare abstract_ths",
+        "weight": 1,
+        "asOf": "2025-12-31"
+      },
+      {
+        "key": "visibility",
+        "score": 4,
+        "trend": "up",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "上调理由:§10.1铁律——信息渠道层级判定。home链visibility=3基于'有L1年报+季报+客户验证可见'。先进封装语境下重新核实:兴森的FC-BGA载板业务有L1年报公告(FCBGA Rubin 200批量供货+双AI巨头验证)+L3 Prismark报告覆盖+L4头部券商覆盖——三重信息渠道均满足。评分依据:§10五档表4分档位——L4券商订单预测+客户公开验证。上调理由:先进封装链视角下,兴森的FC-BGA业务信息透明度高于PCB链视角。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测+FCBGA Rubin200批量供货(L1)+双AI巨头验证(L1)",
+        "flag": "§10.1重评:FC-BGA业务L1+L3+L4三重渠道→4分",
+        "src": "akshare abstract_ths|Prismark",
+        "weight": 1,
+        "asOf": "2026-03-31"
+      },
+      {
+        "key": "policy",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L2",
+        "verifiedAt": "2026-07-17",
+        "reason": "维持3分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L2 集成电路产业政策",
+        "flag": "",
+        "src": "集成电路产业政策",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "supply",
+        "score": 4,
+        "trend": "up",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "home链supply=4,先进封装语境下维持——FC-BGA载板供给约束的narrative适用于兴森(虽然体量小于深南,但受益于同一供给格局)。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "L3 Prismark 2026·FC-BGA全球≤5家量产",
+        "flag": "",
+        "src": "Prismark",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "valuation",
+        "score": 1,
+        "trend": "down",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "PE 475.9x/5y分位98.6%——极度高估(比深南的75.4x更极端,因兴森净利仅0.42亿/分母极小)。维持1分。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测:PE475.9x/5y分位98.6%",
+        "flag": "PE极度高估·净利分母极小(0.42亿)",
+        "src": "akshare abstract_ths|baostock",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      },
+      {
+        "key": "barrier",
+        "score": 3,
+        "trend": "flat",
+        "tier": "L1",
+        "verifiedAt": "2026-07-17",
+        "reason": "下调理由:先进封装链内横向对比。home链barrier=4是从PCB链的视角——兴森在'PCB企业的IC载板业务'中属于领先者。在先进封装链内,兴森与深南电路同赛道但处于追赶者位置——深南电路的FC-BGA已批量交付+良率>80%+客户覆盖英伟达/华为,兴森科技是'小批量出货·处于追赶阶段'。在先进封装链的barrier评估框架下,应参照'同一赛道内的相对位置'而非'跨赛道的领先性'来判定barrier。评分依据:§10五档表3分档位——技术壁垒存在但竞争者≥5家(全球FC-BGA供应商5家+兴森在其中处于追赶者位置)。财务数据复用自home链已验证L1数据·六维评分基于先进封装链语境重新评估",
+        "evidence": "home链 L1实测·与深南电路同赛道横向对比",
+        "flag": "追赶者(与深南同赛道)·非领先者",
+        "src": "兴森科技年报|Prismark",
+        "weight": 1,
+        "asOf": "2026-07-17"
+      }
+    ],
+    "fundamentals": {
+      "asOf": "2025-12-31",
+      "roe": 2.52,
+      "roeQuarterly": null,
+      "grossMargin": 19.17,
+      "grossMarginTrend": "flat",
+      "revenueGrowth": 15.1,
+      "netProfitGrowth": 100,
+      "fcfPositive": null,
+      "scissorGap": null,
+      "note": "2025年报(营收+15.1%/净利+100.0%低基数/ROE2.52%/毛利率19.2%) home=pcb链已验证·FC-BGA小批量出货·国产追赶者·PE475.9x极度高估",
+      "source": "home链 akshare abstract_ths"
+    },
+    "moatScore": 73,
+    "timingScore": 20,
+    "quadrant": "hold",
+    "quadrantNote": "moat=73稳居hold区间(+13分过60门槛)·moat从home链74→73基本持平(barrier-1被visibility+1抵消)。兴森在先进封装链的定位是'FC-BGA载板的第二国产供应商'——具有战略备选价值而非物理卡口价值。",
+    "riskMetrics": {
+      "status": "deferred"
+    }
   }
 };
 })(window.ADVANCED_PACKAGING_MANUAL);

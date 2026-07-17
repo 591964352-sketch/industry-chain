@@ -1136,7 +1136,7 @@ window.CHAINS = window.CHAINS || {};
       "strength": "★★★",
       "moatScore": 75,
       "timingScore": 45,
-      "chokePointType": "physical",
+      "chokePointType": "global-scarcity",
       "barrier": "极高",
       "tier": "C",
       "logic": "<strong>临时键合/解键合国产唯一</strong>——全球仅 TEL/EVG/芯源微三家可批量供货，键合设备是 CoWoS/HBM 堆叠工艺的必选设备。后道设备已批量供台积电/长电/华天，2025 年签单加速。C 类跨链复用（已在 semicon-equip 链有完整 dims6）。",
@@ -1162,7 +1162,7 @@ window.CHAINS = window.CHAINS || {};
       "strength": "★★★",
       "moatScore": 75,
       "timingScore": 45,
-      "chokePointType": "physical",
+      "chokePointType": "global-scarcity",
       "barrier": "极高",
       "tier": "C",
       "logic": "<strong>FC-BGA 封装基板国产替代核心</strong>——ABF 载板是 AI 芯片封装的'地基'，但 ABF 膜 97% 仍依赖日本味之素（真正的物理卡口在上游材料端）。深南电路在载板制造环节为国内绝对龙头，FC-BGA 验证推进中。C 类跨链复用（已在 PCB 链有完整 chokePoint 评估）。",
@@ -1175,6 +1175,23 @@ window.CHAINS = window.CHAINS || {};
       "asOf": "2026-07-16",
       "pctNote": "C 类跨链·估值/择时请参考 PCB 链",
       "strengthNote": "★★★保留:FC-BGA 载板国产唯一·但需注意真卡口在 ABF 膜(味之素)"
+    },
+    {
+      "code": "300054",
+      "name": "鼎龙股份",
+      "strength": "★★☆",
+      "moatScore": 80,
+      "timingScore": 80,
+      "chokePointType": "domestic-platform",
+      "barrier": "高",
+      "tier": "C",
+      "logic": "<strong>PSPI+CMP 抛光垫+临时键合胶三线国产唯一平台</strong>——单线均非全球≤3家寡头(PSPI 全球 HD Micro 主导>70%/CMP 抛光垫 Dow/Cabot 主导 CR2>60%/临时键合胶 Brewer Science 主导>70%),但三条线同时布局的国产供应商仅鼎龙一家,构成独特的广度协同壁垒(客户一站式采购+研发协同+渠道共享)。性质:国产平台型壁垒(domestic-platform)·非技术独占型卡口。",
+      "pln": "<strong>💡 大白话:为什么鼎龙股份是准卡口(★★☆)?</strong><br><br>鼎龙不像芯源微那样'全球只有三家能做',也不像深南电路那样'大陆只有一家能量产'。但它做了一件独特的事:PSPI 光刻胶(TSV 工艺必需)+CMP 抛光垫(平坦化工序必需)+临时键合胶(键合工艺必需)——这三样东西,全球每一家先进封装厂都需要,但全球没有第二家公司同时做这三样。鼎龙是国内唯一同时覆盖这三条核心材料线的公司,相当于你在小区里开了三家不同的便利店——每一家都能单独活下去,但三家一起开,顾客一站式采购的粘性就出来了。这不是单一品种的寡头壁垒,而是多品种覆盖的平台型壁垒。",
+      "src": ["L4 券商材料行业分析", "L1 鼎龙股份 2025 年报"],
+      "verification": [],
+      "asOf": "2026-07-17",
+      "pctNote": "C 类跨链·估值/择时请参考 storage-interface 链",
+      "strengthNote": "★★☆准卡口:三线平台·国产唯一·但单线非全球≤3家——domestic-platform 类型首次使用"
     }
   ],
   "supplyGap": [
