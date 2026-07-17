@@ -4116,6 +4116,31 @@ function renderChain(chainId) {
     });
     h += `</div>`;
   }
+  // ★ 7.33：小白友好版产业链解读（fullGuide·可折叠）— 故事线/卡口预告/周期信号
+  if (d.plainIntro && d.plainIntro.fullGuide) {
+    const fg = d.plainIntro.fullGuide;
+    h += `<div style="margin-top:20px;padding:18px 20px;background:linear-gradient(135deg,rgba(14,203,129,0.04),rgba(14,203,129,0.01));border:1px solid rgba(14,203,129,0.25);border-radius:10px;">`;
+    h += `<div style="font-size:14px;font-weight:700;color:var(--green);margin-bottom:6px;">📖 小白友好版 · 产业链深度解读</div>`;
+    h += `<div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.6;">${fg.opening}</div>`;
+    if (fg.storyLine && fg.storyLine.length) {
+      h += `<details style="margin-bottom:10px;"><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--text);padding:6px 0;list-style:none;outline:none;">📚 产业链四段故事（点击展开）</summary>`;
+      h += `<div style="padding:10px 14px;font-size:13px;line-height:1.85;color:var(--text);">`;
+      fg.storyLine.forEach((sl, i) => {
+        h += `<details${i===0?' open':''} style="margin-bottom:8px;"><summary style="cursor:pointer;font-weight:600;color:var(--accent);padding:4px 0;list-style:none;outline:none;">${sl.title}</summary>`;
+        h += `<div style="padding:8px 0 4px 0;line-height:1.85;">${sl.content}</div></details>`;
+      });
+      h += `</div></details>`;
+    }
+    if (fg.chokeTeaser) {
+      h += `<details style="margin-bottom:10px;"><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--text);padding:6px 0;list-style:none;outline:none;">🔑 谁是这条链的「关键先生」？（点击展开）</summary>`;
+      h += `<div style="padding:10px 14px;font-size:13px;line-height:1.85;color:var(--text);">${fg.chokeTeaser}</div></details>`;
+    }
+    if (fg.cycleSignal) {
+      h += `<details style="margin-bottom:4px;"><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--text);padding:6px 0;list-style:none;outline:none;">📡 现在处于什么阶段？值得关注的信号（点击展开）</summary>`;
+      h += `<div style="padding:10px 14px;font-size:13px;line-height:1.85;color:var(--text);">${fg.cycleSignal}</div></details>`;
+    }
+    h += `</div>`;
+  }
   h += `<div style="font-weight:600;margin-bottom:6px;font-size:13px;color:var(--muted);">🔗 产业链通俗流水账：</div><div class="flow-row">`;
   d.plainIntro.flowSteps.forEach((s, i) => {
     if (i > 0) h += '<span class="arrow">→</span>';
