@@ -184,7 +184,9 @@ window.CHAINS = window.CHAINS || {};
       "unit": "(2026E)",
       "trend": "up",
       "note": "SEMI 2025 预测·2025-2028 CAGR 10-15%",
-      "tier": "broker"
+      "tier": "broker",
+      "color": "var(--accent)",
+      "src": "SEMI 2025先进封装市场报告"
     },
     {
       "label": "中国封测产能占比",
@@ -192,7 +194,9 @@ window.CHAINS = window.CHAINS || {};
       "unit": "全球",
       "trend": "up",
       "note": "长电科技全球第三·通富微电全球第五·华天科技全球第六",
-      "tier": "broker"
+      "tier": "broker",
+      "color": "var(--accent)",
+      "src": "Prismark 2026全球OSAT排名"
     },
     {
       "label": "CoWoS 产能缺口",
@@ -200,7 +204,9 @@ window.CHAINS = window.CHAINS || {};
       "unit": "供需缺口",
       "trend": "up",
       "note": "台积电 CoWoS 产能不足·外溢至 OSAT·缺口预计延续至 2027 年",
-      "tier": "broker"
+      "tier": "broker",
+      "color": "var(--accent)",
+      "src": "SEMI 2025+方正证券2026-06"
     },
     {
       "label": "封装设备国产化率",
@@ -208,7 +214,9 @@ window.CHAINS = window.CHAINS || {};
       "unit": "键合/解键合",
       "trend": "flat",
       "note": "临时键合 TEL/EVG 主导·芯源微国产唯一突破·塑封设备文一科技验证中",
-      "tier": "broker"
+      "tier": "broker",
+      "color": "var(--color-bull)",
+      "src": "SEMI 2025全球半导体设备报告"
     },
     {
       "label": "封装材料国产化率",
@@ -216,7 +224,9 @@ window.CHAINS = window.CHAINS || {};
       "unit": "键合胶/PSPI",
       "trend": "flat",
       "note": "临时键合胶 Brewer Science 主导·PSPI HD Micro 主导·飞凯/艾森从 0 到 1",
-      "tier": "broker"
+      "tier": "broker",
+      "color": "var(--color-bull)",
+      "src": "SEMI 2025全球半导体材料报告"
     },
     {
       "label": "ABF 载板国产化率",
@@ -224,7 +234,9 @@ window.CHAINS = window.CHAINS || {};
       "unit": "依赖进口",
       "trend": "flat",
       "note": "ABF 膜 97% 依赖日本味之素·深南/兴森 FC-BGA 小批量验证中",
-      "tier": "broker"
+      "tier": "broker",
+      "color": "var(--color-bull)",
+      "src": "Prismark 2026全球IC载板排名"
     },
     {
       "label": "下游需求 CAGR",
@@ -232,7 +244,9 @@ window.CHAINS = window.CHAINS || {};
       "unit": "(2025-2028)",
       "trend": "up",
       "note": "AI/HPC 芯片封装需求爆发·单颗 GPU CoWoS 封装价值量 30-40% 芯片总成本",
-      "tier": "broker"
+      "tier": "broker",
+      "color": "var(--accent)",
+      "src": "SEMI 2025+Prismark 2026+券商研报"
     },
     {
       "label": "产业链评级",
@@ -240,7 +254,9 @@ window.CHAINS = window.CHAINS || {};
       "unit": "Phase B 补",
       "trend": "flat",
       "note": "产业链整体评分 78/100·强劲景气·OSAT 环节非卡口（竞争充分）·上游设备/材料才是物理卡口",
-      "tier": "estimate"
+      "tier": "estimate",
+      "color": "var(--color-warn)",
+      "src": "🆪 AI预评·Phase B数据整合"
     }
   ],
   "treeMap": {
