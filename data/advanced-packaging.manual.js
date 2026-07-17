@@ -320,7 +320,7 @@ window.ADVANCED_PACKAGING_MANUAL = window.ADVANCED_PACKAGING_MANUAL || {};
     "moatScore": 50,
     "timingScore": 40,
     "quadrant": "watch",
-    "quadrantNote": "moat=46 深陷 watch 区间(-14 分低于 60 门槛)。塑封设备验证阶段+营收体量极小(3.79亿)+2025净利恶化(-65%),不具备投资级护城河。唯有当(1)塑封设备批量供货合同L1公告披露+(2)第二家验证客户确认+(3)营收突破10亿级时,barrier/durability 方有上调空间。"
+    "quadrantNote": "moat=50 深陷 watch 区间(-10 分低于 60 门槛)。塑封设备验证阶段+营收体量极小(3.79亿)+2025净利恶化(-65%),不具备投资级护城河。唯有当(1)塑封设备批量供货合同L1公告披露+(2)第二家验证客户确认+(3)营收突破10亿级时,barrier/durability 方有上调空间。"
   },
   "600584": {
     "code": "600584",
