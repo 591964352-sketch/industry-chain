@@ -3509,6 +3509,9 @@ function renderChain(chainId) {
   h += `<div class="section-body">`;
   h += `<div class="section-desc">✓=通过 ✗=不通过 ★★★=命中4/4(核心卡口) ★★☆=命中3/4(潜在卡口)</div>`;
   h += `<div class="section-desc" style="margin-top:4px;font-size:12px;color:var(--color-muted);line-height:1.6;">注：四问筛选采用最严格的公开数据验证标准，Q2-Q4类数据在技术密集型行业（半导体设备/芯片设计/存储接口）普遍存在公开数据不可得的情况，"✗"反映的是数据可得性局限而非该标的不构成卡口——正式卡口认定以下方"投资决策"板块的chokePoints综合评估（护城河分+行业格局+L1实证+跨链对比等多维判定）为准。</div>`;
+  if (d.fourQuestions && d.fourQuestions.industryNote) {
+    h += `<div class="card" style="margin-top:8px;padding:14px 18px;background:rgba(240,185,11,0.06);border-left:3px solid var(--accent);border-radius:6px;font-size:12px;line-height:1.8;color:var(--color-muted);">${d.fourQuestions.industryNote}</div>`;
+  }
   h += `<div class="card" style="padding:16px;"><div class="fourq-wrap"><table class="fourq-tbl"><colgroup><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:5%"><col style="width:11%"></colgroup><thead><tr><th>产业链环节</th><th>标的</th><th>①供给端<br>寡头垄断?</th><th>②产能端<br>扩产≥12月?</th><th>③替代端<br>无替代?</th><th>④需求端<br>下游刚需?</th><th>命中</th><th>卡口强度</th></tr></thead><tbody>`;
   d.fourQuestions.segments.forEach(seg => {
     const segLabel = seg.name || seg.segmentName || '—';
@@ -3530,10 +3533,11 @@ function renderChain(chainId) {
           h += `<td>${s.q3p ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q3pClaim ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q3pClaim+'</span>' : ''}</td>`;
           h += `<td>${s.q4p ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4pClaim ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q4pClaim+'</span>' : ''}</td>`;
         } else {
+          const _hasIndustryNote = !!(d.fourQuestions && d.fourQuestions.industryNote);
           h += `<td>${s.q1 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q1note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q1note+'</span>' : ''}</td>`;
-          h += `<td>${s.q2 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q2note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q2note+'</span>' : ''}</td>`;
-          h += `<td>${s.q3 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q3note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q3note+'</span>' : ''}</td>`;
-          h += `<td>${s.q4 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${s.q4note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q4note+'</span>' : ''}</td>`;
+          h += `<td>${s.q2 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${!_hasIndustryNote && s.q2note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q2note+'</span>' : ''}</td>`;
+          h += `<td>${s.q3 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${!_hasIndustryNote && s.q3note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q3note+'</span>' : ''}</td>`;
+          h += `<td>${s.q4 ? '<span class="pass">✓</span>' : '<span class="fail">✗</span>'}${!_hasIndustryNote && s.q4note ? '<br><span style="font-size:11px;color:var(--muted);">'+s.q4note+'</span>' : ''}</td>`;
         }
         const hCls = s.hits === 4 ? 'h4' : s.hits === 3 ? 'h3' : s.hits === 2 ? 'h2' : s.hits === 1 ? 'h1' : 'h0';
         const _fhits = s.hits != null ? s.hits : (isVariant ? ((s.q1p?1:0)+(s.q2p?1:0)+(s.q3p?1:0)+(s.q4p?1:0)) : ((s.q1?1:0)+(s.q2?1:0)+(s.q3?1:0)+(s.q4?1:0)));
