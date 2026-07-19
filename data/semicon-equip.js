@@ -2248,6 +2248,7 @@ CHAINS["semicon-equip"] = {
             "name": "屹唐股份",
             "code": "688729",
             "segment": "去胶/热处理设备",
+            "chokePointType": "global-scarcity",
             "strength": "★★★",
             "logic": "全球去胶设备双寡头:PSK(韩国·~40%)+屹唐(~33.7%)合计>70%市占率(L3 Gartner 2025·东吴/方正/国投证券多源确认)·第三名Lam Research仅9-10%非主要竞争者·屹唐2017年收购美国Mattson继承30年技术积累·Fab认证周期≥18个月·Suprema/Optima/Hydrilis HMR三大产品系列覆盖逻辑/存储/功率全品类·2025年营收50.76亿+9.6%/净利6.71亿+24%·2026Q1承压(营收-10.6%/净利-26.8%)主因三重叠加:①全球设备行业周期调整(SEMI 2026Q1行业-8%)②2025Q1国补高基数③实体清单致零部件采购延长·毛利率逆势改善至40.02%·RTP快速热处理全球#2(13.8%)+干法刻蚀全球#9打造第二增长曲线·风险:MATCH法案(美国子公司Mattson Technology)·PSK存储领域优势·去胶市场规模有限(8.56亿美元)但平台化扩张至刻蚀(219亿美元大市场)",
             "tags": [
@@ -2308,6 +2309,7 @@ CHAINS["semicon-equip"] = {
             "name": "中微公司",
             "code": "688012",
             "segment": "CCP/ICP 刻蚀设备",
+            "chokePointType": "global-scarcity",
             "strength": "★★★",
             "logic": "全球<strong>仅3家</strong>可量产先进制程CCP刻蚀设备：应用材料(AMAT)、泛林半导体(Lam Research)、中微公司（L3 SEMI/VLSI Research全球刻蚀设备厂商格局报告）。中微Primo D-RIE系列5nm CCP刻蚀机<strong>已批量进入台积电N3P工艺</strong>，是国内唯一实现先进制程刻蚀设备向全球顶级晶圆厂批量供货的企业。2025全年营收123.85亿(+36.62%)、净利21.11亿(+30.69%)（L1·abstract_ths实测）。2026Q1营收29.15亿(+34.13%)、净利9.30亿(+197.20%)，业绩加速兑现。认证壁垒<strong>≥18个月</strong>（L4券商研报），新进入者突破周期极长。M10客户验证中，先进制程客户群持续扩展。",
             "valuation": {
@@ -2328,6 +2330,7 @@ CHAINS["semicon-equip"] = {
             "name": "北方华创",
             "code": "002371",
             "segment": "ICP/CCP/PVD/CVD 多产品线",
+            "chokePointType": "domestic-substitution",
             "strength": "★★★",
             "logic": "全球<strong>仅≤3家</strong>可同时量产ICP/CCP刻蚀、PVD/CVD薄膜沉积、湿法清洗全品类先进制程半导体设备的综合厂商（L3全球综合半导体设备厂商竞争格局报告）。北方华创是国内唯一覆盖刻蚀+薄膜沉积+清洗+立式炉管全产品线的<strong>平台型设备龙头</strong>。2025全年营收393.53亿(+30.85%)，连续两年维持30%以上高增速；净利55.22亿(-1.77%温和下降)，2026Q1净利16.35亿(+3.42%)<strong>企稳回升</strong>（L1·abstract_ths实测）。14nm CCP刻蚀通过中芯国际验证，28nm多产品线客户已批量。大基金重点持股，子公司北京北方华创微电子/北京七星华创覆盖核心产业链。单类设备认证壁垒≥18个月，<strong>多品类叠加的认证周期+工艺know-how+客户产线适配转换成本极高</strong>（L4券商研报）。",
             "valuation": {
@@ -2348,6 +2351,7 @@ CHAINS["semicon-equip"] = {
             "name": "华海清科",
             "code": "688120",
             "segment": "CMP 抛光设备",
+            "chokePointType": "global-scarcity",
             "strength": "★★★",
             "logic": "全球<strong>仅3家</strong>具备12寸CMP整机量产能力：应用材料(AMAT)、荏原(Ebara)、华海清科（L3 SEMI全球CMP设备格局+L4券商研报）。华海清科是国内<strong>唯一实现12寸量产机型批量导入头部晶圆厂</strong>（中芯国际/长江存储）的CMP供应商——三重壁垒叠加：CMP整机设备+抛光耗材匹配+长周期晶圆工艺验证。营收连续三期YoY+30%以上（L1·abstract_ths实测），2025全年营收增速+36.46%。<strong>⚠️ 盈利能力弱化趋势需持续观察</strong>：净利增速从2024年+41.40%断崖下滑至2025年+5.89%，净利率三年内从30.05%→20.58%（L1实测），虽卡口逻辑不变（全球≤3家格局未破），但定价权是否在国产化推进中弱化是核心跟踪变量。ROE 15.52%，毛利率41.81%，基本面仍属健康区间。",
             "tags": [
@@ -2407,6 +2411,7 @@ CHAINS["semicon-equip"] = {
             "name": "拓荆科技",
             "code": "688072",
             "segment": "PECVD/ALD 薄膜沉积设备",
+            "chokePointType": "domestic-substitution",
             "strength": "★★★",
             "logic": "全球具备高端PECVD/ALD设备<strong>稳定量产供货能力厂商≤3家</strong>（L3全球薄膜沉积设备厂商统计）。拓荆科技是国内唯一实现多品类薄膜沉积设备大批量上机供货的企业。2026Q1营收13.35亿(+87.5%)，净利5.71亿(<strong>+488.29%·亏损反转</strong>，对比2025Q1净利-1.47亿)，业绩爆发式兑现（L1·abstract_ths实测）。<strong>长江存储30-150台设备中标</strong>，客户覆盖长江存储/合肥长鑫/中芯国际/华虹四大头部晶圆厂。在手订单130亿+，交付排期饱满。认证壁垒<strong>≥18个月</strong>（L4券商设备导入数据），工艺Know-how+下游客户长期认证双重壁垒形成安全垫，海外及国内新进入者突破周期极长。",
             "valuation": {
