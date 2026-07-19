@@ -3862,12 +3862,29 @@ function renderChain(chainId) {
     if (HOLDING_CODES_DEFAULT_OPEN.has(c.code)) _openReason = '<span class="tag tg-extreme" style="font-size:11px;margin-left:6px;" title="commit 4.27 持仓名单">📌 持仓</span>';
     else if (reduceTriggeredCodes.has(c.code)) _openReason = '<span class="tag tg-mid" style="font-size:11px;margin-left:6px;" title="信号 C 减仓触发">⚠️ 减仓</span>';
     h += `<div class="choke-card">`;
+    // ★ commit 7.XX: chokePoint 类型标签 + 业务纯度警告（在 summary 和 body 中共用）
+    const _typeTagHTML = (() => {
+      if (!c.chokePointType) return '';
+      const map = { 'global-scarcity': { icon: '🌍', label: '全球稀缺型', color: 'var(--accent)' }, 'domestic-substitution': { icon: '🇨🇳', label: '国产替代型', color: '#2196F3' }, 'domestic-platform': { icon: '🧩', label: '国产平台型', color: '#0d9488' } };
+      const t = map[c.chokePointType];
+      return t ? `<span style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600;color:${t.color};border:1px solid ${t.color};opacity:0.85;">${t.icon} ${t.label}</span>` : '';
+    })();
+    const _purityWarnHTML = (() => {
+      const manual = getManualNamespace(chainId);
+      if (!manual || !manual.stocks) return '';
+      const sd = manual.stocks[c.code];
+      if (!sd || !sd.businessPurity) return '';
+      if (sd.businessPurity === 'mixed' || sd.businessPurity === 'tangential') {
+        return `<span style="display:inline-block;margin-left:4px;padding:1px 5px;border-radius:3px;font-size:10px;color:var(--color-muted);background:rgba(246,70,93,0.08);border:1px solid rgba(246,70,93,0.2);">⚠️ 业务纯度低</span>`;
+      }
+      return '';
+    })();
     // ★ commit 4.41：整只 stock 卡片用 <details> 包裹 · 持仓/减仓 stock 默认展开
     h += `<details${_isOpen ? ' open' : ''}>`;
     h += `<summary style="list-style:none;cursor:pointer;outline:none;padding:0;">`;
     h += `<h3 style="display:inline;"><span class="rank">${medals[i]||'#'+(i+1)} 优先级 ${i+1}</span>${c.name} <span style="font-size:11px;color:var(--muted);font-weight:400;">${c.code}</span>${_openReason}</h3>`;
     h += `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;font-size:11px;">`;
-    h += `<span style="color:var(--muted);">🔒 ${c.segment}</span>`;
+    h += `<span style="color:var(--muted);">🔒 ${c.segment}${_typeTagHTML}</span>`;
     h += _sumTags;
     h += `<span style="color:var(--muted);margin-left:auto;font-size:11px;">▾ 展开详情</span>`;
     h += `</div></summary>`;
@@ -3879,7 +3896,7 @@ function renderChain(chainId) {
       h += `<div style="margin:6px 0 4px;"><span class="tag verify-overall ${ocls}" style="font-size:11px;">${otxt}</span></div>`;
     }
     h += `<div class="code">${c.code}</div>`;
-    h += `<div class="seg">🔒 ${c.segment}</div>`;
+    h += `<div class="seg">🔒 ${c.segment}${_typeTagHTML}${_purityWarnHTML}</div>`;
     const _logicText = c.logic || '';
     // ★ commit 4.6：核心逻辑默认显示第一句（按 . 分割 ≤40 字），点 📖 展开全文
     const _stripHtml = (s) => s.replace(/<[^>]*>/g, '').trim();

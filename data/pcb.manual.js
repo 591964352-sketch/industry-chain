@@ -137,6 +137,7 @@ window.PCB_MANUAL = window.PCB_MANUAL || {};
       "rank": 1,
       "barrier": "极高",
       "tier": "primary",
+      "businessPurity": "tangential",
       "position": "Q布业务处认证阶段(2025年收入9,837.37万元/占总营收4.88%)·石英砂环节中试阶段(非独家,石英股份等亦布局)·制品环节技术领先",
       "investable": true,
       "region": "国内",
