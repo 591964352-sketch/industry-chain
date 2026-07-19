@@ -1599,7 +1599,7 @@ CHAINS["optical-module"] = {
       ]
     }
   ],
-  "methodologyNotes": "🔦 光模块·光互联合并链由原光模块(33 股)+ 光芯片(54 股) + CPO(7 股)三链合并而成 · unique 去重 41 只 · 6 个 segment · 双层架构(参照 semicon-equip P0 经验,避免返工) · PE/PB 实盘接口本机不可用 → valuation tier 全部降级 estimate · 等景气度调整系数设计 + PE 数据接口恢复后重新核算 · 【关键归类调整】 · 1. 烽火通信 600498 + 中兴通讯 000063 原本预入 seg3 (CPO 共封装光学) · 实际身份 = 5G 电信光模块应用方,不是 CPO 核心持股 · 调整至 seg5 侧枝应用(方案 B 决定,用户 review 通过) · 2. seg3 保留为空段 + sub-card only 工艺说明 · 引用 seg2 中际旭创/新易盛/光迅作为光模块整机出货方向 CPO 应用演进的方向说明 · 类似 PCB 链 sideBranches 只做工艺说明不占实际持股 的处理方式",
+  "methodologyNotes": "🔦 光模块·光互联合并链由原光模块(33 股)+ 光芯片(54 股) + CPO(7 股)三链合并而成 · unique 去重 41 只 · 6 个 segment · 双层架构 · PE/PB 实盘接口本机不可用 → valuation tier 全部降级 estimate · 等景气度调整系数设计 + PE 数据接口恢复后重新核算 · 【关键归类调整】 · 1. 烽火通信 600498 + 中兴通讯 000063 原本预入 seg3 (CPO 共封装光学) · 实际身份 = 5G 电信光模块应用方,不是 CPO 核心持股 · 调整至 seg5 侧枝应用 · 2. seg3 保留为空段 + sub-card only 工艺说明 · 引用 seg2 中际旭创/新易盛/光迅作为光模块整机出货方向 CPO 应用演进的方向说明 · 该段仅用于工艺说明，不包含实际持股标的",
   "demandChainMeta": {
     "_hasDemandData": true,
     "source": "LightCounting 2026.04+Yole 2025+L4券商研报",
