@@ -230,7 +230,8 @@ CHAINS["semiconductor-materials"] = {
         "companies": [
           { "code": "603931", "name": "格林达" },
           { "code": "300236", "name": "上海新阳" },
-          { "code": "603078", "name": "江化微" }
+          { "code": "603078", "name": "江化微" },
+          { "code": "300655", "name": "晶瑞电材", "note": "C类跨段复用·主业湿电子化学品·六维引用seg[1]" }
         ]
       },
       {
@@ -342,7 +343,8 @@ CHAINS["semiconductor-materials"] = {
       "stocks": [
         { "rank": 1, "name": "格林达", "code": "603931", "position": "TMAH显影液国内龙头(市占>50%)·国内唯一TMAH全链条自主供应商·2025营收9.59亿+12.3%", "barrier": "高", "tier": "A", "trend": "up", "trendNote": "(Phase B补)", "logic": "(Phase B补)", "src": "(Phase B补)", "valAsOf": "2025", "dims6Note": "(Phase B补)" },
         { "rank": 2, "name": "上海新阳", "code": "300236", "position": "电镀液+清洗液+KrF光刻胶·半导体材料多品类平台·2025营收18.03亿+31.4%", "barrier": "中", "tier": "B", "trend": "flat", "trendNote": "(Phase B补)", "logic": "(Phase B补)", "src": "(Phase B补)", "valAsOf": "2025", "dims6Note": "(Phase B补)" },
-        { "rank": 3, "name": "江化微", "code": "603078", "position": "超高纯蚀刻液/清洗液·专注湿电子化学品·2025营收11.03亿+17.2%", "barrier": "中", "tier": "B", "trend": "flat", "trendNote": "(Phase B补)", "logic": "(Phase B补)", "src": "(Phase B补)", "valAsOf": "2025", "dims6Note": "(Phase B补)" }
+        { "rank": 3, "name": "江化微", "code": "603078", "position": "超高纯蚀刻液/清洗液·专注湿电子化学品·2025营收11.03亿+17.2%", "barrier": "中", "tier": "B", "trend": "flat", "trendNote": "(Phase B补)", "logic": "(Phase B补)", "src": "(Phase B补)", "valAsOf": "2025", "dims6Note": "(Phase B补)" },
+        { "rank": 4, "name": "晶瑞电材", "code": "300655", "position": "超纯化学品(湿电子化学品)为主业·光刻胶为辅·C类跨段复用(主数据见seg[1]光刻胶)", "barrier": "中", "tier": "C", "trend": "flat", "trendNote": "C类跨段复用·主业超纯化学品/湿电子化学品·Phase A骨架遗漏补入·六维引用seg[1]已有评分(moat=46·watch)", "logic": "(C类跨段复用·六维引用seg[1] dims6·moat=46·watch·2026-07-21)", "src": "C类跨段复用", "valAsOf": "2026-07-21", "dims6Note": "(C类跨段复用·六维引用seg[1])" }
       ]
     },
     {
@@ -404,7 +406,8 @@ CHAINS["semiconductor-materials"] = {
         "stocks": [
           { "code": "603931", "name": "格林达", "q1": false, "q1note": "TMAH国内市占>50%·但全球格局分散(巴斯夫/关东化学等多家)(Phase B补)", "q2": false, "q2note": "(Phase B补)", "q3": false, "q3note": "(Phase B补)", "q4": false, "q4note": "(Phase B补)", "hits": 0, "strength": null },
           { "code": "300236", "name": "上海新阳", "q1": false, "q1note": "多品类布局但非任何单一品类的全球寡头(Phase B补)", "q2": false, "q2note": "(Phase B补)", "q3": false, "q3note": "(Phase B补)", "q4": false, "q4note": "(Phase B补)", "hits": 0, "strength": null },
-          { "code": "603078", "name": "江化微", "q1": false, "q1note": "专注湿电子化学品·非全球寡头(Phase B补)", "q2": false, "q2note": "(Phase B补)", "q3": false, "q3note": "(Phase B补)", "q4": false, "q4note": "(Phase B补)", "hits": 0, "strength": null }
+          { "code": "603078", "name": "江化微", "q1": false, "q1note": "专注湿电子化学品·非全球寡头(Phase B补)", "q2": false, "q2note": "(Phase B补)", "q3": false, "q3note": "(Phase B补)", "q4": false, "q4note": "(Phase B补)", "hits": 0, "strength": null },
+          { "code": "300655", "name": "晶瑞电材", "q1": false, "q1note": "C类跨段复用·主业超纯化学品/湿电子化学品·非全球寡头(六维引用seg[1])", "q2": false, "q2note": "(C类跨段复用)", "q3": false, "q3note": "(C类跨段复用)", "q4": false, "q4note": "(C类跨段复用)", "hits": 0, "strength": null }
         ]
       },
       {

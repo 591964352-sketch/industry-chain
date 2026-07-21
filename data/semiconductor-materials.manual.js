@@ -491,11 +491,11 @@ window.SEMICONDUCTOR_MATERIALS_MANUAL = {
       "code": "603078",
       "name": "江化微",
       "rank": 3,
-      "barrier": "中",
-      "tier": "B",
-      "position": "超高纯蚀刻液/清洗液·专注湿电子化学品",
-      "trend": "flat",
-      "trendNote": "(Phase B补)",
+      "barrier": "高",
+      "tier": "A",
+      "position": "全品类湿电子化学品综合供应商·覆盖显影液/蚀刻液/清洗液/剥离液·营收12.34亿(+12.25% YoY)·定位规模导向型",
+      "trend": "up",
+      "trendNote": "营收加速增长(+12.25%→+16.88%)+毛利率净利率双升·净利扭转下滑趋势·全品类客户粘性增强",
       "segments": [
         {
           "idx": 3,
@@ -505,61 +505,87 @@ window.SEMICONDUCTOR_MATERIALS_MANUAL = {
       "dims6": [
         {
           "key": "durability",
-          "score": 2,
-          "trend": "flat",
-          "tier": "estimate",
-          "reason": "(Phase B补)"
+          "score": 4,
+          "trend": "up",
+          "tier": "L3+L4",
+          "asOf": "2026-07-21",
+          "reason": "全品类同步受益半导体+面板双赛道需求·1-2年国产替代需求逻辑明确·L3中国电子材料行业协会2026细分报告+东吴证券全品类行业研报覆盖赛道·无查实海外客户长期锁单协议佐证",
+          "evidence": "L3中国电子材料行业协会2026细分报告;L4东吴证券全品类行业研报",
+          "flag": "",
+          "src": "L3(行业协会)+L4(券商)"
         },
         {
           "key": "visibility",
-          "score": 2,
+          "score": 3,
           "trend": "flat",
-          "tier": "estimate",
-          "reason": "(Phase B补)"
+          "tier": "L4",
+          "asOf": "2026-07-21",
+          "reason": "§10.1铁律适用:仅有L4行业层面需求预测·无L1公告披露定量框架订单/海外客户批量供货协议·无客户公开定量出货验证数据·信息渠道层级=L4券商行业研报·3分为L4预测但无客户确认档位",
+          "evidence": "预喂abstract_ths季度/年度财务报表+行业定性需求判断",
+          "flag": "",
+          "src": "L4(券商研报)"
         },
         {
           "key": "policy",
-          "score": 3,
-          "trend": "flat",
-          "tier": "estimate",
-          "reason": "(Phase B补)"
+          "score": 5,
+          "trend": "up",
+          "tier": "L2",
+          "asOf": "2026-07-21",
+          "reason": "湿电子化学品纳入国家发改委《战略性新兴产业重点产品和服务指导目录》(L2)·享受高新技术企业税收优惠+地方专精特新研发补贴·政策确定性高·无查实专项直补金额具体数字",
+          "evidence": "国家发改委战略性新兴产业目录(L2)",
+          "flag": "",
+          "src": "L2(政府目录)"
         },
         {
           "key": "supply",
-          "score": 2,
+          "score": 3,
           "trend": "flat",
-          "tier": "estimate",
-          "reason": "(Phase B补)"
+          "tier": "L3",
+          "asOf": "2026-07-21",
+          "reason": "供需分层:中低端清洗液国内供给充足产能小幅过剩·G4/G5高端蚀刻液/显影液存在供给缺口·整体行业供需偏均衡·中国电子材料行业协会2026年7月细分国产化率数据·3分=供需基本平衡档位",
+          "evidence": "中国电子材料行业协会2026年7月细分国产化率数据",
+          "flag": "",
+          "src": "L3(行业协会)"
         },
         {
           "key": "valuation",
           "score": 2,
           "trend": "flat",
           "tier": "estimate",
-          "reason": "(Phase B补)"
+          "asOf": "2026-07-21",
+          "reason": "PE待baostock实测·tier=estimate·基于abstract_ths L1真实数据(毛利率27.44%/净利率8.51%/营收+12.25%/ROE5.44%)定性审慎判断:营收加速增长支撑估值中性·但ROE仅5.44%+净利率偏低压制估值上限·审慎给2分(70-85%分位区间)·PE实测后重新校准·§6.15不触发(持续盈利)",
+          "evidence": "abstract_ths L1财务时序·待baostock PE实测",
+          "flag": "",
+          "src": "L1(abstract_ths)"
         },
         {
           "key": "barrier",
-          "score": 2,
-          "trend": "flat",
-          "tier": "estimate",
-          "reason": "(Phase B补)"
+          "score": 4,
+          "trend": "up",
+          "tier": "L2+L4",
+          "asOf": "2026-07-21",
+          "reason": "国内少数实现多品类G3量产+G4/G5同步研发企业·多品类客户综合认证壁垒高于单品厂商(全流程化学品一站式供给降低客户多供应商管理成本)·SEMI化学品分级标准+G4/G5金属杂质控制至ppt级·东吴证券全品类壁垒分析·国内竞争者数量少于TMAH单品赛道·4分=认证6-18月+国内领先档位",
+          "evidence": "SEMI化学品分级标准(L2);L4东吴证券全品类壁垒分析",
+          "flag": "",
+          "src": "L2(SEMI)+L4(券商)"
         }
       ],
       "fundamentals": {
         "asOf": "2025",
-        "roe": null,
-        "grossMargin": null,
-        "revenueGrowth": null,
-        "netProfitGrowth": null,
-        "note": "(Phase B补·待abstract_ths实测)"
+        "roe": 5.44,
+        "grossMargin": 27.44,
+        "revenueGrowth": 12.25,
+        "netProfitGrowth": 6.27,
+        "note": "2025年报(营收12.34亿+12.25%/净利1.05亿+6.27%/ROE5.44%/毛利率27.44%/净利率8.51%)+2026Q1(营收3.22亿+16.88%/净利2877.65万+7.31%/毛利率27.13%/净利率8.94%)·全品类湿电子化学品·营收加速增长+毛利率净利率双升·ROE偏低但方向向上·规模导向型定位",
+        "source": "akshare abstract_ths 2026-07-21实测"
       },
-      "moatScore": null,
-      "timingScore": null,
-      "quadrant": null,
+      "moatScore": 74,
+      "timingScore": 40,
+      "quadrant": "hold",
       "riskMetrics": {
         "status": "deferred"
-      }
+      },
+      "moatComputedAt": "2026-07-21"
     },
     "603650": {
       "code": "603650",
@@ -673,9 +699,9 @@ window.SEMICONDUCTOR_MATERIALS_MANUAL = {
       "rank": 1,
       "barrier": "高",
       "tier": "A",
-      "position": "TMAH显影液国内龙头(市占>50%)·国内唯一TMAH全链条自主供应商",
-      "trend": "up",
-      "trendNote": "(Phase B补)",
+      "position": "TMAH显影液国内领先者·半导体级G5已量产·面板级TMAH大规模出货·单品专精路线·营收6.26亿(-4.60% YoY)·缩量不降价特征",
+      "trend": "flat",
+      "trendNote": "营收连续下滑(-4.60%→-8.86%)·但毛利率31.51%+净利率19.58%维持高位·半导体级占比提升对冲面板级下滑·缩量不降价=产品定价权存在·chokePoint候选待L3行业协会数据核实国内竞争者名单",
       "segments": [
         {
           "idx": 3,
@@ -685,61 +711,87 @@ window.SEMICONDUCTOR_MATERIALS_MANUAL = {
       "dims6": [
         {
           "key": "durability",
-          "score": 3,
+          "score": 4,
           "trend": "up",
-          "tier": "estimate",
-          "reason": "(Phase B补)"
+          "tier": "L3+L4",
+          "asOf": "2026-07-21",
+          "reason": "1-2年国产替代长期需求逻辑明确·L3中国电子材料行业协会2026细分赛道报告+东北证券行业框架研报覆盖赛道·半导体级TMAH国产化率<20%·无查实客户长期锁单协议佐证",
+          "evidence": "L3中国电子材料行业协会2026细分赛道报告;L4东北证券行业框架研报",
+          "flag": "",
+          "src": "L3(行业协会)+L4(券商)"
         },
         {
           "key": "visibility",
           "score": 3,
-          "trend": "up",
-          "tier": "estimate",
-          "reason": "(Phase B补)"
+          "trend": "flat",
+          "tier": "L4",
+          "asOf": "2026-07-21",
+          "reason": "§10.1铁律适用:仅有L4行业层面需求预测·无L1公告披露框架订单/批量供货量化协议·无客户公开验证的定量出货数据·信息渠道层级=L4券商行业研报·3分为L4预测但无客户确认档位",
+          "evidence": "预喂abstract_ths季度/年度财务报表+行业定性需求判断",
+          "flag": "",
+          "src": "L4(券商研报)"
         },
         {
           "key": "policy",
-          "score": 3,
+          "score": 5,
           "trend": "up",
-          "tier": "estimate",
-          "reason": "(Phase B补)"
+          "tier": "L2",
+          "asOf": "2026-07-21",
+          "reason": "湿电子化学品纳入国家发改委《战略性新兴产业重点产品和服务指导目录》(L2)·高新技术企业税收优惠+地方专精特新补贴政策明确·政策确定性高",
+          "evidence": "国家发改委战略性新兴产业目录(L2)",
+          "flag": "",
+          "src": "L2(政府目录)"
         },
         {
           "key": "supply",
-          "score": 3,
-          "trend": "flat",
-          "tier": "estimate",
-          "reason": "(Phase B补)"
+          "score": 4,
+          "trend": "up",
+          "tier": "L3",
+          "asOf": "2026-07-21",
+          "reason": "半导体级TMAH显影液国产化率不足20%·高端供给存在10-30%区间缺口·L3中国电子材料行业协会2026年7月细分国产化率数据定性测算供需格局·G4/G5级TMAH是湿电子化学品中国产化率最低的子品类",
+          "evidence": "中国电子材料行业协会2026年7月细分国产化率数据",
+          "flag": "",
+          "src": "L3(行业协会)"
         },
         {
           "key": "valuation",
           "score": 2,
           "trend": "flat",
           "tier": "estimate",
-          "reason": "(Phase B补)"
+          "asOf": "2026-07-21",
+          "reason": "PE待baostock实测·tier=estimate·基于abstract_ths L1真实数据(毛利率31.51%/净利率19.58%/营收-4.60%/ROE7.64%)定性审慎判断:高毛利高净利率支撑估值下限(产品有壁垒定价权)但成长性缺失压制估值上限·审慎给2分(70-85%分位区间)·PE实测后重新校准·§6.15不触发(持续盈利)",
+          "evidence": "abstract_ths L1财务时序·待baostock PE实测",
+          "flag": "",
+          "src": "L1(abstract_ths)"
         },
         {
           "key": "barrier",
-          "score": 3,
+          "score": 4,
           "trend": "flat",
-          "tier": "estimate",
-          "reason": "(Phase B补)"
+          "tier": "L2+L4",
+          "asOf": "2026-07-21",
+          "reason": "G4/G5级TMAH提纯技术壁垒高(SEMI标准:金属杂质控制至ppt级)·客户认证周期12-18月·单品赛道国内领先者(G5级已量产·国产化率<20%)·全球仍有多家海外龙头(关东化学/东京应化/SACHEM)垄断高端市场·国内竞争者数量待L3行业协会数据核实·暂不定级chokePoint(等待证实/证伪国内唯一G5级TMAH供应商·见§11.16)",
+          "evidence": "SEMI化学品分级标准(L2);L4东北证券客户切换成本分析",
+          "flag": "",
+          "src": "L2(SEMI)+L4(券商)"
         }
       ],
       "fundamentals": {
         "asOf": "2025",
-        "roe": null,
-        "grossMargin": null,
-        "revenueGrowth": null,
-        "netProfitGrowth": null,
-        "note": "(Phase B补·待abstract_ths实测)"
+        "roe": 7.64,
+        "grossMargin": 31.51,
+        "revenueGrowth": -4.60,
+        "netProfitGrowth": -16.23,
+        "note": "2025年报(营收6.26亿-4.60%/净利1.23亿-16.23%/ROE7.64%/毛利率31.51%/净利率19.58%)+2026Q1(营收1.48亿-8.86%/净利2931.63万-7.88%/毛利率32.92%/净利率19.80%)·缩量不降价特征(营收下滑但毛利率净利率维持高位)·产品结构升级对冲(半导体级占比提升)·chokePoint候选待核实国内竞争者名单",
+        "source": "akshare abstract_ths 2026-07-21实测"
       },
-      "moatScore": null,
-      "timingScore": null,
-      "quadrant": null,
+      "moatScore": 78,
+      "timingScore": 40,
+      "quadrant": "hold",
       "riskMetrics": {
         "status": "deferred"
-      }
+      },
+      "moatComputedAt": "2026-07-21"
     },
     "605358": {
       "code": "605358",
