@@ -3875,8 +3875,11 @@ function renderChain(chainId) {
       if (!manual || !manual.stocks) return '';
       const sd = manual.stocks[c.code];
       if (!sd || !sd.businessPurity) return '';
-      if (sd.businessPurity === 'mixed' || sd.businessPurity === 'tangential') {
+      if (sd.businessPurity === 'tangential') {
         return `<span style="display:inline-block;margin-left:4px;padding:1px 5px;border-radius:3px;font-size:10px;color:var(--color-muted);background:rgba(246,70,93,0.08);border:1px solid rgba(246,70,93,0.2);">⚠️ 业务纯度低</span>`;
+      }
+      if (sd.businessPurity === 'mixed') {
+        return `<span style="display:inline-block;margin-left:4px;padding:1px 5px;border-radius:3px;font-size:10px;color:#ca8a04;background:rgba(234,179,8,0.08);border:1px solid rgba(234,179,8,0.2);">⚠️ 纯度偏杂</span>`;
       }
       return '';
     })();

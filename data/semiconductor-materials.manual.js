@@ -1468,7 +1468,7 @@ window.SEMICONDUCTOR_MATERIALS_MANUAL = {
       "rank": 4,
       "barrier": "高",
       "tier": "C",
-      "position": "前驱体(SOD)+电子特气·C类复用自存储与接口链·半导体材料占比~35%",
+      "position": "前驱体(SOD)+电子特气+光刻胶·C类复用自存储与接口链·半导体材料整体占比52.12%(前驱体SOD~42%+光刻胶~5%+电子特气4.85%)",
       "trend": "up",
       "trendNote": "(Phase B补·C类复用)",
       "segments": [
@@ -1527,11 +1527,12 @@ window.SEMICONDUCTOR_MATERIALS_MANUAL = {
         "grossMargin": null,
         "revenueGrowth": null,
         "netProfitGrowth": null,
-        "note": "(Phase B:从SI链manual.js复制fundamentals"
+        "note": "电子特气仅占4.85%·整体半导体材料业务(前驱体SOD+光刻胶+电子特气)占52.12%·公司为真正的半导体材料平台公司·非边角料——businessPurity=mixed(channel级判断:链域业务超50%)",
       },
       "moatScore": null,
       "timingScore": null,
       "quadrant": null,
+      "businessPurity": "mixed",
       "riskMetrics": {
         "status": "deferred"
       }
